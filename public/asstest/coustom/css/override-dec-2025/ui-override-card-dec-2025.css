@@ -1,0 +1,30 @@
+/* ================= ENHANCED PREMIUM CARDS ================= */
+
+.card {
+    background: rgba(255, 255, 255, 0.85); /* Frosted glass effect */
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border-top: 2px solid rgba(37, 99, 235, 0.3);    /* subtle blue top */
+    border-right: 2px solid rgba(99, 102, 241, 0.25); /* soft indigo right */
+    border-bottom: 2px solid rgba(37, 99, 235, 0.2);  /* lighter blue bottom */
+    border-left: 2px solid rgba(99, 102, 241, 0.2);   /* lighter indigo left */
+    border-radius: 2px; /* slightly sharp corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* soft depth */
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    border-top-color: rgba(37, 99, 235, 0.5);
+    border-right-color: rgba(99, 102, 241, 0.45);
+    border-bottom-color: rgba(37, 99, 235, 0.35);
+    border-left-color: rgba(99, 102, 241, 0.35);
+}
+
+/* Header corners match card corners, bg untouched */
+.card-header {
+    border-radius: 2px 2px 0 0; 
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-weight: bold;
+}

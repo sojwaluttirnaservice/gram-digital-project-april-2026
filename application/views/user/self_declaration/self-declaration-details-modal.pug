@@ -1,0 +1,56 @@
+//- COMPLAINT DETAILS MODAL
+.modal(tabindex="-1" id="self-declaration-details-modal")
+    .modal-dialog.modal-dialog-centered.modal-lg
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-file-alt.me-2.text-danger
+                    | स्वयं घोषणापत्र तपशील
+                button.btn-close(type="button" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close")
+                    | X
+
+            .modal-body.p-4(style="max-height: 70vh; overflow-y: auto;")
+
+                div.row.g-3.mb-3
+
+                    div.col-md-6
+                        label.form-label अर्जदाराचे नाव
+                        input.form-control(readonly name="sd_applicantFullSelfNameM")
+
+                    div.col-md-6
+                        label.form-label मोबाईल क्रमांक
+                        input.form-control(readonly name="mobile")
+
+                    div.col-md-6
+                        label.form-label आधार क्रमांक
+                        input.form-control(readonly name="sd_applicantAadharM")
+
+                    div.col-md-6
+                        label.form-label लिंग
+                        input.form-control(readonly name="sd_applicantGender")
+
+                    div.col-12
+                        label.form-label पत्ता
+                        textarea.form-control(readonly rows="2" name="sd_applicantAddressM")
+
+                    div.col-12
+                        label.form-label अर्जाचा विषय
+                        input.form-control(readonly name="applicationSubject")
+
+                    div.col-12
+                        label.form-label प्रमाणपत्रासाठी कारण
+                        textarea.form-control(readonly rows="2" name="certificateReason")
+
+                hr.my-3
+
+                div
+                    h6.fw-semibold.mb-2 जोडलेली कागदपत्रे
+                    div#documentsContainer
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type="button" data-bs-dismiss="modal")
+                    i.fa.fa-times.me-1
+                    | बंद करा

@@ -1,0 +1,258 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://checkout.razorpay.com/v1/checkout.js")
+    style.
+        .error {
+            background-color:yellow;
+            padding:2px;
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+
+        #tableRow div{
+            background: #c4c8b4;
+            padding: 0.6rem 1rem;
+            border: 1px solid white;
+        }
+
+        @media (max-width: 768px){
+            #tableRow div{
+                font-size: 0.9rem;
+            }
+        }
+
+body
+    include ../include/navs-1.pug
+    .container-fluid
+        .row.p-0
+            .col-12.p-0
+                .card-group
+                    .card.bg-light-gray
+                        .card-body
+                            .col-lg-8.offset-lg-2.col-12
+                                center
+                                    input#homeId-type(type="hidden")
+                                    h4.font-weight-bold नमुना ९ पाणी करासंदर्भात वसुली फॉर्म (Mobile)
+
+                                div.d-flex.justify-content-end
+                                    a.btn.btn-primary.btn(href=`/payment/u/history?malmattaNo=${user.feu_malmattaNo}&paymentFor=${1}` target='_blank') History
+
+                                .form-group.mt-4
+                                    .col-12
+                                        .card
+                                            .card-header.bg-warning
+                                                .font-weight-bold.text-center धारकाची माहिती
+                                            .card-body
+                                                .row
+                                                    .col-6.col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') अनु / घर क्रमांक
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.id)
+                                                    .col-6.col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input')  मालमत्ता क्र.
+                                                            input.form-control-sm.form-control(id='malmattaNo' type='text' disabled value=user.feu_malmattaNo)
+                                                    .col-6.col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') वार्ड नं
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.feu_wardNo)
+                                                    .col-6.col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.feu_homeNo)
+                                                    .col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') पेमेंट मोबाइल नों.
+                                                            input.form-control-sm.form-control#paymentMobileNumber(type='text'  value=user.feu_mobileNo maxlength='10')
+
+                                                    .col-lg-3
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') आधार क्रं.
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.feu_aadharNo maxlength="12")
+                                                    .col-lg-6
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                                            input.form-control-sm.form-control(type='text' id="personName" readonly value=user.feu_ownerName)
+                                                    .col-lg-6
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.feu_secondOwnerName)
+                                                    .col-lg-6
+                                                        .form-group
+                                                            label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                                            input.form-control-sm.form-control(type='text' disabled value=user.feu_gaatNo)
+
+                                                    .col-lg-6
+                                                        .form-group 
+                                                            label.font-weight-bold UTR NUMBER /Transaction number
+                                                            input.form-control-sm.form-control(id='transaction_number' type='text' maxlength='45') 
+
+                                                    .col-lg-6
+                                                        .form-group 
+                                                            label.font-weight-bold Payment Screenshot
+                                                            input.form-control-sm.form-control(id='paymentScreenshot' type='file' accept='image/*') 
+
+                                                    .col-12 
+                                                        div(class='d-flex justify-content-center align-items-center gap-4')
+
+                                                            - let size = '8rem;'
+                                                            div
+                                                                //- p(style='font-size:0.9rem; color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb; padding: 0.5rem; border-radius: 4px;')
+                                                                p(style='font-size:0.9rem; color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 0.5rem; border-radius: 4px;')
+                                                                    | खालील QR कोड स्कॅन करून त्यावर कर भरणा करा. त्यानंतर वरील इनपुट बॉक्समध्ये UTR क्रमांक आणि पेमेंटचा स्क्रीनशॉट अपलोड करा. नंतर, भरणा रक्कम टाका आणि 'वसुली भरणा करा' बटणावर क्लिक करा.
+                                                                img(style=`display:block;margin-inline:auto;width:${size};height:${size}` src='/new-gp-page/main-page/files/qr-codes/' + qrCodes.bank_qr_code_water_image_name)
+
+
+                            .col-12.p-0
+                                .row
+
+                                    .col-12.col-md-6
+
+                                        .row#tableRow
+                                            .col-12.text-center.bg-warning पाणी कर
+
+                                            .col-6 
+                                                span.font-weight-bold मागील विशेष पाणी कर:
+                                                input#previewDataLastSpacialWaterTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastSpacialWaterTax )
+
+                                            .col-6 
+                                                span.font-weight-bold चालू विशेष पाणी कर:
+                                                input#previewDataCurrentSpacialWaterTax.form-control(disabled type="text" value=formNineSavedDetails.currentSpacialWaterTax )
+
+                                            .col-6 
+                                                span.font-weight-bold मागील सामान्य पाणी कर:
+                                                input#previewDataLastGenealWaterTax.form-control(disabled type="text" value=formNineSavedDetails.lastGenealWaterTax )
+
+                                            .col-6 
+                                                span.font-weight-bold चालू सामान्य पाणी कर:
+                                                input#previewDataCurrentGenealWaterTax.form-control(disabled type="text" value=formNineSavedDetails.currentGenealWaterTax )
+
+                                            //- total previos water tax
+
+                                            - let lastTotalTax = formNineSavedDetails.lastSpacialWaterTax + formNineSavedDetails.lastGenealWaterTax;
+                                            .col-6 
+                                                span.font-weight-bold मागील एकूण पाणी कर:
+                                                input#totalPreviousWaterTax.form-control(disabled type="text" value=lastTotalTax)
+
+
+                                            //- total current watere tax
+                                            - let currentTotalTax = formNineSavedDetails.currentSpacialWaterTax + formNineSavedDetails.currentGenealWaterTax
+                                            .col-6 
+                                                span.font-weight-bold चालू एकूण पाणी कर:
+                                                input#totalCurrentWaterTax.form-control(disabled type="text" value=currentTotalTax)
+
+                                            .col-6 
+                                                span.font-weight-bold भरणा दिनांक:
+                                                input#previousDataBharnaDate.form-control(disabled type="text" placeholder="dd-mm-yyyy" autocomplete="off")
+
+                                            .col-6 
+                                                span.font-weight-bold चेक नं 
+                                                input.form-control(disabled type="text" placeholder="चेक नं" value=(formNineSavedDetails.checkNo))
+
+                                            .col-12
+                                                span.font-weight-bold अक्षरी भरणा :
+                                                input#amountInWords.form-control(disabled type="text" value="" )
+
+                                            .col-12
+                                                span.font-weight-bold एकूण पाणी कर:
+                                                input#totalWaterTaxPreview.form-control(disabled type="text" readonly value=(lastTotalTax + currentTotalTax))
+
+                                        //- p#tax-notice.text-danger.fw-bold.d-flex.d-none मागील करभरणा बाकी असल्यास चालू करभरणा करता येणार नाही. 
+                                    .col-12.col-md-6
+                                        .row#tableRow
+                                            .col-12.text-center.bg-warning वसुली कर 
+
+                                            .col-6 
+                                                span.font-weight-bold मागील विशेष पाणी कर:
+                                                input.amountTextWater#lastSpacialWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastSpacialWaterTax)
+                                                input#formNineId.form-control(type="hidden" value=formNineSavedDetails.id)
+                                                input#userId.form-control(type="hidden" value=formNineSavedDetails.user_id)
+
+                                            .col-6 
+                                                span.font-weight-bold चालू विशेष पाणी कर:
+                                                input.amountTextWater#currentSpacialWaterTax.currentTaxFilling.isNaN.form-control(type="text" value=0)
+
+                                            .col-6 
+                                                span.font-weight-bold मागील सामान्य पाणी कर:
+                                                input.amountTextWater#lastGenealWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastGenealWaterTax )
+
+                                            .col-6 
+                                                span.font-weight-bold चालू सामान्य पाणी कर:
+                                                input.amountTextWater#currentGenealWaterTax.currentTaxFilling.isNaN.form-control(type="text" value=0 )
+
+                                            
+                                            .col-6 
+                                                span.font-weight-bold मागील एकूण पाणी कर:
+                                                input#totalPreviousFilledWaterTax.form-control(readonly type="text" value=lastTotalTax)
+
+                                            .col-6 
+                                                span.font-weight-bold चालू एकूण पाणी कर:
+                                                input#totalCurrentFilledWaterTax.form-control(readonly type="text" value=0)
+
+                                            .col-6 
+                                                span.font-weight-bold भरणा दिनांक:
+                                                input#bharnaDate.form-control(type="text" placeholder="dd-mm-yyyy" autocomplete='off')
+
+                                            .col-6 
+                                                span.font-weight-bold चेक नं 
+                                                input#checkNo.form-control(type="text" placeholder="चेक नं")
+
+                                            .col-12
+                                                span.font-weight-bold अक्षरी भरणा :
+                                                input#amountInWordsWater.form-control(type="text" value="" )
+
+                                            .col-12 
+                                                span.font-weight-bold एकूण पाणी कर:
+                                                input#totalWaterTax.form-control(type="text" readonly value="0")
+
+                                    .col-12
+                                        div(class="alert alert-danger mt-3" style="font-size:0.9rem;")
+                                            strong लक्षात ठेवा: 
+                                            | जर मागील कर बाकी असेल तर आधी तो पूर्ण करा, त्याशिवाय तुम्हाला चालू कर भरणा करता येणार नाही.
+                                            br
+                                            | मागील कराची रक्कम ₹1000 किंवा त्यापेक्षा कमी असल्यास, ती पूर्ण भरणे आवश्यक आहे.
+                                            br
+                                            | ₹1000 पेक्षा जास्त असल्यास, किमान 50% रक्कम भरणे आवश्यक आहे.
+                                    #savePaniVasuliDetails.btn.btn-success.float-right पाणी वसुली जतन करा  
+
+    
+    
+    script.
+        var details = !{taxDetails}[0];
+        var user = !{jsUser}[0];
+        //- console.log(user)
+    script(src='/asstest/coustom/js/handlers/tax-payer-manager-payment.js')  
+    script.
+        $(function(){
+            $('#bharnaDate').datepicker({
+                dateFormat: 'dd-mm-yy'
+                })
+        })

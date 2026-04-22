@@ -1,0 +1,85 @@
+extends ./master-layout
+block internal_css 
+	style.
+
+		th, tr, td {
+			border: 1px solid gray !important; 
+		}
+		tr,td {
+			vertical-align:center !important;
+		}
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/job-related-upload-handler.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row
+			h4.text-center नोकरी विषयक अपलोड
+				
+			.col-md-12
+				.text-end
+					button.btn.btn-primary#upload-job-related-information-btn(type='button') माहिती भरा
+
+			.col-12.mt-5
+				table.table.table-striped.table-success
+					thead 
+						tr 
+							th.text-center(width='3%') Sr.No.
+							th.text-center(width='10%') Link /File
+							th Title
+							th.text-center(width='14%') Expiry Date 
+							th.text-center(width='3%') Edit 
+							th.text-center(width='3%') Delete
+					tbody 
+						each job, index in jobDetails
+							tr 
+								td.text-end #{index + 1}
+								td.text-center 
+									if(job.link !== '')
+										a(href=job.link target='_blank') Link
+									else 
+										- let filePath = `/new-gp-page/main-page/files/job-related-files/${job.file_name}`;
+										a(href=filePath target='_blank') File
+								td #{job.job_title}
+								td.text-center #{job.expiry_date}
+								td.text-center 
+									button.btn.text-success(class='edit-job-related-btn' type='button' data-id=job.id data-fileName=job.file_name  data-job = job)
+										i.fa.fa-edit
+								td.text-center 
+									button.btn.text-danger(class='delete-job-related-btn' type='button' data-id=job.id data-fileName=job.file_name)
+										i.fa.fa-trash
+
+	
+	.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='add-job-related-modal' )
+		.modal-dialog(style='min-width:50% !important;')
+			.modal-content.p-2
+				.modal-header.bg-warning माहिती भरा 
+					h1.modal-title.fs-5() 
+					button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+				.modal-body
+					form#upload-divyanga-people-list
+						div.d-flex.justify-content-end.align-items-center
+							label.form-label.m-0(for='link-upload-toggle') Link
+							button.btn#link-upload-toggle
+								i.fa-solid.fa-toggle-on.d-none
+								i.fa-solid.fa-toggle-off
+						div
+							label(for="job-related-title") Title 
+							input.form-control(type='text', id="job-related-title")
+
+						div.file-upload-container
+							label(for="job-related-file") File select
+							input.form-control(type='file' id="job-related-file")
+
+						div.d-none.link-upload-container
+							label(for="job-related-link") Link Upload 
+							input.form-control(type='text', id="job-related-link")
+
+						div
+							label(for='job-related-expiry-date') Expiry Date 
+							input.form-control(type='date', id='job-related-expiry-date')
+
+						div
+							label(for="job-related-description") Description 
+							textarea.form-control#job-related-description(name="job_related_description" cols="10" rows="3") 
+
+						button.btn.btn-primary.mt-3(type='button' id="upload-job-related-details") जतन करा

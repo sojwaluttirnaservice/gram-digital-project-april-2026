@@ -1,0 +1,163 @@
+doctype html
+head
+	title नमुना 9 यादी सामान्य पेज नुसार 
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js')
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+	script(src='/asstest/coustom/js/handlers/pageForm9PagenusarYadiSamanya.js')
+
+	style.
+		@media print {
+			@page{
+				size: A4 potrait;
+			}
+			.my-print{
+				position: relative;
+				page-break-before: always;
+			}
+			table{
+				//- page-break-inside: avoid;
+			}
+			.waterMark{
+				position: absolute;
+				opacity: 0.3;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		table, th, td{
+			border: 1px solid black;
+			padding: 3px; 
+			text-align:center;
+		}
+		.body-f-size {
+			font-size: 1rem !important;
+		}
+		.head-f-size {
+			font-size: 15px;
+			text: bold;
+			text-align: center;
+		}
+		.center{
+			text-align: center;
+		}
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			top: calc(50% - 250px);
+			left: calc(50% - 250px);
+			width: 500px;
+			height: 500px;
+		}
+body
+	img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+	div.d-flex.justify-content-between.pt-4.pb-4.mx-3
+		div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+			img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+		div.d-flex.justify-content-center.text-center(style="color: red; font-weight: bold;")
+			p ग्राम पंचायत कार्यालय #{zp.gp_name} पंचायत समिती  #{zp.gp_taluka} जिल्हा #{zp.gp_dist} अंतिम नमुना 9 सण #{year.year1} ते  #{year.year2}  ची इमारती व खुल्या जागेवर भांडवली पद्धतीने यादी पेज नुसार
+		div.d-flex.flex-column.justify-content-center.align-items-center
+			img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+
+	table(style="width:100%;")
+		thead
+			tr.head-f-size
+				th अनु.क्र. 
+				th मालमत्ता क्र ते पर्यंत 
+				th पण क्र नुसार एकूण सामान्य कर 
+				th एकूण पेज  मागील इमारत कर 
+				th एकूण पेज चालू इमारत कर 
+				th एकूण पेज मागील व चालू इमारत कर
+				th एकूण मागील दंड कर 
+				th एकूण पेज मागील दिवाबत्ती कर 
+				th एकूण पेज चालू  दिवाबत्ती कर 
+				th एकूण पेज मागील व चालू  दिवाबत्ती कर 
+				th एकूण पेज मागील आरोग्य कर 
+				th एकूण पेज चालू आरोग्य कर 
+				th एकूण पेज मागील व चालू आरोग्य कर 
+				th संपूर्ण एकूण पेज मागणी
+
+			tr 
+				- for (col = 1; col <= 14; col++)
+					th #{col}
+
+		-
+			let totalLastBuildingTax = 0;
+			let totalCurrentBuildingTax = 0;
+
+			let totalLastTaxFine = 0;
+
+			let totalLastDivaTax = 0;
+			let totalCurrentDivaTax = 0;
+
+			let totalLastArogyaTax = 0;
+			let totalCurrentArogyaTax = 0;
+
+			let totalTotalTax = 0;
+
+		tbody
+			each el, i in data
+				tr.body-f-size
+					th #{i+1} 
+					th मालमत्ता क्र #{el.malmattaNoFrom} ते #{el.malmattaNoTo} पर्यंत 
+					th पान क्र #{i+1}
+
+					- totalLastBuildingTax += el.lastBuildingTax
+					th #{el.lastBuildingTax} 
+					- totalCurrentBuildingTax += el.currentBuildingTax
+					th #{el.currentBuildingTax}
+					th #{el.lastBuildingTax + el.currentBuildingTax}
+
+					- totalLastTaxFine += el.lastTaxFine
+					th #{el.lastTaxFine}
+
+					- totalLastDivaTax += el.lastDivaTax
+					th #{el.lastDivaTax} 
+					- totalCurrentDivaTax += el.currentDivaTax
+					th #{el.currentDivaTax} 
+					th #{el.lastDivaTax + el.currentDivaTax} 
+
+					- totalLastArogyaTax += el.lastArogyaTax
+					th #{el.lastArogyaTax} 
+					- totalCurrentArogyaTax += el.currentArogyaTax
+					th #{el.currentArogyaTax} 
+					th #{el.lastArogyaTax + el.currentArogyaTax} 
+
+					- totalTotalTax += ((el.lastBuildingTax + el.currentBuildingTax) + (el.lastDivaTax + el.currentDivaTax) + (el.lastArogyaTax + el.currentArogyaTax) + el.lastTaxFine)
+					th #{(el.lastBuildingTax + el.currentBuildingTax) + (el.lastDivaTax + el.currentDivaTax) + (el.lastArogyaTax + el.currentArogyaTax) + el.lastTaxFine} 
+
+			//- end row of total
+			tr 
+				th(colspan='3') Total
+
+				th #{totalLastBuildingTax}
+				th #{totalCurrentBuildingTax}
+				th #{totalLastBuildingTax + totalCurrentBuildingTax}
+
+				th #{totalLastTaxFine}
+
+				th #{totalLastDivaTax}
+				th #{totalCurrentDivaTax}
+				th #{totalLastDivaTax + totalCurrentDivaTax}
+
+				th #{totalLastArogyaTax}
+				th #{totalCurrentArogyaTax}
+				th #{totalLastArogyaTax + totalCurrentArogyaTax}
+
+				th #{totalTotalTax}
+	script. 
+		let data = !{JSON.stringify(result)}

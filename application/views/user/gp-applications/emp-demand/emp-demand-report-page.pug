@@ -1,0 +1,97 @@
+doctype html
+html(lang="mr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title नमुना ४ - GRAM G रोजगार मागणी अहवाल
+
+    script(src="/asstest/coustom/css/tailwind.js")
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+    link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet")
+
+    style.
+      table{border-collapse:collapse;width:100%}
+      td,th{padding:0.35rem;border:1px solid oklch(26.2% 0.051 172.552);vertical-align:top;font-size:0.75rem}
+
+      @media print{
+        @page{size:landscape;margin:9mm}
+        .hide-print{display:none!important}
+        #print{height:100lvh}
+        *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+        thead{display:table-header-group!important}
+        tr{page-break-inside:avoid;break-inside:avoid}
+      }
+
+      .tiro-devanagari-marathi-regular{
+        font-family:"Tiro Devanagari Marathi",serif;
+        font-weight:400;
+      }
+
+      .qrcode{width:28mm;height:28mm}
+      .qrcode img{width:100%;height:100%}
+
+    script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+  body(class="tiro-devanagari-marathi-regular")
+
+    div(class="hide-print fixed top-[45%] right-[2%] z-50")
+      button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+    if !(records && records.length)
+      h2(class="mt-8 text-center text-xl font-bold text-red-500") कोणतीही नोंद उपलब्ध नाही
+    else
+      div(id="print" class="p-2")
+        table
+          thead
+            tr
+              th(colspan="12" class="text-xl p-1 text-center")
+                | नमुना - ४ : वैयक्तिक / सामूहिक रोजगार मागणी अर्ज नोंदवही  
+                br
+                | विकसित भारत - रोजगार आणि अजीविका मिशन (ग्रामीण)
+
+            tr
+              th अ.क्र.
+              th अर्ज आयडी
+              th जॉब कार्ड क्रमांक
+              th अर्ज कालावधी
+              th कुटुंब सदस्य संख्या
+              th अर्ज स्थिती
+              th अर्ज दिनांक
+              th मंजुरी दिनांक
+              th QR Code
+              th मंजुरी शेरा
+              th नकार शेरा
+              th अधिकारी सही
+
+          tbody
+            each row, index in records
+              - let family = row.family_members_list ? JSON.parse(row.family_members_list) : []
+              tr
+                td #{index+1}
+                td #{row.id}
+                td #{row.job_card_number_fk || '—'}
+                td #{row._from_date} ते #{row._to_date}
+                td #{family.length}
+                td #{row.registration_status}
+                td #{row._createdAt}
+                td #{row._date_of_acceptance || '—'}
+                td
+                  div(class="flex justify-center")
+                    - let qrId = `qrcode-${row.id}`
+                    div(class="qrcode" id=qrId)
+                td #{row.acceptance_remark || '—'}
+                td #{row.rejection_remark || '—'}
+                td ____________
+
+    script.
+      (function(){
+        let data = !{JSON.stringify(records || [])};
+
+        if(data){
+          data.forEach(r=>{
+            let qrUrl = window.location.origin + "/gramg/application/" + r.id;
+            new QRCode(document.getElementById("qrcode-"+r.id), qrUrl);
+          })
+        }
+      })();

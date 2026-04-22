@@ -1,0 +1,47 @@
+extends ../../../../include/internal-gp-master-layout.pug 
+
+block custom_css 
+
+    link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-page.css')
+    //- Optional future CSS hook
+
+block content
+
+    div 
+        -
+            const namuna5Links = [
+
+
+                {
+                    href: '/namuna/5/samanya/list',
+                    linkName: 'नमुना ५ सामान्य',
+                    bracketName: '-'
+                },
+
+                {
+                    href :'/namuna/5/pani/list',
+                    linkName: 'नमुना ५ पाणी',
+                    bracketName: '-'
+                }
+            ]
+
+
+        div
+
+            .container
+
+                div(class='py-4 text-center text')
+                    h5.heading-1 नमुना ५
+
+                div(class='namuna-links')
+
+                    each namunaLinkItem in namuna5Links
+                        a(href=namunaLinkItem.href class='box box--white namuna-link') 
+                            span #{namunaLinkItem.linkName} 
+                            if namunaLinkItem.bracketName
+                                span(style='font-size:0.85rem;') (#{namunaLinkItem.bracketName})
+
+
+
+
+

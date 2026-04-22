@@ -1,0 +1,447 @@
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1.0' name='viewport')
+
+
+    title ग्राम ग्रामपंचायत #{gp.gp_name}
+    meta(content='' name='descriptison')
+    meta(content='' name='keywords')
+    //- Favicons
+    link(href='gram-panchayet/img/favicon.png' rel='icon')
+    link(href='gram-panchayet/img/apple-touch-icon.png' rel='apple-touch-icon')
+    //- Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' rel='stylesheet')
+    //- Vendor CSS Files
+    link(href='gram-panchayet/vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/icofont/icofont.min.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/boxicons/css/boxicons.min.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/remixicon/remixicon.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/venobox/venobox.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/owl.carousel/assets/owl.carousel.min.css' rel='stylesheet')
+    link(href='gram-panchayet/vendor/aos/aos.css' rel='stylesheet')
+
+    //google fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+    link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+
+    //- Template Main CSS File
+    link(href='gram-panchayet/css/style.css' rel='stylesheet')
+
+    style.
+      .carousel-inner img {
+        width: 100%;
+        height: 70%;
+      }
+
+
+  body
+    //- ======= Header =======
+    #myModal.modal(tabindex='-1' role='dialog')
+      .modal-dialog.modal-lg(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title गाव निवडा
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            table.table.table-bordered
+              thead 
+                tr
+                  th(width="5%") 1
+                  th 
+                    a(href="/login") #{gp.gp_name}
+                each value,index in sub_village
+                  tr
+                    th(width="5%") #{index+1}
+                    th 
+                      - var url =   value.gp_url + "/login";
+                      a(href=url) #{value.gp_name}
+    #myModal1.modal(tabindex='-1' role='dialog')
+      .modal-dialog.modal-lg(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title नवीन अर्जा साठी गाव निवडा
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            table.table.table-bordered
+              thead 
+                tr
+                  th(width="5%") 1
+                  th 
+                    a(href="/new-application-form") #{gp.gp_name}
+                each value,index in sub_village
+                  tr
+                    th(width="5%") #{index+1}
+                    th
+                      - var url =   value.gp_url + "/new-application-form";
+                      a(href=url) #{value.gp_name}
+
+
+    header#header.fixed-top
+      .container.d-flex.align-items-center
+        h1.logo.mr-auto
+          a(href='/') ग्रा.पं. #{gp.gp_name}
+        //- Uncomment below if you prefer to use an image logo
+        //- <a href="index.html" class="logo mr-auto"><img src="gram-panchayet/img/logo.png" alt="" class="img-fluid"></a>
+        nav.nav-menu.d-none.d-lg-block
+          ul
+            li.active
+              a(href='/') होम
+            li
+              a(href='#gp-image') फोटो
+            li
+              a(href='#about') ग्राम माहिती
+            li
+              a(href='#testimonials') आमची कार्ये
+            li
+              a(href='#about-gp-target') ग्राम उदिष्ट
+            li
+              a(href='#team') नेतृत्व
+            li
+              a(href='#contact') संपर्क
+            li
+              a#newApplicationNavigation(href='#').text-danger.font-weight-bold  अर्ज भरा
+
+        a#loginNavigation.get-started-btn.scrollto(href='#') ग्राम लोग इन
+      //- End Header
+
+    //- ======= Hero Section =======
+    section#hero.d-flex.align-items-center
+      .container.position-relative(data-aos='fade-up' data-aos-delay='100')
+        .row.justify-content-center
+          .col-xl-7.col-lg-9.text-center
+            h1 #{gp.gp_name} ग्रामपंचायत
+            h2 आपले सहर्ष स्वागत करत आहे
+    main#main
+      section
+        #gp-image.col-8.offset-2.mt-5
+          #demo.carousel.slide(data-ride='carousel')
+            //- Indicators
+            ul.carousel-indicators
+              li.active(data-target='#demo' data-slide-to='0')
+              each value in [1,2,3,4,5,6]
+                li(data-target='#demo', data-slide-to=value)
+
+            //- The slideshow
+            .carousel-inner
+              .carousel-item.active
+                .container
+                  - var url = '/gram-panchayet/img/gram-panchayet/1.jpg';
+                  img(src=url, alt='फोटो' width='100' height='100')
+              each value in [2,3,4,5,6]
+                .carousel-item
+                  .container
+                    - var url = '/gram-panchayet/img/gram-panchayet/'+value+'.jpg';
+                    img(src=url, alt='फोटो' width='100' height='100')
+            //- Left and right controls
+            a.carousel-control-prev(href='#demo' data-slide='prev')
+              span.carousel-control-prev-icon
+            a.carousel-control-next(href='#demo' data-slide='next')
+              span.carousel-control-next-icon
+
+      //- ======= About Section =======
+      section#about.about
+        .container(data-aos='fade-up')
+          .section-title
+            h2 ग्राम माहिती
+            p
+              | ग्रामपंचायत #{gp.gp_name} गाव अमरावती –मार्डी  राष्ट्रीय महामार्ग क्र. ६ या रोडवर अमरावती पासून पूर्वेस ८  किमी.
+              | अंतरावर वसलेले गाव आहे. हे एक सुंदर गाव आहे.  
+          .row.content
+            .col-lg-6
+              p.font-weight-bold.text-primary
+                | ग्रामपंचायत बद्दल माहिती 
+              ul
+                li
+                  i.ri-check-double-line
+                  |  ग्रामपंचायत #{gp.gp_name} ग्रामपंचायत ची स्थापना १९६० या साली झाली.
+                li
+                  i.ri-check-double-line
+                  |  या ग्रामपंचायत मध्ये एकूण ३ वार्ड आहेत.
+                li
+                  i.ri-check-double-line
+                  |  ग्रामपंचायत #{gp.gp_name} मध्ये ग्रामपंचायत पदाधिकारी पदांची संख्या ६ आहे.
+            .col-lg-6.pt-4.pt-lg-0
+              p.font-weight-bold.text-primary
+                u  #{gp.gp_name} 
+                |  लोकसंख्या बद्दल माहिती.
+              ul
+                li
+                  i.ri-check-double-line
+                  |  या गावाची लोकसंख्या जनगणना २०११ नुसार 0  लोकसंख्या आहे.
+                li
+                  i.ri-check-double-line
+                  |  त्या मध्ये पुरुष 0 आहे.
+                li
+                  i.ri-check-double-line
+                  |  तर स्त्रिया 0 इतक्यांचा समावेश आहे.
+      //- End About Section
+      //- ======= Counts Section =======
+      section#counts.counts.section-bg
+        .container
+          .row.justify-content-end
+            .col-lg-3.col-md-5.col-6.d-md-flex.align-items-md-stretch
+              .count-box
+                span(data-toggle='counter-up') 0
+                p लोकसंख्या
+            .col-lg-3.col-md-5.col-6.d-md-flex.align-items-md-stretch
+              .count-box
+                span(data-toggle='counter-up') 0
+                p पुरुष
+            .col-lg-3.col-md-5.col-6.d-md-flex.align-items-md-stretch
+              .count-box
+                span(data-toggle='counter-up') 0
+                p स्त्रिया
+            .col-lg-3.col-md-5.col-6.d-md-flex.align-items-md-stretch
+              .count-box
+                span(data-toggle='counter-up') 3
+                p वार्ड संख्या
+      //- ======= Testimonials Section =======
+      section#testimonials.testimonials.p-5
+        .container(data-aos='fade-up').p-0
+          .section-title
+            h2 आमची कार्ये
+          .owl-carousel.testimonials-carousel
+            .testimonial-item
+              p
+                i.bx.bxs-quote-alt-left.quote-icon-left
+                | ग्रामपंचायत #{gp.gp_name} अंतर्गत वृक्ष लागवड करण्यात आली.
+                i.bx.bxs-quote-alt-right.quote-icon-right
+            .testimonial-item
+              p
+                i.bx.bxs-quote-alt-left.quote-icon-left
+                | #{gp.gp_name} सन २०१८-१९ मध्ये ग्रामपंचायत कार्यालय इमारत सुंदर स्वरूपात उभारण्यात आली.
+                i.bx.bxs-quote-alt-right.quote-icon-right
+            .testimonial-item
+              p
+                i.bx.bxs-quote-alt-left.quote-icon-left
+                | ग्रामपंचायत #{gp.gp_name} ISO प्रमाणित केलेली आहे.
+                i.bx.bxs-quote-alt-right.quote-icon-right
+            .testimonial-item
+              p
+                i.bx.bxs-quote-alt-left.quote-icon-left
+                | ग्रामपंचायत #{gp.gp_name} ने स्वच्छ भारत मिशन अंतर्गत प्रमाणपत्र मिळवलेले आहे.
+                i.bx.bxs-quote-alt-right.quote-icon-right
+            .testimonial-item
+              p
+                i.bx.bxs-quote-alt-left.quote-icon-left
+                | ग्रामपंचायत #{gp.gp_name} मार्फत  नवयुवक मुलांकरिता व्यायाम शाळा करण्यात आली  आहे.
+                i.bx.bxs-quote-alt-right.quote-icon-right
+      //- End Testimonials Section
+      //- ======= Team Section =======
+      section#about-gp-target.about-video
+        .container.aos-init.aos-animate(data-aos='fade-up')
+          .row
+            .col-lg-6.video-box.align-self-baseline.aos-init.aos-animate(data-aos='fade-right' data-aos-delay='100')
+              img.img-fluid(src='gram-panchayet/img/hero-bg.jpg' alt='')
+            .col-lg-6.pt-3.pt-lg-0.content.aos-init.aos-animate(data-aos='fade-left' data-aos-delay='100')
+              h3
+                | ग्राम पंचायतीचे उद्दिष्टे 
+              ul
+                li
+                  i.bx.bx-check-double
+                  |  स्वच्छ भारत अभियान अंतर्गत १०० % गाव हगदारी मुक्त करणे.
+                li
+                  i.bx.bx-check-double
+                  |  कर वसुली १००% पूर्ण करणे.
+                li
+                  i.bx.bx-check-double
+                  |  शुद्ध पाणी पुरवठा करणे.
+                li
+                  i.bx.bx-check-double
+                  |  दलित वस्ती आराखडा प्रमाणे सोयी सुविधा पुरविणे.
+                li
+                  i.bx.bx-check-double
+                  |  वृक्ष लागवड करणे.
+                li
+                  i.bx.bx-check-double
+                  |  निरनिराळ्या योजनेत सहभागी होणे
+                li
+                  i.bx.bx-check-double
+                  |  तंटामुक्त गाव करणे.
+                li
+                  i.bx.bx-check-double
+                  |  गावकर्यांना साठी संगणकीकृत ऑनलाईन सेवा उपलब्ध करणे.
+                li
+                  i.bx.bx-check-double
+                  |  स्वच्छ गाव सुंदर गाव तयार करणे.
+                li
+                  i.bx.bx-check-double
+                  |  गाव व ग्राम पंचायत स्मार्ट विलेज बनविणे.
+
+      section#team.team.section-bg
+        .container(data-aos='fade-up')
+          .section-title
+            h2 ग्रामपंचायत #{gp.gp_name} अंतर्गत पदाधिकारी
+          .row
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='100')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/female.jpg' alt='')
+                .member-info
+                  h4 सौ. वंदनाबाई दीपकराव केवतकर   
+                  span सरपंच
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='200')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री रविभाऊ भीमरावजी काळबांडे 
+                  span उपसरपंच
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='300')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री राजेंद्र शंकरराव खंडारे  
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='400')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री सलीम बेग मन्नान बेग   
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='500')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री बबलू बाबू पवार    
+                  span सदस्य
+            //remain
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='600')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/female.jpg' alt='')
+                .member-info
+                  h4 सौ मिराताई बबनराव निभोरकर 
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='700')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/female.jpg' alt='')
+                .member-info
+                  h4 सौ कमला विलासराव काटलाम   
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='800')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/female.jpg' alt='')
+                .member-info
+                  h4 श्रीमती निर्मलाबाई किसनराव चोपडे 
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='800')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/female.jpg' alt='')
+                .member-info
+                  h4 सौ.संजीताताई शामराव भोस
+                  span सदस्य
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='900')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री. बाळकृष्ण चव्हाण 
+                  span ग्रा.सेवक / ग्रा.वि अधिकारी
+          .section-title
+            h2 कर्मचारी / लिपिक
+          .row  
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='100')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री. तुळशीदास पु.लाड 
+                  span कर्मचारी /लिपिक  
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='100')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री. हरीश ह चौधरी  
+                  span पाणी पुरवठा कर्मचारी  
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='100')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री. राहुल उ फसाटे 
+                  span रोजगार सेवक  
+            .col-lg-3.col-md-6.d-flex.align-items-stretch(data-aos='fade-up' data-aos-delay='100')
+              .member
+                .member-img
+                  img.img-fluid(src='gram-panchayet/img/team/male.jpg' alt='')
+                .member-info
+                  h4 श्री चंद्रेश काशिराव गवळी 
+                  span संगणक परीचालक 
+      //- End Team Section
+      //- ======= Contact Section =======
+      section#contact.contact
+        .container(data-aos='fade-up')
+          .section-title
+            h2 संपर्क
+          div
+            iframe(style='border: 0; width: 100%; height: 270px',src=gp.gp_map , frameborder='0' allowfullscreen='')
+          .row.mt-5
+            .col-lg-4
+              .info
+                .address
+                  i.icofont-google-map
+                  h4 पत्ता:
+                  p ग्रामपंचायत कार्यालय #{gp.gp_name}, ता. #{gp.gp_taluka}, जी.#{gp.gp_dist} #{gp.gp_pincode}
+                .email
+                  i.icofont-envelope
+                  h4 ई-मैल आय.डी:
+                  p #{gp.gp_email}
+                .phone
+                  i.icofont-phone
+                  h4 फोन:
+                  p #{gp.gp_contact}
+            .col-lg-8.mt-5.mt-lg-0
+              form.php-email-form(action='forms/contact.php' method='post' role='form')
+                .form-row
+                  .col-md-6.form-group
+                    input#name.form-control(type='text' name='name' placeholder='तुमच पूर्ण नाव' data-rule='minlen:4' data-msg='Please enter at least 4 chars')
+                    .validate
+                  .col-md-6.form-group
+                    input#email.form-control(type='email' name='email' placeholder='तुमचा ई-मेल आय.डी' data-rule='email' data-msg='Please enter a valid email')
+                    .validate
+                .form-group
+                  input#subject.form-control(type='text' name='subject' placeholder='विषय' data-rule='minlen:4' data-msg='Please enter at least 8 chars of subject')
+                  .validate
+                .form-group
+                  textarea.form-control(name='message' rows='5' data-rule='required' data-msg='Please write something for us' placeholder='मजकूर')
+                  .validate
+                .mb-3
+                  .loading Loading
+                  .error-message
+                  .sent-message
+                    | तुमची माहिती यशस्वी रेत्या पाठवल्या गेली आहे, धन्यवाद!
+                .text-center
+                  button(type='submit') संदेश पाठवा
+      //- End Contact Section
+      //-  End #main 
+      //- ======= Footer =======
+      a.back-to-top(href='#')
+        i.ri-arrow-up-line
+      #preloader
+      //- Vendor JS Files
+      script(src='gram-panchayet/vendor/jquery/jquery.min.js')
+      script(src='gram-panchayet/vendor/bootstrap/js/bootstrap.bundle.min.js')
+      script(src='gram-panchayet/vendor/jquery.easing/jquery.easing.min.js')
+      script(src='gram-panchayet/vendor/php-email-form/validate.js')
+      script(src='gram-panchayet/vendor/waypoints/jquery.waypoints.min.js')
+      script(src='gram-panchayet/vendor/counterup/counterup.min.js')
+      script(src='gram-panchayet/vendor/venobox/venobox.min.js')
+      script(src='gram-panchayet/vendor/owl.carousel/owl.carousel.min.js')
+      script(src='gram-panchayet/vendor/isotope-layout/isotope.pkgd.min.js')
+      script(src='gram-panchayet/vendor/aos/aos.js')
+      //- Template Main JS File
+      script(src='gram-panchayet/js/main.js')
+      script.
+        gpCount = #{sub_count};

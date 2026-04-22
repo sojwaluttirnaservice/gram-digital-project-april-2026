@@ -1,0 +1,131 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block content
+    section(class='container mt-4')
+        h2(class='mb-4 text-center') PAYMENT HISTORY
+
+        .table-responsive
+            table(class='table table-bordered table-hover align-middle')
+                thead(class='table-dark')
+                    tr
+                        th अ.क्र.
+                        th मालमत्ता क्र.
+                        th मालमत्ता धारक
+                        th रक्कम
+                        th UTR/Transaction Number
+                        th कर भरणा
+                        th पेमेंट स्क्रीनशॉट
+                        th Status
+
+                tbody
+                    each payment, _index in paymentHistory
+                        tr
+                            td #{_index + 1}
+                            td #{payment.malmatta_no}
+                            td #{payment.recipient_name}
+                            td #{payment.payment_amount}
+                            td #{payment.transaction_number}
+                            td 
+                                if payment.payment_for == 1 
+                                    | सामान्य 
+                                if payment.payment_for == 2
+                                    | पाणी 
+                            td
+                                button(
+                                    style='display:block;width:70%; margin-inline:auto;'
+                                    type='button',
+                                    class='btn btn-sm btn-primary open-screenshot-btn',
+                                    data-bs-toggle='modal',
+                                    data-bs-target='#screenshotModal',
+                                    data-img-url=`/uploads/images/gp/payments/paymentScreenshots/${payment.payment_screenshot_image_name}`,
+                                    data-malmatta=`${payment.malmatta_no}`,
+                                    data-recipient=`${payment.recipient_name}`,
+                                    data-form-nine-id=`${payment.form_nine_id}`,
+                                    data-user-id=`${payment.user_id}`,
+                                    data-utr=`${payment.transaction_number}`
+                                ) बघा
+                            
+                            //- td
+                                div(class='d-flex justify-content-center align-items-center gap-2')
+                                    button.approve-status-btn(type='button', class='btn btn-success btn-sm' data-paymentId=payment.id data-form-nine-id=`${payment.form_nine_id}` data-user-id=`${payment.user_id}`) Accept
+                                    button.reject-status-btn(type='button', class='btn btn-danger btn-sm' data-paymentId=payment.id data-form-nine-id=`${payment.form_nine_id}` data-user-id=`${payment.user_id}`) Reject
+                            td 
+                                if payment.approval_status == 'PENDING'
+                                    p(style="text-align:center;color: orange; font-weight: 700; background: #fff4e5; padding: 4px 8px; border-radius: 4px; font-family: Arial, sans-serif;") PENDING
+                                else if payment.approval_status == 'REJECTED'
+                                    p(style="text-align:center;color: #b00020; font-weight: 700; background: #fddede; padding: 4px 8px; border-radius: 4px; font-family: Arial, sans-serif;") REJECTED
+                                else 
+                                    p(style="text-align:center;color: #155724; font-weight: 700; background: #d4edda; padding: 4px 8px; border-radius: 4px; font-family: Arial, sans-serif;") DONE
+
+    //- Reusable Modal (one instance only)
+    .modal.fade(id='screenshotModal', tabindex='-1', aria-labelledby='modalLabel', aria-hidden='true')
+        .modal-dialog(class='modal-lg modal-dialog-centered')
+            .modal-content
+                .modal-header
+                    h5(class='modal-title', id='modalLabel') Screenshot Preview
+                    button(
+                        type='button',
+                        class='btn-close',
+                        data-bs-dismiss='modal',
+                        aria-label='Close'
+                    )
+                .modal-body(style='max-height: 70vh; overflow-y: auto;')
+                    // Payment Info Block
+                    ul(class='list-group mb-3')
+                        li(class='list-group-item') 
+                            strong मालमत्ता क्र.: 
+                            span(id='modalMalmattaNo')
+                        li(class='list-group-item') 
+                            strong मालमत्ता धारक: 
+                            span(id='modalRecipient')
+                        li(class='list-group-item') 
+                            strong UTR क्रमांक: 
+                            span(id='modalUTR')
+
+                    // Screenshot Image
+                    div(class='text-center')
+                        a(href='#', target='_blank', id='modalScreenshotLink')
+                            img(
+                                id='modalScreenshotImage',
+                                class='img-fluid d-none',
+                                alt='Payment Screenshot',
+                                style='max-height: 500px; max-width: 100%; cursor: zoom-in;'
+                            )
+                        p(id='modalNoImageText', class='text-muted d-none mt-3') No screenshot uploaded.
+
+                .modal-footer
+                    button(
+                        type='button',
+                        class='btn btn-secondary',
+                        data-bs-dismiss='modal'
+                    ) Close
+
+block custom_js
+    script.
+        $(document).ready(function () {
+            $('.open-screenshot-btn').on('click', function () {
+                const imgUrl = $(this).data('img-url');
+                const malmatta = $(this).data('malmatta');
+                const recipient = $(this).data('recipient');
+                const utr = $(this).data('utr');
+
+                // Update modal fields
+                $('#modalMalmattaNo').text(malmatta);
+                $('#modalRecipient').text(recipient);
+                $('#modalUTR').text(utr);
+
+                const $img = $('#modalScreenshotImage');
+                const $noImgText = $('#modalNoImageText');
+                const $link = $('#modalScreenshotLink');
+
+                if (imgUrl) {
+                    $img.attr('src', imgUrl).removeClass('d-none');
+                    $link.attr('href', imgUrl);
+                    $noImgText.addClass('d-none');
+                } else {
+                    $img.addClass('d-none').attr('src', '');
+                    $link.attr('href', '#');
+                    $noImgText.removeClass('d-none');
+                }
+            });
+        });

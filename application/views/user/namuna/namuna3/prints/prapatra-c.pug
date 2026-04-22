@@ -1,0 +1,72 @@
+
+
+.my-print
+
+
+    div(style='margin: 1rem 0;')
+        div(style='font-weight: 600; font-size: 0.85rem;')
+            p(style='text-align: center;') प्रपत्र 'क'
+            p(style='text-align: center;') ग्रामपंचायतीस ग्रामनिधी जमा-कर करेत्तर उत्त्पन्न, अभिहस्तांतरीत रक्कमा, राज्य शासन सहाय्यक अनुदाने आमदार, खासदार, खासदार, डोंगरी विका कार्यक्रमांतर्गत . जि.ग्रा. 
+            p(style='text-align: center;') वि. यंत्रणे कडून आलेला निधी ई-केंद्र शासन अनुदाने यांच्यातून मिळालेल्या उत्पन्नासाठी माहिती दर्शविणारे पत्रक
+            
+            div ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist} वर्ष _______
+            div ग्रामनिधी जमा (एक) (अ) कर
+
+    table(style='width: 100%;')
+
+
+        -
+            let prapatraCHeadings = [
+                "मालमत्ता कर जमिनी व इमारती यावरील कर",
+                "दिवाबत्ती कर",
+                "स्वच्छता कर",
+
+                "दुकाने, लघुउद्योग ग हॉटेल चालविणे यावरील कर",
+                "यात्राकर",
+                "जत्रा, उत्सव, व इतर मनोरंजन कर",
+
+                "सायकल व इतर वाहनावरील कर",
+                "टोलटॅक्स",
+                "उतारू व मालावरील कर",
+
+                "वनविकास कर",
+                "सेवाकर",
+                "व्यापारी किंवा आजीविका यावरील कर (शेतीव्यतिरिक्त)",
+                "गुरांच्या बाजारातील दलालीच्या व्यवसाय व आजीविकेवरील कर",
+                "इतर कर",
+                "एकूण (एक) (अ) कर १ ते १४ "
+            ]  
+
+
+        thead
+
+            tr
+                each heading, index in prapatraCHeadings
+                    th #{heading}
+                
+            tr
+                each _, index in prapatraCHeadings
+                    th #{index + 1}
+                
+        tbody 
+
+            tr 
+                td #{prapatraCATax.property_tax_land_buildings}
+                td #{prapatraCATax.street_light_tax}
+                td #{prapatraCATax.cleanliness_tax}
+
+                td #{prapatraCATax.shop_industry_hotel_tax}
+                td #{prapatraCATax.travel_tax}
+                td #{prapatraCATax.fair_festival_tax}
+                td #{prapatraCATax.cycle_vehicle_tax}
+                td #{prapatraCATax.toll_tax}
+
+                td #{prapatraCATax.goods_tax}
+                td #{prapatraCATax.forest_development_tax}
+                td #{prapatraCATax.service_tax}
+                td #{prapatraCATax.trade_or_occupation_tax}
+                td #{prapatraCATax.cattle_market_commission_tax}
+                td #{prapatraCATax.other_taxes}
+                td #{prapatraCATax.total_tax_1_to_14}
+
+

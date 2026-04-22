@@ -1,0 +1,207 @@
+extends ../../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { opacity: 0; } 
+            100% { opacity: 1; } 
+        }
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider')
+                | जॉब कार्ड अर्ज
+
+    
+
+    section(class='py-6 bg-white border-b')
+        .container
+            h5(class='text-center font-semibold mb-1') अर्जदाराचा मोबाईल क्रमांक तपासणी
+
+            p(class='text-center text-sm text-gray-600 mb-4')
+                | कृपया अर्ज करण्यासाठी मोबाईल क्रमांक प्रविष्ट करा
+
+            div(id='check-by-mobile' class='my-2')
+                div(class='flex justify-center gap-3 items-center')
+                    label(for='applicant_mobile' class='text-sm font-medium') मोबाईल क्रमांक :
+
+                    input(type='text' id='applicant_mobile' class='py-1 px-2 border border-gray-600 outline-none max-w-52 bg-stone-100' placeholder='उदा. 9991212342' maxlength='10')
+
+                    button(type='button' id='check-mobile-number-exists-btn' class='px-4 py-1 border border-gray-700 bg-gray-200 font-medium')
+                        | तपासा
+
+                p(id='mobile-check-status' class='text-sm text-blue-700 mt-3 text-center font-medium' style='display:none;')
+                    | सदर मोबाईल क्रमांकाची तपासणी सुरू आहे, कृपया प्रतीक्षा करा...
+
+
+    section#form-section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden' style='display:none;')
+        .container
+            form(id='job-card-application-form' class='md:w-[80%] mx-auto flex flex-col gap-4' enctype='multipart/form-data')
+
+                // ===============================
+                // Family Head & Applicant Info
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | कुटुंब प्रमुख व अर्जदाराची माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            // Family Head Name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') कुटुंब प्रमुखाचे नाव
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='family_head_name' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='कुटुंब प्रमुखाचे नाव' required)
+
+                            // Applicant Name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') अर्जदाराचे नाव
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='applicant_name' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='अर्जदाराचे नाव' required)
+
+                            // Address
+                            .input-group(class='px-2 md:col-span-2')
+                                label(class='font-bold tracking-wider') पत्ता
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-start gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt mt-2')
+                                    textarea(name='applicant_address' class='py-1 px-2 outline-none flex-grow bg-stone-100' rows='2' placeholder='संपूर्ण पत्ता' required) #{`मु. पो. ${gp.gp_name}, ता. ${gp.gp_taluka}, जि. ${gp.gp_dist}`}
+
+                            // Mobile
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मोबाईल नंबर
+                                    //- span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input(type='text' name='applicant_mobile' class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength='10' placeholder='मोबाईल नंबर' readonly)
+
+                // ===============================
+                // Social Category & Beneficiaries
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | सामाजिक माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                        // Caste Category
+                        .input-group(class='px-2  md:col-span-1')
+                            label(class='font-bold tracking-wider') जात प्रवर्ग
+                                span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                select(name='caste_category' class='py-1 px-2 outline-none flex-grow bg-stone-100 border border-stone-300 rounded-md w-full')
+                                    option(value='') -- Select --
+                                    - const casteCategories = ['SC','ST','VJ-A','NT-B','NT-C','NT-D','OBC','SEBC','EWS','OPEN','OTHER']
+                                    
+                                        each category in casteCategories
+                                            option(value=category) #{category}
+
+                        .input-group(class='px-2  md:col-span-1')
+                            label.other-cast-category-group(class='font-bold tracking-wider' style='display: none;') अन्य जात प्रवर्ग
+                            .input-holder.other-cast-category-group(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100'  style='display: none;')
+                                input(name='other_caste_category' class='py-1 px-2 outline-none flex-grow bg-stone-100 border border-stone-300 rounded-md w-full')
+
+                        // Radio fields
+                        - 
+                            const radioFields = [
+                                {name: 'minority', label: 'अल्पसंख्यांक'},
+                                {name: 'small_farmer', label: 'अल्पभूधारक शेतकरी'},
+                                {name: 'general_farmer', label: 'सामान्य शेतकरी'},
+                                {name: 'land_reform_beneficiary', label: 'भूसुधारक लाभार्थी'},
+                                {name: 'indira_awaas_beneficiary', label: 'इंदिरा आवास लाभार्थी'},
+                                {name: 'aab_yojana_beneficiary', label: 'आम आदमी विमा लाभार्थी'},
+                                {name: 'forest_rights_act_2006', label: 'वन हक्क कायदा लाभार्थी'},
+                                {name: 'bpl_family', label: 'BPL कुटुंब'},
+                                {name: 'rashtriya_swasthya_bima_beneficiary', label: 'राष्ट्रीय स्वास्थ्य विमा लाभार्थी'},
+                            ];
+
+
+                        each field in radioFields
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider')
+                                    | #{field.label}
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full flex items-center gap-2')
+                                    input(type='radio' name=field.name value='YES' id=field.name+'_yes' class='peer/yes hidden')
+                                    label(for=field.name+'_yes' class='cursor-pointer px-4 py-1 rounded-md border border-stone-300 bg-white text-stone-800 transition peer-checked/yes:bg-stone-800 peer-checked/yes:text-white')
+                                        | होय
+
+                                    input(type='radio' name=field.name value='NO' id=field.name+'_no' class='peer/no hidden')
+                                    label(for=field.name+'_no' class='cursor-pointer px-4 py-1 rounded-md border border-stone-300 bg-white text-stone-800 transition peer-checked/no:bg-stone-800 peer-checked/no:text-white')
+                                        | नाही
+
+
+                        // Rashtriya Swasthya Bima number & BPL number
+                        .input-group(class='px-2')
+                            label(class='font-bold tracking-wider') राष्ट्रीय स्वास्थ्य विमा लाभार्थी असल्यास क्रमांक
+                                //- span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                input(type='text' name='rashtriya_swasthya_bima_no' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='योजना क्रमांक (असल्यास)')
+                        
+                        .input-group(class='px-2')
+                            label(class='font-bold tracking-wider') BPL कुटुंब असल्यास क्रमांक
+                                //- span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                input(type='text' name='bpl_family_no' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='BPL क्रमांक (असल्यास)')
+
+                        .input-group(class='px-2')
+                            label(class='font-bold tracking-wider') Application Date
+                                //- span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                input.datepicker(type='text' name='createdAt' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='e.g.00-00-0000')
+
+                // ===============================
+                // Documents: Family Photo & Ration Card
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | दस्तऐवज
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md grid grid-cols-1 md:grid-cols-2 gap-4')
+                        .input-group
+                            label(class='font-bold tracking-wider') कुटुंब फोटो
+                                span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                input(type='file' name='family_photo_image_name' accept='image/*' class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+
+                        .input-group
+                            label(class='font-bold tracking-wider') रेशन कार्ड PDF
+                                span(class='text-red-500 font-bold') &nbsp; *
+                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                input(type='file' name='family_head_ration_card_pdf' class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                    
+                        div#preview-img(class='col-span-1 md:col-span-2' style='display:none;')
+                            h5(class='py-2 text-center font-bold') कुटुंब फोटो
+                            div(class='flex items-center justify-center')
+                                img(id='family-photo-image-preview')
+                // ===============================
+                // Family Members Dynamic Table
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | कुटुंबातील सदस्य
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md flex flex-col gap-3')
+                        #family-members-container
+                            // Dynamic family members will be appended here
+                        .buttons-container(class='flex flex-wrap gap-2 mt-2')
+                            button(type='button' id='add-family-member' class='px-4 py-1 rounded-md bg-blue-600 text-white font-bold hover:bg-blue-700') नवीन सदस्य जोडा
+
+                // ===============================
+                // Submit
+                // ===============================
+                .buttons-container(class='text-center mt-4')
+                    button(type='submit' id='save-job-card-application-btn' class='px-10 py-2 rounded-md bg-emerald-600 text-white font-bold hover:bg-emerald-700') जतन करा
+
+    script(src='/asstest/coustom/js/handlers/gp-applications/job-card/job-card-application-form-handler.js')

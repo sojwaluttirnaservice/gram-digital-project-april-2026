@@ -1,0 +1,267 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //-  common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+    //- mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    //- toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //-  extras
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" defer)
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //-  common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/new-form-8.js' defer)
+
+    title #{title}
+
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+
+
+body
+    include ./include/navs.pug
+
+    .container-fluid
+        .row.p-0
+            .col-12.p-0
+                .card-group
+                    .card(style="")
+                        .card-body.p-0.p-1.pt-3
+                            .col-8.offset-2
+                                center
+                                    span.font-weight-bold
+                                        | महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/ फाल्गुन १३ शके १९३७ नुसार नमूना ८ नियम ३२(९)
+                                    br
+                                    h4.heading-1 नवीन मालमत्ता धारकाची नोंदणी खालील प्रमाणे	
+                                    //- .col-12 
+
+                            .col-12
+                                div.mb-4
+                                    button.btn.btn-primary(style="display:block; margin-left: auto;" onclick='history.back();') Back
+                                form#newForm8
+                                    .row
+                                        .col-12.col-md-5
+                                            .card
+                                                .card-header.bg-warning.font-weight-bold
+                                                    | मालमत्ता माहिती 
+                                                .card-body.row
+
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') अनु क्रमांक
+                                                        input.form-control-sm.form-control(type='text', value=lastId readonly)
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') घर क्रमांक
+                                                        input.form-control-sm.form-control(type='text', value=lastId readonly)
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                                                        input#newMalmattaNo.form-control-sm.form-control(type='text' name='newMalmattaNo')
+                                                        input#newMalmattaNoOblique.form-control-sm.form-control(type='hidden' name='newMalmattaNoOblique' value="0")
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') वार्ड नं
+                                                        input#newWardNo.form-control-sm.form-control(type='text' name='newWardNo' value="-")
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                                        input#oldHomeNo.form-control-sm.form-control(type='text' name='oldHomeNo')
+                                                    .form-group.col-6
+                                                        p.font-weight-bold.mb-0 पाणीकर
+                                                        select.form-select.form-control(type="text" id="waterTax" name="waterTax")
+                                                            option(value="विशेष पाणीकर") विशेष पाणीकर
+                                                            option(value="सामान्य पाणीकर") सामान्य पाणीकर
+                                                            option(value="नाही") नाही
+
+                                        .col-12.mt-3.mt-md-0.col-md-7
+                                            .card
+                                                .card-header.bg-warning.font-weight-bold 
+                                                    | मालकाची माहिती											 
+                                                    strong.text-danger &nbsp;(शेवटचा मा. क्र ::	#{malmattaNo} )
+                                                .card-body.row
+                                                    .form-group.col-12.col-md-6
+                                                        label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                                        input#newOwnerName.form-control-sm.form-control(type='text' name='newOwnerName')
+                                                    .form-group.col-12.col-md-6
+                                                        label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                                        input#newSecondOwnerName.form-control-sm.form-control(type='text' name='newSecondOwnerName' value="स्वता")
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                                                        input#newMobileNo.form-control-sm.form-control(type='text' name='newMobileNo' value="" maxlength="10" )
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') आधार क्रं.
+                                                        input#newAadharNo.form-control-sm.form-control(type='text' name='newAadharNo' value="" maxlength='12')
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') घरकुल असल्यास
+                                                        select#gharkulYojna.form-control(type='text' name='gharkulYojna')
+                                                            each value,index in gharkulYojanaList
+                                                                option(value=value.id) #{value.text}
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') शौच्छालय
+                                                        select#havingToilet.form-control(type='text' name='havingToilet')
+                                                            each value,index in ["नाही","होय"]
+                                                                option(value=value) #{value}
+
+
+                                        .col-12.mt-3
+                                            .card
+                                                .card-header.bg-warning.font-weight-bold मालमत्तेचा फेरफार
+                                                .card-body.row
+                                                    .form-group.col-12.col-md-6.col-lg-2
+                                                        label.font-weight-bold(for='my-input') जुना धारक
+                                                        input#newOldDharak.form-control-sm.form-control(type='text' name='newOldDharak' value="-")
+                                                    .form-group.col-12.col-md-6.col-lg-2
+                                                        label.font-weight-bold(for='my-input') नवीन धारक
+                                                        input#newNewDharak.form-control-sm.form-control(type='text' name='newNewDharak' value="-")
+                                                    .form-group.col-12.col-md-6.col-lg-2
+                                                        label.font-weight-bold(for='my-input') दिनांक
+                                                        input#newPherfarDate.datepicker1.form-control-sm.form-control(type='text' name='newPherfarDate' placeholder='DD/MM/YYYY')
+                                                    .form-group.col-12.col-md-6.col-lg-2
+                                                        label.font-weight-bold(for='my-input') ठराव क्रमांक
+                                                        input#newPherfarTharav.form-control-sm.form-control(type='text' name='newPherfarTharav' value="-")
+                                                    .form-group.col-12.col-md-6.col-lg-2
+                                                        label.font-weight-bold(for='my-input') कोणत्या दस्तावेजनी
+                                                        select#newPherfarDocument.form-control(type='text' name='newPherfarDocument')
+                                                            option(value="") ---निवडा---
+                                                            -let _dastavej = dastaveg != null ? dastaveg : []
+                                                            each value,index in _dastavej
+                                                                option(value=value) #{value}
+                                        .col-12.col-md-4.mt-3
+                                            .card.pb-2
+                                                .card-header.bg-warning.font-weight-bold जागेची माहिती
+                                                .card-body
+                                                    .form-group
+                                                        label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                                        input#newGaatNo.form-control-sm.form-control(type='text' name='newGaatNo' value="-")
+                                                    .form-group
+                                                        label.font-weight-bold(for='my-input') ग्रामपंचायत
+                                                        input#newGramPanchayet.form-control-sm.form-control(type='text' name='newGramPanchayet' value=gp.gp_name)
+                                                    .form-group
+                                                        label.font-weight-bold(for='my-input') गावाचे नाव
+                                                        input#newVillageName.form-control-sm.form-control(type='text' name='newVillageName' value=gp.gp_name)
+                                        .col-12.col-md-4.mt-3
+                                            .card.pb-4
+                                                .card-header.bg-warning.font-weight-bold क्षेत्रफळ माहिती
+                                                .card-body.row
+                                                    //- sq foot
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') जागेची लांबी	(फुट)
+                                                        input#newAreaHeightFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaHeightFoot' value="-")
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') जागेची रुंदी	(फुट)
+                                                        input#newAreaWidthFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaWidthFoot' value="-")
+
+                                                    //-	sq meter
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') जागेची लांबी (मी.)
+                                                        input#newAreaHeightMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaHeightMeter' value="-")
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') जागेची रुंदी (मी.)
+                                                        input#newAreaWidthMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaWidthMeter' value="-")
+
+                                                    //- total area in foot
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') एकूण जागेचे क्षेत्र.(चौ.फुट)
+                                                        input#newTotalAreaSquareFoot.form-control-sm.form-control(type='text' name='newTotalAreaSquareFoot' value="-")
+
+                                                    //- total area in meter
+                                                    .form-group.col-6
+                                                        label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                                                        input#newTotalAreaSquareMeter.form-control-sm.form-control(type='text' name='newTotalAreaSquareMeter' value="-")
+
+                                        .col-12.col-md-4.mt-3
+                                            .card
+                                                .card-header.bg-warning.font-weight-bold दिशा माहिती/बोजा-शेरा
+                                                .card-body.row
+                                                    .form-group.col-12.col-md-6
+                                                        label.font-weight-bold(for='my-input') पूर्वेस
+                                                        input#newEastLandmark.form-control-sm.form-control(type='text' name='newEastLandmark' value="-")
+                                                    .form-group.col-12.col-md-6
+                                                        label.font-weight-bold(for='my-input') पश्चिमेस
+                                                        input#newWestLandmark.form-control-sm.form-control(type='text' name='newWestLandmark' value="-")
+                                                    .form-group.col-12.col-md-6 
+                                                        label.font-weight-bold(for='my-input') उत्तरेस
+                                                        input#newNorthLandmark.form-control-sm.form-control(type='text' name='newNorthLandmark' value="-")
+                                                    .form-group.col-12.col-md-6
+                                                        label.font-weight-bold(for='my-input') दक्षिणेस
+                                                        input#newSouthLandmark.form-control-sm.form-control(type='text' name='newSouthLandmark' value="-")
+                                                    .form-group.col-12
+                                                        label.font-weight-bold(for='my-input') बोजा/शेरा
+                                                        textarea#newBojaShera.form-control-sm.form-control(type='text' name='newBojaShera' value="-")
+
+                                        //- Old code to upload file and preview image
+                                        //- .col-12.col-md-6.mt-3
+                                        //- 	.form-group.col-12
+                                        //- 		label.font-weight-bold(for='my-input') घराचा फोटो
+                                        //- 		input#image1.form-control-sm.form-control(type='file')
+                                        //- 		img#image-1-preview(src="" alt="" width="100%" style="border:1px solid" height="400")
+                                        //- .col-12.col-md-6.mt-3
+                                        //- 	.form-group.col-12
+                                        //- 		label.font-weight-bold(for='my-input') नकाशा फोटो
+                                        //- 		input#image2.form-control-sm.form-control(type='file')
+                                        //- 		img#image-2-preview(src="" alt="" width="100%" style="border:1px solid" height="400")
+
+
+                                        //- image using camera
+                                        .col-12.col-md-6.mt-3
+                                            .form-group.col-12
+                                                label.font-weight-bold(for='my-input') घराचा फोटो
+                                                input.form-control-sm.form-control(type='file' accept='image/' capture='environment' id='home-camera-capture-image')
+                                                //- button#home-capture-image-btn.mb-1.btn.btn-success(type='button' value='Click') Click
+                                                //- #home-camera-capture-image.d-flex.justify-content-center.mb-2(style="border:0px solid;" )
+                                                img#home-photo-preview(src='' alt="" style="border:1px solid;min-width:200px; width:100%; min-height:100px; max-height: 400px")
+                                        .col-12.col-md-6.mt-3
+                                            .form-group.col-12
+                                                label.font-weight-bold(for='my-input') नकाशा फोटो
+                                                input.form-control-sm.form-control(type='file' accept='image/' capture='environment' id='map-camera-capture-image')
+                                                //- button#map-capture-image-btn.mb-1.btn.btn-success(type='button' value="Click") Click
+                                                //- #map-camera-capture-image.d-flex.justify-content-center.mb-2(style="border:0px solid;" )
+                                                img#map-photo-preview(src='' alt="" style="border:1px solid;min-width:200px; width:100%; min-height:100px; max-height: 400px")
+
+                                        .col-12.mt-5
+                                            div.d-flex.justify-content-center.align-items-center
+                                                .form-group
+                                                    button#saveNewUserForm.btn.btn-success
+                                                        span.fa.fa-floppy-o.mr-2
+                                                        | जतन करा
+
+    script.
+        $(document).ready(function() {
+            // $('#gharkulYojna').select2().val("").trigger('change');
+            // $('#havingToilet').select2().val("").trigger('change');
+            $( "#gharkulYojna option" ).last().prop('selected',true);
+
+            //- form validation
+
+                $( function() {
+                    $( ".datepicker1" ).datepicker({
+                        dateFormat: 'dd/mm/yy'
+                    });
+                } )
+
+        });

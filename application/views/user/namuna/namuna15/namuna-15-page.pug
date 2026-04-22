@@ -1,0 +1,211 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    //- link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    //- script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- //toggle
+    //- script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- // extras
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    link(rel="stylesheet" href="/asstest/coustom/css/common-styles.css")
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-15/namuna-15-page-handler.js' type='module' defer)
+
+    title उपभोग्य वस्तुसाठा लेखा नोंदणी वही
+
+    style.
+        body{
+            min-height:100vh;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, tr, th, td {
+            border: 1px solid black;
+        }
+
+
+        label.error{
+            color: red;
+            font-size: 0.85rem;
+        }
+
+body
+    include ../../include/navs.pug
+
+    section 
+        .container 
+
+            div.my-2
+                .text-center
+                    h2.heading-1.mb-2 नमुना १५ (उपभोग्य वस्तूसाठा नोंदवही)
+
+
+            -
+                const tableData = [
+                    {
+                        marathiHeader: 'तारीख',
+                        tableHeaderClassName: 'table-header-date',
+                        tableBodyInputClassName: 'date',
+                        nameAttribute: 'date', // तारीख
+                        isDate: true,
+                        isRequired: true,
+                    },
+
+                    {
+                        marathiHeader: 'प्रारंभिक शिल्लक',
+                        tableHeaderClassName: 'table-header-initial-quantity',
+                        tableBodyInputClassName: 'initial-quantity',
+                        nameAttribute: 'initial_quantity', // प्रारंभिक शिल्लक
+
+                    },
+
+                    {
+                        marathiHeader: 'मिळालेल्या वस्तुंची नाव',
+                        tableHeaderClassName: 'table-header-received-item-name',
+                        tableBodyInputClassName: 'received-item-name',
+                        nameAttribute: 'received_item_name', // मिळालेल्या वस्तुंची नाव
+                    },
+                    {
+                        marathiHeader: 'वस्तूंची संख्या किंवा परिमाण',
+                        tableHeaderClassName: 'table-header-item-quantity',
+                        tableBodyInputClassName: 'item-quantity',
+                        nameAttribute: 'item_quantity', // वस्तूंची संख्या किंवा परिमाण
+                    },
+                    {
+                        marathiHeader: 'एकूण',
+                        tableHeaderClassName: 'table-header-total',
+                        tableBodyInputClassName: 'total',
+                        nameAttribute: 'total', // एकूण
+                    },
+                    {
+                        marathiHeader: 'कोणास दिले किंवा कोणत्या प्रयोजनाकरिता',
+                        tableHeaderClassName: 'table-header-purpose-or-receiver',
+                        tableBodyInputClassName: 'purpose-or-receiver',
+                        nameAttribute: 'purpose_or_receiver', // कोणास दिले किंवा कोणत्या प्रयोजनाकरिता
+                    },
+                    {
+                        marathiHeader: 'दिलेल्या वस्तुंची संख्या किंवा परिमाण',
+                        tableHeaderClassName: 'table-header-issued-item-quantity',
+                        tableBodyInputClassName: 'issued-item-quantity',
+                        nameAttribute: 'issued_item_quantity', // दिलेल्या वस्तुंची संख्या किंवा परिमाण
+                    },
+                    {
+                        marathiHeader: 'शिल्लक',
+                        tableHeaderClassName: 'table-header-remaining-quantity',
+                        tableBodyInputClassName: 'remaining-quantity',
+                        nameAttribute: 'remaining_quantity', // शिल्लक
+                    },
+                    {
+                        marathiHeader: 'वस्तु देणाऱ्या अधिकाऱ्यांचे नाव',
+                        tableHeaderClassName: 'table-header-issuing-officer-name',
+                        tableBodyInputClassName: 'issuing-officer-name',
+                        nameAttribute: 'issuing_officer_name', // वस्तु देणाऱ्या अधिकाऱ्यांचे नाव
+                    },
+                    {
+                        marathiHeader: 'वस्तु घेणाऱ्या अधिकाऱ्याचे नाव',
+                        tableHeaderClassName: 'table-header-receiving-officer-name',
+                        tableBodyInputClassName: 'receiving-officer-name',
+                        nameAttribute: 'receiving_officer_name', // वस्तु घेणाऱ्या अधिकाऱ्याचे नाव
+                    },
+                    {
+                        marathiHeader: 'शेरा',
+                        tableHeaderClassName: 'table-header-remarks',
+                        tableBodyInputClassName: 'remarks',
+                        nameAttribute: 'remarks', // शेरा
+                    }
+                ];
+
+
+
+            .buttons-container(class='py-4 d-flex align-items-center justify-content-end')
+                .d-flex.align-items-center.justify-content-center.gap-4
+
+                    - let startYear = 2020
+                    - let currentYear = new Date().getFullYear()
+                    div(class='d-flex align-items-center gap-4')
+                        label.form-label वर्षापासून
+                        select.form-select(name='from_year' id='from-year')
+                            option(value='') -- Select --
+                            each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                option(value=year) #{year}
+
+                    div(class='d-flex align-items-center gap-4')
+                        label.form-label वर्षापर्यंत
+                        select.form-select(name='to_year' id='to-year')
+                            option(value='') -- Select --
+                            each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                                option(value=year) #{year}
+
+                    //- div 
+                    //-     input.form-control.my-datepicker()
+                    //-     input.form-control.my-datepicker()
+
+                    div
+                        button.btn.btn-success(type='button' id='submit-all-entries-btn' role='button' aria-label='Submit all form entries' data-action='submit-all') Submit All
+
+                    div 
+                        a.btn.btn-secondary(href='/namuna/15/report' ) Report
+
+                    div 
+                        a.btn.btn-primary(href='/namuna') नमुने
+
+
+            form.table-container.table-responsive
+                table.table(id='namuna-15-table' data-headers=tableData)
+                    thead 
+                        tr 
+                            th अनु.क्र.
+                            each entry in tableData 
+                                th(class='width:500px')
+                                    div #{entry.marathiHeader}
+                                        if entry.isRequired 
+                                            span.text-danger (Required)
+
+
+                            th Add Row
+
+
+                    tbody(id='namuna-15-table-body')
+
+                        tr(data-rowIndex = '0')
+
+                            td 
+                                div(data-rowIndex='0') 1
+
+                            each entry in tableData 
+                                td()
+                                    input.form-control(type='text' class=`${entry.tableBodyInputClassName}${entry.isDate && entry.isDate == true ? ' datepicker' : ''}` id=`${entry.tableBodyInputClassName}${entry.isDate && entry.isDate == true ? `datepicker-${0}` : ''}` style='width:200px ;' data-rowIndex = '0' name=entry.nameAttribute placeholder=`${entry.isDate && entry.isDate == true ? `DD-MM-YYYY` : ''}`)
+
+                            td 
+                                button.btn.btn-success(class='add-row-btn' style='width:100px;' data-rowIndex='0') + Row

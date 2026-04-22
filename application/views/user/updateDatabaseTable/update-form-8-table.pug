@@ -1,0 +1,185 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+        link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+        //js
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js') 
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        script(src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js")
+
+        script(src="/asstest/plugins/xlxs/jszip.js")
+        script(src="/asstest/plugins/xlxs/xlsx.js")
+        // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+        script(src='/asstest/coustom/js/handlers/update-form-8-table-handler.js')
+        //- link(rel='stylesheet' href='https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css')
+        //- script(src='https://cdn.datatables.net/2.0.8/js/dataTables.js')
+
+        script.
+            //- $(function(){
+            //-     new DataTable('table', {
+            //-         pagingType: 'simple_numbers'
+            //-     });
+            //- })
+
+        style.
+            table {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            tr,td,th {
+                border: 1px solid black;
+                text-align: center;
+                padding: 0 !important;
+            }
+
+            td {
+                text-align:center;
+            }
+
+            #spinner {
+                position: fixed;
+                left: 47%;
+                top: 10%;
+                width: 4rem;
+                height: 4rem;
+                z-index: 100;
+            }
+
+            table .input {
+                text-align: center !important;
+                border: 0px solid transparent;
+                //- width: 90% !important;
+                min-width: 10rem;
+            }
+
+            table input:focus {
+                border: 0px solid blue !important;
+                outline: 3px solid red !important;
+            }
+
+            table input[readonly] {
+                background: gray;
+            }
+            table input:not([readonly]) {
+                background: white !important;
+                border: 0px solid blue;
+            }
+    body.position-relative
+        include ../include/navs.pug
+
+        div#spinner-div.d-none
+            div(style='display: flex; flex-direction: column; align-items:center; gap: 2rem;')
+                #spinner.spinner-border.text-primary(role="status")
+                    span.visually-hidden
+
+                #updating-div(style='color: black !important; font-size:2rem; font-weight: bold;') 
+                    span Updating : 
+                    span#updating-percent 0
+                    span %
+
+        .container-fluid
+            .row.justify-content-center
+                .col-12.mb-3.mt-3
+                    center
+                        button.btn.btn-success(class='sendToServerBtn') Save Data
+                .col-11
+                    .table-responsive
+                        table#userTable(data-length = f8users ? f8users.length : 0)
+                            thead
+                                tr
+                                    th(style='') id	
+                                    th m No	
+
+                                    th Update mal.No
+
+                                    //- th oblik id	
+                                    //- th wardNo	
+                                    th owner name 
+                                    th भोगवटदाराचे नाव
+                                    th updated भोगवटदाराचे नाव
+
+                                    td पूर्व 
+                                    td updated पूर्व 
+
+                                    td पश्चिम
+                                    td updated पश्चिम
+
+                                    td दक्षिण 
+                                    td updated दक्षिण 
+                                    td उत्तर
+                                    td updated उत्तर
+
+
+                            tbody
+
+                                each user, _ind in f8users
+                                    tr
+                                        td 
+                                            input.form-control(name=`id` style='width:4rem;' id=`id-${_ind}` value=`${user.id}` readonly)
+                                        td 
+                                            input.form-control(name=`feu_malmattaNo` style='width:4.4rem' id=`feu_malmattaNo-${_ind}` value=`${user.feu_malmattaNo}` readonly)
+                                        td 
+                                            input.form-control(name=`updated_malmattaNo` style='width:4.4rem' class='updated_malmattaNo' id=`updated_malmattaNo-${_ind}` value=`${user.feu_malmattaNo}`)
+                                        //- td 
+                                            input.form-control(name=`feu_oblik_malmatta_id` id=`feu_oblik_malmatta_id-${_ind}` value=`${user.feu_oblik_malmatta_id}` readonly)
+                                        //- td 
+                                            input.form-control(name=`wardNo` id=`wardNo-${_ind}` value=`${user.feu_wardNo}` readonly)
+                                        td 
+                                            input.form-control(class="input" name=`ownerName` id=`ownerName-${_ind}` value=`${user.feu_ownerName}` readonly)
+
+                                        td
+                                            input.form-control(class="input" name='feu_secondOwnerName' id=`feu_secondOwnerName-${_ind}` value=user.feu_secondOwnerName readonly)
+
+                                        td
+                                            input.form-control(class="input" name='updated_secondOwnerName' id=`updated_secondOwnerName-${_ind}`)
+
+
+                                        td
+                                            input.form-control(class="input" name='feu_eastLandmark' id=`feu_eastLandmark-${_ind}` value=user.feu_eastLandmark readonly)
+                                        td
+                                            input.form-control(class="input" name='updated_eastLandmark' id=`updated_eastLandmark-${_ind}` )
+
+
+                                        td
+                                            input.form-control(class="input" name='feu_westLandmark' id=`feu_westLandmark-${_ind}` value=user.feu_westLandmark readonly)
+                                        td
+                                            input.form-control(class="input" name='updated_westLandmark' id=`updated_westLandmark-${_ind}` )
+
+
+                                        td
+                                            input.form-control(class="input" name='feu_southLandmark' id=`feu_southLandmark-${_ind}` value=user.feu_southLandmark readonly)
+                                        td
+                                            input.form-control(class="input" name='updated_southLandmark' id=`updated_southLandmark-${_ind}` )
+
+
+                                        td
+                                            input.form-control(class="input" name='feu_northLandmark' id=`feu_northLandmark-${_ind}` value=user.feu_northLandmark readonly)
+                                        td
+                                            input.form-control(class="input" name='updated_northLandmark' id=`updated_northLandmark-${_ind}` )
+
+                .col-12.mb-3.mt-3
+                    center
+                        button.btn.btn-success(class='sendToServerBtn') Save Data
+
+

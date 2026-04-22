@@ -1,0 +1,537 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/kar-wasuli-ahawal-manager.js')
+
+    style.
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: none; 
+            }
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row.p-0.p-1.pt-3
+            .col-12
+                center
+                    a(href="/kar-wasuli").float-right.btn.btn-primary.btn-sm.mr-2 यादी बघा
+                    h5.font-weight-bold.m-3 नवीन कर वसुली अहवाल 
+            .col-12
+                form#formNewKarVasuliAvahal
+                    .row
+                        .col-12(style="overflow-x:scroll")
+                            table(border="1" style="width:200vw")
+                                thead
+
+
+                                    tr.p-0.m-0
+                                        td(width="" rowspan="2").text-center.m-0.font-weight-bold अनू क्र
+                                        td(width="" rowspan="2").text-center.m-0.font-weight-bold करांचे नाव
+                                        td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण मागणी
+                                        td(width="" colspan="3").text-center.m-0.font-weight-bold मागील महिन्या पर्यंतची वसूली
+                                        td(width="" colspan="3").text-center.m-0.font-weight-bold चालू महिन्यातील वसूली
+                                        td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण वसूली
+                                        td(width="" colspan="3").text-center.m-0.font-weight-bold बाकी
+                                        td(width="" rowspan="2").text-center.m-0.font-weight-bold वसूली टक्के वारी
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 मागील
+                                        td(width="").text-center.m-0 चालू
+                                        td(width="").text-center.m-0 एकूण
+
+                                        td(width="").text-center.m-0 मागील
+                                        td(width="").text-center.m-0 चालू
+                                        td(width="").text-center.m-0 एकूण
+
+                                        td(width="").text-center.m-0 मागील
+                                        td(width="").text-center.m-0 चालू
+                                        td(width="").text-center.m-0 एकूण
+
+                                        td(width="").text-center.m-0 मागील
+                                        td(width="").text-center.m-0 चालू
+                                        td(width="").text-center.m-0 एकूण
+
+                                        td(width="").text-center.m-0 मागील
+                                        td(width="").text-center.m-0 चालू
+                                        td(width="").text-center.m-0 एकूण
+
+
+                                tbody#tbody-data
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 १)
+                                        td(width="").text-center.m-0 इमारत कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandBuildingLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandBuildingLast : 0}` name='totalDemandBuildingLast')
+
+
+                                            input(name="id" value=karVasuliAhaval.id hidden)
+                                            input(name="month" value=`${karVasuliAhaval.month}` hidden)
+                                            input(name="year" value=`${karVasuliAhaval.year}` hidden)
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandBuildingCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandBuildingCurrent : 0}` name='totalDemandBuildingCurrent')
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalDemandBuilding(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandBuilding : 0}` name='totalDemandBuilding')
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthRecoveryLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthRecoveryLast : 0}` name='lastMonthRecoveryLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthRecoveryCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthRecoveryCurrent : 0}` name='lastMonthRecoveryCurrent')
+                                        td(width="").text-center.m-0
+                                            input.form-control.lastMonthRecoveryTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthRecoveryTotal : 0}` name='lastMonthRecoveryTotal')
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthRecoveryLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthRecoveryLast : 0}` name='currentMonthRecoveryLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthRecoveryCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthRecoveryCurrent : 0}` name='currentMonthRecoveryCurrent')
+                                        td(width="").text-center.m-0
+                                            input.form-control.currentMonthRecoveryTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthRecoveryTotal : 0}` name='currentMonthRecoveryTotal')
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryRecoveryLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryRecoveryLast : 0}` name='totalRecoveryRecoveryLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryRecoveryCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryRecoveryCurrent : 0}` name='totalRecoveryRecoveryCurrent')
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRecoveryRecoveryTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryRecoveryTotal : 0}` name='totalRecoveryRecoveryTotal')
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainRecoveryLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainRecoveryLast : 0}` name='totalRemainRecoveryLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainRecoveryCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainRecoveryCurrent : 0}` name='totalRemainRecoveryCurrent')
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRemainRecoveryTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainRecoveryTotal : 0}` name='totalRemainRecoveryTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.buildingRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.buildingRecoveryPercentage : 0}`  name='buildingRecoveryPercentage')
+
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 २)
+                                        td(width="").text-center.m-0 दिवाबत्ती कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemanDivaLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalDemanDivaLast : 0}` name='totalDemanDivaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemanDivaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemanDivaCurrent : 0}` name='totalDemanDivaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandDiva(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandDiva : 0}` name='totalDemandDiva')
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthDivaLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthDivaLast : 0}` name='lastMonthDivaLast') 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthDivaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthDivaCurrent : 0}` name='lastMonthDivaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthDivaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthDivaTotal : 0}` name='lastMonthDivaTotal')
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthDivaLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthDivaLast : 0}` name='currentMonthDivaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthDivaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthDivaCurrent : 0}` name='currentMonthDivaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthDivaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthDivaTotal : 0}` name='currentMonthDivaTotal')
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryDivaLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryDivaLast : 0}` name='totalRecoveryDivaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryDivaCurrent(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryDivaCurrent : 0}` name='totalRecoveryDivaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryDivaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryDivaTotal : 0}` name='totalRecoveryDivaTotal')
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainDivaLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainDivaLast : 0}` name='totalRemainDivaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainDivaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainDivaCurrent : 0}` name='totalRemainDivaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainDivaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainDivaTotal : 0}` name='totalRemainDivaTotal')
+
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.divaRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.divaRecoveryPercentage : 0}` name='divaRecoveryPercentage')
+
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 ३)
+                                        td(width="").text-center.m-0 आरोग्य कर 
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandArogyaLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandArogyaLast : 0}` name='totalDemandArogyaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandArogyaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandArogyaCurrent : 0}` name='totalDemandArogyaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandArogya(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandArogya : 0}` name='totalDemandArogya')
+
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthArogyaLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthArogyaLast : 0}` name='lastMonthArogyaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthArogyaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthArogyaCurrent : 0}` name='lastMonthArogyaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthArogyaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthArogyaTotal : 0}` name='lastMonthArogyaTotal')
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthArogyaLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthArogyaLast : 0}` name='currentMonthArogyaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthArogyaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthArogyaCurrent : 0}` name='currentMonthArogyaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthArogyaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthArogyaTotal : 0}` name='currentMonthArogyaTotal')
+
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryArogyaLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryArogyaLast : 0}` name='totalRecoveryArogyaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryArogyaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryArogyaCurrent : 0}` name='totalRecoveryArogyaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryArogyaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryArogyaTotal : 0}` name='totalRecoveryArogyaTotal')
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainArogyaLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainArogyaLast : 0}` name='totalRemainArogyaLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainArogyaCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainArogyaCurrent : 0}` name='totalRemainArogyaCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainArogyaTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainArogyaTotal : 0}` name='totalRemainArogyaTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.arogyaRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.arogyaRecoveryPercentage : 0}` name='arogyaRecoveryPercentage')
+
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 ४)
+                                        td(width="").text-center.m-0 इतर कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandOtherLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandOtherLast : 0}` name='totalDemandOtherLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandOtherCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandOtherCurrent : 0}` name='totalDemandOtherCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandOther(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandOther : 0}` name='totalDemandOther')
+
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthOtherLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthOtherLast : 0}` name='lastMonthOtherLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthOtherCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthOtherCurrent : 0}` name='lastMonthOtherCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthOtherTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthOtherTotal : 0}` name='lastMonthOtherTotal')
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthOtherLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthOtherLast : 0}` name='currentMonthOtherLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthOtherCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthOtherCurrent : 0}` name='currentMonthOtherCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthOtherTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthOtherTotal : 0}` name='currentMonthOtherTotal')
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryOtherLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryOtherLast : 0}`  name='totalRecoveryOtherLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryOtherCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryOtherCurrent : 0}` name='totalRecoveryOtherCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryOtherTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryOtherTotal : 0}` name='totalRecoveryOtherTotal')
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainOtherLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainOtherLast : 0}` name='totalRemainOtherLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainOtherCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainOtherCurrent : 0}` name='totalRemainOtherCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainOtherTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainOtherTotal : 0}` name='totalRemainOtherTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.otherRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.otherRecoveryPercentage : 0}` name='otherRecoveryPercentage')
+
+                                    tr.p-0.m-0.font-weight-bold
+                                        td(width="").text-center.m-0 अ)
+                                        td(width="").text-center.m-0 एकूण कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalDemandLast(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandLast : 0}` name='totalDemandLast')
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalDemandCurrent(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandCurrent : 0}` name='totalDemandCurrent')
+
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalDemandAll(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandAll : 0}` name='totalDemandAll')
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.lastMonthTotalLast(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthTotalLast : 0}` name='lastMonthTotalLast')  
+                                        td(width="").text-center.m-0
+                                            input.form-control.lastMonthTotalCurrent(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthTotalCurrent : 0}` name='lastMonthTotalCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthAll(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthAll : 0}` name='lastMonthAll')
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.currentMonthTotalLast(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthTotalLast : 0}` name='currentMonthTotalLast')  
+                                        td(width="").text-center.m-0
+                                            input.form-control.currentMonthTotalCurrent(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthTotalCurrent : 0}` name='currentMonthTotalCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthAll(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthAll : 0}` name='currentMonthAll')
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRecoveryTotalLast(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryTotalLast : 0}` name='totalRecoveryTotalLast') 
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRecoveryTotalCurrent(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryTotalCurrent : 0}` name='totalRecoveryTotalCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryAll(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryAll : 0}` name='totalRecoveryAll')
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRemainTotalLast(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainTotalLast : 0}` name='totalRemainTotalLast') 
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRemainTotalCurrent(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainTotalCurrent : 0}` name='totalRemainTotalCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainAll(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainAll : 0}` name='totalRemainAll')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.aRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.aRecoveryPercentage : 0}` name='aRecoveryPercentage')
+
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 १)
+                                        td(width="").text-center.m-0 सामान्य पाणी कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandGeneralWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandGeneralWaterTaxLast : 0}`  name='totalDemandGeneralWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandGeneralWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandGeneralWaterTaxCurrent : 0}` name='totalDemandGeneralWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandGeneralTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandGeneralTotalWaterTax : 0}` name='totalDemandGeneralTotalWaterTax' readonly)
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthGeneralWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthGeneralWaterTaxLast : 0}`  name='lastMonthGeneralWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthGeneralWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthGeneralWaterTaxCurrent : 0}` name='lastMonthGeneralWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthGeneralTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthGeneralTotalWaterTax : 0}` name='lastMonthGeneralTotalWaterTax' readonly)
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthGeneralWaterTaxLast(type="text" value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthGeneralWaterTaxLast : 0}` name='currentMonthGeneralWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthGeneralWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthGeneralWaterTaxCurrent : 0}` name='currentMonthGeneralWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthGeneralTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthGeneralTotalWaterTax : 0}` name='currentMonthGeneralTotalWaterTax' readonly)
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryGeneralWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryGeneralWaterTaxLast : 0}` name='totalRecoveryGeneralWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryGeneralWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryGeneralWaterTaxCurrent : 0}` name='totalRecoveryGeneralWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryGeneralTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryGeneralTotalWaterTax : 0}` name='totalRecoveryGeneralTotalWaterTax' readonly)
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainGeneralWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainGeneralWaterTaxLast : 0}` name='totalRemainGeneralWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainGeneralWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainGeneralWaterTaxCurrent : 0}` name='totalRemainGeneralWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainGeneralTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainGeneralTotalWaterTax : 0}` name='totalRemainGeneralTotalWaterTax' readonly)
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.generalRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.generalRecoveryPercentage : 0}` name='generalRecoveryPercentage')
+
+                                    tr.p-0.m-0
+                                        td(width="").text-center.m-0 २)
+                                        td(width="").text-center.m-0 विशेष पाणी कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandSpecialWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandSpecialWaterTaxLast : 0}` name='totalDemandSpecialWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandSpecialWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandSpecialWaterTaxCurrent : 0}` name='totalDemandSpecialWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandSpecialTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandSpecialTotalWaterTax : 0}` name='totalDemandSpecialTotalWaterTax' readonly)
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthSpecialWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthSpecialWaterTaxLast : 0}` name='lastMonthSpecialWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthSpecialWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthSpecialWaterTaxCurrent : 0}` name='lastMonthSpecialWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthSpecialTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthSpecialTotalWaterTax : 0}` name='lastMonthSpecialTotalWaterTax' readonly)
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthSpecialWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthSpecialWaterTaxLast : 0}` name='currentMonthSpecialWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthSpecialWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthSpecialWaterTaxCurrent : 0}` name='currentMonthSpecialWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthSpecialTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthSpecialTotalWaterTax : 0}` name='currentMonthSpecialTotalWaterTax' readonly)
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoverySpecialWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoverySpecialWaterTaxLast : 0}` name='totalRecoverySpecialWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoverySpecialWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoverySpecialWaterTaxCurrent : 0}` name='totalRecoverySpecialWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoverySpecialTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoverySpecialTotalWaterTax : 0}` name='totalRecoverySpecialTotalWaterTax' readonly)
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainSpecialWaterTaxLast(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainSpecialWaterTaxLast : 0}` name='totalRemainSpecialWaterTaxLast')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainSpecialWaterTaxCurrent(type="text"  value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainSpecialWaterTaxCurrent : 0}` name='totalRemainSpecialWaterTaxCurrent')
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainSpecialTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainSpecialTotalWaterTax : 0}` name='totalRemainSpecialTotalWaterTax' readonly)
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.specialRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.specialRecoveryPercentage : 0}` name='specialRecoveryPercentage')
+
+                                    tr.p-0.m-0.font-weight-bold
+                                        td(width="").text-center.m-0 ब)
+                                        td(width="").text-center.m-0 एकूण पाणी कर
+
+                                        //- Demand (एकूण मागणी)
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalDemandLastTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandLastTotalWaterTax : 0}` name='totalDemandLastTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandCurrentTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandCurrentTotalWaterTax : 0}` name='totalDemandCurrentTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandWaterTaxAll(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandWaterTaxAll : 0}` name='totalDemandWaterTaxAll' readonly) 
+
+                                        //- मागील महिन्या पर्यंतची वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.lastMonthLastTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthLastTotalWaterTax : 0}` name='lastMonthLastTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthCurrentTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthCurrentTotalWaterTax : 0}` name='lastMonthCurrentTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthWaterTaxAll(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthWaterTaxAll : 0}` name='lastMonthWaterTaxAll' readonly) 
+
+                                        //- चालू महिन्यातील वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.currentMonthLastTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthLastTotalWaterTax : 0}` name='currentMonthLastTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthCurrentTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthCurrentTotalWaterTax : 0}` name='currentMonthCurrentTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthWaterTaxAll(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthWaterTaxAll : 0}` name='currentMonthWaterTaxAll' readonly) 
+
+                                        //- एकूण वसूली
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRecoveryLastTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryLastTotalWaterTax : 0}` name='totalRecoveryLastTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryCurrentTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryCurrentTotalWaterTax : 0}` name='totalRecoveryCurrentTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryWaterTaxAll(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryWaterTaxAll : 0}` name='totalRecoveryWaterTaxAll' readonly) 
+
+                                        //- बाकी
+                                        td(width="").text-center.m-0
+                                            input.form-control.totalRemainLastTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainLastTotalWaterTax : 0}` name='totalRemainLastTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainCurrentTotalWaterTax(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainCurrentTotalWaterTax : 0}` name='totalRemainCurrentTotalWaterTax' readonly) 
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainWaterTaxAll(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainWaterTaxAll : 0}` name='totalRemainWaterTaxAll' readonly) 
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.bRecoveryPercentage(type='text' value=`${karVasuliAhaval ? karVasuliAhaval.bRecoveryPercentage : 0}` name='bRecoveryPercentage')
+
+                                    tr.p-0.m-0.font-weight-bold
+                                        td(width="").text-center.m-0 
+                                        td(width="").text-center.m-0 एकूण (अ+ब )बेरीज
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandLastABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandLastABTotal : 0}` name='totalDemandLastABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandCurrentABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandCurrentABTotal : 0}` name='totalDemandCurrentABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalDemandAllAB(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalDemandAllAB : 0}` name='totalDemandAllAB')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthLastABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthLastABTotal : 0}` name='lastMonthLastABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthCurrentABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthCurrentABTotal : 0}` name='lastMonthCurrentABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.lastMonthAllAB(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.lastMonthAllAB : 0}` name='lastMonthAllAB')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthLastABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthLastABTotal : 0}` name='currentMonthLastABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthCurrentABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthCurrentABTotal : 0}` name='currentMonthCurrentABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.currentMonthAllAB(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.currentMonthAllAB : 0}` name='currentMonthAllAB')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryLastABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryLastABTotal : 0}` name='totalRecoveryLastABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryCurrentABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryCurrentABTotal : 0}` name='totalRecoveryCurrentABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRecoveryAllAB(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRecoveryAllAB : 0}` name='totalRecoveryAllAB')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainLastABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainLastABTotal : 0}` name='totalRemainLastABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainCurrentABTotal(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainCurrentABTotal : 0}` name='totalRemainCurrentABTotal')
+
+                                        td(width="").text-center.m-0 
+                                            input.form-control.totalRemainAllAB(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.totalRemainAllAB : 0}` name='totalRemainAllAB')
+
+                                        td(width="").text-center.m-0
+                                            input.form-control.abRecoveryPercentage(type='text' readonly value=`${karVasuliAhaval ? karVasuliAhaval.abRecoveryPercentage : 0}` name='abRecoveryPercentage')
+
+                        div.col-12
+                            button(type='button' id='updateAhawalBtn' class='btn btn-primary') जतन करा  
+

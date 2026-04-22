@@ -1,0 +1,246 @@
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //-- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //-mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+
+
+    style.
+        body{
+            
+            height:100vh;
+        }
+        #parentTable{
+            border-collapse: 'collapse';
+            border: 1px solid black;
+            width: 100%;
+
+        }
+        tr, td{
+            white-space: normal; /* Enable text wrapping */
+            //- background:  red;
+            word-wrap: break-word; 
+        }
+
+        #parentTable tr, 
+        #parentTable td{
+            border: 1px solid black;  
+            padding: 0.3rem;  
+            font-size: 0.8rem;
+        }
+
+        #childTable{
+            width: 100%;
+            border: none;
+        }
+
+        textarea:focus{
+            box-shadow: none;
+            border: none;
+            //- background-color: grey; 
+            resize: none;
+        }
+
+        label.error {
+            color: red;
+            font-size: 0.75rem;
+        }
+        label[data-required]::after {
+            content: " *"; /* Add asterisk */
+            color: red; /* Change color to red */
+            margin-left: 0.25em; /* Add some space before the asterisk */
+            font-weight: 500; /* Make the asterisk bold */
+        }
+        label:not([data-required])::after {
+            content: " (optional)"; /* Add (optional) text */
+            color: grey; /* Change color to grey */
+            margin-left: 0.25em; /* Add some space before the text */
+            font-weight: 300; /* Make the text lighter */
+            font-style: italic; /* Make the text italic */
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        tr, td, th {
+            border: 1px solid gray;
+            padding: 0.25rem 1rem;
+        }
+
+
+        @media print {
+            @page{
+                size: A4 landscape;
+            }
+            #form-sabha-show-form-btn {
+                display: none;
+            }
+            .banner-header{
+                display: none;
+                background: black;  
+            }
+            .banner-header{
+                display: none !important;
+            }
+        }
+
+
+
+    script.
+        const _gp = !{JSON.stringify(gp)}
+        //- console.log(JSON.parse(_gp.gp_member))
+        const _isEdit = !{JSON.stringify(isEdit)}
+        const _tharavDetails = _isEdit ? !{JSON.stringify((tharavDetails || {}))} : null;
+        //- console.log(JSON.parse(_tharavDetails.sabha_officer_name_post))
+    script(src='/asstest/coustom/js/handlers/tharav/masikSabhaTharavManager.js' )
+       
+body.w-100
+    include ../include/navs.pug
+
+        //- .text-end.mx-auto.my-3(style='width:89% !important') 
+        //-     button.btn.btn-primary#form-sabha-print-view-btn प्रिंट बघा
+        //-     button.btn.btn-primary#form-sabha-show-form-btn फॉर्म बघा
+
+    h1.text-center मासिक ठराव
+
+    .text-end 
+        a.btn.btn-primary.mr-4(href='/tharav/masikSabhaTharav') यादी 
+
+    form#masikSabhaTharavForm.mx-auto.mt-5(method='POST' style='width:85%')
+        .card
+            .card-header.bg-warning.fw-semibold ठरावाची माहिती
+            .card-body 
+                .row.gy-1.w-100.mx-auto
+                    .col-6.col-md-6.col-lg-2
+                        label.form-label(for="form-sabha-time" data-required) सभेची वेळ
+                        input.form-control#form-sabha-time(type="text" name='form_sabha_time' aria-describedby="emailHelp"  value=isEdit ? tharavDetails.sabha_time : '' required)
+                    .col-6.col-md-6.col-lg-2
+                        label.form-label(for="form-sabha-date" data-required) सभेची तारीख
+                        input.form-control.dateInput#form-sabha-date(type="text" name='form_sabha_date' placeholder='DD/MM/YYYY' length="10" value=isEdit ? tharavDetails.sabha_date : '' required)
+                    .col-6.col-md-6.col-lg-2
+                        label.form-label(for="form-sabha-from-year" data-required) वर्षापासून
+                        input.form-control#form-sabha-from-year(type="text" maxlength='4' name='form_sabha_from_year' aria-describedby="" placeholder='YYYY' length='4' value=isEdit ? tharavDetails.sabha_from_year : '' required)
+                    .col-6.col-md-6.col-lg-2
+                        label.form-label(for="form-sabha-to-year" data-required) वर्षापर्यंत
+                        input.form-control#form-sabha-to-year(type="text" maxlength='4' name='form_sabha_to_year' placeholder='YYYY' length="4" value=isEdit ? tharavDetails.sabha_to_year : '' required)
+
+                    .col-12.col-md-12.col-lg-4
+                        label.form-label(for="form-sabha-number" data-required) सभा क्र. 
+                        input.form-control#form-sabha-to-year(type="text" name='form_sabha_number' placeholder="सभा क्र."  value=isEdit ? tharavDetails.sabha_number : '' required)
+
+                    .col-lg-6
+                        label.form-label(for="form-sabha-subject" data-required) विषय
+                        input.form-control#form-sabha-subject(type="text" name="form_sabha_subject" value=isEdit ? tharavDetails.sabha_subject : '' required)
+                    .col-5.col-md-6.col-lg-3
+                        label.form-label(for="form-sabha-tharav-number" data-required) ठराव क्र.
+                        input.form-control#form-sabha-tharav-number(type="text" name="form_sabha_tharav_number" value=isEdit ? tharavDetails.sabha_tharav_number : "" required)
+                    .col-7.col-md-6.col-lg-3
+                        label.form-label(for="form-sabha-type" data-required) सभेचा प्रकार
+                        select.form-control#form-sabha-type(type="text" name="form_sabha_type"  required)
+                            if(isEdit)
+                                option(value=isEdit ? tharavDetails.sabha_type : "") #{tharavDetails.sabha_type}
+
+                            - const sabhaTypes = ['मासिक सभा','तहकूब मासिक सभा','ग्रामसभा','तहकूब ग्रामसभा','महिला सभा','तहकुभ महिला सभा','विशेष सभा']
+
+                            option.text-center(value='') -- निवडा --
+                            each sabha, index in sabhaTypes
+                                option(value=sabha data-sabhaType=index)= sabha
+
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-soochak" data-required) सूचक 
+                        input.form-control#form-sabha-soochak(type="text" name="form_sabha_soochak" value=isEdit ? tharavDetails.sabha_soochak : ""  required)
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-anumodak" data-required) अनुमोदक
+                        input.form-control#form-sabha-anumodak(type="text" name="form_sabha_anumodak" value=isEdit ? tharavDetails.sabha_anumodak : ""  required)
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-guests" data-required) सन्माननीय अधिकारी/ अतिथी (हुद्द्यासह)
+                        input.form-control#form-sabha-guests(type="text" name="form_sabha_guests" value=isEdit ? tharavDetails.sabha_guests : ""  required)
+                    .col-12.col-md-6  
+                        label.form-label(for="form-sabha-chairman") सभेचे अध्यक्ष मान्यवर
+                        input.form-control#form-sabha-chairman(type="text" name="form_sabha_chairman" value=isEdit ? tharavDetails.sabha_chairman : "")
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-officer-mobile") मोबाईल क्र
+                        input.form-control#form-sabha-officer-mobile(type="text" maxlength='10' name="form_sabha_officer_mobile" value=isEdit ? tharavDetails.sabha_officer_mobile : '') 
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-officer-email") ई-मेल आईडी
+                        input.form-control#form-sabha-officer-email(type="email" name="form_sabha_officer_email" style="resize:vertical" value=isEdit ? tharavDetails.sabha_officer_email : "")
+                    .col-12.col-md-6
+                        label.form-label(for="form-sabha-location" data-required) सभेचे स्थळ
+                        textarea.form-control#form-sabha-location(type="password" name="form_sabha_location"  required)
+                            | #{isEdit ? tharavDetails.sabha_location : ""}
+                    .col-12.col-md-6  
+                        label.form-label(for="form-sabha-subject-tharav" data-required) सभेपुढे विचाराकरीता आलेले विषय व ठराव
+                        textarea.form-control#form-sabha-subject-tharav(type="text" name="form_sabha_subject_tharav" style="resize:vertical"  required)
+                            | #{isEdit ? tharavDetails.sabha_subject_tharav : ""}
+                    .col-12.col-md-12  
+                        label.form-label(for="form-sabha-officer-name-post") ग्रामसभेत अधिकारी / कर्मचारी/ पदाधीकाराचे नावे व हुद्दा
+                        select.form-control#form-sabha-officer-name(type="text" name="form_sabha_officer_name_post" value=isEdit ? tharavDetails.sabha_officer_name : "" multiple)
+                            option( disabled ) --Select--
+                            - let gpMembers = JSON.parse(gp.gp_member)
+                            - let alreadySelectedMembers = isEdit && tharavDetails.sabha_officer_name_post != null ? JSON.parse(tharavDetails.sabha_officer_name_post) : []
+                            each entry, index in gpMembers 
+                                - let isSelected = isEdit && alreadySelectedMembers != null && alreadySelectedMembers.some(member => member.name === entry.name && member.post === entry.post)
+                                option(data-name=`${entry.name}` data-post=`${entry.p_name}` class='select-member-btn' id=`select-member-${index}-btn` selected=isSelected) #{entry.name} (#{entry.post})
+
+                    .col-12.col-md-8.col-lg-6
+                        label Selected Member List
+                        .table-responsive#selectedMemberList 
+                            
+
+                    .col-12
+
+                        //- label.form-label(for="form-sabha-officer-position") ग्रामसभेत अधिकारी / कर्मचारी/ पदाधीकाराचा हुद्दा
+                        //- input.form-control#form-sabha-officer-position(type="text" name="form_sabha_officer_position" value=isEdit ? tharavDetails.sabha_officer_post : "")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-name") वस्तीचे नाव
+                        //-     input.form-control#form-sabha-vasti-name(type="email" name="form_sabha_vasti_name" style="resize:vertical")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-population") वस्तीची लोकसंख्या
+                        //-     input.form-control#form-sabha-vasti-population(type="email" name="form_sabha_vasti_population" style="resize:vertical")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-urvarit-shillak-anudan") उर्वरित शिल्लक अनुदान
+                        //-     input.form-control#form-sabha-vasti-urvarit-shillak-anudan(type="email" name="form_sabha_vasti_urvarit_shillak_anudan" style="resize:vertical")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-year") वर्ष
+                        //-     input.form-control#form-sabha-vasti-year(type="email" name="form_sabha_vasti_year" style="resize:vertical")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-work-name") कामाचे नाव
+                        //-     input.form-control#form-sabha-vasti-work-name(type="email" name="form_sabha_vasti_work_name" style="resize:vertical")
+                        //- .col-6
+                        //-     label.form-label(for="form-sabha-vasti-amount") वर्ष
+                        //-     input.form-control#form-sabha-vasti-amount(type="email" name="form_sabha_vasti_amount" style="resize:vertical")
+                if(isEdit)
+                    button#update-sabha-details.btn.btn-success.mt-3.d-block.mx-auto(type="button"  data-updateId=tharavDetails.id) अपडेट करा
+                else
+                    button#submit-sabha-details.btn.btn-success.mt-3.d-block.mx-auto(type="button") जतन करा

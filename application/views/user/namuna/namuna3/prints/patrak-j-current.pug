@@ -1,0 +1,155 @@
+.my-print 
+
+    div
+        h4.text-center पत्रक जे चालू
+
+        p.text-center २ सार्वजनिक बांधकाम
+
+
+    div(style='padding : 1rem 0;')
+
+    table.w-full
+
+        thead 
+
+            tr 
+                th(rowspan='2' colspan='1') अनु.क्र 
+                th(rowspan='2' colspan='1') ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+                th(rowspan='2' colspan='1') वर्षारंभी अस्तित्व असलेली अतिक्रमणे
+                th(rowspan='2' colspan='1') वर्षामध्ये दृष्टिस पडलेली अतिक्रमणे 
+                th(rowspan='2' colspan='1') वर्षात काढून आकलेली अतिक्रमणे
+
+
+                th(rowspan='1' colspan='3') रस्त्यांची सुरू असलेले रस्ते
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') बांधांची संख्या
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') गटारांची लांबी यार्डात
+                //- th
+                //- th
+
+            tr 
+                //- th 
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') वर्षारंभी सुरू असलेली रस्ते
+                th(rowspan='1' colspan='1') वर्षात बांधलेले रस्ते
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेले रस्ते 
+
+
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेले बांध
+                th(rowspan='1' colspan='1') वर्षात नवीन बांधलेले बांध
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेले बांध
+
+                th(rowspan='1' colspan='1') वर्षारंभी बांधलेली गटारे
+                th(rowspan='1' colspan='1') वर्षात बांधलेली गटारे
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेली गटारे
+
+
+        tr 
+            each num in [1,2, 20, '21 अ', 21]
+                th #{num}
+
+            each num in [22, 23, 24, 25, 26, 27, 28, 29, 30]
+                th #{num}
+        tbody
+
+            tr 
+                td 1
+                td #{patrakJPublicInfra1.gram_panchayat_name} 
+
+                td #{patrakJPublicInfra1.encroachments_start_year} 
+                td #{patrakJPublicInfra1.encroachments_detected} 
+                td #{patrakJPublicInfra1.encroachments_removed} 
+
+                td #{patrakJPublicInfra1.roads_start_year_length} 
+                td #{patrakJPublicInfra1.roads_constructed_year_length} 
+                td #{patrakJPublicInfra1.roads_repaired_year_length} 
+
+                td #{patrakJPublicInfra1.dams_repaired_year_count} 
+                td #{patrakJPublicInfra1.dams_new_constructed_year_count} 
+                td #{patrakJPublicInfra1.dams_total_repaired_year_count} 
+
+                td #{patrakJPublicInfra1.sewers_existing_start_year_length} 
+                td #{patrakJPublicInfra1.sewers_built_this_year_length} 
+                td #{patrakJPublicInfra1.sewers_repaired_this_year_length} 
+
+
+    div(style='padding : 1rem 0;')
+        h4.text-center सार्वजनिक बांधकामे - चालू
+
+    table.w-full 
+        thead 
+
+            tr 
+                th(colspan='3') पुलांची संख्या
+                //- th
+                //- th
+
+                th(colspan='2') दिव्यांच्या खांबांची संख्या
+                //- th
+
+
+                th(colspan='2') झाडांची संख्या
+                //- th
+
+                th(colspan='3') धर्मशाळांची संख्या
+                //- th
+                //- th
+
+                th(colspan='3') स्नानासाठी कपडे धुण्यासाठी घाटाची संख्या
+                //- th
+                //- th
+
+
+            tr 
+                th वर्षारंभी असलेले पूल
+                th वर्षात बांधलेले पूल
+                th वर्षात दुरुस्त केलेले पूल
+
+                th वर्षारंभी असलेले खांब
+                th वर्षात बसवलेले ज्यादा दिवे
+
+                th वर्षारंभी असलेली झाडे
+                th वर्षात लावलेली व पोसलेली झाडे
+
+                th वर्षारंभी असलेल्या धर्मशाळा 
+                th वर्षात बांधलेल्या धर्मशाळा 
+                th वर्षात दुरुस्त केलेल्या धर्मशाळा
+
+                th वर्षारंभी असलेले घाट 
+                th वर्षात बांधलेले घाट 
+                th वर्षात दुरुस्त केलेले घाट
+
+
+            tr 
+                each num in [31,32,33,34,35,36,37,38,39,40,41,42,43]
+                    th #{num}
+
+
+        tbody 
+            tr 
+                td #{patrakJPublicInfra1.bridge_count_existing_at_start_of_year}
+                td #{patrakJPublicInfra1.bridge_count_built_this_year}
+                td #{patrakJPublicInfra1.bridge_count_repaired_this_year}
+
+                td #{patrakJPublicInfra1.pole_count_existing_at_start_of_year}
+                td #{patrakJPublicInfra1.pole_count_extra_lights_installed_this_year}
+
+                td #{patrakJPublicInfra1.trees_existing_at_start_of_year}
+                td #{patrakJPublicInfra1.trees_planted_and_nurtured_this_year}
+
+                td #{patrakJPublicInfra1.existing_religious_halls_at_year_start}
+                td #{patrakJPublicInfra1.constructed_religious_halls_in_year}
+                td #{patrakJPublicInfra1.repaired_religious_halls_in_year}
+
+                td #{patrakJPublicInfra1.existing_ghats_at_year_start}
+                td #{patrakJPublicInfra1.constructed_ghats_in_year}
+                td #{patrakJPublicInfra1.repaired_ghats_in_year} 

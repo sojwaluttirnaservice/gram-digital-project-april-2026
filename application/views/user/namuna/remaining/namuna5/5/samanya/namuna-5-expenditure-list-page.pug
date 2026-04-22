@@ -1,0 +1,57 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../../../../include/internal-gp-master-layout.pug 
+
+block content 
+
+    div.container-fluid.mt-4 
+
+        .row.justify-content-center
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-money-bill.me-2
+                                | नमुना ५ सामान्य खर्च यादी
+                                span(style="font-size: 0.9rem;") (एकूण: #{n5ExpenditureSamanyaList ? n5ExpenditureSamanyaList.length : 0})
+                        div.d-flex(style='gap:1rem;')
+                            a.btn.btn-secondary.btn-sm(href="/namuna/5/samanya/print")
+                                i.fa.fa-print.me-1
+                                | प्रिंट 
+                            a.btn.btn-primary.btn-sm(href="/namuna/5/samanya/form")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+
+            .col-11.mt-4
+                .table-responsive
+                    table.table.table-bordered.table-striped
+                        thead
+                            tr
+                                th अ. क्र.
+                                th दिनांक
+                                th व्हाउचर क्रमांक
+                                th पैसे घेणारा
+                                th मुख्य कारण
+                                th खर्चाचे उप कारण
+                                th लेखाशीर्षक
+                                th खर्च रक्कम
+                                th उपलब्ध शिल्लक
+                                th उर्वरित शिल्लक
+                                th चेक क्रमांक
+
+                        tbody
+                            each _entry, _index in n5ExpenditureSamanyaList 
+                                tr
+                                    td #{_index + 1}
+                                    td #{_entry._payment_date}
+                                    td #{_entry.voucher_number}
+                                    td #{_entry.payment_reciever}
+                                    td #{_entry.main_reason}
+                                    td #{_entry.reason_of_expenditure}
+                                    td #{_entry.ledger_title}
+                                    td.text-danger ₹ #{_entry.amount_spent}
+                                    td.text-primary ₹ #{_entry.available_account_balance}
+                                    td.text-success ₹ #{_entry.remaining_account_balance}
+                                    td #{_entry.check_no ? _entry.check_no : '-'}

@@ -1,0 +1,226 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २१ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='17' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना २१
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४ (२) (ग) (१), ४२(१),(३) व (४)(द) ६५ पहा)
+
+                            div 
+                                if fromYear && toYear
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                else if (month && year)
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                else if year 
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+
+                tr 
+                    th(colspan='17')
+                        | #{month} महिना #{year} ची ग्रामपंचायतीच्या कर्मचाऱ्यांच्या वेतन देयकाची नोंदवही
+                tr
+                    //- 1
+                    th(rowspan='2') नाव
+
+                    //- 2 to 5
+                    th(rowspan='2') पद
+                    th(rowspan='2') वेतनश्रेणी किंवा विशेष वेतन 
+                    th(rowspan='2') वेतन
+                    th(rowspan='2') रजा वेतन
+
+                    //- 6 to 11
+                    th(rowspan='2') स्थानापत्र वेतन
+                    th(rowspan='2') भत्ते
+                    th(rowspan='2') स्तंभ ४ व ७ ची बेरीज
+                    th(rowspan='2') पुढील अधिदानासाठी ठेवलेली रक्कम
+                    th(rowspan='2') वसुली व दंड
+                    th(rowspan='2') स्तंभ ८ मधून स्तंभ ९ ची बेरीज वजा केल्यावर उरलेली शिल्लक 
+
+                    //- Combined column of column from 12 to 14
+                    th(rowspan='1' colspan='3') वजती
+
+                    //- Column named 15 to 16
+                    th(rowspan='2') स्तंभ ११ मधून स्तंभ १२ वजा केल्यानंतर द्यावायची निव्वळ रक्कम
+                    th(rowspan='2') शेरा 
+                    th(rowspan='2') सही
+
+
+
+                tr 
+                    //- th
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    th(rowspan='1' colspan='1') भविष्यनिर्वाह निधीचा अंशदान
+                    th(rowspan='1' colspan='1') इतर वजाती
+                    th(rowspan='1' colspan='1') एकूण वजाती स्तंभ १२ व १३ यांची बेरीज
+
+
+                    //- th
+                    //- th
+                    //- th 
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
+                        th #{num}
+
+            tbody
+
+                each namuna21Entry, index in namuna21Details 
+                    //- each namuna21Entry, index in Array(20).fill(paymentnamuna21Entry).flat()
+                    tr 
+
+                        td #{namuna21Entry.employee_name}
+                        td #{namuna21Entry.employee_post}
+                        td #{namuna21Entry.pay_grade}
+                        td #{namuna21Entry.salary}
+
+                        td #{namuna21Entry.leave_salary}
+                        td #{namuna21Entry.placement_salary}
+                        td #{namuna21Entry.allowances}
+                        //- Addition fo column 4 ie. salary + 5 ie. allowances
+                        - let column4And5Sum = (+namuna21Entry.salary || 0) + (+namuna21Entry.allowances || 0);
+                        - let column8 = column4And5Sum
+                        td #{column8}
+
+                        td #{namuna21Entry.future_contribution_reserved}
+                        td #{namuna21Entry.collections_and_penalties}
+                        //- column 11 = col 8 - col 9
+                        - let column8Substract9 = (+column8 || 0) - (+namuna21Entry.future_contribution_reserved || 0);
+                        - let column11 = column8Substract9
+                        td #{column11}
+                        //- COL 12
+                        td
+                            div 
+                                span #{namuna21Entry.state_pf_contribution} : शासन
+                                br
+                                span #{namuna21Entry.gp_pf_contribution} : ग्रा. पं.
+                        //- COL 13
+                        td
+                            div
+                                span #{namuna21Entry.state_other_deductions} : शासन
+                                br
+                                span #{namuna21Entry.gp_other_deductions} : ग्रा. पं.
+
+                        //- col14
+                        -let column12And13Sum = (+namuna21Entry.state_pf_contribution || 0) + (+namuna21Entry.gp_pf_contribution || 0) + (+namuna21Entry.state_other_deductions || 0) + (+namuna21Entry.gp_other_deductions || 0);
+                        - let column14 = column12And13Sum
+                        td #{column14}
+
+                        //- Col 15
+                        td
+                            div
+                                span #{+column11 - +namuna21Entry.state_pf_contribution} : शासन
+                                br
+                                span #{+column11 - +namuna21Entry.gp_pf_contribution} : ग्रा. पं.
+
+
+                        td #{namuna21Entry.remarks}
+                        td 
+
+        //- div(style='margin-top: 1rem; font-weight: 600; margin: 1rem;')
+            div असे प्रमाणित करण्यात येते की,
+            div १) वेतनश्रेणी नोंदवहीत नोंद केलेल्या मंजूर वेतनश्रेणी देयक पडताळून पहिले आहे 
+            div २) पंधरा रुपयाहून अधिक नाही इतक्या पगारावर लावलेल्या व्यक्तीचे पगार या देयकात काढले आहेत व त्या सर्व व्यक्ती या कामावर लावल्या होत्या
+
+            div(style='magin-top: 1rem;') 
+                div दिनांक : 
+                div वेतन रुपये
+                div तपासणी केली व बरोबर असल्याचे आढळून आले 
+
+
+
+                div(style='display: flex; justify-content: space-between; align-items: end;')
+
+                    div 
+                        | सचिव
+
+                    div 
+                        p सरपंच
+                        P ग्रामपंचायत

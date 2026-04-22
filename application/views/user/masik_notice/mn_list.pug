@@ -1,0 +1,129 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    //mask plugin jquery    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    script.
+        let _notice;
+
+    script(src='/asstest/coustom/js/handlers/masik-notice-manager.js')
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+
+        @media (max-width: 768px){
+            thead tr th {
+                font-size: 0.8rem !important;
+            }
+            td {
+                font-size: 0.8rem !important;
+            }
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 50%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .modal#printSabhaTypeModal(tabindex='-1' role='dialog')
+        .modal-dialog.modal-dialog-centered(role='document' style="width:90% !important; max-width:40rem; margin-inline:auto; ")
+            .modal-content
+                .modal-header
+                    h5.modal-title सभा नोटीस प्रिंट 
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body
+                    div.d-flex.flex-wrap.sabhaPrintTypes
+
+
+    .container-fluid
+        .row.justify-content-center
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    i.fa.fa-file-zip-o
+                    | &nbsp;&nbsp;मासिक नोटीस यादी
+                div.d-inline-block.float-right.mb-2
+                    a(href="/masik-notice/new").btn.btn-success.btn-sm.ml-2 नवीन जोडा
+            .col-12.col-md-11
+                .table-responsive
+                    table.table.table-bordered.text-center
+                        thead
+                            tr.bg-primary.text-white
+                                th(width="3%") क्र
+                                th(width='25%') सभा नाव
+                                th(width="15%") दिनांक
+                                th(width="13%") वेळ
+                                th(width="10%") प्रिंट 
+                                th(width="10%") डिलीट
+                                th(width="10%") एडिट 
+                                th(width="10%") सेंड मेसेज 
+                        tbody#marriageList
+                            if (masikSabhaNotices.length == 0)
+                                tr.m-0.p-0
+                                    td(colspan="15").text-center.text-danger अर्ज यादी रिकामी आहे
+                            else
+                                each masikSabhaNotice,index in masikSabhaNotices
+                                    tr
+                                        td #{index+1}
+                                        td #{masikSabhaNotice.notice_name} (#{masikSabhaNotice.notice_number === 0 ? '-' : masikSabhaNotice.notice_number})
+                                        td #{masikSabhaNotice.notice_date}
+                                        td #{masikSabhaNotice.notice_time}
+                                        td
+                                            button.btn.fa.fa-print.text-primary.hand.printNotice(data-id = masikSabhaNotice.id)
+                                        td 
+                                            button.btn.i.fa.fa-trash.text-danger.hand.deleteNotice(data-masikSabhaNoticeId= masikSabhaNotice.id)
+                                        td 
+                                            a.btn.text-secondary(href=`/masik-notice/edit-masik-notice-page/${masikSabhaNotice.id}`)
+                                                i.fa.fa-edit
+                                        th 
+                                            button.btn.i.fa.fa-envelope.sendMessageBtn(data-masikSabhaNoticeId=masikSabhaNotice.id data-masikSabhaNotice=JSON.stringify(masikSabhaNotice))
+
+
+        script.
+            $(function(){
+                newMasikList = !{json_list};
+                gp = '#{gp.gp_name}';
+            })

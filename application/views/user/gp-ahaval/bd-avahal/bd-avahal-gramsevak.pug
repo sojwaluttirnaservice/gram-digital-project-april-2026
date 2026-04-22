@@ -1,0 +1,256 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title जन्म-मृत्यू अल ग्रामपंचायत अधिकारी
+        link(rel="stylesheet" href="/asstest/coustom/css/bd-avahal-gramsevak.css")
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN", crossorigin="anonymous")
+        //- CUSTOM CSS
+        link(href='/asstest/coustom/css/bd-avahal-gramsevak.css' rel='stylesheet')
+
+        //- JS FILES
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js", integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL", crossorigin="anonymous")
+
+
+        script(src='/asstest/coustom/js/handlers/bdAhavalManager.js')
+        style.
+            body{
+                
+                height:100vh;
+            }
+
+            label.error{
+                color: red;
+                font-size: 0.6rem;
+            }
+
+            .heading-1 {
+                font-weight: bold !important;
+                font-size: 1.4rem;
+                text-align: center;
+                color: #bb2525;
+                border-radius: 15px;
+                border: 2px solid #bb2525;
+                display: inline-block;
+                padding: 8px;
+                margin-bottom: 1.4rem;
+            }
+
+        
+
+    body#body
+        include ../../include/navs.pug
+        //- #bdAvahalGramsevakContainer
+        if data !== undefined && !data 
+            p.text-center.mt-5.fw-bold.fs-3.text-danger माहिती उपलब्ध नाही
+        else 
+            div
+                form#BDAvahalForm
+                    #formHeading 
+                        h1.heading-1 मासिक अहवाल 
+                            span(style='font-size:1rem !important') (नमुना क्रमांक. ११, १२ व १३)
+                    .row.align-items-center.justify-content-center
+                        .col-8.mt-3
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    |माहिती
+                                .card-body
+                                    .row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='bd-avahal-month') अहवाल माहे : 
+                                            input.form-control(type="text" name='bd-avahal-month' id='bd-avahal-month' value='' readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='bd-avahal-year') वर्ष : 
+                                            input.form-control(type="text" name='bd-avahal-year' id='bd-avahal-year' value='' readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='district_name') जिल्हा : 
+                                            input.form-control.form-control(type="text" name='district_name' id='district_name' value=isEdit ? data.district_name : gp.gp_dist)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='village_name') शहर/गाव :
+                                            input.form-control.form-control(type="text" name='village_name' id='village_name' value=isEdit ? data.village_name : gp.gp_name)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='registration_center_name') नोंदणी केंद्राचे नाव :
+                                            input.form-control(type="text" name='registration_center_name' id='registration_center_name' value=isEdit ? data.registration_center_name : '')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='census_code_number') जनगणना सांकेतांक क्रमांक :
+                                            input.form-control(type="text" name='census_code_number' id='census_code_number' value=isEdit ? data.census_code_number : '') 
+
+
+                        .col-8
+                            h4.mt-5 नमुना क्रमांक - ११ : जन्माचा संकलित अहवाल
+
+                        .col-8
+                            table#birthTable
+                                tr 
+                                    th(width="55%") महिन्यात नोंदविण्यात आलेले जिवंत जन्म
+                                    th(width="15%") पुरुष 
+                                    th(width="15%") स्त्री
+                                    th(width="15%") एकूण 
+
+                                tr 
+                                    td ( अ ) घटना घडल्यापासून एक वर्षाचे आत नोंदविलेले
+                                    td
+                                        input.number-input(type='text' name='birth_live_birth_recorded_in_a_year_male' id='birth_live_birth_recorded_in_a_year_male' value=isEdit ? data.birth_live_birth_recorded_in_a_year_male : '') 
+                                    td
+                                        input.number-input(type='text' name='birth_live_birth_recorded_in_a_year_female' id='birth_live_birth_recorded_in_a_year_female' value=isEdit ? data.birth_live_birth_recorded_in_a_year_female : '') 
+                                    td
+                                        input.number-input(type='text' name='birth_live_birth_recorded_in_a_year_total' id='birth_live_birth_recorded_in_a_year_total' value=isEdit ? data.birth_live_birth_recorded_in_a_year_total : '') 
+
+                                tr 
+                                    td ( ब ) घटना घडल्यापासून एक वर्षाचे नंतर नोंदविलेले
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_after_a_year_male' id='birth_live_birth_recorded_after_a_year_male' value=isEdit ? data.birth_live_birth_recorded_after_a_year_male : '')
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_after_a_year_female' id='birth_live_birth_recorded_after_a_year_female' value=isEdit ? data.birth_live_birth_recorded_after_a_year_female : '')
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_after_a_year_total' id='birth_live_birth_recorded_after_a_year_total' value=isEdit ? data.birth_live_birth_recorded_after_a_year_total : '')
+
+                                tr 
+                                    td एकूण (अ + ब)
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_total_male' id='birth_live_birth_recorded_total_male' value=isEdit ? data.birth_live_birth_recorded_total_male : '')
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_total_female' id='birth_live_birth_recorded_total_female' value=isEdit ? data.birth_live_birth_recorded_total_female : '')
+                                    td 
+                                        input.number-input(type='text' name='birth_live_birth_recorded_total_total' id='birth_live_birth_recorded_total_total' value=isEdit ? data.birth_live_birth_recorded_total_total : '')
+
+                        .col-12
+                            h4.mt-5 नमुना क्रमांक - १२ : मृत्यूचा संकलित अहवाल 
+
+                            .text-center महिन्यात नोंदविण्यातनो आलेल्या मृत्यूचे विवरण
+                        .col-11
+                            table#deathTable
+                                tr 
+                                    th(colspan="4" width="24%") घटना घडल्यापासून एक वर्षाचे आत नोंदविलेले
+                                    th(colspan="4" width="24%") घटना घडल्यापासून एक वर्षाचे नंतर नोंदविलेले
+                                    th(colspan="4" width="24%") एकूण
+                                    th(colspan="4" width="24%") एकूण मृत्यूंपैकी अर्भक मृत्यू(वयाचे एक वर्ष पूर्ण होण्याचे आधी झालेले मृत्यू)
+                                    th माता मृत्यू
+
+                                tr 
+                                    td(colspan="4") (१)
+                                    td(colspan="4") (२)
+                                    td(colspan="4") (३ = १ + २)
+                                    td(colspan="4") (४)
+                                    td (५)
+
+                                tr 
+                                    td पुरुष
+                                    td स्त्री
+                                    td तृ
+                                    td एकूण
+                                    td पुरुष
+                                    td स्त्री
+                                    td तृ
+                                    td एकूण
+                                    td पुरुष
+                                    td स्त्री
+                                    td तृ
+                                    td एकूण
+                                    td पुरुष
+                                    td स्त्री
+                                    td तृ
+                                    td एकूण
+                                    td
+
+
+                                tr 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_in_a_year_male' id='death_recorded_in_a_year_male' value=isEdit ? data.death_recorded_in_a_year_male : '')  
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_in_a_year_female' id='death_recorded_in_a_year_female' value=isEdit ? data.death_recorded_in_a_year_female : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_in_a_year_other' id='death_recorded_in_a_year_other' value=isEdit ? data.death_recorded_in_a_year_other : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_in_a_year_total' id='death_recorded_in_a_year_total' value=isEdit ? data.death_recorded_in_a_year_total : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_after_a_year_male' id='death_recorded_after_a_year_male' value=isEdit ? data.death_recorded_after_a_year_male : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_after_a_year_female' id='death_recorded_after_a_year_female' value=isEdit ? data.death_recorded_after_a_year_female : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_after_a_year_other' id='death_recorded_after_a_year_other' value=isEdit ? data.death_recorded_after_a_year_other : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_after_a_year_total' id='death_recorded_after_a_year_total' value=isEdit ? data.death_recorded_after_a_year_total : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_total_male' id='death_recorded_total_male' value=isEdit ? data.death_recorded_total_male : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_total_female' id='death_recorded_total_female' value=isEdit ? data.death_recorded_total_female : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_total_other' id='death_recorded_total_other' value=isEdit ? data.death_recorded_total_other : '') 
+                                    td 
+                                        input.number-input(type='text' name='death_recorded_total_total' id='death_recorded_total_total' value=isEdit ? data.death_recorded_total_total : '') 
+                                    td 
+                                        input.number-input(type='text' name='infant_mortality_count_out_of_total_deaths_male' id='infant_mortality_count_out_of_total_deaths_male' value=isEdit ? data.infant_mortality_count_out_of_total_deaths_male : '') 
+                                    td 
+                                        input.number-input(type='text' name='infant_mortality_count_out_of_total_deaths_female' id='infant_mortality_count_out_of_total_deaths_female' value=isEdit ? data.infant_mortality_count_out_of_total_deaths_female : '') 
+                                    td 
+                                        input.number-input(type='text' name='infant_mortality_count_out_of_total_deaths_other' id='infant_mortality_count_out_of_total_deaths_other' value=isEdit ? data.infant_mortality_count_out_of_total_deaths_other : '') 
+                                    td 
+                                        input.number-input(type='text' name='infant_mortality_count_out_of_total_deaths_total' id='infant_mortality_count_out_of_total_deaths_total' value=isEdit ? data.infant_mortality_count_out_of_total_deaths_total : '') 
+                                    td 
+                                        input.number-input(type='text' name='mother_death_count' id='mother_death_count' value=isEdit ? data.mother_death_count : '') 
+
+                            p.mt-2 टीप : १. अर्भक मृत्यू व माता मृत्यू हे एकूण मृत्यूमध्ये समाविष्ट असावेत, २. तृ - तृतीयपंथी
+
+                        .col-12
+                            h4.mt-5 नमुना क्रमांक - १३ : मृत जन्म (उपजत मृत्यू) चा संकलित अहवाल
+                        .col-11
+                            table#stillbirth
+                                tr 
+                                    td(width="52%") महिन्यात नोंदविलेले मृत जन्म (उपजत मूत्यू)
+                                    td पुरुष
+                                    td(width="8%") 
+                                        input.number-input(type="text" name='fetal_death_count_male' id='fetal_death_count_male' value=isEdit ? data.fetal_death_count_male : '')
+                                    td स्त्री
+                                    td(width="8%") 
+                                        input.number-input(type="text" name='fetal_death_count_female' id='fetal_death_count_female' value=isEdit ? data.fetal_death_count_female : '')
+                                    td एकूण
+                                    td(width="8%") 
+                                        input.number-input(type="text" name='fetal_death_count_total' id='fetal_death_count_total' value=isEdit ? data.fetal_death_count_total : '')
+
+
+                        .col-11
+                            div#signAndStamp
+                                p निबंधकाचे नाव/सही
+                                p शिक्का
+
+                            //- p दिनांक : 
+                            //-     input.form-control.datepicker(type="text" name='date' id='date')
+                            .form-group.col-2
+                                label.font-weight-bold(for='date')  दिनांक : 
+                                input.form-control.datepicker(type="text" name='date' id='date' placeholder='DD/MM/YYYY' value=isEdit ? data._date : '')
+
+                            p प्रत सादर : 
+                            p जिल्हा निबंधक/गट विकास अधिकारी/ पंचायत समिती : 
+                                span ..............................................
+
+                            div.text-center 
+
+                                if(isEdit)
+                                    button.my-2.btn.btn-success.fw-bold#updateBDAvahalBtn(type='button' data-bdAvahalId=data.id data-month=data.month data-year=data.year) 
+                                        i.fa.fa-save 
+                                        | &nbsp; अपडेट करा
+                                else
+                                    button.my-2.btn.btn-primary.fw-bold#saveBDAvahalBtn(type='button') 
+                                        i.fa.fa-save 
+                                        | &nbsp; जतन करा

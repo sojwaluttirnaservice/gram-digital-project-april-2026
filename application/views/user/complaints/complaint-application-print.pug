@@ -1,0 +1,106 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        title Complaint Print
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+        style.
+            body { margin:0; background:#f3f4f6; }
+            .print-font { font-family:"Tiro Devanagari Marathi", serif; }
+            .screen-center { display:flex; justify-content:center; padding:16px; }
+
+            @media print {
+                @page { size:A4; margin:15mm; }
+                body { background:white; }
+                .screen-center { padding:0; display:block; }
+            }
+
+    body(class='print-font')
+        div(class='screen-center')
+
+            #pdfPage(class='relative bg-white box-border border-2 border-gray-800 overflow-hidden' style='width:210mm; height:297mm;')
+                
+                // Watermark
+                div(class='absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none')
+                    img(src='/img/water-mark-images/Seal_of_Maharashtra.png' class='w-[60%]')
+
+                // Page content
+                div(class='relative z-10 h-full px-8 py-6 text-[14px] leading-tight flex flex-col')
+                    
+                    // Header
+                    div(class='text-center border-b-2 border-gray-800 pb-3 mb-4')
+                        h1(class='text-[26px] font-extrabold tracking-wide')
+                            | तक्रार नोंदणी अर्ज
+                        p(class='font-bold mt-1')
+                            | ग्रामपंचायत #{gp.gp_name}, पंचायत समिती #{gp.gp_taluka}, जिल्हा #{gp.gp_dist}
+
+                    // Meta
+                    div(class='flex justify-between font-bold mb-4')
+                        p प्रति,
+                        p दिनांक : #{complaint.createdAt ? complaint.createdAt.toLocaleDateString() : ''}
+
+                    // Applicant Details
+                    div(class='space-y-1 mb-3 font-bold')
+                        p
+                            span(class='font-extrabold') १) अर्जदाराचे नाव :
+                            span(class='ml-2') #{complaint.formName}
+                        p
+                            span(class='font-extrabold') २) मोबाईल क्रमांक :
+                            span(class='ml-2') #{complaint.formMobile}
+                        p
+                            span(class='font-extrabold') ३) ई-मेल :
+                            span(class='ml-2') #{complaint.formEmail}
+                        p
+                            span(class='font-extrabold') ४) आधार क्रमांक :
+                            span(class='ml-2') #{complaint.formAadhar}
+                        p
+                            span(class='font-extrabold') ५) संपूर्ण पत्ता :
+                            span(class='ml-2') #{complaint.formAddress}
+
+                    // Complaint Subject
+                    div(class='mb-3')
+                        p
+                            span(class='font-extrabold') ६) तक्रारीचा विषय :
+                            span(class='ml-2') #{complaint.complaintSubject}
+
+                    // Complaint Image
+                    div(class='mt-3')
+                        p
+                            span(class='font-extrabold') ७) तक्रारीस संबंधित फोटो :
+                            span(class='ml-2 font-bold')
+                                | #{complaint.complaintImageUrl ? 'जोडलेले' : 'नाही'}
+
+                        if complaint.complaintImageUrl
+                            div(class='mt-2 border border-gray-700 p-2 w-fit max-w-[200px]')
+                                img(
+                                    src=`/uploads/images/complaints/${complaint.complaintImageUrl}`
+                                    class='max-w-[180px] max-h-[110px] object-contain'
+                                )
+
+                    // Complaint Document (PDF)
+                    div(class='mt-3')
+                        p
+                            span(class='font-extrabold') ८) तक्रारीसाठी दस्तऐवज :
+                            span(class='ml-2 font-bold')
+                                | #{complaint.complaintDocUrl ? 'जोडलेले' : 'नाही'}
+
+                    // Request (bottom)
+                    div(class='font-bold mt-auto')
+                        | वरील तक्रारीची नियमाप्रमाणे तपासणी करून योग्य ती कार्यवाही करण्यात यावी,
+                        | ही नम्र विनंती.
+
+                    // Signature
+                    div(class='flex justify-between mt-10 font-bold')
+                        p दिनांक :
+                        div(class='text-right')
+                            p अर्जदाराची सही
+                            p(class='mt-2 font-extrabold') #{complaint.formName}
+
+        block internal_js
+            script.
+                document.addEventListener('DOMContentLoaded', function () {
+                    window.print();
+                });

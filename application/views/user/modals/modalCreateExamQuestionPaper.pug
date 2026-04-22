@@ -1,0 +1,106 @@
+.examEditMode
+        #modalManageQuestion.modal.p-0.m-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+          .modal-dialog.p-0.m-0(role='document')
+            .modal-content.p-0.m-0
+              .modal-header
+                .d-inline-block#navModalTab.navModalTab.nav.align-content-center(role='tablist')
+                  button#mainQuestionActionTab.btn.mr-2.btn-sm.btn-primary.active(data-toggle='tab', href='#mainQuestionAction', role='tab', aria-controls='mainQuestionAction', aria-selected='true')
+                    | Manage Question
+                  button#mainViewQuestionPaperTab.btn.btn-primary.mr-2.btn-sm( href='#mainViewQuestionPaper', role='tab', aria-controls='mainViewQuestionPaper', aria-selected='true')
+                    | View Paper
+                button.saveQuestionPaper.btn.btn-danger.btn-sm(type='button')
+                  span(aria-hidden='true')
+                    i.fa.fa-sign-out(aria-hidden='true')
+                    |  Save & Exit
+              .modal-body#loadMathjsx
+                #nav-tabContentModal.tab-content
+                  #mainViewQuestionPaper.tab-pane.fade(role='tabpanel', aria-labelledby='mainViewQuestionPaperTab')
+                    .row#finalPaperTable(style="height:83vh;overflow-y:scroll")
+                      .col-12
+                        form.ml-3
+                          .form-group.d-inline-block.col-2.m-0.p-0.mr-1.input-group-sm
+                            select#tempIdMasterList.form-control(name='', data-avoidaddnew='true')
+                          .form-group.d-inline-block.col-2.m-0.p-0.mr-1.input-group-sm
+                            select#tempIdExamSubjectList.form-control(name='', data-avoidaddnew='true')
+                          .form-group.d-inline-block.col-2.m-0.p-0.mr-1.input-group-sm
+                            select#tempIdSectionList.form-control(name='', data-avoidaddnew='true')
+                          .form-group.d-inline-block.col-2.m-0.p-0.mr-1.input-group-sm
+                            select#tempIdQuestionList.form-control(name='', data-avoidaddnew='true')
+                      .col-12
+                        table.table.table-bordered.finalQuestionTable.mt-2
+                          thead
+                            tr
+                              th(colspan="3").h5.font-weight-bold.p-0.p-1.text-center
+                                span.float-right.text-success.totalFinalList 0  Added Question 
+                          tbody
+                            tr
+                              td(width="2%").p-0.text-center
+                                | 1)
+                              td(width="96%").p-0
+                                .p-2(data-index='0', data-q='8229')
+                                  span.question.d-block
+                                    span.questionText.d-inline-block
+                                      p
+                                        | Sasdasd asda sd a sd asd sapple sample Sample  dsfsdf sd f sd fs df sd f sd f  cffghgh asd asdas asdasd
+                                  span.questionOptionView.d-block.ml-1.mt-3
+                                    .questionOption.mt-2
+                                      span.optionRadio.opActive A
+                                      span.optionText
+                                        p ewrwr324asd a ds
+                                    .questionOption.mt-2
+                                      span.optionRadio B
+                                      span.optionText
+                                        p werwerasfsfds
+                                    .questionOption.mt-2
+                                      span.optionRadio C
+                                      span.optionText
+                                        p 234sdfsd 
+                                    .questionOption.mt-2
+                                      span.optionRadio D
+                                      span.optionText
+                                        p werwesdfsdf
+                              td
+                                span.text-primary.m-1.hand.editQuestion(data-q='0')
+                                  i.fa.fa-pencil(aria-hidden='true')
+                                span.text-danger.m-1.hand.deleteQuestion(data-q='8229', data-index='0')
+                                  i.fa.fa-trash(aria-hidden='true')
+
+                  #mainQuestionAction.tab-pane.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='mainQuestionActionTab')
+                    .row
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') *Master Pattern
+                        select.form-control(name='', id='idMasterList',data-avoidaddnew="true")
+                          option(value= "0") -----Select-----
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') *Subject
+                        select.form-control(name='', id='idExamSubjectList',data-avoidaddnew="true")
+                          option(value= "0") -----Select-----
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') *Section
+                        select.form-control(name='', id='idSectionList',data-avoidaddnew="true")
+                          option(value= "0") -----Select-----
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') Question Type
+                        select.form-control(name='', id='idQuestionList',data-avoidaddnew="true")
+                          option(value= "0") -----Select-----
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') Q Fillter
+                        button.ml-1.btn.btn-danger.btn-sm#getExamOrgTempQuestionList ORG
+                        input.form-control(name='', id='idQuestionNumberFiller',data-avoidaddnew="true")
+                      .form-group.col-2
+                        label.text-muted.font-weight-bold(for='') Get Question
+                        button.btn.btn-primary.btn-sm.d-block#getExamTempQuestionList Apply
+                    .row
+                      .col-12.p-0.m-0
+                        table.table.table-bordered.question-table.d-none.p-0.m-0
+                          thead
+                            tr
+                              th.h5.font-weight-bold.p-0.p-1.text-center
+                                span.text-success.float-left.selectedFromList 0 Selected From This List
+                                span.text-primary.totalFoundInList.ml-2.mr-2 0 Questions Found
+                                input#selectAllQuestion(data-size='sm',data-width='100',data-height='5', type='checkbox', data-toggle='toggle', data-on='All', data-off='Selected', data-onstyle='success', data-offstyle='danger')
+                                span.float-right.text-success.totalFinalList 0 Total Added
+                    .row(style="height:68vh;overflow-y:scroll")
+                      .col-12.p-0.m-0
+                        table.makeTableHide.table.table-bordered.question-table.d-none.p-0.m-0
+                          tbody.tbody

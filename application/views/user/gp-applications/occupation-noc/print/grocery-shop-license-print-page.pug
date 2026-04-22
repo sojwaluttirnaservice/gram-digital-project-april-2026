@@ -1,0 +1,44 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार नाव : 
+            span(class="font-extrabold")
+                | #{occupationNoc.applicant_name}
+            |  , वय : #{occupationNoc.age} , व्यवसाय : 
+            span(class="font-extrabold")
+                | #{occupationNoc.business_type}
+            |  रा. 
+            span(class="font-extrabold")
+                | #{occupationNoc.applicant_address}
+            |  माझा ग्रामपंचायत 
+            span(class="font-extrabold") #{gp.gp_name}
+            |  हद्दीतील घर नं. / दुकान नं. 
+            span(class="font-extrabold")
+                | #{occupationNoc.malmatta_no || '_____'}
+            |  गट नं. / सर्व्हे नं. 
+            span(class="font-extrabold")
+                | #{occupationNoc.survey_no || '_____'}
+            |  या ठिकाणी किराणा दुकान सुरू करण्याचा मानस आहे.
+
+        p(class="mt-3")
+            | सदर दुकानामध्ये 
+            span(class="font-extrabold")
+                | #{occupationNoc.business_description || 'किराणा माल, दैनंदिन वापराच्या वस्तू'}
+            |  विक्री केली जाणार आहे. या व्यवसायामुळे सार्वजनिक आरोग्य, वाहतूक किंवा शेजारील नागरिकांना कोणताही त्रास होणार नाही, याची मी पूर्ण काळजी घेईन.
+
+        p(class="mt-3")
+            | मी ग्रामपंचायतीचे सर्व नियम, अटी व शर्ती पाळण्याची हमी देतो. 
+            | तरी मला वरील किराणा दुकान व्यवसायासाठी ग्रामपंचायत व्यवसाय परवाना मंजूर करण्यात यावा, ही नम्र विनंती.
+
+        p(class="mt-3")
+            | अर्जासोबत आवश्यक ती सर्व कागदपत्रे जोडलेली आहेत. 
+            | कृपया माझा अर्ज मंजूर करण्यात यावा.
+
+        p(class="mt-6 text-right")
+            | धन्यवाद.

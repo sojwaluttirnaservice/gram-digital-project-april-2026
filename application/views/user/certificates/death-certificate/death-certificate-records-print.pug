@@ -1,0 +1,114 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Death Certificate records
+
+
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            table {
+                border-collapse: collapse;
+                font-size:0.9rem;
+            }
+
+            th{
+                border: 1px solid gray;
+                padding:0.2rem 0.3rem;
+            }
+            td {
+                border: 1px solid gray !important;
+                padding:0.2rem 0.3rem;
+            }
+            @media print {
+                @page {
+                    size: A4 landscape;
+                }
+
+                .my-print {
+                    border: 0px solid transparent;
+
+                }
+                table td, tr {
+                    page-break-inside: avoid;
+                }
+            }
+    body
+
+
+        //- - const _deaths = Array(40).fill(deathCertificates).flatMap(arr => arr);
+
+        
+        - const _deaths = deathCertificates
+
+        .my-print(style='width:297mm; height:210mm; position:relative; font-size: 0.9rem;')
+
+            table(width: 98%;)
+                thead
+                    tr 
+                        td(colspan='15')
+                            div(style='position:relative;padding-top:0.4rem;display: flex; justify-content: space-between; align-items: center;')
+                                div
+                                    img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" width=90)
+
+                                div(style='position:absolute; top: 0; left: 50%; transform: translate(-50%); font-weight: bolder;  font-size: 1.2rem;') ग्रामपंचायत कार्यालय  #{gp.gp_name}
+
+                                div
+                                    img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png" width=130)
+
+                            div(style='position:relative; display: flex; justify-content: space-between;  height: 2rem; align-items: center;')
+                                div वर्ष : 
+                                    span(style="font-weight: bold") #{year}
+                                div(style='position:absolute; top: 0; left: 50%; transform: translate(-50%);background: #27272a; color: white; font-size: 1.1rem; padding: 0.2rem 1rem; font-weight: bold; border-radius: 4px;') मृत्यू नोंदणी रजिस्टर
+                                div नमुना - २ नियम क्रमांक ५ पहा 
+                    tr 
+                        th अ.क्र.
+                        th मृत्यूचा दिनांक
+                        th मृतकाचे संपूर्ण नाव
+                        th मृतकाचे लिंग
+                        th मृतकाचे वय
+
+                        th मृत्यूचे ठिकाण
+                        th मृतकाचा कायमचा पत्ता
+                        th माहिती देणाऱ्याचे नाव 
+                        th दिनांक
+                        th माहिती देणाऱ्याची सही
+                        //- ग्रामपंचायत 
+                        th नोंदणी क्र 
+                        th नोंदणी संस्थेचे नाव
+                        th शेरा
+                tbody
+                    - for(let i = 0; i <_deaths.length; i++) 
+                        - const _certificate = _deaths[i]
+
+                        tr
+                            td #{i + 1}
+                            td #{_certificate.date_of_death_m || _certificate.date_of_death}
+                            td #{_certificate.name_of_deceased_m || _certificate.name_of_deceased}
+                            td #{_certificate.gender_m || _certificate.gender}
+                            td #{_certificate.age_of_deceased_m || _certificate.age_of_deceased}
+                            
+                            td #{_certificate.address_of_deceased_at_death_time_m_m || _certificate.address_of_deceased_at_death_time_m}
+                            td #{_certificate.permanent_address_of_deceased_m || _certificate.aadhar_number_of_mother_m}
+                            td #{_certificate.informer_name_m || _certificate.informer_name}
+                            td #{_certificate.date_of_registration_m  || _certificate._date_of_registration}
+                            td 
+                            
+                            td #{_certificate.id}
+                            td ग्रा. पं. #{gp.gp_name}
+                            td #{_certificate.remarks}
+
+
+
+
+
+
+
+

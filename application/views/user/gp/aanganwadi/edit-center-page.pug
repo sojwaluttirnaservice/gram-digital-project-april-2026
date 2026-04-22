@@ -1,0 +1,212 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title #{title}
+
+        //- Styles
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+
+        //- Scripts
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+        //- Custom
+        link(href='/asstest/coustom/css/gp/aanganwadi/aanganwadi-center-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/gp/aanganwadi/aanganwadi-center-form-handler.js')
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section 
+            .container
+                div
+                    h2.heading-1.text-center अंगणवाडी केंद्र फॉर्म Edit
+
+
+
+                .div.d-flex.justify-content-end.mb-3
+                    a.btn.btn-primary.text-light(href='/aanganwadi') यादी बघा
+
+
+                form(id='aanganwadi-center-form')
+                    .form.form-1
+                        .row.g-3
+                            .col-md-6
+                                .form-group
+                                    label(for='center_name') केंद्राचे नाव
+                                    input.form-control#center_name(type='text' name='center_name' value=center.center_name placeholder='Center Name' required)
+
+                            .col-md-6
+                                .form-group
+                                    label(for='center_number') केंद्र क्रमांक
+                                    input.form-control#center_number(type='text' name='center_number' value=center.center_number placeholder='Center Number' required)
+
+                            .col-md-6
+                                .form-group
+                                    label(for='village_name') गावाचे नाव
+                                    input.form-control#village_name(type='text' name='village_name' value=center.village_name placeholder='Village Name' required)
+
+                            .col-md-3
+                                .form-group
+                                    label.d-block शौचालय
+                                    .form-check.form-check-inline
+                                        input.form-check-input#toilet_yes(type='radio' name='has_toilet' value='AVAILABLE', checked=(center.has_toilet == 'AVAILABLE') required)
+                                        label.form-check-label(for='toilet_yes') आहे
+                                    .form-check.form-check-inline
+                                        input.form-check-input#toilet_no(type='radio' name='has_toilet' value='UNAVAILABLE', checked=(center.has_toilet == 'UNAVAILABLE'))
+                                        label.form-check-label(for='toilet_no') नाही
+
+                            .col-md-3
+                                .form-group
+                                    label.d-block किचन शेड
+                                    .form-check.form-check-inline
+                                        input.form-check-input#kitchen_yes(type='radio' name='has_kitchen_shed' value='AVAILABLE', checked=(center.has_kitchen_shed == 'AVAILABLE') required)
+                                        label.form-check-label(for='kitchen_yes') आहे
+                                    .form-check.form-check-inline
+                                        input.form-check-input#kitchen_no(type='radio' name='has_kitchen_shed' value='UNAVAILABLE', checked=(center.has_kitchen_shed == 'UNAVAILABLE'))
+                                        label.form-check-label(for='kitchen_no') नाही
+
+
+                                    input(name='id' value=center.id hidden)
+
+                        .text-end.mt-4
+                            button.btn.btn-success#update-aanganwadi-center-btn(type='submit') जतन करा
+
+
+                //- -
+                    const yearRanges = [
+                    {
+                        id: 1,
+                        yearRange: "2023-24",
+                        ageGroups: [
+                        {
+                            id: 101,
+                            min_age: 0,
+                            max_age: 3,
+                            children_count: 30
+                        },
+                        {
+                            id: 102,
+                            min_age: 3,
+                            max_age: 6,
+                            children_count: 33
+                        }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        yearRange: "2024-25",
+                        ageGroups: [
+                        {
+                            id: 103,
+                            min_age: 0,
+                            max_age: 3,
+                            children_count: 29
+                        },
+                        {
+                            id: 104,
+                            min_age: 3,
+                            max_age: 6,
+                            children_count: 33
+                        }
+                        ]
+                    }
+                    ];
+
+
+
+                //- Accordion styles already come with Bootstrap 5, no extra link needed
+                form#add-year-range-form
+                    .mb-4
+                        label.form-label(for='year_range') वर्षांचा कालावधी भरा
+                        .input-group
+                            input.form-control(type='text' name='year_range' placeholder='e.g. 2023-24', required)
+                            input(name='center_id_fk' value=center.id hidden)
+                            button.btn.btn-primary#add-year-range-btn(type='submit') जोडा
+
+                hr
+
+                //- Accordion container
+                #year-range-accordion.accordion(style='margin-bottom: 6rem;')
+
+                    each yearRange, index in yearRanges
+                        if yearRange
+                            .accordion-item.mb-3
+                                h2.accordion-header
+                                    button.accordion-button.collapsed(type='button' data-bs-toggle='collapse', data-bs-target=`#collapse-${index}`, aria-expanded='false', aria-controls=`collapse-${index}`)
+                                        | वर्ष: #{yearRange.year_range}
+
+                                .accordion-collapse.collapse(id=`collapse-${index}`, data-bs-parent='#year-range-accordion')
+                                    .accordion-body
+
+                                        //- Year range editable inputs
+                                        form.edit-year-range-form.d-flex.mb-3.gap-2
+                                            input.form-control.form-control-sm(name='year_range', value=yearRange.year_range)
+                                            input(type='hidden' name='id', value=yearRange.yearly_stat_id)
+                                            button.btn.btn-outline-secondary.btn-sm.update-year-range-btn(data-year-range-id=yearRange.yearly_stat_id) Update
+                                            button.btn.btn-outline-danger.btn-sm.delete-year-range-btn(data-year-range-id=yearRange.yearly_stat_id) Delete
+
+                                        hr
+
+                                        //- Each child age group
+                                        if yearRange && yearRange.agewise_children
+
+                                            each ageGroup in yearRange.agewise_children
+
+                                                if ageGroup
+
+                                                    form.edit-agewise-count-form.row.align-items-end.mb-3.age-group-row
+                                                        .col-md-3
+                                                            label.form-label लहान वय
+                                                            input.form-control(name='min_age' type='number', value=ageGroup.min_age)
+                                                        .col-md-3
+                                                            label.form-label मोठे वय
+                                                            input.form-control(name='max_age' type='number', value=ageGroup.max_age)
+                                                        .col-md-3
+                                                            label.form-label मुले संख्या
+                                                            input.form-control(name='child_count' type='number', value=ageGroup.child_count)
+
+                                                            input(name='id' value=ageGroup.agewise_children_id hidden)
+                                                        .col-md-3.d-flex.gap-2
+                                                            button.btn.btn-sm.btn-success.update-child-btn(data-child-id=ageGroup.agewise_children_id) Update
+                                                            button.btn.btn-sm.btn-danger.delete-child-btn(data-child-id=ageGroup.agewise_children_id) Delete
+
+                                            //- Add new child count form
+                                        form.add-age-group-form.mt-4
+                                            .row.align-items-end
+                                                .col-md-3
+                                                    label.form-label न्यूनतम वय
+                                                    input.form-control(name='min_age' type='number' required)
+                                                .col-md-3
+                                                    label.form-label कमाल वय
+                                                    input.form-control(name='max_age' type='number' required)
+                                                .col-md-3
+                                                    label.form-label मुले संख्या
+                                                    input.form-control(name='child_count' type='number' required)
+                                                input(type='hidden' name='yearly_stat_id_fk', value=yearRange.yearly_stat_id)
+                                                .col-md-3
+                                                    button.btn.btn-primary.add-child-count-btn(type='submit') जोडा

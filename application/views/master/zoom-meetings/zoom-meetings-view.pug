@@ -1,0 +1,165 @@
+extends ../master-layout
+block internal_css 
+	link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css")
+	style.
+		a{
+			text-decoration: none;
+		}
+		td, th{
+			vertical-align: middle !important;
+			border: 1px solid gray !important;
+		}
+
+		label.error{
+			color: red;
+			font-size: 0.8rem;
+		}
+
+		.sj-overflow-line {
+		//- 	max-width: 100%;
+		//- 	white-space: nowrap;
+		//- 	overflow:hidden;
+		//- 	text-overflow: ellipsis;
+		//- }
+		.sj-overflow-line:hover {
+			//- overflow-x: auto;
+		}
+block custom_js
+	link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+	script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js" defer)
+	
+	script.
+		$( function() {
+			$( ".datepicker" ).datepicker({
+				dateFormat: 'dd/mm/yy'
+			});
+
+			//- $('.timepicker').timepicker({
+			//- 	timeFormat: 'h:mm p',
+			//- 	interval: 1,
+			//- 	defaultTime: '11',
+			//- 	startTime: '10:00',
+			//- 	dynamic: false,
+			//- 	dropdown: true,
+			//- 	scrollbar: true
+			//- });
+			flatpickr('.timepicker', {
+				enableTime: true,
+				noCalendar: true,
+				dateFormat: "H:i K",
+				time_24hr: false
+			})
+		});
+		
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/zoom-meetings-handler.js')
+
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center Zoom Meetings
+
+			.col-12.mt-2
+				.row.gy-5.gx-5
+					.text-end
+						button.btn.btn-success(id='add-new-zoom-meeting-btn' type='button' data-bs-target='#zoom-meeting-modal') New Meeting
+
+			
+
+			.modal.fade(tabindex="-1" aria-labelledby="#zoom-meeting-modal" aria-hidden="true" id ='add-zoom-meeting-modal' )
+				.modal-dialog(style='min-width:80% !important; margin-inline: auto;')
+					.modal-content.p-2
+						.modal-header.bg-warning माहिती भरा 
+							h1.modal-title.fs-5() 
+							button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+						.modal-body
+
+							form(id='meetingRecordForm')
+								fieldset 
+									legend.text-center Online Zoom meeting form 
+									.row.g-3
+										.col-12.col-md-8
+											.form-group
+												label.form-label(for="meeting-title") Title
+												input.form-control(type='text', id="meeting-title" name="meeting_title")
+
+										.col-6.col-md-2
+											.form-group
+												label.form-label(for="meeting-date") Date
+												input.form-control(type='text' class='datepicker' id="meeting-date" name="meeting_date" placeholder='')
+
+										.col-6.col-md-2
+											.form-group
+												label.form-label(for="meeting-time") Time
+												input.form-control(type="text" class='timepicker' id="meeting-time" name="meeting_time" )
+										
+										.col-12.col-md-6
+											.form-group
+												label.form-label(for="online-guide-name") Guide Name
+												input.form-control(type="text" class='' id="online-guide-name" name="online_guide_name" )
+										
+										.col-12.col-md-6
+											.form-group
+												label.form-label(for="online-guide-photo") Guide Photo
+												input.form-control(type="file" class='' id="online-guide-photo" name="online_guide_photo")
+										
+										.col-12.col-md-6
+											.form-group
+												label.form-label(for="meeting-description") Description
+												textarea.form-control(type='text', id="meeting-description" name="meeting_description" rows="3")
+
+										.col-12.col-md-6
+											.form-group
+												label.form-label(for="meeting-link") Link
+												textarea.form-control(type='text', id="meeting-link" name="meeting_link" rows="3")
+										
+										.col-md-12
+											.form-group
+												label.form-label(for="recording-link") Recording Link
+												textarea.form-control(type='text', id="recording-link" name="recording_link" rows="3")
+																			
+									div.text-center
+										button.btn.btn-primary.mt-3(type='button' id="submitMeetingRecordBtn") जतन करा
+
+	.row.justify-content-center
+		.col-11.col-md-10
+			.table-responsive
+				table.table.table-striped.mt-3
+					thead
+						tr.text-center
+							th.text-light.bg-primary Sr.No
+							th.text-light.bg-primary Link
+							th.text-light.bg-primary Title
+							th.text-light.bg-primary Guide
+							th.text-light.bg-primary Date 
+							th.text-light.bg-primary Time
+							th.text-light.bg-primary Recording
+							th.text-light.bg-primary Edit 
+							th.text-light.bg-primary Delete
+					tbody
+						each meeting, i in meetings
+							tr.text-center
+								td #{i + 1}
+								td 
+									a(href=meeting.meeting_link) Click here
+								td.sj-overflow-line #{meeting.meeting_title}
+								td.sj-overflow-line
+									.d-flex.justify-content-start.align-items-center(style='gap: 0.6rem;')
+										-let path = `/new-gp-page/main-page/files/zoom-meeting-guide/${meeting.online_guide_image_name}`
+										img(src=path, alt="" width='37' height='37' style='border-radius: 50%; border: 1px solid gray' onerror='this.src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1708168367~exp=1708168967~hmac=7fc28b6857e58074f97ca8424d3b14df1b64404b4a61d05abef6b7f562c3e91b"')
+										span #{meeting.online_guide_name ? meeting.online_guide_name: ''}
+								td #{meeting.meeting_date}
+								td #{meeting.meeting_time}
+								td 
+									if meeting.recording_link.trim() === ''
+										.btn.btn-primary.text-light(style='font-size: 0.7rem;' data-data=meeting class='add-recording-link-btn') Add
+									else 
+										a(href=meeting.recording_link)
+											i.fa.fa-video
+								td 
+									.btn.text-success(style='font-size: 0.8rem' data-data=meeting class='edit-meeting-record-btn')
+										i.fa.fa-edit
+								td
+									.btn.text-danger(style='font-size: 0.8rem' class='delete-meeting-record-btn' data-id=meeting.id data-fileName=meeting.online_guide_image_name)
+										i.fa.fa-trash

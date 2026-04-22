@@ -1,0 +1,335 @@
+//- this page the is counterpart of the taxPayerSamanya.pug.
+//- instead of showing the individual receipt, we will show the all reciepts either montwise or yearwise (i.e all)
+
+
+doctype html
+head
+    title सामन्य कर नमुना १० वसुली पावती वर्षाचा अहवाल
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+
+    style.
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media print {
+            @page{
+                size: A4 landscape;
+                padding: 1rem;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+                margin: 0 auto;
+            }
+            table{
+                //- page-break-inside: avoid;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+            #hide-buttons {
+                display: none;
+            }
+        }
+
+        table, th, td{
+            border: 1px solid black;
+            padding: 3px; 
+            text-align:center;
+            border-collapse: collapse;
+        }
+        .body-f-size {
+            font-size: 1rem !important;
+        }
+        .head-f-size {
+            font-size: 15px;
+            text: bold;
+            text-align: center;
+        }
+        .center{
+            text-align: center;
+        }
+        .form9Heading{
+            font-size: 1.4rem;
+            font-weight: bold; 
+            color: red;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 180px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+        .my-print {
+            position: relative; 
+            width: 100%;
+        }
+body 
+
+    #hide-buttons 
+        button( onclick='window.print()' style='position:fixed; top: 49%; left: 1rem; background: blue; color: white;') Print
+    - let numbers = 0;
+        .my-print
+            img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+            table(style="width:100% !important; height:100%;")
+                thead
+
+                    tr
+                        th(colspan='27')
+
+                            div(style="display: flex; justify-content: space-between; padding-top: 1rem; padding-bottom: 1rem; margin-left: 1rem; margin-right: 1rem;")
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;")
+                                    img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                                div(style="display: flex; justify-content: center; text-align: center; flex-direction: column;")
+                                    p.m-0.p-0.form9Heading ग्राम पंचायत कार्यालय #{gp.gp_name} पंचायत समिती  #{gp.gp_taluka} जिल्हा #{gp.gp_dist} 
+                                    //- p.m-0.p-0.form9Heading वसुली नोंद वही #{year.year1}- #{year.year2}
+
+                                    if month && year
+                                        p.m-0.p-0.form9Heading सामन्य कर नमुना १० वसुली पावती अहवाल महिना : #{month} वर्ष : #{year} 
+
+                                    if startYear && endYear
+                                        p.m-0.p-0.form9Heading सामन्य कर नमुना १० वसुली पावती अहवाल 1 एप्रिल #{startYear} ते 31 मार्च #{endYear}
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+                                    img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+                    tr.head-f-size
+                        th.srNo(width='5%') अनु.क्र.
+                        th(width='5%') मा.क्र.
+                        //- th(width='5%') जुना मा.क्र.
+                        th(width='10%') मालकाचे नाव
+                        th(width='10%') भोगवटदाराचे नाव
+                        th(width='6%') भरणा दिनांक
+                        th(width='6%') पावती क्रमांक
+
+
+                        //- building tax--------------
+                        th(width='6%') मागील इमारत कर
+                        th(width='6%') चालू इमारत कर
+
+                        th(width='6%') एकूण इमारत कर
+
+
+                        //- इतर कर(दंड कर वसुली)
+                        th(width='6%') मागील इतर कर(दंड कर वसुली)
+                        //- th(width='6%') चालू इतर कर(दंड कर वसुली)
+
+                        //- th(width='6%') एकूण इतर कर(दंड कर वसुली)
+
+
+                        th(width='6%') मागील दिवा कर
+                        th(width='6%') चालू दिवा कर
+                        th(width='6%') एकूण दिवा कर
+
+                        th(width='6%') मागील आरोग्य कर
+                        th(width='6%') चालू आरोग्य कर
+                        th(width='6%') एकूण आरोग्य कर
+
+                        th(width='6%') मागील स्वच्छता कर
+                        th(width='6%') चालू स्वच्छता कर
+                        th(width='6%') एकूण स्वच्छता कर
+
+                        th(width='6%') संपूर्ण सामान्य कर
+
+
+                    tr(style='font-size: 1.2rem !important')
+
+                        td.srNo(width='5%') 1
+                        td(width='5%') 2
+                        td(width='5%') 3
+                        td(width='10%') 4
+                        td(width='10%') 5
+                        td(width='6%') 6
+
+                        td(width='6%') 7
+                        td(width='6%') 8
+                        td(width='6%') 9
+                        td(width='6%') 10
+                        td(width='6%') 11
+                        td(width='6%') 12
+                        td(width='6%') 13
+                        td(width='6%') 14
+                        td(width='6%') 15
+                        td(width='6%') 16
+                        td(width='6%') 17
+                        td(width='6%') 18
+                        td(width='6%') 19
+                        td(width='6%') 20
+                        //- td(width='6%') 21
+                        //- td(width='6%') 22
+                        //- td(width='6%') 23
+                        //- td(width='6%') 24
+                        //- td(width='6%') 25
+                        //- td(width='6%') 26
+                        //- td(width='6%') 27
+                        //- td(width='6%') 28
+                        //- td(width='6%') 29
+
+
+
+                //- ----------------------------------
+                - let finalLastBuildingTax = 0
+                - let finalCurrentBuildingTax = 0
+
+                - let finalTotalBuildingTax = 0
+
+                //- ----------------------------------
+
+                - let finalTotalTplLastTaxFine = 0
+
+                //- ----------------------------------
+
+                - let finalLastDivaTax = 0
+                - let finalCurrentDivaTax = 0
+
+                - let finalTotalDivaTax = 0
+
+                //- ----------------------------
+
+                - let finalLastArogyaTax = 0
+                - let finalCurrentArogyaTax = 0
+
+                - let finalTotalArogyaTax = 0
+
+
+                //- --------------------------
+
+
+
+                - let finalLastCleaningTax = 0
+                - let finalCurrentCleaningTax = 0
+
+                - let finalTotalCleaningTax = 0
+
+
+                //- ---------------------------------
+
+                - let finalTotalTaxSum = 0
+
+                tbody
+                    each el, i in receipts
+                        - let rowwiseTotalTax = 0
+                        tr.body-f-size
+
+                            td(style='width:5%') #{i+1}
+                            td(style='width:5%') #{el.feu_malmattaNo}
+                            //- td(style='width:5%') #{el.feu_homeNo}
+                            td(style='width:10%') 
+                                p #{el.feu_ownerName}
+                            td(style='width:10%') #{el.feu_secondOwnerName}
+                            td(style='width:6%') #{el.myDate}
+                            td(style='width:6%') #{el.id}
+
+
+                            //- building tax-----
+
+                            - finalLastBuildingTax += el.tpl_lastBuildingTax
+                            td(style='width:6%') #{el.tpl_lastBuildingTax}
+
+                            - finalCurrentBuildingTax += el.tpl_currentBuildingTax
+                            td(style='width:6%') #{el.tpl_currentBuildingTax}
+
+                            - let totalTplBuildingTax = Math.round(el.tpl_lastBuildingTax + el.tpl_currentBuildingTax)
+                            - finalTotalBuildingTax += totalTplBuildingTax
+                            - rowwiseTotalTax += totalTplBuildingTax
+
+                            td(style='width:6%') #{totalTplBuildingTax}
+
+
+                            //- इतर कर(दंड कर वसुली)
+                            - finalTotalTplLastTaxFine += el.tpl_lastTaxFine
+                            td(style='width:6%') #{el.tpl_lastTaxFine}
+                            //- td(style='width:6%') #{el.tpl_lastTaxRelief}
+
+                            //- - let totalTaxFineOrRelief = Math.round(el.tpl_lastTaxRelief + el.tpl_lastTaxFine)
+                            - rowwiseTotalTax += el.tpl_lastTaxFine
+
+                            //- td(style='width:6%') #{totalTaxFineOrRelief}
+
+
+
+                            //- दिवाबत्ती कर
+                            - finalLastDivaTax += el.tpl_lastDivaTax
+                            td(style='width:6%') #{el.tpl_lastDivaTax}
+                            - finalCurrentDivaTax += el.tpl_currentDivaTax
+                            td(style='width:6%') #{el.tpl_currentDivaTax}
+
+                            - let totalDivaTax = Math.round(el.tpl_lastDivaTax + el.tpl_currentDivaTax)
+                            - finalTotalDivaTax += totalDivaTax
+                            - rowwiseTotalTax += totalDivaTax
+                            td(style='width:6%') #{totalDivaTax}
+
+
+                            //- आरोग्य कर
+
+                            - finalLastArogyaTax += el.tpl_lastArogyaTax
+                            td(style='width:6%') #{el.tpl_lastArogyaTax}
+                            - finalCurrentArogyaTax += el.tpl_lastArogyaTax
+                            td(style='width:6%') #{el.tpl_lastArogyaTax}
+                            - let totalArogyaTax = Math.round(el.tpl_lastArogyaTax + el.tpl_lastArogyaTax)
+
+                            - finalTotalArogyaTax += totalArogyaTax
+                            - rowwiseTotalTax += totalArogyaTax
+
+                            td(style='width:6%') #{totalArogyaTax}
+
+
+                            //- स्वच्छता   कर
+
+                            - finalLastCleaningTax += el.tpl_lastCleaningTax
+                            td(style='width:6%') #{el.tpl_lastCleaningTax}
+                            - finalCurrentCleaningTax += el.tpl_currentCleaningTax
+                            td(style='width:6%') #{el.tpl_currentCleaningTax}
+
+                            //- total tax
+                            - let totalCleaningTax = Math.round(el.tpl_lastCleaningTax) + Math.round(el.tpl_currentCleaningTax)
+                            - finalTotalCleaningTax += totalCleaningTax
+
+                            - rowwiseTotalTax += totalCleaningTax
+                            td(style='width:6%') #{totalCleaningTax}
+
+                            td(style='width:6%') #{rowwiseTotalTax}
+
+                            - finalTotalTaxSum += rowwiseTotalTax
+
+
+
+                        - numbers++;
+
+                tfoot
+
+                    tr(style='font-size: 1.2rem !important')
+                        td(colspan='6') एकूण
+
+                        td(colspan='1') #{finalLastBuildingTax}
+                        td(colspan='1') #{finalCurrentBuildingTax}
+                        td(colspan='1') #{finalTotalBuildingTax}
+
+                        td(colspan='1') #{finalTotalTplLastTaxFine}
+
+                        td(colspan='1') #{finalLastDivaTax}
+                        td(colspan='1') #{finalCurrentDivaTax}
+                        td(colspan='1') #{finalTotalDivaTax}
+
+                        td(colspan='1') #{finalLastArogyaTax}
+                        td(colspan='1') #{finalCurrentArogyaTax}
+                        td(colspan='1') #{finalTotalArogyaTax}
+
+
+                        td(colspan='1') #{finalLastCleaningTax}
+                        td(colspan='1') #{finalCurrentCleaningTax}
+                        td(colspan='1') #{finalTotalCleaningTax}
+
+                        td(colspan='1') #{finalTotalTaxSum}

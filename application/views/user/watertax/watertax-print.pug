@@ -1,0 +1,314 @@
+doctype html
+head
+    title नमुना ९ नळ पाणी कर
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    style.
+
+        @page { 
+            size: landscape;
+            margin: 5mm 5mm 5mm 5mm;
+                -webkit-print-color-adjust: exact; 
+        }
+            .m-top {
+                margin: 10mm 5mm 10mm 5mm !important;
+            }
+            .m-bottom {
+                margin: 5mm 5mm 5mm 5mm !important;
+            }
+            .m-bottom-second {
+                margin: 5mm 5mm 5mm 5mm !important;
+            }
+            tr,td,th{
+                border-color:transparent !important;
+            }
+                .transperent{
+                    background-color:transparent !important;
+                    color:transparent !important;
+            }
+            .year-1{
+                position: absolute;
+                left:240px;
+                top:60px
+            }
+                .year-2{
+                    position: absolute;
+                left:350px;
+                top:60px
+            }
+            .page-number{
+                position: absolute;
+                    right:160px;
+                    top:34px;
+            }
+            .td-list{
+                margin-top:200px;
+                    }
+            .zp{
+                position: absolute;
+                top:0px;
+                left:517px
+        }
+            .td-list span{
+                position: absolute;
+                    font-size:11px !important;
+            }
+            .td-list .td-1{
+                top:0px;
+                left:0px
+
+            }
+            .td-list .td-2{
+                top:0px;
+                left:20px;
+                width:0px
+                    }
+                .td-list .td-3{
+                top:0px;
+                left: 60px;
+                width:1px !important;
+
+            }
+
+                .td-list .td-4{
+                top:-0px !important;
+                left: 90px;
+                width:220px;
+            }
+                .td-list .td-5{
+                top:0px;
+                left:100px;
+                width: 90px;
+
+            }
+                .td-list .td-6{
+                top:0px;
+                left: 360px
+            }
+                .td-list .td-7{
+                top:0px;
+                left: 415px
+            }
+                .td-list .td-8{
+                top:0px;
+                left: 465px
+            }
+                .td-list .td-9{
+                top:0px;
+                left: 515px
+            }
+                .td-list .td-10{
+                top:0px;
+                left: 557px
+            }
+                .td-list .td-11{
+                top:0px;
+                left: 603px
+            }
+                .td-list .td-12{
+                top:0px;
+                left: 659px
+            }
+                .td-list .td-13{
+                top:0px;
+                left: 710px
+            }
+                .td-list .td-14{
+                top:0px;
+                left: 760px
+            }
+                .td-list .td-15{
+                top:0px;
+                left: 820px
+            }
+            .td-list .td-16{
+                top:0px;
+                    left: 863px
+            }
+            .td-list .td-17{
+                top:0px;
+                left: 923px
+            }
+            .td-list .td-18{
+                top:0px;
+                left: 980px
+            }
+
+            tr,td,th{
+                border-color:transparent !important;
+            }
+                .rotatePage{
+                    transform: rotateZ(180deg);
+
+            }
+        .rotatePage img{ margin-top:0px !important;  }
+            #table2 td {
+                padding-left:0px;
+                padding-right:0px;
+            }
+        #table3 td {
+            padding-left:5 px;
+            padding-right:5px;
+            } 
+                .set-height > td.td {
+                    height:90px;
+                }
+                .set-height > td.td1 {
+                    height:100px;
+                }
+                .set-p-break {
+                    page-break-before: always;
+                }
+                td{
+                    font-size:0.8rem !important;
+                    border:0px solid;
+                    }
+                    table{
+                        width:80% !important;
+                    }
+                    .h6{
+                        font-size:11px !important;
+
+                    }
+                    .h5{
+                        font-size:11px !important;
+                    }
+
+                        .h7{
+                            font-size:11px !important;
+                    }
+                    .d-none{
+                        display:none !important
+                    }
+                    .transperent{
+                        background-color:transparent !important;
+                        color:transparent !important;
+                    }
+
+                    td, tr {
+                        font-size: 0.9rem !important;
+                    }
+
+body
+    - var pageCount = 0;
+    - var lastBuildingTax = 0;
+    - var currentBuildingTax = 0;
+    - var totalBuildingTax = 0;
+    - var lastDivaTax = 0;
+    - var currentDivaTax = 0;
+    - var totalDivaTax = 0;
+    - var lastArogyaTax = 0;
+    - var currentArogyaTax = 0;
+    - var totalArogyaTax = 0;
+    - var totalSampurnaTax = 0;
+    - var main_length = Math.ceil(watertax.length/5);
+    - var count = 0;
+    - var start = 0;
+
+    while count < main_length 
+        - start = count*5;
+        - array1 = watertax.slice(start, (start+5));
+        - arrayLen =  5 - array1.length;
+        if(arrayLen !== 0)
+            while arrayLen > 0
+                - var singleVar = {lastSpecialWaterTax:0,currentSpecialWaterTax:0,totalSpecialWaterTax:0,lastGeneralWaterTax:0,currentGeneralWaterTax:0,totalGeneralWaterTax:0,totalWaterTax:0,feu_wardNo:"-",feu_malmattaNo:"-",feu_ownerName:"-",feu_secondOwnerName:"-",lastSpecialWaterTax:0,currentSpecialWaterTax:0,totalSpecialWaterTax:0,lastGeneralWaterTax:0,currentGeneralWaterTax:0,totalGeneralWaterTax:0,totalWaterTax:0}
+                - array1.push(singleVar)
+                - arrayLen--
+        - count++;
+        div(style="position:relative;display:inline-block;width:410mm;height:280mm !important;")
+            img(src="/print/3.jpg" width="100%")
+            .row.set-p-break(style='position: absolute; z-index: 999; top: 0;')
+                .col-12.p-0.m-0 
+                    table
+                        thead
+                            tr.p-0.m-0
+                                td(colspan="6").p-1.m-0 
+                                    div
+                                        p.h4.text-primary.text-center.font-weight-bold(style="margin-left:57.5rem; margin-top: 0.4rem;") #{zp.gp_name} 
+                                    div.mt-2.mb-2
+                                        p.h5.font-weight-bold  
+                                            span(style="position: absolute;top:95px;left:325px;font-size:24px").h4.year-1 #{year1} 
+                                            span(style="position: absolute;top:95px;left:480px;font-size:24px").h4.year-2 #{year2}
+                                            span.h5.float-right(style="margin-top: -1.05rem; margin-right: -31rem; font-size: 1.4rem !important;") #{count}
+                .col-12.p-0.m-0
+                    center
+                        table(border="0" style="margin-top:18rem; left: 1.6rem; position: absolute;")#table2
+                            thead
+                                - var lastSpecialWaterTax= 0;
+                                - var currentSpecialWaterTax= 0;
+                                - var totalSpecialWaterTax= 0;
+                                - var lastGeneralWaterTax= 0;
+                                - var currentGeneralWaterTax= 0;
+                                - var totalGeneralWaterTax= 0;
+                                - var totalWaterTax= 0;
+                                each val in array1
+                                    - pageCount += 1;
+                                    - lastSpecialWaterTax += Math.round(val.last_special_water_tax ? val.last_special_water_tax : 0) ;
+                                    - currentSpecialWaterTax += Math.round(val.current_special_water_tax ? val.current_special_water_tax : 0) ;
+                                    - totalSpecialWaterTax += Math.round(val.total_special_water_tax ? val.total_special_water_tax: 0) ;
+                                    - lastGeneralWaterTax += Math.round(val.last_general_water_tax ? val.last_general_water_tax : 0) ;
+                                    - currentGeneralWaterTax += Math.round(val.current_general_water_tax ? val.current_general_water_tax : 0) ;
+                                    - totalGeneralWaterTax += Math.round(val.total_general_water_tax ? val.total_general_water_tax: 0) ;
+                                    - totalWaterTax += Math.round(totalSpecialWaterTax  + totalGeneralWaterTax) ;
+
+                                    - total_water_tax = +val.total_special_water_tax  + +val.total_general_water_tax
+
+                                    tr.td-list.p-0.m-0.set-height.d-flex.align-items-center(style='position: relative; font-size: 1.8rem;')
+                                        td.td.m-0.mt-4 #{pageCount}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 2.5rem;') #{val.malmatta_no} 
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 4.5rem;') #{val.tap_connection_id} 
+                                        td.td-4.m-0(style='position: absolute; top: 1.3rem; left: 8rem;') #{val.name ? val.name: ''}
+                                        td.td-5.m-0(style='position: absolute; top: 1.3rem; left: 22.5rem;') #{'-'} 
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 29rem;') #{!isNaN(val.last_special_water_tax) ? Math.round(val.last_special_water_tax) : ''}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 33rem;') #{!isNaN(val.current_special_water_tax) ? Math.round(val.current_special_water_tax) : ''}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 37.5rem;') #{!isNaN(val.total_special_water_tax) ? Math.round(val.total_special_water_tax): val.total_special_water_tax}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 41rem;') #{!isNaN(val.last_general_water_tax) ? Math.round(val.last_general_water_tax) : ''}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 44rem;') #{!isNaN(val.current_general_water_tax) ? Math.round(val.current_general_water_tax): ''}
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 47rem;') #{!isNaN(val.total_general_water_tax) ? Math.round(val.total_general_water_tax): ''} 
+                                        td.m-0(style='position: absolute; top: 1.3rem; left: 50.5rem;')
+                                            strong #{!isNaN(total_water_tax) ? Math.round(total_water_tax): ''} 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                        //- td.text-center.m-0 
+                                tr.p-0.m-0.set-height
+                                    td.td1(colspan="5").text-center.m-0 
+                                        p.h6 
+                                td.m-0(style='position: absolute; top: 36rem; left: 29rem;')
+                                    strong #{lastSpecialWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 33rem;') 
+                                    strong #{currentSpecialWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 37.2rem;')  
+                                    strong #{totalSpecialWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 41rem;') 
+                                    strong #{lastGeneralWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 44rem;') 
+                                    strong #{currentGeneralWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 47rem;') 
+                                    strong #{totalGeneralWaterTax}
+                                td.m-0(style='position: absolute; top: 36rem; left: 50.5rem;') 
+                                    strong #{totalWaterTax}
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0
+                                //-   td.text-center.m-0 
+                                //-   td.text-center.m-0 

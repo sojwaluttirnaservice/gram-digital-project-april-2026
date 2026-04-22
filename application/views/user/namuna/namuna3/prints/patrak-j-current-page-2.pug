@@ -1,0 +1,124 @@
+
+
+
+.my-print 
+
+    div(style='padding: 1rem 0;')
+
+        h4.text-center पत्रक जे चालू
+
+        div सन _________ वर्षात #{gp.gp_dist} जिल्यातील #{gp.gp_name} ग्रामपंचायतीने केलेली कामे दर्शवनिणारे पत्रक
+
+
+        hr
+        div स्वच्छता व आरोग्य 
+
+        hr
+
+    table.w-full 
+
+        thead 
+            tr 
+                th(rowspan='2' colspan='1') अनु. क्र.
+                th(rowspan='2' colspan='1') ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+
+                th(rowspan='1' colspan='3') विहिरीची संख्या
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3')
+
+                th(rowspan='1' colspan='2')
+
+            tr 
+                //- th 
+                //- th
+
+                th(rowspan='1' colspan='1') वर्षारंभी अस्तित्वात असलेल्या
+                th(rowspan='1' colspan='1') वर्षात बांधलेल्या नव्या
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेल्या
+
+                th(rowspan='1' colspan='1') वर्षारंभी अस्तित्वात असलेल्या
+                th(rowspan='1' colspan='1') वर्षात बांधलेल्या नव्या
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेल्या
+
+                th(rowspan='1' colspan='1') वर्षारंभी अस्तित्वात असलेल्या
+                th(rowspan='1' colspan='1') वर्षात तरतूद केलेली
+
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,10]
+                    th #{num}
+
+
+        tbody
+
+            tr 
+                td 1
+                td #{patrakJCleanliness.gram_panchayat_name} 
+        
+                td #{patrakJCleanliness.existing_wells_at_year_start}
+                td #{patrakJCleanliness.wells_constructed_in_year}
+                td #{patrakJCleanliness.wells_repaired_in_year} 
+
+                td #{patrakJCleanliness.existing_at_start_year_2} 
+                td #{patrakJCleanliness.newly_constructed_in_year_2} 
+                td #{patrakJCleanliness.repaired_in_year_2} 
+
+                td #{patrakJCleanliness.existing_at_start_year_3} 
+                td #{patrakJCleanliness.mentioned_in_year_3} 
+
+
+    div(style='padding: 1rem 0;')
+
+        h4.text-center स्वच्छता व आरोग्य चालू
+
+    table.w-full 
+
+        thead 
+            tr 
+                th(colspan='2') सार्वजनिक संडासांची संख्या
+                //- th
+
+                th(colspan='2') प्रसूती गृहांची संख्या
+                //- th
+
+                th(colspan='2') बाल कल्याण केंद्रांची संख्या
+                //- th
+
+                th(colspan='2') दवाखाने वगैरे चालू
+                //- th
+                //- th
+
+
+            tr 
+                th वर्षारंभी अस्तित्वात असलेले
+                th वर्षात नवीन बांधलेले 
+                
+                th वर्षारंभी अस्तित्वात असलेली खाट संख्या
+                th वर्षामध्ये तरतूद केलेल्या खाटा
+
+                th वर्षारंभी अस्तित्वात असलेली केंद्रा
+                th वर्षामध्ये तरतूद केलेली नवी केंद्रा
+
+                th वर्षारंभी अस्तित्वात असलेले दवाखाने
+                th वर्षामध्ये तरतूद केलेले नवीन दवाखाने
+                th केलेली व इतर कोणतेही कामे
+
+            tr 
+                each num in [11,12,13,14,15,16,17,18,19]
+                    th #{num}
+
+        tbody 
+            tr 
+                td #{patrakJCleanliness.existing_public_toilets_at_year_start}
+                td #{patrakJCleanliness.public_toilets_constructed_in_year} 
+                
+                td #{patrakJCleanliness.existing_maternity_homes_at_year_start} 
+                td #{patrakJCleanliness.allocated_beds_in_year} 
+
+                td #{patrakJCleanliness.existing_child_welfare_centers_at_year_start} 
+                td #{patrakJCleanliness.new_centers_allocated_in_year} 
+
+                td #{patrakJCleanliness.existing_hospitals_at_year_start} 
+                td #{patrakJCleanliness.new_hospitals_allocated_in_year} 
+                td #{patrakJCleanliness.other_works_done_in_year}

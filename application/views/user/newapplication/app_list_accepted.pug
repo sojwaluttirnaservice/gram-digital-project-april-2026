@@ -1,0 +1,146 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/new-application-manager.js')
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 50%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    span.fa.fa-users.mr-1
+                    | मान्य अर्ज यादी
+
+                div.float-left 
+                    h6.fw-bold एकूण मान्य अर्ज: #{list ? list.length : 0} 
+                
+                div.float-right.mb-2
+                    a.btn.btn-secondary.btn-sm(href="/application/application-prints" target="_blank") अर्ज प्रत रिपोर्ट
+                    a(href="/application/rejected").btn.btn-danger.btn-sm.ml-2 रद्द यादी
+                    a(href="/application").btn.btn-primary.btn-sm.ml-2 नवीन अर्ज यादी  
+            .col-12
+                table.table.table-bordered.text-center
+                    thead
+                        tr.bg-success.text-white
+                            th(width="5%") अनु. क्र.
+                            th(width="8%") अर्ज क्रमांक
+                            th(width="15%") नाव
+                            th(width="13%") मो. क्रमांक
+                            th(width="15%") ई-मेल
+                            th(width="10%") आधार क्रमांक
+                            th(width="20%") दाखले मागणी
+                            th(width="8%") दिनांक
+                            th Action
+                    tbody
+                        if(list.length == 0)
+                            tr
+                                td(colspan="15").text-center.text-danger अर्ज मान्य नोंदणी यादी रिकामी आहे
+                        else
+                            each acceptedApplicationItem, index in list
+                                tr
+                                    td #{index + 1}
+                                    td #{acceptedApplicationItem.id}
+                                    td #{acceptedApplicationItem.formName}
+                                    td #{acceptedApplicationItem.formMobile}
+                                    td #{acceptedApplicationItem.formEmail}
+                                    td #{acceptedApplicationItem.formAadhar}
+                                    td.align-top
+                                        - const parsedDocs = (function(){ try { return JSON.parse(acceptedApplicationItem.docDetails || '[]'); } catch(e) { return []; } })()
+                                        if parsedDocs.length > 0
+                                            ol(class="pl-3 text-left mb-0")
+                                                each docItem in parsedDocs
+                                                    - var docTitle = docItem.docTitle
+                                                    case docTitle
+                                                        when "जन्म नोंद दाखला"
+                                                            li
+                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                div.small.text-muted
+                                                                    | नाव: #{docItem.docCol1}    जन्मदिनांक: #{docItem.docCol2}
+                                                        when "मृत्यू नोंद दाखला"
+                                                            li
+                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                div.small.text-muted
+                                                                    | नाव: #{docItem.docCol1}    मृत्यूदिनांक: #{docItem.docCol2}
+                                                        when "विवाह नोंदणी दाखला"
+                                                            li
+                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                div.small.text-muted
+                                                                    | विवाहाचा दिनांक: #{docItem.docCol1}
+                                                        when "इतर काम लिहावे कोणते असल्यास"
+                                                            li
+                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                div.small.text-muted
+                                                                    | कामाचा तपशील: #{docItem.docCol1}
+                                                        when "गावातील तक्रारी नोद येथे लिहावी"
+                                                            li
+                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                div.small.text-muted
+                                                                    | तक्रार: #{docItem.docCol1}
+                                                        //- this and above case is same
+                                                        when "गावातील तक्रारी नोद येथे लिहावी गावातील"
+                                                            li
+                                                                div.font-weight-bold गावातील तक्रारी नोद येथे लिहावी
+                                                                div.small.text-muted
+                                                                    | तक्रार: #{docItem.docCol1}
+                                                        default
+                                                            li
+                                                                div #{docItem.docTitle}
+                                    td
+                                        span #{acceptedApplicationItem._create_date}
+                                    
+                                    td  
+                                        a.btn.btn-success(href=`/application/edit/${acceptedApplicationItem.id}`)
+                                            .fa.fa-edit
+    script.
+        $(function(){
+            newApplicationList = !{json_list};
+            console.log(newApplicationList);
+        })

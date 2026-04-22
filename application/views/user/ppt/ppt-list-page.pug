@@ -1,0 +1,124 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- YATRA ONE
+    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+    //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+
+    style.
+        .modal-body .carousel-item {
+            min-height: 300px;
+            background: #fff;
+            width: 100%;
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            border-radius: 50%;
+            padding: 24px;
+        }
+
+block content
+
+    include ./ppt-slides-carousel-modal.pug
+
+    div.container-fluid.mt-4
+        //- Header
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-file-powerpoint.me-2
+                                | PPT यादी
+                            p.mb-0.text-muted.small उपलब्ध PPT खाली दर्शविले आहेत.
+                        div.d-flex(style='gap:1rem;')
+                            a.btn.btn-primary.btn-sm(href="/ppt/create")
+                                i.fa.fa-plus.me-1
+                                | नवीन PPT तयार करा
+
+        //- Table
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+                div.mb-4
+                    div(class="d-flex align-items-center" style="gap:0.75rem;")
+                        label(class="small fw-bold mb-0") क्रमवारी :
+                        select(id="ppt-sort-order" class="form-select form-select-sm" style="width:160px;" onchange="window.location.href=`/ppt/list?sort=${this.value}`;")
+                            option(value="desc" selected=(sort=="desc")) नवीन आधी
+                            option(value="asc" selected=(sort=="asc")) जुने आधी
+
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width="5%") अ. क्रं.
+                                        th(width="15%") कव्हर इमेज
+                                        th(width="25%") PPT शीर्षक
+                                        th(width="10%") एकूण स्लाईड्स
+                                        th(width="10%") स्थिती
+                                        th(width="15%") दिनांक
+                                        th(width="20%") Action
+
+                                tbody#ppt-list
+                                    if !ppts || ppts.length == 0
+                                        tr
+                                            td(colspan="7" class="text-center text-danger py-4")
+                                                i.fa.fa-info-circle.me-2
+                                                | कोणतीही PPT उपलब्ध नाही
+                                    else
+                                        each ppt, _index in ppts
+                                            tr
+                                                //- Index
+                                                td.text-center #{_index + 1}
+
+                                                //- Cover Image
+                                                td.text-center
+                                                    img(src=`/uploads/images/ppt/cover-images/${ppt.cover_image}` alt="Cover" style="height: 60px; object-fit: cover; border-radius: 4px;" onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                                //- Title and Subtitle
+                                                td.text-start
+                                                    strong #{ppt.title}
+                                                    if ppt.subtitle
+                                                        br
+                                                        small.text-muted #{ppt.subtitle}
+
+                                                //- Stats (Total Slides)
+                                                td.text-center
+                                                    span.badge.bg-info.text-dark #{ppt.total_slides} Slides
+
+                                                //- Status
+                                                td.text-center
+                                                    if ppt.status === 'PUBLISHED'
+                                                        span.badge.bg-success Published
+                                                    else
+                                                        span.badge.bg-secondary Draft
+
+                                                //- Dates
+                                                td.text-center
+                                                    div.d-flex.flex-column.align-items-center.gap-1
+                                                        span.fw-semibold #{ppt._createdAt}
+
+                                                //- Actions
+                                                td.text-center
+                                                    div.d-flex.justify-content-center.align-items-center.flex-nowrap(style="gap:0.4rem;")
+                                                        button.btn.btn-sm.btn-outline-primary.view-ppt-slides-btn(type="button" data-pptid=ppt.id data-ppttitle=ppt.title title="Play PPT")
+                                                            i.fa.fa-play
+                                                        
+                                                        a.btn.btn-sm.btn-info(href=`/ppt/slides/list/page/${ppt.id}` title="Manage Slides")
+                                                            i.fa.fa-list
+                                                        
+                                                        a.btn.btn-sm.btn-warning(href=`/ppt/edit/${ppt.id}` title="Edit PPT Details")
+                                                            i.fa.fa-edit
+
+                                                        a.btn.btn-sm.btn-success(href=`/ppt/download-pdf/${ppt.id}` title="Download PDF" target="_blank")
+                                                            i.fa.fa-download
+                                                        
+                                                        button.btn.btn-sm.btn-danger.delete-ppt-btn(type="button" data-pptid=ppt.id title="Delete PPT")
+                                                            i.fa.fa-trash
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/ppt/ppt-list-page-handler.js')

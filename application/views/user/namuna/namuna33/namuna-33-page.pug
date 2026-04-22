@@ -1,0 +1,236 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+    link(href='/asstest/coustom/css/namuna/namuna-33/namuna-33-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-33/namuna-33-page-handler.js' type='module' defer)
+
+    title नमुना ३३ - वृक्षतोड नोंदवही
+
+    style.
+
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        font-size: 90%;
+      }
+
+      tr, td, th {
+        border: 1px solid black;
+        padding: 0.2rem;
+      }
+
+      th {
+        background: teal;
+        border: 1px solid white;
+        color: white;
+        text-align: center;
+      }
+
+  body
+    include ../../include/navs.pug
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+
+    .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="monthYearModalLabel" aria-hidden="true")
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h1.modal-title.fs-5#monthYearModalLabel महिना व वर्ष निवडा
+            button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body
+
+            form(id='month-year-form') 
+
+              .d-flex.align-items-center.justify-content-center.gap-4 
+                select.form-select(name='month')
+                  option(value='' ) -- महिना निवडा--
+                  each month, monthIndex in months 
+                    option(value=(monthIndex + 1)) #{month}
+
+
+                select.form-select(name='year')
+                  option(value='') -- वर्ष निवडा --
+
+                  - let currYear  = new Date().getFullYear()
+                  - let startYr = currYear  - 25
+                  each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                    option(value=year) #{year}
+
+
+
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            button.btn.btn-primary(type="button" id='print-namuna-33-btn') Print
+
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३३ - वृक्षतोड नोंदवही
+
+
+
+
+      div.py-2
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          button(type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#monthYearModal") Print
+          a.btn.btn-primary.btn-sm(href='/namuna') नमुने
+
+          a.btn.btn-primary.btn-sm(href='/namuna/33/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+
+      div.d-flex.gap-4.justify-content-center.mb-4.d-none
+
+        div 
+          select.form-select(name='show-report-by')
+
+            option(value='-1') --Select Report Type--
+
+            option(value='1') फक्त वर्ष
+            option(value='2') वर्ष श्रेणी
+            option(value='3') महिना व वर्ष
+
+        - let startYear = 2020
+        - let currentYear = new Date().getFullYear()
+
+        div(id='show-report-by-div')
+          div(data-target='1' style='display:none')
+            div.d-flex.gap-2
+              select.form-select(name='selected_year' id='selected-year')
+                option(value='') -- Select --
+                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                  option(value=year) #{year}
+
+          div(data-target='2' style='display:none')
+            div.d-flex.gap-2
+
+              div
+                select.form-select(name='selected_from_year' id='selected-from-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+              div 
+                select.form-select(name='selected_to_year' id='selected-to-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                    option(value=year) #{year}
+
+          div(data-target='3' style='display:none')
+            div.d-flex.gap-2
+              div
+                select.form-select(name='selected_month' id='selected-month')
+                  option(value='-1') --Select Month --
+                  each month, monthNum in months
+                    option(value=(monthNum + 1))= month
+
+              div
+                select.form-select(name='selected_year_2' id='selected-year-2')
+                  option(value='') -- Select Year--
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+        div
+          button.btn.btn-secondary.btn-sm(id='show-namuna-33-report-btn')
+            | Report
+        div
+          a.btn.btn-primary.btn-sm(href='/namuna/33/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+
+      .table-container 
+
+        .table-responsive 
+          table.table(style='width: 100%;')
+
+            thead
+              tr 
+                th(colspan='8')
+                  |  वृक्ष नोंदवही
+
+              tr
+                //- 1
+                th जमिनीचा रस्त्याचा तपशील (आधारसामग्रीसह)
+
+                //- 2 to 5
+                th वृक्षाचा प्रकार
+                th वृक्षाविषयीची अधिक माहिती
+                th वृक्षांची संख्या
+                th अपेक्षित वार्षिक उत्पन्न
+
+                //- 6  to 10
+                th प्रत्यक्ष प्राप्त उत्पन्न
+                th वृक्ष तोडल्यास नष्ट झाल्यास त्याबाबतचा तपशिल
+                th Action 
+
+
+              tr 
+                each num in [1,2,3,4,5,6,7,9]
+                  th #{num}
+
+            tbody
+
+              each namuna33Entry, index in namuna33Details 
+                //- each namuna33Entry, index in Array(20).fill(paymentnamuna33Entry).flat()
+                tr 
+                  td #{namuna33Entry.land_or_road_details}
+
+                  td #{namuna33Entry.tree_type}
+                  td #{namuna33Entry.tree_additional_info}
+                  td #{namuna33Entry.tree_count}
+                  td #{namuna33Entry.expected_annual_income}
+
+                  td #{namuna33Entry.actual_income_received}
+
+
+                  td #{namuna33Entry.tree_cut_or_destroyed_details}
+
+                  td
+                    .d-flex.align-items-center.justify-content-center(style='gap: 1rem;')
+                      a.btn.btn-success.btn-sm(href=`/namuna/33/edit/${namuna33Entry.id}`)
+                        i.fa.fa-pencil
+
+                      button.btn.btn-danger.btn-sm(class='delete-namuna-33-entry-btn' data-namuna33Entry=namuna33Entry.id) 
+                        i.fa.fa-trash
+

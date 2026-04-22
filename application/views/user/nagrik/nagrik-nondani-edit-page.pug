@@ -1,0 +1,120 @@
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src="/asstest/coustom/js/handlers/gaav-and-others/edit-nagrik-nondani-handler.js")
+block content
+
+    .container.mt-4
+
+        if !nagrik
+            .alert.alert-warning.text-center
+                | कोणतीही माहिती उपलब्ध नाही.
+        else
+
+            .card.shadow-sm
+                .card-header.bg-primary.text-white.text-center
+                    h5.mb-0 Edit Nagrik Nondani
+
+                .card-body
+
+                    form#editNagrikForm
+
+                        .row.g-3
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fName") Full Name
+                                    input.form-control(type="text" id="fName" name="fName" value=nagrik.fName placeholder="पूर्ण नाव")
+
+                                    input(name="id" value=+nagrik.id hidden)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fAadhar") Aadhar Number
+                                    input.form-control(type="text" id="fAadhar" name="fAadhar" value=nagrik.fAadhar maxlength="12" placeholder="आधार क्रमांक")
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fDob") Date of Birth
+                                    input.datepicker.form-control(type="text" id="fDob" name="fDob" value=nagrik.dob placeholder="dd/mm/yyyy")
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="createdAt") Application Date
+                                    input.datepicker.form-control(type="text" id="createdAt" name="createdAt" value=nagrik._createdAt  placeholder="dd/mm/yyyy")
+
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fMobile") Mobile Number
+                                    input.form-control(type="text" id="fMobile" name="fMobile" value=nagrik.fMobile maxlength="10")
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fAltMobile") Alternate Mobile
+                                    input.form-control(type="text" id="fAltMobile" name="fAltMobile" value=nagrik.fAltMobile maxlength="10")
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fOccupation") Occupation
+                                    input.form-control(type="text" id="fOccupation" name="fOccupation" value=nagrik.fOccupation)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fEmail") Email
+                                    input.form-control(type="email" id="fEmail" name="fEmail" value=nagrik.fEmail)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fBloodGroup") Blood Group
+                                    select.form-select(id="fBloodGroup" name="fBloodGroup")
+                                        option(value="") Select
+                                        - let bloodGroups = ["A+", "B+", "O+", "AB+"]
+                                        each bloodGroup in bloodGroups
+                                            option(value=bloodGroup selected=(nagrik.fBloodGroup == bloodGroup)) #{bloodGroup}
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="fVillage") Village
+                                    input.form-control(type="text" id="fVillage" name="fVillage" value=nagrik.fVillage)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="has_aabha_card") Abha Card
+                                    select.form-select(id="has_aabha_card" name="has_aabha_card")
+                                        option(value="YES" selected=nagrik.has_aabha_card=="YES") Yes
+                                        option(value="NO" selected=nagrik.has_aabha_card=="NO") No
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="aabha_card_number") Abha Card Number
+                                    input.form-control(type="text" id="aabha_card_number" name="aabha_card_number" value=nagrik.aabha_card_number)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="has_ayushman_card") Ayushman Card
+                                    select.form-select(id="has_ayushman_card" name="has_ayushman_card")
+                                        option(value="YES" selected=nagrik.has_ayushman_card=="YES") Yes
+                                        option(value="NO" selected=nagrik.has_ayushman_card=="NO") No
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="ayushman_card_number") Ayushman Card Number
+                                    input.form-control(type="text" id="ayushman_card_number" name="ayushman_card_number" value=nagrik.ayushman_card_number)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label.form-label(for="image") Upload Image (नवीन)
+                                    input.form-control(type="file" id="image" name="image")
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label आधीचा फोटो
+                                    - let imgSrc = `/${imageBaseUrl}/${nagrik.fImage}`
+                                    br
+                                    img(src=imgSrc width="120" height="150" style='border: 1px solid black;')
+
+                        .text-center.mt-4
+                            button.btn.btn-success#update-nagrik-nondani-btn(type="button")
+                                i.fa-solid.fa-pen-to-square.me-2
+                                | Update

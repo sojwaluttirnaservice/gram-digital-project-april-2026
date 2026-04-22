@@ -1,0 +1,193 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        //- //- common css
+        //- link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+        //- COMMON JS
+        //- script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/coustom/js/common.js')
+        title विवाह नोंदणी रजिस्टर 
+
+        style.
+            table {
+                border-collapse: collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid black;
+
+            }
+   
+
+            th {
+                font-size: 0.7rem !important;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+            .waterMark {
+                    position: fixed; /* Ensures watermark is fixed in the background */
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    opacity: 0.3;
+                    width: 50%;
+                    //- height: 50%%;
+                    z-index: -1; /* Places the watermark behind other content */
+                }
+            .my-print{
+                position: relative;
+            }
+
+            .heading-1 {
+                font-size: 1.8rem;
+            }
+
+            .heading-2 {
+                font-size: 1.4rem;
+            }
+
+            .text-start {
+                text-align: start;
+            }
+
+            .font-weight-bold {
+                font-weight: bold;
+            }
+
+            @media print {
+                @page {
+                    size: A4 landscape;
+                }
+                .my-print{
+                    position: relative;
+                    page-break-before: always;
+                    width:280mm;
+                    height:410mm;
+                    page-break-inside: avoid;
+                }
+                table td, tr {
+                    page-break-inside: avoid;
+                } 
+    
+                .waterMark {
+                    position: fixed; /* Ensures watermark is fixed in the background */
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    opacity: 0.3;
+                    width: 50%;
+                    //- height: 50%%;
+                    z-index: -1; /* Places the watermark behind other content */
+                }
+                table{
+                    margin-top: 2rem;
+                }
+            
+            }
+    body
+        .my-print()
+            //- .container-fluid
+            //-     .row.justify-content-center
+            //-         .col-12
+            table(style='width: 100%;')
+
+                thead
+                    tr
+                        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png") 
+                        th(colspan='12')
+                            div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+                                div परिशिष्ट १ ( नमुना ड )
+                                h5 विवाह नोंदणी फॉर्म
+                            
+                            div
+                                div(style="display: grid; grid-template-columns: 1fr 1fr;")
+                                    div
+                                        div(style="display: flex; flex-direction: column; align-items: flex-start;")
+                                            div.text-start 1) जिल्ह्याचे नाव : 
+                                                span.font-weight-bold #{gp.gp_dist}
+                                            div 2) माहे : 
+                                                span.font-weight-bold #{month}
+                                            div 3) पंचायत  समितीचे (विकास गटाचे) नाव : 
+                                                span.font-weight-bold #{gp.gp_taluka}
+                                    div
+                                        div(style="display: flex; flex-direction: column; align-items: flex-start;")
+                                            div 4) तालुक्याचे नाव : 
+                                                span.font-weight-bold #{gp.gp_taluka}
+                                            div 5) महसुलीचे गावाचे नाव: 
+                                                span.font-weight-bold #{gp.gp_name}
+                                            div 6) ग्रामपंचायत नाव :
+                                                span.font-weight-bold #{gp.gp_name}
+
+                    tr
+                        th(scope='col') अ क्र
+                        th(scope='col') विवाह माहिती मिल्यालाची तारीख
+                        th(scope='col') विवाह झाल्याची तारिक व ठिकाण 
+
+                        th(scope='col') वराचे संपूर्ण नाव, वय, राहण्याचे ठिकाण 
+                        th(scope='col') वधूचे संपूर्ण नाव, वय, राहण्याचे ठिकाण 
+                        th(scope='col') धर्म (वराचा)
+
+                        th(scope='col') धर्म (वधूचा)
+                        th(scope='col') राष्ट्रीयत्वा (वराचे) 
+                        th(scope='col') राष्ट्रीयत्वा (वधूचे) 
+
+                        th(scope='col') वराचे वडिलांचे, पालकाचे संपूर्ण नाव 
+                        th(scope='col') वधूचे वडिलांचे, पालकाचे संपूर्ण नाव 
+                        th(scope='col') माहिती देणाराचे नाव व पत्ता
+
+
+                tbody
+                    if marriageList && marriageList.length == 0
+                        tr
+                            td(colspan="12")
+                                div(style="text-align:center; font-weight:bold; font-size:3rem;") माहिती उपलब्ध नाही
+
+                    else  
+                        each _entry, _index in marriageList
+                        
+                            tr
+                                //- 1
+                                td(scope='row') #{_index + 1}
+                                //- 2
+                                td(scope='col') #{_entry.registration_date} 
+                                //- 3
+                                td(scope='col') 
+                                    div #{_entry.marriageDate} 
+                                    div #{_entry.marriagePlaceE}
+
+                                //- 4
+                                td(scope='col') 
+                                    div #{_entry.marriageHusbandNameE}
+                                    div #{_entry.marriageHusbandAddressE}
+                                
+                                //- 5
+                                td(scope='col') 
+                                    div #{_entry.marriageWifedNameE}
+                                    div #{_entry.marriageWifeAddressE}
+                                
+                                //- 6
+                                td  #{_entry.marriageHusbandReligionM}
+
+                                //- 7
+                                td #{_entry.marriageWifeReligionM}
+
+                                //- 8
+                                td #{_entry.marriageHusbandNationalityM}
+
+                                //- 9
+                                td #{_entry.marriageWifeNationalityM}
+
+                                //- 10
+                                td #{_entry.marriageHusbandFatherNameM}
+
+                                //- 11
+                                td #{_entry.marriageWifeFatherNameM}
+
+                                //- 12
+                                td #{_entry.marriageInformerNameM}

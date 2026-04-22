@@ -1,0 +1,42 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    // ===== DECLARATION BODY =====
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा. 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE} 
+            | आधार क्रमांक 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAadharM || selfDeclaration.sd_applicantAadharE}
+            | , याद्वारे जाहीर 
+            span(class="font-extrabold") #{declarer}
+            |  की, मी सध्या कोणत्याही शासकीय अथवा खासगी नोकरीत कार्यरत नाही
+            |  तसेच माझ्या नावावर कोणताही नियमित उत्पन्नाचा स्रोत उपलब्ध नाही.
+
+        p(class="mt-3")
+            | मला हे 
+            span(class="font-extrabold") बेरोजगार प्रमाणपत्र
+            |  
+            span(class="font-extrabold")
+                | #{selfDeclaration.certificateReason}
+            |  या कारणासाठी आवश्यक आहे.
+
+        p(class="mt-3")
+            | मी वर नमूद केलेली सर्व माहिती खरी व बरोबर असून,
+            |  भविष्यात ती चुकीची आढळल्यास त्याची संपूर्ण जबाबदारी माझी राहील.
+
+        p(class="mt-3")
+            | तरी मला बेरोजगार असल्याबाबत प्रमाणपत्र देण्यात यावे,
+            |  ही नम्र विनंती.

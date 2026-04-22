@@ -1,0 +1,296 @@
+doctype html
+head
+    title नमुना ८ - blank print
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    script(src="/asstest/plugins/qr_code/qrious.min.js")
+    style.
+        @media print {
+            @page{
+                size: A4 landscape;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+            }
+            table, .normal-text{
+                page-break-inside: avoid;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        
+        .main-heading {
+            margin-left:10%
+        }
+        .heading-second{
+            margin-left:30%
+        }
+        .heading-second-2{
+            margin-left:30%
+        }
+        #table2 td {
+            padding-left:1px;
+            padding-right:1px;
+        }
+        #table3 td {
+            padding-left:3px;
+            padding-right:3px;
+        } 
+        p{
+            padding-bottom:0px !important;
+            margin-bottom:1px !important;
+        }
+        td{
+            font-size:12px !important;
+            border:0.5px solid;
+        }
+        table{
+            width:100% !important;
+        }
+        .h5{
+            font-size:15px !important;
+        }
+        .h6{
+            font-size:14px !important;
+        }
+        .h7{
+            font-size:11px !important;
+        }
+        .h8{
+            font-size:10px !important;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.2;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translateX(-50%);
+        }
+
+        .text-red {
+            color: red;
+        }
+body
+    .row.my-print.mt-3
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        .col-12
+            table(border="2")
+                thead
+                    tr.p-0.m-0
+                        td(colspan="6").p-1.m-0 
+                            div
+                                img(src="/img/header-images/mudra-nav.jpg" width="100" height="40")
+                                p.h5.text-center.d-inline.main-heading.font-weight-bold महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/फाल्गुल १३ शके १९३७ नुसार नमुना ८ नियम ३२(९)
+                                img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+                            div.mt-2.mb-2
+                                span.h5.ml-4.font-weight-bold नमुना-८
+                                p.d-inline.h4.font-weight-bold.heading-second ग्रामपंचायत कार्यालय #{gp.gp_name} 
+                            div.m-0.p-0
+                                p.h7.font-weight-bold.text-right पान क्र:- 1
+                            div.mt-2.mb-2
+                                p.h6.font-weight-bold.text-center सन. _____ ते _____ साला करिता करास पात्र असलेल्या इमारती व जमिनी यांची भांडवली मूल्यांकनानुसार कर आकारणी नोंदणी पुस्तिका (असेसमेंट रजिस्टर)             
+                    tr.p-0.m-0
+                        td(colspan="6").p-1.m-0 
+                            div.text-center
+                                span.h6.ml-4.font-weight-bold अ.क्र: 
+                                    b.ml-3 
+                                span.pl-4.h6.ml-4.font-weight-bold जुना घर क्र: 
+                                    b.ml-3 
+                                span.pl-4.h6.ml-4.font-weight-bold वार्ड क्र: 
+                                    b.ml-3 
+                                span.pl-4.h6.ml-4.font-weight-bold मालमत्ता क्रमांक: 
+                                    b.ml-3 
+                                span.pl-4.h6.ml-4.font-weight-bold रस्त्याचे नाव/गावाचे नाव: 
+                                    b.ml-3 
+                                span.pl-4.h6.ml-1.font-weight-bold मो.क्र: 
+                                    b.ml-1 
+                                span.pl-4.h6.ml-1.font-weight-bold आधार.क्र: 
+                                    b.ml-1 
+                    tr.p-0.m-0(style='height: 1.5rem !important;')
+                        td(colspan="2").p-1.m-0 
+                            p.text-right.mr-2.font-weight-bold मालमत्ता धारकाचे नाव/पत्नी चे नाव : 
+                        td(colspan="3" ).p-1.m-0 
+                            p.font-weight-bold.ml-3 
+                        
+                            
+                    tr.p-0.m-0(style='height: 1.5rem !important;')
+                        td(colspan="2").p-1.m-0 
+                            p.text-right.mr-2.font-weight-bold भोगवटधारकाचे नाव : 
+                        td(colspan="3").p-1.m-0 
+                            p.font-weight-bold.ml-3 
+
+
+                    tr.p-0.m-0(style='height: 1.5rem !important;')
+                        td(colspan="2").p-1.m-0
+                            p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार : 
+                        td(colspan="3").p-1.m-0 
+                            p.font-weight-bold.ml-3.text-red 
+
+                    tr.p-0.m-0
+                        td(colspan='2').p-1.m-0 
+                            p.text-right.mr-2.font-weight-bold.mr-2 अपिल व इतर आदेश/बोझा/शेरा: 
+                        td(colspan="3" style='word-break:break-all;').p-1.m-0 
+                            p.font-weight-bold.ml-3 
+
+                    tr.p-0.m-0
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  पूर्वेस:
+                        td(width="10%").p-1.m-0 
+                            p.ml-3.ml-2 
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  पश्चिमेस:
+                        td(width="10%").p-1.m-0 
+                            p.ml-3.ml-2  
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  घरकूल:
+                        td(width="20%").p-1.m-0 
+                            p.ml-3.ml-2  
+                    tr.p-0.m-0
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  उत्तरेस:
+                        td(width="10%").p-1.m-0 
+                            p.ml-3.ml-2  
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  दक्षिणेस:
+                        td(width="10%").p-1.m-0 
+                            p.ml-3.ml-2  
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold शौच्छालय :
+                        td(width="20%").p-1.m-0 
+                            p.ml-3.ml-2  
+                    tr.p-1.m-0
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  गट क्र./भुमापण क्र. /नगर भामपण क्र:
+                        td(width="10%").p-1.m-0 
+                            p.ml-3.ml-2  
+                        td(width="10%" colspan="2").p-1.m-0 
+                            p.text-center.font-weight-bold लांबी(पु)(प) X रुंदी (उ)(द):
+                                spam.ml-2 
+                        td(width="10%").p-1.m-0 
+                            p.text-center.font-weight-bold  एकूण जागेचे क्षेत्रफळ: 
+                        td(width="10%").p-1.m-0 
+                            p.font-weight-bold एकूण जागेची चौ.मी:
+                                span.ml-2 
+    .row
+        .col-12.mt-3
+            span.h8.font-weight-bold खालील प्रमाणे मालमत्तेची माहिती
+            center
+                table(border="1")#table2
+                    thead
+                        tr.p-0.m-0
+                            td(width="10%").text-center.m-0.font-weight-bold मालमत्तेचे वर्णन
+                            td(width="10%").text-center.m-0.font-weight-bold मालमत्तेचे प्रकार
+                            td(width="5%").text-center.m-0.font-weight-bold वर्ष
+                            td(width="5%").text-center.m-0.font-weight-bold लांबी(पु)(प)
+                            td(width="5%").text-center.m-0.font-weight-bold रुंदी(उ)(द)
+                            td(width="5%").text-center.m-0.font-weight-bold चौ.फु क्षेत्रफळ
+                            td(width="5%").text-center.m-0.font-weight-bold चौ.मीटर
+                            td(width="5%").text-center.m-0.font-weight-bold जमीन दर
+                            td(width="5%").text-center.m-0.font-weight-bold बांधकाम दर
+                            td(width="5%").text-center.m-0.font-weight-bold इमारत दर
+                            td(width="5%").text-center.m-0.font-weight-bold घसारा
+                            td(width="5%").text-center.m-0.font-weight-bold इ.वा.भारांक
+                            td(width="5%").text-center.m-0.font-weight-bold भांडवली मु किंमत
+                            td(width="5%").text-center.m-0.font-weight-bold कराचा दर
+                            td(width="5%").text-center.m-0.font-weight-bold कर
+
+                        - for (let row = 1; row <= 7; row++)
+                            tr.p-0.m-0(style='height: 2rem;')
+                                td(width="0%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+    
+    
+    .row
+        .col-12 
+            .normal-text
+                .row.align-items-start
+                    .col-8.mt-2
+                        div 
+                            span.h8.font-weight-bold भाडवली मुल्यांकनानुसार आकारण्यात आलेली कर आकारणी.
+                    .col-4.mt-2
+                        div 
+                            span.h4.font-weight-bold(style="")
+                                p.h7 अपील निकाल आणि त्यानंतर केलेला फेरफार
+                                p.h7 नंतर वाढ किवां घट झालेल्या बाबतीत आदेशाच्या संदर्भासह शेरा
+        .col-12 
+            div
+                center 
+                    table(border="1")#table3
+                        thead
+                            tr.p-0.m-0
+                                td(width="8%").text-center.m-0.font-weight-bold एकूण बांधकाम
+                                td(width="8%").text-center.m-0.font-weight-bold एकूण खुली जागा
+                                td(width="8%").text-center.m-0.font-weight-bold एकूण क्षेत्रफळ 
+                                td(width="8%").text-center.m-0.font-weight-bold इमारत कर 
+                                td(width="8%").text-center.m-0.font-weight-bold खुला कर
+                                td(width="5%").text-center.m-0.font-weight-bold इतर
+                                td(width="5%").text-center.m-0.font-weight-bold दिवा कर
+                                td(width="5%").text-center.m-0.font-weight-bold आरोग्य कर
+                                td(width="8%").text-center.m-0 पाणी पट्टी कर
+                                td(width="8%").text-center.m-0.font-weight-bold एकूण कर
+                                td(width="5%").text-center.m-0 घरपट्टी कर
+                                td(width="5%").text-center.m-0 दिवा कर
+                                td(width="5%").text-center.m-0 आरोग्य कर
+                                td(width="5%").text-center.m-0 पाणी पट्टी कर
+                                td(width="5%").text-center.m-0 एकूण कर
+                            
+                            tr.p-2.m-0(style='height: 2rem;')
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+                                td(width="%").text-center.m-0 
+    .row
+        .col-12
+            table.mb-4.mt-5.table-borderless.table-bg-transparent
+                thead
+                    tr.p-0.m-0
+                        td.p-0.m-0 
+                            div
+                                p.h7.text-center कार्यालयीन शिक्का
+                        td.p-0.m-0 
+                            div
+                                p.h7.text-center सत्यप्रत
+                        td.p-0.m-0 
+                            div
+                                p.h7.text-right सचिव/ग्रा.वि. अधिकारी
+                                p.h7.text-right ग्रामपंचायत कार्यालय
+                        td.p-0.m-0 
+                            p.h7.text-right (टीप: शेरा व दुरुस्त्या यावर खरे पणाबद्धल सरपंचाने सही केली पाहिजे)
+    .row
+        .col-12
+            p(style="border:1px solid").p-1.h7.font-weight-bold सत्यप्रत नोट - ग्रामपंचायत #{gp.gp_name} ता #{gp.gp_taluka} जिल्हा #{gp.gp_dist} नमुना 8 जागेच्या मालकी हक्कासंबंधी अधिकृत पुरावा नसून फक्त ग्रामपंचायतला कर आकारणी करणे व वसुली करणे करिता मर्यादित आहे. खरेदी-विक्रीचे व्यवहार केल्यास त्यास मालक जबाबदार राहील. मालकी हक्क संबंधी अथवा क्षेत्रफळाबाबत वाद असल्यास अधिकृत पुरावा म्हणून नोंदणीकृत दस्तावेज ग्राह्य समजले जाईल व गयी प्रकार आढळून आल्यास त्यास मालमत्ता धारक जबाबदार राहील तसेच शासनाकडून मिळालेली जागा / घरकुल ( इंदिरा आवास योजना/ प्रधानमंत्री आवास योजना / रमाई आवास योजना /शबरी आवास योजना /इतर घरकुल योजना ) विकता येणार नाही खरेदी विक्री केल्यास मालमत्ताधारक व घेणारा जबाबदार राहील.
+

@@ -1,0 +1,103 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- Optional future CSS hook
+
+block content
+    .container(class='py-4')
+
+        .card(class='shadow-sm')
+            .card-header(class='bg-primary text-white fw-bold')
+                i(class='fa-solid fa-pen-to-square me-2')
+                | #{t("divyangaRegistrationPage.heading")} - Edit
+
+            .card-body
+                form(id='divyangaEditForm' method='POST' enctype='multipart/form-data')
+
+                    input(type='hidden' name='id' value=divyangaApplication.id)
+
+                    .row(class='g-3')
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.fullName.label")}
+                            input(type='text' name='full_name' class='form-control' value=divyangaApplication.full_name)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.address.label")}
+                            input(type='text' name='address' class='form-control' value=divyangaApplication.address)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.education.label")}
+                            input(type='text' name='education' class='form-control' value=divyangaApplication.education)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.demand.label")}
+                            input(type='text' name='demand' class='form-control' value=divyangaApplication.demand)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.mobile.label")}
+                            input(type='text' name='mobile' maxlength='10' class='form-control' value=divyangaApplication.mobile)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.typeOfDisability.label")}
+                            input(type='text' name='type_of_disability' class='form-control' value=divyangaApplication.type_of_disability)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.percentageOfDisability.label")}
+                            input(type='text' name='percentage_of_disability' class='form-control' value=divyangaApplication.percentage_of_disability)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.age.label")}
+                            input(type='text' name='age' class='form-control' value=divyangaApplication.age)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.aadharNumber.label")}
+                            input(type='text' id="aadhar-number" name='aadhar_number' class='form-control' value=divyangaApplication.aadhar_number)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.applicationNumber.label")}
+                            input(type='text' name='application_number' class='form-control' value=divyangaApplication.application_number)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.remarks.label")}
+                            input(type='text' name='shera' class='form-control' value=divyangaApplication.shera)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.bankName.label")}
+                            input(type='text' name='bank_name' class='form-control' value=divyangaApplication.bank_name)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.bankIfscCode.label")}
+                            input(type='text' name='bank_ifsc_code' class='form-control' value=divyangaApplication.bank_ifsc_code)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.bankAccountNumber.label")}
+                            input(type='text' name='bank_account_number' class='form-control' value=divyangaApplication.bank_account_number)
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.certificateUpload.label")}
+                            input(type='file' name='certificate_file' class='form-control')
+
+                            p
+                                a(href=`/upload/divyanga-certificates/${divyangaApplication.certificate_file_name}` target='_blank') आधी अपलोड केलेले प्रमाणपत्र बघा
+                                
+
+                        .col-md-6
+                            label(class='form-label fw-bold') #{t("divyangaRegistrationPage.form.inputs.photoUpload.label")}
+                            input(type='file' name='image' class='form-control')
+
+                            p
+                                - let path = `/${divyangaApplication.user_image_pathurl.split('/').slice(2).join('/')}`
+                                a(href=path target='_blank') आधी अपलोड केलेला फोटो बघा
+
+
+                    .mt-4(class='text-center')
+                        button(type='button' id ='edit-divyanga-application-btn' class='btn btn-success px-5 fw-bold')
+                            i(class='fa-solid fa-floppy-disk me-2')
+                            | #{t("divyangaRegistrationPage.form.registerBtn")}
+
+
+    script(src='/asstest/coustom/js/handlers/divyanga/divyanga-edit-page-handler.js' defer)
+
+
+    

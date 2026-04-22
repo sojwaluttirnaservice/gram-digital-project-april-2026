@@ -1,0 +1,128 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    title #{title}
+
+    // Common CSS
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    // Scripts
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/labor-attendance/labor-attendance-work-list-handler.js')
+
+    script.
+        $(function() {
+            $(document).on('click','#open-month-year-modal-btn', function(e){
+                e.preventDefault();
+                $('#monthYearModal').modal('show');
+            });
+        })
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+            .modal-dialog { 
+                max-width: none; 
+            }
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+
+body
+    include ../include/navs.pug
+
+    //- .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content(style='max-width: 600px').mx-auto
+                .modal-header
+                    h4.modal-title.fs-5#exampleModalLabel महिना वर्ष निवडा
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .row.justify-content-center
+                        .col-3
+                            input.form-control(type='text' name='year' placeholder='Year')
+                .modal-footer
+                    button.btn.btn-primary(type="button" id='print-bpl-work-record-btn') प्रिंट करा
+
+    .container-fluid
+        .row
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    span.fa.fa-id-card
+                    | &nbsp; मजुरी कामांची यादी
+                    a(href="/labor-attendance/work/create").float-right.btn.btn-primary.btn-sm.mr-2
+                        span.fa.fa-plus
+                        |  नवीन नोंदणी
+
+                    //- button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                    //-     | रजिस्टर प्रिंट
+
+            .col-12
+                .table-responsive(style='margin-bottom: 5rem;')
+                    table.table.table-bordered.text-center
+                        thead
+                            tr.bg-success.text-white
+                                th(width="5%") अ. क्र.
+                                th(width="20%") कामाचे नाव
+                                th(width="20%") कामाचे स्थळ
+                                th(width="10%") प्रारंभ तारीख
+                                th(width="10%") शेवटची तारीख
+                                th(width="15%") Action
+
+                        tbody#worksList
+                            if works == null || works.length == 0
+                                tr 
+                                    td(colspan='9') कोणतीही नोंद उपलब्ध नाही.
+                            else 
+                                each work, index in works 
+                                    tr 
+                                        td #{index + 1}
+                                        td #{work.name}
+                                        td #{work.location}
+                                        td #{work._start_date}
+                                        td #{work._end_date}
+                                        td
+                                            div(class='d-flex align-items-center justify-content-center')
+                                                a.btn.text-primary(href=`/labor-attendance/work/edit/${work.id}` target="_self")
+                                                    i.fa.fa-edit
+
+                                                button.btn.text-danger(class='delete-labor-work-btn' data-laborWorkId=`${work.id}`)
+                                                    i.fa.fa-trash
+
+                                                a.btn.text-primary(href=`/labor-attendance/workers/list/${work.id}` target="_self")
+                                                    i.fa.fa-users
+
+                                                a.btn.text-primary(href=`/labor-attendance/print/${work.id}` target="_blank")
+                                                    i.fa.fa-print

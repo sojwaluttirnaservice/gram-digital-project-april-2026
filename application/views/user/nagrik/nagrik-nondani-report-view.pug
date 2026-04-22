@@ -1,0 +1,92 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- Optional future CSS hook
+    style.
+
+        .nagrik-name {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 0.3rem;
+        }
+        .nagrik-name img {
+            height: 36px;
+            width: 36px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+block content
+    include ./nagrik-report-print-modal.pug
+
+    .mt-3.mb-3.text-center
+        h1.heading-1 नागरिक नोंदणी रिपोर्ट
+
+    .container
+        .d-flex.justify-content-between.align-items-center.mb-3
+            p.mb-0 एकूण नोंदणी: 
+                span.fw-bold #{nagrikList.length}
+
+            div(class='d-flex gap-2')
+                button.btn.btn-secondary.btn-sm(data-bs-toggle="modal" data-bs-target="#print-report-modal")
+                    i.fa.fa-print.me-1
+                    | रिपोर्ट
+                a.btn.btn-success(href='javascript:history.back()') Back
+
+        .row.justify-content-center
+            .col-12
+                .table-responsive
+                    table.table.table-hover.table-bordered
+                        thead
+                            tr.bg-primary.text-light
+                                th(width='4%') अ.क्र.   
+                                th(width='15%') नाव  
+                                th(width='12%') आधार नं  
+                                th(width='12%') मोबाईल नं  
+                                th(width='8%') जन्म दिनांक    
+                                th(width='6%') रक्तगट  
+
+                                th आभा कार्ड आहे?
+                                th(width='10%') आभा कार्ड क्रमांक
+
+                                th आयुष्मान कार्ड आहे?
+                                th(width='10%') आयुष्मान कार्ड क्रमांक  
+                                th(width='15%') आयुष्मान भारत योजनेचे नाव
+
+                                th मेरी पंचायत ॲप डाउनलोड केले आहे ?
+                                th पंचायत निर्णय ॲप डाउनलोड केले आहे का?
+                                th ग्राम संवाद ॲप डाउनलोड केले आहे का?
+                                th Action
+
+                        tbody
+                            - const yesNoNA = (val, defaultValue = "पुरवलेला नाही") => val ? (val === "YES" ? "होय" : "नाही") : (defaultValue ? defaultValue : "पुरवलेला नाही")
+                            each nagrik, index in nagrikList
+                                tr
+                                    td #{index + 1}
+                                    td
+                                        .nagrik-name
+                                            - let path = `/${imageBaseUrl}/${nagrik.fImage}`
+                                            a(href=path target='_blank')
+                                                img(src=path, alt='' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                                            span #{nagrik.fName}
+                                    td #{nagrik.fAadhar || 'पुरवलेला नाही.'}
+                                    td #{nagrik.fMobile || 'पुरवलेला नाही.'}
+                                    td #{nagrik.dob || 'पुरवलेला नाही.'}
+                                    td #{nagrik.fBloodGroup || 'पुरवलेला नाही.'}
+
+                                    td #{yesNoNA(nagrik.has_aabha_card)}
+                                    td #{nagrik.aabha_card_number || 'पुरवलेला नाही.'}
+
+                                    td #{yesNoNA(nagrik.has_ayushman_card)}
+                                    td #{nagrik.ayushman_card_number || 'पुरवलेला नाही.'}
+                                    td #{nagrik.ayushman_bharat_yojana_name || 'पुरवलेला नाही.'}
+
+                                    td #{yesNoNA(nagrik.has_downloaded_meri_gram_panchayat_app, "होय")} 
+                                    td #{yesNoNA(nagrik.has_downloaded_panchayat_decision_app, "होय")}
+                                    td #{yesNoNA(nagrik.has_downloaded_gram_samvad_app, "होय")}
+
+                                    td 
+                                        div(class='d-flex align-items-center gap-2')
+                                            a.btn.text-success(href=`/nagrik/edit/${nagrik.id}` target='_blank')
+                                                i.fa.fa-edit

@@ -1,0 +1,270 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js' defer)  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+    script(src='/asstest/coustom/js/handlers/form8Ferfar.js' defer)
+
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+
+    title #{title}
+
+    style.
+
+        .modal.show{
+            top: 25% !important;
+        }
+        .modal-content{
+            width: 16rem !important;
+        }
+
+        #threeButtons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        #savingButtons {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        @media(max-width: 578px){
+            #threeButtons {
+                flex-direction: column;
+                gap: 0.2rem;
+                font-size: 0.9rem;
+                width: 80%;
+                margin-inline: auto;
+            }
+        }
+
+
+
+body
+    include ./include/navs.pug
+    include ./include/home-logout-button.pug
+    .container
+
+        .row.justify-content-center.p-0
+            .col-12.d-flex.justify-content-center
+                h5.heading-1 नमुना ८ फेरफार
+
+            .col-12 
+                div(class="float-right")
+                    div(class="d-flex align-items-center gap-2")
+                        a.btn.btn-success(href='/gp-applications/f8-ferfar/list') फेरफार / नामांतर करण्यासाठी अर्ज
+                        button.btn.btn-primary(onclick='history.back();') Back
+            .col-12
+                #threeButtons 
+                    button#getFerfarAvahalBtn.btn.btn-secondary.mb-2.ml-3 महिन्यानुसार फेरफार अहवाल
+                    button#getFerfarAvahalYearWiseModalBtn.btn.btn-secondary.mb-2.ml-3 पूर्ण वर्षाचा फेरफार अहवाल
+                    button#getFerfarAvahalDateToDateModalBtn.btn.btn-secondary.mb-2.ml-3 वर्ष ते वर्ष फेरफार अहवाल
+            .col-12.mt-3.d-flex.justify-content-center.align-items-center
+                //- form#searchByMalmattaNo.d-flex.justify-content-center.align-items-center.flex-column
+                //-   label.font-weight-bold.m-2(for='malmattaNo' style='font-size: 1.4rem;') मालमत्ता क्र 
+                //-   input.form-control(id='malmattaNo' type='text' name='malmattaNo')
+                //-   button.btn.btn-primary.m-2(id='searchMalmattaNo') 
+                //-     i.fa.fa-search &nbsp; शोधा
+
+            .col-12.col-md-8
+                form
+                    .row.align-items-center
+                        .col-4.col-md-3
+                            .form-group.mx-sm-3.mb-2
+                                select#selectSearch.form-control.text-secondary
+                                    option(value="1") नाव
+                                    option(value="2") मालमत्ता क्र
+                                    option(value="3") अनु/घर क्रमांक टाका
+                                    option(value='4') भोगवटदाराचे नाव
+                        .col-8.col-md-6
+                            .form-group.mx-sm-3.mb-2
+                                input#homeId1-type.form-control(type='text' placeholder='')
+                                input#homeId1.form-control(type='hidden' placeholder='enter')
+                        .col-12.col-md-3.text-center
+                            button#btnGetUserDetails1.btn.btn-primary.mb-2(type='submit') माहिती पहा
+
+
+
+            .col-12.d-flex.justify-content-center.align-items-center
+                div(class='alert alert-warning' role='alert').d-none#alertDiv
+                    | मालमत्ता क्र नाही सापडला
+            .col-12
+
+                .card#ferfarFormCard.d-none
+                    .card-header.bg-warning
+                        div.fw-bold.text-center फेरफार माहिती
+
+                    .card-body
+                        form#ferfarForm.mt-3
+                            .row.justify-content-center
+                                .col-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                                        input#newMalmattaNo.form-control-sm.form-control(type='text' name='newMalmattaNo' readonly)
+                                        input#userId.d-none(type='text' name='userId' readonly)
+                                .col-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') जुना धारक
+                                        input#newOldDharak.form-control-sm.form-control(type='text' name='newOldDharak' )
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') नवीन धारक मोबाईल क्रमांक 
+                                        input#newMobileNo.form-control-sm.form-control(type='text' name='newMobileNo' value="-" maxlength="10" )
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') नवीन धारक
+                                        input#newNewDharak.form-control-sm.form-control(type='text' name='newNewDharak' )
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') नवीन धारक आधार नं
+                                        input#newDharakAadhar.form-control-sm.form-control(type='text' name='newDharakAadhar' maxlength="14")
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') फेरफार दिनांक
+                                        input#newPherfarDate.form-control-sm.form-control( name='newPherfarDate' autoComplete='off' placeholder='DD/MM/YYYY')
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') ठराव क्रमांक
+                                        input#newPherfarTharav.form-control-sm.form-control(type='text' name='newPherfarTharav')
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') कोणत्या दस्तावेजनी
+                                        select#newPherfarDocument.form-control(type='text' name='newPherfarDocument')
+                                            option(value="") ---निवडा---
+                                            -let _dastavej = dastavejList != null ? dastavejList : []
+                                            each value,index in _dastavej
+                                                option(value=value) #{value}
+                                .col-12.col-md-6.col-lg-3
+                                    .form-group
+                                        label.font-weight-bold(for='my-input') रेजीस्ट्री नंबर
+                                        input#registryNo.form-control-sm.form-control(type='text' name='registry_no')
+
+                                .col-12.mt-4
+                                    #savingButtons
+                                        button#addFerfar.btn.btn-primary
+                                            i.fa.fa-save.font-weight-bold.btn-lg &nbsp; जतन करा
+                                        button#editFerfar.btn.btn-secondary
+                                            i.fa.fa-edit.font-weight-bold.btn-lg &nbsp; सुधारणा करा
+                                        button#saveEditedFerfar.btn.btn-success.d-none
+                                            i.fa.fa-edit.font-weight-bold.btn-lg &nbsp; सुधारणा जतन करा
+
+            .col-12.d-flex.justify-content-center.align-items-center
+                table#ferfar-avahal-list-table.table.table-bordered.text-center.mt-3.w-50.d-none
+                    thead
+                        tr.text-white
+                            th.bg-primary महिना
+                            th.bg-primary प्रिंट करा
+                            th.bg-primary काढून टाका
+                            //- th.bg-primary.text-light सुधारणा करा
+
+                    tbody#ferfarMonthList
+
+            .col-12.d-flex.justify-content-center.align-items-center
+                table#ferfar-avahal-list-year-wise-table.table.table-bordered.text-center.mt-3.w-50.d-none
+                    thead
+                        tr.text-white
+                            th.bg-primary वर्ष
+                            th.bg-primary प्रिंट करा
+                            th.bg-primary काढून टाका
+                            //- th.bg-primary.text-light सुधारणा करा
+
+                    tbody#yearwise-body
+
+            .col-12.d-flex.justify-content-center.align-items-center
+                table#ferfar-avahal-list-date-to-date-table.table.table-bordered.text-center.mt-3.w-50.d-none
+                    thead
+                        tr.text-white
+                            th.bg-primary वर्ष
+                            th.bg-primary प्रिंट करा
+                            th.bg-primary काढून टाका
+                            //- th.bg-primary.text-light सुधारणा करा
+
+                    tbody#date-to-date-body
+
+
+.modal#getFerfarAvahalModal(tabindex='-1')
+    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+        .modal-content.modal-sm.w-auto
+            .modal-header
+                h5.modal-title फेरफार अहवाल 
+            .modal-body
+                div.form-group
+                    label(for='yearDropdown') वर्ष
+                    select(name='year' id='yearDropdown' class='form-control')
+                        option(value=-1) --Select Year--
+                        each ferfarYear in ferfarYears  
+                            option(value=ferfarYear) #{ferfarYear}
+
+            .modal-footer.d-flex.justify-content-center
+                button.btn.btn-secondary.closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
+                button#getFerfarAvahalMonthwiseBtn.btn.btn-primary(type='button') Get Data
+
+.modal#getFerfarAvahalYearwiseModal(tabindex='-1')
+    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+        .modal-content.modal-sm.w-auto
+            .modal-header
+                h5.modal-title फेरफार अहवाल 
+            .modal-body
+                div.form-group
+                    label(for='yearDropdownYearwise') वर्ष
+                    select(name='year-yearwise' id='yearDropdownYearwise' class='form-control')
+                        option(value=-1) --Select Year--
+                        each ferfarYear in ferfarYears  
+                            option(value=ferfarYear) #{ferfarYear}
+
+            .modal-footer.d-flex.justify-content-center
+                button.btn.btn-secondary#closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
+                button#getFerfarAvahalYearwiseBtn.btn.btn-primary(type='button') Show Table
+
+.modal#getFerfarAvahalDateToDateModal(tabindex='-1')
+    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+        .modal-content.modal-sm.w-auto
+            .modal-header
+                h5.modal-title फेरफार अहवाल 
+            .modal-body
+                form
+                    .form-group
+                        input.dateDate.form-control#date-from(type='text' placeholder='DD/MM/YYYY' name='this_date_from')
+
+                    .text-center.fw-semibold.my-2 ते
+
+                    .form-group
+                        input.dateDate.form-control#date-To(type='text' placeholder='DD/MM/YYYY' name='this_date_to')
+            .modal-footer.d-flex.justify-content-center
+                button.btn.btn-secondary#closeFerfarAvahalDateToDateModal(type='button' data-bs-dismiss='modal') Close
+                button#getFerfarAvahalDateToDateBtn.btn.btn-primary(type='button') Show Table

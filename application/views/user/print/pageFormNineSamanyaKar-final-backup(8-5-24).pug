@@ -1,0 +1,445 @@
+doctype html
+head
+    title नमुना ९ सामान्य
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    style.
+        @page { 
+            size: landscape;
+            margin: 2mm 2mm 2mm 0mm;
+            -webkit-print-color-adjust: exact;
+        }
+        .m-top {
+            margin: 10mm 5mm 10mm 5mm !important;
+        }
+        .m-bottom {
+            margin: 5mm 5mm 5mm 5mm !important;
+        }
+        .m-bottom-second {
+            margin: 5mm 5mm 5mm 5mm !important;
+        }
+        tr,td,th{
+            border-color:transparent !important;
+        }
+
+        .transperent{
+            background-color:transparent !important;
+            color:transparent !important;
+        }
+
+        .year-1{
+            position: absolute;
+            left:240px;
+            top:60px
+        }
+        .year-2{
+            position: absolute;
+            left:350px;
+            top:60px
+        }
+
+        .page-number{
+            position: absolute;
+                right:160px;
+                top:34px;
+        }
+        .td-list{
+            margin-top:107px
+        }
+        .zp{
+            position: absolute;
+            top:0px;
+            left:517px
+        }
+        .td-list span{
+            position: absolute;
+                font-size:11px !important;
+        }
+        .td-list .td-1{
+            top:0px;
+            left:0px
+
+        }
+        .td-list .td-2{
+            top:0px;
+            left:20px;
+            width:0px
+        }
+        .td-list .td-3{
+            top:0px;
+            left: 60px;
+            width:1px !important;
+        }
+
+        .td-list .td-4{
+            //- top:0px;
+            //- left: 121px;
+            width:10.5rem ;
+            //- background: yellow;
+            text-align: left;
+        }
+
+        .td-list .td-5{
+            top:0px;
+            left:267px;
+        }
+        .td-list .td-6{
+            top:0px;
+            left: 360px
+        }
+
+        .td-list .td-7{
+            top:0px;
+            left: 415px
+        }
+        .td-list .td-8{
+            top:0px;
+            left: 465px
+        }
+
+        .td-list .td-9{
+            top:0px;
+            left: 515px
+        }
+
+        .td-list .td-10{
+            top:0px;
+            left: 557px
+        }
+
+        .td-list .td-11{
+            top:0px;
+            left: 603px
+        }
+
+        .td-list .td-12{
+            top:0px;
+            left: 659px
+        }
+        .td-list .td-13{
+            top:0px;
+            left: 710px
+        }
+        .td-list .td-14{
+            top:0px;
+            left: 760px
+        }
+        .td-list .td-15{
+            top:0px;
+            left: 820px
+        }
+        .td-list .td-16{
+            top:0px;
+            left: 863px
+        }
+        .td-list .td-17{
+            top:0px;
+            left: 923px
+        }
+        .td-list .td-18{
+            top:0px;
+            left: 980px
+        }
+
+        tr,td,th{
+            border-color:transparent !important;
+        }
+        .rotatePage{
+            transform: rotateZ(180deg);
+        }
+        .rotatePage img{ 
+            margin-top:0px !important; 
+        }
+        #table2 td {
+            padding-left:0px;
+            padding-right:0px;
+        }
+        #table3 td {
+            padding-left:5 px;
+            padding-right:5px;
+        } 
+        .set-height > td.td {
+            height:100px;
+        }
+        .set-height > td.td1 {
+            height:100px;
+        }
+        .set-p-break {
+            page-break-before: always;
+        }
+        td{
+            font-size:11px !important;
+            border:0px solid;
+        }
+        table{
+            width:80% !important;
+        }
+        .h6{
+            font-size:11px !important;
+
+        }
+        .h5{
+            font-size:11px !important;
+        }
+
+        .h7{
+            font-size:11px !important;
+        }
+        .d-none{
+            display:none !important
+        }
+        .transperent{
+            background-color:transparent !important;
+            color:transparent !important;
+        }
+
+center
+    - var pageCount = 0;
+    - var lastBuildingTax = 0;
+    - var currentBuildingTax = 0;
+    - var totalBuildingTax = 0;
+    - var lastDivaTax = 0;
+    - var currentDivaTax = 0;
+    - var totalDivaTax = 0;
+    - var lastArogyaTax = 0;
+    - var currentArogyaTax = 0;
+    - var totalArogyaTax = 0;
+    - var totalSampurnaTax = 0;
+    - var main_length = Math.ceil(data.length/5);
+    - var count = 0
+    - var start = 0;
+
+        //- page-२
+        .set-p-break.m-bottom-second
+            div(style="position:relative;display:inline-block;width:405mm;height:280mm !important;")
+                img(src="/print/namuna-9/namuna-9-print-2.jpg" width="100%" height="100%")
+                div(style="position: absolute;top:0;width:110%")
+
+                    h4(style="position: absolute;top:-13px;left:853px;font-size:24px; color: brown").fw-bold.zp #{zp.gp_name}
+                    div(style="position: absolute;top:60px;left:1410px;font-size:24px").page-number
+                        span #{count}+
+
+                    div.mt-1.mb-2
+                        p.text-center.h6.font-weight-bold(style="display:flex")
+                            span(style="position: absolute;top:95px;left:390px;font-size:24px").h4.year-1 #{y1} 
+                            span(style="position: absolute;top:95px;left:550px;font-size:24px").h4.year-2 #{y2}
+    while count <  main_length
+        - start = count*5;
+        - array1 = data.slice(start, (start+5));
+        - arrayLen =  5 - array1.length;
+        if(arrayLen !== 0)
+            while arrayLen > 0
+                - var singleVar = {lastBuildingTax: 0,currentBuildingTax: 0,totalBuildingTax: 0,lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, totalSampurnaTax: 0, lastTaxFine: 0, feu_homeN: '-',feu_homeNo:'-',feu_malmattaNo:'-', feu_malmattaNo: '-', feu_ownerName: '-', feu_secondOwnerName: '-', lastBuildingTax: 0, currentBuildingTax: 0, totalBuildingTax: 0, lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, lastTaxFine: 0, lastYearTaxFine: 0, totalSampurnaTax: 0}
+                - array1.push(singleVar)
+                - arrayLen--
+        - count++; 
+        .row.set-p-break.m-top
+            - var lastBuildingTax = 0;
+            - var currentBuildingTax = 0;
+            - var totalBuildingTax = 0;
+
+            - var lastDivaTax = 0;
+            - var currentDivaTax = 0;
+            - var totalDivaTax = 0;
+
+            - var lastArogyaTax = 0;
+            - var currentArogyaTax = 0;
+            - var totalArogyaTax = 0;
+
+
+            - let lastEducationTax = 0;
+            - let currentEducationTax = 0;
+            - let totalEducationTax = 0;
+
+            - let lastFireblegateTax = 0;
+            - let currentFireblegateTax = 0;
+            - let totalFireblegateTax = 0;
+
+            - let lastCleaningTax = 0;
+            - let currentCleaningTax = 0;
+            - let totalCleaningTax = 0;
+
+            - let lastTreeTax = 0;
+            - let currentTreeTax = 0;
+            - let totalTreeTax = 0;
+
+
+            - var totalSampurnaTax = 0;
+            - var lastTaxFine = 0;
+            .col-12(style="position:relative;display:inline-block;width:405mm;height:280mm !important")
+                img(src="/print/namuna-9/namuna-9-print-1.jpg" width="100%" height="100%")
+                div(style="position: absolute;top:0;width:110%")
+                    h4(style="position: absolute;top:-29px;left:810px;font-size:24px; color: brown;").zp #{zp.gp_name}
+                    div(style="position: absolute;top:37px;right:251px;font-size:24px").page-number
+                        span #{count} 
+                    div.mt-2.mb-2
+                        p.text-center.h5.font-weight-bold(style="display:flex")
+                            span(style="position: absolute;top:66px;left:481px;font-size:20px").h4.year-1 #{year.year1} 
+                            span(style="position: absolute;top:66px;left:611px;font-size:20px").h4.year-2 #{year.year2}
+                    div.td-list(style="position:relative; top:115px !important;")
+                        each val,index in array1
+                            - pageCount += 1;
+                            - lastBuildingTax += Math.round(val.lastBuildingTax);
+                            - currentBuildingTax += Math.round(val.currentBuildingTax);
+                            - totalBuildingTax += Math.round(val.lastBuildingTax + val.currentBuildingTax);
+
+                            - lastDivaTax += Math.round(val.lastDivaTax);
+                            - currentDivaTax += Math.round(val.currentDivaTax);
+                            - totalDivaTax += Math.round(val.lastDivaTax + val.currentDivaTax);
+
+                            - lastArogyaTax += Math.round(val.lastArogyaTax);
+                            - currentArogyaTax += Math.round(val.currentArogyaTax);
+                            - totalArogyaTax += Math.round(val.lastArogyaTax + val.currentArogyaTax);
+
+                            - lastEducationTax += Math.round(val.lastEducationTax);
+                            - currentEducationTax += Math.round(val.currentEducationTax);
+                            - totalEducationTax += Math.round(val.lastEducationTax + val.currentEducationTax);
+
+                            - lastFireblegateTax += Math.round(val.lastFireblegateTax);
+                            - currentFireblegateTax += Math.round(val.currentFireblegateTax);
+                            - totalFireblegateTax += Math.round(val.lastFireblegateTax + val.currentFireblegateTax);
+
+                            - lastCleaningTax += Math.round(val.lastCleaningTax);
+                            - currentCleaningTax += Math.round(val.currentCleaningTax);
+                            - totalCleaningTax += Math.round(val.lastCleaningTax + val.currentCleaningTax);
+
+                            - lastTreeTax += Math.round(val.lastTreeTax);
+                            - currentTreeTax += Math.round(val.currentTreeTax);
+                            - totalTreeTax += Math.round(val.lastTreeTax + val.currentTreeTax);
+
+                            - totalSampurnaTax += Math.round(val.totalSampurnaTax);
+                            //- - totalSampurnaTax += Math.round(totalBuildingTax + totalDivaTax + totalArogyaTax + totalEducationTax + totalFireblegateTax + totalCleaningTax + totalTreeTax);
+                            - lastTaxFine += (Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine));
+                            //- - style = `position: absolute;top:${index*139}px;width:100%`
+                            - style = `position: relative; border: 0px solid blue; width:100%; height: 8.7rem; margin-bottom: 10px;`
+                                div.my-div(style=style)
+                                    span.td-1(style="position: absolute; left:13px; font-size:16px !important;transform:rotateZ(90deg)") #{pageCount}
+                                    span.td-2(style="position: absolute; left:44px; font-size:16px !important;transform:rotateZ(90deg)") #{val.feu_homeNo}
+                                    span.td-3(style="position: absolute; left:72px; font-size:16px !important; transform: rotatez(90deg)") #{val.feu_malmattaNo}
+
+                                    span.td-4(style="position: absolute;left:100px;font-size:16px !important;") #{val.feu_ownerName}
+                                    span.td-5(style="position: absolute;left:290px;font-size:16px !important; inline-size: 84px; text-align: left;  overflow-wrap: break-word; hyphens: manual") #{val.feu_secondOwnerName}
+
+                                    //-TX
+                                    span.td-6(style="position: absolute;left:376px;font-size:16px !important") #{Math.round(val.lastBuildingTax)}
+                                    span.td-7(style="position: absolute;left:422px;font-size:16px !important") #{Math.round(val.currentBuildingTax)}
+                                    span.td-8(style="position: absolute;left:475px;font-size:16px !important") #{Math.round(val.lastBuildingTax + val.currentBuildingTax)}
+
+                                    span.td-9(style="position: absolute;left:532px;font-size:16px !important") #{Math.round(val.lastDivaTax)}
+                                    span.td-10(style="position: absolute;left:580px;font-size:16px !important") #{Math.round(val.currentDivaTax)}
+                                    span.td-11(style="position: absolute;left:635px;font-size:16px !important") #{Math.round(val.lastDivaTax + val.currentDivaTax)}
+
+                                    span.td-12(style="position: absolute;left:680px;font-size:16px !important") #{Math.round(val.lastArogyaTax)}
+                                    span.td-13(style="position: absolute;left:733px;font-size:16px !important") #{Math.round(val.currentArogyaTax)}
+                                    span.td-14(style="position: absolute;left:787px;font-size:16px !important") #{Math.round(val.lastArogyaTax + val.currentArogyaTax)}
+
+                                    span.td-12(style="position: absolute;left:838px;font-size:16px !important") #{Math.round(val.lastCleaningTax)}
+                                    span.td-13(style="position: absolute;left:888px;font-size:16px !important") #{Math.round(val.currentCleaningTax)}
+                                    span.td-14(style="position: absolute;left:935px;font-size:16px !important") #{Math.round(val.lastCleaningTax + val.currentCleaningTax)}
+
+                                    span.td-12(style="position: absolute;left:983px;font-size:16px !important") #{Math.round(val.lastFireblegateTax)}
+                                    span.td-13(style="position: absolute;left:1027px;font-size:16px !important") #{Math.round(val.currentFireblegateTax)}
+                                    span.td-14(style="position: absolute;left:1062px;font-size:16px !important") #{Math.round(val.lastFireblegateTax + val.currentFireblegateTax)}
+
+                                    span.td-12(style="position: absolute;left:1098px;font-size:16px !important") #{Math.round(val.lastTreeTax)}
+                                    span.td-13(style="position: absolute;left:1140px;font-size:16px !important") #{Math.round(val.currentTreeTax)}
+                                    span.td-14(style="position: absolute;left:1180px;font-size:16px !important") #{Math.round(val.lastTreeTax + val.currentTreeTax)}
+
+                                    span.td-12(style="position: absolute;left:1214px;font-size:16px !important") #{Math.round(val.lastEducationTax)}
+                                    span.td-13(style="position: absolute;left:1260px;font-size:16px !important") #{Math.round(val.currentEducationTax)}
+                                    span.td-14(style="position: absolute;left:1294px;font-size:16px !important") #{Math.round(val.lastEducationTax + val.currentEducationTax)}
+
+
+
+
+                                    - val111 = Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)
+                                    span.td-15(style="position: absolute;left:1340px;font-size:16px !important")  #{isNaN(val111)? 0:val111}
+                                    span.td-16(style="position: absolute;left:1400px;font-size:16px !important") -
+                                    span.td-17(style="position: absolute;left:1446px;font-size:16px !important")  #{isNaN(val111)? 0:val111}
+
+                                    span.td-18(style="position: absolute;left:1495px;font-size:16px !important")
+                                        //- - _totalSampurnaTax = val.lastBuildingTax + val.currentBuildingTax + val.lastDivaTax + val.currentDivaTax + val.lastArogyaTax + val.currentArogyaTax + val.lastEducationTax + val.currentEducationTax + val.lastFireblegateTax + val.currentFireblegateTax + val.lastCleaningTax + val.currentCleaningTax + val.lastTreeTax + val.currentTreeTax
+                                        strong #{Math.round(val.totalSampurnaTax)}
+                                - style = `position: absolute;top:${index*100}px;width:100%`
+
+
+                        //- div(style='position: absolute;top:820px;width:100%;font-size:16px !important; border: 2px solid black;  height: 2rem')
+                        div(style='position: relative; width:100%;font-size:16px !important; border: 0px solid black;  height: 2rem')
+                            span.td-1 
+                            span.td-2 
+                            span.td-3 
+                            span.td-4 
+                            span.td-5 
+                            span.td-6
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:8px ') #{lastBuildingTax}
+                            span.td-7
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:8px') #{currentBuildingTax}
+                            span.td-8
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:9px') #{totalBuildingTax}
+
+
+                            span.td-9
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:15px') #{lastDivaTax}
+                            span.td-10
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:22px')  #{currentDivaTax}
+                            span.td-11
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:25px')  #{totalDivaTax}
+
+                            span.td-12
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:20px')  #{lastArogyaTax}
+                            span.td-13
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:22px')  #{currentArogyaTax}
+                            span.td-14
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:28px')  #{totalArogyaTax}
+
+                            span.td-12
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:174px')  #{lastCleaningTax}
+                            span.td-13
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:172px')  #{currentCleaningTax}
+                            span.td-14
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:172px')  #{totalCleaningTax}
+
+                            span.td-12
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:321px')  #{lastFireblegateTax}
+                            span.td-13
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:322px')  #{currentFireblegateTax}
+                            span.td-14
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:300px')  #{totalFireblegateTax}
+
+                            span.td-12
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:434px; ')  #{lastTreeTax}
+                            span.td-13
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:430px;')  #{currentTreeTax}
+                            span.td-14
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:414px')  #{totalTreeTax}
+
+                            span.td-12
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:555px')  #{lastEducationTax}
+                            span.td-13
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:545px')  #{currentEducationTax}
+                            span.td-14
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:533px')  #{totalEducationTax}
+
+
+                            span.td-15
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:515px')  #{isNaN(lastTaxFine)? 0 : lastTaxFine}
+                            span.td-16
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:530px') - 
+                            span.td-17
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:519px') #{isNaN(lastTaxFine)? 0:lastTaxFine}
+                            span.td-18
+                                strong(style='position: absolute;top:00px;font-size:16px !important;left:513px') #{totalSampurnaTax}
+
+        .row.set-p-break.m-bottom-second
+            div(style="position:relative;display:inline-block;width:410mm;height:280mm !important;")
+                img(src="/print/namuna-9/namuna-9-print-2.jpg" width="100%" height="100%")
+                div(style="position: absolute;top:0;width:110%")
+                    h4(style="position: absolute;top:-28px;left:849px;font-size:24px; color: brown;").zp #{zp.gp_name}
+                    div(style="position: absolute;top:60px;left:1410px;font-size:24px").page-number
+                        span #{count}
+                    div.mt-1.mb-2
+                        p.text-center.h6.font-weight-bold(style="display:flex")
+                            span(style="position: absolute;top:95px;left:390px;font-size:24px").h4.year-1 #{y1} 
+                            span(style="position: absolute;top:95px;left:550px;font-size:24px").h4.year-2 #{y2}

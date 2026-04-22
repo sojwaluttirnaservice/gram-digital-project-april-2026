@@ -1,0 +1,66 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        title #{title}
+
+        // CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+
+        // JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')  
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+        // Custom CSS/JS
+        link(href='/asstest/coustom/css/gp/women-saving-group-names/women-saving-group-names-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/gp/women-saving-group-names/group-name-form-handler.js')
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section 
+            .container
+                h2.heading-1.text-center बचतगट नोंदणी फॉर्म
+
+                .text-end
+                    a.btn.btn-primary.text-light(href='/wg-names') यादी बघा
+
+                form#wg-group-form
+                    .form.form-1
+                        .row.g-3
+                            .col-md-12
+                                .form-group
+                                    label(for='group_name') बचतगटाचे नाव
+                                    input.form-control#group_name(type='text' name='group_name' placeholder='बचतगटाचे नाव', required)
+
+                            .col-md-12
+                                .form-group
+                                    label(for='village_name') गावाचे नाव
+                                    input.form-control#village_name(type='text' name='village_name' placeholder='गावाचे नाव')
+
+                    .text-end.mt-3
+                        button.btn.btn-primary#save-group-btn(type='submit')
+                            i.fa.fa-save.mr-1
+                            |  जतन करा

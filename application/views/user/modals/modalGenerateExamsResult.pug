@@ -1,0 +1,29 @@
+#modalExmasResult.modal.p-0.m-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+  .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+    .modal-content(style="max-width:100%; height:100vh")
+      .modal-header
+        h5.modalTitle.modal-tilte Result Manager
+        .d-inline-block#navModalTab.navModalTab.nav.align-content-center(role='tablist')
+          button#createResultTab.btn.mr-2.btn-sm.btn-primary.active.d-none(data-toggle='tab', href='#createResultAction', role='tab', aria-controls='candidateAddAction', aria-selected='true')
+            | Result
+          button.closeModal.btn.btn-danger.btn-sm(data-mname="#modalExmasResult") Exit
+      .modal-body#loadMathjsx
+        #nav-tabContentModal.tab-content
+          #createResultAction.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='createResultTab')
+            .row
+              .col-3
+                div.moreExmasInfo
+                  
+              #viewPList.col-6.offset
+                .text-center
+                  table.table.table-bordered.proptityDiv.m-0.p-0
+                    thead.text-primary
+                      tr
+                        th(width='4%') SR. No
+                        th(width='10%') Topic Name
+                        th(width='2%') Prority
+                    tbody.text-secondary
+                button.setProrityFroResult.btn.btn-primary.btn-sm.mt-1.float-right Set Result Priority
+                button.processProrityResult.d-none.btn.btn-primary.btn-sm.mt-1.float-right Process
+                button.processResultView.d-none.btn.btn-success.btn-sm.mt-1.float-right View Result
+            

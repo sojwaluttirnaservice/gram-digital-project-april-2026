@@ -1,0 +1,314 @@
+doctype html
+head
+  title मागणी बिल
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+body
+  - var pageCount = 0;
+  each val,index in data
+    - pageCount += 1;
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      .col-6
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-2.p-0.m-0
+                      img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+                    .col-8.text-center.p-0.m-0
+                      span.h6.font-weight-bold मुंबई ग्रा.पं. कायदा क्र. १२९-२ प्रमाणे कर
+                      small.d-block.font-weight-bold नमुना ९(क) (नियम ३२(५) पहा) 
+                      small.d-block.font-weight-bold  कर वसुली मागणी बिल
+                    .col-2.p-0.m-0
+                      img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      center
+                        h5.p-0.m-0.h5.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटधारकाचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-4.p-0.m-0
+                      p.ml-2.pt-1.pb-1.h6.font-weight-bold मालमत्ता क्र.:&nbsp;#{val.feu_malmattaNo}
+                    .col-4.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.font-weight-bold क्र.:&nbsp;#{pageCount}
+                    .col-4.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.font-weight-bold दिनांक:&nbsp;#{date1}
+            tr.p-0.m-0
+              td.p-0.m-0(rowspan="2" width="30%")
+                p.ml-2.h5.font-weight-bold करांची नावे
+              td.p-0.m-0.text-center(width="20%")
+                p.pt-2.h6 मागील कर सन
+              td.p-0.m-0.text-center(width="20%")
+                p.h6 चालू कर सन
+              td.p-0.m-0.text-center(rowspan="2" width="30%")
+                p.h5.font-weight-bold एकूण कर
+            tr.p-0.m-0
+              td.p-0.m-0.text-center #{y1}
+              td.p-1.m-0.text-center  #{y2} 
+            tr.p-0.m-0
+              td.p-0.m-0(width="30%")
+                p.pt-1.pb-1.ml-2.h5.font-weight-bold इमारत कर
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastBuildingTax)}
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentBuildingTax)}
+              td.p-0.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalBuildingTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0(width="30%")
+                p.ml-2.h5.font-weight-bold दिवाबत्ती कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastDivaTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentDivaTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold  #{Math.round(val.totalDivaTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0( width="30%")
+                p.ml-2.h5.font-weight-bold आरोग्य कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastArogyaTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentArogyaTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalArogyaTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0( width="30%")
+                p.d-block.ml-2.h6.font-weight-bold विशेष/सामान्य पाणी कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalWaterTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0( width="30%")
+                p.d-block.ml-2.font-weight-bold इतर/मागील घर पट्टीवर दंड कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.lastTaxFine)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.lastTaxRelief)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold  #{Math.round(val.totalTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0( width="30%")
+                p.ml-2.h5.font-weight-bold एकूण कर
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val.lastTaxFine)}
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+              td.p-0.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mb-2
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.ml-2.h6 
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        | वरील दर्शविलेली रक्कमेची सूचना मिळाल्या पासून १५ दिवसांच्या आत ग्रामपंचायत
+                        | कार्यालयात कर भरणा करावा. आपण ती रक्कम न भरल्यास त्या रक्कमेची अन्यथा
+                        | ग्रामपंचायत अधिनियमाच्या कलम क्र.१२९(२) अन्वये आपल्यावर मागणी लेख बजावण्यात येईल.
+                    .col-6.p-0.m-0
+                      p.ml-2.h5.font-weight-bold घेणाऱ्याची सही
+                    .col-6.p-0.m-0
+                        p.h6.font-weight-bold 
+                          span.mr-2.float-right.d-block.float-right सचिव/वसुली लीपिलीकाची अद्याक्षरी
+                          br
+                          span.float-right.d-block.mr-5.pr-5  ग्रा.पं
+      .col-6
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-2.p-0.m-0
+                      img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+                    .col-8.text-center.p-0.m-0
+                      span.h6.font-weight-bold मुंबई ग्रा.पं. कायदा क्र. १२९-२ प्रमाणे कर
+                      small.d-block.font-weight-bold नमुना ९(क) (नियम ३२(५) पहा) 
+                      small.d-block.font-weight-bold  कर वसुली मागणी बिल
+                    .col-2.p-0.m-0
+                      img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      center
+                        h5.p-0.m-0.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटधारकाचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-4.p-0.m-0
+                      p.ml-2.pt-1.pb-1.h6.font-weight-bold मालमत्ता क्र.:&nbsp;#{val.feu_malmattaNo}
+                    .col-4.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.font-weight-bold क्र.:&nbsp;#{pageCount}
+                    .col-4.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.font-weight-bold दिनांक:&nbsp;#{date1}
+            tr.p-0.m-0
+              td.p-0.m-0(rowspan="2" width="30%")
+                p.ml-2.h5.font-weight-bold करांची नावे
+              td.p-0.m-0.text-center(width="20%")
+                p.pt-2.h6 मागील कर सन
+              td.p-0.m-0.text-center(width="20%")
+                p.h6 चालू कर सन
+              td.p-0.m-0.text-center(rowspan="2" width="30%")
+                p.h5.font-weight-bold एकूण कर
+            tr.p-0.m-0
+              td.p-0.m-0.text-center #{y1}
+              td.p-1.m-0.text-center  #{y2} 
+            tr.p-0.m-0
+              td.p-0.m-0(width="30%")
+                p.pt-1.pb-1.ml-2.h5.font-weight-bold इमारत कर
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastBuildingTax)}
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentBuildingTax)}
+              td.p-0.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalBuildingTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0(width="30%")
+                p.ml-2.h5.font-weight-bold दिवाबत्ती कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastDivaTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentDivaTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold  #{Math.round(val.totalDivaTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0( width="30%")
+                p.ml-2.h5.font-weight-bold आरोग्य कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastArogyaTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentArogyaTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalArogyaTax)}
+            tr.p-0.m-0
+              td.pt-1.pb-1.p-1.m-0( width="30%")
+                p.d-block.ml-2.h6.font-weight-bold विशेष/सामान्य पाणी कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalWaterTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0( width="30%")
+                p.d-block.ml-2.font-weight-bold इतर/ मागील घर पट्टीवर दंड कर
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.lastTaxFine)}
+              td.p-1.m-0.text-center(width="20%")
+                p.h5.font-weight-bold  #{Math.round(val.lastTaxRelief)}
+              td.p-1.m-0.text-center(width="30%")
+                p.h5.font-weight-bold  #{Math.round(val.totalTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0( width="30%")
+                p.ml-2.h5.font-weight-bold एकूण कर
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val.lastTaxFine)}
+              td.p-0.m-0.text-center(width="20%")
+                p.h5.font-weight-bold #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+              td.p-0.m-0.text-center(width="30%")
+                p.h5.font-weight-bold #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mb-2
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.ml-2.h6 
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        | वरील दर्शविलेली रक्कमेची सूचना मिळाल्या पासून १५ दिवसांच्या आत ग्रामपंचायत
+                        | कार्यालयात कर भरणा करावा. आपण ती रक्कम न भरल्यास त्या रक्कमेची अन्यथा
+                        | ग्रामपंचायत अधिनियमाच्या कलम क्र.१२९(२) अन्वये आपल्यावर मागणी लेख बजावण्यात येईल.
+                    .col-6.p-0.m-0
+                      p.ml-2.h5.font-weight-bold देणाऱ्याची सही
+                    .col-6.p-0.m-0
+                        p.h6.font-weight-bold 
+                          span.mr-2.float-right.d-block.float-right सचिव/वसुली लीपिलीकाची अद्याक्षरी
+                          br
+                          span.float-right.d-block.mr-5.pr-5  ग्रा.पं
+      

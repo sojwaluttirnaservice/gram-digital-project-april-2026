@@ -1,0 +1,205 @@
+doctype html
+html(lang='mr')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        title जॉब कार्ड अर्ज
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+        link(rel='preconnect' href='https://fonts.googleapis.com')
+        link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+        link(href='https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap' rel='stylesheet')
+
+        style.
+            body {
+                margin: 0;
+                background: #e5e7eb;
+            }
+
+            .print-font {
+                font-family: "Tiro Devanagari Marathi", serif;
+                color: #111827;
+            }
+
+            .screen-wrapper {
+                display: flex;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .label {
+                font-weight: 700;
+                color: #1f2937;
+            }
+
+            .value {
+                margin-left: 4px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            th, td {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .avoid-break {
+                page-break-inside: avoid;
+            }
+
+            #pdfPage {
+                width: 210mm;
+                background: white;
+                overflow: visible;
+            }
+
+            @media print {
+                @page {
+                    size: A4;
+                    width:210mm;
+                    height: 297mm;
+                    margin: 14mm;
+                    border: 1px solid black;
+                }
+
+                body {
+                    background: #ffffff;
+                }
+
+                .screen-wrapper {
+                    padding: 0;
+                }
+
+                #pdfPage {
+                    page-break-after: always;
+                }
+
+                table {
+                    page-break-inside: auto;
+                }
+
+                tr {
+                    page-break-inside: avoid;
+                    page-break-after: auto;
+                }
+            }
+
+    body(class='print-font')
+        div(class='screen-wrapper')
+
+            #pdfPage(class='relative')
+
+                // ===== WATERMARK =====
+                div(class='absolute inset-0 flex items-center justify-center opacity-[0.08] pointer-events-none')
+                    img(src='/img/water-mark-images/Seal_of_Maharashtra.png' class='w-[65%]')
+
+                // ===== CONTENT =====
+                div(class='relative z-10 px-8 py-6 text-[14px] leading-[1.55]')
+
+                    // ===== HEADER =====
+                    div(class='text-center border-b-4 border-gray-900 pb-3 mb-4 avoid-break')
+                        h1(class='text-[26px] font-extrabold tracking-wide uppercase') जॉब कार्ड अर्ज
+                        p(class='font-bold mt-1 text-[15px]')
+                            | ग्रामपंचायत #{gp.gp_name || '—'}, पंचायत समिती #{gp.gp_taluka || '—'}, जिल्हा #{gp.gp_dist || '—'}
+
+                    // ===== BASIC DETAILS =====
+                    div(class='mb-4 space-y-1 avoid-break')
+                        p
+                            span(class='label') कुटुंब प्रमुखाचे नाव :
+                            span(class='value') #{jobCard.family_head_name || 'उपलब्ध नाही'}
+                        p
+                            span(class='label') अर्जदाराचे नाव :
+                            span(class='value') #{jobCard.applicant_name || 'उपलब्ध नाही'}
+                        p
+                            span(class='label') पत्ता :
+                            span(class='value') #{jobCard.applicant_address || 'उपलब्ध नाही'}
+                        p
+                            span(class='label') मोबाईल क्रमांक :
+                            span(class='value') #{jobCard.applicant_mobile || 'उपलब्ध नाही'}
+
+                    // ===== SOCIAL DETAILS =====
+                    div(class='mb-4 grid grid-cols-2 gap-x-6 gap-y-1 avoid-break')
+                        p
+                            span(class='label') जात प्रवर्ग :
+                            span(class='value') #{jobCard.caste_category || '—'}
+                        p
+                            span(class='label') अल्पसंख्यांक :
+                            span(class='value') #{jobCard.minority || '—'}
+                        p
+                            span(class='label') अल्पभूधारक शेतकरी :
+                            span(class='value') #{jobCard.small_farmer || '—'}
+                        p
+                            span(class='label') सामान्य शेतकरी :
+                            span(class='value') #{jobCard.general_farmer || '—'}
+                        p
+                            span(class='label') भूसुधारक लाभार्थी :
+                            span(class='value') #{jobCard.land_reform_beneficiary || '—'}
+                        p
+                            span(class='label') इंदिरा आवास लाभार्थी :
+                            span(class='value') #{jobCard.indira_awaas_beneficiary || '—'}
+                        p
+                            span(class='label') आम आदमी विमा :
+                            span(class='value') #{jobCard.aab_yojana_beneficiary || '—'}
+                        p
+                            span(class='label') राष्ट्रीय स्वास्थ्य विमा :
+                            span(class='value') #{jobCard.rashtriya_swasthya_bima_beneficiary || '—'}
+                        if jobCard.rashtriya_swasthya_bima_no
+                            p(class='col-span-2')
+                                span(class='label') विमा क्रमांक :
+                                span(class='value') #{jobCard.rashtriya_swasthya_bima_no}
+                        p
+                            span(class='label') BPL कुटुंब :
+                            span(class='value') #{jobCard.bpl_family || '—'}
+                        if jobCard.bpl_family_no
+                            p
+                                span(class='label') BPL क्रमांक :
+                                span(class='value') #{jobCard.bpl_family_no}
+
+                    // ===== DOCUMENTS =====
+                    div(class='mb-5 avoid-break')
+                        p(class='font-extrabold text-[15px] mb-2 border-b border-gray-400 pb-1') सादर कागदपत्रे
+                        div(class='flex gap-10')
+                            div
+                                p(class='label mb-1') कुटुंब फोटो :
+                                if jobCard.family_photo_image_name
+                                    div(class='border border-gray-400 p-2 w-fit bg-gray-50')
+                                        img(src=`/uploads/images/job-cards/${jobCard.family_photo_image_name}` class='max-w-[160px] max-h-[120px] object-contain')
+                                else
+                                    p(class='text-gray-500') उपलब्ध नाही
+
+                            div
+                                p(class='label mb-1') रेशन कार्ड :
+                                if jobCard.family_head_ration_card_pdf
+                                    p(class='font-bold text-green-700') PDF जोडलेला
+                                else
+                                    p(class='text-gray-500') उपलब्ध नाही
+
+                    // ===== FAMILY MEMBERS =====
+                    - const members = jobCard.family_members_list ? JSON.parse(jobCard.family_members_list) : []
+                    if members.length
+                        div(class='mb-4')
+                            p(class='font-extrabold text-[15px] mb-2') कुटुंबातील सदस्य
+                            table(class='border border-gray-700 text-[13px]')
+                                thead
+                                    tr(class='bg-gray-200')
+                                        th(class='border px-2 py-1 w-[35%]') नाव
+                                        th(class='border px-2 py-1 w-[25%]') नाते
+                                        th(class='border px-2 py-1 w-[20%]') लिंग
+                                        th(class='border px-2 py-1 w-[20%]') वय
+                                tbody
+                                    each m in members
+                                        tr
+                                            td(class='border px-2 py-1') #{m.member_name || '—'}
+                                            td(class='border px-2 py-1') #{m.relation_to_family_head || '—'}
+                                            td(class='border px-2 py-1') #{m.gender || '—'}
+                                            td(class='border px-2 py-1') #{m.age || '—'}
+
+                    // ===== FOOTER =====
+                    div(class='pt-6 border-t-2 border-gray-900 flex justify-between font-bold mt-10')
+                        p दिनांक : ____________
+                        p अर्जदाराची सही : ____________

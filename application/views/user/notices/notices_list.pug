@@ -1,0 +1,119 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src='/asstest/coustom/js/handlers/notices-manager.js')
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+    @media (min-width: 576px) {
+    .modal-dialog { max-width: none; }
+      }
+      .modal-dialog {
+        width: 50%;
+        height: 92%;
+        padding: 0;
+      }
+body
+    include ../include/navs.pug
+    .modal#masterSMSModal(tabindex='-1', role='dialog')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title क्ष title
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body 
+              .row
+                .col-12
+                  form
+                    .row
+                      .form-group.col-12
+                        label(for='comment') दाखला:
+                        .form-check
+                          label.form-check-label.text-success
+                            input#docAllow.form-check-input(type='radio', name='optradio' value="1")
+                            | दाखला मान्य
+                          label.form-check-label.text-danger.ml-5
+                            input#docDisAllow.form-check-input(type='radio', name='optradio' value="0")
+                            | दाखला अमान्य
+                      .form-group.col-12
+                        label(for='comment') संदेश:
+                        textarea#docSMS.form-control(rows='5' placeholder="संदेश मजकूर इथे लिहा")
+                        - var a = 'ग्रा.पं, '+ gp.gp_name;
+                        input#gpName(type="hidden" value=a)
+                      .form-group.col-12
+                        button#btnSendSMS.btn.btn-primary.mb-2(type='submit') संदेश पाठवा
+                    
+
+    .container-fluid
+        .row
+          .col-12.mt-3
+              h4.ml-5.text-center
+                span.fa.fa-users.mr-1
+                |  ग्रामपंचायत सभा नोटीस
+              div.d-inline-block.float-right.mb-2
+                a(href="/notices/manage").btn.btn-success.btn-sm.ml-2 नोटीस जोडा
+          .col-12
+              table.table.table-bordered.text-center
+                  thead
+                    tr.bg-primary.text-white
+                        th(width="8%") अर्ज क्रमांक
+                        th(width="15%") सभा दिनांक
+                        th(width="13%") सभा वेळ
+                        th(width="25%") ठिकाण
+                        th(width="10%") सभा मधील मुद्दे 
+                  tbody#noticeList
+                    if(list.length == 0)
+                      tr
+                        td(colspan="15").text-center.text-danger ग्रामपंचायत सभा यादी रिकामी आहे
+                    else
+                      each value,index in list
+                        tr
+                          td #{value.id}
+                          td #{value.sn_notice_date}
+                          td #{value.sn_time_slot} #{value.sn_time}
+                          td #{value.sn_place}
+                          td
+                            span.fa.fa-envelope.text-primary.hand.viewNoticeTopic(data-id = index)
+    script.
+      $(function(){
+        noticeList = !{json_list};
+        console.log(noticeList);
+      })

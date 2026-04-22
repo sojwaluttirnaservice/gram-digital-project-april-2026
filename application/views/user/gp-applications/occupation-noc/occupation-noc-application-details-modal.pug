@@ -1,0 +1,104 @@
+//- OCCUPATION NOC DETAILS MODAL (VIEW ONLY)
+.modal(tabindex='-1' id='occupation-noc-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-file-alt.me-2.text-primary
+                    | व्यवसाय ना हरकत प्रमाणपत्र अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= APPLICANT DETAILS =================
+                h6.fw-bold.text-primary.mb-3 अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचे पूर्ण नाव
+                        input.form-control(readonly name='applicant_name')
+
+                    .col-12.col-md-6
+                        label.form-label मोबाईल क्रमांक
+                        input.form-control(readonly name='applicant_mobile')
+
+                    .col-12.col-md-6
+                        label.form-label ई-मेल
+                        input.form-control(readonly name='applicant_email')
+
+                    .col-12.col-md-6
+                        label.form-label आधार क्रमांक
+                        input.form-control(readonly name='applicant_aadhaar')
+
+                hr.my-3
+
+                // ================= ADDRESS DETAILS =================
+                h6.fw-bold.text-primary.mb-3 पत्ता माहिती
+                .row.g-3.mb-4
+                    .col-12
+                        label.form-label संपूर्ण पत्ता
+                        textarea.form-control(readonly rows='2' name='applicant_address')
+
+                    .col-12.col-md-6
+                        label.form-label तालुका
+                        input.form-control(readonly name='applicant_taluka')
+
+                    .col-12.col-md-6
+                        label.form-label जिल्हा
+                        input.form-control(readonly name='applicant_district')
+
+                hr.my-3
+
+                //-
+                h6.fw-bold.text-primary.mb-3 कागदपत्रे 
+                .row.g-3.mb-4#documents-view-container
+                    .col-12
+                        div.text-muted.small कागदपत्रांची माहिती उपलब्ध नाही
+
+                hr.my-3
+
+                // ================= STATUS : ACCEPTED =================
+                .div.status-section.d-none(data-status='ACCEPTED')
+                    hr.my-3
+                    h6.fw-bold.text-success.mb-3 अर्ज मंजुरी तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label ग्रामसभा दिनांक
+                            input.form-control(readonly name='sabha_date')
+
+                        .col-12.col-md-6
+                            label.form-label मिळकत / मालमत्ता क्रमांक
+                            input.form-control(readonly name='malmatta_no')
+
+                        .col-12.col-md-6
+                            label.form-label मंजुरी दिनांक
+                            input.form-control(readonly name='date_of_acceptance')
+
+                        .col-12.col-md-6
+                            label.form-label ठराव क्रमांक
+                            input.form-control(readonly name='resolution_no')
+
+                        .col-12.col-md-6
+                            label.form-label मंजुरी शेरा
+                            textarea.form-control(readonly rows='2' name='acceptance_remark')
+
+                // ================= STATUS : REJECTED =================
+                .div.status-section.d-none(data-status='REJECTED')
+                    hr.my-3
+                    h6.fw-bold.text-danger.mb-3 अर्ज नकार तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label नकार दिनांक
+                            input.form-control(readonly name='date_of_rejection')
+
+                        .col-12.col-md-6
+                            label.form-label नकाराचे कारण
+                            textarea.form-control(readonly rows='2' name='rejection_remark')
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा

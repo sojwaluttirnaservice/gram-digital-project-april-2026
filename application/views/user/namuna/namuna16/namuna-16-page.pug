@@ -1,0 +1,212 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+    link(href='/asstest/coustom/css/namuna/namuna-16/namuna-16-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-16/namuna-16-page-handler.js' type='module' defer)
+
+    title नमुना १६ - जडवस्तू संग्रह किंवा जंगम मालमत्ता नोंदवहीचा नमुना
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem; /* Automatically center horizontally */
+        width: fit-content; /* Allow width to adjust based on content */
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../include/navs.pug
+
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना १६ (जडवस्तू संग्रह किंवा जंगम मालमत्ता नोंदवहीचा नमुना)
+
+
+
+      div.d-flex.gap-4.justify-content-center.mb-4
+
+        div 
+          select.form-select(name='show-report-by')
+
+            option(value='-1') --Select Report Type--
+
+            option(value='1') फक्त वर्ष
+            option(value='2') वर्ष श्रेणी
+            option(value='3') महिना व वर्ष
+
+        - let startYear = 2020
+        - let currentYear = new Date().getFullYear()
+
+        div(id='show-report-by-div')
+          div(data-target='1' style='display:none')
+            div.d-flex.gap-2
+              select.form-select(name='selected_year' id='selected-year')
+                option(value='') -- Select --
+                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                  option(value=year) #{year}
+
+          div(data-target='2' style='display:none')
+            div.d-flex.gap-2
+
+              div
+                select.form-select(name='selected_from_year' id='selected-from-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+              div 
+                select.form-select(name='selected_to_year' id='selected-to-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                    option(value=year) #{year}
+
+          div(data-target='3' style='display:none')
+            div.d-flex.gap-2
+              div
+                select.form-select(name='selected_month' id='selected-month')
+                  option(value='-1') --Select Month --
+                  - for(let month = 1; month <= 12; month++)
+                    option(value=month)= month
+
+              div
+                select.form-select(name='selected_year_2' id='selected-year-2')
+                  option(value='') -- Select Year--
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+        //- div
+          button.btn.btn-success(type='button' id='submit-all-entries-btn' role='button' aria-label='Submit all form entries' data-action='submit-all') Submit All
+
+        div
+          button.btn.btn-secondary(id='show-namuna-16-report-btn') Report / यादी
+
+        div
+          a.btn.btn-primary(href='/namuna') नमुने
+
+      - 
+        const months = [
+          "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+          "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+          "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+        ]
+      form(id='namuna-16-form').mt-1
+        .form.form-1
+          //- h4.text-center.fw-bold नमुना १६ नोंदणी
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="item_description") वस्तूचे वर्णन
+                input.form-control(type="text" id="item_description" name="item_description" required placeholder="")
+
+            .col-11.col-md-6.col-lg-6 
+              .form-group 
+                label.form-label(for="purchase_authority") खरेदी प्राधिकृत करणारे
+                input.form-control(type="text" id="purchase_authority" name="purchase_authority" required placeholder="")
+
+            .col-11.col-md-6.col-lg-2
+              .form-group 
+                label.form-label(for="month") महिना
+                select.form-control(id="month" name="month" rows="3" placeholder="महिना प्रविष्ट करा (उदा. 1-12)")
+                  option(value='' selected) -- निवडा --
+                  each month, index in months 
+                    option(value=(index + 1)) #{month}
+
+            .col-11.col-md-6.col-lg-2
+              .form-group 
+                label.form-label(for="year") वर्ष
+                input.form-control(id="year" name="year" rows="3" placeholder="वर्ष प्रविष्ट करा (उदा. 2024)")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="quantity") संख्या
+                input.form-control(type="number" id="quantity" name="quantity" required placeholder="उदा. 10, 20, 50")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="cost") किंमत
+                input.form-control.datepicker(type="text" id="cost" name="cost" required placeholder="खर्च प्रविष्ट करा (उदा. 5000.00)")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="disposal-count") विल्हेवाट केलेल्या वस्तूंची संख्या
+                input.form-control(id="disposal-count" name="disposal_count" rows="3" placeholder="उदा. 2, 5, 10")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="disposal_details") विल्हेवाटाची स्वरूप
+                input.form-control(type="text" id="disposal_details" name="disposal_details" placeholder="उदा. लिलाव, पुनर्विक्री")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="purchase_date") खरेदीची तारीख
+                input.form-control.datepicker(type="text" id="purchase_date" name="purchase_date" required placeholder="तारीख (YYYY-MM-DD)")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="treasury_date") कोषागार तारीख
+                input.form-control.datepicker(type="text" id="treasury_date" name="treasury_date" placeholder="तारीख (YYYY-MM-DD)")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="authorization_certificate") प्रमाणपत्र/प्राधिकृत पत्र
+                input.form-control(type="text" id="authorization_certificate" name="authorization_certificate" placeholder="प्राधिकृत पत्र प्रविष्ट करा")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="recovered_amount") वसूल केलेली रक्कम
+                input.form-control(type="number" step="0.01" id="recovered_amount" name="recovered_amount" placeholder="उदा. 1000.00")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="stock_balance") साठ्यातील शिल्लक
+                input.form-control(type="number" id="stock_balance" name="stock_balance" placeholder="उदा. 25, 50, 100")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="remarks") शेरा
+                input.form-control(id="remarks" name="remarks" rows="3" placeholder="उदा. विशेष टिप्पणी")
+
+
+          .d-flex.gap-4.justify-content-center
+            button.btn.btn-primary(type='button' id="submit-namuna-16-entry") Save
+            button.btn.btn-secondary(type='reset' id="reset") Reset

@@ -1,0 +1,73 @@
+extends ../master-layout/master-layout
+block internal_css
+	link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+	style.
+		.error {
+			color:red !important;
+			font-style:italic !important;
+			font-weight:700 !important;
+		}
+		.bg-warning{
+			background-color:#fffd70 !important;
+		}
+		.bg-warning{
+			background-color:#fffd70 !important;
+		}
+		.hand:hover{
+			background-color:#ecc6db
+		}
+		@media (min-width: 576px) {
+			.modal-dialog { max-width: none; }
+		}
+		.modal-dialog {
+			width: 98%;
+			height: 92%;
+			padding: 0;
+		}
+
+block custom_js
+	script(src="https://cdn.jsdelivr.net/npm/flatpickr" defer)
+	script.
+		$(function(){
+			flatpickr(".dateDate", { dateFormat: 'd/m/Y' })
+		})
+	script(src='/asstest/coustom/js/handlers/rokadVahiManger.js' defer)
+
+block content
+	div.back-image
+		include ../include/navs.pug
+
+		.container
+			.row.d-flex.justify-content-center
+				.col-6
+					h5.heading-1.mt-2 नमुना ५ क 
+
+		- let yadiButtons = [{value:  "सामान्य कर वसुली वही", id: ""}, {value: "पाणी कर वसुली वही", id: ""}, {value: 'सर्व कर वसुली', id:''}]
+			.container
+				.row.justify-content-center.justify-content-md-start
+					each val, key in yadiButtons
+						.col-6.col-md-2
+							.box.box--white
+								.commonModalFrom(data-id=val.value style='text-decoration: none; margin:0')
+									p.box__title(class="d-flex justify-content-center align-items-center" style='gap:0.2rem')
+										i.fa.fa-print.fa-2x.text-success
+										span.ml-2.pt-2 #{val.value} 
+
+
+		.modal.fade#getAllKarVasuliDateToDateModal(tabindex='-1')
+			.modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+				.modal-content.modal-sm.w-auto
+					.modal-header
+						h5.modal-title सर्व कर वसुली
+					.modal-body
+						form
+							.form-group
+								input.dateDate.form-control#from-date(type='text' placeholder='DD/MM/YYYY' name='this_date_from')
+							
+							.text-center.fw-semibold.my-2 ते
+							
+							.form-group
+								input.dateDate.form-control#to-date(type='text' placeholder='DD/MM/YYYY' name='this_date_to')
+					.modal-footer.d-flex.justify-content-center
+						button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+						button#getAllKarVasuliDateToDateBtn.btn.btn-primary(type='button') माहिती पहा

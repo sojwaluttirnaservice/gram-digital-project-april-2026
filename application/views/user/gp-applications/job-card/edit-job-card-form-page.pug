@@ -1,0 +1,236 @@
+extends ../../include/internal-gp-master-layout.pug 
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    // ================= MODALS =================
+    //- include ./job-card-report-modal.pug
+    //- include ./job-card-application-details-modal.pug
+
+    section 
+
+        div.container-fluid.mt-4
+
+            
+            h5.heading-1 एडिट - जॉब कार्ड अर्ज
+
+                //- button.float-right.btn.btn-sm.btn-primary Back
+
+            if !jobCardApplication
+                h3.text-center.fw-bold.text- अर्ज उपलब्ध नाही
+
+            else
+                section#form-section
+                    .container
+                        form(id='job-card-application-form' class='col-md-10 mx-auto')
+
+                            // ===============================
+                            // Family Head & Applicant Info
+                            // ===============================
+                            .card.mb-4.shadow-sm
+                                .card-header.bg-warning.text-center.fw-bold.text-black.fs-5 कुटुंब प्रमुख व अर्जदाराची माहिती
+                                .card-body
+                                    .row.g-3
+                                        .col-md-6
+                                            label.form-label.fw-bold कुटुंब प्रमुखाचे नाव
+                                                span.text-danger &nbsp;*
+                                            input(type='text' name='family_head_name' class='form-control' placeholder='कुटुंब प्रमुखाचे नाव' value=jobCardApplication.family_head_name required)
+                                            input(type='text' name='id' value=jobCardApplication.id hidden)
+
+                                        .col-md-6
+                                            label.form-label.fw-bold अर्जदाराचे नाव
+                                                span.text-danger &nbsp;*
+                                            input(type='text' name='applicant_name' class='form-control' placeholder='अर्जदाराचे नाव' value=jobCardApplication.applicant_name required)
+
+                                        .col-md-12
+                                            label.form-label.fw-bold पत्ता
+                                                span.text-danger &nbsp;*
+                                            textarea(name='applicant_address' class='form-control' rows='2' required)= jobCardApplication.applicant_address
+
+                                        .col-md-6
+                                            label.form-label.fw-bold मोबाईल नंबर
+                                            input(type='text' name='applicant_mobile' class='form-control' maxlength='10' value=jobCardApplication.applicant_mobile readonly)
+
+                            // ===============================
+                            // Social Information
+                            // ===============================
+                            .card.mb-4.shadow-sm
+                                .card-header.bg-warning.text-center.fw-bold.text-black.fs-5 सामाजिक माहिती
+                                .card-body
+                                    .row.g-3                                     
+                                        .col-md-6
+                                            label.form-label.fw-bold जात प्रवर्ग
+                                                span.text-danger &nbsp;*
+                                            select(name='caste_category' class='form-select' required id='caste-category-select')
+                                                option(value='') -- Select --
+                                                - const casteCategories = ['SC','ST','VJ-A','NT-B','NT-C','NT-D','OBC','SEBC','EWS','OPEN','OTHER']
+                                                - const isOther = jobCardApplication.caste_category && !casteCategories.includes(jobCardApplication.caste_category)
+                                                each category in casteCategories
+                                                    option(value=category selected=(category === 'OTHER' ? isOther : jobCardApplication.caste_category === category))= category
+
+                                        .col-md-6.other-cast-category-group(style=(isOther ? 'opacity:1; pointer-events:auto; transition:opacity .2s ease;' : 'opacity:0; pointer-events:none; transition:opacity .2s ease;'))
+                                            label.form-label.fw-bold अन्य जात प्रवर्ग
+                                            input(type='text' name='other_caste_category' class='form-control' value=(isOther ? jobCardApplication.caste_category : ''))
+
+
+                                        -
+                                            const radioFields = [
+                                                {name:'minority',label:'अल्पसंख्यांक'},
+                                                {name:'small_farmer',label:'अल्पभूधारक शेतकरी'},
+                                                {name:'general_farmer',label:'सामान्य शेतकरी'},
+                                                {name:'land_reform_beneficiary',label:'भूसुधारक लाभार्थी'},
+                                                {name:'indira_awaas_beneficiary',label:'इंदिरा आवास लाभार्थी'},
+                                                {name:'aab_yojana_beneficiary',label:'आम आदमी विमा लाभार्थी'},
+                                                {name:'forest_rights_act_2006',label:'वन हक्क कायदा लाभार्थी'},
+                                                {name:'bpl_family',label:'BPL कुटुंब'},
+                                                {name:'rashtriya_swasthya_bima_beneficiary',label:'राष्ट्रीय स्वास्थ्य विमा लाभार्थी'}
+                                            ]
+
+                                        each field in radioFields
+                                            .col-md-6
+                                                label.form-label.fw-bold #{field.label}
+                                                    span.text-danger &nbsp;*
+                                                .d-flex.gap-3
+                                                    .form-check
+                                                        input(type='radio' class='form-check-input' name=field.name value='YES' checked=(jobCardApplication[field.name] === 'YES') required)
+                                                        label.form-check-label होय
+                                                    .form-check
+                                                        input(type='radio' class='form-check-input' name=field.name value='NO' checked=(jobCardApplication[field.name] === 'NO'))
+                                                        label.form-check-label नाही
+
+                                        .col-md-6
+                                            label.form-label.fw-bold राष्ट्रीय स्वास्थ्य विमा क्रमांक (असल्यास)
+                                            input(type='text' name='rashtriya_swasthya_bima_no' class='form-control' value=jobCardApplication.rashtriya_swasthya_bima_no)
+
+                                        .col-md-6
+                                            label.form-label.fw-bold BPL क्रमांक (असल्यास)
+                                            input(type='text' name='bpl_family_no' class='form-control' value=jobCardApplication.bpl_family_no)
+
+                            // ===============================
+                            // Documents
+                            // ===============================
+                            .card.mb-4.shadow-sm
+                                .card-header.bg-warning.text-center.fw-bold.text-black.fs-5 दस्तऐवज
+                                .card-body
+                                    .row.g-3
+
+                                        // ===============================
+                                        // Family Photo
+                                        // ===============================
+                                        .col-md-6
+                                            label.form-label.fw-bold कुटुंब फोटो
+
+                                            if jobCardApplication.family_photo_image_name
+                                                div(class='mb-2 text-start')
+                                                    //- img(src=`/uploads/images/job-cards/family-photos/${jobCardApplication.family_photo_image_name}` class='img-thumbnail mb-2' style='max-height:150px;')
+                                                    div
+                                                        a(href=`/uploads/images/job-cards/family-photos/${jobCardApplication.family_photo_image_name}` target='_blank' class='text-decoration-none fw-bold') सध्याचा फोटो पहा
+
+                                            input(type='file' name='family_photo_image_name' class='form-control' accept='image/*')
+
+                                            input(type='hidden' name='existing_family_photo_image_name' value=jobCardApplication.family_photo_image_name)
+
+                                        // ===============================
+                                        // Ration Card PDF
+                                        // ===============================
+                                        .col-md-6
+                                            label.form-label.fw-bold रेशन कार्ड PDF
+
+                                            if jobCardApplication.family_head_ration_card_pdf
+                                                div(class='mb-2')
+                                                    a(href=`/uploads/docs/job-cards/ration-cards/${jobCardApplication.family_head_ration_card_pdf}` target='_blank' class='fw-bold text-decoration-none')
+                                                        | सध्याचा रेशन कार्ड PDF पहा
+
+                                            input(type='file' name='family_head_ration_card_pdf' class='form-control' accept='application/pdf')
+
+                                            input(type='hidden' name='existing_family_head_ration_card_pdf' value=jobCardApplication.family_head_ration_card_pdf)
+
+
+                            // ===============================
+                            // Family Members
+                            // ===============================
+
+                            .card.mb-4.shadow-sm
+                                .card-header.bg-warning.text-center.fw-bold.text-black.fs-5 कुटुंबातील सदस्य
+                                .card-body
+
+
+                                    - 
+                                        let familyMembers = []
+                                        try { familyMembers = JSON.parse(jobCardApplication.family_members_list || '[]') } catch(e) { familyMembers = [] }
+
+
+                                    #family-members-container
+                                        each member, index in familyMembers
+                                            .family-member.border.rounded.p-3.mb-3(data-member-id=member.memberId)
+                                                .row.g-3
+                                                    .col-md-4
+                                                        label.form-label.fw-bold सदस्याचे नाव
+                                                        input(type='text' name=`family_members[${index}][member_name]` class='form-control member-name' value=member.member_name required)
+
+                                                    .col-md-4
+                                                        label.form-label.fw-bold नाते
+                                                        select(name=`family_members[${index}][relation_to_family_head]` class='form-select member-relation' required)
+                                                            - const relationOptionsList = ["स्वतः","पत्नी","पती","मुलगा","मुलगी","वडील","आई","भाऊ","बहीण","आजोबा","आजी","सून","जावई","नातू","नात","इतर"];
+                                                            each rel in relationOptionsList
+                                                                option(value=rel selected=(member.relation_to_family_head===rel))= rel
+
+                                                    .col-md-2
+                                                        label.form-label.fw-bold लिंग
+                                                        select(name=`family_members[${index}][gender]` class='form-select member-gender' required)
+                                                            option(value='पुरुष' selected=(member.gender==='पुरुष')) पुरुष
+                                                            option(value='महिला' selected=(member.gender==='महिला')) महिला
+                                                            option(value='इतर' selected=(member.gender==='इतर')) इतर
+
+                                                    .col-md-2
+                                                        label.form-label.fw-bold वय
+                                                        input(type='number' name=`family_members[${index}][age]` class='form-control member-age' value=member.age required)
+
+                                                    .col-md-4
+                                                        label.form-label.fw-bold अपंग आहे का?
+                                                        .d-flex.gap-3
+                                                            .form-check
+                                                                input(type='radio' class='form-check-input member-disabled' name=`family_members[${index}][is_disabled]` value='YES' checked=(member.is_disabled==='YES') required)
+                                                                label.form-check-label होय
+                                                            .form-check
+                                                                input(type='radio' class='form-check-input member-disabled' name=`family_members[${index}][is_disabled]` value='NO' checked=(member.is_disabled==='NO'))
+                                                                label.form-check-label नाही
+
+                                                    .col-md-6
+                                                        label.form-label.fw-bold आधार कार्ड PDF
+                                                        if member.adhar_card_pdf_name
+                                                            div.mb-2
+                                                                a(href=`/uploads/docs/job-cards/adhar-cards/${member.adhar_card_pdf_name}` target='_blank' class='fw-bold text-decoration-none') सध्याचा आधार PDF पहा
+                                                        input(type='file' class='form-control member-adhar' accept='application/pdf')
+                                                        input(type='hidden' name=`family_members[${index}][adhar_card_pdf_name]` value=member.adhar_card_pdf_name)
+
+                                                    .col-md-6
+                                                        label.form-label.fw-bold सदस्याचा फोटो
+                                                        if member.family_member_photo_name
+                                                            div.mb-2.text-center
+                                                                img(src=`/uploads/images/job-cards/member-photos/${member.family_member_photo_name}` class='img-thumbnail mb-2' style='max-height:120px;')
+                                                        input(type='file' class='form-control member-photo' accept='image/*')
+                                                        input(type='hidden' name=`family_members[${index}][family_member_photo_name]` value=member.family_member_photo_name)
+
+                                                    .col-md-12.text-end
+                                                        button(type='button' class='btn btn-danger btn-sm remove-family-member') काढा
+
+
+
+
+                                    button(type='button' id='add-family-member' class='btn btn-primary mt-2') नवीन सदस्य जोडा
+
+
+
+
+
+                            // ===============================
+                            // Submit
+                            // ===============================
+                            .text-center
+                                button(type='submit' id='update-job-card-application-btn' class='btn btn-success px-5') जतन करा
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/job-card/edit-job-card-application-form-handler.js')

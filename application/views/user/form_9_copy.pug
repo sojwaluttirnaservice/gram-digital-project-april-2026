@@ -1,0 +1,909 @@
+doctype html
+head
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+	link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+	link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+	link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+	link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+	link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js')
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+	//toggle
+	script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+	// extras
+	script(src='/asstest/plugins/select/js/select2.full.min.js')
+	// common js setups
+	script(src='/asstest/coustom/js/base.converter.js')
+	script(src='/asstest/coustom/js/common.js')
+	script(src='/asstest/coustom/js/handlers/form-9/form-9-handler.js')
+	style.
+		.error {
+			background-color:yellow;
+			padding:2px;
+			color:red !important;
+			font-style:italic !important;
+			font-weight:700 !important;
+		}
+
+		#tableRow div{
+			background: #c4c8b4;
+		//-   padding: 0.6rem 1rem;
+		//-   border: 1px solid white;
+		}
+
+
+		table {
+			border-collapse: collapse;
+		}
+
+
+		th,td {
+			padding-inline: 4px;
+		}
+
+		tr, td, th {
+			border: 1px solid black;
+		}
+
+		.custom-min-width{
+			min-width:5.5rem;
+		}
+
+		@media (max-width: 768px){
+			#tableRow div{
+				font-size: 0.9rem;
+			}
+		}
+body
+	include ./include/navs.pug
+
+
+
+
+	//- the year modal 
+
+	.modal#masterModal1(tabindex='-1' role='dialog')
+		.modal-dialog.modal-xl(role='document')
+			.modal-content
+				.modal-header
+					h5.modal-title Modal title
+					button.close(type='button' data-dismiss='modal' aria-label='Close')
+						span(aria-hidden='true') ×
+				.modal-body 
+					.row.justify-content-center(style='row-gap: 1rem;')
+						form.col-8
+							div(style='display:flex; align-items:center; justify-content:center; gap: 1rem;')
+								.form-group.mx-sm-3.mb-2
+									select#selectSearch.form-control.text-secondary
+										option(value="1") नाव
+										option(value="2") मामत्ता क्र
+										option(value="3") अनु/घर क्रमांक टाका
+										option(value='4') भोगवटदाराचे नाव
+								.form-group.mx-sm-3.mb-2
+									input#homeId1-type.form-control(type='text' placeholder='')
+									input#homeId1.form-control(type='hidden' placeholder='')
+
+								button#btnGetUserDetails1.btn.btn-primary(type='submit' style='display:block;width:8rem;') माहिती पहा
+
+					form.row.justify-content-center#previewDetails.d-none
+						.col-11.col-md-4
+							.card
+								.card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+								.card-body
+									.row.justify-content-center
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') अनु क्रमांक
+											input.myMainId1.readOnly.form-control-sm.form-control(type='text' value="" readonly)
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') घर क्रमांक
+											input.myMainId1.readOnly.form-control-sm.form-control(type='text' value="" readonly)
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') मालमत्ता क्र.
+											input#newMalmattaNo1.readOnly.form-control-sm.form-control(type='text' name='' readonly)
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') वार्ड नं
+											input#newWardNo1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') जुना घर क्रमांक
+											input#oldHomeNo1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-6
+											label.font-weight-bold(for='my-input') पाणीकर
+											input#waterTax1.form-control-sm.form-control(type='text', readonly)
+
+						.col-11.col-md-8
+							.card
+								.card-header.bg-warning.font-weight-bold मालकाची माहिती 
+								.card-body
+									.row.justify-content-center
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+											input#newOwnerName1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+											input#newSecondOwnerName1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+											input#newMobileNo1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') आधार क्रं.
+											input#newAadharNo1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') ग्रामपंचायत
+											input#newGramPanchayet1.readOnly.form-control-sm.form-control(type='text' name='')
+										.form-group.col-12.col-md-6
+											label.font-weight-bold(for='my-input') गावाचे नाव
+											input#newVillageName1.readOnly.form-control-sm.form-control(type='text' name='')
+
+						.col-12
+							.card
+								.card-body
+									.row.justify-content-center
+										.form-group.col-12
+											button#sendNineNavigation.btn.btn-success.float-right.d-none
+												span.fa.fa-floppy-o.mr-2
+												| नमुना ९ भरा / दुरुस्ती करा
+											button#btnPrintEight.btn.btn-success.float-right.d-none
+												span.fa.fa-floppy-o.mr-2
+												| पावती प्रिंट करा
+
+											button#btnPrintEightSingleImage.btn.btn-success.float-right.d-none
+												span.fa.fa-floppy-o.mr-2
+												| फोटो पावती प्रिंट करा
+											input#pavtiName.d-none.form-control.col-4.float-left.mr-3(type='text' placeholder='पावतीसाठीच्ये नाव')
+											input#pavtiRuppe.d-none.form-control.col-1.float-left.mr-3(type='text' placeholder='पावती रुपये')
+											input#d1.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पासून')
+											input#d2.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पर्यंत')
+
+											button#btnPrintNineSamanya.btn.btn-success.float-right.d-none
+												span.fa.fa-floppy-o.mr-2
+												| नमुना ९ सामान्य प्रिंट करा
+
+				.modal-footer.d-none
+					.row.justify-content-center
+						.col-11.text-center
+							button.btn.btn-primary(type='button') Save changes
+							button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
+
+
+
+
+
+
+
+
+
+
+	.container-fluid
+		.row.p-0.mb-0
+			.col-12.p-0
+				.card-group
+					.card.bg-light-gray
+						.card-body
+							.row.justify-content-center
+								.col-11
+									center
+										h5.font-weight-bold.mb-2 नमुना ९ सामान्य व पाणी करासंदर्भात नोंदणी फॉर्म
+
+
+									div(style='text-align:end; margin-block:10px;')
+										button(class='btn btn-sm btn-primary' id='open-search-namuna-8-user-modal-btn') मालमत्ता धारक शोधा
+
+								//- THIS WILL BE SHOWN REGARDLESS
+								.col-11
+									form(id='namuna-8-user-form').form-group.row.mb-0
+										.col-12
+											.card
+												div(class="py-2 my-2 px-3 text-center border font-weight-bold rounded shadow-sm text-dark" style="background-color: rgb(253, 224, 71); text-decoration: underline;") धारकाची माहिती
+												.card-body
+													.row
+
+														.form-group.col-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input') अनु / घर क्रमांक 
+															//- This is the primarky key of namuna 8 user table
+															input.form-control-sm.form-control(type='text' name='id' readonly value=user.id)
+
+														.form-group.col-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input')  मालमत्ता क्र.
+															input.form-control-sm.form-control(id='malmattaNo' type='text' name='feu_malmattaNo' value=user.feu_malmattaNo)
+
+														.form-group.col-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input') वार्ड नं
+															input.form-control-sm.form-control(type='text' name='feu_wardNo' value=user.feu_wardNo)
+
+														.form-group.col-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input') जुना घर क्रमांक
+															input.form-control-sm.form-control(type='text' name='feu_homeNo' value=user.feu_homeNo)
+
+														.form-group.col-12.col-sm-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input') मोबाइल नों.
+															input.form-control-sm.form-control(type='text' name='feu_mobileNo' value=user.feu_mobileNo maxlength="10")
+
+														.form-group.col-12.col-sm-6.col-md-4.col-lg-2
+															label.font-weight-bold(for='my-input') आधार क्रं.
+															input.form-control-sm.form-control(type='text' name='feu_aadharNo' value=user.feu_aadharNo maxlength="12")
+
+														.form-group.col-12.col-md-4
+															label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+															input.form-control-sm.form-control(type='text' name='feu_ownerName' value=user.feu_ownerName)
+														.form-group.col-12.col-md-4
+															label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+															input.form-control-sm.form-control(type='text' name='feu_secondOwnerName' value=user.feu_secondOwnerName)
+														.form-group.col-12.col-md-4.mb-0
+															label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+															input.form-control-sm.form-control(type='text' name='feu_gaatNo' value=user.feu_gaatNo)
+
+														.col-12 	
+															div(style='text-align:end;')
+																button.btn.btn-sm.btn-success(id='update-form-8-user-btn' type='button') धारकाची माहिती अपडेट करा.
+
+
+
+								//- THIS SECTION OR FORM PART SHOWS सामान्य कर व पाणी कर WHEN THERE
+								//- IS NEW FORM
+
+								//- not touching it, asked chandresh sir
+								if(update == false)
+									form#newForm9.col-12
+										.row
+											.col-12.col-md-6
+												.row#tableRow
+													.col-12.text-center.bg-warning सामान्य कर
+
+													.col-6.col-sm-4
+														span.font-weight-bold मागील इमारत कर:
+														input#lastBuildingTax.isNaN.form-control(type="text" value="0" data-i="1" name="lastBuildingTax" tabindex="1")
+														input#lastUpdateId.form-control(type="hidden" value="0" data-i="1" name="lastUpdateId")
+													.col-6.col-sm-4 
+														- var building_tax = totalTaxData_1.building_tax + totalTaxData_1.open_area_tax + totalTaxData_1.other_tex;
+														span.font-weight-bold चालू इमारत कर:
+														input#currentBuildingTax.isNaN.form-control(type="text" value=building_tax data-i="1" name="currentBuildingTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण इमारत कर:
+														input#totalBuildingTax.form-control(type="text" value="0" readonly name="totalBuildingTax")
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील दिवा कर:
+														input#lastDivaTax.isNaN.form-control(type="text" value="0" data-i="2" name="lastDivaTax" tabindex="2")
+													.col-6.col-sm-4
+														span.font-weight-bold चालू दिवा कर:
+														input#currentDivaTax.isNaN.form-control(type="text" value=totalTaxData_1.dava_kar data-i="2" name="currentDivaTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण दिवा कर:
+														input#totalDivaTax.form-control(type="text" value="0" readonly name="totalDivaTax")
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील आरोग्य कर:
+														input#lastArogyaTax.isNaN.form-control(type="text" value="0" data-i="3" name="lastArogyaTax" tabindex="3")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू आरोग्य कर:
+														input#currentArogyaTax.isNaN.form-control(type="text" value=totalTaxData_1.arogya_kar data-i="3" name="currentArogyaTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण आरोग्य कर:
+														input#totalArogyaTax.form-control(type="text" value="0" readonly name="totalArogyaTax")
+
+
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील स्वच्छता कर:
+														input#lastCleaningTax.isNaN.form-control(type="text" value="0" data-i="9" name="lastCleaningTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू स्वच्छता कर:
+														input#currentCleaningTax.isNaN.form-control(type="text" value=totalTaxData_1.cleaning_tax data-i="9" name="currentCleaningTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण स्वच्छता कर:
+														input#totalCleaningTax.form-control(type="text" value="0" readonly name="totalCleaningTax")
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील अग्नी कर:
+														input#lastFireblegateTax.isNaN.form-control(type="text" value="0" data-i="8" name="lastFireblegateTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू अग्नी कर:
+														input#currentFireblegateTax.isNaN.form-control(type="text" value=totalTaxData_1.fireblegate_tax data-i="8" name="currentFireblegateTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण अग्नी कर:
+														input#totalFireblegateTax.form-control(type="text" value="0" readonly name="totalFireblegateTax")
+
+													//- New taxes
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील शिक्षण कर:
+														input#lastEducationTax.isNaN.form-control(type="text" value="0" data-i="7" name="lastEducationTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू शिक्षण कर:
+														input#currentEducationTax.isNaN.form-control(type="text" value=totalTaxData_1.education_tax data-i="7" name="currentEducationTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण शिक्षण कर:
+														input#totalEducationTax.form-control(type="text" value="0" readonly name="totalEducationTax")
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील वृक्ष कर:
+														input#lastTreeTax.isNaN.form-control(type="text" value="0" data-i="10" name="lastTreeTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू वृक्ष कर:
+														input#currentTreeTax.isNaN.form-control(type="text" value=totalTaxData_1.tree_tax data-i="10" name="currentTreeTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण वृक्ष कर:
+														input#totalTreeTax.form-control(type="text" value="0" readonly name="totalTreeTax")
+
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील दंड कर (५%):
+														input#lastTaxFine.form-control(type="text" value="0" readonly name="lastTaxFine" )
+														span.font-weight-bold.text-primary जुना उर्वरित कर:
+														input#lastYearTaxFineCheck(type="checkbox").ml-2
+														span.ml-2 (भरला)
+														input#lastYearTaxFine.form-control(type="text" value="0" readonly name="lastYearTaxFine")
+														input#lastYearTaxFineClone.form-control(type="hidden" value="0")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू कारवार सूट:
+														input#lastTaxRelief.isNaN.form-control(type="text" value="0" data-i="4" name="lastTaxRelief")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण:
+														input#totalTax.form-control(type="text" value="0" readonly name="totalTax")
+
+													.col-12.bg-info
+														span.font-weight-bold.text-white एकूण सामान्य कर:
+														input#totalSampurnaTax.form-control(type="text" value="0" readonly name="totalSampurnaTax")
+
+											.col-12.col-md-6
+												.row#tableRow
+													.col-12.text-center.bg-warning पाणी कर
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील विशेष पाणी कर:
+														input#lastSpacialWaterTax.isNaN.form-control(type="text" value="0" data-i="5" name="lastSpacialWaterTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू विशेष पाणी कर:
+														input#currentSpacialWaterTax.isNaN.form-control(type="text" value="0" data-i="5" name="currentSpacialWaterTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण विशेष पाणी कर:
+														input#totalSpacialWaterTax.form-control(type="text" value="0" readonly name="totalSpacialWaterTax")
+
+													.col-6.col-sm-4 
+														span.font-weight-bold मागील सामान्य पाणी कर:
+														input#lastGenealWaterTax.isNaN.form-control(type="text" value="0" data-i="6" name="lastGenealWaterTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold चालू सामान्य पाणी कर:
+														input#currentGenealWaterTax.isNaN.form-control(type="text" value="0" data-i="6" name="currentGenealWaterTax")
+													.col-6.col-sm-4 
+														span.font-weight-bold एकूण सामान्य पाणी कर:
+														input#totalGenealWaterTax.form-control(type="text" value="0" readonly name="totalGenealWaterTax")
+
+													.col-12.p-2.bg-info 
+														span.font-weight-bold.text-white एकूण पाणी कर:
+														input#totalWaterTax.form-control(type="text" readonly value="0" name="totalWaterTax")
+
+												button#saveFormData.btn.btn-sm.btn-success.float-right नमुना ९ जतन करा
+
+								//- IN CASE OF UPDATE, SHOW THIS FORM BELOW
+								else
+									form#newForm9.col-12.col-md-11.mt-4
+										.row
+											.col-12
+
+												.row#tableRow
+													.col-12
+														div(class="py-2 my-2 px-3 text-center border font-weight-bold rounded shadow-sm text-dark" style="background-color: rgb(253, 224, 71); text-decoration: underline;") सामान्य कर
+
+													div(class='col-12')
+														div(class='table-responsive')
+															table
+																thead 
+																	tr 
+																		th कर
+
+																		th.custom-min-width इमारत कर
+																		th.custom-min-width दंड कर (५%)
+																		th.custom-min-width चालू करावर सूट
+
+																		th.custom-min-width
+																			div(class='d-flex align-items-center')
+																				span.font-weight-bold.text-primary दंड मागील वर्षाचा
+																					//-  (जुना उर्वरित कर)
+																				input#lastYearTaxFineCheck(type="checkbox").ml-2
+																				//- span.ml-2 (भरला)
+
+
+																		th.custom-min-width दिवा कर 
+																		th.custom-min-width आरोग्य कर 
+																		th.custom-min-width स्वच्छता कर
+
+																		th.custom-min-width अग्नी कर 
+																		th.custom-min-width शिक्षण कर
+																		th.custom-min-width वृक्ष कर
+																		//- th दंड कर (५%)
+																		//- th चालू करावर सूट
+
+																		//- th 
+																		//- 	div(class='d-flex align-items-center')
+																		//- 		span.font-weight-bold.text-primary दंड मागील वर्षाचा
+																		//- 			//-  (जुना उर्वरित कर)
+																		//- 		input#lastYearTaxFineCheck(type="checkbox").ml-2
+																		//- 		//- span.ml-2 (भरला)
+
+																		th.custom-min-width एकूण
+
+
+																tbody
+																	//- First row of the previous tax 
+																	tr
+																		th 
+																			div(class='d-flex align-items-center')
+																				span मागील
+																				input(type="checkbox" id='resetTaxToZeroSamanyaCheckbox').ml-2
+
+																		//- इमारत कर
+																		th
+																			div 
+																				input#lastUpdateId.form-control(type="hidden" value=formNineSavedDetails.id name="lastUpdateId")
+
+																				input(id='lastBuildingTaxClone' type='hidden' value=formNineSavedDetails.lastBuildingTax)
+																				input#lastBuildingTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastBuildingTax data-i="1" name="lastBuildingTax")
+
+
+																		//- दंड कर
+																		td
+																			div
+																				input#lastTaxFine.form-control(type="text" value=Math.round(formNineSavedDetails.lastTaxFine) readonly name="lastTaxFine")
+
+																		td 
+																			div -
+
+																		//- उर्वरीत कर
+																		td
+																			div 
+																				input#lastYearTaxFine.form-control(type="text" value=Math.round(formNineSavedDetails.lastYearTaxFine) readonly name="lastYearTaxFine")
+																				input#lastYearTaxFineClone.form-control(type="hidden" value=Math.round(formNineSavedDetails.lastYearTaxFine))
+
+
+																		//- दिवा कर 
+																		td
+																			div
+																				input(id='lastDivaTaxClone' type='hidden' value=formNineSavedDetails.lastDivaTax)
+																				input#lastDivaTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastDivaTax data-i="2" name="lastDivaTax")
+
+																		//- आरोग्य कर 
+																		td
+																			div
+																				input(id='lastArogyaTaxClone' type='hidden' value=formNineSavedDetails.lastArogyaTax)
+																				input#lastArogyaTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastArogyaTax data-i="3" name="lastArogyaTax")
+
+																		//- स्वच्छता कर
+																		td 
+																			div
+																				input#lastCleaningTax.isNaN.form-control(type="text" value="0" data-i="9" name="lastCleaningTax")
+
+
+																		//- अग्नी कर
+																		td 
+																			div
+																				input(id='lastFireblegateTaxClone' type='hidden' value=formNineSavedDetails.lastFireblegateTax)
+																				input#lastFireblegateTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastFireblegateTax data-i="8" name="lastFireblegateTax")
+
+																		//- शिक्षण कर
+																		td 
+																			div
+																				input(id='lastEducationTaxClone' type='hidden' value=formNineSavedDetails.lastEducationTax)
+																				input#lastEducationTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastEducationTax data-i="7" name="lastEducationTax")
+
+																		//- वृक्ष कर
+																		td
+																			div
+																				input(id='lastTreeTaxClone' type='hidden' value=formNineSavedDetails.lastTreeTax)
+																				input#lastTreeTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastTreeTax data-i="10" name="lastTreeTax")
+
+
+																		//- //- दंड कर
+																		//- td
+																		//- 	div
+																		//- 		input#lastTaxFine.form-control(type="text" value=Math.round(formNineSavedDetails.lastTaxFine) readonly name="lastTaxFine")
+
+																		//- td 
+																		//- 	div -
+
+																		//- //- उर्वरीत कर
+																		//- td
+																		//- 	div 
+																		//- 		input#lastYearTaxFine.form-control(type="text" value=Math.round(formNineSavedDetails.lastYearTaxFine) readonly name="lastYearTaxFine")
+																		//- 		input#lastYearTaxFineClone.form-control(type="hidden" value=Math.round(formNineSavedDetails.lastYearTaxFine))
+
+
+																		td
+																			div
+																				input#totalLastSamanyaTax.form-control(type="text" readonly)
+
+																	//- Second row of the current tax
+																	tr
+																		th 
+																			div(class='d-flex align-items-center')
+																				span चालू
+
+																		//- इमारत कर
+																		th
+																			div 
+																				input#currentBuildingTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentBuildingTax data-i="1" name="currentBuildingTax")
+
+
+																		//- दंड कर
+
+																		td 
+																			div -
+
+																		//- चालू करावर सूट
+																		td
+																			div
+																				input#lastTaxRelief.isNaN.form-control(type="text" value=formNineSavedDetails.lastTaxRelief data-i="4" name="lastTaxRelief")
+
+
+																		//- उर्वरीत कर
+																		td
+																			div.text-center 
+																				span -
+
+
+
+
+																		//- दिवा कर 
+																		td
+																			div
+																				input#currentDivaTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentDivaTax data-i="2" name="currentDivaTax")
+
+																		//- आरोग्य कर 
+																		td
+																			div
+																				input#currentArogyaTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentArogyaTax data-i="3" name="currentArogyaTax")
+
+																		//- स्वच्छता कर
+																		td 
+																			div
+																				input#currentCleaningTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentCleaningTax data-i="9" name="currentCleaningTax")
+
+
+																		//- अग्नी कर
+																		td 
+																			div
+																				input#currentFireblegateTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentFireblegateTax data-i="8" name="currentFireblegateTax")
+
+																		//- शिक्षण कर
+																		td 
+																			div
+																				input#currentEducationTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentEducationTax data-i="7" name="currentEducationTax")
+
+																		//- वृक्ष कर
+																		td
+																			div
+																				input#currentTreeTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentTreeTax data-i="10" name="currentTreeTax")
+
+
+																		//- //- दंड कर
+
+																		//- td 
+																		//- 	div -
+
+																		//- //- चालू करावर सूट
+																		//- td
+																		//- 	div
+																		//- 		input#lastTaxRelief.isNaN.form-control(type="text" value=formNineSavedDetails.lastTaxRelief data-i="4" name="lastTaxRelief")
+
+
+																		//- //- उर्वरीत कर
+																		//- td
+																		//- 	div.text-center 
+																		//- 		span -
+
+
+																		td
+																			div
+																				input#totalCurrentSamanyaTax.form-control(type="text" readonly)
+
+
+
+																	//- Third row of the total tax
+																	tr
+																		th 
+																			div(class='d-flex align-items-center')
+																				span एकूण
+
+																		//- इमारत कर
+																		th
+																			div 
+																				input#totalBuildingTax.form-control(type="text" value=formNineSavedDetails.totalBuildingTax readonly name="totalBuildingTax")
+
+																		//- दंड कर +
+																		//- उर्वरीत कर
+																		td(colspan='2')
+																			div
+																				input#totalTax.form-control(type="text" value=formNineSavedDetails.totalTax readonly name="totalTax")
+
+
+
+																		td 
+																			div -
+
+
+																		//- दिवा कर 
+																		td
+																			div
+																				input#totalDivaTax.form-control(type="text" value=formNineSavedDetails.totalDivaTax readonly name="totalDivaTax")
+
+																		//- आरोग्य कर 
+																		td
+																			div
+																				input#totalArogyaTax.form-control(type="text" value=formNineSavedDetails.totalArogyaTax readonly name="totalArogyaTax")
+
+																		//- स्वच्छता कर
+																		td 
+																			div
+																				input#totalCleaningTax.form-control(type="text" value=formNineSavedDetails.totalCleaningTax readonly name="totalCleaningTax")
+
+
+																		//- अग्नी कर
+																		td 
+																			div
+																				input#totalFireblegateTax.form-control(type="text" value=formNineSavedDetails.totalFireblegateTax readonly name="totalFireblegateTax")
+
+																		//- शिक्षण कर
+																		td 
+																			div
+																				input#totalEducationTax.form-control(type="text" value=formNineSavedDetails.totalEducationTax readonly name="totalEducationTax")
+
+																		//- वृक्ष कर
+																		td
+																			div
+																				input#totalTreeTax.form-control(type="text" value=formNineSavedDetails.totalTreeTax readonly name="totalTreeTax")
+
+
+																		//- //- दंड कर +
+																		//- //- उर्वरीत कर
+																		//- td(colspan='2')
+																		//- 	div
+																		//- 		input#totalTax.form-control(type="text" value=formNineSavedDetails.totalTax readonly name="totalTax")
+
+
+
+																		//- td 
+																		//- 	div -
+
+																		td
+																			div
+																				input#totalSampurnaTax.form-control(type="text" value=formNineSavedDetails.totalSampurnaTax  readonly name="totalSampurnaTax")
+
+
+											.col-12
+												.mt-4.row#tableRow
+													.col-12
+														div(class="py-2 my-2 px-3 text-center border font-weight-bold rounded shadow-sm text-dark" style="background-color: rgb(253, 224, 71); text-decoration: underline;") पाणी कर
+
+
+													//- div(class='col-12')
+														div(class='table-responsive')
+															table(style='width: 100%;')
+																thead
+																	//- old one
+																	tr 
+																		th कर
+
+																		th विशेष पाणी कर
+																		th सामान्य पाणी कर
+																		th एकूण
+
+																tbody
+																	//- First row of the previous taxations
+																	tr
+																		th 
+																			div(class='d-flex align-items-center') 
+																				span मागील
+																				input(type="checkbox" id='resetTaxToZeroWaterCheckbox').ml-2
+
+
+																		//- prev special water tax
+																		td 
+																			div
+																				input(id='lastSpacialWaterTaxClone' type='hidden' value=formNineSavedDetails.lastSpacialWaterTax)
+																				input#lastSpacialWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastSpacialWaterTax data-i="5" name="lastSpacialWaterTax")
+
+																		//- prev samanya water tax
+																		td 
+																			div
+																				input(id='lastGenealWaterTaxClone' type='hidden' value=formNineSavedDetails.lastGenealWaterTax)
+																				input#lastGenealWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastGenealWaterTax data-i="6" name="lastGenealWaterTax")
+
+																		//- total of above 
+																		td 
+																			div
+																				input#totalLastWaterTax.form-control(type="text" readonly)
+
+
+
+																	//- Second row of the current taxations
+																	tr
+																		th 
+																			div चालू
+
+																		//- current special water tax
+																		td 
+																			div
+																				input#currentSpacialWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentSpacialWaterTax data-i="5" name="currentSpacialWaterTax")
+
+																		//- current samanya tax
+																		td 
+																			div
+																				input#currentGenealWaterTax.isNaN.form-control(type="text" value="0" data-i="6" name="currentGenealWaterTax")
+
+
+																		//- sum of above
+																		td 
+																			div
+																				input#totalCurrentWaterTax.form-control(type="text" readonly)
+
+																	//- Third row of the previous taxations
+																	tr
+																		th 
+																			div एकूण
+
+																		td 
+																			div
+																				input#totalSpacialWaterTax.form-control(type="text" value=formNineSavedDetails.totalSpacialWaterTax readonly name="totalSpacialWaterTax")
+
+																		td 
+																			div
+																				input#totalGenealWaterTax.form-control(type="text" value=formNineSavedDetails.totalGenealWaterTax readonly name="totalGenealWaterTax")
+
+																		td 
+																			div
+																				input#totalWaterTax.form-control(type="text" readonly value="0" name="totalWaterTax")
+
+
+
+
+													div(class='col-12')
+														div(class='table-responsive')
+															table(style='width: 100%;')
+																thead
+
+																	//- new one
+																	tr 
+																		th कर
+																		th
+																			div(class='d-flex align-items-center')
+																				span मागील
+																				input(type="checkbox" id='resetTaxToZeroWaterCheckbox').ml-2
+																		th चालू
+																		th एकूण
+
+
+																tbody
+																	//- First row of the previous taxations
+																	tr
+																		th 
+																			div(class='d-flex align-items-center') 
+																				span विशेष पाणी कर
+
+
+
+																		//- prev special water tax
+																		td 
+																			div
+																				input(id='lastSpacialWaterTaxClone' type='hidden' value=formNineSavedDetails.lastSpacialWaterTax)
+																				input#lastSpacialWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastSpacialWaterTax data-i="5" name="lastSpacialWaterTax")
+
+																		//- current special  water tax
+																		td 
+																			div
+																				input(id='lastGenealWaterTaxClone' type='hidden' value=formNineSavedDetails.lastGenealWaterTax)
+																				input#currentSpacialWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentSpacialWaterTax data-i="5" name="currentSpacialWaterTax")
+
+																		//- total of above 
+																		td 
+																			div
+																				input#totalSpacialWaterTax.form-control(type="text" value=formNineSavedDetails.totalSpacialWaterTax readonly name="totalSpacialWaterTax")
+
+
+
+																	//- Second row of the current taxations
+																	tr
+																		th 
+																			div सामान्य पाणी कर
+
+																		//- previous general water tax
+																		td 
+																			div
+																				input(id='lastGenealWaterTaxClone' type='hidden' value=formNineSavedDetails.lastGenealWaterTax)
+																				input#lastGenealWaterTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastGenealWaterTax data-i="6" name="lastGenealWaterTax")
+
+																		//- current general tax
+																		td 
+																			div
+																				input#currentGenealWaterTax.isNaN.form-control(type="text"  value=formNineSavedDetails.currentGenealWaterTax data-i="6" name="currentGenealWaterTax")
+
+
+																		//- sum of above
+																		td 
+																			div
+																				input#totalGenealWaterTax.form-control(type="text" value=formNineSavedDetails.totalGenealWaterTax readonly name="totalGenealWaterTax")
+
+																	//- Third row of the previous taxations
+																	tr
+																		th 
+																			div एकूण
+
+																		td 
+																			div
+																				input#totalLastWaterTax.form-control(type="text" readonly)
+
+																		td 
+																			div
+																				input#totalCurrentWaterTax.form-control(type="text" readonly)
+
+																		td 
+																			div
+																				input#totalWaterTax.form-control(type="text" readonly value="0" name="totalWaterTax")
+
+
+
+												div.mt-4
+													.text-center
+														button#saveFormData.btn.btn-sm.btn-success नमुना ९ जतन करा
+
+	script.
+		$(document).ready(function() {
+			form9TaxHandler.totalTaxData = !{totalTaxData};
+
+			form9TaxHandler.id = #{user.id};
+			const _user = !{JSON.stringify(user)}
+			form9TaxHandler.malmattaNumber = _user.feu_malmattaNo 
+
+
+
+			//- console.log(form9TaxHandler.id,'---id')
+			form9TaxHandler.firstCalculationAllInOne(1);
+			form9TaxHandler.firstCalculationAllInOne(2);
+			form9TaxHandler.firstCalculationAllInOne(3);
+			form9TaxHandler.firstCalculationAllInOne(7);
+			form9TaxHandler.firstCalculationAllInOne(8);
+			form9TaxHandler.firstCalculationAllInOne(9);
+			form9TaxHandler.firstCalculationAllInOne(10);
+
+
+
+
+			const inputs = document.querySelectorAll('input');
+
+		// Add keydown event listener to each input
+			inputs.forEach((input, index) => {
+				input.addEventListener('keydown', (event) => {
+					if (event.key === 'Tab') {
+
+
+						//- event.preventDefault(); // Prevent the default tab behavior
+
+						// Calculate the index of the next input to focus
+						//- let nextIndex = index + 3; // Jump to the 3rd next input
+						//- if (nextIndex >= inputs.length) {
+						//- 	nextIndex = nextIndex % inputs.length; // Wrap around if needed
+						//- }
+
+						//- // Focus the next input
+						//- setTimeout(() => {
+						//- 	inputs[nextIndex].focus();
+						//- }, 0);
+					}
+				});
+			});
+		});
+
+	script(src='/asstest/coustom/js/handlers/new-form-9-tax.js')

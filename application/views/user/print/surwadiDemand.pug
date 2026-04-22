@@ -1,0 +1,163 @@
+doctype html
+head
+  title एकूण सामन्य मागणी डिमांड
+  meta(charset='UTF-8')
+  //- meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+
+
+  style.
+    @media print {
+      @page{
+        size: A4 landscape;
+      }
+      .my-print{
+        position: relative;
+        page-break-before: always;
+      }
+      table{
+        page-break-inside: avoid;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.3;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    table, th, td{
+      border: 1px solid black;
+      padding: 3px; 
+      text-align:center;
+    }
+    .body-f-size {
+      font-size:0.7rem !important;
+    }
+    .head-f-size {
+      font-size: 20px;
+      text: bold;
+      text-align: center;
+    }
+    .center{
+      text-align: center;
+    }
+    .waterMark{
+      position: absolute;
+      opacity: 0.3;
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      width: 500px;
+      height: 500px;
+    }
+body
+  img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+  div.d-flex.justify-content-between.pt-4.pb-4.mx-3
+    div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+      img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+    div.d-flex.justify-content-center.text-center.flex-column(style="color: red; font-weight: bold; font-size: 25px;")
+      p.m-0.p-0 ग्राम पंचायत कार्यालय #{zp.gp_name} पंचायत समिती #{zp.gp_taluka} जिल्हा #{zp.gp_dist} सामान्य कर मागणी 
+      p सण #{year1} ते  #{year2}
+    div.d-flex.flex-column.justify-content-center.align-items-center
+      img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="120" height="40")
+
+
+
+  table(style="width:100%;")
+    thead
+      tr.head-f-size
+        th(width="10%" style="height: 50px; color: red;") अनु.क्र. 
+        th(style="height: 50px; color: red;") कराचा प्रकार 
+        th(style="height: 50px;  color: red;") मागील 
+        th(style="height: 50px;  color: red;") चालू 
+        th(style="height: 50px;  color: red;") एकूण 
+
+    tbody
+      tr.head-f-size
+        th(style="height: 50px;") 1
+        th(style="height: 50px;") #{data.buildingTax.name}
+        th(style="height: 50px;") #{data.buildingTax.lastTotalBuildingTax}
+        th(style="height: 50px;") #{data.buildingTax.currentTotalBuildingTax}
+        th(style="height: 50px;") #{data.buildingTax.lastTotalBuildingTax + data.buildingTax.currentTotalBuildingTax}
+
+      tr.head-f-size 
+        th(style="height: 50px;") 2
+        th(style="height: 50px;") #{data.taxFine.name} (मागील घर पट्टीवर दंड कर )
+        th(style="height: 50px;") #{data.taxFine.lastTotalTaxFine}
+        th(style="height: 50px;") #{data.taxFine.currentTotalTaxFine}
+        th(style="height: 50px;") #{data.taxFine.lastTotalTaxFine + data.taxFine.currentTotalTaxFine}
+
+      tr.head-f-size 
+        th(style="height: 50px;") 3
+        th(style="height: 50px;") #{data.divaTax.name}
+        th(style="height: 50px;") #{data.divaTax.lastTotalDivaTax}
+        th(style="height: 50px;") #{data.divaTax.currentTotalDivaTax}
+        th(style="height: 50px;") #{data.divaTax.lastTotalDivaTax + data.divaTax.currentTotalDivaTax}
+
+      tr.head-f-size 
+        th(style="height: 50px;") 4
+        th(style="height: 50px;") #{data.arogyaTax.name}
+        th(style="height: 50px;") #{data.arogyaTax.lastTotalArogyaTax}
+        th(style="height: 50px;") #{data.arogyaTax.currentTotalArogyaTax}
+        th(style="height: 50px;") #{data.arogyaTax.lastTotalArogyaTax + data.arogyaTax.currentTotalArogyaTax}
+      
+      tr.head-f-size 
+        th(style="height: 50px;") 5
+        th(style="height: 50px;") #{data.treeTax.name}
+        th(style="height: 50px;") #{data.treeTax.lastTotalTreeTax}
+        th(style="height: 50px;") #{data.treeTax.currentTotalTreeTax}
+        th(style="height: 50px;") #{data.treeTax.lastTotalTreeTax + data.treeTax.currentTotalTreeTax}
+      
+      tr.head-f-size 
+        th(style="height: 50px;") 6
+        th(style="height: 50px;") #{data.cleaningTax.name}
+        th(style="height: 50px;") #{data.cleaningTax.lastTotalCleaningTax}
+        th(style="height: 50px;") #{data.cleaningTax.currentTotalCleaningTax}
+        th(style="height: 50px;") #{data.cleaningTax.lastTotalCleaningTax + data.cleaningTax.currentTotalCleaningTax}
+      
+      tr.head-f-size 
+        th(style="height: 50px;") 7
+        th(style="height: 50px;") #{data.fireblegateTax.name}
+        th(style="height: 50px;") #{data.fireblegateTax.lastTotalFireblegateTax}
+        th(style="height: 50px;") #{data.fireblegateTax.currentTotalFireblegateTax}
+        th(style="height: 50px;") #{data.fireblegateTax.lastTotalFireblegateTax + data.fireblegateTax.currentTotalFireblegateTax}
+      
+      tr.head-f-size 
+        th(style="height: 50px;") 8
+        th(style="height: 50px;") #{data.educationTax.name}
+        th(style="height: 50px;") #{data.educationTax.lastTotalEducationTax}
+        th(style="height: 50px;") #{data.educationTax.currentTotalEducationTax}
+        th(style="height: 50px;") #{data.educationTax.lastTotalEducationTax + data.educationTax.currentTotalEducationTax}
+
+      tr.head-f-size(style="color: red;")
+        th(style="height: 50px;") 9
+        th(style="height: 50px;") #{data.totalTax.name}
+        th(style="height: 50px;") #{data.totalTax.lastTotalTax}
+        th(style="height: 50px;") #{data.totalTax.currentTotalTax}
+        th(style="height: 50px;") #{data.totalTax.lastTotalTax + data.totalTax.currentTotalTax}
+
+  h4(style="margin-top: 15px; font-weight: bold; color: red;" id="amountInWords") 
+
+  script.
+    $(document).ready(function(){
+      $.ajax({
+      url: "/currency/toWords",
+      type: "POST",
+      data: {
+        data: #{data.totalTax.lastTotalTax + data.totalTax.currentTotalTax},
+      },
+      success: (data) => {
+        console.log(data)
+        $("#amountInWords").html(`एकूण मागणी रक्कम अक्षरी - ${data.words}`)
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+    })
+
+

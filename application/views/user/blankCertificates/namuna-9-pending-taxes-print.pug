@@ -1,0 +1,241 @@
+doctype html
+head
+    title नमुना ९ थकबाकी रिपोर्ट
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    //- link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    style.
+        .transparent{
+            opacity: 0;
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media print {
+            @page{
+                size: A4 landscape;
+                padding: 1rem;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+                margin: 0 auto;
+            }
+            table{
+                //- page-break-inside: avoid;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+            #hide-buttons {
+                display: none;
+            }
+        }
+
+        table, th, td{
+            border: 1px solid black;
+            padding: 3px; 
+            text-align:center;
+            border-collapse: collapse;
+        }
+        .body-f-size {
+            font-size: 1rem !important;
+        }
+        .head-f-size {
+            font-size: 13px;
+            text: bold;
+            text-align: center;
+        }
+        .center{
+            text-align: center;
+        }
+        .form9Heading{
+            font-size: 1.4rem;
+            font-weight: bold; 
+            color: red;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 180px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+        .my-print {
+            position: relative; 
+            width: 100%;
+        }
+body 
+
+    #hide-buttons 
+        button(onclick='window.print()' style='position:fixed; top: 49%; left: 1rem; background: blue; color: white; z-index:100;') Print
+    - let numbers = 0;
+        .my-print
+            img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+            table(style="width:100% !important; height:100%;")
+                thead
+
+                    tr
+                        th(colspan='14')
+
+                            div(style="display: flex; justify-content: space-between; padding-top: 1rem; padding-bottom: 1rem; margin-left: 1rem; margin-right: 1rem;")
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;")
+                                    img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                                div(style="display: flex; justify-content: center; text-align: center; flex-direction: column;")
+                                    p.m-0.p-0.form9Heading ग्राम पंचायत कार्यालय #{zp.gp_name} पंचायत समिती  #{zp.gp_taluka} जिल्हा #{zp.gp_dist} 
+                                    p.m-0.p-0.form9Heading थकबाकी नोंद वही #{year.year1}- #{year.year2}
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+                                    img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+                    tr.head-f-size
+
+                        th.srNo(width="4%") अनु.क्र.
+                        th(width="4%") मा.क्र.
+                        th(width="4%") जुना मा.क्र.
+                        th(width="10%") मालकाचे नाव
+                        th(width='3%') भोगवटदाराचे नाव
+
+
+                        th(width='8%') मागील इमारत एकूण
+                        //- th(width='6%') चालू इमारत एकूण
+                        //- th(width='6%') एकूण इमारत कर
+
+                        th(width='8%') मागील घर पट्टी वर दडं कर
+                        th(width='8%') मागील दिवा कर
+
+                        //- th(width='6%') चालू दिवा कर
+                        //- th(width='6%') एकूण दिवा कर
+
+                        th(width='8%') मागील आरोग्य कर
+
+                        //- th(width='6%') चालू आरोग्य कर
+                        //- th(width='6%') एकूण आरोग्य कर
+
+                        th(width='8%') मागील स्वच्छता कर
+
+                        //- th(width='6%') चालू स्वच्छता कर
+                        //- th(width='6%') एकूण स्वच्छता कर
+                        //- th(width='6%') संपूर्ण सामान्य कर
+
+                        th(width='8%') मागील विशेष पाणी कर
+                        th(width='8%') चालू विशेष पाणी कर
+
+                        //- th(width='6%') एकूण विशेष पाणी कर
+
+                        th(width='8%') मागील सामान्य पाणी कर
+                        th(width='8%') चालू सामान्य पाणी कर
+                        //- th(width='6%') एकूण सामान्य पाणी कर
+                        //- th(width='6%') संपूर्ण पाणी कर
+                        //- th(width='8%') संपूर्ण एकूण कर
+
+                    tr(style='font-size: 1.2rem !important')
+
+                        td.srNo 1
+                        td 2
+                        td 3
+                        td 4
+                        td 5
+
+
+                        td 6
+                        //- td 7
+                        //- td 8
+
+                        td 7
+                        td 8
+
+                        //- td(width='6%') 11
+                        //- td(width='6%') 12
+
+                        td 9
+
+                        //- td(width='6%') 14
+                        //- td(width='6%') 15
+
+                        td 10
+
+                        //- td(width='6%') 17
+                        //- td(width='6%') 18
+                        //- td(width='6%') 19
+
+                        td 11
+                        td 12
+
+                        //- td(width='6%') 22
+
+                        td 13
+                        td 14
+
+                        //- td(width='6%') 25
+                        //- td(width='6%') 26
+                        //- td(width='6%') 27
+
+                tbody
+                    each el, i in data
+                        tr.body-f-size
+                            td #{i+1}
+                            td
+                                | #{el.feu_malmattaNo}
+                            td
+                                | #{el.feu_homeNo}
+                            td 
+                                div(style='min-height:3rem;')| #{el.feu_ownerName}
+                            td 
+                                | #{el.feu_secondOwnerName}
+
+                            td 
+                                //- div.transparent #{el.lastBuildingTax}
+
+                            //- td(style='width:8%') #{el.currentBuildingTax}
+                            //- td(style='width:8%') #{el._totalBuildingTax}
+
+                            td
+                                //- div.transparent #{el.lastTaxFine}
+                            td 
+                                //- div.transparent #{el.lastDivaTax}
+
+                            //- td(style='width:8%') #{el.currentDivaTax}
+                            //- td(style='width:8%') #{el._totalDivaTax}
+
+                            td
+                                //- div.transparent #{el.lastArogyaTax}
+
+                            //- td(style='width:8%') #{el.currentArogyaTax}
+                            //- td(style='width:8%') #{el._totalArogyaTax}
+
+                            td 
+                                //- div.transparent #{el.lastCleaningTax}
+
+                            //- td(style='width:8%') #{el.currentCleaningTax}
+                            //- td(style='width:8%') #{el._totalCleaningTax}
+                            //- td(style='width:8%') #{el._totalSamanyaTax}
+
+                            td 
+                                //- div.transparent #{el.lastSpacialWaterTax}
+                            td 
+                                //- div.transparent #{el.currentSpacialWaterTax}
+
+                            //- td(style='width:8%') #{el._totalSpacialWaterTax}
+
+                            td 
+                                div.transparent #{el.lastGenealWaterTax}
+                            td
+                                div.transparent #{el.currentGenealWaterTax}
+
+                            //- td(style='width:8%') #{el._totalGenealWaterTax}
+                            //- td(style='width:8%') #{el.totalWaterTax}
+                            //- td(style='width:8%') #{el._totalSamanyaTax + el.totalWaterTax}
+
+                        - numbers++;

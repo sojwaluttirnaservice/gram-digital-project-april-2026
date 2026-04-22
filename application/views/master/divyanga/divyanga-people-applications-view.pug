@@ -1,0 +1,247 @@
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //-- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //-mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js")
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+    script(src='/asstest/coustom/js/handlers/master-panel-handlers/master-divyanga-handler.js')
+    script.
+        let d = !{JSON.stringify(applicationsList)};
+        console.log(d[0]);
+    style.
+        body{
+            //
+            height:100vh;
+        }
+        #parentTable{
+            border-collapse: 'collapse';
+            border: 1px solid black;
+            width: 100%;
+
+        }
+        tr, td{
+            white-space: normal; /* Enable text wrapping */
+            //- background:  red;
+            word-wrap: break-word; 
+        }
+
+        th{
+            border: 1px solid gray;  
+            padding: 0.3rem;  
+            font-size: 0.8rem;
+        }
+
+        tr, 
+        td{
+            border: 1px solid gray;  
+            padding: 0.3rem;  
+            font-size: 0.8rem;
+        }
+
+        td{
+            vertical-align: middle !important;
+        }
+
+        #childTable{
+            width: 100%;
+            border: none;
+        }
+
+        textarea:focus{
+            box-shadow: none;
+            border: none;
+            //- background-color: grey; 
+            resize: none;
+        }
+
+        label.error {
+            color: red;
+            font-size: 0.75rem;
+        }
+        .applicant-image{
+            border: 1.5px solid gray;
+            padding: 5px;
+            border-radius: 4px;
+            width: 200px;
+            height: 280px;
+        }
+
+        @media (max-width: 768px){
+            .applicant-image {
+                width: 150px;
+                height: 220px;
+            }
+            .modal-content {
+                width: 95%;
+                margin-inline: auto;
+            }
+        }
+
+
+        @media print {
+            @page{
+                size: A4 landscape;
+            }
+            #form-sabha-show-form-btn {
+                display: none;
+            }
+            .banner-header{
+                display: none;
+                background: black;  
+            }
+            .banner-header{
+                display: none !important;
+            }
+        }
+
+
+body
+    .row
+        .col-12 
+            .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                a.navbar-brand(href="/master") Master Panel
+    .col-12
+        .text-center.mb-3(style='margin-top:7rem;')
+            h1.heading-1 दिव्यांग नोंदणी अर्ज यादी (Approved)
+
+    .col-12
+        if applicationsList === undefined && applicationsList === null || applicationsList.length === 0
+            h3.text-center माहिती  उपलब्ध  नाही. पुन्हा प्रयत्न  करा 
+
+        else 
+            .row.justify-content-center
+                .col-11
+                    .table-responsive
+                        table.table
+                            thead
+                                th.bg-primary.text-center(width='6%') अ.क्र.   
+                                th.bg-primary.text-center(scope="col" width='30%') अर्जदार 
+                                th.bg-primary.text-center(scope='col' width='10%')  आधार  नं . 
+                                th.bg-primary.text-center(scope='col' width='14%')  अँप्लिकेशन  नं . 
+                                th.bg-primary.text-center(scope="col" width='5%') वय  
+                                th.bg-primary.text-center(scope="col" width='5%') प्रमाणपत्र  
+                                th.bg-primary.text-center(scope="col" width='5%').text-center Show
+
+                            tbody
+                                each applicant, index in applicationsList
+                                    tr
+                                        td.text-center(scope="col") #{index + 1}
+                                        td(scope="col")
+                                            .d-flex.align-items-center
+                                                - let path = `/${applicant.user_image_pathurl.split('/').slice(2).join('/')}`
+                                                img(src=path, alt="" width='27' height='27' style='border-radius: 50%;')
+                                                span.ml-2 #{applicant.full_name}
+                                        td.text-center(scope="col") #{applicant.aadhar_number} 
+                                        td.text-center(scope="col") #{applicant.application_number} 
+                                        td.text-center(scope="col") #{applicant.age} 
+                                        td.text-center(scope='col')
+                                            a(href=`/upload/divyanga-certificates/${applicant.certificate_file_name}` class='certificate-anchor-tag' target='_blank')
+                                                i.fa.fa-file
+                                        td(scope="col").text-center 
+                                            button.btn.text-light.showDivyangaUserDetailsBtn(data-id=applicant.id data-bs-toggle="modal" data-bs-target=`#divyangaApplicantModal-${applicant.id}`) 
+                                                i.fa.fa-info-circle.text-success
+
+    each applicant, index in applicationsList
+        .modal.fade(tabindex="-1" aria-labelledby="divyangaApplicantModal" aria-hidden="true" id = `divyangaApplicantModal-${applicant.id}`)
+            .modal-dialog(style='min-width:80% !important;')
+                .modal-content.p-2
+                    .modal-header.bg-warning
+                        h1.modal-title.fs-5(id=`divyangaApplicantModalLabel-${applicant.id}`) अर्जदाराची माहिती
+                        button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    .modal-body
+
+                        .card.mb-3
+                            .card-body
+                                .row
+                                    .col-12.mb-2
+                                        div.text-center
+                                            - let path = `/${applicant.user_image_pathurl.split('/').slice(2).join('/')}`
+                                            img.applicant-image(src=path alt=applicant.full_name )
+                                            //- img(src='/upload/divyanga-user-photos/divyaga-user-1.jpeg')
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='full-name')  संपूर्ण नाव 
+                                            input.form-control-sm.form-control(type='text' id='full-name' name='full_name' value=applicant.full_name)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='address') संपूर्ण पत्ता        
+                                            input.form-control-sm.form-control(type='text' id='address' name='address' value=applicant.address)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='education') शिक्षण 
+                                            input.form-control-sm.form-control(type='text' id='education' name='education' value=applicant.education)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='demand') मागणी 
+                                            input.form-control-sm.form-control(type='text' id='demand' name='demand' value=applicant.demand)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='mobile') मोबाइल नंबर   
+                                            input.form-control-sm.form-control(type='text' id='mobile' name='mobile' maxlength='10' value=applicant.mobile)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='type-of-disability') अपंगत्वाचा प्रकार 
+                                            input.form-control-sm.form-control(type='text' id='type-of-disability' name='type_of_disability' value=applicant.type_of_disability)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='percentage-of-disability') अपंगत्वाची टक्केवारी 
+                                            input.form-control-sm.form-control(type='text' id='percentage-of-disability' name='percentage_of_disability' value=applicant.percentage_of_disability)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='age') वय
+                                            input.form-control-sm.form-control(type='text' id='age' name='age' value=applicant.age)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='shera') शेरा 
+                                            input.form-control-sm.form-control(type='text' id='shera' name='shera' value=applicant.shera)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='aadhar-number') आधार  क्र . 
+                                            input.form-control-sm.form-control(type='text' id='aadhar-number' name='aadhar_number' value=applicant.aadhar_number)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='application-number') अँप्लिकेशन  नं .  
+                                            input.form-control-sm.form-control(type='text' id='application-number' name='application_number' value=applicant.application_number)
+                                    .col-12.col-md-6
+                                        .form-group
+                                            label.font-weight-bold(for='' style='opacity: 0;') प्रमाणपत्र  
+                                            a.form-control-sm.form-control(style='border: none' href=`/upload/divyanga-certificates/${applicant.certificate_file_name}` class='certificate-anchor-tag' target='_blank') प्रमाणपत्र 
+
+
+
+                    .modal-footer(style='display:block !important;')
+                        div.d-flex.justify-content-between
+                            .d-flex.justify-content-center(style='flex-grow: 1; gap: 1rem')
+                                //- button.btn.btn-success(type="button" class='approveDivyangaApplicationBtn' data-id=applicant.id data-fullName=applicant.full_name data-mobile=applicant.mobile) Approve
+                                //- button.btn.btn-danger(type='button' class='rejectDivyangaApplicationBtn' data-id=applicant.id data-fullName=applicant.full_name data-mobile=applicant.mobile) Reject
+                            button.btn.btn-secondary.float-right(type="button" data-bs-dismiss="modal") Close

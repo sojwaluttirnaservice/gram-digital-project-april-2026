@@ -1,0 +1,173 @@
+extends ../../../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+
+block content
+    - const n2 = namuna2Entry || {};
+
+    .container.mt-4
+        h2.heading-1.mt-2.mb-3 Edit नमुना २ (पुनर्विनियोजन व नियतवाटप विवरणपत्र)
+
+        // Top Buttons
+        .d-flex.align-items-center.justify-content-end(style='gap: 1rem;')
+            a.btn.btn-primary.btn-sm(href='/namuna') नमुने
+            a.btn.btn-primary.btn-sm(href='/namuna/2/list') यादी
+
+        form#namuna-2-form.mt-3
+            .form
+
+                .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+
+                    // Month
+                    .col-11.col-md-6.col-lg-3
+                        .form-group
+                            label.form-label(for='month') महिना
+                            select.form-select(id='month' name='month' required)
+                                option(value='') --निवडा--
+                                each val in [1,2,3,4,5,6,7,8,9,10,11,12]
+                                    option(value=val selected=(n2.month == val)) #{val}
+
+                    // Year
+                    .col-11.col-md-6.col-lg-3
+                        .form-group
+                            label.form-label(for='year') वर्ष
+                            select.form-select(id='year' name='year' required)
+                                option(value='') --निवडा--
+                                - let currentYear = new Date().getFullYear()
+                                - let startYear = currentYear - 25
+                                each year in Array.from({ length: currentYear - startYear + 1 }, (v, i) => startYear + i).reverse()
+                                    option(value=year selected=(n2.year == year)) #{year}
+
+                    .col-12
+                        hr
+
+                    // -----------------------------
+                    // INCOME SECTION
+                    // -----------------------------
+                    .col-12
+                        h5.fw-bold.text-decoration-underline.mb-3 जमा विभाग (Income Section)
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='income_main_head') जमा रकमांचे मुख्य शीर्षक
+                            input.form-control(
+                                type='text' 
+                                id='income_main_head' 
+                                name='income_main_head'
+                                value=n2.income_main_head || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='income_approved_budget') मंजूर अर्थसंकल्प
+                            input.form-control(
+                                type='number' step='0.01' 
+                                id='income_approved_budget' 
+                                name='income_approved_budget'
+                                value=n2.income_approved_budget || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='income_revised_estimate') सुधारित अंदाज
+                            input.form-control(
+                                type='number' step='0.01'
+                                id='income_revised_estimate' 
+                                name='income_revised_estimate'
+                                value=n2.income_revised_estimate || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='income_variation') अधिक (+) किंवा (-) कमी
+                            input.form-control(
+                                type='number' step='0.01' 
+                                id='income_variation' 
+                                name='income_variation'
+                                value=n2.income_variation || ''
+                            )
+
+                    .col-11.col-md-12.col-lg-8
+                        .form-group
+                            label.form-label(for='income_remarks') शेरा (जमा विभाग)
+                            input.form-control(
+                                type='text'
+                                id='income_remarks'
+                                name='income_remarks'
+                                value=n2.income_remarks || ''
+                            )
+
+                    .col-12
+                        hr
+
+                    // -----------------------------
+                    // EXPENDITURE SECTION
+                    // -----------------------------
+                    .col-12
+                        h5.fw-bold.text-decoration-underline.mb-3 खर्च विभाग (Expenditure Section)
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='expense_main_head') खर्चाचे मुख्य शीर्षक
+                            input.form-control(
+                                type='text'
+                                id='expense_main_head'
+                                name='expense_main_head'
+                                value=n2.expense_main_head || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='expense_approved_amount') मंजूर रक्कम
+                            input.form-control(
+                                type='number' step='0.01'
+                                id='expense_approved_amount'
+                                name='expense_approved_amount'
+                                value=n2.expense_approved_amount || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='expense_revised_estimate') खर्चाचा सुधारित अंदाज
+                            input.form-control(
+                                type='number' step='0.01'
+                                id='expense_revised_estimate'
+                                name='expense_revised_estimate'
+                                value=n2.expense_revised_estimate || ''
+                            )
+
+                    .col-11.col-md-6.col-lg-4
+                        .form-group
+                            label.form-label(for='expense_variation') अधिक (+) किंवा (-) कमी
+                            input.form-control(
+                                type='number' step='0.01'
+                                id='expense_variation'
+                                name='expense_variation'
+                                value=n2.expense_variation || ''
+                            )
+
+                    .col-11.col-md-12.col-lg-8
+                        .form-group
+                            label.form-label(for='expense_remarks') शेरा (खर्च विभाग)
+                            input.form-control(
+                                type='text'
+                                id='expense_remarks'
+                                name='expense_remarks'
+                                value=n2.expense_remarks || ''
+                            )
+
+                            
+                            input(type='hidden' name='id' value=n2.id)
+
+                    .col-12
+                        hr
+
+            // BUTTONS — SIDE BY SIDE
+            .d-flex.gap-4.justify-content-center.mt-3
+                button.btn.btn-primary#update-namuna-2-btn(type='button') Update
+                button.btn.btn-secondary(type='reset') Reset
+
+
+block custom_js 
+    script(src='/asstest/coustom/css/namuna/remaining/namuna2/namuna-2-form-handler.js') 

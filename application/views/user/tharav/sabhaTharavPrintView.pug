@@ -1,0 +1,270 @@
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    title मासिक सभा ठराव प्रिंट 
+    //-- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //-mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+
+
+    style.
+        body{
+            //- 
+            height:100vh;
+        }
+        #parentTable{
+            border-collapse: 'collapse';
+            border: 1px solid black;
+            width: 100%;
+
+        }
+        tr, td{
+            white-space: normal; /* Enable text wrapping */
+            word-wrap: break-word; 
+        }
+
+        #parentTable tr {
+            border: 1px solid black;  
+            font-size: 0.8rem;
+        }
+        #parentTable td{
+            border: 1px solid black;  
+            padding: 0.3rem;  
+            font-size: 0.8rem;
+        }
+
+        #childTable{
+            width: 100%;
+            border: none;
+        }
+
+        textarea:focus{
+            box-shadow: none;
+            border: none;
+            //- background-color: grey; 
+            resize: none;
+        }
+
+        label.error {
+            color: red;
+            font-size: 0.75rem;
+        }
+
+        #child-table tr {
+            border: none;
+        }
+        
+        #child-table td{
+            border-bottom: none !important;
+            border-top: none !important;
+            border: none !important;
+            height: fit-content;
+        }
+
+        p {
+            margin-bottom: 0.2rem !important;
+
+        }
+
+        .waterMark{
+            position: absolute;
+            opacity: 0.2;
+            width: 50%;
+            aspect-ratio:1/1;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%)
+        }
+
+        @media print {
+            @page{
+                size: A4 landscape;
+            }
+
+            .my-print{
+                page-break-inside: auto !important;
+            }
+            #form-sabha-show-form-btn {
+                display: none;
+            }
+            .banner-header{
+                display: none;
+                background: black;  
+            }
+            .banner-header{
+                display: none !important;
+            }
+            #water-select{
+                display:none;
+            }
+        }
+
+
+    script(src='/asstest/coustom/js/handlers/tharav/masikSabhaTharavManager.js')
+    script.
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('water-select').addEventListener('change', function(e){
+                const selectedValue = e.target.value;
+                const watermarkImg = document.getElementById('watermark-img');
+                
+                if (selectedValue === '1') {
+                    watermarkImg.style.opacity = '0.2';
+                } else {
+                    watermarkImg.style.opacity = '0';
+                }
+            });
+        });
+
+
+
+body.w-100.p-2
+    
+    if tharavDetails
+
+        .my-print(style='position:relative; width: 270mm; height: 185mm; page-break-inside: auto !important;')
+
+            select.form-control(id='water-select' style='width:  10rem;')
+                option(value='1') Show watermark 
+                option(value='0') Hide watermark
+            img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png" id='watermark-img')
+            table#parentTable.p-2.m-0.mx-auto(border='1' style='width:100%; height: 100%; page-break-inside: auto !important;')
+                tbody
+                    tr(rowspan='1')
+                        td.py-0.fw-semibold.w-100(colspan='15' )
+                            span.d-inline-block.w-25.text-left ग्रामपंचायत :- #{gp.gp_name}  
+                            span.d-inline-block.w-75.text-center.fw-semibold ग्रामपंचायत :-#{gp.gp_name} 
+                                span#table-sabha-type  #{tharavDetails.sabha_type}
+                                span &nbsp; कामकाजाच्या वृत्तांताची पंजी सन 
+                                span#table-sabha-from-year #{tharavDetails.sabha_from_year}
+                                span &nbsp;-&nbsp;
+                                span#table-sabha-to-year #{tharavDetails.sabha_to_year}
+
+                    tr
+                        td.py-0.fw-semibold(colspan='2') सभेची वेळ :- 
+                            span#table-sabha-time #{tharavDetails.sabha_time}
+                        td.py-0.fw-semibold(colspan='3') सभेची तारीख :- 
+                            span#table-sabha-date #{tharavDetails.sabha_date}
+                        td.py-0.fw-semibold(colspan='10') सभेस कोणी सन्माननीय अगर अिधकारी हजार असल्यास त्याची नोंद (हुद्दासह) :- 
+                            span#table-sabha-guests #{tharavDetails.sabha_guests}
+                    tr(style="vertical-align: top; max-height: 2rem !important;")
+                        td.py-0.fw-semibold(colspan='2') सभेचा क्रमांक :- #{tharavDetails.sabha_number}
+                        td.py-0.fw-semibold(colspan='3') सभेचे स्थळ :- 
+                            span#table-sabha-location #{tharavDetails.sabha_location}
+                        td.py-0.fw-semibold(colspan='10') सभेचे अध्यक्ष मान्यवर :- 
+                            #table-sabha-chairman #{tharavDetails.sabha_chairman}
+                            p सूचक : - &emsp; 
+                                span#table-sabha-soochak #{tharavDetails.sabha_soochak}
+                            p अनुमोदक : - &emsp;
+                                span#table-sabha-anumodak #{tharavDetails.sabha_anumodak}
+
+                    tr(style='max-height: 2rem !important; ').py-0
+                        td.text-center(colspan='1') अनु. क्र
+                        td.text-center(colspan='1') ग्रामसभेत अधिकारी / कर्मचारी/ पदाधीकाराचे नावे
+                        td.text-center(colspan='1' width='7%') हुद्दा
+                        td.text-center(colspan='1') भ्रमणध्वनी क्र/ ई -मेल आईडी
+                        td.text-center(colspan='1') स्वाक्षरी /अंगठा 
+                        td.text-center(colspan='1' width='8%') विषय
+                        td.text-center(colspan='1') ठराव क्रमांक
+                        td(colspan='7' ) 
+                            div 
+                                p सभेपुढे  विचाराकरीता आलेले विषय व ठराव
+                            
+                        td.text-center(colspan='1' width='3%') शेरा आणि तारखेसह ठरवतील अंमलबजावणी 
+                    tr(style='vertical-align: top; page-break-inside: auto; ')
+                        td(colspan='3' style='').p-0
+                            - let members = tharavDetails.sabha_officer_name_post != null ?  JSON.parse(tharavDetails.sabha_officer_name_post) : [];
+                            table#child-table.w-100(style='border-collapse: collapse;')
+                                tbody
+                                    each entry, index in members
+                                        tr(style=`border: none !important; ${index == members.length - 1 ? 'height: 100%' : 'height: initial'}`)
+                                            td(style='width: 1.9rem; border-left: none; vertical-align: top;') #{index + 1}
+                                            td.text-center(style='width:8.8rem; vertical-align: top;')
+                                                #table-sabha-officer-name #{entry.name}
+                                            td.text-center(colspan='1' style='border-right: none; vertical-align: top;') 
+                                                #table-sabha-officer-position
+                                                    | #{entry.post}
+                        td(colspan='1') 
+                            span#table-sabha-officer-mobile #{''}
+                            span &nbsp;
+                            span#table-sabha-officer-email #{''}
+                        td.text-center(colspan='1') मूळ प्रोसिडिंग रजिस्टर वर सह्या घेण्यात आलेल्या आहे
+                        td(colspan='1')
+                            #table-sabha-subject.text-center #{tharavDetails.sabha_subject} 
+                        td(colspan='1') 
+                            span#table-sabha-tharav-number #{tharavDetails.sabha_tharav_number}
+                        td.p-0(colspan='7' width='30%') 
+
+                            #table-sabha-subject-tharav.w-100.p-2.border-0(style='word-wrap: break-word;') #{tharavDetails.sabha_subject_tharav} 
+
+                            //- table#childTable 
+                            //-     tr(style="border-left: none; border-right: none") 
+                            //-         td(style="border-left: none") अनु. क्र.
+                            //-         td वस्तीचे नाव
+                            //-         td वस्तीची लोकसंख्या
+                            //-         td उर्वरित शिल्लक अनुदान
+                            //-         td वर्ष
+                            //-         td कामाचे नाव
+                            //-         td(style="border-right: none") रक्कम
+                            //-     tr(style="border-left: none; border-right: none; border-bottom:none") 
+                            //-         td(style="border-left: none; border-bottom: none") ०१
+                            //-         td(style='border-bottom: none') 
+                            //-             span#form-sabha-vasti-name
+                            //-         td(style='border-bottom: none') 
+                            //-             span#form-sabha-vasti-population
+                            //-         td(style='border-bottom: none') 
+                            //-             span#form-sabha-vasti-urvarit-shillak-anudan
+                            //-         td(style='border-bottom: none' colspan='')
+                            //-             span#form-sabha-vasti-year
+                            //-         td(style='border-bottom: none' colspan='')
+                            //-             span#form-sabha-vasti-work-name
+                            //-         td(style='border-bottom: none' colspan='') 
+                            //-             span#form-sabha-vasti-amount
+
+                                //- table#grandchildTable.w-100
+                                //-     tr(style='border: none') 
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                                //-     tr(style='border: none') 
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                                //-     tr(style='border: none') 
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                                //-         td tidifidfidi
+                        td(colspan='1')
+
+    else 
+        div
+
+            h3.text-center No data available

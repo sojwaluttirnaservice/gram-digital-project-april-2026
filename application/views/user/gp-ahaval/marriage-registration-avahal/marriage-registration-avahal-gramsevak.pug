@@ -1,0 +1,255 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title विवाह नोंदणी
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        //- CUSTOM CSS
+        link(rel="stylesheet" href="/asstest/coustom/css/marriage-registration-avahal-gramsevak.css")
+
+        //- JS FILES
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+        script(src='/asstest/coustom/js/common.js')
+
+        //- CUSTOM JS
+        script(src='/asstest/coustom/js/handlers/marriageRegistrationAvahalManager.js')
+
+        style.
+            label.error{
+                color: red;
+                font-size: 0.6rem
+            }
+
+        //- script. 
+           
+        //-     let data = !{JSON.stringify(data)}
+        //-     console.log("Is Edit", data.month)
+
+    body 
+
+        include ../../include/navs.pug
+        div.d-flex.justify-content-end.mt-3.mx-3
+
+            a.btn.btn-primary(href='/marriage-registration-avahal') 
+                i.fa.fa-solid.fa-backward.mr-2
+                | विवाह नोंदणी अहवाल
+        #marriageRegistrationWrapper
+
+            if(isUnder18Marriage || isUnder18)
+
+                h4.mt-4  (१८ वर्षाचे आतील मुलीचे लग्न झाले असल्यास ग्रामपंचायतीनी सादर करावायाचा मासिक अहवाल) 
+
+                form#under18MarriageForm(method='POST')
+                    div.row
+                        .col-12.mt-3
+                            //- Girl info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | वधूची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') १८ वर्षाचे आतील  लग्न झालेल्या मुलीचे नाव
+                                        input.form-control-sm.form-control(type='text' name='name_of_under_18_married_girl' value=isEdit ? data.name_of_under_18_married_girl : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') मुलीच्या पित्याचे/पालकाचे पूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='name_of_father_or_guardian_of_girl' value=isEdit ? data.name_of_father_or_guardian_of_girl : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') १८ वर्षाचे आतील लग्न झालेल्या मुलीचा पत्ता.
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_under_18_married_girl') 
+                                            |#{ isEdit ? data.address_of_under_18_married_girl : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') मुलीच्या पित्याचे/पालकाचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_father_or_guardian_of_girl' ) 
+                                            | #{isEdit ? data.address_of_father_or_guardian_of_girl : ''}
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='my-input') मुलीची जन्मतारीख
+                                        input.form-control-sm.form-control(type='text' name='birthdate_of_girl' placeholder='DD/MM/YYYY'  minlength='10' maxlength='10' value=isEdit ? data.birthdate_of_girl : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='my-input') लग्नाच्या वेळी मुलीचे वय
+                                        input.form-control-sm.form-control(type='text' name='age_of_girl_at_marriage' value=isEdit ? data.age_of_girl_at_marriage : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') मुलीचे शिक्षण
+                                        input.form-control-sm.form-control(type='text' name='education_of_girl' value=isEdit ? data.education_of_girl : '')
+
+                        .col-12.mt-5
+                            //- Groom info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | वराची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') वराचे पूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='name_of_groom' value=isEdit ? data.name_of_groom : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') वराच्या पित्याचे/पालकाचे पूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='name_of_father_or_guardian_of_groom' value=isEdit ? data.name_of_father_or_guardian_of_groom : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input')  वराचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_groom' )
+                                            | #{isEdit ? data.address_of_groom : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') वराच्या पित्याचे/पालकाचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_father_or_guardian_of_groom')
+                                            | #{isEdit ? data.address_of_father_or_guardian_of_groom : ''}
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='my-input') वराची जन्मतारीख
+                                        input.form-control-sm.form-control(type='text' name='birthdate_of_groom' placeholder='DD/MM/YYYY'  minlength='10' maxlength='10' value=isEdit ? data.birthdate_of_groom : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='my-input') लग्नाच्या वेळी वराचे वय
+                                        input.form-control-sm.form-control(type='text' name='age_of_groom_at_marriage' value=isEdit ? data.age_of_groom_at_marriage : '')
+
+                        .col-12.mt-5
+                            //- Marriage info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | लग्नाची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्नाचा दिनांक
+                                        input.form-control-sm.form-control(type='text' name='date_of_marriage' placeholder='DD/MM/YYYY'  minlength='10' maxlength='10' value=isEdit ? data.date_of_marriage : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्नाचे स्थळ
+                                        input.form-control-sm.form-control(type='text' name='place_of_marriage' value=isEdit ? data.place_of_marriage : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्न लावणारे भटजी/भिक्षु/काजी इत्यादीचे नाव 
+                                        input.form-control-sm.form-control(type='text' name='name_of_bhataji'  value=isEdit ? data.name_of_bhataji : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') मंगल कार्यालयाचे व्यवस्थापकाचे नाव 
+                                        input.form-control-sm.form-control(type='text' name='name_of_office_manager' value=isEdit ? data.name_of_office_manager : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input')  लग्न लावणारे भटजी/भिक्षु/काजी इत्यादीचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_bhataji')
+                                            |#{isEdit ? data.address_of_bhataji : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') मंगल कार्यालयाचे व्यवस्थापकाचे पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_office')
+                                            |#{isEdit ? data.address_of_office : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्न पत्रिका छापणारे छापखान्याचे नाव
+                                        input.form-control-sm.form-control(type='text' name='name_of_wedding_card_printing_house' value=isEdit ? data.name_of_wedding_card_printing_house : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्न पत्रिका छापणारे छापखान्याच्या मालकाचे नाव 
+                                        input.form-control-sm.form-control(type='text' name='name_of_owner_of_wedding_card_printing_house' value=isEdit ? data.name_of_owner_of_wedding_card_printing_house : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') लग्न पत्रिका छापणारे छापखान्याच्या मालकाचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='address_of_wedding_card_printing_house' )
+                                            |#{isEdit ? data.address_of_wedding_card_printing_house : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') शेरा 
+                                        input.form-control-sm.form-control(type='text' name='shera' value=isEdit ? data.shera : '')
+
+
+
+                    div.d-flex.justify-content-center
+                        if isEdit 
+                            button#under18UpdateBtn.mt-5.mb-5.btn.btn-success(type='button' data-id=id data-isUnder18='true' data-month=data.month data-year=data.year) अपडेट करा
+                        else 
+                            button#under18Submit.mt-5.mb-5.btn.btn-primary(type='button') जतन करा
+
+            else 
+                h5.mt-3 परिशिष्ट १ (नमुना ड)
+                h4  विवाह नोंदणी फॉर्म
+                form#marriageForm(method='POST')
+                    div.row
+
+                        .col-12.mt-3
+                            //- Groom info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | वराची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='full_name_of_groom') वराचे संपूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='full_name_of_groom' value=isEdit ? data.full_name_of_groom : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='full_name_of_father_or_parent_of_groom') वराच्या वडिलांचे/पालकाचे पूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='full_name_of_father_or_parent_of_groom' value=isEdit ? data.full_name_of_father_or_parent_of_groom : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='age_of_groom') वराचे वय
+                                        input.form-control-sm.form-control(type='text' name='age_of_groom' value=isEdit ? data.age_of_groom : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='nationality_of_groom') वराचे राष्ट्रीयत्व
+                                        input.form-control-sm.form-control(type='text' name='nationality_of_groom' value=isEdit ? data.nationality_of_groom : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='religion_of_groom') वराचा धर्म
+                                        input.form-control-sm.form-control(type='text' name='religion_of_groom' value=isEdit ? data.religion_of_groom : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='place_of_groom') वराचे राहण्याचे ठिकाण
+                                        textarea.form-control-sm.form-control(type='text' name='place_of_groom')
+                                            |#{isEdit ? data.place_of_groom : ''}
+
+                        .col-12.mt-5
+                            //- Girl info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | वधूची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='full_name_of_bride') वधूचे संपूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='full_name_of_bride' value=isEdit ? data.full_name_of_bride : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='full_name_of_father_or_parent_of_bride') वधूच्या वडिलांचे/पालकाचे पूर्ण नाव
+                                        input.form-control-sm.form-control(type='text' name='full_name_of_father_or_parent_of_bride' value=isEdit ? data.full_name_of_father_or_parent_of_bride : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='place_of_bride') वधुचे राहण्याचे ठिकाण
+                                        textarea.form-control-sm.form-control(type='text' name='place_of_bride')
+                                            |#{isEdit ? data.place_of_bride : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='bride_father_address') वधूच्या वडिलांचे/पालकाचा पत्ता
+                                        textarea.form-control-sm.form-control(type='text' name='bride_father_address')
+                                            |#{isEdit ? data.bride_father_address : ''}
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='age_of_bride') वधूचे वय
+                                        input.form-control-sm.form-control(type='text' name='age_of_bride' value=isEdit ? data.age_of_bride : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='nationality_of_bride') वधुचे राष्ट्रीयत्व
+                                        input.form-control-sm.form-control(type='text' name='nationality_of_bride' value=isEdit ? data.nationality_of_bride : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='religion_of_bride') वधुचा धर्म
+                                        input.form-control-sm.form-control(type='text' name='religion_of_bride' value=isEdit ? data.religion_of_bride : '')
+
+                        .col-12.mt-5
+                            //- Marriage info card
+                            .card
+                                .card-header.bg-warning.font-weight-bold 
+                                    | लग्नाची माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='name_of_informant') महिती देणाऱ्याचे नाव 
+                                        input.form-control-sm.form-control(type='text' name='name_of_informant' value=isEdit ? data.name_of_informant : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='date_of_reciept_of_marriage_info') विवाह माहिती मिळाल्याची तारीख
+                                        input.form-control-sm.form-control(type='text' name='date_of_reciept_of_marriage_info' placeholder='DD/MM/YYYY' length=10 value=isEdit ? data.date_of_reciept_of_marriage_info : '')
+                                    .form-group.col-3
+                                        label.font-weight-bold(for='date_of_marriage') विवाह झाल्याची तारीख
+                                        input.form-control-sm.form-control(type='text' name='date_of_marriage' placeholder='DD/MM/YYYY' length=10 value=isEdit ? data.date_of_marriage : '')
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='place_of_marriage') लग्नाचे ठिकाण 
+                                        textarea.form-control-sm.form-control(type='text' name='place_of_marriage')
+                                            |#{isEdit ? data.place_of_marriage : ''}
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='shera') शेरा 
+                                        input.form-control-sm.form-control(type='text' name='shera' value=isEdit ? data.shera : '')
+                    div.d-flex.justify-content-center
+                        if(isEdit)
+                            button#marriageRegUpdateBtn.mt-5.mb-5.btn.btn-success(type='submit' data-id=id data-isUnder18='false' data-month=data.month data-year=data.year) अपडेट करा
+                        else
+                            button#marriageRegSubmit.mt-5.mb-5.btn.btn-primary(type='submit') जतन करा
+

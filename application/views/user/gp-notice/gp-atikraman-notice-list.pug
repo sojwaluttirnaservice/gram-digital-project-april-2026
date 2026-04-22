@@ -1,0 +1,145 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/gp-notice/gp-atikraman-notice-form-handler.js')
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+
+        @media (max-width: 768px){
+            td, th, thead {
+                font-size: 0.8rem;
+            }
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .container-fluid
+        //- .modal.fade#searchModal(tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true")
+        //-     .modal-dialog
+        //-         .modal-content
+        //-             .modal-header
+        //-                 h4.modal-title.fs-5#searchModalLabel ग्राहक मीटर शोधा
+        //-                 button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+        //-             .modal-body
+        //-                 .row.justify-content-center
+        //-                     .col-2
+        //-                         .form-group 
+        //-                             label(for="") 
+        //-                             select.form-control(name='search_by')
+        //-                                 option(value='1') नळ क्रमांक
+        //-                                 option(value='2') मीटर क्रमांक 
+        //-                                 option(value='3') अर्ज क्रमांक
+        //-                                 option(value='4') नाव
+        //-                     .col-2
+
+        //-                         .form-group 
+        //-                             label(for='')
+        //-                             input.form-control(name='search_input')
+
+        //-                     .col-11
+        //-                         .d-flex.align-items-center.justify-content-center(style='gap: 1rem;')
+
+        //-                             button.btn.btn-secondary.mt-0(id='update-customer-btn') मीटर दुरुस्ती फॉर्म
+        //-                             button.btn.btn-primary.mt-0(id='search-customer-btn') मीटर भरणा फॉर्म
+        //-                             button.btn.btn-success.mt-0(id='show-meter-tax-form-btn') पाणी मीटर कर भरणा नोदणी फॉर्म 
+
+
+
+            //- .modal-footer
+            //-   button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            //-   button.btn.btn-primary(type="button") Save changes
+
+
+        .row.p-0.p-1.pt-3
+            .col-12
+                center
+                    a(href="/gp-notice/gp-atikraman-notice-form").float-right.btn.btn-primary.btn-sm.mr-2 अतिक्रमण नोटीस नोंदणी 
+
+                    h5.font-weight-bold.m-3 अतिक्रमण नोटीस यादी
+
+            .col-12
+                div.table-responsive
+                    table.table.table-bordered.text-center.m-0
+                        thead
+                            tr.bg-primary.text-white
+                                th(width="8%") अनु क्र 
+                                th(width='10%') दिनांक
+                                th(width="25%") नाव
+                                th(width="15%") सुधारणा
+                                th(width="15%") काढा
+                                th(width="10%") अतिक्रमण नोटीस प्रिंट 
+                                th(width="10%") पंचनामा नोटीस प्रिंट 
+                        tbody
+                            if(gpAtikramanNoticeList.length == 0)
+                                tr
+                                    td(colspan="15").text-center.text-danger नवीन अर्ज नोंदणी यादी रिकामी आहे
+                            else
+                                each _notice, _index in gpAtikramanNoticeList
+                                    tr
+                                        td(width="8%") #{_index+1}
+                                        td(width="25%") #{_notice._date}
+                                        td(width="15%") #{_notice.name}
+
+                                        td(width='5%')
+                                            a.btn(href=`/gp-notice/edit-gp-atikraman-notice-form/${_notice.id}` style='font-size: 1.3rem')
+                                                i.fa.fa-pencil-square.text-success
+
+                                        td(width="15%") 
+                                            button.btn(class='delete-gp-atikraman-notice-btn' data-noticeId=_notice.id style='font-size: 1.3rem')
+                                                i.fa.fa-trash.text-danger
+                                        td(width="15%") 
+                                            a.btn(href=`/gp-notice/gp-atikraman-notice-print/${_notice.id}` style='font-size: 1.3rem')
+                                                i.fa.fa-print.text-primary
+                                        td(width="15%")
+                                            a.btn(href=`/gp-notice/gp-panchnama-notice-print/${_notice.id}` style='font-size: 1.3rem')
+                                                i.fa.fa-print.text-primary
+                                        
+                                        
+

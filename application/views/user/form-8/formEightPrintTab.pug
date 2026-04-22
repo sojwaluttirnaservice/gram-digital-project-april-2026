@@ -1,0 +1,555 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")   
+
+    //google fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+    link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+    title #{title}
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/home-manager.js')
+
+    script.
+        let _gp = !{JSON.stringify(gp)}
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#fffd70 !important;
+        }
+        .bg-warning{
+            background-color:#fffd70 !important;
+        }
+        .hand:hover{
+            background-color:#ecc6db
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+        @media (min-width: 576px) {
+            .modal-dialog { max-width: none; }
+        }
+
+body.back-image
+    include ../include/navs.pug
+
+    .container-fluid
+        include ../include/year-select-modal.pug
+        .modal#masterModal(tabindex='-1' role='dialog')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header
+                        h5.modal-title Modal title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body 
+                        .row
+                            .col-6.offset-4.mb-3
+                                form.form-inline
+                                    .form-group.mx-sm-3.mb-2
+                                        select#selectSearch-1.form-control
+                                            option(value="1") नाव
+                                            option(value="2") मालमत्ता क्र
+                                            option(value="3") अनु/घर क्रमांक टाका
+                                            option(value='4') भोगवटदाराचे नाव
+                                    .form-group.mx-sm-3.mb-2
+                                        input#homeId-type.form-control(type='text' placeholder='विकल्प निवडा')
+                                        input#homeId.form-control(type='hidden' placeholder='विकल्प निवडा')
+                                    button#btnGetUserDetails.btn.btn-primary.mb-2(type='button') माहित पहा
+
+                        form.row#divUserDetails.d-none
+                            .col-4
+                                .card
+                                    .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                                    .card-body.row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') अनु क्रमांक
+                                            input.myMainId.form-control-sm.form-control(type='text' value="" readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') घर क्रमांक
+                                            input.myMainId.form-control-sm.form-control(type='text' value="" readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                                            input#newMalmattaNo.form-control-sm.form-control(type='text' name='newMalmattaNo')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') वार्ड नं
+                                            input#newWardNo.form-control-sm.form-control(type='text' name='newWardNo')
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') जुनाघर क्र.
+                                            input#oldHomeNo.form-control-sm.form-control(type='text' name='oldHomeNo')
+
+                                        .form-group.col-6
+                                            p.font-weight-bold.mb-0 पाणीकर
+                                            select.form-select.form-control(type="text" id="waterTax" name="waterTax")
+                                                option(value="विशेष पाणीकर") विशेष पाणीकर
+                                                option(value="सामान्य पाणीकर") सामान्य पाणीकर
+                                                option(value="नाही") नाही
+
+                                        //- .form-group.col-4
+                                        //-     label.font-weight-bold(for='my-input') वि. पाणीकर
+                                        //-     input#spacialWaterTax.form-control-sm.form-control(type='text' name='spacialWaterTax')
+                                        //- .form-group.col-4
+                                        //-     label.font-weight-bold(for='my-input') सा. पाणीकर
+                                        //-     input#generalWaterTax.form-control-sm.form-control(type='text' name='generalWaterTax')
+                            .col-8
+                                .card
+                                    .card-header.bg-warning.font-weight-bold मालकाची माहिती
+                                    .card-body.row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                            input#newOwnerName.form-control-sm.form-control(type='text' name='newOwnerName')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                            input#newSecondOwnerName.form-control-sm.form-control(type='text' name='newSecondOwnerName')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                                            input#newMobileNo.form-control-sm.form-control(type='text' name='newMobileNo' maxlength="10")
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') आधार क्रं.
+                                            input#newAadharNo.form-control-sm.form-control(type='text' name='newAadharNo' maxlength="14")
+                                        .form-group.col-6    
+                                            label.font-weight-bold(for='my-input') ग्रामपंचायत
+                                            input#newGramPanchayet.form-control-sm.form-control(type='text' name='newGramPanchayet')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') गावाचे नाव
+                                            input#newVillageName.form-control-sm.form-control(type='text' name='newVillageName')
+                            .col-12.mt-5
+                                .card
+                                    .card-header.bg-warning.font-weight-bold  मालमत्तेचा फेरफार
+                                    .card-body.row
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') जुना धारक
+                                            input#newOldDharak.form-control-sm.form-control(type='text' name='newOldDharak' value="-")
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') नवीन धारक
+                                            input#newNewDharak.form-control-sm.form-control(type='text' name='newNewDharak' value="-")
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') दिनांक
+                                            input#newPherfarDate.form-control-sm.form-control(type='text' name='newPherfarDate' value="-")
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') ठराव क्रमांक
+                                            input#newPherfarTharav.form-control-sm.form-control(type='text' name='newPherfarTharav' value="-")
+                                        .form-group.col-4
+                                            label.font-weight-bold(for='my-input') कोणत्या दस्तावेजनी
+                                            select#newPherfarDocument.form-control(type='text' name='newPherfarDocument')
+                                                option(value="") -- निवडा --
+                                                -let _dastavej = dastaveg != null ? dastaveg : []
+                                                each value,index in _dastavej
+                                                    option(value=value) #{value}
+                                        .form-group.col-12
+                                            input.pherfar-text.form-control-sm.form-control(type='text' disabled)
+                            .col-4.mt-5
+                                .card
+                                    .card-header.bg-warning.font-weight-bold जागेची माहिती
+                                    .card-body
+                                        .form-group
+                                            label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                            input#newGaatNo.form-control-sm.form-control(type='text' name='newGaatNo')
+                                        .form-group
+                                            label.font-weight-bold(for='my-input') घरकुल असल्यास
+                                            select#gharkulYojna.form-control(type='text' name='gharkulYojna')
+                                                //- each value,index in gharkulYojanaList
+                                                //-   option(value=value.id) #{value.text}
+
+                                        .form-group
+                                            label.font-weight-bold(for='my-input') शौच्छालय
+                                            select#havingToilet.form-control(type='text' name='havingToilet')
+                                                //- each value,index in ["होय","नाही"]
+                                                //-   option(value=value) #{value}
+                            .col-4.mt-5
+                                .card
+                                    .card-headerc.bg-warning.font-weight-bold क्षेत्रफळ माहिती
+                                    .card-body.row
+                                        //- sq foot
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') जागेची लांबी  (फुट)
+                                            input#newAreaHeightFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaHeightFoot' value="-")
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') जागेची रुंदी  (फुट)
+                                            input#newAreaWidthFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaWidthFoot' value="-")
+
+                                        //-  sq meter
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') जागेची लांबी (मी.)
+                                            input#newAreaHeightMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaHeightMeter' value="-")
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') जागेची रुंदी (मी.)
+                                            input#newAreaWidthMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaWidthMeter' value="-")
+
+                                        //- total area in foot
+                                        .form-group.col-6    
+                                            label.font-weight-bold(for='my-input') एकूण जागेचे क्षेत्र.(चौ.फुट)
+                                            input#newTotalAreaSquareFoot.form-control-sm.form-control(type='text' name='newTotalAreaSquareFoot' value="-")
+
+                                        //- total area in meter
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                                            input#newTotalAreaSquareMeter.form-control-sm.form-control(type='text' name='newTotalAreaSquareMeter' value="-")                              
+
+                            .col-4.mt-5
+                                .card
+                                    .card-header.bg-warning.font-weight-bold दिशा माहिती
+                                    .card-body.row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') पूर्वेस
+                                            input#newEastLandmark.form-control-sm.form-control(type='text' name='newEastLandmark')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') पश्चिमेस
+                                            input#newWestLandmark.form-control-sm.form-control(type='text' name='newWestLandmark')
+                                        .form-group.col-6   
+                                            label.font-weight-bold(for='my-input') उत्तरेस
+                                            input#newNorthLandmark.form-control-sm.form-control(type='text' name='newNorthLandmark')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') दक्षिणेस
+                                            input#newSouthLandmark.form-control-sm.form-control(type='text' name='newSouthLandmark')
+                                        .form-group.col-12
+                                            label.font-weight-bold(for='my-input') बोजा/शेरा
+                                            textarea#newBojaShera.form-control-sm.form-control(type='text' name='newBojaShera' value="-")
+
+                            .col-12.col-md-6.mt-3
+                                .form-group.col-12
+                                    label.font-weight-bold(for='my-input') घराचा फोटो
+                                    input#image1.form-control-sm.form-control(type='file')
+                                    img#image-1-preview(src="" alt="" width="100%" style="border:1px solid" height="400")
+                            .col-12.col-md-6.mt-3
+                                .form-group.col-12
+                                    label.font-weight-bold(for='my-input') नकाशा फोटो
+                                    input#image2.form-control-sm.form-control(type='file')
+                                    img#image-2-preview(src="" alt="" width="100%" style="border:1px solid" height="400")
+
+                            .col-12
+                                .form-group.col-12.mt-4
+                                    button#removeUserDetails.btn.btn-danger.float-right.ml-3 
+                                        span.fa.fa-trash.mr-2
+                                        | नमुना ८ काढून काढा 
+                                    button#moveMore.btn.btn-primary.float-right.ml-3 
+                                        span.fa.fa-forward.mr-2
+                                        | नमुना ८ कर दुरीस्ती
+                                    button#saveNewUserForm.btn.btn-success.float-right
+                                        span.fa.fa-floppy-o.mr-2
+                                        | माहिती जतन करा
+
+                    .modal-footer.d-none
+                        button.btn.btn-primary(type='button') Save changes
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
+        .modal#masterModal1(tabindex='-1' role='dialog')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header
+                        h5.modal-title Modal title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body 
+                        .row.justify-content-center
+                            .col-9.mb-3
+                                form(style="display:flex;align-items:center;justify-content:center;")
+                                    .form-group.mx-sm-3.mb-2
+                                        .d-flex.justify-content-center
+                                            select#selectSearch.form-control.text-secondary.w-100
+                                                option(value="1") नाव
+                                                option(value="2") मालमत्ता क्र
+                                                option(value="3") अनु/घर क्रमांक टाका
+                                                option(value='4') भोगवटदाराचे नाव
+                                    .form-group.mx-sm-3.mb-2
+                                        .d-flex.justify-content-center
+                                            input#homeId1-type.form-control(type='text' placeholder='')
+                                            input#homeId1.form-control(type='hidden' placeholder='')
+
+                                    div
+                                        div(style="display:flex;align-items:start; gap:1rem;")
+                                            button#btnGetUserDetails1.btn.btn-primary.btn-sm(type='submit' style='display:block !important; width:7rem !important;') माहिती पहा
+                                            a.btn.btn-sm.btn-primary(style='display:inline-block;' href='/print/form-8All?sortBy=name') मालमत्ता धारक यादी बघा
+
+                        form.row.gap-3#previewDetails.d-none
+                            .col-4
+                                .card
+                                    .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                                    .card-body.row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') अनु क्रमांक
+                                            input.myMainId1.readOnly.form-control-sm.form-control(type='text' value="" readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') घर क्रमांक
+                                            input.myMainId1.readOnly.form-control-sm.form-control(type='text' value="" readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                                            input#newMalmattaNo1.readOnly.form-control-sm.form-control(type='text' name='' readonly)
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') वार्ड नं
+                                            input#newWardNo1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                            input#oldHomeNo1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') पाणीकर
+                                            input#waterTax1.form-control-sm.form-control(type='text', readonly)                        
+                            .col-8
+                                .card
+                                    .card-header.bg-warning.font-weight-bold मालकाची माहिती 
+                                    .card-body.row
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                            input#newOwnerName1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                            input#newSecondOwnerName1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                                            input#newMobileNo1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') आधार क्रं.
+                                            input#newAadharNo1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6    
+                                            label.font-weight-bold(for='my-input') ग्रामपंचायत
+                                            input#newGramPanchayet1.readOnly.form-control-sm.form-control(type='text' name='')
+                                        .form-group.col-6
+                                            label.font-weight-bold(for='my-input') गावाचे नाव
+                                            input#newVillageName1.readOnly.form-control-sm.form-control(type='text' name='')
+
+                            .col-12.mt-2
+                                .card
+                                    .card-body.row.justify-content-center
+                                        .form-group.d-flex.flex-row
+                                            div.d-flex.justify-content-center.align-items-center
+                                                button#sendNineNavigation.btn.btn-success.float-right.d-none
+                                                    span.fa.fa-floppy-o.mr-2
+                                                    | नमुना ९ भरा / दुरुस्ती करा
+
+                                                button#btnPrintEightSingleImage.btn.btn-success.float-right.d-none
+                                                    span.fa.fa-floppy-o.mr-2
+                                                    | फोटो पावती प्रिंट करा
+
+                                                button#authorityToBypassBtn.btn.btn-primary.mr-2 Authority
+                                                input#pavtiName.d-none.form-control.col-4.float-left.mr-3(type='text' placeholder='पावतीसाठीच्ये नाव')
+                                                input#pavtiRuppe.d-none.form-control.col-2x.float-left.mr-3(type='text' placeholder='पावती रुपये')
+                                                input#d1.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पासून' required)
+                                                input#d2.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पर्यंत' required)
+                                            .div.d-flex.justify-content-center.align-items-center
+                                                div
+                                                    button.form-eight-print-pay-btn.btn.btn-success.float-right.d-flex.align-items-center.gap-2 
+                                                        i.fa.fa-floppy-o &nbsp; 
+                                                        span पेमेंट 
+                                            button#btnPrintNineSamanya.btn.btn-success.float-right.d-none
+                                                span.fa.fa-floppy-o.mr-2
+                                                | नमुना ९ सामान्य प्रिंट करा
+
+                    .modal-footer.d-none
+                        button.btn.btn-primary(type='button') Save changes
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
+        .modal#yearModal(tabindex='-1' role='dialog')
+            .modal-dialog.modal-dialog-centered(role='document' style="width:40% !important;")
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') X
+                    .modal-body 
+                        .row.justify-content-center
+                            .col-5
+                                .form-group.mb-2
+                                    input#date1.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-1
+                                .form-group.mt-2.text-center
+                                    span.font-weight-bold ते
+                            .col-5
+                                .form-group.mb-2
+                                    input#date2.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-8.watermark-div
+                                .form-group.mb-2
+                                    select#show-watermark.form-control
+                                        option(value=1 selected) Show Watermark
+                                        option(value=0) Hide Watermark
+                            .col-12
+                                center
+                                    button#btnGetPrintSpace.btn.btn-primary.mb-2(type='submit') प्रिंट करा
+
+        .modal#yearModal1(tabindex='-1' role='dialog')
+            .modal-dialog(role='document' style="width:70% !important; margin-inline: auto;")
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') X	
+                    .modal-body 
+                        .row
+                            .col-12.col-md-3
+                                .form-group.mb-2
+                                    input#date11.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-12.col-md-1
+                                .form-group.mt-2.text-center
+                                    span.font-weight-bold ते
+                            .col-12.col-md-3
+                                .form-group.mb-2
+                                    input#date21.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-12.col-md-1
+                                .form-group.mt-2.text-center
+                                    span.font-weight-bold आणि
+                            .col-12.col-md-3
+                                .form-group.mb-2
+                                    input#date31.form-control(placeholder="--- दिनांक ---")
+                            .col-12
+                                center
+                                    button#btnGetPrintSpace1.btn.btn-primary.mb-2(type='submit') प्रिंट क्रमांक
+
+        .modal#meterModel(tabindex='-1' role='dialog')
+            .modal-dialog(role='document' style="width:60% !important;")
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body 
+                        .row
+                            .col-3
+                            .col-3
+                                .form-group.mb-2
+                                    input#meterWal.form-control(placeholder="---- व्हाल क्रमाक  ----")
+                            .col-6
+                                .form-group
+                                    button#printMeterBill.btn.btn-primary.mb-2(type='submit') प्रिंट क्रमांक
+
+        .modal#meterModelPaniNondaniBill(tabindex='-1' role='dialog')
+            .modal-dialog(role='document' style="width:60% !important;")
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body 
+                        .row
+                            .col-4
+                            .col-4
+                                center
+                                    .form-group.mb-2
+                                        input#meterPaniNondaniBillFrom.form-control(placeholder="---- पासून  ----")
+                                    .form-group.mb-2
+                                        label.font-weight-bold ते
+                                        input#meterPaniNondaniBillTo.form-control(placeholder="---- पर्यंत ----")
+                            .col-12
+                                center
+                                    .form-group
+                                        button#printMeterPaniNondaniBill.btn.btn-primary.mb-2(type='submit') प्रिंट क्रमांक
+
+
+
+
+        //- later moved from yaadi and pramanpatra
+        .modal#namuna8MalamattaDharakYadiModal.fade(tabindex='-1' role='dialog')
+            .modal-dialog.modal-dialog-centered(role='document' style='max-width: 700px !important')
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body 
+                        .row
+                            .col-5
+                                .form-group.mb-2
+                                    input#date-1.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-1
+                                .form-group.mt-2.text-center
+                                    span.font-weight-bold ते
+                            .col-5  
+                                .form-group.mb-2
+                                    input#date-2.form-control(placeholder="---- पासून वर्ष ----")
+                            .col-12
+                                .d-flex.align-items-center.justify-content-center(style='gap:0.2rem;')
+                                    button.btn.btn-success(id='print-kar-nihay-yadi-and-other-btn') नमुना ८ करनिहाय यादी व इतर
+                                    button.btn.btn-success(id='print-kar-nihay-yadi-btn') नमुना ८ करनिहाय यादी
+                                    button#print-malmatta-dharak-yadi-by-malmatta-btn.btn.btn-primary(type='submit') नमुना ८ मालमत्ता धारक यादी (मालमत्तेनुसार)
+                                    button.btn.btn-primary(type='button' id='print-malmatta-dharak-yadi-by-name-btn') नमुना ८ मालमत्ता धारक यादी (नावानुसार)
+
+
+
+
+
+
+
+
+
+        //- CHECK TAX PAID MODAL 
+        include ../include/check-tax-paid-modal.pug
+
+        //- PAYMENT TYPE MODAL
+        //- include ../tax_payer/paymentTypeModel.pug
+        include ../include/payment-type-modal.pug
+
+        .row.d-flex.justify-content-center
+            .col-6
+                h5.heading-1 नमुना ८ प्रिंट 
+        - 
+            let form8Tabs = [
+                { tabLabel: "नमुना ८ प्रिंट", id: '3', icon: 'fa-print' },
+                { tabLabel: "नमुना ८ सर्व प्रिंट", id: '7', icon: 'fa-files-o' },
+                { tabLabel: "फोटो नमुना ८ सर्व प्रिंट", id: '72', icon: 'fa-camera' },
+                { tabLabel: "फोटो नमुना ८ सर्व QR", id: '71', icon: 'fa-qrcode' },
+
+                { tabLabel: "नमुना ८ मालमत्ता धारक यादी", id: 101, icon: 'fa-list-alt' },
+                { tabLabel: "नमुना ८ अर्ज प्रतिज्ञापत्र (मोजणी फॉर्म)", id: "102", icon: 'fa-file-text-o' },
+                { tabLabel: "सामान्य चालू कर मागणी (डिमांड)", id: "106", icon: 'fa-file-text-o' },
+                { tabLabel: "पाणी चालू कर मागणी (डिमांड)", id: "108", icon: 'fa-inr' },
+
+                //- taking from blank प्रमाणपत्र प्रिंट page
+                { id: 2, tabLabel: "नमुना ८ प्रतिज्ञापत्र", link:'/print/blankCertificate/formEightPratidnayaPatra', icon: 'fa-file-text-o' },
+
+                { id:201, tabLabel: "ठराव प्रमाणपत्र", icon: 'fa-certificate' },
+                { id:202, tabLabel: "दरपत्रक प्रमाणपत्र", icon: 'fa-certificate' },
+                { id:203, tabLabel: "नमुना ८ हेडर प्रिंट", icon: 'fa-header' },
+                { id:204, tabLabel: "नमुना ८ यादी शीट", icon: 'fa-table' },
+
+                { id:-1, tabLabel: "नमुना ८ Blank Prints", link: "/namuna/8/blank", icon: 'fa-file-o' }
+            ]
+
+
+
+
+        .row.justify-content-center
+            each form8Tab, key in form8Tabs
+                .col-4.col-md-2.p-2.box.box--white
+                    //- if it's supposed to be a link, let it behave as a  link
+                    if form8Tab.link 
+                        a.commonModalFrom(href=form8Tab.link target="_blank" style="color: inherit; text-decoration: none;" class="d-flex justify-content-center align-items-center") 
+                            p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
+                                i.fa(class=form8Tab.icon + ' fa-2x')
+                                small #{form8Tab.tabLabel}
+                    else
+                        .commonModalFrom(data-id=form8Tab.id class="d-flex justify-content-center align-items-center") 
+                            p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
+                                i.fa(class=form8Tab.icon + ' fa-2x')
+                                small #{form8Tab.tabLabel}

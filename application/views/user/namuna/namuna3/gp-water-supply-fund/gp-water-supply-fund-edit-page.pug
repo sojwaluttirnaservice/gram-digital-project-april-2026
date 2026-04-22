@@ -1,0 +1,272 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/gp-water-supply-fund/namuna-3-gp-water-supply-fund-page-form-handler.js' type='module' defer)
+
+    title ग्रामपाणी पुरवठा निधी (Edit)
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+      form(id='gp-water-supply-fund-form').mt-1
+        .form.form-1
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#B0E0E6; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना ३ ग्रामपाणी पुरवठा निधी 
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष
+                input.form-control(type='text' name="year" id="year" placeholder="Enter Year" value=gpWaterSupplyFund.year readonly)
+
+            //- Initial Balance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="initial_balance") निधीत सुरुवातीची शिल्लक (1)
+                input.form-control(type="text" name="initial_balance" id="initial_balance" placeholder="Enter Initial Balance" value=gpWaterSupplyFund.initial_balance)
+
+            //- General Water Tax
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="general_water_tax") सामान्य पाणीकर (2)
+                input.form-control(type="text" name="general_water_tax" id="general_water_tax" placeholder="Enter General Water Tax" value=gpWaterSupplyFund.general_water_tax)
+
+            //- Special Water Tax
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="special_water_tax") विशेष पाणीकर (3)
+                input.form-control(type="text" name="special_water_tax" id="special_water_tax" placeholder="Enter Special Water Tax" value=gpWaterSupplyFund.special_water_tax)
+
+            //- Tap Connection Application Fee
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="tap_connection_application_fee") नळ कनेक्शन अर्ज फी (4)
+                input.form-control(type="text" name="tap_connection_application_fee" id="tap_connection_application_fee" placeholder="Enter Tap Connection Application Fee" value=gpWaterSupplyFund.tap_connection_application_fee)
+
+            //- Donation
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="donation") देणगी (5)
+                input.form-control(type="text" name="donation" id="donation" placeholder="Enter Donation" value=gpWaterSupplyFund.donation)
+
+            //- Deposit
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="deposit") अनामत (6)
+                input.form-control(type="text" name="deposit" id="deposit" placeholder="Enter Deposit" value=gpWaterSupplyFund.deposit)
+
+            //- Tap Fitting Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="tap_fitting_expenses") नळ फिटिंग खर्चा बाबत (7)
+                input.form-control(type="text" name="tap_fitting_expenses" id="tap_fitting_expenses" placeholder="Enter Tap Fitting Expenses" value=gpWaterSupplyFund.tap_fitting_expenses)
+
+            //- Revenue Grant 35% Amount
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="revenue_grant_35_percent") राजस्व अनुदानाची ३५ % रक्कम (8)
+                input.form-control(type="text" name="revenue_grant_35_percent" id="revenue_grant_35_percent" placeholder="Enter Revenue Grant 35% Amount" value=gpWaterSupplyFund.revenue_grant_35_percent)
+
+            //- Electricity Bill 50% Grant
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="electricity_bill_50_percent_grant") वीज बिलाचे ५०% अनुदान (9)
+                input.form-control(type="text" name="electricity_bill_50_percent_grant" id="electricity_bill_50_percent_grant" placeholder="Enter Electricity Bill 50% Grant" value=gpWaterSupplyFund.electricity_bill_50_percent_grant)
+
+            //- Water Supply Grant
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_supply_grant") पाणीपुरवठा कामा करीता अनुदान (10)
+                input.form-control(type="text" name="water_supply_grant" id="water_supply_grant" placeholder="Enter Water Supply Grant" value=gpWaterSupplyFund.water_supply_grant)
+
+            //- Loan
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="loan") उसनवार (11)
+                input.form-control(type="text" name="loan" id="loan" placeholder="Enter Loan" value=gpWaterSupplyFund.loan)
+
+            //- Others
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="others") इतर (12)
+                input.form-control(type="text" name="others" id="others" placeholder="Enter Other Income" value=gpWaterSupplyFund.others)
+
+            //- Total Income Year
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_income_year") एकूण जमा (वर्षात) 2 ते 12 (13)
+                input.form-control(type="text" name="total_income_year" id="total_income_year" placeholder="Enter Total Income Year" value=gpWaterSupplyFund.total_income_year)
+
+            //- Total Income With Initial Balance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_income_with_initial_balance") सुरुवातीची शिल्लकेसह एकूण जमा १ + १३ (14)
+                input.form-control(type="text" name="total_income_with_initial_balance" id="total_income_with_initial_balance" placeholder="Enter Total Income With Initial Balance" value=gpWaterSupplyFund.total_income_with_initial_balance)
+
+            //- Employee Salary
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="employee_salary") नोकर पगार (15)
+                input.form-control(type="text" name="employee_salary" id="employee_salary" placeholder="Enter Employee Salary" value=gpWaterSupplyFund.employee_salary)
+
+            //- Employee Travel Allowance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="employee_travel_allowance") नोकर प्रवास भत्ता (16)
+                input.form-control(type="text" name="employee_travel_allowance" id="employee_travel_allowance" placeholder="Enter Employee Travel Allowance" value=gpWaterSupplyFund.employee_travel_allowance)
+
+            //- Uniform
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="uniform") गणवेश (17)
+                input.form-control(type="text" name="uniform" id="uniform" placeholder="Enter Uniform" value=gpWaterSupplyFund.uniform)
+
+            //- Advance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="advance") अग्रीम (18)
+                input.form-control(type="text" name="advance" id="advance" placeholder="Enter Advance" value=gpWaterSupplyFund.advance)
+
+            //- Bonus
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="bonus") बोनस (19)
+                input.form-control(type="text" name="bonus" id="bonus" placeholder="Enter Bonus" value=gpWaterSupplyFund.bonus)
+
+            //- Total Salary and Benefits
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_salary_and_benefits") एकूण 15 + 19 (20)
+                input.form-control(type="text" name="total_salary_and_benefits" id="total_salary_and_benefits" placeholder="Enter Total Salary and Benefits" value=gpWaterSupplyFund.total_salary_and_benefits)
+
+            //- Office Stationery
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="office_stationery") कार्यालयीन स्टेशनरी (21)
+                input.form-control(type="text" name="office_stationery" id="office_stationery" placeholder="Enter Office Stationery" value=gpWaterSupplyFund.office_stationery)
+
+            //- Electricity Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="electricity_expenses") वीज खर्च (22)
+                input.form-control(type="text" name="electricity_expenses" id="electricity_expenses" placeholder="Enter Electricity Expenses" value=gpWaterSupplyFund.electricity_expenses)
+
+            //- Water Supply Well
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_supply_well") पाणी पुरवठा विहिरी (23)
+                input.form-control(type="text" name="water_supply_well" id="water_supply_well" placeholder="Enter Water Supply Well" value=gpWaterSupplyFund.water_supply_well)
+
+            //- Water Supply Handpump Powerpump
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_supply_handpump_powerpump") पाणी पुरवठा हातपंप पावर पंप (24)
+                input.form-control(type="text" name="water_supply_handpump_powerpump" id="water_supply_handpump_powerpump" placeholder="Enter Water Supply Handpump Powerpump" value=gpWaterSupplyFund.water_supply_handpump_powerpump)
+
+            //- Repair Work Stand Post Pipeline
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="repair_work_stand_post_pipeline") दुरुस्ती कामे स्टँड पोस्ट पाईप लाईन (25)
+                input.form-control(type="text" name="repair_work_stand_post_pipeline" id="repair_work_stand_post_pipeline" placeholder="Enter Repair Work Stand Post Pipeline" value=gpWaterSupplyFund.repair_work_stand_post_pipeline)
+
+            //- Repair Work Others
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="repair_work_others") दुरुस्ती कामे इतर (26)
+                input.form-control(type="text" name="repair_work_others" id="repair_work_others" placeholder="Enter Repair Work Others" value=gpWaterSupplyFund.repair_work_others)
+
+            //- Total Repair Works
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_repair_works") एकूण 23 + 26 (27)
+                input.form-control(type="text" name="total_repair_works" id="total_repair_works" placeholder="Enter Total Repair Works" value=gpWaterSupplyFund.total_repair_works)
+
+            //- New Water Supply Works Pipeline Well
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="new_water_supply_works_pipeline_well") पाणी पुरवठा नवीन कामे पाईप लाईन / विहिरी (28)
+                input.form-control(type="text" name="new_water_supply_works_pipeline_well" id="new_water_supply_works_pipeline_well" placeholder="Enter New Water Supply Works Pipeline Well" value=gpWaterSupplyFund.new_water_supply_works_pipeline_well)
+
+            //- Water Purification
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_purification") पाणी निर्जतूकरण (29)
+                input.form-control(type="text" name="water_purification" id="water_purification" placeholder="Enter Water Purification" value=gpWaterSupplyFund.water_purification)
+
+            //- Other Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_expenses") इतर (30)
+                input.form-control(type="text" name="other_expenses" id="other_expenses" placeholder="Enter Other Expenses" value=gpWaterSupplyFund.other_expenses)
+
+            //- Total Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_expenses") एकूण खर्च (20+21+22+23+24+25+26+27+28+29+30) (31)
+                input.form-control(type="text" name="total_expenses" id="total_expenses" placeholder="Enter Total Expenses" value=gpWaterSupplyFund.total_expenses)
+
+            //- Final Balance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance") अखेर शिल्लक (14-31) (32)
+                input.form-control(type="text" name="final_balance" id="final_balance" placeholder="Enter Final Balance" value=gpWaterSupplyFund.final_balance)
+
+                input.form-control(name='id' value=gpWaterSupplyFund.id hidden)
+
+
+          //- Submit Button
+          .text-center
+            button.btn.btn-success.mt-4(type="submit" id='update-gp-water-supply-fund-btn') Update

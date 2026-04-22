@@ -1,0 +1,159 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title प्रिंट नमुना ११ किरकोळ मागणी नोंदवही
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='14' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना ११
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा ग्रा. पं. लेख संहिता २०११ (नियम २६ (१) व (२), ३७ (१) पहा)
+
+
+                tr 
+                    th(colspan='14')
+                        | नमुना ११ किरकोळ मागणी नोंदवही
+                tr
+                    //- 1
+                    th(rowspan='2') अनु. क्र
+
+                    //- 2 to 5
+                    th(rowspan='2') ज्या व्यक्तीने मागणीची रक्कम द्यावयाची आहे त्या व्यक्तीचे नाव व पत्ता 
+                    th(rowspan='2') मागणीचे स्वरूप
+                    th(rowspan='2') मागणीसाठी प्रधिकार
+
+                    th(rowspan='1' colspan='3') मागणी
+
+                    //- 6 to 11
+                    th(rowspan='2') देयक क्रमांक व तारीख
+                    th(rowspan='1' colspan='2') वसूल झालेल्या रकमा
+                    th(rowspan='1' colspan='2') सूट
+                    th(rowspan='2') शिल्लक
+                    th(rowspan='2') शेरा
+
+                tr
+                    //- 1
+                    //- th(rowspan='1')
+                    //- th(rowspan='1')
+                    //- th(rowspan='1')
+                    //- th(rowspan='1')
+                    //- th(rowspan='1')
+
+                    //- 
+                    th(rowspan='1' colspan='1') हफ्ता
+                    th(rowspan='1' colspan='1') रक्कम
+                    th(rowspan='1' colspan='1') एकूण रक्कम
+
+                    //- th(rowspan='1')
+
+                    th(rowspan='1' colspan='1') पावतीचा क्रमांक व तारीख 
+                    th(rowspan='1' colspan='1') रक्कम
+
+                    th(rowspan='1' colspan='1') आदेशाचा क्रमांक व तारीख 
+                    th(rowspan='1' colspan='1') रक्कम
+
+                    //- th 
+                    //- th 
+        
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+                        th #{num}
+
+            tbody
+
+
+
+                each namuna11Entry, index in  namuna11Details
+                    //- each namuna11Entry, index in Array(20).fill(paymentnamuna11Entry).flat()
+                    tr 
+
+                        td #{index +  1}
+
+                        td #{namuna11Entry.name_of_person}, #{namuna11Entry.address_of_person}
+                        td #{namuna11Entry.nature_of_demand}
+                        td #{namuna11Entry.authority_for_demand}
+                        td #{namuna11Entry.demand_installment}
+
+                        td #{namuna11Entry.demand_amount}
+                        td #{namuna11Entry.demand_total_amount}
+                        td #{namuna11Entry.bill_number}, #{namuna11Entry._bill_date}
+
+                        td #{namuna11Entry.receipt_number}, #{namuna11Entry._receipt_date}
+                        td #{namuna11Entry.recovered_amount}
+
+                        td #{namuna11Entry.order_number}, #{namuna11Entry._order_date}
+                        td #{namuna11Entry.exemption_amount}
+                        
+                        td #{namuna11Entry.remaining_amount}
+                        td #{namuna11Entry.remarks}

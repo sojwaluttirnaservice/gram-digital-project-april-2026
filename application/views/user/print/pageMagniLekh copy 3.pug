@@ -1,0 +1,168 @@
+doctype html
+head
+  title मागणी लेख
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+        
+       
+    }
+    .text-j {
+      line-height: 2;
+       text-align: justify
+    }
+body
+  - var pageCount = 0;
+  each val,index in data
+    - pageCount += 1;
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      div.col-12.mt-1
+        div(style="position:relative")
+          img(src="/print/5.jpg", alt="" style="width:100%;height:135vh")
+          div(style="position: absolute;top:0;width:100%")
+            p(style="position:absolute;left:18rem;top:4.4rem") #{zp.gp_name}
+            p(style="position:absolute;left:50.2rem;top:4.4rem") #{zp.gp_name}
+
+            p(style="position:absolute;left:13rem;top:6.5rem") #{val.feu_ownerName}    
+            p(style="position:absolute;left:45.2rem;top:6.5rem") #{val.feu_ownerName} 
+
+            p(style="position:absolute;left:11rem;top:8.6rem") #{val.feu_secondOwnerName}   
+            p(style="position:absolute;left:43.2rem;top:8.6rem") #{val.feu_secondOwnerName}  
+
+            p(style="position:absolute;left:7rem;top:11rem") #{val.feu_malmattaNo}
+            p(style="position:absolute;left:39.5rem;top:11rem") #{val.feu_malmattaNo}
+
+            p(style="position:absolute;left:13rem;top:11rem") #{pageCount}
+            p(style="position:absolute;left:45.5rem;top:11rem") #{pageCount}
+
+            p(style="position:absolute;left:21.5rem;top:11rem") #{val.feu_villageName}
+            p(style="position:absolute;left:54.5rem;top:11rem") #{val.feu_villageName}
+
+            p(style="position:absolute;left:13em;top:15.5rem") #{val.feu_ownerName}
+            p(style="position:absolute;left:45rem;top:15.5rem") #{val.feu_ownerName}
+
+            p(style="position:absolute;left:13em;top:17.5rem") #{val.feu_secondOwnerName}
+            p(style="position:absolute;left:45rem;top:17.5rem") #{val.feu_secondOwnerName}
+
+            p(style="position:absolute;left:24rem;top:20rem") #{y1}
+            p(style="position:absolute;left:57rem;top:20rem") #{y1}
+
+            p(style="position:absolute;left:17rem;top:22rem") #{y2}
+            p(style="position:absolute;left:50rem;top:22rem") #{y2}
+
+            p(style="position:absolute;left:21rem;top:23.5rem") #{val.total_tax}
+            p(style="position:absolute;left:54rem;top:23.5rem") #{val.total_tax}
+
+            p(style="position:absolute;left:10rem;top:29rem") #{Math.round((val.total_tax * 2) /100 )}
+            p(style="position:absolute;left:43rem;top:29rem") #{Math.round((val.total_tax * 2) /100 )}
+
+            p(style="position:absolute;left:25rem;top:37.5rem") #{zp.gp_name}
+            p(style="position:absolute;left:57.5rem;top:37.5rem") #{zp.gp_name}
+          
+          div(style="position: absolute;top:0;width:100%")
+            p(style="position:absolute;left:18rem;top:51.4rem") #{zp.gp_name}
+            p(style="position:absolute;left:50.2rem;top:51.4rem") #{zp.gp_name}
+
+            p(style="position:absolute;left:13rem;top:53.5rem") #{val.feu_ownerName}    
+            p(style="position:absolute;left:45.2rem;top:53.5rem") #{val.feu_ownerName} 
+
+            p(style="position:absolute;left:11rem;top:55.6rem") #{val.feu_secondOwnerName}   
+            p(style="position:absolute;left:43.2rem;top:55.6rem") #{val.feu_secondOwnerName}  
+
+            p(style="position:absolute;left:7rem;top:58rem") #{val.feu_malmattaNo}
+            p(style="position:absolute;left:39.5rem;top:58rem") #{val.feu_malmattaNo}
+
+            p(style="position:absolute;left:13rem;top:58rem") #{pageCount}
+            p(style="position:absolute;left:45.5rem;top:58rem") #{pageCount}
+
+            p(style="position:absolute;left:21.5rem;top:58rem") #{val.feu_villageName}
+            p(style="position:absolute;left:54.5rem;top:58rem") #{val.feu_villageName}
+
+            p(style="position:absolute;left:13em;top:62.5rem") #{val.feu_ownerName}
+            p(style="position:absolute;left:45rem;top:62.5rem") #{val.feu_ownerName}
+
+            p(style="position:absolute;left:13em;top:64.5rem") #{val.feu_secondOwnerName}
+            p(style="position:absolute;left:45rem;top:64.5rem") #{val.feu_secondOwnerName}
+
+            p(style="position:absolute;left:24rem;top:67rem") #{y1}
+            p(style="position:absolute;left:57rem;top:67rem") #{y1}
+
+            p(style="position:absolute;left:17rem;top:69rem") #{y2}
+            p(style="position:absolute;left:50rem;top:69rem") #{y2}
+
+            p(style="position:absolute;left:21rem;top:70.5rem") #{val.total_tax}
+            p(style="position:absolute;left:54rem;top:70.5rem") #{val.total_tax}
+
+            p(style="position:absolute;left:10rem;top:76rem") #{Math.round((val.total_tax * 2) /100 )}
+            p(style="position:absolute;left:43rem;top:76rem") #{Math.round((val.total_tax * 2) /100 )}
+
+            p(style="position:absolute;left:25rem;top:84.5rem") #{zp.gp_name}
+            p(style="position:absolute;left:57.5rem;top:84.5rem") #{zp.gp_name}

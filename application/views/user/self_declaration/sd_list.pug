@@ -1,0 +1,163 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+    title #{title}
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    //mask plugin jquery    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/self-declaration/self-declaration-list-page-handler.js')
+    style.
+        body{
+
+            height:100vh;
+        }
+
+        @media (max-width: 768px){
+            tr, td {
+                font-size: 0.85rem;
+            }
+        }
+body
+    include ../include/navs.pug
+
+    include ./report-print-modal.pug
+
+    include ./self-declaration-details-modal.pug
+
+    .modal#printSelfDeclaration(tabindex='-1' role='dialog')
+        .modal-dialog(role='document' style="width:60% !important;")
+            .modal-content
+                .modal-header
+                    h5.modal-title
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body 
+                    .row
+                        .col-3
+                        .col-3
+                            .form-group.mb-2
+                                input#printPlace.form-control(placeholder="---- ठिकाण ----",value=gp.gp_name)
+                        .col-1
+                            .form-group.mt-2.text-center
+                                span.font-weight-bold आणि
+                        .col-3
+                            .form-group.mb-2
+                                input#date31.form-control(placeholder="--- दिनांक ---")
+                                input#idData.form-control(type="hidden")
+                                input#appType.form-control(type="hidden")
+                        .col-12
+                            center
+                                button#btnPrintSelfDeclaration.btn.btn-primary.mb-2(type='submit') प्रिंट करा
+
+    .container-fluid
+        .row
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    i.fa.fa-file-zip-o
+                    | &nbsp;&nbsp;स्वयं घोषित अर्ज यादी (#{cert == "" ? "सर्व" : cert.split("_").join(" ")})
+
+                div.d-inline-block.float-right.mb-2
+                    div(class='font-weight-bold text-danger') ** अर्ज करण्यासाठी किंवा यादी बघण्यासाठी विषय निवडा
+                    div(class='d-flex justify-content-between')
+                        button.btn.btn-secondary.btn-sm(data-toggle="modal" data-target="#print-report-modal")
+                            i.fa.fa-print.me-1
+                            | रिपोर्ट
+                        select.ml-2.form-select(name="create-self-declaration-cert-dropdown") 
+                            option(value="-1" class='text-center') -- निवडा --
+                            //- option(value="" selected=(cert == "") class='text-center') सर्व 
+                            each certSubject in certificateSubjects
+                                option(value=certSubject.subject_code selected=(cert == certSubject.subject_code) class="text-center") #{certSubject.subject_code.split("_").join(" ")}
+                        
+                        //- button.btn.btn-secondary.ml-2(id="see-self-declaration-list-btn") यादी बघा
+                        button(id="new-self-declaration-application-btn").btn.btn-success.btn-sm.ml-2 नवीन अर्ज जोडा
+            .col-12
+                .table-responsive(style='margin-bottom: 5rem;')
+                    table.table.table-bordered.text-center
+                        thead
+                            tr.bg-primary.text-white
+                                th(width="4%") अनु क्र
+                                th(width="4%") अर्ज क्र
+                                th(width="25%") नाव
+                                th(width="13%") आधार क्रमांक
+
+                                //- th(width="10%") रहिवासी घोषणापत्र 
+                                //- th(width="10%") हयातीचे घोषणापत्र 
+                                //- th(width="10%") ना हरकत घोषणापत्र 
+                                //- th(width="10%") शौचालय घोषणापत्र 
+                                //- th(width="5%") काढून टाका
+
+                                th() प्रमाणपत्र
+                                th() प्रिंट
+                        tbody#selfDeclarationList
+                            if(list.length == 0)
+                                tr.m-0.p-0
+                                    td(colspan="15").text-center.text-danger अर्ज यादी रिकामी आहे
+                            else
+                                each selfDeclarationCert,index in list
+                                    tr
+                                        td #{index+1}
+                                        td #{selfDeclarationCert.id}
+                                        td
+                                            .d-flex.align-items-center(style='gap: 0.2rem;')
+                                                - var img = "/self_declaration/"+selfDeclarationCert.sd_user_image;
+                                                a(href=img target="_blank")
+                                                    img(src=img style="width:37px;height:37px; border-radius: 50%; border: 1px solid gray;" onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                                                span.ml-3 #{selfDeclarationCert.sd_applicantFullSelfNameM}
+
+                                        td #{selfDeclarationCert.sd_applicantAadharM}
+
+                                        //- td
+                                            button.btn.fa.fa-print.text-primary.hand.printDecleration(data-id = index data-appType="रहिवासी घोषणापत्र")
+                                        //- td
+                                            button.btn.fa.fa-print.text-primary.hand.printDecleration(data-id = index data-appType="हयातीचे घोषणापत्र")
+                                        //- td
+                                            button.btn.fa.fa-print.text-primary.hand.printDecleration(data-id = index data-appType="ना हरकत घोषणापत्र")
+                                        //- td
+                                            button.btn.fa.fa-print.text-primary.hand.printDecleration(data-id = index data-appType="शौचालय घोषणापत्र") 
+                                        //- td 
+                                            button.btn.fa.fa-trash.text-primary.hand.deleteDecleration(data-id = selfDeclarationCert.id data-appType="शौचालय घोषणापत्र") 
+
+                                        td #{selfDeclarationCert.certificateType ? selfDeclarationCert.certificateType.split("_").join(" ") : ""}
+
+                                        td
+                                            button.btn.btn-sm.btn-outline-primary.view-self-declaration-details-btn(type="button" data-selfDeclaration=JSON.stringify(selfDeclarationCert))
+                                                i.fa.fa-eye.me-1
+                                                | तपशील बघा                                           
+                                        td 
+                                            a.btn.btn-sm.btn-info(href=`/self-declaration/print/${selfDeclarationCert.id}` target="_blank")
+                                                i.fa.fa-print
+
+
+    script.
+        $(function(){
+            newSelfDeclarationList = !{json_list};
+            gp = '#{gp.gp_name}';
+            console.log(newSelfDeclarationList);
+        })

@@ -1,0 +1,35 @@
+.modalNewCenter.modal.m-0.p-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+    .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+      .modal-content.p-0.m-0(style="max-width:100%; height:100vh")
+        .modal-header
+          h5.modalNewCenterTitle.modal-tilte Exams Name 
+          .d-inline-block#modalNewCenterTab.navModalTab.nav.align-content-center(role='tablist')
+            button#aproveNewCenterTab.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#aproveNewCenterAction', role='tab', aria-controls='aproveNewCenterAction', aria-selected='true')
+              | Mock
+            button#newCenterLayoutTab.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#newCenterLayoutAction', role='tab', aria-controls='newCenterLayoutAction', aria-selected='true')
+              | Mock
+            button.close(type="button" class="close" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+        .modal-body
+          #nav-tabContentModal.tab-content
+            #newCenterLayoutAction.tab-pane.fade(role='tabpanel', aria-labelledby='newCenterLayoutTab')
+                .col-4.offset-4
+                      .form-group
+                        input#new_center_code.form-control(placeholder="Center Code")
+                      .form-group
+                        input#new_user_name.form-control(placeholder="User Name")
+                      .form-group
+                        input#new_center_password.form-control(placeholder="Password")
+                      button#saveAproverNewCenter.btn.btn-success
+                        span.fa.fa-floppy-o
+                          |  Approve Center
+            #aproveNewCenterAction.tab-pane.fade(role='tabpanel', aria-labelledby='aproveNewCenterTab')
+              .row
+                .col-12
+                  button#approveNewCenterBtn.aproveNewCenter.btn.btn-outline-primary.btn-sm(data-index='-1')
+                    i.fa.fa-check-circle
+                    |  Approve
+              .row(style="overflow-y:scroll;max-height: 650px;")
+                .col-12
+                  center
+                    .tf-tree.font-weight-bold#printHirarchiTree

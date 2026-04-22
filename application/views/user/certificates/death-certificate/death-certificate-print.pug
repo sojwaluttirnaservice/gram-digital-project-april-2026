@@ -1,0 +1,277 @@
+doctype html
+head
+	title Death Certificate
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+
+	style.
+
+		@media print {
+			@page { 
+				size: A4;
+
+			}
+			body {
+				margin:0;
+				padding:0;
+			}
+			body {transform: scale(1);}
+
+			.my-print {
+				margin: 3mm 2mm 3mm 2mm;
+			}
+		}
+
+		#reader {
+			width: 300px;
+			height: 300px;
+			margin: 20px auto;
+			}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			max-width: 500px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			animation: slide-in 0.4s;
+		}
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		@keyframes slide-in {
+			from {
+				top: -300px;
+				opacity: 0;
+			}
+			to {
+				top: 0;
+				opacity: 1;
+			}
+		}
+
+		.qr-code{
+			width: 95px;
+			height: 95px;
+		}
+
+		#qr-code img{
+			width: 100%;
+			height: 100%;
+		}
+
+
+	script.
+		document.addEventListener('DOMContentLoaded', function() {
+			// Your code here
+			//- console.log('Document fully loaded and parsed');
+			const _data = !{JSON.stringify(deathCertificate)};
+			const _gp = !{JSON.stringify(gp)};
+
+
+			//- const qrData = JSON.stringify(_data);
+			//- const _dataString = `मृतकाचे नाव : ${_data.name_of_deceased_m} \nName of Deceased :${_data.name_of_deceased}\nआधार क्रमांक: ${_data.aadhar_of_deceased_m}\nAadhar Number: ${_data.aadhar_of_deceased}\n लिंग : ${_data.gender_m}\nGender:${_data.gender}\nमृत्यू दिनांक : ${_data.date_of_death_m}\nDate of Death: ${_data._date_of_death} \nमृत्यूचे ठिकाण: ${_data.address_of_deceased_at_death_time_m} \nPlace of Death: ${_data.place_of_death}\n ग्रामपंचायत: ${_gp.gp_name}`;
+			//- const _dataString = `मृतकाचे नाव : ${_data.name_of_deceased_m} \n लिंग : ${_data.gender_m}\n मृत्यू दिनांक : ${_data.date_of_death_m}\n मृत्यूचे ठिकाण: ${_data.address_of_deceased_at_death_time_m} \n  ग्रामपंचायत: ${_gp.gp_name}`;
+			//- console.log(_dataString.length)
+			//- var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:150, height:150});
+
+			let website = window.location.origin
+			website += `/qr-scan/death-certificate?id=${_data.id}`
+			//- new QRCode(document.getElementById("qr-code"),website);
+
+			var qrcode = new QRCode(
+				'qr-code',
+
+				{
+					text: website,
+					width: 95, // Set width here
+					height: 95, // Set height here
+					colorDark: '#000000',
+					colorLight: '#ffffff',
+					correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+				}
+			);
+		});
+
+body
+	.my-print(style="width:210mm; height:298mm; border: 4px solid gray; padding: 0.4rem; position: relative;")
+
+
+		if deathCertificate == null 
+			div(style="font-size: 4rem; text-align:center;") No certificate found 
+
+		else
+
+
+			div(style='color:darkblue; font-weight:bold; display: grid; grid-template-columns: 1fr 1fr 1fr')
+
+				div(style='display: flex; align-items:center; justify-content:center')
+					div 
+						div(style="opacity:0;") क्रमांक #{deathCertificate.id}
+						div(style="opacity:0;") Number #{deathCertificate.id}
+						img(src="/img/water-mark-images/Seal_of_Maharashtra.png" width='60' height='60')
+				div(style='text-align:center; font-size:0.8rem; font-weight:bold')
+					img(width='60' height='90' src='/img/certificates/satyamev.png')
+					div महाराष्ट्र शासन
+					div GOVERNMENT OF MAHARASHTRA
+
+					div आरोग्य विभाग 
+					div DEPARTMENT OF HEALTH
+
+
+					h4(style='text-transform: uppercase') GRAM PANCHAYAT #{gp.gp_name}
+
+					h4(style='display: flex; flex-direction: column; color: brown; font-weight: bold !important;')
+						span मृत्यू प्रमाणपत्र 
+						span DEATH CERTIFICATE
+
+				div(style='display: flex; align-items:center; justify-content:center')
+					div(style='text-align:center;')
+						div फॉर्म ६ 
+						div form 6
+						img(src="/img/certificates/birth-death-certificate.jpg" width='70' height='60')
+
+
+			div(style='margin-top: 1rem; font-size: 0.8rem')
+				div जन्म व मृत्यू नोंदणी अधिनियम, १९६९ च्या कलम १२/१७ आणि महाराष्ट्र जन्म आणि मृत्यू नोंदणी नियम, २००० चे नियम १२/१३ अन्वये देण्यात आले आहे. 
+				div (ISSUED UNDER SECTION 12/17 OF THE REGISTRATION OF BIRTHS & DEATHS ACT, 1969 AND RULE 8/13 OF THE MAHARASHTRA REGISTRATION OF BIRTHS & DEATHS RULES 2000.)
+
+			div(style='margin-top:1rem; font-size:0.8rem;')
+				div प्रमाणित करण्यात येत आहे की, खालील माहिती मृत्यूच्या मूळ अभिलेखाच्या नोंदवहीतून घेतली आहे, जी की, तालुका #{gp.gp_taluka}, जिल्हा #{gp.gp_dist}, राज्य महाराष्ट्राच्या नोंदवहीत उल्लेख आहे.
+				div THIS IS TO CERTIFY THAT THE FOLLOWING INFORMATION HAS BEEN TAKEN FROM THE ORIGINAL RECORD OF DEATH WHICH IS THE REGISTER FOR GRAM PANCHAYAT #{gp.gp_name} OF TAHSIL/BLOCK #{gp.gp_taluka} OF DISTRICT #{gp.gp_dist} OF STATE/UNION TERRITORY MAHARASHTRA, INDIA.
+
+
+
+
+
+			.row(style='display: grid; grid-template-columns: 1fr 1fr; margin-top: 1.8rem;')
+				.col-6(style='display:flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem')
+					div मृताचे नाव / NAME OF DECEASED : #{deathCertificate.name_of_deceased_m} / #{deathCertificate.name_of_deceased}
+					div 
+						div आधार  क्रमांक  / Aadhar No. :
+						div #{deathCertificate.aadhar_of_deceased_m ? deathCertificate.aadhar_of_deceased_m.match(/.{1,4}/g).join('-') : ""} / #{deathCertificate.aadhar_of_decease ? deathCertificate.aadhar_of_decease.match(/.{1,4}/g).join('-') : ''}
+
+					div 
+						div मृत्यू दिनांक / DATE OF DEATH:
+						div #{deathCertificate._date_of_death} 
+						div #{deathCertificate.date_of_death_in_words}
+
+					div
+						div मृत व्यक्तीचे वय / AGE OF DECEASED: 
+						div #{deathCertificate.age_of_deceased}
+
+					div 
+						div आईचे पूर्ण नाव / NAME OF MOTHER:
+						div #{deathCertificate.name_of_mother_m} /  #{deathCertificate.name_of_mother}
+
+					div 
+						div नोंदणी क्रमांक / REGISTRATION NO:
+						div(style="font-weight: bold;") D-#{`${deathCertificate._date_of_death.split('-').pop()}`}:#{gp.birth_death_gp_id}-#{String(deathCertificate.gp_registration_number).padStart(9, '0').slice(-6)}
+
+
+					div 
+						div शेरा / REMARKS (IF ANY):
+						div #{deathCertificate.remarks}
+
+					div 
+						div(style="font-weight: bold;") (Certificate Id: #{deathCertificate.id})
+
+					div 
+						div प्रमाणपत्र दिल्याचा दिनांक / DATE OF ISSUE:
+						div #{deathCertificate._date_of_issue}
+
+
+					div 
+						div UPDATED ON: 
+						div #{deathCertificate._updated_on}
+						div(style="margin-bottom: 0.5rem; margin-top:0.5rem; font-weight:bold;") QR :
+						#qr-code.qr-code
+
+				.col-6(style='display:flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem')
+					div लिंग / SEX: #{deathCertificate.gender_m} /  #{deathCertificate.gender}
+
+					div
+						div मृत्यूचे ठिकाण / PLACE OF DEATH:
+						div #{deathCertificate.place_of_death_m} 
+						div #{deathCertificate.place_of_death}
+					div 
+						div पती / पत्नीचे पूर्ण नाव / NAME OF HUSBAND / WIFE:
+						div #{deathCertificate.name_of_husband_or_wife_m} 
+						div #{deathCertificate.name_of_husband_or_wife}
+
+					div 
+						div  आधार क्रमांक / HUSBAND/WIFE AADHAAR NO 
+						div #{deathCertificate.aadhar_number_of_husband_or_wife_m ? deathCertificate.aadhar_number_of_husband_or_wife_m.match(/.{1,4}/g).join('-') : ''} 
+						div #{deathCertificate.aadhar_number_of_husband_or_wife ? deathCertificate.aadhar_number_of_husband_or_wife.match(/.{1,4}/g).join('-') : ''}
+
+					div
+						div  वडिलांचे पूर्ण नाव / NAME OF FATHER
+						div #{deathCertificate.name_of_father_m} 
+						div #{deathCertificate.name_of_father}
+
+					div
+						div  वडिलांचा / FATHER'S AADHAR NO
+						div #{deathCertificate.aadhar_number_of_father_m ? deathCertificate.aadhar_number_of_father_m.match(/.{1,4}/g).join('-') : ""} 
+						div #{deathCertificate.aadhar_number_of_father? deathCertificate.aadhar_number_of_father.match(/.{1,4}/g).join('-') : ''}
+
+
+					div
+						div मृताचा कायमचा पत्ता / PERMANENT ADDRESS OF DECEASED:
+						div #{deathCertificate.permanent_address_of_deceased_m} 
+						div #{deathCertificate.permanent_address_of_deceased}
+					div
+						div नोंदणी दिनांक/ REGISTRATION DATE:
+						div 
+							span #{deathCertificate.date_of_registration_m} 
+							span /
+							span #{deathCertificate._date_of_registration}
+
+					div 
+						img(src='/print/gs.jpeg' width='150' height='50' style=`opacity:${gp.gramsevak_sign_display == 1 ? "100": "0"}`) 
+						div(style="margin-top: 0.4rem;") निर्गमित करणारे प्राधिकारी/ ISSUING AUTHORITY
+						div(style="color: blue; font-weight:bold;")
+							div रेजिस्ट्रार (जन्म  व  मृत्यू )
+							div REGISTRAR (BIRTH & DEATH)
+							div GRAM PANCHAYAT #{gp.gp_name}
+
+
+			div(style='font-size: 0.8rem; text-align: center; color: darkblue; font-weight: bold;  margin-top: 2.8rem;')
+				di "THIS IS A COMPUTER GENERATED CERTIFICATE WHICH CONTAINS FACSIMILE SIGNATURE OF THE ISSUING AUTHORITY"
+
+				div THE GOVT. OF INDIA VIDE CIRCULAR NO. 1/12/2014-VS(CRS) DATED 27-JULY-2015 HAS
+				div APPROVED THIS CERTIFICATE AS A VALID LEGAL DOUCMENT FOR ALL OFFICIAL PURPOSES.
+
+				div(style='color:green;font-weight: bold;') "प्रत्येक जन्म आणि मृत्यूच्या घटनेची नोंदणी करण्याची खात्री करा" / ENSURE REGISTRATION OF EVERY BIRTH AND DEATH
+
+				p#bar-code
+
+
+

@@ -1,0 +1,830 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना १ प्रिंट
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.3rem 0.6rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+            .transparent-div{
+                opacity: 0;
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 portrait; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+
+                table{
+                    page-break-before: always;
+                }
+            }
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        .prints
+
+            //- VARIABLES USED FOR SUM FOR RESPECTIVE TABLE 1, 2, 3, 4
+            //- let totalEstimatedIncome;
+            //- let totalApprovedAmount;
+            //- let totalActualPrevYearAmount;
+            //- let totalActualPrevPrevYearAmount;
+
+            //- // --------------
+
+            //- let totalEstimatedExpenditure;
+            //- let totalApprovedExpenditure;
+            //- let totalActualPrevYearExpenditure;
+            //- let totalActualPrevPrevYearExpenditure;
+
+            //- // 
+
+            //- let totalEstimatedWaterIncome;
+            //- let totalApprovedWaterAmount;
+            //- let totalActualPrevYearWaterAmount;
+            //- let totalActualPrevPrevYearWaterAmount;
+
+            //- // 
+
+            //- let totalEstimatedWaterExpenditure;
+            //- let totalApprovedWaterExpenditure;
+            //- let totalActualPrevYearWaterExpenditure;
+            //- let totalActualPrevPrevYearWaterExpenditure;
+
+            //- ----------------------------------------------------------------    
+
+
+            //- ========================================================================
+            //- ========================================================================
+            //- TABLE 1, 2 WITHOUT WATER (FOR OTHER TAXES OR SOMETHIGN)
+            //- ========================================================================
+            //- ========================================================================
+
+
+
+            //- TABLE 1 FOR COLLECTION OF SAMANAY NIDHEE (सामान्य निधी जमा)
+
+            - let totalEstimatedIncome = 0;
+            - let totalApprovedAmount = 0;
+            - let totalActualPrevYearAmount = 0;
+            - let totalActualPrevPrevYearAmount = 0;
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='6' )
+                            div
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    //- div ग्राम पंचायत कार्यालय - 
+
+                                    div ग्रामपंचायत कार्यालय
+                                        span #{gp.gp_name}
+                                    //- div
+                                    //-     img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div (महा. ग्रा. पं. लेखा संहिता २०११ नियम १८ (१), १९ व २० (११) पहा)
+
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div अर्थसंकल्प सन #{year-1} - #{year} सामान्य निधी 
+
+                    tr
+                        th(colspan='6')
+                            | ग्राम पंचायतीचा जमा रक्कमांचा तपशिल
+
+
+                tbody       
+
+                    //- 1----------------------------------
+
+                    //- Heading
+                    each vilageFundHeader in  villageFundsHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{vilageFundHeader.item_in_budget_header_name}
+                            td(width='20%') #{vilageFundHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित प्राप्ती
+                            td(width='20%') #{vilageFundHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित प्राप्ती
+                            td(width='20%') #{vilageFundHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम
+                            td(width='20%') #{vilageFundHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+
+                            div(style='text-align:left; font-weight: bold;')
+                                | जमा ग्रामनिधी (एक) (अ) कर
+
+
+
+                    - let totalEstimatedVillageFundIncome  = 0;
+                    - let totalApprovedVillageFundAmount = 0;
+                    - let totalActualPrevYearVillageFundAmount = 0;
+                    - let totalActualPrevPrevYearVillageFundAmount = 0;
+                    //- Entries
+                    each vilageFundEntry, index in  villageFundsEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{vilageFundEntry.item_in_budget}
+                            td(width='20%') #{vilageFundEntry.estimated_income_of_panchayat}
+                            - totalEstimatedIncome += +vilageFundEntry.estimated_income_of_panchayat
+                            - totalEstimatedVillageFundIncome += +vilageFundEntry.estimated_income_of_panchayat
+
+
+                            td(width='20%') #{vilageFundEntry.approved_estimated_amount}
+                            - totalApprovedAmount += +vilageFundEntry.approved_estimated_amount
+                            - totalApprovedVillageFundAmount += +vilageFundEntry.approved_estimated_amount
+
+
+                            td(width='20%') #{vilageFundEntry.actual_amount_previous_year}
+                            - totalActualPrevYearAmount += +vilageFundEntry.actual_amount_previous_year
+                            - totalActualPrevYearVillageFundAmount += +vilageFundEntry.actual_amount_previous_year
+
+
+                            td(width='20%') #{vilageFundEntry.actual_amount_year_before_last}
+                            - totalActualPrevPrevYearAmount += +vilageFundEntry.actual_amount_year_before_last
+                            - totalActualPrevPrevYearVillageFundAmount += +vilageFundEntry.actual_amount_year_before_last
+
+
+
+                    //- Total
+
+                    tr 
+                        td(colspan='2') एकूण एक (अ) करापासूनचे उत्त्पन्न
+                        td #{totalEstimatedVillageFundIncome }
+                        td #{totalApprovedVillageFundAmount}
+                        td #{totalActualPrevYearVillageFundAmount}
+                        td #{totalActualPrevPrevYearVillageFundAmount}
+
+
+
+
+
+                    //- empty row
+
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+                    //- 2---------------------------------------------
+
+                    each otherIncomeHeader in  otherIncomeHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{otherIncomeHeader.item_in_budget_header_name}
+                            td(width='20%') #{otherIncomeHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित प्राप्ती
+                            td(width='20%') #{otherIncomeHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित प्राप्ती
+                            td(width='20%') #{otherIncomeHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम सन
+                            td(width='20%') #{otherIncomeHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | (एक) (ब) करेत्तर उत्त्पन्न 
+
+                    //- Entries 
+
+                    - let totalEstimatedOtherIncomeIncome  = 0;
+                    - let totalApprovedOtherIncomeAmount = 0;
+                    - let totalActualPrevYearOtherIncomeAmount = 0;
+                    - let totalActualPrevPrevYearOtherIncomeAmount = 0;
+                    each otherIncomeEntry, index in  otherIncomeEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{otherIncomeEntry.item_in_budget}
+                            td(width='20%') #{otherIncomeEntry.estimated_income_of_panchayat}
+                            - totalEstimatedIncome += +otherIncomeEntry.estimated_income_of_panchayat
+                            - totalEstimatedOtherIncomeIncome += +otherIncomeEntry.estimated_income_of_panchayat
+
+
+                            td(width='20%') #{otherIncomeEntry.approved_estimated_amount}
+                            - totalApprovedAmount += +otherIncomeEntry.approved_estimated_amount
+                            - totalApprovedOtherIncomeAmount += +otherIncomeEntry.approved_estimated_amount
+
+
+                            td(width='20%') #{otherIncomeEntry.actual_amount_previous_year}
+                            - totalActualPrevYearAmount += +otherIncomeEntry.actual_amount_previous_year
+                            - totalActualPrevYearOtherIncomeAmount += +otherIncomeEntry.actual_amount_previous_year
+
+
+                            td(width='20%') #{otherIncomeEntry.actual_amount_year_before_last}
+                            - totalActualPrevPrevYearAmount += +otherIncomeEntry.actual_amount_year_before_last
+                            - totalActualPrevPrevYearOtherIncomeAmount += +otherIncomeEntry.actual_amount_year_before_last
+
+
+
+                    //- Total
+                    //- Other income  total
+                    tr 
+                        td(colspan='2') एकूण एक (ब) चे करेत्तर उत्त्पन्न
+                        td #{totalEstimatedOtherIncomeIncome}
+                        td #{totalApprovedOtherIncomeAmount}
+                        td #{totalActualPrevYearOtherIncomeAmount}
+                        td #{totalActualPrevPrevYearOtherIncomeAmount}
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+
+                    //- 3
+
+                    each sanctionedAmountHeader in  sanctionedAmountHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{sanctionedAmountHeader.item_in_budget_header_name}
+                            td(width='20%') #{sanctionedAmountHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित प्राप्ती
+                            td(width='20%') #{sanctionedAmountHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित प्राप्ती
+                            td(width='20%') #{sanctionedAmountHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम सन
+                            td(width='20%') #{sanctionedAmountHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | जमा ग्रामनिधी (एक) (क) अभिहस्तांतरीत रक्कमा
+
+                    //- Entries
+                    - let totalEstimatedSantionedAmountIncome  = 0;
+                    - let totalApprovedSantionedAmountAmount = 0;
+                    - let totalActualPrevYearSantionedAmountAmount = 0;
+                    - let totalActualPrevPrevYearSantionedAmountAmount = 0;
+                    each sanctionedAmountEntry, index in  sanctionedAmountEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{sanctionedAmountEntry.item_in_budget}
+                            td(width='20%') #{sanctionedAmountEntry.estimated_income_of_panchayat}
+                            - totalEstimatedIncome += +sanctionedAmountEntry.estimated_income_of_panchayat
+                            - totalEstimatedSantionedAmountIncome += +sanctionedAmountEntry.estimated_income_of_panchayat
+
+
+                            td(width='20%') #{sanctionedAmountEntry.approved_estimated_amount}
+                            - totalApprovedAmount += +sanctionedAmountEntry.approved_estimated_amount 
+                            - totalApprovedSantionedAmountAmount += +sanctionedAmountEntry.approved_estimated_amount 
+
+
+                            td(width='20%') #{sanctionedAmountEntry.actual_amount_previous_year}
+                            - totalActualPrevYearAmount += +sanctionedAmountEntry.actual_amount_previous_year
+                            - totalActualPrevYearSantionedAmountAmount += +sanctionedAmountEntry.actual_amount_previous_year
+
+
+                            td(width='20%') #{sanctionedAmountEntry.actual_amount_year_before_last}
+                            - totalActualPrevPrevYearAmount += +sanctionedAmountEntry.actual_amount_year_before_last
+                            - totalActualPrevPrevYearSantionedAmountAmount += +sanctionedAmountEntry.actual_amount_year_before_last
+
+
+
+
+                    //- Total
+                    //- Sanctioned total
+                    tr 
+                        td(colspan='2') एकूण एक (क) चे उत्त्पन्न
+                        td #{totalEstimatedSantionedAmountIncome}
+                        td #{totalApprovedSantionedAmountAmount}
+                        td #{totalActualPrevYearSantionedAmountAmount}
+                        td #{totalActualPrevPrevYearSantionedAmountAmount}
+
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+                    //- 4
+                    each auxiliaryGrantsHeader in  auxiliaryGrantsHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{auxiliaryGrantsHeader.item_in_budget_header_name}
+                            td(width='20%') #{auxiliaryGrantsHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित प्राप्ती
+                            td(width='20%') #{auxiliaryGrantsHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित प्राप्ती
+                            td(width='20%') #{auxiliaryGrantsHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम सन
+                            td(width='20%') #{auxiliaryGrantsHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | (एक) (ड) राज्यशासन सहाय्यक अनुदाने जमा
+
+                    //- Entries 
+
+                    - let totalEstimatedAuxiliaryGrantsIncome  = 0;
+                    - let totalApprovedAuxiliaryGrantsAmount = 0;
+                    - let totalActualPrevYearAuxiliaryGrantsAmount = 0;
+                    - let totalActualPrevPrevYearAuxiliaryGrantsAmount = 0;
+                    each auxiliaryGrantsEntry, index in  auxiliaryGrantsEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{auxiliaryGrantsEntry.item_in_budget}
+                            td(width='20%') #{auxiliaryGrantsEntry.estimated_income_of_panchayat}
+                            - totalEstimatedIncome += auxiliaryGrantsEntry.estimated_income_of_panchayat
+                            - totalEstimatedAuxiliaryGrantsIncome += auxiliaryGrantsEntry.estimated_income_of_panchayat
+
+
+                            td(width='20%') #{auxiliaryGrantsEntry.approved_estimated_amount}
+                            - totalApprovedAmount += +auxiliaryGrantsEntry.approved_estimated_amount
+                            - totalApprovedAuxiliaryGrantsAmount += +auxiliaryGrantsEntry.approved_estimated_amount
+
+
+                            td(width='20%') #{auxiliaryGrantsEntry.actual_amount_previous_year}
+                            - totalActualPrevYearAmount += +auxiliaryGrantsEntry.actual_amount_previous_year
+                            - totalActualPrevYearAuxiliaryGrantsAmount += +auxiliaryGrantsEntry.actual_amount_previous_year
+
+
+                            td(width='20%') #{auxiliaryGrantsEntry.actual_amount_year_before_last}
+                            - totalActualPrevPrevYearAmount += +auxiliaryGrantsEntry.actual_amount_year_before_last
+                            - totalActualPrevPrevYearAuxiliaryGrantsAmount += +auxiliaryGrantsEntry.actual_amount_year_before_last
+
+
+
+                    //- Grants total
+                    tr 
+                        td(colspan='2') एकूण एक (ड) अनुदाने
+                        td #{totalEstimatedAuxiliaryGrantsIncome}
+                        td #{totalApprovedAuxiliaryGrantsAmount}
+                        td #{totalActualPrevYearAuxiliaryGrantsAmount}
+                        td #{totalActualPrevPrevYearAuxiliaryGrantsAmount}
+
+                    tr 
+                        td(colspan='6')
+                            div.transparent-div blank
+                    tr
+                        td(colspan='6')
+                            div.transparent-div blank
+                    tr
+                        td(colspan='6')
+                            div.transparent-div blank
+
+                    //- Total
+
+                    tr  
+                        td(colspan='2') एकूण ग्रामनिधी जमा (एक) (अ + ब + क + ड)
+                        td #{totalEstimatedIncome}
+                        td #{totalApprovedAmount}
+                        td #{totalActualPrevYearAmount}
+                        td #{totalActualPrevPrevYearAmount}
+
+
+
+
+
+
+                    //- FINAL TOTAL CALCUATION
+                    tr 
+                        td(colspan='2') वर्षाच्या सुरुवातीची शिल्लक
+                        td 
+                        td 
+                        td 
+                        td
+                    tr 
+                        td(colspan='2') एकूण सुरुवातीची शिल्लकेसह जमा
+                        td 
+                        td 
+                        td 
+                        td
+
+
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+
+            //- TABLE 2 ======= EXPENDITURE
+
+            - let totalEstimatedExpenditure = 0;
+            - let totalApprovedExpenditure = 0;
+            - let totalActualPrevYearExpenditure = 0;
+            - let totalActualPrevPrevYearExpenditure = 0;
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='6' )
+                            div
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    //- div ग्राम पंचायत कार्यालय - 
+
+                                    div ग्रामपंचायत कार्यालय
+                                        span #{gp.gp_name}
+                                    //- div
+                                    //-     img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div (महा. ग्रा. पं. लेखा संहिता २०११ नियम १८ (१), १९ व २० (११) पहा)
+
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div अर्थसंकल्प सन #{year-1} - #{year} सामान्य निधी 
+
+                    tr
+                        th(colspan='6')
+                            | ग्राम पंचायतीचा खर्च रक्कमांचा तपशिल
+
+
+                tbody       
+
+                    //-1
+
+                    each expenditureVillageFundHeader in  expenditureVillageFundHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{expenditureVillageFundHeader.item_in_budget_header_name}
+                            td(width='20%') #{expenditureVillageFundHeader.year_of_estimated_expenditure_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित खर्च
+                            td(width='20%') #{expenditureVillageFundHeader.year_of_approved_estimated_expenditure_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित खर्च
+                            td(width='20%')  सन #{expenditureVillageFundHeader.year_of_actual_expenditure_amount_previous_year} मध्ये प्रत्यक्ष खर्च रक्कम
+                            td(width='20%') गतपूर्व वर्षात मिळालेली प्रत्यक्ष खर्च रक्कम सन #{expenditureVillageFundHeader.year_of_actual_expenditure_amount_year_before_last} 
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | (एक) ग्रामनिधीतून खर्च
+
+                    //- Entries 
+                    each expenditureVillageFundEntry, index in  expenditureVillageFundEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{expenditureVillageFundEntry.item_in_budget}
+
+                            td(width='20%') #{expenditureVillageFundEntry.estimated_expenditure_of_panchayat}
+                            - totalEstimatedExpenditure += +expenditureVillageFundEntry.estimated_expenditure_of_panchayat
+
+                            td(width='20%') #{expenditureVillageFundEntry.approved_estimated_expenditure_amount}
+                            - totalApprovedExpenditure += +expenditureVillageFundEntry.approved_estimated_expenditure_amount
+
+                            td(width='20%') #{expenditureVillageFundEntry.actual_expenditure_amount_previous_year}
+                            - totalActualPrevYearExpenditure += +expenditureVillageFundEntry.actual_expenditure_amount_previous_year
+
+                            td(width='20%') #{expenditureVillageFundEntry.actual_expenditure_amount_year_before_last}
+                            - totalActualPrevPrevYearExpenditure += +expenditureVillageFundEntry.actual_expenditure_amount_year_before_last
+
+
+                    //- Total
+
+
+
+
+                    tr 
+                        td(colspan='2') एकूण ग्रामनिधी खर्च
+                        td #{totalEstimatedExpenditure}
+                        td #{totalApprovedExpenditure}
+                        td #{totalActualPrevYearExpenditure}
+                        td #{totalActualPrevPrevYearExpenditure}
+
+
+                    //- FINAL TOTAL CALCUATION
+                    tr 
+                        td(colspan='2') वर्षा अखेरची शिल्लक
+                        td 
+                        td 
+                        td 
+                        td
+                    tr 
+                        td(colspan='2') एकूण अखेरचे शिल्लकेसह खर्च
+                        td 
+                        td 
+                        td 
+                        td
+
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+
+
+            //- ====================================================================
+            //- =================================================================
+            //-  TABLE 3, 4   FOR WATER , FOR WATER,  FOR WATER
+            //- =================================================================
+            //- =================================================================
+
+            //- TABLE 3 FOR COLLECTION OF SAMANAY NIDHEE (सामान्य निधी जमा) 
+            - let totalEstimatedWaterIncome = 0;
+            - let totalApprovedWaterAmount = 0;
+            - let totalActualPrevYearWaterAmount = 0;
+            - let totalActualPrevPrevYearWaterAmount = 0;
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='6' )
+                            div
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    //- div ग्राम पंचायत कार्यालय - 
+
+                                    div ग्रामपंचायत कार्यालय
+                                        span #{gp.gp_name}
+                                    //- div
+                                    //-     img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div (महा. ग्रा. पं. लेखा संहिता २०११ नियम १८ (१), १९ व २० (११) पहा)
+
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div अर्थसंकल्प सन #{year-1} - #{year} सामान्य निधी 
+
+                    tr
+                        th(colspan='6')
+                            | ग्राम पंचायतीचा जमा रक्कमांचा तपशिल
+
+
+                tbody       
+
+                    //- 5
+
+                    each waterFundHeader in  waterFundHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{waterFundHeader.item_in_budget_header_name}
+                            td(width='20%') #{waterFundHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित प्राप्ती
+                            td(width='20%') #{waterFundHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित प्राप्ती
+                            td(width='20%') #{waterFundHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम सन
+                            td(width='20%') #{waterFundHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | (एक) ग्राम पाणी पुरवठा निधी
+
+                    //- Entries 
+                    each waterFundEntry, index in  waterFundEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{waterFundEntry.item_in_budget}
+                            td(width='20%') #{waterFundEntry.estimated_income_of_panchayat}
+                            - totalEstimatedWaterIncome += +waterFundEntry.estimated_income_of_panchayat
+
+                            td(width='20%') #{waterFundEntry.approved_estimated_amount}
+                            - totalApprovedWaterAmount += +waterFundEntry.approved_estimated_amount
+
+                            td(width='20%') #{waterFundEntry.actual_amount_previous_year}
+                            - totalActualPrevYearWaterAmount += +waterFundEntry.actual_amount_previous_year
+
+                            td(width='20%') #{waterFundEntry.actual_amount_year_before_last}
+                            - totalActualPrevPrevYearWaterAmount += +waterFundEntry.actual_amount_year_before_last
+
+
+                    //- Total
+
+                    tr 
+                        td(colspan='2') एकूण ग्रा. पा .पु निधी जमा (एक)
+                        td #{totalEstimatedWaterIncome}
+                        td #{totalApprovedWaterAmount}
+                        td #{totalActualPrevYearWaterAmount}
+                        td #{totalActualPrevPrevYearWaterAmount}
+
+                    //- FINAL TOTAL CALCUATION
+                    tr 
+                        td(colspan='2') वर्षाच्या सुरुवातीची शिल्लक
+                        td 
+                        td 
+                        td 
+                        td
+                    tr 
+                        td(colspan='2') एकूण सुरुवातीची शिल्लकेसह जमा
+                        td 
+                        td 
+                        td 
+                        td
+
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+
+
+
+            //- TABLE 4 FOR COLLECTION OF SAMANAY NIDHEE (सामान्य निधी खर्च) 
+
+
+            - let totalEstimatedWaterExpenditure = 0;
+            - let totalApprovedWaterExpenditure = 0;
+            - let totalActualPrevYearWaterExpenditure = 0;
+            - let totalActualPrevPrevYearWaterExpenditure = 0;
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='6' )
+                            div
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    //- div ग्राम पंचायत कार्यालय - 
+
+                                    div ग्रामपंचायत कार्यालय
+                                        span #{gp.gp_name}
+                                    //- div
+                                    //-     img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div (महा. ग्रा. पं. लेखा संहिता २०११ नियम १८ (१), १९ व २० (११) पहा)
+
+
+                                div(style='width: 100%;display: flex; align-items: center; justify-content: center;')
+
+                                    div अर्थसंकल्प सन #{year-1} - #{year} सामान्य निधी 
+
+                    tr
+                        th(colspan='6')
+                            | ग्राम पंचायतीचा जमा रक्कमांचा तपशिल
+
+                tbody       
+
+                    //- 5
+
+                    each  expenditureWaterFundHeader in  expenditureWaterFundHeaders
+
+                        tr
+                            td(width='5%') अनु. क्र.
+                            td(width='15%') #{ expenditureWaterFundHeader.item_in_budget_header_name}
+                            td(width='20%') #{ expenditureWaterFundHeader.year_of_estimated_income_of_panchayat} ह्या वर्षासाठी पंचायतीची अंदाजित खर्च
+                            td(width='20%') #{ expenditureWaterFundHeader.year_of_approved_estimated_amount} ह्या वर्षासाठी मंजूर केलेली अंदाजित खर्च
+                            td(width='20%') #{ expenditureWaterFundHeader.year_of_actual_amount_previous_year} मागील वर्षी मिळालेली प्रत्यक्ष रक्कम सन
+                            td(width='20%') #{ expenditureWaterFundHeader.year_of_actual_amount_year_before_last} गतपूर्व वर्षात मिळालेली प्रत्यक्ष रक्कम सन
+
+
+                    //- heading 2
+                    tr
+                        td(colspan='6')
+                            div(style='text-align:left; font-weight: bold;')
+                                | (एक) ग्राम पाणी  पुरवठा निधीतून खर्च
+
+                    //- Entries 
+                    each expenditureWaterFundEntry, index in  expenditureWaterFundEntries
+
+                        tr
+                            td(width='5%') #{index + 1}
+                            td(width='15%') #{expenditureWaterFundEntry.item_in_budget}
+                            td(width='20%') #{expenditureWaterFundEntry.estimated_expenditure_of_panchayat}
+                            - totalEstimatedWaterExpenditure += +expenditureWaterFundEntry.estimated_expenditure_of_panchayat
+
+                            td(width='20%') #{expenditureWaterFundEntry.approved_estimated_expenditure_amount}
+                            - totalApprovedWaterExpenditure += +expenditureWaterFundEntry.approved_estimated_expenditure_amount
+
+                            td(width='20%') #{expenditureWaterFundEntry.actual_expenditure_amount_previous_year}
+                            - totalActualPrevYearWaterExpenditure += +expenditureWaterFundEntry.actual_expenditure_amount_previous_year
+
+                            td(width='20%') #{expenditureWaterFundEntry.actual_expenditure_amount_year_before_last}
+                            - totalActualPrevPrevYearWaterExpenditure += +expenditureWaterFundEntry.actual_expenditure_amount_year_before_last
+
+
+
+                    //- Total
+
+                    tr 
+                        td(colspan='2') एकूण ग्रा. पा .पु निधी खर्च (एक)
+                        td #{totalEstimatedWaterExpenditure}
+                        td #{totalApprovedWaterExpenditure}
+                        td #{totalActualPrevYearWaterExpenditure}
+                        td #{totalActualPrevPrevYearWaterExpenditure}
+
+
+
+                    //- FINAL TOTAL CALCUATION
+                    tr 
+                        td(colspan='2') वर्षा अखेरची शिल्लक
+                        td 
+                        td 
+                        td 
+                        td
+                    tr 
+                        td(colspan='2') एकूण अखेरचे शिल्लकेसह खर्च
+                        td 
+                        td 
+                        td 
+                        td
+
+
+                    //- emptry row
+                    tr 
+                        td(colspan='6')
+                            div(class='transparent-div') blank
+
+
+            table(style='width: 100%;')
+                thead 
+                    tr
+                        th(colspan='3')
+                            div 
+                                div(style='width: 100%;display: flex; flex-direction: column; align-items: center; justify-content: center;')
+
+                                    div प्रमाणपत्र
+
+                                    div पंचायतीने स्वनिधीतून अर्थसंकल्पातील सर्व तरतूदी करून
+
+                                    div ग्रा. पं. मासिक सभा ठराव क्र. #{namuna1OtherExpenditure ? namuna1OtherExpenditure.monthly_resolution : '-'} दि. #{namuna1OtherExpenditure ? namuna1OtherExpenditure._monthly_resolution_date : ''} अन्वये घेण्यात आली 
+
+                    tr 
+
+
+                        th(width='10%') अनु. क्र. 
+                        th(width='70%') लेखाशिर्ष अर्थसंकल्पात निर्दिष्ट केल्याप्रमाणे बाब
+                        th(width='20%') तरतूद खर्च
+
+
+                tbody
+                    //- 1
+                    tr 
+                        td 1
+                        td दिव्यांगाच्या कल्याणाकरीता ५ टक्के खर्च
+                        td #{namuna1OtherExpenditure ? namuna1OtherExpenditure.backward_class_15_percent_expenditure : '-'}
+
+                    //- 2
+                    tr 
+                        td 2
+                        td महिला बाल कल्याणाकरीता १० टक्के खर्च
+                        td #{namuna1OtherExpenditure ? namuna1OtherExpenditure.women_and_child_welfare_10_percent_expenditure : '-'} 
+
+                    //- 3
+                    tr 
+                        td 3
+                        td मागास वर्गीयाकरीता १५ टक्के खर्च
+                        td #{namuna1OtherExpenditure ? namuna1OtherExpenditure.disabled_people_3_percent_expenditure : '-'}
+
+
+                    //- 4
+                    tr 
+                        td 4
+                        td जिल्हा ग्राम विकास निधी ०.२५ टक्के
+                        td #{namuna1OtherExpenditure ? namuna1OtherExpenditure.district_rural_development_fund_contribution_025_percent : '-'}

@@ -1,0 +1,148 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title विवाह नोंदणी प्रमाणपत्र
+
+        // Tailwind CSS
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+        style.
+            @media print {
+                .no-print {
+                    display: none;
+                }
+            }
+
+    body(class="bg-gray-100 text-gray-800 font-sans antialiased")
+
+        main(class="min-h-screen flex flex-col items-center px-4 py-6")
+
+            //- // Top Logos
+            //- header(class="w-full max-w-4xl flex justify-between items-center mb-6")
+                img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" class="w-24 md:w-28")
+                img(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png" class="w-32 md:w-40")
+
+            div(class='w-full flex items-center justify-between')
+                div(class='w-18 flex justify-center')
+                    img(src="/img/water-mark-images/Seal_of_Maharashtra.png" class='block w-12')
+
+                h4(class='mb-1 text-center text-blue-500 text-2xl font-bold') ग्रामपंचायत कार्यालय
+            
+                div(class='h-12 w-18')
+                    img(src='/img/header-images/digital-india.png' style='width:100%; height:100%;')
+
+            div 
+                p(class='my-2 text-center text-blue-900 text-3xl font-extrabold') #{gp.gp_name}
+
+            //- // Center Logo
+            img(src="/img/certificates/aaple-sarkar.png" class="w-40 md:w-48 mx-auto border border-gray-300 rounded shadow-sm mb-6")
+
+            //- // Title Section
+            section(class="text-center mb-8")
+                div(class="underline underline-offset-4 px-10") 
+                    h1(class='text-xl text-sky-700 mt-1 tracking-wide font-extrabold flex gap-2 items-center justify-center') 
+                        span 
+                            <i class="fa-solid fa-certificate"></i>
+                            //- svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512")
+                                path(d="M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.4-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z")
+
+                        //- span विवाह नोंदणी प्रमाणपत्र
+                        span प्रमाणपत्र (दाखला) सत्यापन
+
+
+                //- h2(class="text-2xl md:text-3xl font-extrabold text-gray-900")
+                h3(class='text-sm font-bold mt-2')
+                    //- span ग्रामपंचायत : 
+                    //- span.text-red-500 #{gp.gp_name}
+                    span तालुका : 
+                    span.text-red-500 #{gp.gp_taluka}
+                    span , जिल्हा : 
+                    span.text-red-500 #{gp.gp_dist}
+
+            //- // Certificate Info Section - Styled Without Table
+            section(class="w-full max-w-xl bg-white/80 rounded-xl shadow-sm p-6 print:border-none print:shadow-none space-y-4")
+
+
+                div(class='grid grid-cols-2')
+
+                    - let imgClass='block mx-auto w-[150px] h-[180px]'
+                    - let captionClass='text-center font-bold'
+
+                    div 
+                        - image_h = "/upload/"+ certificate.image_h;
+                        img(class=imgClass src=image_h, alt="" onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                        div(class=captionClass) वराचा फोटो 
+                    div 
+                        - image_w = "/upload/"+ certificate.image_w;
+                        img(class=imgClass src=image_w, alt="" onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                        div(class=captionClass) वधूचा फोटो 
+
+
+                //- // Info Row
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") दाखला क्रमांक :
+                    span(class="text-slate-900 font-bold") #{certificate.id}
+
+
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") दाखल्याचे नाव :
+                    span(class="text-slate-900 font-bold") विवाह नोंदणी प्रमाणपत्र
+
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") वराचे नाव :
+                    span(class="text-blue-900") #{certificate.marriageHusbandNameM}
+
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") वधूचे नाव :
+                    span(class="text-pink-800") #{certificate.marriageWifeNameM}
+
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") नोंदणी दिनांक : 
+                    - let _registrationDate = certificate.registration_date_two || certificate.registration_date
+                    if _registrationDate
+                        span(class="text-emerald-700") #{_registrationDate}
+                    else
+                        span(class="text-red-800") #{'उपलब्ध नाही.'}
+
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") नोंदणी क्रमांक :
+                    span(class="text-emerald-700") #{certificate.marriageVolumeM || certificate.marriageVolume || '-'}
+
+
+                - let members = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
+                - let gramsevakDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'ग्रामसेवक' || member.p_name == 'ग्रामविकास अधिकारी' || member.p_name == 'ग्रामपंचायत अधिकारी')) : null
+                .flex.justify-between.border-b.border-gray-200.pb-2
+                    span(class="text-gray-600 font-semibold") ग्रामसेवकाचे नाव :
+                    span(class="text-indigo-700") #{gramsevakDetails ? gramsevakDetails.name : '-'}
+
+
+                .flex.justify-between
+                    span(class="text-gray-600 font-semibold") विवाह दिनांक :
+                    span(class="text-indigo-700") #{certificate.marriageDate || '-'}
+
+                .flex.justify-between
+                    span(class="text-gray-600 font-semibold w-28 shrink-0") विवाह स्थळ :
+                    span(class="text-indigo-700") #{certificate.marriagePlaceM || certificate.marriagePlaceE || '-'}
+
+                .flex.justify-between
+                    span(class="text-gray-600 font-semibold w-28 shrink-0") प्रमाणपत्र दिल्याची तारीख :
+                    span(class="text-indigo-700") #{certificate.created_date}
+
+            section 
+                div
+
+                    p(class="mt-8 text-center text-sm md:text-base text-gray-800")
+                        span(class="font-semibold text-indigo-700")
+                            | * वरील दाखला ग्रामपंचायत 
+                            span.text-red-600 #{gp.gp_name}
+                            | , तालुका 
+                            span.text-red-600 #{gp.gp_taluka}
+                            | , जिल्हा 
+                            span.text-red-600 #{gp.gp_dist}
+                            |  यांच्या वतीने वितरित करण्यात आला आहे.
+            // Optional: Print Button
+            //- button(class="mt-6 no-print px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700" onclick="window.print()")
+                | Print प्रमाणपत्र

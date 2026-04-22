@@ -1,0 +1,178 @@
+doctype html
+head
+
+
+    title लोक अदालत सभा नोटीस यादी
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    //mask plugin jquery    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    script(src='/asstest/coustom/js/handlers/lok-adalat-notices/lok-adalat-notice-form-handler.js')
+
+    script.
+        $(function() {
+            $(document).on('click','#open-month-year-modal-btn', function(e){
+                e.preventDefault();
+                $('#monthYearModal').modal('show');
+            });
+
+            $(document).on('click','#open-month-year-modal-for-samanya-btn', function(e){
+                e.preventDefault();
+                $('#monthYearModalForSamanyaPrint').modal('show');
+            });
+        })
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+
+
+
+    .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content(style='max-width: 600px').mx-auto
+                .modal-header
+                    h4.modal-title.fs-5#exampleModalLabel  वर्ष निवडा
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .row.justify-content-center
+                        .col-5
+                            input.form-control(type='number' name='fromYear' placeholder='वर्षापासून e.g 2024')
+
+                        .col-5
+                            input.form-control(type='number' name='toYear' placeholder='वर्षापर्यंत e.g.2025')
+
+                    .row.justify-content-center.mt-2
+                        .col-5
+                            input.form-control(type='text' name='printPlace' placeholder='प्रिंट ठिकाण')
+
+                        .col-5
+                            input.form-control(type='text' name='printDate' placeholder='प्रिंट तारीख')
+
+                .modal-footer
+                    //- button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='print-lok-adalat-notice-btn') Print
+
+
+    .modal.fade#monthYearModalForSamanyaPrint(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content(style='max-width: 600px').mx-auto
+                .modal-header
+                    h4.modal-title.fs-5#exampleModalLabel  वर्ष निवडा (नमुना ९ लिस्ट सर्वात जास्त असलेली सामन्य कर  व पाणी कर थकबाकी यादी)
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .row.justify-content-center
+                        .col-5
+                            input.form-control(type='number' name='fromYearForSamanya' placeholder='वर्षापासून e.g 2024')
+
+                        .col-5
+                            input.form-control(type='number' name='toYearForSamanya' placeholder='वर्षापर्यंत e.g.2025')
+
+                .modal-footer
+                    //- button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='print-lok-adalat-notice-for-samanya-btn') Print
+
+    .container-fluid
+        .row
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    span.fa.fa-users
+                    | &nbsp; लोक अदालत नोटीस यादी
+
+                    button(id='open-month-year-modal-for-samanya-btn' data-bs-target="monthYearModalForSamanyaPrint").float-right.btn.btn-primary.btn-sm.mr-2
+                        //- span.fa.fa-user-plus
+                        |  नमुना ९ लिस्ट सर्वात जास्त असलेली सामन्य कर  व पाणी कर थकबाकी यादी
+
+                    a(href="/lok-adalat-notices/add").float-right.btn.btn-primary.btn-sm.mr-2
+                        span.fa.fa-user-plus
+                        |  नवीन लोक अदालत नोटीस नोंदणी करा 
+
+                    button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                        | नवीन लोक अदालत नोटीस प्रिंट
+
+            .col-12
+                .table-responsive(style='margin-bottom: 5rem;')
+                    table.table.table-bordered.text-center
+                        thead
+                            tr.bg-success.text-white
+                                th(width="10%") अनु क्रमांक
+                                th(width="10%") उपस्तिथी दिनांक  
+                                th(width="25%") गैरअर्जदाराचे नाव
+                                th(width="10%") रक्कम 
+                                th(width="5%") सुधारणी
+                                th(width="5%") काढा
+                                th(width="5%") प्रिंट
+
+                        tbody#deathCertificatesList 
+                            if lokAdalatNotices == null || lokAdalatNotices.length == 0
+                                tr 
+                                    td(colspan='7' ) No data available 
+                            else 
+                                each _notice, _index in lokAdalatNotices
+                                    tr 
+                                        td #{_index + 1}
+                                        td #{_notice.court_date}
+                                        td #{_notice.applicant_name}
+
+                                        td #{_notice.amount}
+                                        td 
+                                            a.btn.text-primary(href=`/lok-adalat-notices/edit/${_notice.id}` target="_blank")
+                                                i.fa.fa-edit
+
+                                        td 
+                                            button.btn.text-danger(class='delete-lok-adalat-notice-btn' data-lokAdalatNoticeId=`${_notice.id}`)
+                                                i.fa.fa-trash
+                                        td 
+                                            a.btn.text-primary(href=`/lok-adalat-notices/print/${_notice.id}` target="_blank")
+                                                i.fa.fa-print
+
+
+
+
+

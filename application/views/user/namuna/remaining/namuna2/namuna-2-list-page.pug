@@ -1,0 +1,118 @@
+extends ../../../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+
+block content 
+
+    .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="monthYearModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered.modal-md
+            .modal-content
+                .modal-header
+                    h1.modal-title.fs-5#monthYearModalLabel महिना व वर्ष निवडा
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+
+                    form(id='month-year-form') 
+
+                        .d-flex.align-items-center.justify-content-center.gap-4 
+                            //- select.form-select(name='month')
+                                option(value='' ) -- महिना निवडा--
+                                each month, monthIndex in months 
+                                    option(value=(monthIndex + 1)) #{month}
+
+                            - let currYear  = new Date().getFullYear()
+                            - let startYr = currYear  - 25
+                            select.form-select(name='fromYear')
+                                option(value='') -- वर्षापासून --
+
+                                each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                                    option(value=year) #{year}
+
+                            select.form-select(name='toYear')
+                                option(value='') -- वर्षापर्यंत --
+
+                                //- - let currYear  = new Date().getFullYear()
+                                //- - let startYr = currYear  - 25
+                                each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                                    option(value=(year + 1)) #{year + 1}
+
+
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='print-namuna-2-btn') प्रिंट नमुना २
+
+
+    .container.mt-4
+        h2.heading-1.mt-2.mb-3 नमुना २ (पुनर्विनियोजन व नियतवाटप विवरणपत्र)
+
+        .d-flex.align-items-center.justify-content-end(style='gap: 1rem;')
+            a.btn.btn-primary.btn-sm(href='/namuna') नमुने
+            a.btn.btn-primary.btn-sm(href='/namuna/2/create')
+                i.fa.fa-plus.mr-2
+                span नोंदणी 
+            button(type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#monthYearModal") Print
+
+    
+
+        each _record in namuna2Entries
+
+            - let entries = _record.entries || []
+
+            .card.mb-4.border.mt-4
+                .card-header.bg-secondary-subtle.text-dark
+                    h5.mb-0 #{_record.fromYear} ते #{_record.toYear}
+
+                .card-body.p-0
+                    if entries.length === 0
+                        p.text-center.py-3.text-muted कोणतीही नोंद उपलब्ध नाही.
+
+                    else
+                        .table-responsive
+                            table.table.table-bordered.table-hover.align-middle.text-center.table-sm
+
+                                thead.table-secondary
+                                    tr
+                                        th(width="5%") अ. क्र.
+                                        th(width="12%") जमा रकमांचे मुख्य शीर्षक
+                                        th(width="10%") मंजूर अर्थसंकल्प
+                                        th(width="10%") सुधारित अंदाज
+                                        th(width="8%") अधिक/कमी
+                                        th(width="10%") शेरा
+
+                                        th(width="12%") खर्चाचे मुख्य शीर्षक
+                                        th(width="10%") मंजूर रक्कम
+                                        th(width="9%") सुधारित अंदाज
+                                        th(width="6%") अधिक/कमी
+                                        th(width="8%") शेरा
+                                        th(width='5%') Action 
+
+                                tbody
+                                    each entry, index in entries
+                                        tr
+                                            td #{index + 1}
+
+                                            // Income
+                                            td #{entry.income_main_head}
+                                            td #{entry.income_approved_budget}
+                                            td #{entry.income_revised_estimate}
+                                            td #{entry.income_variation}
+                                            td #{entry.income_remarks}
+
+                                            // Expense
+                                            td #{entry.expense_main_head}
+                                            td #{entry.expense_approved_amount}
+                                            td #{entry.expense_revised_estimate}
+                                            td #{entry.expense_variation}
+                                            td #{entry.expense_remarks}
+                                            td 
+                                                div(class='d-flex align-items-center justify-content-center gap-2')
+
+                                                    a.btn.btn-sm.btn-success(href=`/namuna/2/edit/${entry.id}`)
+                                                        i.fa.fa-edit
+                                                    button.btn.btn-sm.btn-danger(class='delete-namuna-2-entry-btn' data-n2Id=entry.id)
+                                                        i.fa.fa-trash
+
+block custom_js 
+    script(src='/asstest/coustom/css/namuna/remaining/namuna2/namuna-2-list-handler.js')

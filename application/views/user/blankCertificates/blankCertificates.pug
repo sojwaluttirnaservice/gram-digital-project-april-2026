@@ -1,0 +1,72 @@
+extends ../master-layout/master-layout
+block internal_css
+    style.
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/blank-certificates-manager.js')
+
+block content
+    include ../include/navs.pug
+    include ../include/year-select-modal.pug
+    .back-image
+        .container-fluid
+
+            .row.d-flex.justify-content-center
+                .col-6
+                    h5.heading-1 Blank प्रमाण पत्र प्रिंट
+
+            - 
+                let yadiButtons = [
+                    {id:1, value: "नमुना ८", link:'/print/blankCertificate/form-8-blank-print'},
+
+
+                    //- moved in नमुना ८ प्रिंट tab
+                    //- {id:2, value: "नमुना ८ प्रतिज्ञापत्र", link:'/print/blankCertificate/formEightPratidnayaPatra'}, 
+
+
+
+                    {id:3, value: "नमुना ९ सामान्य", link:'/print/blankCertificate/formNineSamanya'}, 
+                    {id:4, value: "नमुना ९ पाणी", link:'/print/blankCertificate/formNinePani'}, 
+
+                    {id:5, value: "मागणी बिल", link:'/print/blankCertificate/magniBill'}, 
+                    {id:6, value: "मागणी लेख", link:'/print/blankCertificate/magniLekh'}, 
+                    {id:7, value: "नळ कर नोटिस", link:'/print/blankCertificate/nal-connection-notice'}, 
+
+                    //- moved in नमुना ८ प्रिंट tab
+                    //- {id:8, value: "दरपत्रक प्रमाणपत्र", link:'/print/blankCertificate/darpatrak-pramanpatra'}, 
+                    //- {id:9, value: "ठराव प्रमाणपत्र", link:'/print/blankCertificate/tharav-pramanpatra'}, 
+
+                    {id:10, value: "Blank Header प्रिंट", link:'/print/blankCertificate/blankHeaderPrint'}, 
+
+                    //- moved to नमुना ९ प्रिंट
+                    //- {id:11, value: "नमुना ९ सामन्य हेडर प्रिंट", link:'/print/blankCertificate/namuna-9-samanya-header'}, 
+                    //- {id:12, value: "नमुना ९ पाणीपट्टी प्रमाणपत्र ठराव प्रिंट", link:'/print/blankCertificate/namuna-9-panipatti-tharav'}, 
+                    //- {id:13, value: "नमुना ९ पाणी हेडर प्रिंट", link:'/print/blankCertificate/namuna-9-pani-header'}, 
+                    //- {id:14, value: "नमुना ९ सामान्यकर प्रमाणपत्र ठराव प्रिंट", link:'/print/blankCertificate/namuna-9-samanya-kar-pramanpatra-tharav'}, 
+
+
+
+
+                    //- moved in नमुना ८ प्रिंट tab
+                    //- {id:15, value: "नमुना ८ हेडर प्रिंट", link:'/print/blankCertificate/namuna-8-header'}, 
+
+
+                    //- moved to नमुना ९ प्रिंट
+                    //- {id:16, value: "नमुना ९ थकबाकी रिपोर्ट"}
+                ]
+
+            .row.px-5
+                each val, key in yadiButtons
+                    .col-5.col-md-2.p-2
+                        .box.box--white.d-flex.justify-content-center.align-items-center
+                            .blankCertificates(data-id=val.id class="d-flex justify-content-center align-items-center text-decoration-none text-dark") 
+                                p.box__title 
+                                    i.fa.fa-print.fa-2x
+                                p.pl-2
+                                    small #{val.value} 

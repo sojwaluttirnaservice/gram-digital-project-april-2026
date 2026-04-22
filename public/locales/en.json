@@ -1,0 +1,852 @@
+{
+  "gp": {
+    "gpName": "Gram Panchayat",
+    "talukaAbb": "Tal.",
+    "distAbb": "Dist."
+  },
+
+  "navbar": {
+    "top": {
+      "gpName": "Gram Panchayat Office",
+      "panchayatSamiti": "Panchayat Samiti",
+      "district": "Dist",
+
+      "citizenServiceCenter": "Citizen Service Applications",
+      "citizenServiceApplication": "Citz. Service App",
+      "citizenRegistration": "Citz. Registration",
+      "complaintRegistration": "Register Complaint",
+      "propertyMutationApplication": "Property Change / Name Transfer Application",
+      "constructionApplication": "Building Construction Permit Application",
+      "jobCardApplication": "Job Card Application",
+      "individualGroupEmploymentDemandApplication": "Individual/Group Employment Demand Application",
+
+      "employmentGuaranteeApplication": "VB-G RAM-G Employment Guarantee Application",
+      "myPanchayat": "Meri Panchayat",
+      "panchayatDecisionApp": "Panchayat Nirnay App",
+      "gramSamvad": "Gram Samvad",
+
+      "visitors": "Visitors",
+      "gramLogin": "Gram Login"
+    },
+
+    "bottom": {
+      "noListAvailable": "No List Available",
+
+      "home": "Home",
+
+      "ourVillage": {
+        "value": "Our Village",
+        "dropdown": {
+          "aboutGp": "About GP",
+          "gpNotes": "GP Notes",
+          "villageIndustries": "Village Industries",
+          "villageNews": "Village News",
+          "eDavandi": "E-Davandi",
+          "disabledPersonsList": "List of Persons with Disabilities",
+          "openPlotsList": "Open Plots & Houses"
+        }
+      },
+
+      "officeBearers": "Office Bearers & Staff",
+
+      "guidance": {
+        "value": "Guidance",
+        "dropdown": {
+          "online": "Online Guidance",
+          "offline": "Offline Guidance",
+          "gr": "GR"
+        }
+      },
+
+      "developmentWorksInfo": "Development Works",
+
+      "healthServices": {
+        "value": "Health Services",
+        "dropdown": {
+          "generalHealthInfo": "General Health Services & Info",
+          "govtHealthSchemes": "Govt. Health Schemes & Other Services Info"
+        }
+      },
+
+      "education": {
+        "value": "Education",
+        "dropdown": {
+          "jobRelated": "Job Related",
+          "schoolCollegeList": "School/College List",
+          "schools": "Schools",
+          "anganwadi": "Anganwadi",
+          "krishiVigyan": "Krishi Vigyan"
+        }
+      },
+
+      "medicalHelpDesk": "Medical Help",
+      "rti": "Right To Information",
+
+      "divyangRegistration": "Divyang Registration"
+    }
+  },
+
+  "common": {
+    "officeTimingsStrip": {
+      "officeDayTimeKey": "Office Hours",
+      "officeDaysValue": "Monday to Friday",
+      "officeTimeValue": "9:45 AM to 6:15 PM",
+
+      "govHolidayKey": "Government Holidays",
+      "govHolidaysValue": "Saturday and Sunday",
+      "govHolidayTextValue": "Public Holiday"
+    },
+
+    "goodThought": {
+      "heading": "Thought of the Day"
+    },
+
+    "stateCabinet": {
+      "heading": "Maharashtra State Rural Development Ministry",
+
+      "governer": {
+        "name": "Shri Acharya Devvrat",
+        "post": "Governor"
+      },
+
+      "cm": {
+        "name": "Shri Devendra Fadnavis",
+        "post": "Chief Minister"
+      },
+
+      "dcm1": {
+        "name": "Shri Eknath Shinde",
+        "post": "Deputy Chief Minister"
+      },
+
+      "dcm2": {
+        "name": "Smt. Sunetra Ajit Pawar",
+        "post": "Deputy Chief Minister"
+      }
+    }
+  },
+
+  "homePage": {
+    "heroSection": {
+      "smartDist": "Smart District",
+      "idealVillage": "Ideal Village",
+      "peacefulVillage": "Dispute-Free Village"
+    },
+
+    "instagramSection": {
+      "heading": "Our Moments on Instagram"
+    },
+
+    "gpOfficersStaffSection": {
+      "heading": "Grampanchayat Officers & Staff"
+    },
+
+    "cleanIdealGpSection": {
+      "titleOne": "My Clean",
+      "titleTwo": "Ideal Panchayat"
+    },
+
+    "emergencyServicesSection": {
+      "heading": "Emergency Services",
+      "services": {
+        "police": "Police Assistance – 100",
+        "fire": "Fire & Rescue Service – 101",
+        "ambulance": "Ambulance Service – 108",
+        "women": "Women Helpline – 181 / 1091",
+        "child": "Child Helpline – 1098",
+        "highway": "National Highway Assistance – 1033",
+        "unified": "All Emergency Services – 112"
+      }
+    },
+
+    "populationSection": {
+      "heading": "Population Information",
+      "population": {
+        "maleLabel": "Male",
+        "femaleLabel": "Female",
+        "totalPopulationLabel": "Total Population"
+      }
+    },
+
+    "aboutVillageSection": {
+      "heading": "About the Village",
+      "checkWeather": "See Weather"
+    },
+
+    "gpPurposesSection": {
+      "heading": "Grampanchayat Objectives"
+    },
+
+    "gpWorksSection": {
+      "heading": "Grampanchayat Works"
+    },
+
+    "videoGallerySection": {
+      "heading": "Video Gallery"
+    },
+
+    "otherLinksSection": {
+      "heading": "Other Links"
+    },
+
+    "reportsInfoSection": {
+      "heading": "Reports & Information",
+      "noReportsAvailable": "No reports available"
+    },
+
+    "importantLinksSection": {
+      "heading": "Important Links"
+    },
+
+    "gpIdealChartSection": {
+      "heading": "Grampanchayat Ideal Chart"
+    },
+
+    "villageMapDirectionSection": {
+      "heading": "Village Map & Directions"
+    }
+  },
+
+  "citizenServiceApplicationPage": {
+    "heading": "New Application Sample",
+    "subheading": "Application sample for certificates / documents or any other work under Maharashtra Right to Public Service Act -2015",
+    "instruction": "Enter Aadhaar number if previously applied",
+
+    "searchBar": {
+      "inputplaceholder": "Enter Aadhaar number",
+      "searchBtn": "Search"
+    },
+
+    "form": {
+      "heading": "Applicant Information",
+
+      "inputs": {
+        "applicant": {
+          "label": "Applicant Name",
+          "placeholder": "Applicant Name"
+        },
+        "email": { "label": "E-mail ID", "placeholder": "" },
+        "mobile": { "label": "Mobile Number", "placeholder": "" },
+        "adhar": { "label": "Aadhaar No.", "placeholder": "" },
+        "address": { "label": "Full Address", "placeholder": "" }
+      },
+
+      "certificatesHeading": "Required Certificates",
+
+      "certificateInputs": {
+        "birthCertificate": {
+          "label": "Birth Certificate",
+          "placeholder1": "Name",
+          "placeholder2": "Date of Birth"
+        },
+        "deathCertificate": {
+          "label": "Death Certificate",
+          "placeholder1": "Name",
+          "placeholder2": "Date of Death"
+        },
+        "marriageRegistrationCertificate": {
+          "label": "Marriage Registration Certificate",
+          "placeholder": "Date of Marriage"
+        },
+        "namuna8Sample": {
+          "label": "Extract of Sample No. 8",
+          "placeholder": "House Number"
+        },
+        "clearanceCertificate": {
+          "label": "No Pending Dues Certificate from Grampanchayat"
+        },
+        "insolvencyCertificate": { "label": "Certificate of Insolvency" },
+        "otherWork": {
+          "label": "Other Work (if any)",
+          "placeholder": "Other Work (if any)"
+        },
+        "complaint": {
+          "label": "Village Complaint Entry",
+          "placeholder": "Village Complaint Entry"
+        }
+      },
+
+      "saveBtn": "Save"
+    }
+  },
+
+  "citizenRegistrationPage": {
+    "heading": "Registration of Village Residents",
+
+    "form": {
+      "inputs": {
+        "fullName": {
+          "label": "Full Name",
+          "placeholder": "Full Name"
+        },
+        "adharNumber": {
+          "label": "Aadhaar Number",
+          "placeholder": "Aadhaar Number"
+        },
+        "dob": {
+          "label": "Date of Birth",
+          "placeholder": "Date of Birth"
+        },
+        "mobile": {
+          "label": "Mobile Number",
+          "placeholder": "Mobile Number"
+        },
+        "alternateMobile": {
+          "label": "Alternate Mobile Number (Optional)",
+          "placeholder": "Alternate Mobile Number"
+        },
+        "occupation": {
+          "label": "Occupation (Optional)",
+          "placeholder": "Occupation"
+        },
+        "email": {
+          "label": "Email (Optional)",
+          "placeholder": "Email"
+        },
+        "bloodGroup": {
+          "label": "Blood Group",
+          "placeholder": "Blood Group"
+        },
+        "village": {
+          "label": "Village",
+          "placeholder": "Select Village"
+        },
+        "uploadImage": {
+          "label": "Upload Photo",
+          "placeholder": "Upload Photo"
+        },
+        "abharCardDropdown": {
+           "label": "Do you possess an Aabha Card?" 
+        },
+        "abhaCard": {
+          "label": "ABHA Card Number (if available)",
+          "placeholder": "ABHA Card Number"
+        },
+        "ayushmanCardDropdown": {
+            "label": "Do you possess an Ayushman Card?"
+        },
+        "ayushmanCard": {
+          "label": "Ayushman Card Number (if available)",
+          "placeholder": "Ayushman Card Number"
+        },
+        "schemeUnderAyushmanBharatScheme": {
+          "label": "Name of the scheme availed under Ayushman Bharat (if any)",
+          "placeholder": "Type or select the scheme name"
+        },
+        "hasDownloadedMeriGramPanchayatApp": {
+          "label": "Downloaded Meri GramPanchayat App?"
+        },
+        "hasDownloadedPanchayatDecisionApp": {
+          "label": "Downloaded Panchayat Decision App?"
+        },
+        "hasDownloadedGramSamvadApp": {
+          "label": "Downloaded Gram Samvad App?"
+        }
+      },
+      "registerBtn": "Register"
+    }
+  },
+
+  "complaintsRegistrationPage": {
+    "heading": "Village Complaint Registration",
+
+    "form": {
+      "heading": "Applicant Information",
+
+      "inputs": {
+        "applicant": {
+          "label": "Applicant Name",
+          "placeholder": "Applicant Name"
+        },
+        "email": { "label": "Email ID", "placeholder": "" },
+        "mobile": { "label": "Mobile Number", "placeholder": "" },
+        "adhar": { "label": "Aadhar Number", "placeholder": "" },
+        "address": { "label": "Full Address", "placeholder": "" },
+        "complaintSubject": { "label": "Complaint Subject", "placeholder": "" },
+        "imageForComplaint": {
+          "label": "Required Photo for Complaint",
+          "placeholder": ""
+        },
+        "docForComplaint": {
+          "label": "Required Document for Complaint",
+          "placeholder": ""
+        },
+        "garbageVanPicksUpGarbage": {
+          "label": "Does the garbage van come?"
+        },
+        "garbageCollectionVanFrequencyByWeek": {
+          "label": "How many times per week does the garbage van come?"
+        },
+        "isGarbageProperlyDisposed": {
+          "label": "Is the garbage disposed of properly?"
+        }
+      },
+
+      "saveBtn": "Save"
+    }
+  },
+
+  "propertyFerfarPage": {
+    "heading": "Property Mutation Application",
+
+    "form": {
+      "applicantCard": {
+        "heading": "Applicant Details",
+
+        "inputs": {
+          "applicantName": {
+            "label": "Applicant Name"
+          },
+          "adhar": {
+            "label": "Aadhaar Number"
+          },
+          "village": {
+            "label": "Village"
+          },
+          "mobile": {
+            "label": "Mobile Number"
+          },
+          "address": {
+            "label": "Full Address"
+          }
+        }
+      },
+
+      "propertyCard": {
+        "heading": "Property Details",
+
+        "inputs": {
+          "malmattaNo": {
+            "label": "Property Number",
+            "note": "(Do not fill if it is a new purchase)"
+          },
+          "originalOwnerName": {
+            "label": "Original Owner Name"
+          },
+          "ferfarDocument": {
+            "label": "Mutation Document",
+            "selectPlaceholder": "-- Select --"
+          },
+          "ferfarDocumentUpload": {
+            "label": "Upload Document"
+          }
+        }
+      },
+
+      "boundariesCard": {
+        "heading": "Property Boundaries",
+
+        "directions": {
+          "east": "East Side",
+          "west": "West Side",
+          "north": "North Side",
+          "south": "South Side"
+        }
+      },
+
+      "declaration": {
+        "statement": "I am ready to pay all pending dues and fees as per rules. Therefore, I kindly request that the above mutation be recorded in my name.",
+        "agreeLabel": "I agree to the terms and conditions"
+      },
+
+      "buttons": {
+        "save": "Save"
+      }
+    }
+  },
+
+  "constructionApplicationPage": {
+    "heading": "New Construction Permission Application",
+
+    "form": {
+      "heading": "Applicant Information",
+
+      "inputs": {
+        "malmattaDharakName": {
+          "label": "Property Owner Name",
+          "placeholder": "e.g. Shri Ramchandra Gajanan Patil"
+        },
+
+        "mobile": {
+          "label": "Mobile Number",
+          "placeholder": "10-digit mobile number"
+        },
+
+        "adhar": {
+          "label": "Aadhaar Number",
+          "placeholder": "12-digit Aadhaar number"
+        },
+
+        "gpName": {
+          "label": "Gram Panchayat"
+        },
+
+        "address": {
+          "label": "Full Address",
+          "placeholder": "House number, street, village name"
+        },
+
+        "applicationSubject": {
+          "label": "Application Subject",
+          "defaultValue": "Regarding grant of construction permission as per approved building plan"
+        },
+
+        "malmattaNo": {
+          "label": "Property Number (if available)",
+          "placeholder": "e.g. 123 / A"
+        }
+      },
+
+      "documents": {
+        "heading": "Required Documents",
+        "addOptionalBtn": "Add New Document"
+      },
+
+      "landmarkPhotos": {
+        "heading": "Photos from All Four Directions",
+
+        "inputs": {
+          "east": {
+            "label": "Photo from East Direction"
+          },
+          "west": {
+            "label": "Photo from West Direction"
+          },
+          "north": {
+            "label": "Photo from North Direction"
+          },
+          "south": {
+            "label": "Photo from South Direction"
+          }
+        },
+
+        "locationWarning": "This form cannot be submitted without granting location access",
+        "grantLocationBtn": "Grant Location Access"
+      },
+
+      "saveBtn": "Save"
+    }
+  },
+
+  "aboutGpPage": {},
+
+  "gpNotesPage": {
+    "generalInfoPageSection": {
+      "pageTitle": "General Information of Gram Panchayat",
+      "print": "Print"
+    },
+    "basicInfoSection": {
+      "sectionTitle": "Basic Information",
+      "email": "Email:",
+      "sarpanchName": "Name of Sarpanch:",
+      "gramSevakName": "Name of Gram Sevak:",
+      "dateOfTakingCharge": "Date of Taking Charge of Gram Panchayat:",
+      "sarpanchElectionDate": "Sarpanch Election Date:",
+      "termEndDate": "Term End Date:",
+      "annualReportDate": "Annual Report Date:",
+      "budgetYear": "Budget Year",
+      "auditYear": "Audit Year:",
+      "population2011": "Population as per 2011 Census:"
+    },
+    "populationSection": {
+      "sectionTitle": "Village Population Information",
+      "category": "Category",
+      "male": "Male",
+      "female": "Female",
+      "total": "Total",
+      "scheduledCaste": "Scheduled Caste (SC)",
+      "scheduledTribe": "Scheduled Tribe (ST)",
+      "nomadicTribes": "Nomadic Tribes (NT)",
+      "otherBackwardClasses": "Other Backward Classes (OBC)",
+      "others": "Others (Open/General)",
+      "totalPopulation": "Total Population"
+    },
+    "otherDetailsSection": {
+      "wardNumber": "Number of Wards:",
+      "totalMembers": "Total Members:",
+      "directlyElectedSarpanch": "Directly Elected Sarpanch -",
+      "taxes": "Taxes: House Tax, Lighting Tax, Health Tax, Water Tax",
+      "numberOfHouses": "Number of Houses:",
+      "area": "Area:",
+      "constituencyLokSabha": "Lok Sabha Constituency:",
+      "assembly": "Assembly Constituency:",
+      "website": "Website:"
+    },
+    "healthSection": {
+      "sectionTitle": "Health",
+      "healthSubCenter": "Health Sub-center",
+      "healthWorkerName": "Name of Health Worker:",
+      "mobileNumber": "Mobile No.",
+      "noRecord": "No health sub-center record available"
+    },
+    "waterSupplySection": {
+      "sectionTitle": "Water Supply",
+      "tankLocation": "Tank Location",
+      "capacity": "Capacity",
+      "staff": "Staff",
+      "normalRate": "Normal Rate",
+      "specialRate": "Special Rate"
+    },
+    "swachhBharatMissionSection": {
+      "sectionTitle": "Swachh Bharat Mission",
+      "village": "Village",
+      "numberOfHouseholds": "Number of Households",
+      "withToilet": "Households with Toilet",
+      "openDefecationFreeYear": "ODF Declared Year",
+      "remarks": "Remarks"
+    },
+    "wasteManagementSection": {
+      "sectionTitle": "Wastewater & Solid Waste Management",
+      "village": "Village",
+      "numberOfHouseholds": "Number of Households",
+      "connectedHouseholds": "Connected Households",
+      "soakPits": "Soak Pits",
+      "management": "Management"
+    },
+    "idealTableSection": {
+      "sectionTitle": "Ideal Table",
+      "serialNo": "Sr. No.",
+      "description": "Description",
+      "number": "Number",
+      "noInfo": "Ideal table information is not available yet."
+    },
+    "gpCommitteeSection": {
+      "sectionTitle": "Gram Panchayat Executive Committee",
+      "serialNo": "Sr. No.",
+      "memberName": "Member Name",
+      "position": "Position",
+      "category": "Category",
+      "mobileNumber": "Mobile No.",
+      "noInfo": "Executive committee information is not available yet."
+    },
+    "awardsSection": {
+      "sectionTitle": "Awards Received"
+    },
+    "innovativeInitiativesSection": {
+      "sectionTitle": "Innovative Initiatives"
+    },
+    "savingsGroupInitiativesSection": {
+      "sectionTitle": "Self-help Group Initiatives"
+    },
+    "savingsGroupList": {
+      "serialNo": "Sr. No.",
+      "groupName": "Name of Group",
+      "villageName": "Village Name"
+    },
+    "womenEmpowermentSection": {
+      "sectionTitle": "Women Empowerment Points"
+    },
+    "zpSchoolPointsSection": {
+      "sectionTitle": "Z.P. School Points"
+    },
+    "committeesSection": {
+      "sectionTitle": "Committees at Gram Panchayat Level",
+      "resolutionNumber": "Resolution Number",
+      "date": "Date",
+      "serialNo": "Sr. No.",
+      "memberName": "Member Name",
+      "post": "Post",
+      "noMembers": "No members recorded.",
+      "noCommittees": "No committees available."
+    },
+    "gpEmployeeInfoSection": {
+      "sectionTitle": "Employee Information",
+      "serialNo": "Sr. No.",
+      "memberName": "Member Name",
+      "post": "Post",
+      "category": "Category",
+      "mobileNumber": "Mobile No.",
+      "noRecord": "Employee information is not available yet."
+    },
+    "employmentAssistantsSection": {
+      "sectionTitle": "Employment Assistants"
+    },
+    "waterConservationStructuresSection": {
+      "sectionTitle": "Water Conservation Structures",
+      "serialNo": "Sr. No.",
+      "structureName": "Structure Name",
+      "lengthM": "Length (m)",
+      "storageCapacityCubicM": "Storage Capacity (Cubic M.)"
+    },
+    "anganwadiCentersSection": {
+      "sectionTitle": "List of Anganwadi Centers",
+      "serialNo": "Sr. No.",
+      "villageName": "Village Name",
+      "sevika": "Sevika",
+      "assistant": "Assistant",
+      "numberOfChildren": "Number of Children",
+      "toilet": "Toilet",
+      "kitchenShed": "Kitchen Shed"
+    },
+    "ashaWorkersSection": {
+      "sectionTitle": "ASHA Worker List",
+      "serialrNo": "Sr. No.",
+      "name": "Name",
+      "mobile": "Mobile",
+      "village": "Village"
+    },
+    "educationalInstitutesSection": {
+      "sectionTitle": "Educational Institutions & Staff Information",
+      "instituteLabel": "Institute",
+      "teachersListHeading": "Teacher List",
+      "noDesignation": "No designation",
+      "noMobile": "No mobile",
+      "noTeachersAvailable": "No teacher records available."
+    }
+  },
+
+  "villageIndustriesPage": {
+    "heading": "Village Industries Information",
+    "noInfo": "No information available..."
+  },
+
+  "villageNewsPage": {
+    "heading": "Village News",
+    "noInfo": "No news available..."
+  },
+
+  "eDavandiPage": {},
+
+  "disabledPeoplePage": {
+    "heading": "List of Disability Certificate Holders",
+    "tableHeaderSection": {
+      "serialNo": "Sr. No.",
+      "applicantName": "Applicant Name",
+      "age": "Age",
+      "aadharNumber": "Aadhaar Number",
+      "mobileNumber": "Mobile",
+      "certificate": "Certificate",
+      "disabilityPercentage": "Disability Percentage",
+      "applicationNumber": "Application Number"
+    },
+    "tableMessagesSection": {
+      "noCertificatesFound": "No certificates available."
+    }
+  },
+
+  "onlineGuidancePage": {
+    "heading": "Zoom Meetings",
+    "todaysGuide": "Today's Guide",
+    "join": "Join",
+    "tableHeaders": {
+      "serialNo": "S. No.",
+      "title": "Title",
+      "guide": "Guide",
+      "date": "Date",
+      "time": "Time",
+      "recording": "Recording"
+    }
+  },
+
+  "healthServiceInfoPage": {
+    "heading": "Health Service Center List",
+    "noList": "List not available..."
+  },
+
+  "governmentSchemesPage": {
+    "heading": "Government Schemes Information",
+    "tableRowHeadings": {
+      "serialNo": "S. No.",
+      "fileName": "File Name",
+      "action": "Action"
+    }
+  },
+
+  "jobsPage": {
+    "heading": "Jobs",
+    "noInfo": "No information available...",
+    "tableRowHeaders": {
+      "serialNo": "S. No.",
+      "linkOrFile": "Link/File",
+      "title": "Title",
+      "description": "Description"
+    },
+    "clickHere": "Click Here"
+  },
+
+  "educationPage": {
+    "heading": "List of Educational Institutions",
+    "aanganwadi": "Aanganwadi",
+    "school": "School",
+    "college": "College",
+    "noList": "List not available..."
+  },
+
+  "medicalHelpPage": {
+    "heading": "Medical Help Desk"
+  },
+
+  "divyangaRegistrationPage": {
+    "heading": "Divyanga Registration",
+    "form": {
+      "inputs": {
+        "fullName": {
+          "label": "Full Name",
+          "placeholder": "Full Name"
+        },
+        "address": {
+          "label": "Full Address",
+          "placeholder": "Full Address"
+        },
+        "education": {
+          "label": "Education",
+          "placeholder": "Education"
+        },
+        "demand": {
+          "label": "Demand",
+          "placeholder": "Demand"
+        },
+        "mobile": {
+          "label": "Mobile Number",
+          "placeholder": "Mobile Number"
+        },
+        "typeOfDisability": {
+          "label": "Type of Disability",
+          "placeholder": "Type of Disability"
+        },
+        "percentageOfDisability": {
+          "label": "Percentage of Disability",
+          "placeholder": "Percentage of Disability"
+        },
+        "age": {
+          "label": "Age",
+          "placeholder": "Age"
+        },
+        "aadharNumber": {
+          "label": "Aadhar Number",
+          "placeholder": "Aadhar Number"
+        },
+        "applicationNumber": {
+          "label": "Application Number",
+          "placeholder": "Application Number"
+        },
+        "remarks": {
+          "label": "Remarks",
+          "placeholder": "Remarks"
+        },
+        "bankName": {
+          "label": "Bank Name",
+          "placeholder": "Bank Name"
+        },
+        "bankIfscCode": {
+          "label": "IFSC Code",
+          "placeholder": "IFSC Code"
+        },
+        "bankAccountNumber": {
+          "label": "Bank Account Number",
+          "placeholder": "Bank Account Number"
+        },
+        "certificateUpload": {
+          "label": "Upload Certificate",
+          "placeholder": ""
+        },
+        "photoUpload": {
+          "label": "Upload Photo",
+          "placeholder": ""
+        }
+      },
+      "captureImageBtn": "Capture Photo",
+      "registerBtn": "Save"
+    }
+  }
+}

@@ -1,0 +1,640 @@
+if printFormat && printFormat == 'new'
+    doctype html
+    html(lang="en")
+        head
+            meta(charset="UTF-8")
+            meta(name="viewport" content="width=device-width, initial-scale=1.0")
+            title 9 क bank मागणी बील
+
+            script(src='/asstest/coustom/css/tailwind.js')
+
+
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet">
+
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+
+            link(href='/asstest/coustom/css/pagination.css' rel='stylesheet')
+
+            script.
+                let totalRecords = !{JSON.stringify(totalRecords)}
+                document.addEventListener('DOMContentLoaded', function(){
+                    //- const downloadPdf = () => {
+                    //-     const element = document.querySelector('#print');
+                    //-     const options = {
+                    //-         margin: [0.1, 0.1, 0.1, 0.1],
+                    //-         filename: 'form8-receipt.pdf',
+                    //-         image: { type: 'jpeg', quality: 0.98 },
+                    //-         html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                    //-         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                    //-     };
+                    //-     html2pdf().set(options).from(element).save();
+                    //- }
+                    //- const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                    //- if (downloadPdfBtn) {
+                    //-     downloadPdfBtn.addEventListener('click', downloadPdf);
+                    //- }
+                })
+
+            script(src="/asstest/coustom/js/handlers/pagination.js" defer)
+            style.
+                table {
+                    border-collapse: collapse;
+                }
+                td, th {
+                    padding: 0.2rem;
+                    border: 1px solid #f472b6;
+                }
+                @media print {
+
+                    @page {
+                        size: A4 landscape;
+                        //- margin: 9mm 9mm 9mm 9mm;
+                    }
+
+                    .hide-print {
+                        display: none;
+                    }
+
+                    .print{
+                        //- size: A4 landscape;
+                        //- page-break-after: always;
+                        //- break-after: page;
+                        height:100lvh;
+                    }
+
+                    .my-print {
+                        position: relative;
+                        background: none !important; /* Prevent bg-white/90 or any tailwind override */
+                    }
+
+                    * {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+
+                    .print-bg {
+                        background-image: url('/img/background/bg-tricolor.png');
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        background-position: top center;
+                    }
+                }
+
+
+                .tiro-devanagari-marathi-regular {
+                    font-family: "Tiro Devanagari Marathi", serif;
+                    font-weight: 400;
+                    font-style: normal;
+                }
+
+                .tiro-devanagari-marathi-regular-italic {
+                    font-family: "Tiro Devanagari Marathi", serif;
+                    font-weight: 400;
+                    font-style: italic;
+                }
+
+
+        body(class="text-gray-800")
+
+            //- - var date = new Date();
+            //- - date1 = value.myDate
+            //- - year = date.getFullYear()
+            - year =''
+
+
+            div.hide-print
+
+                div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                    button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                    //- button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+
+                .pagination-div
+                    ul(class='pagination flex items-center')
+
+                        li(class='page-item')
+                            button(class='bg-pink-400 text-white w-32 page-link previous-button px-4 py-2 rounded-md') Previous
+
+                        div(class='flex page-numbers w-fit overflow-x-scroll')
+
+                            //- li
+                                button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 1
+
+                            //- li
+                                button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 2
+
+
+                        li(class='page-item')
+                            button(class='bg-pink-400 text-white w-32 page-link next-button px-4 py-2 rounded-md') Next
+
+
+
+
+            - let pageCount = billStart;
+            each value, index in data
+                - pageCount += 1;
+                .print.tiro-devanagari-marathi-regular.grid.grid-cols-2.gap-8
+                    each copy in [1, 2]
+                        //- div(class="my-print border border-gray-500 bg-white/90 p-4 mt-4 mb-4 mx-auto relative")
+                        div(class="my-print p-2 border border-gray-500  bg-white/60 relative h-full print-bg")
+                            //- div(class='absolute top-[10%] z-[-5] w-[86%]')
+                                img(src='/img/background/bg-tricolor.png' class='w-full')
+
+                            .absolute.inset-0.z-0.bg-cover.bg-no-repeat.bg-top(style="background-image: url('/img/background/bg-tricolor.png');")
+                                div(class="absolute inset-0 bg-white opacity-60")
+
+                            //- .absolute.inset-0.z-0.bg-cover.bg-no-repeat.bg-bottom(style="background-image: url('/img/background/clean-india.jpg');")
+                                div(class="absolute inset-0 bg-white opacity-60")
+
+                            .relative.z-10.bg-white.bg-opacity-80.h-full
+                                div(class="border-b border-gray-600 pb-2 mb-2")
+                                    div(class="grid grid-cols-9 gap-4 items-center")
+                                        div(class="col-span-2 flex justify-center items-center")
+                                            div(class="w-20 h-20 flex items-center justify-center text-xs font-bold")
+                                                //- img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+                                                img(src="/img/header-images/sant-gadge-baba-1.png" alt="" class='w-20 h-20')
+
+                                        div(class="col-span-5 text-center")
+                                            p(class="text-2xl font-semibold underline underline-offset-4")
+                                                span ग्रामपंचायत 
+                                                span.text-rose-800.font-bold #{gp.gp_name}
+                                            p(class='text-base')
+                                                span पं. स. 
+                                                span.font-bold #{gp.gp_taluka}, 
+                                                span जि. 
+                                                span.font-bold #{gp.gp_dist}
+                                            p(class="text-xs font-semibold") मुंबई ग्रा.पं. कायदा क्र. १२९- २ प्रमाणे नमुना ९ (क) (नियम ३२(५) पहा)
+
+                                            p(class="text-base font-semibold")
+                                                span.text-pink-900 कर वसुली मागणी बील
+                                            //- p(class="text-lg font-bold tracking-wide underline underline-offset-4 text-blue-700") Payment Receipt
+
+                                        div(class="col-span-2 flex justify-center items-center")
+                                            div(class="w-20 h-20 flex items-center justify-center text-xs font-bold")
+                                                //- img(class='w-20 h-20' src='/new-gp-page/main-page/files/qr-codes/' + qrCodes.bank_qr_code_image_name)
+                                            img(src="/img/header-images/sant-gadge-baba-11.png" class='w-20 h-20' alt="")
+
+
+
+                                .px-2
+                                    .space-y-1
+
+                                        //- .grid.grid-cols-4.text-sm.text-gray-700.font-medium.border.rounded
+                                            div.p-2.border-r पुरवठा क्रमांक
+                                            div.p-2.border-r पावती क्रमांक
+                                            div.p-2.border-r जुना मालमत्ता क्र.
+                                            div.p-2.border-r जुना संगणक क्र. -
+
+
+                                        div.border.p-2.text-sm.font-medium.primary.flex.items-start.border-gray-600
+                                            p मालमत्ता धारकाचे नाव: 
+                                                span.font-bold #{value.feu_ownerName}
+
+                                            p.ml-auto मो. क्र. 
+                                                span(class='font-bold inline-block w-24') #{value.feu_mobileNo}
+
+                                        .grid.grid-cols-3.text-sm.text-gray-700.font-medium.border.border-gray-600
+                                            //- div.p-1.border-r वार्ड क्रमांक : #{value.feu_wardNo ? value.feu_wardNo : '-'}
+                                            div.p-1.border-r.border-gray-600 आधार क्रमांक : #{value.feu_aadharNo ? value.feu_aadharNo : '-'}
+
+                                            div.p-1.border-r.border-gray-600 मालमत्ता क्रमांक : 
+                                                span.font-bold #{value.feu_malmattaNo}#{value.feu_oblik_malmatta_id && value.feu_oblik_malmatta_id !== 0 && value.feu_oblik_malmatta_id !== '-' ? '/' + value.feu_oblik_malmatta_id : ''}
+
+                                            //- div.p-1.border-r भाग क्रमांक.
+                                            //- div.p-1.border-r UPIC ID : 
+
+                                            //- div.p-1 पत्ता: ग्रामपंचायत 
+                                            //-     span.font-bold #{gp.gp_name}
+
+                                            div.p-1 बील क्र : 
+                                                span(class='font-bold') #{pageCount}
+
+                                        .grid.grid-cols-1.border.text-sm.border-gray-600
+                                            div.p-1.font-medium भोगवटदाराचे नाव : 
+                                                span.font-bold #{value.feu_secondOwnerName}
+
+
+                                        //- .grid.grid-cols-2.border.text-sm
+                                        //- div.p-1 Transaction Id :
+                                            span.font-bold -
+
+                                        div(class='flex items-center justify-between p-1 border text-sm border-gray-600')
+                                            p दिनांक : 
+                                                span.font-bold #{date} 
+
+                                            p एकूण जागेचे क्षेत्रफळ : 
+                                                span.font-bold #{value.feu_totalArea} चौ.फूट / #{value.feu_totalAreaSquareMeter} चौ.मी
+
+                                div(class='py-2 px-2')
+                                    div(class='grid grid-cols-2 bg-pink-100/50')
+
+                                        div(class='border-r border-r-pink-500 px-1')
+                                            div
+                                                - let url = "/home_map_image/home_photo/" + value.feu_image;
+                                                a(href=url target="_blank" class="inline-block w-full border border-gray-200 rounded-md overflow-hidden")
+                                                    img(src=url alt="Home" class="h-[7rem] w-full" onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                            p(class='text-center text-xs font-semibold') घराचा फोटो
+
+
+                                        div(class='px-1')
+                                            div(class="mt-1 flex justify-evenly items-start gap-1")
+                                                div(class="flex flex-col items-center justify-center text-xs font-bold")
+                                                    img(class="size-24 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+                                                    div (सामान्य कर)
+
+                                                div(class="flex flex-col items-center justify-center text-xs font-bold")
+                                                    img(class="size-24 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_water_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+                                                    div (पाणी कर)
+
+                                            p(class='text-center text-xs font-semibold') बँक QR
+                                .px-2
+                                    table.table-auto.w-full.text-sm.border.border-pink-300
+                                        thead.bg-pink-100.text-pink-800
+                                            tr
+                                                th.p-1.text-center(width="10%") अ. क्र.
+                                                th.p-1.text-center(width="30%") कराचे नाव (रू)
+                                                th.p-1.text-center(width="20%") 
+                                                    div
+                                                        p मागील कर (रू)
+                                                        hr.text-red-900
+                                                        p #{year1}
+                                                th.p-1.text-center(width="20%") 
+                                                    div
+                                                        p चालू कर (रू)
+                                                        hr
+                                                        p #{year2}
+                                                th.p-1.text-center(width="20%") एकूण (रू)
+
+                                        tbody
+                                            - 
+                                                let taxes = [
+                                                    {name: 'इमारत कर', last: value.lastBuildingTax, current: value.currentBuildingTax},
+                                                    {name: 'इतर/मागील घर पट्टीवर दंड कर', last: Math.round(value.lastTaxFine || 0) + Math.round(value.lastYearTaxFine || 0), current: value.lastTaxRelief},
+                                                    {name: 'दिवाबत्ती कर', last: value.lastDivaTax, current: value.currentDivaTax},
+                                                    {name: 'विशेष/सामान्य पाणी पट्टी कर', last: Math.round(value.lastSpacialWaterTax) + Math.round(value.lastGenealWaterTax), current: Math.round(value.currentSpacialWaterTax) + Math.round(value.currentGenealWaterTax)},
+                                                    {name: 'आरोग्य कर', last: value.lastArogyaTax, current: value.currentArogyaTax},
+                                                    {name: 'स्वच्छता कर', last: value.lastCleaningTax, current: value.currentCleaningTax},
+                                                    {name: 'वारंट फी', last: 0, current: 0},
+                                                ]
+
+                                            - let totalLast = 0;
+                                            - let totalCurrent = 0;
+                                            - let totalBoth = 0;
+
+                                            each row, index in taxes 
+                                                tr
+                                                    td.text-center.p-1 #{index + 1}
+                                                    td.p-1 #{row.name}
+                                                    - totalLast += Math.round(row.last)
+                                                    td.text-center.p-1 #{Math.round(row.last)}
+                                                    - totalCurrent += Math.round(row.current) 
+                                                    td.text-center.p-1 #{Math.round(row.current)}
+                                                    - totalBoth += Math.round(row.last + row.current)
+                                                    td.text-center.p-1 #{Math.round(row.last + row.current)}
+
+                                            tr.bg-gray-100.font-semibold
+                                                td.text-center.p-1 -
+                                                td.p-1 एकूण कर
+                                                td.text-center.p-1 #{totalLast}
+                                                td.text-center.p-1 #{totalCurrent}
+                                                td.text-center.p-1 #{totalBoth}
+
+
+                                div.mt-1.pt-4.px-2
+
+                                    p(class="font-semibold text-xs px-2 text-gray-600")
+                                        | वरील दर्शवलेली रक्कमेची सूचना मिळाल्यापासून १५ दिवसांच्या आत ग्रामपंचायत कार्यालयात कर भरणा करावा. आपण ती रक्कम न भरल्यास त्या रक्कमेची अन्यथा ग्रामपंचायत अधिनियमाच्या कलम क्र. १२९(२) अन्वये आपल्यावर मागणी लेख बजवण्यात येईल.
+
+
+                                div.mt-1.pt-4.px-2 
+                                    div(class='grid grid-cols-2 gap-2 text-xs')
+                                        div(class='flex items-end justify-center')
+                                            .text-center.text-blue-900.mt-auto देणाऱ्याची सही
+
+                                        div(class='text-blue-900')
+
+                                            div(class='flex items-center justify-center gap-2 mb-1')
+                                                img(src="/print/sp.jpeg" alt="" class='opacity-1' srcset="" onerror="this.style.display='none'" width="80")
+                                            p.text-center सरपंच/ग्राम. पं. अधिकारी/वसुली लिपिकाची अद्याक्षरी
+                                            p.text-center ग्रा. पं. 
+                                                span.font-bold #{gp.gp_name}, पं.स. #{gp.gp_taluka}
+
+
+else
+
+    doctype html
+    html(lang="en")
+        head
+            meta(charset="UTF-8")
+            meta(name="viewport" content="width=device-width, initial-scale=1.0")
+            title 9 क bank मागणी बील
+
+            script(src='/asstest/coustom/css/tailwind.js')
+
+
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet">
+
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+
+            link(href='/asstest/coustom/css/pagination.css' rel='stylesheet')
+
+            script.
+                let totalRecords = !{JSON.stringify(totalRecords)}
+                document.addEventListener('DOMContentLoaded', function(){
+                    //- const downloadPdf = () => {
+                    //-     const element = document.querySelector('#print');
+                    //-     const options = {
+                    //-         margin: [0.1, 0.1, 0.1, 0.1],
+                    //-         filename: 'form8-receipt.pdf',
+                    //-         image: { type: 'jpeg', quality: 0.98 },
+                    //-         html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                    //-         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                    //-     };
+                    //-     html2pdf().set(options).from(element).save();
+                    //- }
+                    //- const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                    //- if (downloadPdfBtn) {
+                    //-     downloadPdfBtn.addEventListener('click', downloadPdf);
+                    //- }
+                })
+
+            script(src="/asstest/coustom/js/handlers/pagination.js" defer)
+            style.
+                table {
+                    border-collapse: collapse;
+                }
+                td, th {
+                    padding: 0.2rem;
+                    border: 1px solid #f472b6;
+                }
+                @media print {
+
+                    @page {
+                        size: auto;
+                        margin: 7mm 7mm 4mm 10mm;
+                    }
+
+                    .hide-print {
+                        display: none;
+                    }
+
+                    .print{
+                        //- //- size: A4 landscape;
+                        //- //- page-break-after: always;
+                        //- //- break-after: page;
+                        //- height:100lvh;
+                    }
+
+                    .my-print {
+                        position: relative;
+                        background: none !important; /* Prevent bg-white/90 or any tailwind override */
+                    }
+
+                    * {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+
+                    .print-bg {
+                        background-image: url('/img/background/bg-tricolor.png');
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        background-position: top center;
+                    }
+                }
+
+
+                .tiro-devanagari-marathi-regular {
+                    font-family: "Tiro Devanagari Marathi", serif;
+                    font-weight: 400;
+                    font-style: normal;
+                }
+
+                .tiro-devanagari-marathi-regular-italic {
+                    font-family: "Tiro Devanagari Marathi", serif;
+                    font-weight: 400;
+                    font-style: italic;
+                }
+
+
+        body(class="text-gray-800 tiro-devanagari-marathi-regular")
+
+            //- - var date = new Date();
+            //- - date1 = value.myDate
+            //- - year = date.getFullYear()
+            - year =''
+
+
+            div.hide-print
+
+                div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                    button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                    //- button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+
+                .pagination-div
+                    ul(class='pagination flex items-center')
+
+                        li(class='page-item')
+                            button(class='bg-pink-400 text-white w-32 page-link previous-button px-4 py-2 rounded-md') Previous
+
+                        div(class='flex page-numbers w-fit overflow-x-scroll')
+
+                            //- li
+                                button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 1
+
+                            //- li
+                                button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 2
+
+
+                        li(class='page-item')
+                            button(class='bg-pink-400 text-white w-32 page-link next-button px-4 py-2 rounded-md') Next
+
+
+
+
+            - let pageCount = billStart;
+            each value, index in data
+
+                - pageCount += 1;
+                - var  className = 'm-0 mt-4 mb-12 c-'+ (index%2); 
+
+                - function dist(val) 
+                    //- here 35 is an offset for second print, which is in rem and value is also in rem, all calculations are in rem for distances except few things
+                    - return (val + 35) 
+
+                div(class=className)
+                    div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
+                        img(src="/print/magni-bill/magni-bill-print-new.jpeg" alt="" class="w-full h-full border-2 border-black")
+
+                        div(style="position: absolute;top:0;width:100%;")
+
+                            div(class=`absolute left-[7rem] top-2 font-bold  w-[21rem] text-center`)  ग्रामपंचायत कार्यालय #{gp.gp_name}
+                            div(class=`absolute left-[${dist(7)}rem] top-2 font-bold w-[21rem] text-center`) ग्रामपंचायत कार्यालय #{gp.gp_name}
+
+                            div(class=`absolute left-[7rem] top-8 text-sm font-bold  w-[21rem] text-center`)  पं. स. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+                            div(class=`absolute left-[${dist(7)}rem] top-8 text-sm font-bold w-[21rem] text-center`) पं. स. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+
+
+                            div(class=`absolute left-[7.8rem] top-[6.5rem] text-xs font-bold w-[17rem] text-start`) #{value.feu_ownerName}
+                            div(class=`absolute left-[${dist(7.8)}rem] top-[6.5rem] text-xs font-bold w-[17rem] text-start`) #{value.feu_ownerName}
+
+
+                            div(class=`absolute left-[27.5rem] top-[7rem] text-xs font-bold w-fit text-start`)  #{value.feu_mobileNo}
+                            div(class=`absolute left-[${dist(27.5)}rem] top-[7rem] text-xs font-bold w-fit text-start`)  #{value.feu_mobileNo}
+
+
+                            div(class=`absolute left-[5.5rem] top-[9rem] text-xs font-bold w-fit text-start`)  #{value.feu_aadharNo}
+                            div(class=`absolute left-[${dist(5.5)}rem] top-[9rem] text-xs font-bold w-fit text-start`)  #{value.feu_aadharNo}
+
+                            div(class=`absolute left-[17rem] top-[9rem] text-xs font-bold w-fit text-start`)  #{value.feu_malmattaNo}
+                            div(class=`absolute left-[${dist(17)}rem] top-[9rem] text-xs font-bold w-fit text-start`)  #{value.feu_malmattaNo}
+
+                            div(class=`absolute left-[25rem] top-[9rem] text-xs font-bold w-fit text-start`) #{pageCount}
+                            div(class=`absolute left-[${dist(25)}rem] top-[9rem] text-xs font-bold w-fit text-start`) #{pageCount}
+
+                            div(class=`absolute left-[6.7rem] top-[10.8rem] text-xs font-bold w-[25.6rem] text-start`)  #{value.feu_secondOwnerName}
+                            div(class=`absolute left-[${dist(6.7)}rem] top-[10.8rem] text-xs font-bold w-[25.6rem] text-start`)  #{value.feu_secondOwnerName}
+
+
+                            div(class=`absolute left-[4rem] top-[12.6rem] text-xs font-bold w-[25.6rem] text-start`) #{date}
+                            div(class=`absolute left-[${dist(4)}rem] top-[12.6rem] text-xs font-bold w-[25.6rem] text-start`) #{date}
+
+                            div(class=`absolute left-[12rem] top-[12.6rem] text-xs font-bold w-[25.6rem] text-start`) 
+                                span(class='text-gray-600') एकूण जागेचे क्षेत्रफळ : 
+                                span #{value.feu_totalArea} चौ.फूट / #{value.feu_totalAreaSquareMeter} चौ.मी
+                            div(class=`absolute left-[${dist(12)}rem] top-[12.6rem] text-xs font-bold w-[25.6rem] text-start`) 
+                                span(class='text-gray-600') एकूण जागेचे क्षेत्रफळ : 
+                                span #{value.feu_totalArea} चौ.फूट / #{value.feu_totalAreaSquareMeter} चौ.मी
+
+                            
+                            - let url = "/home_map_image/home_photo/" + value.feu_image;
+                            div(class=`absolute left-[1.5rem] top-[14.2rem]  border border-gray-400`)
+                                img(src=url alt="Home" class="h-[6rem] w-[15rem]" onerror="this.src='/img/fallback/no-image-found.png'")
+
+                            div(class=`absolute left-[${dist(1.5)}rem] top-[14.2rem]  border border-gray-400`)
+                                img(src=url alt="Home" class="h-[6rem] w-[15rem]" onerror="this.src='/img/fallback/no-image-found.png'")
+
+
+
+                            //- सामान्य QR
+                            div(class=`absolute left-[18.5rem] top-[14.2rem]  border border-gray-400`)
+                                img(class="size-20 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+
+                            div(class=`absolute left-[${dist(18.5)}rem] top-[14.2rem]  border border-gray-400`)
+                                img(class="size-20 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                
+                               
+
+
+                            //- पाणी
+                            div(class=`absolute left-[25.5rem] top-[14.2rem]  border border-gray-400`)
+                                img(class="size-20 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_water_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+
+                            div(class=`absolute left-[${dist(25.5)}rem] top-[14.2rem]  border border-gray-400`)
+                                img(class="size-20 z-[10] border border-gray-200 rounded-md overflow-hidden" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_water_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+
+
+
+
+                            - 
+                                let taxes = [
+                                    {name: 'इमारत कर', last: value.lastBuildingTax, current: value.currentBuildingTax},
+                                    {name: 'इतर/मागील घर पट्टीवर दंड कर', last: Math.round(value.lastTaxFine || 0) + Math.round(value.lastYearTaxFine || 0), current: value.lastTaxRelief},
+                                    {name: 'दिवाबत्ती कर', last: value.lastDivaTax, current: value.currentDivaTax},
+                                    {name: 'विशेष/सामान्य पाणी पट्टी कर', last: Math.round(value.lastSpacialWaterTax) + Math.round(value.lastGenealWaterTax), current: Math.round(value.currentSpacialWaterTax) + Math.round(value.currentGenealWaterTax)},
+                                    {name: 'आरोग्य कर', last: value.lastArogyaTax, current: value.currentArogyaTax},
+                                    {name: 'स्वच्छता कर', last: value.lastCleaningTax, current: value.currentCleaningTax},
+                                    {name: 'वारंट फी', last: 0, current: 0},
+                                ]
+
+                            - let totalLast = 0;
+                            - let totalCurrent = 0;
+                            - let totalBoth = 0;
+
+                            //- this for distace/space calculation
+                            - let rowOffset = 0;
+                            - let colOffset = 6.2
+                            - let firstColDist = 14.2
+                            - let distanceBetweenRows = 1.54
+                            each taxRow, _index in taxes
+                                //- FOR left copy
+                                div(class=`absolute left-[${firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.last)}
+
+                                div(class=`absolute left-[${colOffset + firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.current)}
+
+                                div(class=`absolute left-[${colOffset * 2 + firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.last + taxRow.current)}
+
+                                //- FOR RIGHT COPY 
+                                div(class=`absolute left-[${dist(firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.last)}
+
+                                div(class=`absolute left-[${dist(colOffset + firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.current)}
+
+                                div(class=`absolute left-[${dist(colOffset * 2 + firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                    span #{Math.round(taxRow.last + taxRow.current)}
+
+                                
+                                - totalLast += Math.round(taxRow.last)
+                                - totalCurrent += Math.round(taxRow.current)
+                                - totalBoth += Math.round(taxRow.last + taxRow.current)
+
+                                - rowOffset += distanceBetweenRows // this 1.54 rem for each row offset
+                                
+
+                            //- FOR left copy
+                            //- Total Calculation 
+                            div(class=`absolute left-[${firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalLast)}
+
+                            div(class=`absolute left-[${colOffset + firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalCurrent)}
+
+                            div(class=`absolute left-[${colOffset * 2 + firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalLast + totalCurrent)}
+
+                            //- FOR RIGHT COPY 
+                            //- Total Calculation
+                            div(class=`absolute left-[${dist(firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalLast)}
+
+                            div(class=`absolute left-[${dist(colOffset + firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalCurrent)}
+
+                            div(class=`absolute left-[${dist(colOffset * 2 + firstColDist)}rem] top-[${25 + rowOffset}rem] text-sm`)
+                                span #{Math.round(totalLast + totalCurrent)}
+
+ 
+
+                            div(class=`absolute opacity-1 left-[7.2rem] top-[44.49rem] font-bold text-indigo-600 text-[0.61rem] bg-white`) घेणाऱ्याची सही
+
+
+
+                            //- for signature
+                            img(src="/print/sp.jpeg" onerror="this.style.display='none'" class=`absolute opacity-1 left-[22.5rem] top-[40.78rem] bg-indigo-900 bg-red w-[100px] h-[40px]`)
+                            
+                            img(src="/print/sp.jpeg" onerror="this.style.display='none'" class=`absolute opacity-1 left-[${dist(22.5)}rem] top-[40.78rem] bg-indigo-900 bg-red w-[100px] h-[40px]`)
+
+                            
+                            p(class=`absolute opacity-1 left-[21.5rem] font-bold text-indigo-600 top-[44.44rem] text-[0.64rem]`) #{gp.gp_name}
+                            p(class=`absolute opacity-1 left-[${dist(21.5)}rem] font-bold text-indigo-600 top-[44.44rem] text-[0.64rem]`) #{gp.gp_name}
+
+                            
+                            //- Stamps
+                            if gp && gp.sarpanch_stamp_display == 1
+                                img(class=`absolute opacity-1 left-[22.5rem] top-[44.45rem] bg-indigo-900 bg-red w-[100px] h-[40px]` src=`/uploads/images/gp/stamps/${gp.sarpanch_stamp_image_name}`)
+
+                                img(class=`absolute opacity-1 left-[${dist(22.5)}rem] top-[44.45rem] bg-indigo-900 bg-red w-[100px] h-[40px]` src=`/uploads/images/gp/stamps/${gp.sarpanch_stamp_image_name}`)
+                            

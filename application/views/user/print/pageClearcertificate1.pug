@@ -1,0 +1,239 @@
+doctype html
+head
+  title थकबाकी प्रमाणपत्र
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js")
+  style.
+
+    @media print {
+      @page{
+        size: A4 portrait;
+      }
+      .my-print{
+        position: relative;
+        page-break-before: always;
+      }
+      table{
+        page-break-inside: avoid;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.3;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .main-heading {
+      margin-left:10%
+    }
+
+    .heading-second{
+      margin-left:30%
+    }
+
+    .heading-second-2{
+      margin-left:30%
+    }
+
+    #table2 {
+      width:100% !important;
+      border: 1px solid black;
+    }
+
+    #table2 tr { 
+      border: 1px solid black;
+    }
+
+    #table2 td {
+      padding-left:10px !important;
+      padding-right:10px !important;
+    }
+
+    .set-height > td {
+      height: 100px;
+    }
+
+    .c-0 {
+      page-break-before: always;
+    }
+
+    .img{
+      width:65px;
+      height:70px;
+    }
+
+    .img1{
+      15px !important;
+    }
+
+    .span-box{
+      padding:3px 5px;
+      margin: 5px 5px;
+      margin-top: 10px !important; 
+      border:1px solid black;
+    }
+
+    .h7{
+      font-size: 18px !important;
+    }
+
+    .h8{
+      font-size: 16px !important;
+    }
+
+    .text-j {
+      line-height: 2;
+      text-align: justify
+    }
+
+    body{
+      width: 210mm; 
+      height: 297mm;
+    }
+
+    .cirtificate-body p{
+      line-height:42px
+    }
+
+    .waterMark{
+      position: absolute;
+      opacity: 0.3;
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      width: 500px;
+      height: 500px;
+    }
+
+    .my-print{
+      position: relative;
+    }
+
+    p{
+      margin-bottom: 1rem !important;
+    }
+
+
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+    // Your code here
+    //- console.log('Document fully loaded and parsed');
+      const _data = !{JSON.stringify(userInfo)};
+      const _gp = !{JSON.stringify(zp)};
+
+
+      //- const qrData = JSON.stringify(_data);
+      const _dataString = `नाव : ${_data.certificateHolderNameM} \nName of Certificate Holder :${_data.certificateHolderNameE}\nआधार क्रमांक: ${_data.certificateAadharM}\nAadhar Number: ${_data.certificateAadharE}\nगाव : ${_data.certificateVillageM}\Village:${_data.certificateVillageE}\nतालुका : ${_data.certificateTalukaM}\Taluka: ${_data.certificateTalukaE} \nजिल्हा: ${_data.certificateDistM} \District: ${_data.certificateDistE}\n ग्रामपंचायत: ${_gp.gp_name}`;
+      //- console.log(_dataString.length)
+      var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:150, height:150});
+    });
+body
+  each val,index in userInfo
+
+    - var  className = 'row my-print c-'+(index%2); 
+    div(class=className)
+      img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png") 
+      .col-12
+        table#table2
+          thead
+            tr.p-0.m-0
+              td(colspan="3" )
+                center
+                  p.ml-2.h7.font-weight-bold.mt-3 
+                    span  ग्राम पंचायत कार्यालय
+                    u  #{zp.gp_name} 
+                    span ता. 
+                    u  #{zp.gp_taluka}
+                    span   जि &nbsp;&nbsp;
+                    u #{zp.gp_dist}
+                  p.ml-2.h7.font-weight-bold.mb-1
+                    span Grampanchayat Office 
+                    u  #{zp.gp_name} 
+                    span Tal. 
+                    u  #{zp.gp_taluka}
+                    span   Dist.&nbsp;&nbsp;
+                    u #{zp.gp_dist}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="3").mt-5
+                .row.p-0.m-0
+                  .col-12.p-0.m-0.mt-5.cirtificate-body
+                    h3.pt-1.pb-1.m-0.ml-2.font-weight-bold.text-center
+                      u थकबाकी नसल्याचे प्रमाणपत्र No dues certificate
+                    p.mb-1.h8.pt-1.m-0.ml-2.text-right.mr-5.mt-5
+                      |  जा.क्र.: #{val.id}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;दिनांक: #{data}
+                    p.mb-3.h8.pt-1.m-0.ml-2.text-right.mr-5 
+                      |  Dispatch no: #{val.id}   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: #{data}
+                    p.h7.mt-3.ml-3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      span प्रमाणित करण्यात येते की, Certified that
+                    p.h7.ml-3 
+                      span  ग्रामपंचायत अधिकारी/ग्रामविकास अधिकारी ग्रामपंचायत 
+                      strong #{zp.gp_name}  
+                      span , ता. 
+                      strong #{zp.gp_taluka}
+                      span , जि. 
+                      strong #{zp.gp_dist}
+                    p.h7.ml-3
+                      span   Gramsevak /Village Development Officer, Grampanchayat 
+                      strong  #{zp.gp_name} 
+                      span , tal. 
+                      strong  #{zp.gp_taluka} 
+                      span , Dist.
+                      strong  #{zp.gp_dist}
+
+                    p.h7.ml-3
+                      span  यांजकडून दाखला देण्यात येतो की, श्री./श्रीमती 
+                      strong  #{val.certificateHolderNameM}
+                    p.h7.ml-3 
+                      span  Is issuing the certificate that Mr.Mrs.
+                      strong  #{val.certificateHolderNameE}
+                    p.h7.ml-3
+                      span  आधारकार्ड क्र. :
+                      strong   #{val.certificateAadharM} 
+                      span     Adhar Card Number: 
+                      span    #{val.certificateAadharE}
+                    p.h7.ml-3
+                      span   हे/ह्या मौजे
+                      strong   #{val.certificateVillageM} 
+                      span   ता. 
+                      strong  #{val.certificateTalukaM}
+                      span   जि.
+                      strong  #{val.certificateDistM},
+                      span    महाराष्ट्र येथील कायमचे रहिवासी असून
+                    p.h7.ml-3 
+                      span  Is a permanent resident. Of 
+                      strong   #{val.certificateVillageE} 
+                      span   tal. 
+                      strong  #{val.certificateTalukaE}
+                      span   Dist
+                      strong  #{val.certificateDistE},
+                      span   Maharashtra
+                    p.h7.ml-3 
+                      span  त्यांच्याकडे ग्रामपंचायतीची कोणत्याही(सामान्य व पाणी कर) प्रकारची थकबाकी नाही.And he/she has no balance due to
+                      span  towards Grampanchayat.
+                    p.h7.ml-3 
+                      span  सदर दाखला त्यांचे विनंती अर्जानुसार देण्यात येत आहे. Certificate is issued on request of applicant. 
+                    p.h7.ml-3 
+                      span  ठिकाण : #{place}
+                    p.h7.ml-3 
+                      span  Place : #{place}
+                   
+                    div(style="margin-bottom: 5px; display: flex; justify-content: end;")
+                      #qr-code(style="").mr-5
+
+            tr.p-0.m-0(height='100px')
+              td.pt-0.pb-0.p-0.m-0.mt-5(colspan="3" width="30%")
+                .row.p-0.m-0.mt-5
+                  .col-8.p-0.m-0.t-5
+                  .col-4.p-0.m-0
+                    div
+                      p.ml-2.h6.font-weight-bold.text-center 
+                        span सही व शिक्का Signature with stamp
+                        br
+                        span ग्रामपंचायत अधिकारी/ग्रामविकास अधिकारी  
+
+
+

@@ -1,0 +1,36 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    section
+        div(class='container')
+
+            h2(class='heading-1 text-center mb-4')
+                | अर्ज
+
+            div(class='row justify-content-center g-3')
+
+                -
+                    const menu = [
+                        //- { label: 'ग्रा.प.१ ते ७ दाखले सेवा मागणी अर्ज', href: '/application', icon: 'fa-file-text-o' },
+                        { label: 'तक्रार अर्ज', href: '/complaints/list', icon: 'fa-exclamation-circle' },
+                        { label: 'नागरिक नोंदणी रिपोर्ट', href: '/nagrik/report', icon: 'fa-users' },
+                        //- { label: 'फेरफार / नामांतर करण्यासाठी अर्ज', href: '/gp-applications/f8-ferfar/list', icon: 'fa-exchange' },
+                        { label: 'इमारत बांधकाम परवानगी अर्ज', href: '/gp-applications/construction/list', icon: 'fa-exchange' }, 
+                        { label: 'जॉब कार्ड अर्ज', href: '/gp-applications/job-card/list', icon: 'fa-briefcase' }, 
+                        { label: 'वैयक्तिक सामूहिक रोजगार मागणीचा अर्ज यादी', href: '/gp-applications/emp-demand/list', icon: 'fa-briefcase' }, 
+                        { label: 'नागरिकांना सेवा सुविधा अर्ज', href: '/gp-applications/to-seva/list', icon: 'fa-briefcase' }, 
+                        { label: 'व्यवसाय ना हरकत अर्ज (कुक्कुट पालनासाठी)', href: '/gp-applications/occupation-noc/list', icon: 'fa-briefcase' }, 
+                    ]
+
+                each menuItem in menu
+                    div(class='col-6 col-md-3 col-lg-2')
+                        a(href=menuItem.href class='d-block text-decoration-none h-100')
+                            div(class='box box--white h-100 d-flex align-items-center justify-content-center p-3')
+                                div(class='w-100 text-center')
+                                    i(class='fa ' + menuItem.icon + ' fa-2x mb-2 d-block')
+                                    span(class='fw-semibold small d-block')
+                                        | #{menuItem.label}

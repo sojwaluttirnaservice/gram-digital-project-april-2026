@@ -1,0 +1,257 @@
+.row
+    .col-12
+        .row.mt-2.mx-2(style='row-gap: 1rem;')
+
+            .col-12 
+                if !isMasterView
+
+                    h3.text-danger.border.border-danger.p-2.mb-3(style='border-width: 2px; background-color: #f8d7da; font-weight: bold;')
+                        | हे मुख्य गाव असल्यास खालील माहिती भरा
+
+            .col-12.col-sm-2
+                label.form-label गावाचे नाव 
+                input#inputGramVellageName.form-control(type='text' placeholder="eg. मासोद")
+            .col-12.col-sm-4
+                label.form-label गावाचा URL 
+                input#inputGramVellageUrl.form-control(type='text' placeholder="http://g-seva.com/")
+            .col-6.col-sm-3
+                label.form-label गावाचे पुरुष संख्या 
+                input#inputGramVellageMale.form-control(type='number' placeholder="eg.145")
+            .col-6.col-sm-3
+                label.form-label गावाचे स्त्री संख्या 
+                input#inputGramVellageFemale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label SC (पुरुष) संख्या
+                input#inputSCCountMale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label SC (स्त्रिया) संख्या
+                input#inputSCCountFemale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label SC संख्या
+                input#inputSCCount.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label ST (पुरुष) संख्या
+                input#inputSTCountMale.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label ST (स्त्रिया) संख्या
+                input#inputSTCountFemale.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label ST संख्या
+                input#inputSTCount.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label NT (पुरुष) संख्या
+                input#inputNTCountMale.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label NT (स्त्री) संख्या
+                input#inputNTCountFemale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label NT संख्या
+                input#inputNTCount.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label OBC (पुरुष)  संख्या
+                input#inputOBCCountMale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label OBC (स्त्री)  संख्या
+                input#inputOBCCountFemale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label OBC संख्या
+                input#inputOBCCount.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label Open/Others (पुरुष) संख्या
+                input#inputOpenOthersCountMale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label Open/Others (स्त्री)  संख्या
+                input#inputOpenOthersCountFemale.form-control(type='number' placeholder="eg.145") 
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label Open/Others संख्या
+                input#inputOpenOthersCount.form-control(type='number' placeholder="eg.145") 
+
+
+
+
+        hr
+
+        .row.mt-2.mx-2(style='row-gap:1rem')
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label वार्ड संख्या
+                input#ward_numbers.form-control(type='number' placeholder="eg.145") 
+
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label एकूण सदस्य संख्या
+                input#total_members.form-control(type='number' placeholder="eg.10")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label थेट निवडून आलेले सरपंच
+                input#sarpanch_directly_elected_count.form-control(type='number' placeholder="eg.1")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label घरे संख्या
+                input#home_count.form-control(type='number' placeholder="eg.250")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label क्षेत्र (हेक्टर्स)
+                input#area_in_sq_hectare.form-control(type='number' placeholder="eg.6.5")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label क्षेत्र (किमी²)
+                input#area_in_sq_km.form-control(type='number' placeholder="eg.0.75")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label मतदार संघ क्रमांक
+                input#constituency_number.form-control(type='text' placeholder="eg.06")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label मतदार संघाचे नाव
+                input#constituency_name.form-control(type='text' placeholder="eg.Yavatmal-Washim")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label विधानसभा क्रमांक
+                input#assembly_constituency_number.form-control(type='text' placeholder="eg.33")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label विधानसभा नाव
+                input#assembly_constituency_name.form-control(type='text' placeholder="eg.Risod Malegaon")
+
+
+        hr
+
+        .row.mt-2.mx-2(style='row-gap:1rem')
+            .col-6.col-sm-4.col-md-2
+                label.form-label कुटुंब संख्या
+                input#number_of_households.form-control(type='number' placeholder="eg.400")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label शौचालय असलेली कुटुंबे
+                input#number_of_households_having_toilets.form-control(type='number' placeholder="eg.350")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label हागणदारी मुक्ती वर्ष वर्ष
+                input#open_defecation_free_year.form-control(type='text' placeholder="eg.2019")
+
+            .col-6.col-sm-4.col-md-4
+                label.form-label हागणदारी मुक्ती शेरा
+                input#odf_plus_remarks.form-control(type='text' placeholder="Remarks...")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label कचरा व्यवस्थापन जोडलेली कुटुंबे
+                input#households_connected_to_waste_management.form-control(type='number' placeholder="eg.300")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label शोषखड्डे
+                input#soak_pits.form-control(type='number' placeholder="eg.25")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label व्यवस्थापन प्रकार
+                input#waste_management.form-control(type='text' placeholder="e.g. Liquid & Solid")
+
+            .col-6.col-sm-4.col-md-4
+                label.form-label टाकीचे ठिकाण
+                input#tank_location.form-control(type='text' placeholder="e.g. Central Chowk")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label टाकी क्षमता (ली.)
+                input#tank_capacity.form-control(type='number' placeholder="e.g. 5000")
+
+            .col-6.col-sm-4.col-md-3
+                label.form-label जबाबदार कर्मचारी
+                input#staff_in_charge.form-control(type='text' placeholder="e.g. Mr. Pawar")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label सामान्य दर (₹)
+                input#normal_rate.form-control(type='number' step='0.01' placeholder="e.g. 2.50")
+
+            .col-6.col-sm-4.col-md-2
+                label.form-label विशेष दर (₹)
+                input#special_rate.form-control(type='number' step='0.01' placeholder="e.g. 1.75")
+        hr
+
+        .row.mt-2.mx-2(style='row-gap:1rem')
+            .col-12.mt-4
+                label.form-label आरोग्य उपकेंद्र माहिती
+                #healthSubCentersContainer
+
+
+                button.btn.btn-sm.btn-outline-primary(type='button' onclick='addHealthSubCenterRow()') + उपकेंद्र जोडा
+            .col-12.mt-2.text-center
+                button.mt-4#btnGramVellage.btn.btn-outline-primary जतन करा
+
+        .row.mt-4.mx-auto
+            .col-12
+                .table-responsive
+                    table.table.table-striped
+                        thead
+                            tr
+                                th गावाचे नाव
+                                th URL
+                                th पुरुष संख्या
+                                th स्त्री संख्या 
+
+                                th SC (पुरुष) संख्या 
+                                th SC (स्त्री) संख्या 
+                                th SC संख्या 
+
+                                th ST (पुरुष) संख्या 
+                                th ST (स्त्री) संख्या 
+                                th ST संख्या 
+
+                                th NT (पुरुष) संख्या 
+                                th NT (स्त्री) संख्या 
+                                th NT संख्या 
+
+                                th OBC (पुरुष) संख्या 
+                                th OBC (स्त्री) संख्या 
+                                th OBC संख्या 
+
+                                th Open/Others (पुरुष) संख्या 
+                                th Open/Others (स्त्री) संख्या 
+
+                                th Open/Others संख्या 
+                                th Action
+
+                        tbody#gramVillagesList 
+
+script.
+
+    function addHealthSubCenterRow() {
+        const container = document.getElementById('healthSubCentersContainer');
+        const index = container.children.length;
+
+        const row = document.createElement('div');
+        row.className = 'row mb-2';
+
+        row.innerHTML = `
+        <div class="col-md-4">
+            <input class="form-control" name="health_sub_centers[${index}][name]" placeholder="उपकेंद्राचे नाव" required />
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" name="health_sub_centers[${index}][worker_name]" placeholder="सेविकेचे नाव" required />
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" name="health_sub_centers[${index}][contact]" placeholder="मोबाईल क्रमांक" required />
+        </div>
+        `;
+        container.appendChild(row);
+    }

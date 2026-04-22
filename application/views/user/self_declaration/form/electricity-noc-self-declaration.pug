@@ -1,0 +1,61 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../include/internal-gp-master-layout.pug
+
+//- =======================================================
+//- PAGE SPECIFIC JS
+//- =======================================================
+block custom_js
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js") 
+    script(src="/asstest/coustom/js/handlers/self-declaration/self-declaration-form-handler.js")
+
+//- =======================================================
+//- CONTENT
+//- =======================================================
+block content
+    section
+        //- FULL WIDTH PAGE
+        .container-fluid
+            .row
+
+                //- ===============================
+                //- PAGE TITLE
+                //- ===============================
+                .col-12
+                    h5.text-center.font-weight-bold.my-3 #{title} स्वयम् घोषणापत्र
+
+                .col-12.text-end.mb-3
+                    a.btn.btn-primary.btn-sm(href=`/self-declaration${cert ? `?cert=${cert}` : ''}`) यादी बघा
+
+                //- ===================================================
+                //- FORM WRAPPER (CONTROLLED WIDTH – IMPORTANT)
+                //- ===================================================
+                .col-12.col-xl-10.col-xxl-8.mx-auto
+                    form#self-declaration-form
+
+                        //- ===================================================
+                        //- CARD 1 : COMMON DETAILS
+                        //- ===================================================
+                        include ./common-details-card.pug
+                        //- ===================================================
+                        //- CARD 2 : DECLARATION DETAILS
+                        //- ===================================================
+                        .card.mb-4
+                            .card-header.bg-info.font-weight-bold
+                                | स्वयं घोषणापत्र माहिती
+
+                            .card-body
+                                .row.g-3
+
+                                    .col-12
+                                        label.font-weight-bold प्रमाणपत्राचा विषय:
+                                        input.form-control.form-control-sm(type="text",readonly, name="applicationSubject" value=certificateSubject.subject_name)
+
+                                    .col-12
+                                        label.font-weight-bold अर्ज करण्याचे कारण:
+                                        textarea.form-control.form-control-sm(rows="3",name="certificateReason")
+
+
+                        //- Required documents
+                        include ./documents-list-card.pug 

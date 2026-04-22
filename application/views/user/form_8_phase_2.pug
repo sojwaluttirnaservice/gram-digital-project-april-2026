@@ -1,0 +1,352 @@
+doctype html
+head
+    title नमुना ८ phase - 2
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous")
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous")
+
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    style.
+        .error {
+            background-color:yellow;
+            padding:2px;
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+
+        tr, th, td{
+            border: 0.5px solid gray !important;
+            padding: 0.3rem;
+        }
+
+        select {
+            max-width: 90%
+            margin-left: 0.5rem;
+        }
+
+        .select2-selection.select2-selection--single{
+            max-width: 100%
+        }
+
+body
+    include ./include/navs.pug
+    .container-fluid
+        form.row.p-0.mx-auto
+            .col-12.p-0
+                .card-group
+                    .card.bg-light-gray
+                        .card-body.p-0.p-1.pt-3
+                            .row(style='gap: 1rem;')
+                                .col-12
+                                    center
+                                        span.font-weight-bold
+                                            | महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/ फाल्गुन १३ शके १९३७ नुसार नमूना ८ नियम ३२(९)
+                                        h4.font-weight-bold.m-3 मालमत्तेची संपूर्ण कराची माहिती भरणे 
+                                    hr
+                                
+                                
+                                    //- div.bg-danger
+                                    div(class='d-flex justify-content-center')
+                                        .form-group.mx-sm-3.mb-2
+                                            select#selectSearch-1.form-control.bg-white
+                                                option(value="1") नाव
+                                                option(value="2") मामत्ता क्र
+                                                option(value="3") अनु/घर क्रमांक टाका
+                                                option(value='4') भोगवटदाराचे नाव
+                                        .form-group.mx-sm-3.mb-2
+                                            input#homeId-type.form-control(type='text' placeholder='विकल्प निवडा')
+                                            input#homeId.form-control(type='hidden' placeholder='विकल्प निवडा')
+                                        button#btnGetUserDetails.btn.btn-primary.mb-2.d-none(type='submit') माहित पहा
+                                            
+                    
+
+                                .col-12.col-lg-12  
+                                    .card
+                                        .card-header.bg-warning.font-weight-bold.text-center धारकाची माहिती
+                                        .card-body
+                                            .row
+                                                .col-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') अनु / घर क्रमांक
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.id)
+                                                .col-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input')  मालमत्ता क्र.
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_malmattaNo)
+                                                .col-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') वार्ड नं
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_wardNo)
+                                                .col-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_homeNo)
+                                                .col-12.col-xs-6.col-lg-6
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_ownerName)
+                                                .col-12.col-xs-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_secondOwnerName)
+                                                .col-12.col-xs-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_gaatNo)
+                                                .col-12.col-sm-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') जागेची लांबी (पु./प.)
+                                                        input.isNaN.form-control-sm.form-control(type='text' readonly value=user.feu_areaHeight)
+                                                .col-12.col-sm-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') जागेची रुंदी (उ./द.)
+                                                        input.isNaN.form-control-sm.form-control(type='text' readonly value=user.feu_areaWidth)
+                                                .col-12.col-sm-6.col-lg-3
+                                                    .form-group    
+                                                        label.form-label.font-weight-bold(for='my-input') एकूण जागेचे क्षेत्रफळ (चौ.फुट)
+                                                        input#newTotalArea.form-control-sm.form-control(type='text' readonly value=user.feu_totalArea)
+                                                .col-12.col-sm-6.col-lg-3
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                                                        input.form-control-sm.form-control(type='text' readonly value=user.feu_totalAreaSquareMeter)
+                                                .col-12.col-sm-6.col-lg-12
+                                                    .form-group
+                                                        //- p#textDetails.h4.text-danger er4545
+
+                                .col-12.col-lg-12
+                                    .card
+                                        //- .card-header.bg-warning.font-weight-bold.text-center धारकाची माहिती
+                                        .card-body
+                                            .row.gx-3.w-100
+                                                .col-12.col-md-12.col-xl-4
+                                                    .form-group
+                                                        label.form-label.font-weight-bold(for='my-input') मालमत्तेचे वर्णन 
+                                                        select.form-select#propertyDesc(aria-label="Default select example")
+
+                                                .col-12.col-md-12.col-xl-4
+                                                    .form-group 
+                                                        label.form-label.font-weight-bold(for='my-input') बांधकामाचे विवरण
+                                                        select.form-select#propertySpecification 
+                                                .col-12.col-md-12.col-xl-4
+                                                    .form-group 
+                                                        label.form-label.font-weight-bold(for='my-input') बांधकामाचे प्रकार
+                                                        select.form-select#bahandkamPrakar
+                                                .col-12
+                                                    p.text-danger.text-center.font-weight-bold नोंदणी वर्ष फक्त निवासी / वाणिज्य / औद्योगिक असल्यास निवडा
+
+                                                //-
+                                                .col-12.col-lg-7.col-xl-6
+                                                    .row.justify-content-between
+                                                        .col-3.col-lg-4
+                                                            .form-group 
+                                                                label.form-label.font-weight-bold(for='my-input') चालू वर्ष
+                                                                input#taxYearOne.form-control-sm.form-control(type='text' name='' readonly)
+                                                        .col-5.col-lg-4
+                                                            .form-group 
+                                                                label.form-label.font-weight-bold(for='my-input') 
+                                                                    | इमारतीचे बांधकाम वर्ष
+                                                                input#taxYearTwo.form-control-sm.form-control   
+
+                                                        .col-3.col-lg-4
+                                                            .form-group 
+                                                                label.form-label.font-weight-bold(for='my-input') वार्षिक अंतर   
+                                                                input#taxYearCount.form-control-sm.form-control(type='number' name='' value="0")
+
+                                                .col-12.col-lg-5.col-xl-6
+                                                    .row
+                                                        .col-12.col-sm-6.col-lg-3
+                                                            .form-group
+                                                                label.form-label.font-weight-bold(for='my-input') जागेची लांबी
+                                                                input#idTaxHeight.isNaN.form-control.form-control-sm(type='text' name='')
+                                                        .col-12.col-sm-6.col-lg-3
+                                                            .form-group
+                                                                label.form-label.font-weight-bold(for='my-input') जागेची रुंदी
+                                                                input#idTaxWidth.isNaN.form-control.form-control-sm(type='text')
+                                                        .col-12.col-sm-6.col-lg-3
+                                                            .form-group
+                                                                label.form-label.font-weight-bold(for='my-input') एकूण क्षेत्रफळ
+                                                                input#idTaxTotalArea.form-control.form-control-sm(type='text' name='')
+                                                        .col-12.col-sm-6.col-lg-3
+                                                            .form-group
+                                                                label.form-label.font-weight-bold(for='my-input') एकूण चौ.मी.
+                                                                input#idTaxSqMeter.form-control.form-control-sm(type='text' name='' )
+                                                .col-12
+                                                    .form-group.text-center
+                                                        button(type='button')#calculateDetails.btn.btn-sm.btn-primary.mt-4
+                                                            span.fa.fa-refresh 
+                                                            |  Calculate
+
+                                .col-11
+                                    p.ml-4.mb-1#textDetails.h4.text-danger
+
+                                .col-12 
+                                    .row.d-none.preCalculation
+                                        hr
+                                        .col-12
+                                            p.text-center.text-danger.h5 भांडवली मुल्यांकनानुसार आकारण्यात आलेली कर आकारणी खालील प्रमाणे 
+                                        .col-12.col-lg-4
+                                            table.table.table-bordered.preDetailsTableOne
+
+                                        .col-12.col-lg-4
+                                            table.table.table-bordered.preDetailsTableTwo
+                                        .col-12.col-lg-4
+                                            table.table.table-bordered.preDetailsTableThree 
+                                        .col-12
+                                            center
+                                                button(type='button')#saveTaxSample.btn.btn-success.float-center.btn-sm 
+                                                    span.fa.fa-floppy-o.mr-2
+                                                    | नमुना जतन करा
+                                .col-12.d-none.taxSampleCol
+                                    hr
+                                    p.h5.text-center.text-danger मालमत्तेच्या संदर्भात संपूर्ण माहिती खालील प्रमाणे 
+                                    div(style="overflow-x:auto;")  
+                                        center
+                                            table(border="1").bg-table-on-gray 
+                                                thead
+                                                    tr.text-center
+                                                        th(width="8%") मालमत्तेचे वर्णन 
+                                                        th(width="10%") बांधकामाचे विवरण
+                                                        th(width="10%") बांधकामाचे प्रकार
+                                                        th(width="5%") इ.बां. वर्ष
+                                                        th(width="5%") एकूण वर्ष
+                                                        th(width="1%") लांबी
+                                                        th(width="1%") रुंदी
+                                                        th(width="5%") एकूण क्षेत्रफळ
+                                                        th(width="5%") एकूण चौ.मी.
+                                                        th(width="5%") जमिन दर
+                                                        th(width="8%") रेडीनेटर दर 
+                                                        th(width="7%") घसारा दर
+                                                        th(width="1%") भारांक
+                                                        th(width="5%") भां मू किं
+                                                        th(width="5%") कारचा दर
+                                                        th(width="5%") कर आ.
+                                                        th(width="5%") Action
+
+                                                tbody.taxSampleTbody.text-center
+                                                    tr
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+                                                        td
+
+                                .col-12.d-none.taxSampleCol
+                                    hr
+                                    p.h5.text-center.text-danger मुल्यांकनानुसार आकारण्यात आलेला कर  
+                                    div(style="overflow-x:auto;")
+                                        center
+                                            table(border="1" style='width:100%').bg-table-on-gray
+                                                thead
+                                                    tr.text-center(style='font-size:0.95rem')
+                                                        th(width="11%") एकूण बांधकाम (चौ.फुट)
+                                                        th(width="12%") एकूण खुली जागा (चौ.फुट)
+                                                        th(width="14%") एकूण जागेचे क्षेत्रफळ (चौ.फुट)
+                                                        th(width="6.5%") इमारत कर 
+                                                        th(width="6.5%") खुला कर
+                                                        th(width="6.5%") इतर
+                                                        th(width="6.5%") दिवा कर
+                                                        th(width="6.5%") आरोग्य कर
+                                                        th(width="6.5%") स्वच्छता कर
+                                                        th(width="6.5%") शिक्षण कर
+                                                        th(width="6.5%") वृक्ष कर
+                                                        th(width="6.5%") अग्नी कर
+                                                        th(width="10%") एकूण कर
+                                                    tbody.text-center.totalTaxSampleTbody
+
+                                .col-12.mt-5
+                                    .d-flex.justify-content-end
+                                        button(type='button').navToNextForm8Tax.btn.btn-success.mr-4.mb-4 पुढील नमुना ८ कर भरा                       
+                                        a(href="/form-8").btn.btn-primary.mb-4 नवीन नमुना ८ भरा 
+        
+    script.
+        $(document).ready(function() {
+            var currentYear =  formTaxHandler.currentYear;
+            $('#taxYearOne').val(currentYear);
+            /* for(currentYear; currentYear > 1920; currentYear-- ){
+                $('#taxYearTwo').append(`<option value="${currentYear}">${currentYear}</option>`);
+                        }*/
+            // $('#taxYearTwo').select2().val("").trigger("change");
+                $('#bahandkamPrakar').select2({placeholder: "Select a option"}).val("").trigger("change");
+                $('#propertySpecification').select2({placeholder: "Select a option"}).val("").trigger("change");
+                formTaxHandler.userDetails = !{jsUser};
+                formTaxHandler.bahandkamPrakar = !{bahandkamPrakar};
+                formTaxHandler.propertyDesc = !{propertyDesc};
+                formTaxHandler.propertySpecification = !{propertySpecification};
+                formTaxHandler.ghasaraRate = !{ghasaraRate}
+                formTaxHandler.arogyaDivaKar = !{arogyaDivaKar};
+
+                formTaxHandler.getFormEightTax();
+        });
+
+    script(src='/asstest/coustom/js/handlers/new-form-8-tax.js')
+    script.
+        $(document).on("click", ".removeTaxDetails", function (e) {
+            console.log('removing !!!')
+            var sendData = {
+                id: formTaxHandler.userDetails[0].id,
+                remove_tax_id: Number($(this).data("id")),
+            };
+            alertjs.delete(function(status){
+                if(status == true){
+
+                    var data = {
+                        url: "/form-8/removeSingleTaxSample",
+                        method: "post",
+                        data: sendData,
+                    };
+                    commonHandler.ajaxManager(data, function (type, data) {
+                        if (type == false) {
+                            alert("You Have An Error, PLease check Console"); 
+                            console.log(data);
+                            return false;
+                        }
+                        if (data.call == 1) {
+                            alertjs.success(
+                                {
+                                    t: "कर नमुना",
+                                    m: "माहिती यशस्वी रित्या काढल्या गेली.",
+                                },
+                                function () {
+                                    formTaxHandler.getFormEightTax();
+                                }
+                            );
+                        }
+                    });
+                }
+            })
+        });             

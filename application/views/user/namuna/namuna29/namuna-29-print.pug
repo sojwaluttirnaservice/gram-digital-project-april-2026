@@ -1,0 +1,179 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २९ 
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='20' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना २९ 
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २९ पहा)
+
+                            //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
+
+
+                tr 
+                    th(colspan='20')
+                        | कर्जाची नोंदवही
+                tr
+                    //- 1
+                    th(rowspan='2') अनु. क्र
+
+                    //- 2 to 5
+                    th(rowspan='2') कर्जाची उभारणेची साधने
+                    th(rowspan='2') कर्ज मंजूरी आदेश क्रमांक व दिनांक
+
+
+                    th(rowspan='2') कर्जाचे प्रयोजन
+                    //- 5 to 9
+                    th(rowspan='2') कर्जाची रक्कम
+
+                    th(rowspan='2') व्याज दर
+                    th(rowspan='2') कर्ज मिळाल्याची  तारीख
+
+
+                    th(rowspan='1' colspan='2') कर्ज व  व्याज परतफेडेच्या हफ्त्यांची संख्या व नियत तारीख
+                    th(rowspan='1' colspan='2') प्रत्येक हफ्त्यातील मुद्दलीची व व्याजाची रक्कम
+
+                    th(rowspan='2') सचिवाची सही
+
+                    th(rowspan='1' colspan='3') प्रदानाची तपशिल
+                    th(rowspan='1' colspan='3') शिल्लक रकमा
+
+                    th(rowspan='2') सचिवाची सही
+                    th(rowspan='2') शेरा
+
+                tr 
+                    //- 1 to 5
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    //- th
+                    //- th
+                    th(rowspan='1' colspan='1') मुद्दल
+                    th(rowspan='1' colspan='1') व्याज
+
+                    th(rowspan='1' colspan='1') कर्ज
+                    th(rowspan='1' colspan='1') व्याज
+
+                    //- th
+
+                    th(rowspan='1' colspan='1') दिनांक
+                    th(rowspan='1' colspan='1') मुद्दल
+                    th(rowspan='1' colspan='1') व्याज
+
+                    th(rowspan='1' colspan='1') एकूण
+                    th(rowspan='1' colspan='1') मुद्दल
+                    th(rowspan='1' colspan='1') व्याज
+
+                    //- th
+                    //- th
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                        th #{num}
+
+            tbody
+
+                each namuna29Entry, index in namuna29Details 
+                    //- each namuna29Entry, index in Array(20).fill(paymentnamuna29Entry).flat()
+                    tr 
+                        td #{index + 1}
+                        td #{namuna29Entry.loan_sources}
+                        td #{namuna29Entry.loan_approval_order_number}, #{namuna29Entry._loan_approval_order_date}
+                        td #{namuna29Entry.loan_purpose}
+                        td #{namuna29Entry.loan_amount} 
+                        td #{namuna29Entry.interest_rate} 
+                        td #{namuna29Entry._loan_received_date} 
+
+
+                        td #{namuna29Entry.installment_amount} 
+                        td #{namuna29Entry.installment_interest}
+
+                        td #{namuna29Entry.installment_principal}
+                        td #{namuna29Entry.installment_interest_amount}
+
+                        td
+
+                        td #{namuna29Entry._disbursement_date}
+                        td #{namuna29Entry.disbursement_principal}
+                        td #{namuna29Entry.disbursement_interest}
+
+
+                        td #{namuna29Entry.total_balance}
+                        td #{namuna29Entry.balance_principal}
+                        td #{namuna29Entry.balance_interest}
+                        td 
+                        td #{namuna29Entry.remarks}

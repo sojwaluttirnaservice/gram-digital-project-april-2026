@@ -1,0 +1,59 @@
+.row.justify-content-center
+    .col-12.col-md-10
+        h2.text-center विडिओ गॅलरी 
+
+        form(id='video-gallery-form')
+            .row.justify-content-center.justify-content-md-between.mb-3
+                .col-12.col-md-8.mb-3
+                    label.form-label विडिओ प्रकार निवडा:
+                    .form-check.form-check-inline
+                        input.form-check-input(type='radio' name='video_type' id='video-type-link' value='link' checked)
+                        label.form-check-label(for='video-type-link') विडिओ लिंक
+                    .form-check.form-check-inline
+                        input.form-check-input(type='radio' name='video_type' id='video-type-file' value='file')
+                        label.form-check-label(for='video-type-file') विडिओ फाईल
+
+                // विडिओ लिंक इनपुट
+                .col-12.col-md-8#video-link-group
+                    .form-group
+                        label.form-label(for='video-link') विडिओ लिंक
+                        input.form-control(type='text' id='video-link' name='video_link')
+
+                // विडिओ फाईल इनपुट
+                .col-12.col-md-8#video-file-group(style='display:none;')
+                    .form-group
+                        label.form-label(for='video-file') विडिओ फाईल
+                        input.form-control(type='file' id='video-file' name='video_file')
+
+                .col-12.col-md-8#video-file-group
+                    .form-group
+                        label.form-label(for='video-title') विडिओ शीर्षक
+                        input.form-control(type='text' id='video-title' name='video_title')
+
+                .col-12.col-md-8#video-file-group
+                    .form-group
+                        label.form-label(for='video-desc') विडिओ वर्णन
+                        input.form-control(type='text' id='video-desc' name='video_desc')
+
+
+                .col-12.col-md-4
+                    label.form-label.d-none.d-md-block(for='video-link' style='opacity: 0') t
+                    .text-center
+                        button.form-control.btn.btn-success(type='button' id='uploadNewVideoGalleryVideoBtn' style='width:fit-content') अपलोड करा
+
+
+        .row(style='row-gap: 1rem;')
+            each video in video_gallery
+                .col-12.col-md-6.col-lg-4.col-xl-4
+                    .card
+                        .card-body(style='padding: 0.1rem;')
+                            if video && video.video_link
+                                iframe.mt-3(style="height:9.5rem" width="100%" src=video.video_link, title="Gram Panchayat /ग्राम पंचायत" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+                            else 
+                                video(style='width: 100%; height: 9.5rem;' controls)
+                                    source(src=`/uploads/videos/videoGallery/${video.video_name}`)
+
+                            p.px-2 #{video.video_desc}
+                            .text-center
+                                button.btn(class='deleteVideoBtn' data-id = video.id)
+                                    i.fa.fa-trash.text-danger

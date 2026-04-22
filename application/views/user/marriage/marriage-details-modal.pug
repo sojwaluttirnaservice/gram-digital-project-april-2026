@@ -1,0 +1,190 @@
+//- ================= MARRIAGE DETAILS MODAL =================
+.modal.fade(tabindex="-1" id="marriage-details-modal")
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-ring.me-2.text-primary
+                    | विवाह नोंदणी अर्ज तपशील
+                button.btn-close(type="button" data-bs-dismiss="modal")
+
+            // ================= BODY =================
+            .modal-body.p-4(style="max-height: 75vh; overflow-y: auto;")
+
+                // ================= APPLICATION INFO =================
+                .card.mb-4.shadow-sm
+                    .card-body
+                        h6.fw-bold.text-secondary.mb-3 अर्ज माहिती
+                        .row.g-3
+                            .col-md-3
+                                label.form-label अर्ज क्रमांक
+                                input.form-control(readonly name="id")
+                            .col-md-3
+                                label.form-label अर्ज प्रकार
+                                input.form-control(readonly name="application_mode")
+                            .col-md-3
+                                label.form-label अर्ज स्थिती
+                                input.form-control(readonly name="application_status")
+                            .col-md-3
+                                label.form-label नोंदणी दिनांक
+                                input.form-control(readonly name="created_date")
+
+                // ================= HUSBAND DETAILS =================
+                .card.mb-4.shadow-sm
+                    .card-body
+                        h6.fw-bold.text-primary.mb-3 पतीची माहिती
+                        .row.g-3
+                            .col-md-4
+                                label.form-label नाव (English)
+                                input.form-control(readonly name="marriageHusbandNameE")
+                            .col-md-4
+                                label.form-label नाव (मराठी)
+                                input.form-control(readonly name="marriageHusbandNameM")
+                            .col-md-4
+                                label.form-label मोबाईल
+                                input.form-control(readonly name="marriageHusbandMobileE")
+
+                            .col-md-4
+                                label.form-label आधार
+                                input.form-control(readonly name="marriageHusbandAadharE")
+                            .col-md-4
+                                label.form-label जन्मतारीख
+                                input.form-control(readonly name="marriageHusbandDobE")
+                            .col-md-4
+                                label.form-label वय
+                                input.form-control(readonly name="marriageHusbandAge")
+
+                            .col-md-6
+                                label.form-label पत्ता
+                                textarea.form-control(readonly name="marriageHusbandAddressE")
+
+                        hr.my-3
+
+                        h6.fw-semibold दस्तऐवज
+                        .row.g-2.mb-3
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageHusbandBirthProofFileLink(target="_blank")
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageHusbandIdProofFileLink(target="_blank")
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageHusbandAddressProofFileLink(target="_blank")
+
+                        h6.fw-semibold पतीचा फोटो
+                        .row#husbandPhotoContainer
+
+                // ================= WIFE DETAILS =================
+                .card.mb-4.shadow-sm
+                    .card-body
+                        h6.fw-bold.text-danger.mb-3 पत्नीची माहिती
+                        .row.g-3
+                            .col-md-4
+                                label.form-label नाव (English)
+                                input.form-control(readonly name="marriageWifedNameE")
+                            .col-md-4
+                                label.form-label नाव (मराठी)
+                                input.form-control(readonly name="marriageWifeNameM")
+                            .col-md-4
+                                label.form-label मोबाईल
+                                input.form-control(readonly name="marriageWifeMobileE")
+
+                            .col-md-4
+                                label.form-label आधार
+                                input.form-control(readonly name="marriageWifedAadharE")
+                            .col-md-4
+                                label.form-label जन्मतारीख
+                                input.form-control(readonly name="marriageWifeDobE")
+                            .col-md-4
+                                label.form-label वय
+                                input.form-control(readonly name="marriageWifeAge")
+
+                            .col-md-6
+                                label.form-label पत्ता
+                                textarea.form-control(readonly name="marriageWifeAddressE")
+
+                        hr.my-3
+
+                        h6.fw-semibold दस्तऐवज
+                        .row.g-2.mb-3
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageWifeBirthProofFileLink(target="_blank")
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageWifeIdProofFileLink(target="_blank")
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageWifeAddressProofFileLink(target="_blank")
+
+                        h6.fw-semibold पत्नीचा फोटो
+                        .row#wifePhotoContainer
+
+                // ================= MARRIAGE DETAILS =================
+                .card.mb-4.shadow-sm
+                    .card-body
+                        h6.fw-bold.text-success.mb-3 विवाह माहिती
+                        .row.g-3
+                            .col-md-4
+                                label.form-label विवाह प्रकार
+                                input.form-control(readonly name="marriageTypeE")
+                            .col-md-4
+                                label.form-label विवाह दिनांक
+                                input.form-control(readonly name="marriageDate")
+                            .col-md-4
+                                label.form-label विवाह स्थळ
+                                input.form-control(readonly name="marriagePlaceE")
+
+                            .col-md-6
+                                label.form-label हॉल नाव
+                                input.form-control(readonly name="marriageHallNameE")
+                            .col-md-6
+                                label.form-label हॉल पत्ता
+                                input.form-control(readonly name="marriageHallAddressE")
+
+                        hr.my-3
+
+                        h6.fw-semibold लग्नाचे फोटोज
+                        .row#marriageWeddingPhotosContainer
+
+                        hr.my-3
+
+                        .row.g-2
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageWeddingCertificateFileLink(target="_blank") विवाह दाखला
+                            .col-md-4
+                                a.btn.btn-outline-secondary.btn-sm.w-100#marriageWeddingCardFileLink(target="_blank") लग्नपत्रिका
+
+                // ================= WITNESSES =================
+                .card.mb-4.shadow-sm
+                    .card-body
+                        h6.fw-bold.mb-3 साक्षीदार माहिती
+                        #witnesses-container
+
+                // ================= STATUS SECTIONS =================
+                #acceptance-section(style="display:none;")
+                    .card.mb-3.border-success
+                        .card-body
+                            h6.text-success.fw-bold.mb-3 अर्ज मंजूर माहिती
+                            .row.g-3
+                                .col-md-6
+                                    label.form-label मंजुरी दिनांक
+                                    input.form-control(readonly name="date_of_acceptance")
+                                .col-md-6
+                                    label.form-label मंजुरी शेरा
+                                    input.form-control(readonly name="acceptance_remark")
+
+                #rejection-section(style="display:none;")
+                    .card.mb-3.border-danger
+                        .card-body
+                            h6.text-danger.fw-bold.mb-3 अर्ज नाकारला
+                            .row.g-3
+                                .col-md-6
+                                    label.form-label नकार दिनांक
+                                    input.form-control(readonly name="date_of_rejection")
+                                .col-md-6
+                                    label.form-label नकार शेरा
+                                    input.form-control(readonly name="rejection_remark")
+
+            // ================= FOOTER =================
+            .modal-footer.border-top
+                button.btn.btn-sm.btn-outline-secondary(type="button" data-bs-dismiss="modal")
+                    i.fa.fa-times.me-1
+                    | बंद करा

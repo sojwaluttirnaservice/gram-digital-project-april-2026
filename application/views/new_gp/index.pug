@@ -1,0 +1,2154 @@
+extends ../user/include/index-page-master-layout.pug
+
+block external_css 
+    link(href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet")
+
+
+block external_js
+
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+block internal_css
+    style.
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 14s linear infinite;
+        }
+
+        .my-scrollbar-thickness::-webkit-scrollbar {
+            width: 5px; /* Adjust the width to make the scrollbar thinner */
+        }
+
+        .my-scrollbar-thickness::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2); /* Adjust the thumb color */
+            border-radius: 10px; /* Round the corners of the scrollbar thumb */
+        }
+
+        .my-scrollbar-thickness::-webkit-scrollbar-track {
+            background-color: transparent; /* Make the track transparent or any color you like */
+        }
+
+        .qrcode img {
+            width: 100% !important;
+            height: 100% !important;
+            //- width: 86px !important;
+            //- height:86px !important;
+        }
+
+        .shimmer-bg {
+            position: relative;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+
+        .shimmer-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(243, 244, 246, 0) 0%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(243, 244, 246, 0) 100%
+            );
+            animation: shimmer-slide 1.8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer-slide {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+
+
+block content
+
+    - let seeMore = {mr: 'आणखी बघा', hi: "और देखे", en: 'See More'}
+
+    section(class='bg-white py-0')
+
+        .container
+
+            #office-time-days(class='flex lg:hidden py-2 md:py-0 flex-row justify-between items-center text-sm sm:text-xl')
+                #office-time(class='dekko-regular w-fit inline-flex flex-col items-center gap-1 md:gap-2 font-bold  text-sm md:text-base')
+
+                    div.flex.items-center.gap-3
+                        i.fa-solid.fa-calendar-days
+                        //- span.font-extrabold.tracking-wider.poppins-marathi-font कार्यालय वेळ
+                        span.font-extrabold.tracking-wider.poppins-marathi-font #{t("common.officeTimingsStrip.officeDayTimeKey")}
+                    div(class='flex flex-col items-center md:flex-row gap-1 text-blue-700').poppins-marathi-font
+                        //- span सोमवार ते शुक्रवार
+                        span #{t("common.officeTimingsStrip.officeDaysValue")}
+                        span(class='hidden md:inline') :
+                        //- span(class='font-extrabold underline underline-offset-8')  सकाळी ९.४५ ते सायंकाळी ६.१५
+                        span(class='font-extrabold underline underline-offset-8') #{t("common.officeTimingsStrip.officeTimeValue")} 
+
+
+                //-VILLAGE POPULATION FOR THIS
+                #gp-population.hidden
+                    div
+                        .males
+
+                        .plus-icon
+
+                        .females 
+
+                        .equals-icon 
+
+                        .males-plus-females 
+
+                #office-holiday(class='dekko-regular w-fit inline-flex flex-col items-center gap-1 md:gap-2 font-bold  text-sm md:text-base')
+
+                    div.flex.items-center.gap-3
+                        i.fa-solid.fa-calendar-xmark
+                        //- span.font-extrabold.tracking-wider.poppins-marathi-font शासकीय सुट्टी 
+                        span.font-extrabold.tracking-wider.poppins-marathi-font #{t("common.officeTimingsStrip.govHolidayKey")} 
+                    div(class='flex flex-col md:flex-row gap-1 text-amber-700').poppins-marathi-font
+                        //- span शनिवार व रविवार
+                        span #{t("common.officeTimingsStrip.govHolidaysValue")} 
+                        span(class='hidden md:inline') :
+                        //- span(class='font-extrabold underline underline-offset-8')  सार्वजनिक सुट्टी
+                        span(class='font-extrabold underline underline-offset-8') #{t("common.officeTimingsStrip.govHolidayTextValue")} 
+
+
+            #village-big-phrase(class='relative overflow-hidden px-4 py-0 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 border-t border-b border-gray-300 shadow-sm rounded-md')
+                //- Marquee container
+                div(class="flex animate-marquee items-center gap-4 whitespace-nowrap")
+                    i(class='fa-solid fa-lightbulb text-yellow-500 text-lg')  
+                    //- // icon for "Good Thought"
+                    span(class='text-gray-700 font-semibold text-base md:text-lg') #{t("common.goodThought.heading")} :
+                    span(class='text-blue-800 font-bold text-base md:text-lg tracking-wide') #{goodThought[language]}
+
+
+        include ./index-page-gallery.pug
+
+    section(class='py-4')
+
+        .container
+
+            #hero-container
+
+                div(id='keypersons' class='mt-2 p-2 bg-white border border-gray-200 rounded-2xl shadow-md')
+                    h2(class='text-xl font-extrabold text-gray-800 mb-2 text-center') 
+                        //- | राज्यातील प्रमुख ग्राम विकास मुख्य मंत्रीमंडळ
+                        | #{t("common.stateCabinet.heading")}
+
+                    -
+                        let keypersons = [
+                            {name: t("common.stateCabinet.governer.name"), post: t("common.stateCabinet.governer.post"), imgUrl: "/img/keypersons/governer.jpg"},
+                            {name: t("common.stateCabinet.cm.name"), post: t("common.stateCabinet.cm.post"), imgUrl: "/img/keypersons/cm_maha.png"},
+                            {name: t("common.stateCabinet.dcm1.name"), post: t("common.stateCabinet.dcm1.post"), imgUrl: "/img/keypersons/dcm_1_maha.jpg"},
+                            {name: t("common.stateCabinet.dcm2.name"), post: t("common.stateCabinet.dcm2.post"), imgUrl: "/img/keypersons/dcm_2_maha.jpg"},
+                        ]
+                    div(class='grid grid-cols-2 md:grid-cols-4 gap-4')
+                        each person in keypersons
+                            div(class='keyperson bg-gray-50 hover:bg-gray-100 transition-all rounded-lg p-2 flex flex-col md:flex-row items-center shadow-sm hover:shadow-md border border-gray-100 gap-2')
+                                div(class='w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 mb-2 shadow-sm')
+                                    img(src=person.imgUrl class='w-full h-full object-cover')
+                                    img.lazy-image(data-src=person.imgUrl class='w-full h-full object-cover')
+                                div(class='text-center leading-tight')
+                                    div(class='font-extrabold text-base bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent') #{person.name}
+                                    div(class='font-semibold text-xs text-gray-600') #{person.post}
+
+
+
+                - const mainMembersNameClassName = `text-base font-medium bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500  bg-clip-text text-transparent`;
+                - const mainMembersPostClassName= `font-bold text-sm bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent truncate text-center`;
+
+                //- lottie-player(class='absolute top-0 left-0' src="/animations/index-page/tree-breeze-animation.json" background="transparent" speed="1", loop, autoplay)
+                - const members = (gp && gp.gp_member) ? JSON.parse(gp.gp_member) : [];
+                - const zpMembers = members.filter((member) => member && member.s_name == "जिल्हा परिषद प्रमुख अधिकारी")
+                - const psMembers = members.filter((member) => member && member.s_name == 'पंचायत समिती अधिकारी')
+                - const firstThreeMembers = members.filter((member) => member && (member.s_name != "जिल्हा परिषद प्रमुख अधिकारी" &&  member.s_name != "पंचायत समिती अधिकारी")).slice(0, 3)
+
+                mixin gpMembersList(members)
+                    ul(class=`flex flex-col gap-2 md:flex-row md:justify-center md:justify-${members && members.length <= 3 ? 'center gap-12' : 'between'} items-center`)
+                        each singleMember, _index in members
+                            li(class='p-2' data-aos='zoom-in')
+                                div(class='flex flex-col gap-4')
+
+                                    div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                        div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+                                        div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]')
+                                            div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+                                            -
+                                                const imageBaseUrl = '/gp/asstes/images/team/'
+                                                const memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+
+                                            img.lazy-image(class=memberImageClass data-src=`${imageBaseUrl}${singleMember.image}` alt='member' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+
+                                    div(class='space-y-2')
+                                        div(class='relative bg-white border border-blue-500/40 rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                            if _index < zpMembers.length
+                                                div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                    p(class=mainMembersNameClassName) #{singleMember.name ? singleMember.name : '-'}
+                                                    p(class=mainMembersPostClassName) #{singleMember.p_name ? singleMember.p_name : '-'}
+
+                                                    button.show-more-info-btn(class='mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+                                            else
+                                                div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                    p(class=mainMembersNameClassName) #{singleMember.name ? singleMember.name : '-'}
+                                                    p(class=mainMembersPostClassName) #{singleMember.p_name ? singleMember.p_name : '-'}
+
+                                                    button.show-more-info-btn(class='mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+                //- pasting belwo the line below
+                if zpMembers && zpMembers.length > 0 && psMembers && psMembers.length > 0
+
+
+                    - 
+                        const memberSections = [
+                            { title: { mr: 'जिल्हा परिषद अमरावती', hi: 'जिला परिषद अमरावती', en: 'Zilla Parishad Amravati' }, members: zpMembers, color: 'indigo' },
+                            { title: { mr: 'पंचायत समिती अमरावती', hi: 'पंचायत समिति अमरावती', en: 'Panchayat Samiti Amravati' }, members: psMembers, color: 'emerald' },
+                            //- { title: { mr: 'ग्राम पंचायत पदाधिकारी व अधिकारी', hi: 'ग्राम पंचायत पदाधिकारी व अधिकारी', en: 'Gram Panchayat Officers' }, members: firstThreeMembers, color: 'pink' }
+                        ]
+
+
+                    div(class='block mt-5 overflow-x-auto space-y-10')
+                        each section, index in memberSections
+                            div
+                                h5(class=`text-center text-xl md:text-3xl font-bold text-${section.color}-500 tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2`)
+                                    | #{section.title[language]}
+                                +gpMembersList(section.members)
+
+                            if index !== memberSections.length - 1
+                                div(class='h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent')
+
+                    div(class='block mt-10 overflow-x-auto spacey-y-10')
+                        - let thisSection = { title: { mr: 'ग्राम पंचायत पदाधिकारी व अधिकारी', hi: 'ग्राम पंचायत अधिकारी और पदाधिकारी', en: 'Gram Panchayat Officers' }, members: firstThreeMembers, color: 'pink' }
+                        div
+                            h5(class=`text-center text-xl md:text-3xl font-bold text-${thisSection.color}-500 w-fit mx-auto px-8 pb-2 border-b-2`)
+                                | #{thisSection.title[language]}
+
+                                div(class=' py-6 flex flex-col md:grid grid-cols-7 gap-8')
+                                    div(class='w-full md:col-span-3')
+                                        //- div(class='relative bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-5')
+                                            div(class='text-sm text-slate-700 leading-relaxed tracking-normal text-justify [text-justify:inter-word]') #{((gp.gp_mahiti_details || '').replace(/&nbsp;/gi,' ').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,870).replace(/\s+\S*$/,'') + '…')}
+
+                                            div(class='pointer-events-none absolute bottom-10 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent')
+                                            div(class='mt-3 text-right')
+                                                a(href='/village/info' class='inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline')
+                                                    span #{seeMore[language]}
+                                                    //- i.fa-solid.fa-arrow-right.text-[10px]
+
+                                        div(class='relative bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-5')
+                                            div(class='absolute -top-3 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow') गावाविषयी
+                                            div(class='text-sm text-slate-700 leading-relaxed tracking-normal text-justify [text-justify:inter-word]') #{((gp.gp_mahiti_details || '').replace(/&nbsp;/gi,' ').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,870).replace(/\s+\S*$/,'') + '…')}
+                                            div(class='pointer-events-none absolute bottom-10 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent')
+                                            div(class='mt-3 text-right')
+                                                a(href='/village/info' class='inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline')
+                                                    span #{seeMore[language]}
+
+
+                                    div(class='w-full md:col-span-4')
+                                        ul(class=`flex flex-col gap-2 md:flex-row md:justify-center md:justify-${members && members.length <= 3 ? 'center gap-12' : 'between'} items-center`)
+                                            each singleMember, _index in thisSection.members
+                                                li(class='p-2' data-aos='zoom-in')
+                                                    div(class='flex flex-col gap-4')
+
+                                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+                                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]')
+                                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+                                                                -
+                                                                    const imageBaseUrl = '/gp/asstes/images/team/'
+                                                                    const memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+
+                                                                img.lazy-image(class=memberImageClass data-src=`${imageBaseUrl}${singleMember.image}` alt='member' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+
+                                                        div(class='space-y-2')
+                                                            div(class='relative bg-white border border-blue-500/40 rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                                if _index < zpMembers.length
+                                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                                        p(class=mainMembersNameClassName) #{singleMember.name ? singleMember.name : '-'}
+                                                                        p(class=mainMembersPostClassName) #{singleMember.p_name ? singleMember.p_name : '-'}
+
+                                                                        button.show-more-info-btn(class='mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+                                                                else
+                                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                                        p(class='text-base  text-gray-600 font-extrabold text-center') #{singleMember.name ? singleMember.name : '-'}
+                                                                        p(class='font-medium text-sm text-pink-800 truncate text-center') #{singleMember.p_name ? singleMember.p_name : '-'}
+
+                                                                        button.show-more-info-btn(class='mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+
+                    //- div(class='hidden lg:block overflow-x-auto')
+
+
+                        div 
+                            h5 जिल्हा परिषद मुख्यप्रमुख अधिकारी
+                            +gpMembersList(zpMembers)
+
+                        div(class='h-2 bg-red-500')
+                        div 
+                            h5 पंचायत समिती  मुख्यप्रमुख अधिकारी
+                            +gpMembersList(psMembers)
+
+
+                        div(class='h-2 bg-red-500')
+                        div 
+                            h5 ग्राम पंचायत पदाधिकारी व अधिकारी व कर्मचारी वर्ग
+                            +gpMembersList(firstThreeMembers)
+
+
+
+
+                        //- ul(class='flex justify-center md:justify-between items-center')
+                            each singleMember, _index in combinedMembers
+                                li(class='p-2 ' data-aos='zoom-in')
+                                    div(class='flex flex-col gap-4')
+
+                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                            //- // NEW START
+                                            //- // This inner container ensures shimmer and image match *exact* padded area
+                                            //- // NEW
+                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                //- // Shimmer placeholder with same rounding
+                                                //- // NEW
+                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                img.lazy-image(
+                                                    class=memberImageClass 
+                                                    data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                    alt='member' 
+                                                    onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                )
+
+                                        div(class='space-y-2')
+                                            div(class='relative bg-white rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                    i(class='fa-solid fa-id-badge text-xl')
+                                                if _index < zpMembers.length
+                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                        p(class="font-bold text-base bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent truncate text-center") #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                        p(class="text-sm font-medium bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent") #{singleMember.name ? singleMember.name : '-'}
+
+                                                        button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+                                                else 
+                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                        p(class='font-bold text-base text-pink-800 truncate text-center') #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                        p(class='text-sm text-gray-600 font-medium text-center') #{singleMember.name ? singleMember.name : '-'}
+
+                                                        button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+
+
+
+
+                //- was just commented
+                //- else if zpMembers && zpMembers.length > 0
+
+                    //- on small screen hide make col structure
+
+                    - combinedMembers = [...zpMembers, ...firstThreeMembers]
+                    //- on large screens, make the flex row
+                    div(class='hidden lg:block overflow-x-auto')
+                        ul(class='flex justify-center md:justify-between items-center')
+                            each singleMember, _index in combinedMembers
+                                li(class='p-2 ' data-aos='zoom-in')
+                                    div(class='flex flex-col gap-4')
+
+                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                            //- // NEW START
+                                            //- // This inner container ensures shimmer and image match *exact* padded area
+                                            //- // NEW
+                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                //- // Shimmer placeholder with same rounding
+                                                //- // NEW
+                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                img.lazy-image(
+                                                    class=memberImageClass 
+                                                    data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                    alt='member' 
+                                                    onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                )
+
+                                        div(class='space-y-2')
+                                            div(class='relative bg-white rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                    i(class='fa-solid fa-id-badge text-xl')
+                                                if _index < zpMembers.length
+                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                        p(class="font-bold text-base bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent truncate text-center") #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                        p(class="text-sm font-medium bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent") #{singleMember.name ? singleMember.name : '-'}
+
+                                                        button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+                                                else 
+                                                    div(class='w-full flex flex-col justify-center items-center overflow-hidden h-28')
+                                                        p(class='font-bold text-base text-pink-800 truncate text-center') #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                        p(class='text-sm text-gray-600 font-medium text-center') #{singleMember.name ? singleMember.name : '-'}
+
+                                                        button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+                    //- for small screens not for large
+
+
+
+                    div(class='block lg:hidden')
+                    div(class="grid grid-cols-1 gap-2")
+
+
+                        //- zp
+                        ul(class='flex flex-col md:flex-row justify-between items-center')
+                            each singleMember in zpMembers
+                                li(class='p-2 ' data-aos='zoom-in')
+                                    div(class='flex flex-col gap-4')
+
+                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                            //- // NEW START
+                                            //- // This inner container ensures shimmer and image match *exact* padded area
+                                            //- // NEW
+                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                //- // Shimmer placeholder with same rounding
+                                                //- // NEW
+                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                img.lazy-image(
+                                                    class=memberImageClass 
+                                                    data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                    alt='member' 
+                                                    onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                )
+
+                                        div(class='space-y-2')
+                                            div(class='relative bg-white rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                    i(class='fa-solid fa-id-badge text-xl') 
+                                                div(class='w-full flex flex-col justify-center items-center overflow-hidden h-24')
+                                                    p(class="font-bold text-base bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent truncate text-center") #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                    p(class="text-sm font-medium bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent") #{singleMember.name ? singleMember.name : '-'}
+
+                                                    button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+                        //- ps
+                        ul(class='flex flex-col md:flex-row justify-between items-center')
+                            each singleMember in psMembers
+                                li(class='p-2 ' data-aos='zoom-in')
+                                    div(class='flex flex-col gap-4')
+
+                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                            //- // NEW START
+                                            //- // This inner container ensures shimmer and image match *exact* padded area
+                                            //- // NEW
+                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                //- // Shimmer placeholder with same rounding
+                                                //- // NEW
+                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                img.lazy-image(
+                                                    class=memberImageClass 
+                                                    data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                    alt='member' 
+                                                    onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                )
+
+                                        div(class='space-y-2')
+                                            div(class='relative bg-white rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                    i(class='fa-solid fa-id-badge text-xl') 
+                                                div(class='w-full flex flex-col justify-center items-center overflow-hidden h-24')
+                                                    p(class="font-bold text-base bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent truncate text-center") #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                    p(class="text-sm font-medium bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent") #{singleMember.name ? singleMember.name : '-'}
+
+                                                    button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+                        //- gp
+                        ul(class='flex flex-col md:flex-row justify-between items-center')
+                            each singleMember in firstThreeMembers
+                                li(class='p-2 ' data-aos='zoom-in')
+                                    div(class='flex flex-col gap-4')
+
+                                        div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                            div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                            //- // NEW START
+                                            //- // This inner container ensures shimmer and image match *exact* padded area
+                                            //- // NEW
+                                            div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                //- // Shimmer placeholder with same rounding
+                                                //- // NEW
+                                                div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                img.lazy-image(
+                                                    class=memberImageClass 
+                                                    data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                    alt='member' 
+                                                    onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                )
+
+                                        div(class='space-y-2')
+                                            div(class='relative bg-white rounded-xl shadow-md px-4 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                    i(class='fa-solid fa-id-badge text-xl') 
+                                                div(class='w-full flex flex-col justify-center items-center overflow-hidden h-24')
+                                                    p(class='font-bold text-base text-pink-800 truncate text-center') #{singleMember.p_name ? singleMember.p_name : '-'}
+                                                    p(class='text-sm text-gray-600 font-medium') #{singleMember.name ? singleMember.name : '-'}
+
+                                                    button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+                //- if not zp members is there
+                else
+                    div(class='grid grid-cols-1 lg:grid-cols-6 gap-2')
+
+                        .left-part(class='lg:col-span-2' data-aos='zoom-in')
+
+                            div(class='flex flex-wrap justify-center lg:flex-col items-center md:items-start gap-0 md:gap-2 bg-white rounded-md')
+                                //- Flex row classname
+
+                                - let flexRowClass = 'flex gap-1 items-center'
+                                - let animationPartClass = `scale-up-center  md:size-32 flex items-center justify-center overflow-hidden`
+                                - let descPartClass = `font-extrabold text-gray-700 text-xl md:text-2xl lg:text-4xl tracking-widest`
+                                .flex-row(class=`${flexRowClass}`)
+                                    .lottie-animation-part(class=`${animationPartClass}`)
+                                        lottie-player(src="/animations/index-page/smart-animation.json" class='size-16 md:size-24' background="transparent" speed="1", loop, autoplay)
+
+                                    .desc-part(class=`${descPartClass}  text-[#234a7d]`)
+                                        //- span स्मार्ट जिल्हा
+                                        span(class= (language === 'en' ? 'text-2xl' : '')) #{t("homePage.heroSection.smartDist")} 
+
+                                .flex-row(class=`${flexRowClass}`)
+                                    .lottie-animation-part(class=`${animationPartClass}`)
+                                        lottie-player(src="/animations/index-page/ideal-hand-gesture-animation.json" class='size-16 md:size-24' background="transparent" speed="1",  loop, autoplay)
+
+                                    .desc-part(class=`${descPartClass} text-[#138f78]`)
+                                        //- span आदर्श गाव
+                                        span(class= (language === 'en' ? 'text-2xl' : '')) #{t("homePage.heroSection.idealVillage")}
+
+                                .flex-row(class=`${flexRowClass}`)
+                                    .lottie-animation-part(class=`${animationPartClass}`)
+                                        lottie-player(src="/animations/index-page/peace-sun-breathing-animation.json" class='size-16 md:size-24' background="transparent" speed="1", loop, autoplay)
+
+                                    .desc-part(class=`${descPartClass} text-[#1e3a6d]`) 
+                                        //- span तंटामुक्त गाव
+                                        span(class= (language === 'en' ? 'text-2xl' : '')) #{t("homePage.heroSection.peacefulVillage")}
+
+                        .right-part(class='lg:col-span-4 bg-white/20 rounded-md backdrop-blur-md' )
+                            div(class='h-full flex justify-center items-center')
+
+
+                                ul(class='space-y-6 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8' role='list')
+                                    each singleMember in firstThreeMembers
+                                        li(class='p-2 ' data-aos='zoom-in')
+                                            div(class='flex flex-col gap-4')
+
+                                                div(class='gp-member-image-holder relative overflow-hidden rounded-sm rounded-t-[3rem] mx-auto h-40 w-36 md:h-52 md:w-40 p-1 border-4 border-transparent flex justify-center items-center group')
+                                                    div(class='absolute z-[10] inset-0 rounded-sm rounded-t-[3rem] animate-rotate-gradient hidden group-hover:block')
+
+
+
+                                                    //- // NEW START
+                                                    //- // This inner container ensures shimmer and image match *exact* padded area
+                                                    //- // NEW
+                                                    div(class='relative w-full h-full overflow-hidden rounded-[1.5rem]') 
+
+                                                        //- // Shimmer placeholder with same rounding
+                                                        //- // NEW
+                                                        div(class='shimmer-placeholder absolute inset-0 rounded-[1.5rem]')
+
+
+
+                                                        - const imageBaseUrl = '/gp/asstes/images/team/'
+                                                        - let memberImageClass = 'object-cover relative z-[20] rounded-[1.5rem] w-full h-full shadow-md transition-all duration-200 ease-in-out hover:scale-[1.02]'
+                                                        img.lazy-image(
+                                                            class=memberImageClass 
+                                                            data-src=`${imageBaseUrl}${singleMember.image}` 
+                                                            alt='member' 
+                                                            onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                                        )
+
+                                                div(class='space-y-2')
+                                                    div(class='relative bg-white border border-blue-500/40 rounded-xl shadow-md px-1 w-full sm:max-w-xs mx-auto flex items-start gap-4')
+                                                        //- div(class='flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-2')
+                                                            i(class='fa-solid fa-id-badge text-xl') 
+                                                        div(class='w-full flex flex-col justify-center items-center overflow-hidden h-24')
+                                                            p(class='text-base text-gray-600 font-medium') #{singleMember.name ? singleMember.name : '-'}
+                                                            p(class='font-bold text-sm text-pink-800 truncate text-center') #{singleMember.p_name ? singleMember.p_name : '-'}
+
+                                                            button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+
+
+    section(class='py-8 md:py-16')#members
+
+        .container 
+
+            #gram-adhikari
+
+
+                h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                    i.fa-solid.fa-users-gear
+                    //- span.ml-2 ग्रामपंचायतीतील पदाधिकारी व कर्मचारी
+                    span.ml-2 #{t("homePage.gpOfficersStaffSection.heading")}
+
+                div(class='mt-4')
+                    ul(class= 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-col-5 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-8' role='list')
+                        - const remainingMembers = members.filter((member) => member && (member.s_name != "जिल्हा परिषद प्रमुख अधिकारी" &&  member.s_name != "पंचायत समिती अधिकारी")).slice(3, members.length)
+
+                        each singleMember in remainingMembers
+
+                            li(class='p-2' data-aos='zoom-in')
+                                div(class='flex flex-col gap-4')
+                                    //- div(class='relative  overflow-hidden  flex items-center justify-center rounded-md')
+                                    div(class='gp-member-image-holder relative overflow-hidden rounded-full mx-auto h-32 md:h-48 aspect-square  p-2 border-4 border-transparent flex justify-center items-center group')
+                                        div(class="absolute z-[10] inset-0 rounded-full animate-rotate-gradient hidden group-hover:block")
+
+
+                                        //- // NEW INNER WRAPPER for shimmer + image
+                                        //- // NEW
+                                        div(class='relative w-full h-full overflow-hidden rounded-full')
+
+                                            //- // Shimmer placeholder with same rounding	
+                                            //- // NEW
+                                            div(class='shimmer-placeholder absolute inset-0 rounded-full')
+
+                                            - const imageBaseUrl = '/gp/asstes/images/team/'
+                                            - let memberImageClass = 'object-cover relative z-[20] shadow-lg rounded-full transition-all duration-200 ease-in-out hover:scale-[1.05] w-full h-full'
+                                            //- img(class=memberImageClass src=`https://gpyawali.g-seva.com/gp/asstes/images/team/20240219044544.jpg` alt='' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                                            //- img(class=memberImageClass src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80" alt='' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+
+                                            //- final workign image
+                                            img.lazy-image(class=memberImageClass data-src=`${imageBaseUrl}${singleMember.image}` alt='' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"' loading='lazy')
+
+                                    div(class='space-y-2')
+
+                                        div(class='relative overflow-hidden h-[7.2rem] bg-white border border-blue-500/40 text-lg leading-6 font-medium space-y-1 text-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] rounded-md p-2')
+                                            p(class='relative font-bold z-[20] text-blue-800 text-[15px]') #{singleMember.name}
+                                            p(class='font-bold text-sm text-[#3a6b5c] tracking-wider truncate overflow-hidden text-ellipsis') #{singleMember ? singleMember.p_name : '-'}
+
+                                            //- div(class='text-right')
+                                            button(class='show-more-info-btn mt-2 self-center px-4 py-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-md text-sm transition-all duration-200' data-member=JSON.stringify(singleMember)) #{seeMore[language]}
+
+
+
+    if hasIgExpired
+        section
+            .container
+                div(class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-6 rounded-md shadow-sm")
+                    h2(class="text-blue-700 font-semibold text-base mb-1")
+                        | Instagram Access Expired
+                    p(class="text-blue-600 text-sm")
+                        | We were unable to fetch your Instagram details because your service subscription has expired. 
+                        | Please renew your plan to restore access.
+
+
+    else if igUser
+
+        section#instagram-section
+
+            .container
+                h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                    i.fa-solid.fa-camera-retro
+                    //- span आमचे इंस्टाग्रामवरील क्षण
+                    span  #{t("homePage.instagramSection.heading")}
+
+
+
+                div(class='mt-4 border-4 border-gray-200 py-12 px-12')
+
+                    div(class="ig-widget max-w-6xl mx-auto bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden")
+                        //- HEADER
+                        div(class='p-6 border-b border-gray-300 bg-linear-to-r from-pink-50 via-white to-purple-50')
+                            div(class='flex items-center gap-6')
+
+                                //- PROFILE IMAGE
+                                div(class='relative')
+                                    div(class='w-32 h-32 rounded-full border-4 border-pink-500 overflow-hidden shadow-md')
+                                        img(src=igUser.profile_picture_url alt='Profile' class='w-full h-full object-cover')
+
+                                //- USER DETAILS
+                                div(class='flex-1')
+
+                                    //- Username
+                                    div
+                                        p(class='font-bold text-3xl text-gray-900')= igUser.name
+                                        p(class='text-xl text-gray-600') @#{igUser.username}
+
+                                    //- Stats
+                                    div(class='flex items-center gap-10 mt-4')
+                                        each stat in [{ label: 'Posts', count: igUser.media_count }, { label: 'Followers', count: igUser.followers_count }, { label: 'Following', count: igUser.follows_count }]
+                                            div(class='text-center' key=stat.label)
+                                                p(class='text-gray-500 font-medium')= stat.label
+                                                p(class='text-lg font-bold text-gray-900')= stat.count
+
+                                        //- Follow Button
+                                        a(class='px-6 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold shadow-md hover:opacity-90 transition' href=`https://www.instagram.com/${encodeURIComponent(igUser.username)}/` target='_blank' rel='noopener noreferrer') Follow
+
+                                    //- BIO
+                                    p(class='mt-4 text-gray-700 leading-relaxed max-w-xl')= igUser.biography
+
+
+                        //-  MEDIA GRID
+
+                        - const mediaList = igUser.media ? igUser.media.data : [];
+
+                        div(class='p-4')
+                            div(class='grid grid-cols-4 gap-2')
+                                each media in mediaList
+                                    a(class='group block bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition' href=media.permalink target='_blank' rel='noopener noreferrer' key=media.id)
+
+                                        //- MEDIA CONTENT
+                                        div(class='aspect-square overflow-hidden relative bg-gray-100')
+                                            if media.media_type === 'IMAGE'
+                                                img(class='w-full h-full object-cover group-hover:scale-105 transition' src=media.media_url alt='')
+                                            if media.media_type === 'VIDEO'
+                                                video(class='w-full h-full object-cover group-hover:scale-105 transition' src=media.media_url muted onmouseenter='this.play()' onmouseleave='this.pause()')
+
+                                        //- MEDIA ACTIONS
+                                        div(class='p-3 bg-white')
+                                            div(class='flex items-center gap-4')
+                                                //- LIKE ICON
+                                                div
+                                                    svg(aria-label='Like' class='x1lliihq x1n2onr6 xyb1xck' fill='currentColor' height='24' role='img' viewBox='0 0 24 24' width='24')
+                                                        title Like
+                                                        path(d='M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z')
+
+                                                //- COMMENT ICON
+                                                div
+                                                    svg(aria-label='Comment' class='x1lliihq x1n2onr6 x5n08af' fill='currentColor' height='24' role='img' viewBox='0 0 24 24' width='24')
+                                                        title Comment
+                                                        path(d='M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z' fill='none' stroke='currentColor' stroke-linejoin='round' stroke-width='2')
+
+                                            //- Likes
+                                            p(class='font-semibold text-sm text-gray-800 mt-2') #{media.like_count} #{media.like_count == 1 ? 'like' : 'likes'}
+
+                                            //- Caption
+                                            p(class='text-gray-700 text-sm mt-1')
+                                                span(class='font-semibold') #{igUser.username} 
+                                                if media.caption
+                                                    span #{media.caption.length < 50 ? media.caption : `${media.caption.slice(0,50)}...`}
+
+
+
+                //- #insta-feed(class='mt-4')
+                    div(class='border-4 border-gray-200 py-12 px-12')
+                        <iframe src="https://cdn.lightwidget.com/widgets/f9b8fbcc28245a8db0e7b7b558bbf15a.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+
+
+                //- #feed(class='mt-4')
+                //- div(class='grid grid-cols-1 md:grid-cols-2 gap-8')
+                    div
+                        blockquote.instagram-media(data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DQkGGq9k2GJ/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:1px;max-width:540px;min-width:326px;padding:0;width:calc(100% - 2px);")
+                            div(style="padding:16px;")
+                                a(href="https://www.instagram.com/reel/DQkGGq9k2GJ/?utm_source=ig_embed&utm_campaign=loading" target="_blank" style="background:#FFFFFF;line-height:0;padding:0;text-align:center;text-decoration:none;width:100%;")
+                                    div(style="display:flex;flex-direction:row;align-items:center;")
+                                        div(style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;")
+                                        div(style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;")
+                                            div(style="background-color:#F4F4F4;border-radius:4px;height:14px;margin-bottom:6px;width:100px;")
+                                            div(style="background-color:#F4F4F4;border-radius:4px;height:14px;width:60px;")
+                                    div(style="padding:19% 0;")
+                                    div(style="display:block;height:50px;margin:0 auto 12px;width:50px;")
+                                        svg(width="50px" height="50px" viewBox="0 0 60 60" xmlns="https://www.w3.org/2000/svg")
+                                            g(fill="none" fill-rule="evenodd")
+                                                g(transform="translate(-511.000000, -20.000000)" fill="#000000")
+                                                    path(d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886")
+                                    div(style="padding-top:8px;")
+                                        div(style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-weight:550;line-height:18px;") View this post on Instagram
+                                    div(style="padding:12.5% 0;")
+                                    p(style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin:8px 0 0;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;")
+                                        a(href="https://www.instagram.com/reel/DQkGGq9k2GJ/?utm_source=ig_embed&utm_campaign=loading" target="_blank" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;text-decoration:none;") A post shared by ग्रामपंचायत सांगवा बू ता.दर्यापूर जि.अमरावती (@incredible_village_sangwa_bk)
+                    div
+                        blockquote.instagram-media(data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DQg_CHJiRjn/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:1px;max-width:540px;min-width:326px;padding:0;width:calc(100% - 2px);")
+                            div(style="padding:16px;")
+                                a(href="https://www.instagram.com/p/DQg_CHJiRjn/?utm_source=ig_embed&utm_campaign=loading" target="_blank" style="background:#FFF;line-height:0;padding:0;text-align:center;text-decoration:none;width:100%;")
+                                    div(style="display:flex;flex-direction:row;align-items:center;")
+                                        div(style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;")
+                                        div(style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;")
+                                            div(style="background-color:#F4F4F4;border-radius:4px;height:14px;margin-bottom:6px;width:100px;")
+                                            div(style="background-color:#F4F4F4;border-radius:4px;height:14px;width:60px;")
+                                    div(style="padding:19% 0;")
+                                    div(style="display:block;height:50px;margin:0 auto 12px;width:50px;")
+                                    div(style="padding-top:8px;")
+                                        div(style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-weight:550;line-height:18px;") View this post on Instagram
+                                    div(style="padding:12.5% 0;")
+                                    p(style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin:8px 0 0;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;")
+                                        a(href="https://www.instagram.com/p/DQg_CHJiRjn/?utm_source=ig_embed&utm_campaign=loading" target="_blank" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;text-decoration:none;") A post shared by ग्रामपंचायत सांगवा बू ता.दर्यापूर जि.अमरावती (@incredible_village_sangwa_bk)
+
+
+
+
+    //-
+    section
+        #qr-code-container(class='py-8 bg-slate-100 border-t border-slate-300')
+            -
+                const qrButtons = [
+                    { endpoint: "/village/nagrik-nondani-view", title: t("navbar.top.citizenRegistration"), icon: "fa-user-plus", desc: { mr: "नागरिक नोंदणी अर्ज भरा\nतुमच्या माहितीसाठी सुरक्षित", hi: "नागरिक पंजीकरण आवेदन करें\nआपकी जानकारी सुरक्षित रहेगी", en: "Apply for citizen registration\nKeep your information secure" } },
+                    { endpoint: "/rti/info", title: t("navbar.bottom.rti"), icon: "fa-user-info", desc: { mr: "RTI अंतर्गत माहिती मागवण्यासाठी अर्ज भरा\nतुमची माहिती सुरक्षित राहील", hi: "RTI के अंतर्गत जानकारी प्राप्त करने के लिए आवेदन करें\nआपकी जानकारी सुरक्षित रहेगी", en: "Apply for information under RTI\nKeep your information secure" } },
+                    { endpoint: "/new-application-form", title: t("navbar.top.citizenServiceApplication"), icon: "fa-file-circle-plus", desc: { mr: "नागरिक सेवा अर्ज सादर करा\nसर्व सुविधा मिळवण्यासाठी", hi: "नागरिक सेवा आवेदन जमा करें\nसभी सुविधाओं के लिए", en: "Submit citizen service application\nGet access to all services" } },
+                    { endpoint: "/complaints/form", title: t("navbar.top.complaintRegistration"), icon: "fa-circle-exclamation", desc: { mr: "तक्रारी नोंदवा\nवेगवान उत्तर मिळवा", hi: "शिकायत दर्ज करें\nत्वरित प्रतिक्रिया प्राप्त करें", en: "Register your complaints\nReceive faster responses" } },
+                    { endpoint: "/gp-applications/f8-ferfar/register", title: t("navbar.top.propertyMutationApplication"), icon: "fa-building", desc: { mr: "संपत्ती हस्तांतरण अर्ज भरा\nसोपी मार्गदर्शन मिळवा", hi: "संपत्ति परिवर्तन आवेदन करें\nसरल मार्गदर्शन प्राप्त करें", en: "Apply for property mutation\nGet simple guidance" } },
+                    { endpoint: "/gp-applications/construction/form", title: t("navbar.top.constructionApplication"), icon: "fa-person-digging", desc: { mr: "बांधकाम परवानगी अर्ज करा\nसर्व नियम पाळा", hi: "निर्माण अनुमति आवेदन करें\nसभी नियमों का पालन करें", en: "Apply for construction permission\nFollow all rules" } },
+                    { endpoint: "/gp-applications/job-card/form", title: t("navbar.top.jobCardApplication"), icon: "fa-id-card", desc: { mr: "जॉब कार्ड अर्ज भरा\nरोजगार संधी मिळवा", hi: "जॉब कार्ड आवेदन करें\nरोजगार के अवसर प्राप्त करें", en: "Apply for job card\nGet employment opportunities" } },
+                    { endpoint: "/gp-applications/emp-demand/form", title: t("navbar.top.employmentGuaranteeApplication"), icon: "fa-briefcase", desc: { mr: "रोजगार हमी अर्ज करा\nअर्ज प्रक्रिया सोपी", hi: "रोजगार गारंटी आवेदन करें\nआवेदन प्रक्रिया सरल है", en: "Apply for employment guarantee\nEasy application process" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.meri_panchayat", title: t("navbar.top.myPanchayat"), icon: "fa-landmark", desc: { mr: "माझी पंचायत अँप डाउनलोड करा\nसर्व माहिती एका ठिकाणी", hi: "माय पंचायत ऐप डाउनलोड करें\nसारी जानकारी एक जगह पर", en: "Download My Panchayat app\nAll info in one place" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.gsnirnay.app&pli=1", title: t("navbar.top.panchayatDecisionApp"), icon: "fa-gavel", desc: { mr: "पंचायत निर्णय पहा\nसुलभ मार्गदर्शन मिळवा", hi: "पंचायत निर्णय देखें\nसहज मार्गदर्शन प्राप्त करें", en: "View panchayat decisions\nGet easy guidance" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.nic.gramsamvaad", title: t("navbar.top.gramSamvad"), icon: "fa-comments", desc: { mr: "ग्रामीण संवाद अँप वापरा\nसंपूर्ण समुदायासाठी", hi: "ग्रामीण संवाद ऐप इस्तेमाल करें\nपूरा समुदाय जुड़ा रहे", en: "Use Gram Samvad app\nConnect the whole community" } },
+                    { endpoint: "https://gr.maharashtra.gov.in/1125/Home", title: { mr: "शासन निर्णय", hi: "सरकारी निर्णय", en: "Government Resolutions" }[language], icon: "fa-gavel", desc: { mr: "सरकारी निर्णय पहा\nमहत्त्वाची माहिती मिळवा", hi: "सरकारी निर्णय देखें\nमहत्वपूर्ण जानकारी प्राप्त करें", en: "View government resolutions\nGet important information" } },
+                    { endpoint: "/gp-applications/to-seva/form", title: "नागरिकांना सेवा सुविधा अर्ज", icon: "fa-file-lines", desc: { mr: "सेवा सुविधा अर्ज भरा\nसर्व सुविधा मिळवा", hi: "सेवा सुविधा आवेदन करें\nसभी सेवाएं प्राप्त करें", en: "Apply for citizen service facilities\nAccess all available services" } },
+
+                    //- { endpoint: "/village/vaidyakiy-madat-kaksha-view", title: { original: t("navbar.bottom.medicalHelpDesk")}, desc: {
+                    //-         mr: "वैद्यकीय मदत कक्षाशी संपर्क साधा\nतुमच्या आरोग्याच्या त्वरित मदतीसाठी",
+                    //-         hi: "मेडिकल हेल्प डेस्क से संपर्क करें\nआपकी स्वास्थ्य के लिए त्वरित सहायता के लिए",
+                    //-         en: "Contact the Medical Help Desk\nFor immediate assistance with your health needs"
+                    //-     }
+                    //- }
+                    { endpoint: "/village/vaidyakiy-madat-kaksha-view", title: t("navbar.bottom.medicalHelpDesk"), icon: "fa-notes-medical", desc: { mr: "वैद्यकीय मदत कक्षाशी संपर्क साधा\nतुमच्या आरोग्याच्या त्वरित मदतीसाठी", hi: "मेडिकल हेल्प डेस्क से संपर्क करें\nआपकी स्वास्थ्य के लिए त्वरित सहायता के लिए", en: "Contact the Medical Help Desk\nFor immediate assistance with your health needs" } }
+                ]
+
+
+
+            .container
+
+                //- Heading (same visual weight as emergency section)
+                h4(class='text-center text-xl md:text-3xl font-bold tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 mb-8')
+                    i.fa-solid.fa-qrcode
+                    span.ml-2 DOWNLOAD QR CODES
+
+
+                div(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6')
+                    each btn, _index in qrButtons
+                        div(class='qr-card bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-row')
+
+                            // QR Code Container
+                            div(class='w-24 flex-shrink-0')
+                                div(id=`download-qr-${_index}` class='qr-box' data-endpoint=btn.endpoint )
+
+                            // Text & Description
+                            div(class='flex-grow px-3 flex flex-col justify-between')
+
+                                // Title and Description
+                                div
+                                    a(href=btn.endpoint target='_blank' class='text-blue-700 font-bold hover:underline block text-lg') #{btn.title}
+                                    p(class='text-gray-600 text-sm mt-1 mb-2 line-clamp-2') #{btn.desc[language]}
+
+                                // Download Button
+                                div(class='flex justify-end')
+                                    button(type='button' class='download-qr-btn text-sm px-3 py-1 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center' data-target=`download-qr-${_index}`)
+                                        i(class='fa-solid fa-download mr-1')
+                                        | Download QR
+
+    section
+
+        div(class='py-8 bg-slate-100 border-t border-slate-300')
+            .container
+
+                //- Heading (same visual weight as before)
+                h4(class='text-center text-xl md:text-3xl font-bold tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 mb-8')
+                    i.fa-solid.fa-qrcode
+                    span.ml-2 DOWNLOAD SERVICE PORTALS
+
+                -
+                    const serviceLinks = [
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आरटीएस सेवांसाठी नागरिक लॉगिन",
+                                hi: "आरटीएस सेवाओं के लिए नागरिक लॉगिन",
+                                en: "Citizen Login for RTS Services"
+                            },
+                            desc: {
+                                mr: "स्वतः चे नागरिक लॉगिन तयार करा आणि नागरी सेवा अधिकार कायदा महाराष्ट्र २०१५ च्या अंतर्गत सुचित सरकारी सेवेसाठी 'आपले सरकार' पोर्टलवर ऑनलाईन अर्ज करा.",
+                                hi: "अपना नागरिक लॉगिन बनाएं और महाराष्ट्र लोक सेवा अधिकार अधिनियम 2015 के अंतर्गत अधिसूचित सरकारी सेवाओं के लिए 'आपले सरकार' पोर्टल पर ऑनलाइन आवेदन करें।",
+                                en: "Create your citizen login and apply online for notified government services under the Maharashtra Right to Public Services Act, 2015 through the Aaple Sarkar portal."
+                            }
+                        },
+                        {
+                            endpoint: "https://rdd.maharashtra.gov.in/en/",
+                            title: {
+                                mr: "शासकीय विभाग",
+                                hi: "सरकारी विभाग",
+                                en: "Government Departments"
+                            },
+                            desc: {
+                                mr: "महाऑनलाईन पोर्टलचा वापर करणाऱ्या शासकीय विभागांनी सर्व्हिस डिलिव्हरीसाठी येथे लॉगिन करा.",
+                                hi: "महाऑनलाइन पोर्टल का उपयोग करने वाले सरकारी विभाग सेवा वितरण के लिए यहां लॉगिन करें।",
+                                en: "Government departments using the MahaOnline portal can log in here for service delivery and application management."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आपले सरकार सेवा केंद्र / सेतू केंद्र",
+                                hi: "आपले सरकार सेवा केंद्र / सेतू केंद्र",
+                                en: "Aaple Sarkar Seva Kendra / SETU Center"
+                            },
+                            desc: {
+                                mr: "नागरिकांना सेवा देण्यासाठी आपले सरकार सेवा केंद्र व सेतू केंद्र परिचालक या पर्यायाद्वारे येथे लॉगिन करू शकतात.",
+                                hi: "नागरिकों को सेवाएं प्रदान करने के लिए आपले सरकार सेवा केंद्र और सेतू केंद्र संचालक यहां लॉगिन कर सकते हैं।",
+                                en: "Aaple Sarkar Seva Kendra and SETU center operators can log in here to provide government services to citizens."
+                            }
+                        },
+                        {
+                            endpoint: "https://mpsc.gov.in/adv_notification/8",
+                            title: {
+                                mr: "महाराष्ट्र लोकसेवा आयोग",
+                                hi: "महाराष्ट्र लोक सेवा आयोग",
+                                en: "Maharashtra Public Service Commission"
+                            },
+                            desc: {
+                                mr: "एम पी एस सी च्या विविध स्पर्धा परीक्षा व भरती प्रक्रियेसाठी ऑनलाईन अर्ज करण्यासाठी अधिकृत पोर्टल.",
+                                hi: "महाराष्ट्र लोक सेवा आयोग की विभिन्न प्रतियोगी परीक्षाओं और भर्ती प्रक्रियाओं के लिए ऑनलाइन आवेदन करने का आधिकारिक पोर्टल।",
+                                en: "Official portal of the Maharashtra Public Service Commission for online applications to competitive exams and recruitment processes."
+                            }
+                        },
+                        {
+                            endpoint: "https://www.mahaonline.gov.in/Site/25/Online-Recruitment",
+                            title: {
+                                mr: "महा रिक्रूटमेंट पोर्टल",
+                                hi: "महा भर्ती पोर्टल",
+                                en: "Maha Recruitment Portal"
+                            },
+                            desc: {
+                                mr: "राज्यातील शासकीय व निमशासकीय कार्यालयांमधील भरती प्रक्रियेसाठी राज्यस्तरीय रिक्रूटमेंट पोर्टल.",
+                                hi: "राज्य के सरकारी और अर्ध-सरकारी कार्यालयों की भर्ती प्रक्रियाओं के लिए राज्यस्तरीय भर्ती पोर्टल।",
+                                en: "State-level recruitment portal for government and semi-government job opportunities in Maharashtra."
+                            }
+                        },
+                        {
+                            endpoint: "https://msrtc.mahaonline.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र राज्य मार्ग परिवहन महामंडळ",
+                                hi: "महाराष्ट्र राज्य सड़क परिवहन महामंडल",
+                                en: "Maharashtra State Road Transport Corporation"
+                            },
+                            desc: {
+                                mr: "महाराष्ट्र राज्य मार्ग परिवहन महामंडळाच्या बसेससाठी ऑनलाईन तिकीट आरक्षण व संबंधित सेवा.",
+                                hi: "महाराष्ट्र राज्य मार्ग परिवहन महामंडल की बसों के लिए ऑनलाइन टिकट बुकिंग और संबंधित सेवाएं।",
+                                en: "Online ticket booking and related services for Maharashtra State Road Transport Corporation (MSRTC) buses."
+                            }
+                        },
+                        {
+                            endpoint: "https://exciseservices.mahaonline.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र राज्य उत्पादन शुल्क",
+                                hi: "महाराष्ट्र राज्य आबकारी विभाग",
+                                en: "Maharashtra State Excise Department"
+                            },
+                            desc: {
+                                mr: "उत्पादन शुल्क विभागाच्या विविध परवाने, नोंदणी, अर्ज व अर्ज ट्रॅकिंगसाठी ऑनलाईन सुविधा.",
+                                hi: "उत्पादन शुल्क विभाग की विभिन्न लाइसेंस सेवाओं, आवेदन और आवेदन ट्रैकिंग के लिए ऑनलाइन सुविधा।",
+                                en: "Online services for licenses, applications, and tracking provided by the Maharashtra State Excise Department."
+                            }
+                        },
+                        {
+                            endpoint: "https://mahammb.maharashtra.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र सागरी मंडळ",
+                                hi: "महाराष्ट्र समुद्री मंडल",
+                                en: "Maharashtra Maritime Board"
+                            },
+                            desc: {
+                                mr: "महाराष्ट्र सागरी मंडळाच्या फेरी सेवांसाठी ऑनलाईन तिकीट बुकिंग करण्यासाठी अधिकृत पोर्टल.",
+                                hi: "महाराष्ट्र सागरी मंडल की फेरी सेवाओं के लिए ऑनलाइन टिकट बुकिंग हेतु आधिकारिक पोर्टल।",
+                                en: "Official portal for online ferry ticket booking services operated by the Maharashtra Maritime Board."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "प्रमाणित प्रमाणपत्र सत्यापित करा",
+                                hi: "प्रमाणित प्रमाणपत्र सत्यापित करें",
+                                en: "Verify Issued Certificates"
+                            },
+                            desc: {
+                                mr: "आपले सरकार पोर्टलवरून जारी करण्यात आलेल्या प्रमाणपत्रांची ऑनलाईन सत्यता तपासण्यासाठी सुविधा.",
+                                hi: "आपले सरकार पोर्टल के माध्यम से जारी प्रमाणपत्रों की ऑनलाइन सत्यापन सुविधा।",
+                                en: "Facility to verify the authenticity of certificates issued through the Aaple Sarkar portal."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आपला अर्ज ट्रॅक करा",
+                                hi: "अपने आवेदन को ट्रैक करें",
+                                en: "Track Your Application"
+                            },
+                            desc: {
+                                mr: "आपले सरकार पोर्टलवर सादर केलेल्या अर्जाची सद्यस्थिती ऑनलाईन ट्रॅक करा.",
+                                hi: "आपले सरकार पोर्टल पर जमा किए गए आवेदन की वर्तमान स्थिति ऑनलाइन ट्रैक करें।",
+                                en: "Track the current status of applications submitted through the Aaple Sarkar portal."
+                            }
+                        },
+                    ];
+
+
+
+                //- Grid of QR Cards
+                div(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6')
+                    each link, _index in serviceLinks
+                        div(class='qr-card bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-row')
+
+                            // QR Code Container
+                            div(class='w-24 flex-shrink-0')
+                                div(id=`service-qr-${_index}` class='qr-box' data-endpoint=link.endpoint )
+
+                            // Text & Description
+                            div(class='flex-grow px-3 flex flex-col justify-between')
+                                div
+                                    a(href=link.endpoint target='_blank' class='text-blue-700 font-bold hover:underline block text-lg') 
+                                        if link.title.original 
+                                            | #{link.title.original}
+                                        else 
+                                            | #{link.title[language]}
+                                    if link.desc && link.desc[language]
+                                        p(class='text-gray-600 text-sm mt-1 mb-2 line-clamp-2') #{link.desc[language]}
+
+                                // Download Button
+                                div(class='flex justify-end')
+                                    button(type='button' class='download-qr-btn text-sm px-3 py-1 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center' data-target=`service-qr-${_index}`)
+                                        i(class='fa-solid fa-download mr-1')
+                                        | Download QR
+
+
+   
+    
+    //- THIS SECTION CONTAINS THE LOTTIE ANIMATION, THE COPY OR IMPROVISED VERSION OF THIS IS MADE BELOW THSI SECTION EXACTLY, COMMENTED ON 13 Jan 2026, below copy is made on the same day
+    //- section(id='information-section' class='py-8 md:py-16')
+        .section(class='bg-center bg-no-repeat bg-cover py-8' style='backgrofdund-image: url("/backgrounds/index-page/bg-firebrigade-index-page.png")')
+            .container 
+                div(id='information-container')
+
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i.fa-solid.fa-hand-holding-hand
+                        //- span.ml-2 आपातकालीन सेवा
+                        span.ml-2 #{t("homePage.emergencyServicesSection.heading")}
+
+                    div(class='mt-8')
+                        ul(class='grid grid-cols-1 md:grid-cols-3 gap-8')
+                            - let gridItemClass = 'shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)] border transition duration-300 ease-in-out rounded-md hover:shadow-[-4px_-8px_8px_rgba(0,0,0,0.38)]' 
+                            li(class=`${gridItemClass}` data-aos='flip-down' data-aos-duration="1000")
+                                a(class="block hover:bg-gray-50" href="tel:100")
+                                    div(class="px-4 py-4 sm:px-6")
+                                        div(class="flex flex-col items-center justify-start gap-4")
+                                            //- -wrapper
+                                            lottie-player(src="/animations/index-page/moving-police-van-animation.json" class='size-24' background="transparent" speed="1", loop, autoplay)
+                                            span(class='text-lg lg:text-2xl font-bold tracking-wider') 
+                                                //- | पोलीस दल -१००
+                                                | #{t("homePage.emergencyServicesSection.services.police")}
+
+                            li(class=`${gridItemClass}` data-aos='flip-down')
+                                a(class="block hover:bg-gray-50" href="tel:112")
+                                    div(class="px-4 py-4 sm:px-6")
+                                        div(class="flex flex-col items-center justify-start gap-4")
+                                            lottie-player(src="/animations/index-page/firebrigade-animation.json" class='size-24' background="transparent" speed="1", loop, autoplay)
+                                            span(class='text-lg lg:text-2xl font-bold tracking-wider') 
+                                                //- | अग्निशमन दल- ११२
+                                                | #{t("homePage.emergencyServicesSection.services.firebrigade")}
+
+
+                            li(class=`${gridItemClass}` data-aos='flip-down')
+                                a(class="block hover:bg-gray-50" href="tel:108")
+                                    div(class="px-4 py-4 sm:px-6")
+                                        div(class="flex flex-col items-center justify-start gap-4")
+                                            lottie-player(src="/animations/index-page/moving-ambulance-animation.json" class='size-24' background="transparent" speed="1", loop, autoplay)
+                                            span(class='text-lg lg:text-2xl font-bold tracking-wider') 
+                                                //- | रुग्णवाहिका-१०८
+                                                | #{t("homePage.emergencyServicesSection.services.ambulance")}
+
+    section#information-section(class='relative py-12 md:py-20 bg-gradient-to-b from-slate-50 to-white overflow-hidden')
+
+        //- subtle background image
+        div(class='absolute inset-0 bg-[url("/backgrounds/index-page/bg-firebrigade-index-page.png")] bg-cover bg-center opacity-[0.06]')
+        div(class='absolute inset-0 bg-white/80')
+
+        .container.relative.z-10
+
+            //- ===== SECTION HEADING =====
+            h4(class='mx-auto w-fit text-center text-xl md:text-3xl font-extrabold tracking-wide text-[#234a7d] px-10 pb-3 border-b-4 border-[#234a7d]')
+                i.fa-solid.fa-hand-holding-heart.mr-2
+                span #{t("homePage.emergencyServicesSection.heading")}
+
+            //- ===== UNIFIED EMERGENCY 112 =====
+            div(class='mt-12 max-w-xl mx-auto relative overflow-hidden rounded-2xl shadow-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600')
+                div(class='absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]')
+                div(class='relative p-4 md:p-8 text-center text-white')
+                    div(class='text-3xl md:text-5xl font-black tracking-widest drop-shadow animate-pulse') 112
+                    div(class='mt-2 text-sm md:text-base font-medium tracking-wide')
+                        | सर्व आपत्कालीन सेवा (पोलीस • अग्निशमन • रुग्णवाहिका)
+                    a(href='tel:112' class='mt-2 md:mt-6 inline-flex items-center gap-2 px-8 py-3 bg-white text-red-600 font-bold rounded-full shadow-lg hover:scale-[1.05] transition')
+                        i.fa-solid.fa-phone-volume.animate-pulse
+                        span कॉल करा
+
+            //- ===== SERVICES GRID =====
+            ul(class='mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10')
+
+                -
+                    const services = [
+                        { key:'police', title:'पोलीस', number:'100', icon:'fa-shield-halved', color:'from-blue-600 to-indigo-600', glow:'shadow-blue-500/40' },
+                        { key:'fire', title:'अग्निशमन', number:'101', icon:'fa-fire-extinguisher', color:'from-orange-500 to-red-500', glow:'shadow-red-500/40' },
+                        { key:'ambulance', title:'रुग्णवाहिका', number:'108', icon:'fa-truck-medical', color:'from-emerald-500 to-teal-600', glow:'shadow-emerald-500/40' },
+                        { key:'women', title:'महिला मदत', number:'181 / 1091', icon:'fa-person-dress', color:'from-pink-500 to-rose-600', glow:'shadow-pink-500/40' },
+                        { key:'child', title:'बालमदत', number:'1098', icon:'fa-child-reaching', color:'from-yellow-500 to-amber-600', glow:'shadow-amber-500/40' },
+                        { key:'highway', title:'राष्ट्रीय महामार्ग मदत', number:'1033', icon:'fa-road', color:'from-slate-600 to-gray-800', glow:'shadow-slate-500/40' }
+                    ]
+
+                each s in services
+                    li(class='group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden')
+
+                        //- top accent
+                        div(class=`h-1.5 bg-gradient-to-r ${s.color}`)
+
+                        a(href=`tel:${s.number.split(' / ')[0]}` class='block p-3 md:p-8 text-center')
+
+                            //- MOBILE: row layout | DESKTOP: column layout
+                            div(class='flex items-center justify-between md:flex-col md:justify-center md:text-center')
+
+                                //- LEFT SIDE (icon + title)
+                                div(class='flex items-center gap-3 md:flex-col md:gap-4')
+
+                                    //- ICON CIRCLE (smaller on mobile)
+                                    div(class=`mx-auto w-12 md:w-20 aspect-square rounded-full bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-xl md:text-3xl shadow-lg ${s.glow} animate-pulse`)
+                                        i(class=`fa-solid ${s.icon}`)
+
+                                    //- TITLE
+                                    div(class='mt-2 md:mt-5 text-sm md:text-lg font-bold tracking-wide text-slate-800')
+                                        | #{t(`homePage.emergencyServicesSection.services.${s.key}`) || s.title}
+
+                                //- RIGHT SIDE (number + CTA)
+                                div(class='text-right md:text-center')
+                                    //- NUMBER
+                                    div(class='mt-1 md:mt-2 text-xl md:text-3xl font-extrabold tracking-wider text-red-600')
+                                        | #{s.number}
+
+                                    //- CTA
+                                    div(class='mt-1 md:mt-4 inline-flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold text-blue-600 group-hover:underline')
+                                        i.fa-solid.fa-phone
+                                        span कॉल करा
+
+    section(id='' class='py-8 md:py-16')
+
+        .container
+
+            - const lastSubVillage = sub_village && sub_village.length > 0 ? sub_village.slice(sub_village.length - 1, sub_village.length) : []
+            if lastSubVillage && lastSubVillage.length > 0	
+
+                #population-information-container
+                    div(class=' pt-12 sm:pt-16')
+                        div(class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8')
+                            div(class='max-w-4xl mx-auto text-center')
+                                h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                                    i.fa-solid.fa-people-group
+                                    //- span  लोकसंख्या माहिती
+                                    span #{t("homePage.populationSection.heading")}
+
+
+
+                        div(class='mt-10 pb-12 sm:pb-16')
+                            div(class='relative')
+                                div(class='absolute inset-0 h-1/2')
+                                div(class='relative  mx-auto')
+                                    div(class='mx-auto flex flex-col gap-6')
+                                        - let dtDdContainerClass = 'flex flex-col items-center justify-center border-b border-gray-100 p-3 lg:p-6 text-center  border aspect-square !rounded-full shadow-lg'
+                                        - let dtClassName = 'order-2 mt-2  leading-6 text-gray-500 font-semibold'
+                                        - let ddClassName = 'order-1 text-lg  sm:text-xl lg:text-3xl font-bold text-indigo-600'
+                                        dl(class='rounded-lg bg-white  flex justify-between gap-2')
+                                            each village in lastSubVillage
+                                                //- population count Male, female, total population
+
+                                                div(class='flex items-center gap-2')
+                                                    div(class='text-4xl sm:text-5xl md:text-9xl')
+                                                        i.fa-solid.fa-person
+
+                                                    div(class=`sm:w-16 md:w-20 lg:w-44 ${dtDdContainerClass}`) 
+                                                        //- div 
+                                                        dt(class=dtClassName) 
+                                                            //- span पुरुष
+                                                            span #{t("homePage.populationSection.population.maleLabel")}
+                                                        dd(class=ddClassName) #{village.gp_male}
+
+
+                                                div(class='flex items-center text-base md:text-3xl gap-2')
+                                                    i.fa-solid.fa-plus
+
+                                                div(class='flex items-center gap-2')
+                                                    div(class='text-4xl sm:text-5xl md:text-9xl')
+
+                                                        i.fa-solid.fa-person-dress
+
+                                                    div(class=`w-16 md:w-20 lg:w-44 ${dtDdContainerClass}`)
+                                                        //- div
+                                                        dt(class=dtClassName) 
+                                                            //- span स्त्रिया
+                                                            span #{t("homePage.populationSection.population.femaleLabel")}
+                                                        dd(class=ddClassName) #{village.gp_female}
+
+                                                div(class='flex items-center text-base md:text-3xl gap-2')
+                                                    i.fa-solid.fa-equals
+
+                                                div(class='flex items-center gap-2')
+                                                    div(class='text-4xl sm:text-5xl md:text-9xl')
+                                                        i.fa-solid.fa-people-group
+
+                                                    div(class=`w-16 md:w-20 lg:w-44 ${dtDdContainerClass}`)
+                                                        //- div
+                                                        dt(class=dtClassName) 
+                                                            //- span एकूण लोकसंख्या
+                                                            span #{t("homePage.populationSection.population.totalPopulationLabel")}
+                                                        dd(class=ddClassName) #{village.gp_male + village.gp_female}
+
+
+                                        -
+                                            const categories = [
+                                                {
+                                                    key: 'sc_count',
+                                                    label: { mr: 'अनुसूचित जाती', hi: 'अनुसूचित जाति', en: 'SC' }
+                                                },
+                                                {
+                                                    key: 'st_count',
+                                                    label: { mr: 'अनुसूचित जमाती', hi: 'अनुसूचित जनजाति', en: 'ST' }
+                                                },
+                                                {
+                                                    key: 'nt_count',
+                                                    label: { mr: 'भटक्या जमाती', hi: 'घुमंतू जाति', en: 'NT' }
+                                                },
+                                                {
+                                                    key: 'obc_count',
+                                                    label: { mr: 'इतर मागास वर्ग', hi: 'अन्य पिछड़ा वर्ग', en: 'OBC' }
+                                                },
+                                                {
+                                                    key: 'open_others_count',
+                                                    label: { mr: 'खुला / इतर', hi: 'खुला / अन्य', en: 'Open / Others' }
+                                                }
+                                            ]
+
+                                        dl(class='rounded-lg bg-white grid grid-cols-3 sm:grid-cols-5 gap-2')
+                                            each village in lastSubVillage
+                                                each category in categories
+                                                    div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                        dt(class=dtClassName) #{category.label[language]}
+                                                        dd(class=ddClassName) #{village[category.key] ? village[category.key] :  0}
+
+
+                                        //- dl(class='rounded-lg bg-whidte  grid grid-cols-3 sm:grid-cols-5 gap-2')
+                                            each village in lastSubVillage												
+                                                //- Categories part
+                                                div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                    dt(class=dtClassName) #{categories[language]}
+                                                    dd(class=ddClassName) #{village.sc_count}
+                                                div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                    dt(class=dtClassName) ST
+                                                    dd(class=ddClassName) #{village.st_count}
+                                                div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                    dt(class=dtClassName) NT
+                                                    dd(class=ddClassName) #{village.nt_count}
+
+                                                div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                    dt(class=dtClassName) OBC
+                                                    dd(class=ddClassName) #{village.obc_count}
+                                                div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
+                                                    dt(class=dtClassName) Open/Others
+                                                    dd(class=ddClassName) #{village.open_others_count}
+
+    section(class='relative py-12 md:py-20 overflow-hidden' style='background-image:url(/img/background/village-info-bg.webp); background-size:cover; background-position:center;')
+
+        //- soothing white overlay
+        div(class='absolute inset-0 bg-white/85 backdrop-blur-[2px]')
+
+        //- content
+        .container
+            #village-information-container(class='relative z-10 px-4 md:px-0')
+                .flex.flex-col.gap-8
+
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2 flex items-center')  
+                        i.fa-solid.fa-circle-info
+                        span.ml-2 
+                            //- | गावाबद्दल माहिती
+                            | #{t("homePage.aboutVillageSection.heading")}
+
+
+                    //- some content is dynamic herre(so cnat translate here)
+                    div 
+                        div(class='grid grid-cols-1 md:grid-cols-3 gap-8')
+                            .left(class='md:col-span-2 order-2 md:order-1' data-aos='zoom-in')
+                                div(class='h-full flex items-center')
+
+                                    ul(class='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8')
+
+                                        - const gpInfoOne = gp && gp.gp_info_one ? (() => { try { return JSON.parse(gp.gp_info_one); } catch { return {}; } })() : {}
+                                        - let gpInfoListItemClass = 'border bg-white/90 text-sm md:text-base font-bold tracking-wide  rounded-md shadow-2xl shadow-blue-500/20 transition duration-200 ease-in hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] leading-8' 
+
+                                        each gpInfo in gpInfoOne
+                                            li(class=`${gpInfoListItemClass}`  data-aos='zoom-in')
+                                                div(class="block hover:bg-gray-50")
+                                                    div(class="px-4 py-4 sm:px-6")
+                                                        div(class="flex items-center justify-start gap-4")
+                                                            <i class="fa-regular fa-circle-dot"></i>
+                                                            span #{gpInfo.info}
+                                        li(class=`${gpInfoListItemClass}`  data-aos='zoom-in' )
+                                            div(class="block hover:bg-gray-50" )
+                                                div(class="px-4 py-4 sm:px-6")
+                                                    div(class="flex items-center justify-start gap-4")
+                                                        <i class="fa-regular fa-circle-dot"></i>
+                                                        - let sentence = { mr: `या ग्रामपंचायतमध्ये एकूण ${gp.gp_ward} वार्ड आहेत.`, hi: `इस ग्राम पंचायत में कुल ${gp.gp_ward} वार्ड हैं।`, en: `This Gram Panchayat has a total of ${gp.gp_ward} wards.` };
+                                                        //- span या ग्रामपंचायत मध्ये एकूण #{gp.gp_ward} वार्ड आहेत.
+                                                        span #{sentence[language]}
+
+                                        li(class=`${gpInfoListItemClass}`  data-aos='zoom-in' )
+                                            div(class="block hover:bg-gray-50" )
+                                                div(class="px-4 py-4 sm:px-6")
+                                                    div(class="flex items-center justify-start gap-4")
+                                                        <i class="fa-regular fa-circle-dot"></i>
+                                                        - sentence = { mr: `ग्रामपंचायत ${gp.gp_name} मध्ये ग्रामपंचायत पदाधिकारी पदांची संख्या ${gp.gp_sadasya} आहे.`, hi: `ग्राम पंचायत ${gp.gp_name} में ग्राम पंचायत पदाधिकारियों की संख्या ${gp.gp_sadasya} है।`, en: `The Gram Panchayat ${gp.gp_name} has a total of ${gp.gp_sadasya} official positions.` };
+                                                        //- span ग्रामपंचायत #{gp.gp_name} मध्ये ग्रामपंचायत पदाधिकारी पदांची संख्या #{gp.gp_sadasya} आहे.
+                                                        span #{sentence[language]}
+
+
+                            .right(class='md:col-span-1 order-1 md:order-2' data-aos='zoom-in')
+                                div(class='relative animation-holder w-full h-full')
+                                    div(class='weather-link-holder absolute left-2 top-2 z-10')
+                                        a(class='relative block w-40 group' href='https://www.accuweather.com' style='cursor: pointer !important' target='_blank')
+                                            img(src='/img/iconic/white-cloud.png' class='w-full cursor-pointer')
+                                            span(class='absolute top-[40%] left-[25%] font-bold tracking-wider text-teal-800 cursor-pointer') 
+                                                //- | हवामान बघा
+                                                | #{t("homePage.aboutVillageSection.checkWeather")}
+
+                                    lottie-player(src="/animations/index-page/gram-info-animation.json" class='w-[90%] aspect-square' background="transparent" speed="1", loop, autoplay)
+
+
+
+    section(class='py-8 md:py-16')
+        .container 
+            #gp-purposes
+                h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                    <i class="fa-solid fa-bullseye"></i>
+                    span.ml-2 
+                        //- | ग्रामपंचायतीची उद्दिष्टे
+                        | #{t("homePage.gpPurposesSection.heading")}
+                    //- div(data-aos='zoom-out' data-aos-offset="20" data-aos-delay="50" data-aos-mirror="true" data-aos-once="false" data-aos-anchor-placement="top-center")div(data-aos='zoom-out' data-aos-offset="20" data-aos-delay="50" data-aos-mirror="true" data-aos-once="false" data-aos-anchor-placement="top-center")
+                div(class='grid grid-cols-1 md:grid-cols-5 gap-2 md:gap-8')
+
+                    .left(class='md:col-span-2' data-aos='zoom-in')
+                        .purpose-animation-holder(class='w-[50%] mx-auto md:w-full')
+                            lottie-player(src="/animations/index-page/gp-purpose-animation.json" class='max-size-[48px]' background="transparent" speed="1", loop, autoplay)
+
+                    .right(class='md:col-span-3')
+
+                        -
+                            const gp_uddishtes = [
+                                {
+                                    mr: "ग्रामस्थांना पिण्याचे पाणी, रस्ते, वीज, स्वच्छता व इतर मूलभूत सुविधा उपलब्ध करून देणे.",
+                                    hi: "ग्रामवासियों को पेयजल, सड़क, बिजली, स्वच्छता और अन्य मूलभूत सुविधाएँ उपलब्ध कराना।",
+                                    en: "Providing villagers with drinking water, roads, electricity, sanitation, and other basic facilities."
+                                },
+                                {
+                                    mr: "शाळा, अंगणवाडी, व प्राथमिक आरोग्य केंद्रांद्वारे शिक्षण व आरोग्य सेवा सुधारणा करणे.",
+                                    hi: "स्कूल, आंगनवाड़ी और प्राथमिक स्वास्थ्य केंद्रों के माध्यम से शिक्षा और स्वास्थ्य सेवाओं में सुधार करना।",
+                                    en: "Improving education and health services through schools, Anganwadi centers, and primary health centers."
+                                },
+                                {
+                                    mr: "महिला व बालकल्याणासाठी स्व-सहायता गट व पोषण योजना राबवणे.",
+                                    hi: "महिला और बाल कल्याण के लिए स्वयं सहायता समूह और पोषण योजनाएँ लागू करना।",
+                                    en: "Implementing self-help groups and nutrition schemes for women and child welfare."
+                                },
+                                {
+                                    mr: "जलसंधारण, सिंचन व कृषी प्रशिक्षणाद्वारे शाश्वत कृषी विकास साधणे.",
+                                    hi: "जलसंधारण, सिंचाई और कृषि प्रशिक्षण के माध्यम से सतत कृषि विकास करना।",
+                                    en: "Achieving sustainable agricultural development through water conservation, irrigation, and agricultural training."
+                                },
+                                {
+                                    mr: "ग्रामसभा व डिजिटल तंत्रज्ञानाद्वारे पारदर्शक व उत्तरदायी प्रशासन राबवणे.",
+                                    hi: "ग्राम सभा और डिजिटल तकनीक के माध्यम से पारदर्शी और जवाबदेह प्रशासन लागू करना।",
+                                    en: "Implementing transparent and accountable governance through Gram Sabha and digital technology."
+                                }
+                            ];
+
+
+                        div(class='px-4 py-6 h-full flex items-center bg-white bg-opacity-60 rounded-md')
+                            div
+                                //- h2(class="text-xl font-bold text-gray-800 mb-4") उद्दिष्टे
+                                ul(class="mt-4 flex flex-col gap-4 font-bold" role="list")
+                                    each uddisht in gp_uddishtes
+                                        li(class='border border-[#138f78] rounded-md shadow-sm' data-aos='zoom-in')
+                                            div(class="px-4 py-4 flex items-start gap-4")
+                                                i(class="fa-solid fa-circle text-[#138f78] mt-1")
+                                                span(class='text-sm md:text-base lg:text-lg text-gray-800') #{uddisht[language]}
+
+
+                        //- div(class='px-4 py-6 h-full flex items-center  bg-white bg-opacity-60 rounded-md')
+                            div(class='')
+                                div
+                                    ul(class="mt-4 flex flex-col gap-4 font-bold" role="list")
+                                        - const _gpInfoOne = gp && gp.gp_info_one ? (() => { try { return JSON.parse(gp.gp_info_one); } catch { return {}; } })() : {}
+                                        each gpInfo in _gpInfoOne
+                                            li(class='border rounded-md' data-aos='zoom-in')
+                                                div(class="block hover:bg-gray-50")
+                                                    div(class="px-4 py-4 sm:px-6")
+                                                        div(class="flex items-center justify-start gap-4")
+                                                            <i class="fa-solid fa-circle "></i>
+                                                            span(class='text-sm md:text-base lg:text-lg') #{gpInfo.info}
+
+    section#vikas-kame
+        .container
+            #gp-works-container
+                div(class='flex flex-col gap-4')
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        <i class="fa-solid fa-circle-check"></i>
+                        span.ml-2 
+                            //- | ग्राम पंचायतीचे कार्य
+                            | #{t("homePage.gpWorksSection.heading")}
+                    div()
+                        div(class='grid grid-cols-1 md:grid-cols-5 gap-8')
+                            .left(class='md:col-span-3 order-2 md:order-1')
+                                ul(class='flex flex-col gap-2')
+                                    - const gpInfoWork = gp.gp_info_three ? JSON.parse(gp.gp_info_three) : []
+                                    each work in gpInfoWork
+                                        li(class='border-animation border-gray-400 font-semibold' data-aos='fade-up')
+                                            div(class="block hover:bg-gray-50")
+                                                div(class="px-4 py-2 sm:px-6")
+                                                    div(class="flex items-center justify-start gap-4")
+                                                        <i class="fa-solid fa-trophy"></i>
+                                                        span(class='text-sm md:text-base lg:text-lg tracking-wider leading-6') #{work.info}
+
+                            .right(class='md:col-span-2 order-1 md:order-2' data-aos='fade-up')
+                                .animation-container(class='w-[50%] mx-auto md:w-full')
+                                    lottie-player(src="/animations/index-page/work-done-animation.json" class='max-size-[48px]' background="transparent" speed="1", loop, autoplay)
+
+
+    section(class='py-8 md:py-16')
+        .container
+
+            #video-gallery
+                .flex.flex-col.gap-4
+
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i.fa-solid.fa-video
+                        span.ml-2 
+                            //- | विडीयो गॅलरी
+                            | #{t("homePage.videoGallerySection.heading")}
+
+                    div(class='mt-8 grid grid-cols-1 md:grid-cols-3 gap-4')
+                        - const showVideos = (videos && videos.length > 0) ?  [...videos] : Array(3).fill({video_link : 'https://www.youtube.com/embed/CsZ2Q3TIgp0' })
+                        each video in showVideos
+                            .video(class='shadow-xl border-4 border-gray-200' data-aos='fade-up')
+
+                                if video && video.video_link
+                                    iframe(class='aspect-video' loading='lazy' width="100%" src=video.video_link title="Gram Panchayat /ग्राम पंचायत" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+                                    //- iframe.mt-3(style="height:9.5rem" width="100%" src=video.video_link, title="Gram Panchayat /ग्राम पंचायत" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+                                else 
+                                    - let videoSrc = `/uploads/videos/videoGallery/${video.video_name}`
+                                    video.lazy-video(class='aspect-video' style="width:100%" controls data-src=videoSrc)
+                                        //- source(src=videoSrc)
+
+                                div(class='px-2 pt-4') #{video.video_desc ? video.video_desc : '-'}
+
+
+    //- इतर दुवे 
+
+    section(class='py-8 md:py-16')
+        .container
+            #other-links
+                .flex.flex-col.gap-8
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i(class='fas fa-link') 
+                        span.ml-2 
+                            //- | इतर दुवे
+                            | #{t("homePage.otherLinksSection.heading")}
+                    ul(class='px-8 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4')
+                        -
+                            const otherLinks = [
+                                { 
+                                    link: "https://www.mahaonline.gov.in/", 
+                                    icon: "fa-solid fa-user", 
+                                    text: {
+                                        mr: "नागरिकांसाठीच्या सेवा",
+                                        hi: "नागरिकों के लिए सेवाएँ",
+                                        en: "Citizen Services"
+                                    }
+                                },
+                                { 
+                                    link: "https://gr.maharashtra.gov.in/1125/Home", 
+                                    icon: "fa-solid fa-gavel", 
+                                    text: {
+                                        mr: "शासन निर्णय",
+                                        hi: "सरकारी निर्णय",
+                                        en: "Government Resolutions"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1149/Rate-Contracts", 
+                                    icon: "fa-solid fa-file-contract", 
+                                    text: {
+                                        mr: "दर करार",
+                                        hi: "दर अनुबंध",
+                                        en: "Rate Contracts"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1135/e-Tendering", 
+                                    icon: "fa-solid fa-file-signature", 
+                                    text: {
+                                        mr: "ई-निविदा",
+                                        hi: "ई-निविदा",
+                                        en: "e-Tendering"
+                                    }
+                                },
+                                { 
+                                    link: "http://it.maharashtra.gov.in/1089/IT-Act-Judgements", 
+                                    icon: "fa-solid fa-balance-scale", 
+                                    text: {
+                                        mr: "माहिती तंत्रज्ञान अधिनियम न्यायनिर्णय",
+                                        hi: "सूचना प्रौद्योगिकी अधिनियम निर्णय",
+                                        en: "IT Act Judgements"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1144/Cabinet-Decisions", 
+                                    icon: "fa-solid fa-cogs", 
+                                    text: {
+                                        mr: "मंत्रिमंडळ निर्णय",
+                                        hi: "मंत्रिमंडल निर्णय",
+                                        en: "Cabinet Decisions"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1146/Tenders", 
+                                    icon: "fa-solid fa-handshake", 
+                                    text: {
+                                        mr: "निविदा",
+                                        hi: "निविदाएँ",
+                                        en: "Tenders"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1147/Citizen-Charter", 
+                                    icon: "fa-solid fa-id-card", 
+                                    text: {
+                                        mr: "नागरिकांची सनद",
+                                        hi: "नागरिक सनद",
+                                        en: "Citizen Charter"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1150/Acts-Rules", 
+                                    icon: "fa-solid fa-book", 
+                                    text: {
+                                        mr: "कायदे/नियम",
+                                        hi: "कानून/नियम",
+                                        en: "Acts / Rules"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1204/Public-Holidays", 
+                                    icon: "fa-solid fa-calendar-alt", 
+                                    text: {
+                                        mr: "सार्वजनिक सुट्ट्या",
+                                        hi: "सार्वजनिक छुट्टियाँ",
+                                        en: "Public Holidays"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.maharashtra.gov.in/1172/Performance-Budget", 
+                                    icon: "fa-solid fa-chart-line", 
+                                    text: {
+                                        mr: "कार्यक्रम अंदाजपत्रक",
+                                        hi: "कार्यक्रम बजट",
+                                        en: "Performance Budget"
+                                    }
+                                }
+                            ];
+
+
+                        each otherLink in otherLinks
+
+                            li(class='relative group' data-aos='fade-up' data-aos-duration="200")
+                                div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                a(href=otherLink.link, class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+                                    i.w-5(class=`${otherLink.icon} text-blue-400`  data-aos='fade-up'  )
+                                    div(class='flex-1 overflow-hidden ' data-aos='fade-up' )
+                                        p(class='truncate whitespace-nowrap') #{otherLink.text[language]}
+
+    section(class='py-8 md:py-16') 
+        .container 
+            #ahaval-and-info
+                .flex.flex-col.gap-8
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i(class='fas fa-file-text')
+                        span.ml-2 
+                            //- | अहवाल व माहिती
+                            | #{t("homePage.reportsInfoSection.heading")}
+
+
+                    ul(class='px-8 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4')
+                        - let _gram_ahaval_documents = gram_ahaval_documents
+                        //- - let _gram_ahaval_documents = Array(3).fill(null).map(() => ({ document_name: "imporatn 3845959495749759794 945794759749 9457947 9749574957" }));
+
+                        if _gram_ahaval_documents && _gram_ahaval_documents.length > 0
+                            each ahaval in _gram_ahaval_documents
+                                li(class='relative group')
+                                    div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                    a(href=`/new-gp-page/main-page/files/gram-ahaval-documents/${ahaval.document_file_name}` target='_blank' class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+                                        i.w-5(class=`fa-solid fa-link text-blue-400`)
+                                        div(class='flex-1 overflow-hidden ')
+                                            p(class='truncate whitespace-nowrap') #{ahaval.document_name}
+
+                        else
+
+                            li(class='relative group col-span-4')
+                                //- div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                button(disabled class='relative w-full px-4 py-4  font-medium bg-white  ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+                                    //- i.w-5(class=`fa-solid fa-link text-blue-400`)
+                                    div(class='flex-1 overflow-hidden ')
+                                        p(class='truncate whitespace-nowrap font-bold') 
+                                            //- | अहवाल उपलब्ध नाही
+                                            | #{t("homePage.reportsInfoSection.noReportsAvailable")}
+
+    section(class='py-8 md:py-16')
+        .container
+            #important-links
+                .flex.flex-col.gap-8
+
+                    h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i(class='fas fa-link') 
+                        span.ml-2 
+                            //- | महत्वपूर्ण  लिंक्स
+                            | #{t("homePage.importantLinksSection.heading")}
+
+                    //- div(class='py-4 lg:shadow-xl lg:px-2 lg:rounded-md lg:bg-white')
+                    //- 	div(class='lg:px-2 lg:h-96 lg:overflow-auto my-scrollbar-thickness')
+                    ul(class='px-8 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4')
+                        -
+                            const importantLinks = [
+                                { 
+                                    link: "https://www.iay.nic.in/netiay/home.aspx", 
+                                    icon: "fa-solid fa-home", 
+                                    text: {
+                                        mr: "घरकुल योजना",
+                                        hi: "आवास योजना",
+                                        en: "Housing Scheme"
+                                    }
+                                },
+                                { 
+                                    link: "https://www.india.gov.in/", 
+                                    icon: "fa-solid fa-landmark", 
+                                    text: {
+                                        mr: "भारत सरकार",
+                                        hi: "भारत सरकार",
+                                        en: "Government of India"
+                                    }
+                                },
+                                { 
+                                    link: "http://sbm.gov.in/sbmReport/home.aspx", 
+                                    icon: "fa-solid fa-broom", 
+                                    text: {
+                                        mr: "स्वच्छ भारत",
+                                        hi: "स्वच्छ भारत",
+                                        en: "Swachh Bharat"
+                                    }
+                                },
+                                { 
+                                    link: "https://krishi.maharashtra.gov.in", 
+                                    icon: "fa-solid fa-seedling", 
+                                    text: {
+                                        mr: "कृषि विभाग, महाराष्ट्र शासन",
+                                        hi: "कृषि विभाग, महाराष्ट्र सरकार",
+                                        en: "Agriculture Department, Government of Maharashtra"
+                                    }
+                                },
+                                { 
+                                    link: "https://rdd.maharashtra.gov.in/", 
+                                    icon: "fa-solid fa-building", 
+                                    text: {
+                                        mr: "ग्राम विकास विभाग",
+                                        hi: "ग्राम विकास विभाग",
+                                        en: "Rural Development Department"
+                                    }
+                                },
+                                { 
+                                    link: "https://eop.zpamravati-gov.in/index.php", 
+                                    icon: "fa-solid fa-school", 
+                                    text: {
+                                        mr: "प्राथमिक शिक्षण विभाग",
+                                        hi: "प्राथमिक शिक्षा विभाग",
+                                        en: "Primary Education Department"
+                                    }
+                                },
+
+                                {
+                                    link: "https://zpamravati.gov.in/",
+                                    icon: "fas fa-university",
+                                    text: {
+                                        mr: "जिल्हा परिषद अमरावती",
+                                        hi: "जिला परिषद अमरावती",
+                                        en: "Amravati Zilla Parishad"
+                                    }
+                                }
+
+                            ];
+
+
+                        each importantLink in importantLinks
+
+
+                            li(class='relative group')
+                                div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                a(href=importantLink.link, class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4' target='_blank')
+
+                                    i.w-5(class=`${importantLink.icon} text-blue-400` data-aos='fade-up' data-aos-duration="250")
+                                    div(class='flex-1 overflow-hidden ' data-aos='fade-up' )
+                                        p(class='truncate whitespace-nowrap' data-aos='fade-up' ) #{importantLink.text[language]}
+
+    section(class='py-6 md:py-12')
+        .container 
+            #ideal-chart-container 
+                .flex.flex-col.gap-8
+
+                    h4.information-heading(class='text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i(class='fas fa-link') 
+                        span.ml-2 
+                            //- | ग्रामपंचायत आदर्श तक्ता
+                            | #{t("homePage.gpIdealChartSection.heading")}
+
+                    div
+                        - let taktaList = gp && gp.ps_gram_adarsh_takta && JSON.parse(gp.ps_gram_adarsh_takta) ? JSON.parse(gp.ps_gram_adarsh_takta) : {}
+                        - let keys = Object.keys(taktaList)
+                        ul(class='px-8 sm:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')
+                            each key in keys.slice(0, 10)
+
+                                li(class='relative group' data-aos='fade-up' )
+                                    div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                    div( class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+
+                                        span(class=`font-semibold`) #{key} :
+                                        div(class='flex-1 overflow-hidden text-gray-600')
+                                            p(class='truncate whitespace-nowrap') #{taktaList[key]}
+
+                            each key in keys.slice(10)
+                                li.takta-list-extra-items(class='relative group' data-aos='fade-up' )
+                                    div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                    div( class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+
+                                        span5(class=`font-semibold`) #{key} :
+                                        div(class='flex-1 overflow-hidden text-gray-600')
+                                            p(class='truncate whitespace-nowrap') #{taktaList[key]}
+
+                    //- div.text-center
+                    //- 	button.my-text-blue.font-bold Show More...
+
+
+
+    section(class='py-8 md:py-16')
+        .container 
+            #map-container(class='')
+
+                .flex.flex-col.gap-8
+
+                    h4.information-heading(class='text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider  w-fit mx-auto px-8 pb-2 border-b-2')  
+                        i(class='fas fa-link') 
+                        span.ml-2 
+                            //- | गावाचा नकाशा व दिशा पट
+                            | #{t("homePage.villageMapDirectionSection.heading")}
+
+                    //- not changing this card, bcz its a card
+                    div(class='grid grid-cols-1 lg:grid-cols-2 md:gap-8')
+                        .left.map-image(class="flex justify-center lg:block")
+                            .image-holder
+                                //- img.img-thumbnail(class='h-56 md:h-80 w-full' src="/new-gp-page/main-page/images/gp-pic/gaav-nkasha.png" style="" loading="lazy")
+                                each userVal, count in userData
+                                    div(class=`relative inline-block md:w-[130mm] w-fit my-[10px]`)
+                                        //- img(src='/new-gp-page/main-page/images/gp-pic/stikers.jpg' width='100%')
+                                        img(src='/new-gp-page/main-page/images/gp-pic/card-print-img-new-3.jpeg' width='100%')
+
+                                        - let url = userVal.feu_image !== "" ? "/home_map_image/home_photo/" + userVal.feu_image : "";
+                                        //- h 110 w 120
+                                        img(src=url, alt="" class='w-[23.7%] h-[26.2%]' style='position:absolute;z-index:1;top:62.5%;left:72.14%;' onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                        - let id = `qrcode${count}`
+                                        //- div.qrcode(id=id, class="absolute z-[1] top-[62.5%] left-[7%] md:left-[8%] w-[20%] h-[26%] md:w-[86px] md:h-[86px]")
+                                        div.qrcode(id=id, class="absolute z-[1] top-[62.5%] left-[4.9%] md:left-[5.5%] w-[4.2rem] sm:w-[5.25rem] aspect-square")
+
+                                        //- small(style='position:absolute;z-index:1;top:5.5%;left:50%; font-size:1.1rem; font-weight:bold; color: green;') #{gp.gp_name}
+                                        //- small(style='position:absolute;z-index:1;top:14%;left:32.5%;font-weight:bold; color:blue;') #{gp.gp_taluka}
+                                        //- small(style='position:absolute;z-index:1;top:14%;left:67%;font-weight:bold; color:blue;') #{gp.gp_dist}
+
+
+
+                                        //- small.show-year(style='position:absolute;z-index:1;top:27.8%;left:9%;width:310px;')
+                                        span(style="position:absolute; top:10%; left:16%; width:68%;" class='text-red-600 text-center text-[0.93rem] md:text-xl') ग्रामपंचायत कार्यालय #{gp.gp_name}
+
+                                        span(style="position:absolute; top:18%; left:15%; width:70%;" class='text-blue-600 text-center text-[0.7rem] md:text-base") ') पंचायत समिती : #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist}
+
+                                        small(style='position:absolute;z-index:1;top:35.8%;left:28%;;' class='text-[0.7rem] md:text-[0.84rem] text-[#990000] font-medium') #{userVal.feu_ownerName}
+                                        small(style='position:absolute;z-index:1;top:44.5%;left:24.4%;' class='text-[0.7rem] md:text-[0.84rem] text-[#990000] font-medium') #{userVal.feu_secondOwnerName}
+                                        small(style='position:absolute;z-index:1;top:52%;left:20%;font-weight:bold;' class='text-[0.7rem] md:text-[0.84rem] text-[#990000] font-medium') #{userVal.feu_malmattaNo}
+                                        small(style='position:absolute;z-index:1;top:52%;left:44%' class='text-[0.7rem] md:text-[0.84rem] text-[#990000] font-medium') #{(userVal.feu_mobileNo != '' && userVal.feu_mobileNo != '-') ? userVal.feu_mobileNo : '-'}
+                                        small(style='position:absolute;z-index:1;top:52%;left:75%' class='text-[0.7rem] md:text-[0.84rem] text-[#990000] font-medium') #{(userVal.feu_aadharNo != '' && userVal.feu_aadharNo != '-' ) ? userVal.feu_aadharNo : '-'}
+
+                        .right.map-iframe(class='')
+                            .iframe-holder 
+                                iframe(style="" class='h-56 md:h-80 w-full' src=gp.gp_map, frameborder="0", allowfullscreen)
+
+
+    dialog#myModal.modal
+        .modal-box
+
+            form(method="dialog")
+
+                - let selectText = { mr: 'गाव निवडा', hi: 'गाँव चुनें', en: 'Select Village' };
+                h3(class='text-center text-gray-500 font-bold text-xl') #{selectText[language]}
+                button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+            .p-4(class='md:p-5')
+                .modal-body
+                    table.table.table-bordered(class='w-full border-collapse border border-gray-200')
+                        thead
+                            tr
+                                each value, index in sub_village
+                                    th(width="5%" class='border border-gray-300 p-2') #{index + 1}
+                                    th(class='border border-gray-300 p-2')
+                                        - var url = value.gp_url + "/login";
+                                        button(data-url=url, class='redirectToLoginPageModalBtn text-blue-500 hover:text-blue-700') #{value.gp_name}
+
+    dialog#myModal1.modal
+        .modal-box.bg-white
+
+            form(method="dialog")
+
+                - let chooseVillage = { mr: 'नवीन अर्जासाठी गाव निवडा', hi: 'नए आवेदन के लिए गाँव चुनें', en: 'Select village for new application' };
+                h3(class='text-center text-gray-500 font-bold text-xl') #{chooseVillage[language]}
+                button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+            .p-4(class='md:p-5')
+                .modal-body
+                    table.table.table-bordered(class='w-full border-collapse border border-gray-200')
+                        thead
+                            tr
+                                each value, index in sub_village
+                                    th(width="5%" class='border border-gray-300 p-2') #{index + 1}
+                                    th(class='border border-gray-300 p-2')
+                                        - var url = value.gp_url + "/new-application-form";
+                                        a(href=url, class='text-blue-500 hover:text-blue-700') #{value.gp_name}
+
+
+    //- show the more gp information in this modal
+    dialog#gp-member-info-modal.modal
+        div.modal-box.bg-white.vertically-scrollable(class='max-w-[800px] w-[90%]')
+
+            form(method="dialog")
+                - let gpMemberInfo = { mr: "ग्राम सदस्य माहिती", hi: "ग्राम सदस्य जानकारी", en: "Village Member Information" }
+                h3(class='text-center text-gray-500 font-bold text-xl') #{gpMemberInfo[language]}
+                button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+            .modal-body-holder.p-4(class='md:p-5')
+                .modal-body
+                    div
+
+                        div(class='flex items-start gap-2')
+                            div(class='left-part-image')
+                                img#gp-member-image(src='' class='h-32 w-28 border-2 border-gray-400 rounded-sm object-cover' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+
+                            div(class='right-part-name-post space-y-1')
+                                div#gp-member-name(class='text-gray-800 font-bold text-lg md:text-xl') -
+                                div#gp-member-post(class='text-blue-500 font-medium text-sm md:text-base') -
+
+                        div(class='mt-4')
+                            p#gp-member-info(class='member-information-para') 
+
+            //- .modal-footer 
+                div          
+
+
+    dialog#noticeModal.modal
+        .modal-box(class='bg-white')
+
+            form(method="dialog")
+
+                - let noticeText = { mr: 'नोटीस', hi: 'नोटिस', en: 'Notice' };
+
+                h3(class='text-center text-gray-500 font-bold text-xl') #{noticeText[language]}
+                button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+            .p-4(class='md:p-5')
+                .modal-body
+                    ul.notice-list(class='flex flex-col gap-4 list-disc' role='list')
+                        each gp_notice in notice 
+                            li.notice-item 
+                                div #{gp_notice.notice}
+
+
+
+
+            //-   if(birthday.length > 0) 
+            //-     .col-12
+            //-       p.gp-title-1 आजचे वाढदिवस
+            //-       if(birthday.length > 10)
+            //-         marquee.b-day-list
+            //-           .d-flex.p-1
+            //-             each bBoy in birthday
+            //-               div.mx-1.text-center
+            //-                 - var link = "/new-gp-page/main-page/images/user-pic/"+bBoy.fImage
+            //-                 img(src=link, alt="")
+            //-                 p.m-0 #{bBoy.fName}  
+            //-       else
+            //-         .b-day-list
+            //-           .d-flex.p-1
+            //-             each bBoy in birthday
+            //-               div.mx-1.text-center
+            //-                 - var link = "/new-gp-page/main-page/images/user-pic/"+bBoy.fImage
+            //-                 img(src=link, alt="")
+            //-                 p.m-0 #{bBoy.fName}  
+            //-   
+
+
+
+block internal_js
+    script(src="https://cdn.lightwidget.com/widgets/lightwidget.js")
+
+    script.
+        document.addEventListener("DOMContentLoaded", function() {
+
+
+            var data = !{userDataString};
+            if(data){
+                data.forEach(function(userData, index) {
+                    generateQRCode(index, userData);
+                });
+            }
+            function generateQRCode(id, userData) {
+                //- let website = 'https://g-seva.com/pay';
+                //- website = `${website}/!{zp.pg_registration_no}/${userData.id}?rTo=${encodeURIComponent(window.location.origin)}`;
+                //- new QRCode(document.getElementById("qrcode" + id), website);
+                const container = document.getElementById("qrcode" + id);
+
+                // clear old QR (important for resize)
+                container.innerHTML = "";
+
+                let website = 'https://g-seva.com/pay';
+                website = `${website}/!{zp.pg_registration_no}/${userData.id}?rTo=${encodeURIComponent(window.location.origin)}`;
+
+                // get actual container width
+                const size = container.offsetWidth || 80; // fallback for mobile
+
+                new QRCode(container, {
+                    text: website,
+                    width: size,
+                    height: size
+                });
+            }
+
+
+            //- const allowedDomains = ['gpsangwabk.com', 'www.gpsangwabk.com'];
+            //- if (!allowedDomains.includes(window.location.hostname)) {
+            //-     document.getElementById('sangwa-section')?.remove();
+            //- }
+            AOS.init();
+
+            $("#accordion-shasan-pdf").accordion({
+                collapsible: true,
+                "heightStyle": "auto" ,
+                active: false,
+                activate: function (event, ui) {
+                    console.log(ui)
+                        $(ui.newPanel).css('height', '200');
+                        $(ui.newPanel).css('min-height', '200');
+                        $(ui.newPanel).css('max-height', '600');
+                    }
+            });
+            //- $('#myModal3').modal('show')
+            $.ajax({
+                url:"/site-seen",
+                method:'post',
+                data:{	
+                    count:Number(#{gp.gp_site_count})+1
+                }
+                }).done(function(data){
+                    console.log(data)
+                }).fail(function(error){
+                    alert('something went worng, try again')
+                    console.log(error)
+                })
+
+            let $carousel = $('.owl-carousel.gp-images-carousel');
+
+            $carousel.owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 1,
+
+                nav: false,        // ❌ disable default arrows (we use custom buttons)
+                dots: true,        // ✅ show dots
+                autoplay: true,
+                autoplayTimeout: 4500,
+                autoplayHoverPause: true,
+                smartSpeed: 800,   // smoother slide transition
+
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 1 },
+                    1000: { items: 1 }
+                }
+            });
+
+            $('#gp-slider-prev-btn').on('click', function () {
+                $carousel.trigger('prev.owl.carousel');
+            });
+
+            $('#gp-slider-next-btn').on('click', function () {
+                $carousel.trigger('next.owl.carousel');
+            });
+
+            $('.owl-carousel.arogya-camp-photos').owlCarousel({
+                items: 3.5,
+                // responsive: {
+                //   750: { items: 2 },
+                //   900: { items: 3.5 },
+                // },
+                loop: true,
+                margin: 30,
+                autoplay: true,
+                slideTransition: 'linear',
+                autoplayTimeout: 2500,
+                smartSpeed: 2500,
+                center: true,
+                autoplayHoverPause: true,
+                dots: true,
+                rewind: true
+            })
+        })
+    if(notice.length !== 0)
+        script.
+            // To work on
+            document.addEventListener("DOMContentLoaded", function() {
+                daisyUIModal.show('noticeModal');
+
+
+                let validateInput = (name, value) => {
+                    let isError = false;
+                    if (value === "") {
+                        errors[name] = "Please enter " + name;
+                        isError = true;
+                    } else {
+                        let _text = "";
+                        switch (name) {
+                            case "username":
+                                _text = testRegEx("user", value) ? "" : "Invalid User Full Name";
+                                break;
+                            case "mobile":
+                                _text = testRegEx("mobile", Number(value))
+                                    ? ""
+                                    : "Invalid Mobile Number";
+                                break;
+                            case "email":
+                                _text = testRegEx("email", value) ? "" : "Invalid Email";
+                                break;
+                            case "userid":
+                                _text = testRegEx("username", value)
+                                    ? ""
+                                    : "Username Must Be without space";
+                                break;
+                            case "confirmpassword":
+                                _text = forms.password === value ? "" : "Password is not matching";
+                                break;
+                        }
+                        isError = _text === "" ? false : true;
+                        errors[name] = _text;
+                    }
+                    setErrors({ ...errors });
+                };
+
+                let testRegEx = (type, string) => {
+                    let expression = {
+                        email: /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)$/g,
+                        mobile: /^[6-9]\d{9}$/g,
+                        username: /^([a-zA-z])+$/g,
+                        user: /^([ A-Za-z])+$/g,
+                        c_mobile: /^\+\d{2}[7-9]\d{9}$/g,
+                        search: /([a-zA-Z0-9].*)/g,
+                    };
+
+                    const regex = new RegExp(expression[type]);
+                    return regex.test(string);
+                };
+
+                function getCurrentDateInMarathi() {
+                    const daysInMarathi = [
+                        "रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"
+                    ];
+
+                    const monthsInMarathi = [
+                        "जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", 
+                        "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"
+                    ];
+
+                    const devanagariDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+
+                    const today = new Date();
+
+                    const day = daysInMarathi[today.getDay()]; // Get the current day in Marathi
+                    const date = String(today.getDate()).padStart(2, '0').split('').map(num => devanagariDigits[num]).join(''); // Convert date to Devanagari
+                    const month = monthsInMarathi[today.getMonth()]; // Get the current month in Marathi
+                    const year = today.getFullYear().toString().split('').map(num => devanagariDigits[num]).join(''); // Convert year to Devanagari
+
+                    return `${day}, ${date} ${month} ${year}`;
+                }
+
+                // Set the content of the paragraph
+                //- document.getElementById('current-date-devnagari')?.textContent = getCurrentDateInMarathi();
+            })
+
+
+    script(src='/asstest/coustom/js/handlers/home-page-handler.js')
+

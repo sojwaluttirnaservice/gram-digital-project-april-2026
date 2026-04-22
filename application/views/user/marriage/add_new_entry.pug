@@ -1,0 +1,213 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    //- link(rel='stylesheet' href='/asstest/bs-5.3.2/css/bootstrap.min.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js") 
+
+    //- script(src='/asstest/bs-5.3.2/js/bootstrap.min.js')
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    //mask plugin jquery    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/marriage.js' defer)
+    script(src='/asstest/coustom/js/handlers/webcam.handler.marage.js' defer)
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row.pt-3.w-100.justify-content-center.mx-auto
+            .col-12
+                center
+                    span.font-weight-bold
+                        | (भाग चार- ब ) महाराष्ट्र शासन राजपत्र मे 20, 1999,/ वैशाख 30, शके 1921 नमनुा "ई" form no. E
+                        a(href="/marriage/list").float-right.btn.btn-sm.btn-primary.mr-2 यादी बघा
+                        button.btn.btn-sm.btn-primary.mr-2.float-right(type='button' onclick='history.back();') Back
+                    h5.font-weight-bold.m-3 विवाह नोंदणीचे प्रमाणपत्र
+
+                    h6.font-weight-bold.text-secondary [पहा कलम ६(१) आधण नियम ५] (see section 6[1][e] and rule 5]
+
+            .col-12
+                form#newMarriageForm
+                    .row.w-100.justify-content-center.mx-auto(style='row-gap: 1rem;')
+                        .col-12.col-md-4
+                            .card
+                                .card-header.bg-warning.font-weight-bold पती माहिती
+                                .card-body.row
+                                    .form-group.col-12.col-md-6
+                                        label.font-weight-bold(for='my-input') नाव:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandNameE" required)
+                                        input#marriageHusbandNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandNameM" required)
+                                    .form-group.col-12.col-md-6
+                                        label.font-weight-bold(for='my-input') आधारकाडा क्र.: 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandAadharE" class="aadharNo" maxlength="12" required)
+                                        input.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandAadharM" class="aadharNo" maxlength="12" required)
+                                    .form-group.col-12.col-md-12
+                                        label.font-weight-bold(for='my-input') राहणार:
+                                        textarea#marriageHusbandAddressE.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandAddressE")
+                                        textarea#marriageHusbandAddressM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandAddressM" )
+                                        
+
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold()  वडलांचे नाव
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandFatherNameE")
+                                        input#marriageHusbandFatherNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandFatherNameM" )
+                                    
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold() धर्म 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandReligionE")
+                                        input#marriageHusbandReligionM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandReligionM" )
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold() राष्ट्रीयत्व 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageHusbandNationalityE")
+                                        input#marriageHusbandNationalityM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageHusbandNationalityM" )
+                                    
+                                    .form-group.col-12.col-md-6
+                                        .custom-file
+                                            input#image_1.custom-file-input(type='file')
+                                            label.custom-file-label(for='customFile') Choose file
+                                    .form-group.col-12.col-md-6
+                                        input(type="button" value="वराचा फोटो काढा" id="spanMale")   
+                                    .form-group.col-12.col-md-6
+                                        img#image-1-preview(width="200" height="200" src="image")
+                                    .form-group.col-12.col-md-6
+                                        #cameraMale(style="height:auto;width:auto; text-align:left;")
+
+                        .col-12.col-md-4
+                            .card
+                                .card-header.bg-warning.font-weight-bold पत्नी माहिती
+                                .card-body.row
+                                    .form-group.col-12.col-md-6
+                                        label.font-weight-bold(for='my-input') नाव:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifedNameE" required)
+                                        input#marriageWifeNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeNameM" required)
+                                    .form-group.col-12.col-md-6
+                                        label.font-weight-bold(for='my-input') आधारकाडा क्र.: 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifedAadharE" class="aadharNo" maxlength="12" required)
+                                        input.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeAadharM" class="aadharNo" maxlength="12" required)
+                                    .form-group.col-12
+                                        label.font-weight-bold(for='my-input') राहणार:
+                                        textarea.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifeAddressE")
+                                        textarea#marriageWifeAddressM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeAddressM" )
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold()  वडलांचे नाव
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifeFatherNameE")
+                                        input#marriageWifeFatherNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeFatherNameM" )
+                                    
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold() धर्म 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifeReligionE")
+                                        input#marriageWifeReligionM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeReligionM" )
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold() राष्ट्रीयत्व 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageWifeNationalityE")
+                                        input#marriageWifeNationalityM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageWifeNationalityM" )
+                                    
+                                    
+                                    
+                                    .form-group.col-6
+                                        .custom-file
+                                            input#image_2.custom-file-input(type='file')
+                                            label.custom-file-label(for='customFile') Choose file
+                                    .form-group.col-6
+                                        input(type="button" value="वधूचा फोटो काढा" id="spanFemale")
+                                    .form-group.col-6
+                                        img#image-2-preview(width="200" height="200" src="image")
+                                    .form-group.col-6
+                                        #cameraFemale(style="height:auto;width:auto; text-align:left;")
+                        .col-12.col-md-4
+                            .card
+                                .card-header.bg-warning.font-weight-bold विवाह माहिती
+                                .card-body.row
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') अनु क्रमांक:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="अनु क्रमांक" name="marriagAnuKramankOne")
+                                        input.secText.form-control-sm.form-control(type='text' placeholder="अनु क्रमांक" name="marriagAnuKramankTwo")
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') खंड क्रंमाक:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="खंड क्रंमाक" name="marriageVolumeOne")
+                                        input.secText.form-control-sm.form-control(type='text' placeholder="खंड क्रंमाक" name="marriageVolumeTwo")
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') विवाह दिनांक:
+                                        input.mainText.form-control-sm.form-control(type='text' class="marriageDate" placeholder="DD/MM/YYYY" name="marriageDateOne" required)
+                                        input.secText.form-control-sm.form-control(type='text' class="marriageDate" placeholder="DD/MM/YYYY" name="marriageDateTwo" required)
+                                    .form-group.col-6
+                                        label.font-weight-bold(for='my-input') नोंदणी दिनांक:
+                                        input.mainText.form-control-sm.form-control(type='text' class="marriageDate" placeholder="DD/MM/YYYY" name="registration_date" required)
+                                        input.secText.form-control-sm.form-control(type='text' class="marriageDate" placeholder="DD/MM/YYYY" name="registration_date_two" required)
+
+
+                                    
+                                    .form-group.col-12.col-md-12 
+                                        label.font-weight-bold() माहिती देणाऱ्याचे नाव  
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriageInformerNameE")
+                                        input#marriageInformerNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriageInformerNameM")
+                                    
+
+                                    .form-group.col-12
+                                        label.font-weight-bold(for='my-input') विवाह स्थळ: 
+                                        textarea.mainText.form-control-sm.form-control(type='text' placeholder="English" name="marriagePlaceE")
+                                        textarea#marriagePlaceM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="marriagePlaceM")
+                                    .form-group.col-12
+                                        button#saveMarriage.btn.btn-success.float-right.mt-2.mr-2(type='button') जतन करा
+                                        button#authorityToBypassBtn.btn.btn-primary.mr-2.float-right.mt-2(type='button') Authority
+                                    #translControl
+    //- CHECK TAX PAID MODAL
+    include ../include/check-tax-paid-modal.pug
+
+    //- CERTIFICATE PRINT MODAL
+    include ../include/payment-type-modal.pug
+
+
+    include ../include/check-tax-paid-modal-2.pug

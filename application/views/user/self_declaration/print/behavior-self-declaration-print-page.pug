@@ -1,0 +1,44 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा/करणारी 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            | , आधार क्रमांक 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAadharM || selfDeclaration.sd_applicantAadharE}
+            | , याद्वारे नमूद करतो/करते की, मी आपल्या गावात/परिसरात गेल्या 
+            span(class="font-extrabold")
+                | #{selfDeclaration.yearsOfResidence || "........"}
+            |  वर्षांपासून वास्तव्यास आहे.
+
+        p(class="mt-3")
+            | माझी सामाजिक व वैयक्तिक वर्तणूक चांगली असून माझ्याविरुद्ध
+            |  कोणताही गुन्हेगारी किंवा समाजविरोधी नोंद नाही.
+
+        p(class="mt-3")
+            | मला सदर 
+            span(class="font-extrabold") वर्तणुकीचे प्रमाणपत्र
+            |  
+            span(class="font-extrabold")
+                | #{selfDeclaration.certificateReason || "नोकरी / शिक्षण / पासपोर्ट / इतर कारणासाठी"}
+            |  या कारणासाठी आवश्यक आहे.
+
+        p(class="mt-3")
+            | तरी नियमाप्रमाणे मला वर्तणुकीचे प्रमाणपत्र देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद

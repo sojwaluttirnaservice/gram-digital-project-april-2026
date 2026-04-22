@@ -1,0 +1,138 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/meter-manager.js')
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+
+        @media (max-width: 768px){
+            td, th, thead {
+                font-size: 0.8rem;
+            }
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .container-fluid
+        .modal.fade#searchModal(tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        h4.modal-title.fs-5#searchModalLabel ग्राहक मीटर शोधा
+                        button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    .modal-body
+                        .row.justify-content-center
+                            .col-2
+                                .form-group 
+                                    label(for="") 
+                                    select.form-control(name='search_by')
+                                        option(value='1') नळ क्रमांक
+                                        option(value='2') मीटर क्रमांक 
+                                        option(value='3') अर्ज क्रमांक
+                                        option(value='4') नाव
+                            .col-2
+
+                                .form-group 
+                                    label(for='')
+                                    input.form-control(name='search_input')
+
+                            .col-11
+                                .d-flex.align-items-center.justify-content-center(style='gap: 1rem;')
+                                    
+                                    button.btn.btn-secondary.mt-0(id='update-customer-btn') मीटर दुरुस्ती फॉर्म
+                                    button.btn.btn-primary.mt-0(id='search-customer-btn') मीटर भरणा फॉर्म
+                                    button.btn.btn-success.mt-0(id='show-meter-tax-form-btn') पाणी मीटर कर भरणा नोदणी फॉर्म 
+
+
+
+                    //- .modal-footer
+                    //-   button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    //-   button.btn.btn-primary(type="button") Save changes
+        .row.p-0.p-1.pt-3
+            .col-12
+                center
+                    a(href="/meter/add-new-user").float-right.btn.btn-primary.btn-sm.mr-2 नवीन  ग्राहक मीटर जोडा
+                    a(href="/meter").float-right.btn.btn-primary.btn-sm.mr-2 मीटर मेन्यूू
+                    button(id='find-customer-btn').float-right.btn.btn-primary.btn-sm.mr-2 ग्राहक मीटर शोधा
+                    a(href=``)
+                    h5.font-weight-bold.m-3 मीटर यादी
+
+            .col-12
+                div.table-responsive
+                    table.table.table-bordered.text-center.m-0
+                        thead
+                            tr.bg-primary.text-white
+                                th(width="8%") अर्ज क्रमांक
+                                th(width="25%") ग्राहक नाव
+                                th(width="15%") मो. क्रमांक
+                                th(width="15%") मीटर क्रमांक
+                                th(width="15%") नळ क्रमांक
+                                th(width="10%") वाल क्रमांक
+                                th(width="10%") करा
+                        tbody#marriageList
+                            if(list.length == 0)
+                                tr
+                                    td(colspan="15").text-center.text-danger नवीन अर्ज नोंदणी यादी रिकामी आहे
+                            else
+                                each value,index in list
+                                    tr
+                                        td(width="8%") #{index+1}
+                                        td(width="25%") #{value.mb_owner_name}
+                                        td(width="15%") #{value.mb_owner_mobile}
+                                        td(width="15%") #{value.mb_meter_connection_no}
+                                        td(width="15%") #{value.mb_nal_connection_no}  
+                                        td(width="10%") #{value.mb_wall_number}
+                                        td(width="10%") 
+                                            - var href="/meter/add-new-user/"+value.id;
+                                            a(href=href).text-success.mr-4
+                                                i.fa.fa-pencil-square.fa-2x
+                                            //- - var href="/meter/add-new-meter/"+value.id;
+                                            //- a(href=href title="भरणा करा").text-danger
+                                            //-     i.fa.fa-download.fa-2x

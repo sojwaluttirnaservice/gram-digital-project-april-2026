@@ -1,0 +1,174 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+  script(src='/asstest/plugins/select/js/select2.full.min.js')
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#88f0ce !important;
+    }
+  
+body
+  include ./include/navs.pug
+  .container-fluid
+    .row.p-0
+      .col-12.p-0
+        .card-group
+          .card.bg-light-gray
+            .card-body.p-0.p-1.pt-3
+              .col-8.offset-2
+                center
+                  span.font-weight-bold
+                    | महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/ फाल्गुन १३ शके १९३७ नुसार नमूना ८ नियम ३२(९)
+                  h4.font-weight-bold.m-3.text-success जतन मालमत्तेची नोंदणी खालील प्रमाणे 
+              .col-12
+                form#newForm8
+                  .row
+                    .col-12.col-md-4
+                      .card
+                        .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                        .card-body.row
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') अनु क्रमांक
+                              input.form-control-sm.form-control(type='text', value=result.id readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') घर क्रमांक
+                              input.form-control-sm.form-control(type='text', value=result.id readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                              input#newMalmattaNo.form-control-sm.form-control(type='text',value=result.feu_malmattaNo readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') वार्ड नं
+                              input#newWardNo.form-control-sm.form-control(type='text', value=result.feu_wardNo readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                              input#oldHomeNo.form-control-sm.form-control(type='text', value=result.feu_homeNo readonly)
+
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') पाणीकर
+                              input#oldHomeNo.form-control-sm.form-control(type='text', value=result.feu_water_tax readonly)
+
+                    .col-12.col-md-8
+                      .card
+                        .card-header.bg-warning.font-weight-bold मालकाची माहिती
+                        .card-body.row
+                          .form-group.col-12.col-md-6
+                              label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                              input#newOwnerName.form-control-sm.form-control(type='text', value=result.feu_ownerName readonly)
+                          .form-group.col-12.col-md-6
+                              label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                              input#newSecondOwnerName.form-control-sm.form-control(type='text', value=result.feu_secondOwnerName readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                              input#newMobileNo.form-control-sm.form-control(type='text', value=result.feu_mobileNo readonly maxlength="10")
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') आधार क्रं.
+                              input#newAadharNo.form-control-sm.form-control(type='text',value=result.feu_aadharNo readonly maxlength="14")
+                          .form-group.col-6    
+                              label.font-weight-bold(for='my-input') ग्रामपंचायत
+                              input#newGramPanchayet.form-control-sm.form-control(type='text',value=result.feu_gramPanchayet readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') गावाचे नाव
+                              input#newVillageName.form-control-sm.form-control(type='text', value=result.feu_villageName readonly)
+                    .col-12.col-md-4.mt-5
+                      .card
+                        .card-header.bg-warning.font-weight-bold जागेची माहिती
+                        .card-body
+                          .form-group
+                              label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                              input#newGaatNo.form-control-sm.form-control(type='text',value=result.feu_gaatNo readonly)
+                          .form-group
+                              label.font-weight-bold(for='my-input') घरकुल असल्यास
+                              input.form-control-sm.form-control(type='text',value=result.graha_yojana readonly)
+                          .form-group
+                              label.font-weight-bold(for='my-input') शौच्छालय असल्यास
+                              input.form-control-sm.form-control(type='text',value=result.feu_havingToilet readonly)
+                                
+                    .col-12.col-md-4.mt-3
+                      .card
+                        .card-header.bg-warning.font-weight-bold क्षेत्रफळ माहिती
+                        .card-body.row
+                          //- sq foot
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') जागेची लांबी  (फुट)
+                              input#newAreaHeightFoot.isNaN.form-control-sm.form-control(type='text', name='newAreaHeightFoot' value=result.feu_areaHeight readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') जागेची रुंदी  (फुट)
+                              input#newAreaWidthFoot.isNaN.form-control-sm.form-control(type='text', name='newAreaWidthFoot' value=result.feu_areaWidth readonly)
+
+                          //-  sq meter
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') जागेची लांबी (मी.)
+                              input#newAreaHeightMeter.isNaN.form-control-sm.form-control(type='text', name='newAreaHeightMeter' value=(result.feu_areaHeight / 3.281).toFixed(3) readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') जागेची रुंदी (मी.)
+                              input#newAreaWidthMeter.isNaN.form-control-sm.form-control(type='text', name='newAreaWidthMeter' value=(result.feu_areaWidth / 3.281).toFixed(3) readonly)
+
+                          //- total area in foot
+                          .form-group.col-6    
+                              label.font-weight-bold(for='my-input') एकूण जागेचे क्षेत्रफळ (चौ.फुट)
+                              input#newTotalAreaSquareFoot.form-control-sm.form-control(type='text', name='newTotalAreaSquareFoot' value=(result.feu_totalArea) readonly)
+                          //- total area in meter
+                          .form-group.col-6
+                            label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                            input#newTotalAreaSquareMeter.form-control-sm.form-control(type='text', name='newTotalAreaSquareMeter' value=(result.feu_totalAreaSquareMeter) readonly)
+
+                    .col-12.col-md-4.mt-5
+                      .card
+                        .card-header.bg-warning.font-weight-bold दिशा माहिती
+                        .card-body.row
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') पूर्वेस
+                              input#newEastLandmark.form-control-sm.form-control(type='text', value= result.feu_eastLandmark readonly)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') पश्चिमेस
+                              input#newWestLandmark.form-control-sm.form-control(type='text',value= result.feu_westLandmark readonly)
+                          .form-group.col-6   
+                              label.font-weight-bold(for='my-input') उत्तरेस
+                              input#newNorthLandmark.form-control-sm.form-control(type='text', value= result.feu_northLandmark readonly)
+                          .form-group.col-6
+                            label.font-weight-bold(for='my-input') दक्षिणेस
+                            input#newSouthLandmark.form-control-sm.form-control(type='text', value= result.feu_southLandmark readonly)
+                          .form-group.col-12
+                            label.font-weight-bold(for='my-input') बोजा/शेरा
+                            textarea.form-control-sm.form-control(type='text', value= result.feu_bojaShera readonly)
+                          .form-group.col-12.mt-2
+                            .d-flex.justify-content-between(style='gap: 15px')
+                              a(href="/form-8/phase-2/"+result.id)#foToFom8Tax.btn.btn-info.float-right.ml-3 
+                                span.fa.fa-edit
+                                | नमुना ८ करा कडे
+                              a(href="/form-8")#foToFom8.btn.btn-success.float-right 
+                                span.fa.fa-user
+                                | नवीन नमुना 8 भरा
+                            

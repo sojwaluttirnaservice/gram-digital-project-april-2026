@@ -1,0 +1,319 @@
+doctype html
+html
+    head
+        title नमुना ८ सर्व
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(href='/asstest/coustom/css/pagination.css' rel='stylesheet')
+        //- YATRA ONE
+        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+        //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+
+        style.
+            @media print {
+                @page {
+                    //- size: portrait;
+                    size: landscape;
+                }
+                .my-print {
+                    margin-top: 0cm;
+                    page-break-before: always;
+                }
+                table {
+                    page-break-inside: avoid;
+                }
+                body {
+                    margin: 0px;
+                }
+                .hide-print{
+                    display: none;
+                }
+            }
+
+            .main-heading {
+                margin-left: 10%;
+            }
+
+            .heading-second {
+                margin-left: 30%;
+            }
+
+            .heading-second-2 {
+                margin-left: 30%;
+            }
+
+            #table2 td {
+                padding-left: 1px;
+                padding-right: 1px;
+            }
+
+            #table3 td {
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+
+            p {
+                padding-bottom: 0px !important;
+                margin-bottom: 1px !important;
+            }
+
+            td {
+                font-size: 12px !important;
+                border: 1.5px solid;
+            }
+
+            table {
+                width: 100% !important;
+            }
+
+            .h5 {
+                font-size: 15px !important;
+            }
+
+            .h6 {
+                font-size: 14px !important;
+            }
+
+            .h7 {
+                font-size: 11px !important;
+            }
+
+            .h8 {
+                font-size: 10px !important;
+            }
+
+            .qrcode {
+                width: 67px;
+                aspect-ratio: 1/1;
+            }
+
+            .qrcode img {
+                width: 100%;
+                height: 100%;
+            }
+            .font-size{
+                font-size: 0.634rem !important;
+                color:#990000;
+                font-weight:500;
+            }
+
+
+            .yatra-one-regular {
+                font-family: "Yatra One", system-ui;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .dekko-regular {
+                font-family: "Dekko", cursive;
+                font-weight: 400;
+                font-style: normal;
+            }
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+        script.
+            let totalRecords = !{JSON.stringify(totalRecords)}
+        script(src="/asstest/coustom/js/handlers/pagination.js" defer)
+
+    body.yatra-one-regular
+        //- - let width = 127.5
+
+        div.hide-print
+            div(style="position: fixed; top: 45%; right: 2%; display: flex; flex-direction: column; gap: 0.5rem; z-index: 50;")
+                button(style='background:blue;color:white; padding:0.5rem 1rem; border:0;' onclick='window.print()') Print
+
+            div(style='position: fixed; right: 2rem; top: 3rem')
+                label.form-label सन वर्ष येथे टाका 
+                input#year-input.form-control(placeholder="येथे वर्ष टाका")
+
+
+
+            .pagination-div
+                ul(class='pagination flex items-center')
+
+                    li(class='page-item')
+                        button.previous-button(class='btn btn-primary') Previous
+
+                    div.page-numbers(style="display: flex; width: fit-content; overflow-x: scroll;")
+
+                        //- li
+                            button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 1
+
+                        //- li
+                            button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 2
+
+
+                    li(class='page-item')
+                        button.next-button(class='btn btn-primary') Next
+
+
+        - let cardWidth = 105// in mm
+        each userVal, count in userData
+            div(style=`position:relative;display:inline-block;width:${cardWidth}mm; margin-block: 10px; ${count % 2 == 0 ? "margin-inline:2px;" : "margin-inline:2px;"}`)
+                //- img(src='/new-gp-page/main-page/images/gp-pic/stikers.jpg' width='100%')
+                img(src='/new-gp-page/main-page/images/gp-pic/card-print-img-new-3.jpeg' width='100%')
+
+                - let url = userVal.feu_image !== "" ? "/home_map_image/home_photo/" + userVal.feu_image : "";
+                //- h 110 w 120
+                img(src=url, alt="" height='68' width='94' style='position:absolute;z-index:1;top:62.9%;left:72.2%; border-radius:5px;' onerror="this.src='/img/fallback/no-image-found.png'")
+
+                - let id = `qrcode${count}`
+                div.qrcode(id=id, style='position:absolute;z-index:1;top:62.5%;left:5%')
+
+                span(style="position:absolute; top:10%; left:16%; width:68%; font-size: 0.93rem;" class='text-danger text-center') ग्रामपंचायत कार्यालय #{gp.gp_name}
+                span(style="position:absolute; top:18%; left:15%; width:70%; font-size: 0.75rem;" class='text-primary text-center') पंचायत समिती : #{gp.gp_taluka}, जि. : #{gp.gp_dist}
+
+                //- small(style='position:absolute;z-index:1;top:5.5%;left:50%; font-size:1.1rem; font-weight:bold; color: green;') #{gp.gp_name}
+                //- small(style='position:absolute;z-index:1;top:14%;left:32.5%;font-weight:bold; color:blue;') #{gp.gp_taluka}
+                //- small(style='position:absolute;z-index:1;top:14%;left:67%;font-weight:bold; color:blue;') #{gp.gp_dist}
+
+
+
+                small.show-year(style='position:absolute;z-index:1;top:27.8%;left:9%;width:310px;font-size:0.7rem;')
+                small.font-size(style='font-weight:bold;position:absolute;z-index:1;top:34%;left:28.7%;width:278px;') #{userVal.feu_ownerName}
+                small.font-size(style='font-weight;position:absolute;z-index:1;top:44.9%;left:23.4%;width:340px;') #{userVal.feu_secondOwnerName}
+                small.font-size(style='position:absolute;z-index:1;top:52%;left:20%;font-weight:bold;') #{userVal.feu_malmattaNo}
+                small.font-size(style='position:absolute;z-index:1;top:52%;left:44%') #{(userVal.feu_mobileNo != '' && userVal.feu_mobileNo != '-') ? userVal.feu_mobileNo : '-'}
+                small.font-size(style='position:absolute;z-index:1;top:52%;left:75%') #{(userVal.feu_aadharNo != '' && userVal.feu_aadharNo != '-' ) ? userVal.feu_aadharNo : '-'}
+
+        script.
+            (function() {
+                var data = !{userDataString};
+                if(data){
+                    data.forEach(function(userData, index) {
+                        generateQRCode(index, userData);
+                    });
+                }
+                function generateQRCode(id, userData) {
+                    let website = 'https://g-seva.com/pay';
+                    //- "http://192.168.1.10:5900" || 
+                    website = `${website}/!{zp.pg_registration_no}/${userData.id}?rTo=${encodeURIComponent(window.location.origin)}`;
+                    new QRCode(document.getElementById("qrcode" + id), website);
+                }
+
+
+                document.getElementById('year-input').addEventListener("input", function(e) {
+                    e.preventDefault(); // Optional — not needed for input events unless you're submitting a form
+                    let inputValue = this.value;
+                    // Select all elements with class 'show-year' and update their content
+                    document.querySelectorAll('.show-year').forEach(function(el) {
+                        el.innerHTML = inputValue;
+                    });
+                });
+            })();
+
+
+//- doctype html
+//- head
+//-   title नमुना ८ सर्व
+//-   meta(charset='UTF-8')
+//-   meta(name='viewport' content='width=device-width, initial-scale=1.0')
+//-   meta(http-equiv='X-UA-Compatible' content='ie=edge')
+//-   // common css
+//-   link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+//-   style.
+
+//-     @media print {
+//-       @page {
+//-         size: portrait
+//-         }
+//-       .my-print{
+//-         margin-top:0cm;
+//-         page-break-before: always;
+//-       }
+//-       table {page-break-inside: avoid;}
+//-       body{
+//-         margin:0px;
+//-       } 
+
+//-       } 
+//-     .main-heading {
+//-       margin-left:10%
+//-       }
+//-     .heading-second{
+//-       margin-left:30%
+//-     }
+//-     .heading-second-2{
+//-       margin-left:30%
+//-     }
+//-     #table2 td {
+//-       padding-left:1px;
+//-       padding-right:1px;
+//-       }
+//- #table3 td {
+//-   padding-left:3px;
+//-   padding-right:3px;
+//-       } 
+//-       p{
+//-         padding-bottom:0px !important;
+//-         margin-bottom:1px !important;
+
+//-       }
+//-       td{
+//-         font-size:12px !important;
+//-         border:1.5px solid;
+//-       }
+//-       table{
+//-         width:100% !important;
+//-       }
+//-       .h5{
+//-         font-size:15px !important;
+//-       }
+//-       .h6{
+//-         font-size:14px !important;
+//-       }
+
+//-         .h7{
+//-           font-size:11px !important;
+//-       }
+
+//-       .h8{
+//-         font-size:10px !important;
+//-       }
+//-       .qrcode{
+//-         width: 150px;
+//-         height: 120px;
+//-       }
+//-       .qrcode img{
+//-         width:100%;
+//-         height:100%;
+
+//-       }
+//-   script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+//- body
+//-   each userVal,count in userData
+//-     div(style="position:relative;display:inline-block;width:127.5mm")
+//-       img(src="/new-gp-page/main-page/images/gp-pic/stikers.jpg" width="100%")
+//-       if(userVal.feu_image !== "")
+//-         - var url = "/home_map_image/home_photo/"+userVal.feu_image;
+//-       else
+//-         - var url = "";
+//-       img(src=url, alt="" height="120" width="165" style="position:absolute;z-index:1;top:51.5%;left:60%")
+//-       - var id = 'qrcode'+count
+//-       div.qrcode(id=id style="position:absolute;z-index:1;top:50%;left:8%")
+//-       small(style="position:absolute;z-index:1;top:41.5%;left:23%") #{userVal.feu_malmattaNo}
+//-       small(style="position:absolute;z-index:1;top:41.5%;left:41%") #{userVal.feu_mobileNo}
+//-       small(style="position:absolute;z-index:1;top:41.5%;left:70%") #{userVal.feu_aadharNo}
+//-       small(style="position:absolute;z-index:1;top:29%;left:31%;width:290px;") #{userVal.feu_ownerName}
+//-   script.
+//-     (function() {
+
+//-       var data = !{userDataString};
+//-       console.log(data)
+//-       data.forEach(function(userData,index){
+//-         generateQRCode(index,userData)
+//-       })
+//-       function generateQRCode(id,userData) {
+//-         let website = 'http://g-seva.com/pay'
+//-         let homeNo = userData.feu_homeNo;
+//-         let wardNo = userData.feu_wardNo;
+//-         let malmattaNo = userData.feu_malmattaNo;
+//-         website +=`/!{zp.pg_registration_no}/${userData.id}`;
+//-         new QRCode(document.getElementById("qrcode"+id),website);
+//-       }   
+//-     })();
+
+

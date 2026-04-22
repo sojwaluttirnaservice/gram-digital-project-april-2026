@@ -1,0 +1,145 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    style.
+        .slide-img-preview {
+            max-width: 60px;
+            max-height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+block content
+
+    div.container-fluid.mt-4
+        //- Header
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-layer-group.me-2
+                                | #{ppt.title} - स्लाईड्स (Slides)
+                            if ppt.subtitle
+                                p.mb-0.text-muted.small #{ppt.subtitle}
+                        div.d-flex(style='gap:1rem;')
+                            a.btn.btn-outline-secondary.btn-sm(href="/ppt/list")
+                                i.fa.fa-arrow-left.me-1
+                                | मागे (Back)
+                            a.btn.btn-primary.btn-sm(href=`/ppt/slides/create/${ppt.id}`)
+                                i.fa.fa-plus.me-1
+                                | नवीन स्लाईड जोडा
+
+        //- Table
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width="8%") स्लाईड क्र.
+                                        th(width="12%") प्रकार
+                                        th(width="20%") शीर्षक (Title)
+                                        th(width="30%") वर्णन
+                                        th(width="15%") फोटो 
+                                        th(width="15%") Action
+
+                                tbody#ppt-slides-list
+                                    if !slides || slides.length == 0
+                                        tr
+                                            td(colspan="6" class="text-center text-danger py-4")
+                                                i.fa.fa-info-circle.me-2
+                                                | कोणतीही स्लाईड उपलब्ध नाही. नवीन स्लाईड जोडा.
+                                    else
+                                        each slide, _index in slides
+                                            tr
+                                                //- Order
+                                                td.text-center
+                                                    span.badge.bg-secondary क्र. #{slide.slide_order}
+
+                                                //- Type
+                                                td.text-center
+                                                    if slide.slide_type === 'content'
+                                                        span.badge.bg-info.text-dark Content
+                                                    else if slide.slide_type === 'image'
+                                                        span.badge.bg-warning.text-dark Image
+                                                    else
+                                                        span.badge.bg-success Mixed
+
+                                                //- Title and Subtitle
+                                                td.text-start
+                                                    strong #{slide.slide_title || 'N/A'}
+                                                    if slide.slide_subtitle
+                                                        br
+                                                        small.text-muted #{slide.slide_subtitle}
+
+                                                //- Description
+                                                td.text-start
+                                                    p.mb-0.small.text-truncate(style="max-width:250px;" title=slide.slide_description) #{slide.slide_description || 'N/A'}
+
+                                                //- Images Preview
+                                                td.text-center
+                                                    - 
+                                                        let beforeImagesList = []; 
+                                                        let afterImagesList = [];
+                                                        try { 
+                                                            let b = slide.before_images; 
+                                                            if (typeof b === 'string') {
+                                                                b = JSON.parse(b);
+                                                                if (typeof b === 'string') Object.assign(beforeImagesList, JSON.parse(b));
+                                                                else Object.assign(beforeImagesList, b);
+                                                            } else if (Array.isArray(b)) {
+                                                                Object.assign(beforeImagesList, b);
+                                                            }
+                                                        } catch(e) {}
+                                                        
+                                                        try { 
+                                                            let a = slide.after_images; 
+                                                            if (typeof a === 'string') {
+                                                                a = JSON.parse(a);
+                                                                if (typeof a === 'string') Object.assign(afterImagesList, JSON.parse(a));
+                                                                else Object.assign(afterImagesList, a);
+                                                            } else if (Array.isArray(a)) {
+                                                                Object.assign(afterImagesList, a);
+                                                            }
+                                                        } catch(e) {}
+                                                    
+                                                    div.d-flex.flex-column.align-items-start.gap-2.small
+                                                        div.w-100.d-flex.align-items-center.gap-2
+                                                            span.text-muted.fw-semibold(style="width: 45px;") Before:
+                                                            if beforeImagesList.length > 0
+                                                                div.d-flex.flex-wrap.gap-1
+                                                                    each img in beforeImagesList
+                                                                        if img && img.image_name
+                                                                            a(href=`/uploads/images/ppt/slides/before/${img.image_name}` target="_blank" title="View Before Image")
+                                                                                img(src=`/uploads/images/ppt/slides/before/${img.image_name}` class="slide-img-preview border shadow-sm" alt="Before" onerror="this.src='/img/fallback/no-image-found.png'")
+                                                            else
+                                                                span.text-muted -
+                                                                
+                                                        div.w-100.d-flex.align-items-center.gap-2
+                                                            span.text-muted.fw-semibold(style="width: 45px;") After:
+                                                            if afterImagesList.length > 0
+                                                                div.d-flex.flex-wrap.gap-1
+                                                                    each img in afterImagesList
+                                                                        if img && img.image_name
+                                                                            a(href=`/uploads/images/ppt/slides/after/${img.image_name}` target="_blank" title="View After Image")
+                                                                                img(src=`/uploads/images/ppt/slides/after/${img.image_name}` class="slide-img-preview border shadow-sm" alt="After" onerror="this.src='/img/fallback/no-image-found.png'")
+                                                            else
+                                                                span.text-muted -
+
+                                                //- Actions
+                                                td.text-center
+                                                    div.d-flex.justify-content-center.align-items-center.flex-nowrap(style="gap:0.4rem;")
+                                                        a.btn.btn-sm.btn-warning(href=`/ppt/slides/edit/${slide.id}` title="Edit Slide")
+                                                            i.fa.fa-edit
+                                                        
+                                                        button.btn.btn-sm.btn-danger.delete-ppt-slide-btn(type="button" data-slideid=slide.id title="Delete Slide")
+                                                            i.fa.fa-trash
+
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/ppt/ppt-slide-form-handler.js')

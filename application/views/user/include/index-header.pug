@@ -1,0 +1,614 @@
+
+
+nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='z-index: 1000;')
+
+    .navigation-fluid(class='')
+        #nav-upper-container(class='py-2 bg-gradient-to-r from-[#f0fcf9] via-[#e0f7f4] to-[#f0fcf9]')
+
+            .container
+
+                #nav-upper(class='flex flex-col lg:flex-row justify-between items-center gap-2')
+                    #upper-nav-left(class='flex items-center gap-4')
+                        a#maha-image-holder(class='block size-12 shrink-0' href='https://maharashtra.gov.in' target='_blank')
+                            img(src="/new-gp-page/main-page/images/header-images/2.png" alt="" style="width:100%; height:100%;")
+                        a#gp-name(class='flex flex-col font-bold' href='/')
+                            div(class='flex flex-col items-center sm:items-start sm:flex-row gap-1')
+                                // GP Name line
+                                span(class='text-2xl font-extrabold text-[#1f3a5f]') #{t("navbar.top.gpName")} 
+                                span(class='text-2xl font-extrabold text-[#1f3a5f]') #{gp.gp_name} 
+
+                            div(class='text-base font-semibold text-[#2c5282] mt-1')
+                                span #{t("navbar.top.panchayatSamiti")} 
+                                span(class='') #{gp.gp_taluka}, 
+                                span #{t("navbar.top.district")}. 
+                                span(class='') #{gp.gp_dist}
+                                
+
+
+
+
+                        a(class='hidden md:block h-12 w-18 shrink-0' href='https://www.digitalindia.gov.in/' target='_blank')
+                            img(src='/img/header-images/digital-india.png' style='width:100%; height:100%;')
+
+                    #upper-nav-middle(class='hidden md:block')
+                        #office-strip(class='dekko-regular inline-flex flex-col flex-wrap items-center justify-center gap-2 md:gap-3 font-bold text-xs md:text-sm')
+
+                            //- Office Time
+                            div(class='inline-flex items-center gap-1.5 text-blue-700 poppins-marathi-font')
+                                i.fa-solid.fa-calendar-days
+                                //- span(class='font-extrabold tracking-wide') #{t("common.officeTimingsStrip.officeDayTimeKey")}
+                                span(class='whitespace-nowrap')
+                                    | #{t("common.officeTimingsStrip.officeDaysValue")}
+                                    span(class='hidden lg:inline') :
+                                    span(class='font-extrabold underline underline-offset-4 ml-1') #{t("common.officeTimingsStrip.officeTimeValue")}
+
+                            //- Office Holiday
+                            div(class='inline-flex items-center gap-1.5 text-amber-700 poppins-marathi-font')
+                                i.fa-solid.fa-calendar-xmark
+                                //- span(class='font-extrabold tracking-wide') #{t("common.officeTimingsStrip.govHolidayKey")}
+                                span(class='whitespace-nowrap')
+                                    | #{t("common.officeTimingsStrip.govHolidaysValue")}
+                                    span(class='hidden lg:inline') :
+                                    span(class='font-extrabold underline underline-offset-4 ml-1') #{t("common.officeTimingsStrip.govHolidayTextValue")}
+
+                    #upper-nav-right
+                        .upper-nav-buttons(class='grid grid-cols-2 justify-between md:gap-6 w-full md:w-auto md:flex md:items-center md:justify-end  gap-2')
+
+                            //- - let navBtnClass1 = "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#234a7d] hover:bg-[#20406a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            - let navBtnClass1 = "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-md text-white bg-gradient-to-r from-[#1f3a5f] to-[#234a7d] hover:from-[#234a7d] hover:to-[#1a2e50] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
+
+                            //- button(type='button' id='newApplicationNavigation' class=`nav-btn upper-menu-btn  ${navBtnClass1}`) 
+                            //-     .w-full.flex.justify-center.items-center.gap-3
+                            //-         i.fa-solid.fa-file
+                            //-         //- span ना. सुविधा अर
+                            //-         span #{t("navbar.top.citizenServiceApplication")}
+
+                            //- a(class=`nav-btn upper-menu-btn ${navBtnClass1}` href='/village/nagrik-nondani-view') 
+                            //-     .w-full.flex.justify-center.items-center.gap-3
+                            //-         i.fa-solid.fa-plus
+                            //-         //- span नागरिक नोंदणी 
+                            //-         span #{t("navbar.top.citizenRegistration")}
+
+                            
+                            //- a(class=`nav-btn upper-menu-btn ${navBtnClass1}` href='/complaints/form')
+                            //-     .w-full.flex.justify-center.items-center.gap-3
+                            //-         i.fa-solid.fa-plus
+                            //-         span #{t("navbar.top.complaintRegistration")}
+
+                            a(class=`nav-btn upper-menu-btn ${navBtnClass1}` href='/gp-applications')
+                                i.fa-solid.fa-building-columns
+                                //- span #{t("navbar.top.")}
+                                span &nbsp; #{t("navbar.top.citizenServiceCenter")}
+
+                            //- button(type='button' class=`nav-btn upper-menu-btn  ${navBtnClass1}`)
+                                .w-full.flex.justify-center.items-center.gap-3
+                                    i.fa-solid.fa-magnifying-glass-arrow-right
+                                    //- span व्हिजिटर्स #{gp.gp_site_count}
+                                    span #{t("navbar.top.visitors")} #{gp.gp_site_count}
+
+                            //- - let loginBtnClass = "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium tracking-wider rounded-md shadow-sm text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:bg-gradient-to-l focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400";
+                            - let loginBtnClass = "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium tracking-wider rounded-md shadow-md text-white bg-gradient-to-r from-[#203a5e] via-[#3a6b5c] to-[#203a5e] hover:from-[#3a6b5c] hover:via-[#4d836d] hover:to-[#203a5e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3a6b5c] transition-all duration-200"
+
+
+                            button(id='loginNavigation' class=`nav-btn ${loginBtnClass}`) 
+                                div.w-full.flex.justify-center.items-center.gap-3
+                                    i.fa-solid.fa-arrow-right-to-bracket
+                                    //- span ग्राम लॉगिन 
+                                    span #{t("navbar.top.gramLogin")}
+
+         
+        
+        #nav-lower-container(class='bg-gradient-to-r from-[#203a5e] via-[#3a6b5c] to-[#203a5e]')
+
+
+            .container
+                #nav-lower(class='py-1 md:py-2')
+                    div(class="mx-auto")
+                        div(class="flex items-start justify-between")
+
+                            - let navBtnClass = 'border-transparent text-xs lg:text-base text-white hover:border-gray-100 hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-xs lg:text-sm font-medium'
+
+                            div(class="w-full flex items-center justify-between")
+
+                                - const lastSubVillage1 = sub_village && sub_village.length > 0 ? sub_village.slice(sub_village.length - 1, sub_village.length) : []
+                                if lastSubVillage1 && lastSubVillage1.length > 0
+
+                                div(class='lg:hidden')
+                                    each village in lastSubVillage1
+                                        - const labels = { male:{ mr:"पुरुष", hi:"पुरुष", en:"Male" }, female:{ mr:"स्त्रिया", hi:"महिला", en:"Female" }, total:{ mr:"एकूण लोकसंख्या", hi:"कुल जनसंख्या", en:"Total Population" } };
+                                        - const populationData = [{ key: "male", value: village.gp_male }, { key: "female", value: village.gp_female }, { key: "total", value: village.gp_male + village.gp_female }];
+                                        div(class='flex items-center gap-4 text-white')
+                                            each item in populationData
+                                                div(class='underline underline-offset-8')
+                                                    | #{labels[item.key][language]} : #{item.value}
+
+                                //- DESKTOP MENU ------------------------------------------
+                                //- Desktop menu
+                                div(class="hidden lg:flex lg:flex-grow lg:gap-2 xl:gap-3 items-center justify-center")
+
+                                    //- D MENU 1
+                                    a(class=`${navBtnClass}` href="/")
+                                        //- span मुख्य पृष्ठ
+                                        span #{t("navbar.bottom.home")}
+
+                                    //- D MENU 2
+                                    div(class="relative inline-block text-left")
+                                        //- DROPDOWN BUTTON
+                                        div
+                                            button(class=`${navBtnClass}` data-toggle-dropdown id="our-village-btn" aria-expanded="false" aria-haspopup="true") 
+                                                //- span आपल गाव
+                                                span #{t("navbar.bottom.ourVillage.value")}
+                                                svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                    path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                        //- CONNECTED  DROPDOWN
+                                        div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="our-village-btn" tabindex="-1")
+                                            div(class="py-1" role="none")
+
+
+
+                                                //- a(href='/village/info' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span गावाविषयी माहिती
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.aboutGp")}
+
+                                                a(href='/village/population' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span ग्रामपंचायत टिपणी
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.gpNotes")}
+
+
+                                                //- a(href='#' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") विकास आराखडा
+
+                                                a(href="/village/village-udyog-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span गावातील उद्योग 
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.villageIndustries")}
+
+                                                a(href='/village/village-news' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1") 
+                                                    //- span गावातील बातम्या
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.villageNews")}
+
+                                                a(href="#notice" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2") 
+                                                    //- span ई-दवंडी 
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.eDavandi")}
+
+                                                a( href="/divyanga/approved" class="text-gray-700 block px-4 py-2 text-sm" tabindex="-1" id="menu-item-3") 
+                                                    //- span दिव्यांग लोकांची यादी
+                                                    span #{t("navbar.bottom.ourVillage.dropdown.disabledPersonsList")}
+
+
+
+                                                //- Subdrop down 1
+                                                //- div(class="relative inline-block text-left")
+                                                    div
+                                                        button(class='flex items-center justify-between text-gray-700 block px-4 py-2 text-sm' type='button' data-toggle-dropdown id="divyanga-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                            | दिव्यांग लोकांची यादी
+                                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="divyanga-list-btn" tabindex="-1")
+                                                        div(class="py-1" role="none")
+
+                                                            //- if divyangaFileList && divyangaFileList.length > 0
+                                                                each listItem in divyangaFileList
+                                                                    a(href=`/new-gp-page/main-page/files/divyanga-yadi/${listItem.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{listItem.file_name}
+                                                            //- else
+                                                                button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1" ) यादी उपलब्ध नाही
+
+                                                            a(href='/divyanga/approved' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") दिव्यांग लोकांची यादी
+
+                                                //- Subdrop down 2 for empty plot list
+                                                div(class="relative inline-block text-left")
+                                                    div
+                                                        button(class='flex items-center justify-between text-gray-700 block px-4 py-2 text-sm' type='button' data-toggle-dropdown id="empty-plot-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                            //- span कच्चे व खुल्या जागा घराची यादी
+                                                            span #{t("navbar.bottom.ourVillage.dropdown.openPlotsList")}
+                                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="empty-plot-list-btn" tabindex="-1")
+                                                        div(class="py-1" role="none")
+
+                                                            if emptyPlotListFileList && emptyPlotListFileList.length > 0
+                                                                each listItem in emptyPlotListFileList
+                                                                    a(href=`/new-gp-page/main-page/files/empty-plot-file-lists/${listItem.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{listItem.file_name}
+                                                            else
+                                                                button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1" ) 
+                                                                    //- span यादी उपलब्ध नाही
+                                                                    span #{t("navbar.bottom.noListAvailable")}
+
+
+
+                                    //- D MENU 3
+                                    //- Already working
+                                    a(class=`${navBtnClass}` href=(endpoint !== '/' ? '/#members' : '#members')) 
+                                        //- span पदाधिकारी व सेवकवर्ग
+                                        span #{t("navbar.bottom.officeBearers")}
+
+                                    //- D MENU 4
+                                    //- Navlink works
+                                    div(class="relative inline-block text-left")
+                                        div
+                                            button(class=`${navBtnClass}` data-toggle-dropdown id="guidance-services-btn" aria-expanded="false" aria-haspopup="true") 
+                                                //- span मार्गदर्शक सेवा
+                                                span #{t("navbar.bottom.guidance.value")}
+
+                                                svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                    path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                        div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="guidance-services-btn" tabindex="-1")
+                                            div(class="py-1" role="none")
+
+                                                a(href='/village/online-guidance' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span ONLINE मार्गदर्शन
+                                                    span #{t("navbar.bottom.guidance.dropdown.online")}
+                                                button( class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" ) 
+                                                    //- span OFFLINE मार्गदर्शन
+                                                    span #{t("navbar.bottom.guidance.dropdown.offline")}
+                                                div(class="relative block text-left")
+                                                    div(class='')
+                                                        button(class=`flex items-center justify-between text-gray-700 block px-4 py-2 text-sm` data-toggle-dropdown id="gr-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                            //- span GR
+                                                            span #{t("navbar.bottom.guidance.dropdown.gr")}
+                                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="gr-list-btn" tabindex="-1")
+                                                        div(class="py-1" role="none")
+
+                                                            if grFileList && grFileList.length > 0
+                                                                each gr in grFileList
+                                                                    a(href=`/new-gp-page/main-page/files/gr-lists/${gr.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{gr.file_name}
+                                                            else
+                                                                button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1" ) 
+                                                                    //- span यादी उपलब्ध नाही
+                                                                    span #{t("navbar.bottom.noListAvailable")}
+
+                                    //- D MENU 5						
+                                    //- Already working
+
+                                    a(class=`${navBtnClass}` href= (endpoint != '/' ? '/#vikas-kame' : '#vikas-kame')) 
+                                        //- span विकास कामे माहिती
+                                        span #{t("navbar.bottom.developmentWorksInfo")} 
+
+                                    //- D MENU 6
+                                    //- Navlink works
+                                    div(class="relative inline-block text-left")
+                                        div
+                                            button(class=`${navBtnClass}` data-toggle-dropdown id="nav-health-services-btn" aria-expanded="false" aria-haspopup="true") 
+                                                //- span आरोग्य सेवा
+                                                span #{t("navbar.bottom.healthServices.value")} 
+                                                svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                    path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                        div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="nav-health-services-btn" tabindex="-1")
+                                            div(class="py-1" role="none")
+                                                a(href='/arogya/arogya-seva-kendra-list-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span आरोग्य सेवा व माहिती 
+                                                    span #{t("navbar.bottom.healthServices.dropdown.generalHealthInfo")} 
+                                                a(href="/village/government-schemes-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1") 
+                                                    //- span शासकीय आरोग्य योजना बद्दल शासन सेवा व इतर  सेवा व माहिती
+                                                    span #{t("navbar.bottom.healthServices.dropdown.govtHealthSchemes")} 
+
+                                    //- D MENU 7
+                                    //- Navlink works
+                                    div(class="relative inline-block text-left")
+                                        div
+                                            button(class=`${navBtnClass}` data-toggle-dropdown id="nav-education-btn" aria-expanded="false" aria-haspopup="true") 
+                                                //- span शिक्षण
+                                                span #{t("navbar.bottom.education.value")}
+                                                svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                    path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                        div(class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="nav-education-btn" tabindex="-1")
+                                            div(class="py-1" role="none")
+
+                                                //- a(href='/education/school-college-list-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") शिक्षण सेवा व माहिती 
+                                                a(href="/jobs/job-related-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1") 
+                                                    //- span नोकरी विषयक
+                                                    span #{t("navbar.bottom.education.dropdown.jobRelated")}
+
+                                                a(href="/education/school-college-list-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2") 
+                                                    //- span शाळा/महाविद्यालय यादी
+                                                    span #{t("navbar.bottom.education.dropdown.schoolCollegeList")}
+
+                                                a(href="/education/school-college-list-view?institute_type=2" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-3") 
+                                                    //- span शाळा
+                                                    span #{t("navbar.bottom.education.dropdown.schools")}
+
+                                                a(href='/education/school-college-list-view?institute_type=1' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-4") 
+                                                    //- span अंगणवाडी
+                                                    span #{t("navbar.bottom.education.dropdown.anganwadi")}
+
+                                                a(href='/krishi-vidnyan' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-5") 
+                                                    //- span कृषी विज्ञान 
+                                                    span #{t("navbar.bottom.education.dropdown.krishiVigyan")}
+
+                                        //- Navlink works
+
+                                    //-  D MENU 8
+                                    //- a(class=`${navBtnClass}` href='/village/vaidyakiy-madat-kaksha-view') 
+                                        //- span वैद्यकीय मदत कक्ष
+                                        span #{t("navbar.bottom.medicalHelpDesk")}
+
+                                    a(class=`${navBtnClass}` href='/rti/info') 
+                                        //- span वैद्यकीय मदत कक्ष
+                                        span #{t("navbar.bottom.rti")}
+
+
+                                    //- D MENU 9
+                                    //- Navlink works
+                                    a(class=`${navBtnClass}` href='/divyanga/divyanga-registration-view') 
+                                        //- span दिव्यांग नोंदणी
+                                        span #{t("navbar.bottom.divyangRegistration")}
+
+                                    //- div(class=navBtnClass)
+                                    select(class='lang-dropdown !bg-white text-blue-600')
+                                        each label, code in { mr: "मराठी", hi: "हिंदी", en: "English" }
+                                            option(value=code selected=(code == language) class='!bg-white') #{label}
+
+
+                                //- MOBILE Menu Btn ---------------------------------------------
+                                div(class='inline lg:hidden')
+                                    button(class='text-end text-white  w-full text-xl py-2' id='mobile-menu-btn')
+                                        i.fa-solid.fa-bars(id='mobile-menu-ham-icon')
+                                        i.fa-solid.fa-xmark(class='hidden' id='mobile-menu-close-icon')
+
+
+                    //- Mobile Menu
+                    - let mobileNavBtnClass = 'w-fit  border-transparent text-white hover:border-gray-100 hover:text-gray-200 inline-flex items-center justify-end px-1 pt-1 border-b-2 text-sm font-medium'
+                    div(class="lg:hidden" id="mobile-menu")
+
+                        div(class="space-y-1 z-1000 transition-all duration-400 ease-in-out  max-h-0 hidden opacity-0" aria-labelledby='mobile-menu-btn' aria-expanded='false')
+                            //- Mobile menu adding over here
+                            div(class="flex flex-col gap-4 items-end")
+
+                                //- Navlink works
+                                a(class=`${mobileNavBtnClass}` href="/") 
+                                    //- span मुख्य पृष्ठ
+                                    span #{t("navbar.bottom.home")}
+
+
+
+                                //- Dropdown
+                                div(class="relative inline-block text-left")
+                                    //- Dropdown button
+                                    div
+                                        button(class=`${mobileNavBtnClass}` data-toggle-dropdown id="mobile-our-village-btn" aria-expanded="false" aria-haspopup="true") 
+                                            //- span आपल गाव
+                                            span #{t("navbar.bottom.ourVillage.value")}
+                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                    //- Dropdown menu
+                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-our-village-btn" tabindex="-1")
+                                        div(class="py-1" role="none")
+                                            //- a(href='/divyanga/approved' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span 
+                                                span #{t("navbar.bottom.ourVillage.dropdown.disabledPersonsList")}
+                                            
+                                            //- sub Dropdown 
+                                            //- div(class="relative inline-block text-left")
+                                                //- Dropdown button
+                                                div(class='')
+                                                    button(class=`flex items-center justify-between text-gray-700 block px-4 py-2 text-sm` data-toggle-dropdown id="mobile-divyanga-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                        //- span दिव्यांग लोकांची यादी
+                                                        span #{t("navbar.bottom.ourVillage.dropdown.disabledPersonsList")}
+                                                        svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                            path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                                //- Dropdown menu
+                                                div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-divyanga-list-btn" tabindex="-1")
+                                                    div(class="py-1" role="none")
+                                                        if divyangaFileList && divyangaFileList.length > 0
+                                                            each listItem in divyangaFileList
+                                                                a(href=`/new-gp-page/main-page/files/divyanga-yadi/${listItem.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{listItem.file_name}
+                                                        else
+                                                            button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1") यादी उपलब्ध नाही
+
+
+                                            //- sub Dropdown 
+                                            div(class="relative inline-block text-left")
+                                                //-sub Dropdown button
+                                                div(class='')
+                                                    button(class=`flex items-center justify-between text-gray-700 block px-4 py-2 text-sm` data-toggle-dropdown id="mobile-empty-plot-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                        //- | कच्चे व खुल्या जागा घराची यादी
+                                                        | #{t("navbar.bottom.ourVillage.dropdown.openPlotsList")}
+                                                        svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                            path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                                //- sub Dropdown menu
+                                                div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-empty-plot-list-btn" tabindex="-1")
+                                                    div(class="py-1" role="none")
+                                                        if emptyPlotListFileList && emptyPlotListFileList.length > 0
+                                                            each listItem in emptyPlotListFileList
+                                                                a(href=`/new-gp-page/main-page/files/empty-plot-file-lists/${listItem.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{listItem.file_name}
+                                                        else
+                                                            button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1") 
+                                                                //- span यादी उपलब्ध नाही
+                                                                span #{t("navbar.bottom.noListAvailable")}
+
+
+                                            //- a(href='/village/info' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span गावाविषयी माहिती
+                                                span #{t("navbar.bottom.ourVillage.dropdown.aboutGp")}
+                                                
+                                            a(href='/village/population' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span ग्रामपंचायत टिपणी
+                                                span #{t("navbar.bottom.ourVillage.dropdown.gpNotes")}
+
+
+                                            a(href='/village/village-udyog-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span गावातील उद्योग 
+                                                span #{t("navbar.bottom.ourVillage.dropdown.villageIndustries")} 
+                                            a(href='/village/village-news' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span गावातील बातम्या
+                                                span #{t("navbar.bottom.ourVillage.dropdown.villageNews")}
+                                            a(href='#notice' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span ई-दवंडी 
+                                                span #{t("navbar.bottom.ourVillage.dropdown.eDavandi")} 
+                                            a(href='/divyanga/approved' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span दिव्यांग लोकांची यादी
+                                                span #{t("navbar.bottom.ourVillage.dropdown.disabledPersonsList")} 
+
+
+                                //- Already working
+                                a(class=`${mobileNavBtnClass}` href= (endpoint != '/' ? '/#members' : '#members')) 
+                                    //- span पदाधिकारी व सेवकवर्ग
+                                    span #{t("navbar.bottom.officeBearers")}
+
+                                //- Navlink works
+                                div(class="relative inline-block text-left")
+                                    div
+                                        button(class=`${mobileNavBtnClass}` data-toggle-dropdown id="mobile-menu-guidance-services-btn" aria-expanded="false" aria-haspopup="true") 
+                                            //- | मार्गदर्शक सेवा
+                                            | #{t("navbar.bottom.guidance.value")}
+                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-guidance-services-btn" tabindex="-1")
+                                        div(class="py-1" role="none")
+                                            a(href='/village/online-guidance' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span ONLINE मार्गदर्शन
+                                                span #{t("navbar.bottom.guidance.dropdown.online")}
+                                            
+                                            button(class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1") 
+                                                //- span OFFLINE मार्गदर्शन
+                                                span #{t("navbar.bottom.guidance.dropdown.offline")}
+                                            
+                                            div(class="relative inline-block text-left")
+                                                div(class='')
+                                                    button(class=`flex items-center justify-between text-gray-700 block px-4 py-2 text-sm` data-toggle-dropdown id="mobile-menu-gr-list-btn" aria-expanded="false" aria-haspopup="true") 
+                                                        //- | GR
+                                                        | #{t("navbar.bottom.guidance.dropdown.gr")}
+                                                        svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                            path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                                div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-gr-list-btn" tabindex="-1")
+                                                    div(class="py-1" role="none")
+                                                        if grFileList && grFileList.length > 0
+                                                            each gr in grFileList
+                                                                a(href=`/new-gp-page/main-page/files/gr-lists/${gr.file_name}` class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") #{gr.file_name}
+                                                        else
+                                                            button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1") 
+                                                                //- span यादी उपलब्ध नाही
+                                                                span #{t("navbar.bottom.noListAvailable")}
+
+                                //- Already working
+                                a(class=`${mobileNavBtnClass}` href= (endpoint != '/' ? '/#vikas-kame' : '#vikas-kame')) 
+                                    //- span विकास कामे माहिती
+                                    span #{t("navbar.bottom.developmentWorksInfo")} 
+
+                                //- Navlink works
+                                div(class="relative inline-block text-left")
+                                    div
+                                        button(class=`${mobileNavBtnClass}` data-toggle-dropdown id="mobile-menu-health-services-btn" aria-expanded="false" aria-haspopup="true") 
+                                            //- | आरोग्य सेवा
+                                            span #{t("navbar.bottom.healthServices.value")} 
+                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+                                    div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-health-services-btn" tabindex="-1")
+                                        div(class="py-1" role="none")
+                                            a(href='/arogya/arogya-seva-kendra-list-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span आरोग्य सेवा व माहिती 
+                                                span #{t("navbar.bottom.healthServices.dropdown.generalHealthInfo")} 
+
+                                            a(href="/village/government-schemes-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1") 
+                                                //- span शासकीय आरोग्य योजना बद्दल शासन सेवा व इतर  सेवा व माहिती
+                                                span #{t("navbar.bottom.healthServices.dropdown.govtHealthSchemes")} 
+
+                                //- Navlink works
+                                div(class="relative inline-block text-left")
+                                    div
+                                        button(class=`${mobileNavBtnClass}` data-toggle-dropdown id="mobile-menu-education-btn" aria-expanded="false" aria-haspopup="true") 
+                                            //- | शिक्षण
+                                            span #{t("navbar.bottom.education.value")}
+                                            svg.-mr-1.ml-2.h-5.w-5(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true")
+                                                path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
+
+                                    div(class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-education-btn" tabindex="-1")
+                                        div(class="py-1" role="none")
+
+                                            //- a(href='/education/school-college-list-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") शिक्षण सेवा व माहिती 
+                                            a(href="/jobs/job-related-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1") 
+                                                //- span नोकरी विषयक
+                                                span #{t("navbar.bottom.education.dropdown.jobRelated")}
+
+
+                                            a(href="/education/school-college-list-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2") 
+                                                //- span शाळा/महाविद्यालय यादी
+                                                span #{t("navbar.bottom.education.dropdown.schoolCollegeList")}
+
+                                            a(href="/education/school-college-list-view?institute_type=2" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-3") 
+                                                //- span शाळा
+                                                span #{t("navbar.bottom.education.dropdown.schools")}
+
+                                            a(href='/education/school-college-list-view?institute_type=1' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-4") 
+                                                //- span अंगणवाडी
+                                                span #{t("navbar.bottom.education.dropdown.anganwadi")}
+
+                                            //- a(href="/education/school-college-list-view?institute_type=4" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-5") 
+                                                //- span महाविद्यालय
+
+                                            a(href='/education/school-college-list-view?institute_type=1' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-4") 
+                                                span #{t("navbar.bottom.education.dropdown.krishiVigyan")} 
+
+
+                                //- Navlink works
+                                a(class=`${navBtnClass}` href='/village/vaidyakiy-madat-kaksha-view') 
+                                    //- span वैद्यकीय मदत कक्ष
+                                    span #{t("navbar.bottom.medicalHelpDesk")}
+
+                                //- Navlink works
+                                a(class=`${navBtnClass}` href='/divyanga/divyanga-registration-view') 
+                                    //- | दिव्यांग नोंदणी
+                                    span #{t("navbar.bottom.divyangRegistration")}
+
+                                
+                                select(class='lang-dropdown text-white bg-white/20')
+                                    option(value='mr' selected=("mr" == language)) मराठी 
+                                    option(value='hi' selected=("hi" == language)) हिंदी
+                                    option(value='en' selected=("en" == language)) English 
+
+        //- #qr-code-container(class='bg-gray-200')
+            .container
+                .py-2(class="flex items-center justify-center gap-2")
+
+                    span(class='border border-gray-600 px-2 py-1 rounded-md bg-slate-500/50 text-white') DOWNLOAD QR HERE ->
+                    - 
+                        const qrButtons = [
+                            { endpoint: "/village/nagrik-nondani-view", title: t("navbar.top.citizenRegistration") },
+                            { endpoint: "/new-application-form", title: t("navbar.top.citizenServiceApplication") },
+                            { endpoint: "/complaints/form", title: t("navbar.top.complaintRegistration") },
+                            { endpoint: "/gp-applications/f8-ferfar/register", title: t("navbar.top.propertyMutationApplication") },
+                            { endpoint: "/gp-applications/construction/form", title: t("navbar.top.constructionApplication") },
+                            { endpoint: "/gp-applications/job-card/form", title: t("navbar.top.jobCardApplication") }
+                        ]
+
+                    div(class='flex overflow-x-auto gap-2 py-1')
+                        each btn in qrButtons
+                            button.qr-code-btn(class='px-2 py-1 bg-blue-500 text-white shrink-0 rounded-md' data-endpoint=btn.endpoint data-title=btn.title) #{btn.title}
+
+
+
+//- keeping the modal for qR generation over here only
+
+dialog#qr-code-modal.modal
+    .modal-box(class='bg-white')
+
+        form(method="dialog")
+
+            - let qrText = { mr: 'QR', hi: 'QR', en: 'QR' };
+
+            h3(class='text-center text-gray-500 font-bold text-xl') 
+                span#qr-modal-title
+                span &nbsp; #{qrText[language]}
+
+            div(class='flex justify-center')  
+                button#qr-download-btn(class="mt-4 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-200")
+                        span Download QR
+                        i(class="fa-solid fa-download")
+            button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+        .p-4(class='md:p-5')
+            .modal-body
+
+                //- div(class='flex justify-end')
+                    
+
+
+                div(class='mt-4 flex items-center justify-center')
+                    div(class='border' id='banner-qr-code')
+

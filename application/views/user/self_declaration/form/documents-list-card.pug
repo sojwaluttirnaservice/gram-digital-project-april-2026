@@ -1,0 +1,19 @@
+if certificateSubject && certificateSubject.documents && certificateSubject.documents.length > 0
+    .card(style="margin-bottom: 3rem;")
+        .card-header.bg-info.font-weight-bold
+            | आवश्यक कागदपत्रे
+
+        .card-body
+            .row.g-3
+                each doc in certificateSubject.documents
+                    .col-12.col-md-6.required-document-row(data-doc-id=doc.id data-doc-key=doc.key data-doc-name=doc.label data-required=(doc.is_required ? 1 : 0))
+                        label.font-weight-bold #{doc.label}
+                            if doc.is_required 
+                                span.text-danger *
+                            else 
+                                span (असल्यास)
+                        input.form-control.form-control-sm(type="file" name=doc.key )
+
+
+                .col-12.text-center.mt-3
+                    button#saveDeclarationFormBtn.btn.btn-success(type="submit") जतन करा

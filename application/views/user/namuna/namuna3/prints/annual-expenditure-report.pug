@@ -1,0 +1,91 @@
+
+
+
+
+
+.my-print 
+
+
+    h3.text-center वर्षातील खर्चाचा अहवाल सन ________
+
+
+
+
+    table.w-full
+
+        thead
+            tr
+                //- th(rowspan='2' colspan='1') अनु क्रमांक
+                th(rowspan='2' colspan='1') वर्षात केलेले कामाचे नाव
+                th(rowspan='2' colspan='1') साहित्यावर खर्च
+                th(rowspan='2' colspan='1') मंजुरीवर खर्च
+                th(rowspan='2' colspan='1') एकूण खर्च
+
+
+                th(rowspan='1' colspan='2') उसनवार परत
+
+                th(rowspan='2' colspan='1') एकूण उसनवार परत रक्कम
+                th(rowspan='2' colspan='1') एकूण खर्च
+                th(rowspan='2' colspan='1') अखेर शिल्लक दि. ______ सन _____
+
+
+            tr 
+                //- th 
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') ग्रामनिधी 
+                th(rowspan='1' colspan='1') खाजगी
+
+                //- th
+                //- th
+                //- th
+            tr 
+                each num in [1,2,3,4,5,6, '5 + 6 = 7', '4 + 7 = 8', '9 (12 - 8)']
+                    th #{num}
+
+        tbody
+            - let dataExpenditureList = (annualExpenditureReport != null && annualExpenditureReport.data_list != null) ? JSON.parse(annualExpenditureReport.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumExpenditure = new Array(11).fill(0)
+
+            each entryArray, entryIndex in dataExpenditureList 
+                tr
+                    //- td #{entryIndex + 1}
+                    //- - let sumExpenditureIndex = 0;
+                    each singleEntry in JSON.parse(entryArray)
+                        td #{singleEntry.value}
+                        //- - if (!isNaN(Number(singleEntry.value))) { sumExpenditure[sumExpenditureIndex] = (sumExpenditure[sumExpenditureIndex] || 0) + +singleEntry.value } else { sumExpenditure[sumExpenditureIndex] = sumExpenditure[sumExpenditureIndex] || ''; }
+                        //- td
+                        //- - sumExpenditureIndex += 1
+
+
+        //- tfoot 
+            tr 
+
+                td एकूण
+                td 
+                td 
+                td 
+
+
+                td 
+                td 
+
+                td 
+                td 
+                td 
+
+
+    div(style='margin-top: 2rem;')
+
+        div(style='text-align: right;')
+            span(style='displayL: inline-block; margin-right: 9rem;') सचिवाची सही
+            span(style='displayL: inline-block; margin-right: 4rem;') सरपंचाची सही
+
+    div 
+        p १) निर्माण झालेले मनुष्य दिवस #{annualExpenditureReport.man_days_created}
+        p २) वर्षात मंजूर केलेल्या कामाबाबत ग्रामसभा ठराव क्रमांक. #{annualExpenditureReport.tharav_number}
+        //- दि. _________ सन. ________________
+        p ३) काकास पंचायत समितींने मिळण्याबाबत आदेश क्रमांक. #{annualExpenditureReport.approval_order_number} 
+        //- दिनांक

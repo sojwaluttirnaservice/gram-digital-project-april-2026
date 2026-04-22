@@ -1,0 +1,57 @@
+extends ./master-layout
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/upload-krishi-vidnyan-handler.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center कृषी विज्ञान अपलोड
+
+			.col-12.text-end
+				button.btn.btn-primary#open-upload-form-btn(type='button') माहिती भरा
+
+			.col-12.col-md-8.mt-5
+				.table-responsive
+					table.table.table-bordered
+						thead 
+							tr.text-center
+								th SR NO
+								th File Name
+								th Delete
+						tbody 
+							each file, index in filesList
+								tr.text-center
+									td #{index + 1}
+									td #{file.file_name}
+									td 
+										button.btn.text-danger(id='delete-krishi-vidnyan-file-btn' type='button' data-id=file.id data-type=file.type data-fileName=file.file_name)
+											i.fa.fa-trash
+
+	.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='add-form-modal')
+		.modal-dialog(style='min-width:50% !important;')
+			.modal-content.p-2
+				.modal-header.bg-warning माहिती भरा 
+					h1.modal-title.fs-5() 
+					button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+				.modal-body
+					form#krishi-vidnyan-form.d-flex.gap-3.flex-column
+						div.d-flex.justify-content-end.align-items-center
+							label.form-label.m-0(for='link-upload-toggle') Link
+							button.btn#link-upload-toggle
+								i.fa-solid.fa-toggle-on.d-none
+								i.fa-solid.fa-toggle-off
+						div
+							label(for="information-title") Title 
+							input.form-control(type='text', id="information-title")
+
+						div.file-upload-container
+							label(for="upload-file") File select
+							input.form-control(type='file' id="upload-file")
+
+						div.d-none.link-upload-container
+							label(for="upload-link") Link Upload 
+							input.form-control(type='text', id="upload-link")
+
+						div
+							button.btn.btn-primary.mt-3(type='button' id="upload-details-btn") जतन करा
+

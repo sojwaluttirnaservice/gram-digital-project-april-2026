@@ -1,0 +1,122 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title अंगणवाडी केंद्रांची यादी
+
+        // CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+
+        // JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        script(src='/asstest/coustom/js/handlers/gp/aanganwadi/center-list-page-handler.js')
+
+        style.
+            .error {
+                color: red !important;
+                font-style: italic !important;
+                font-weight: 700 !important;
+            }
+            body {
+                background-color: #fff3e9 !important;
+                min-height: 100vh;
+            }
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+            }
+            .table thead th {
+                vertical-align: middle;
+            }
+
+    body
+        include ../../include/navs.pug
+
+        .container-fluid
+            .row
+                .col-12.mt-3
+                    .page-header
+                        h4.text-center.mb-0.text-success
+                            i.fa.fa-home.mr-2
+                            | अंगणवाडी केंद्र यादी
+                        a(href="/aanganwadi/add" class="btn btn-primary btn-sm")
+                            i.fa.fa-plus-circle.mr-1
+                            | नवीन अंगणवाडी केंद्र जोडा
+
+                .col-12
+                    .table-responsive.mt-3(style='margin-bottom: 5rem;')
+                        table.table.table-bordered.table-hover.text-center
+                            thead
+                                tr.bg-success.text-white
+                                    th(width="5%") अनु क्र.
+                                    th(width="25%") केंद्राचे नाव
+                                    th(width="15%") केंद्र क्रमांक
+                                    th(width="20%") गावाचे नाव
+                                    th(width="8%") शौचालय
+                                    th(width="8%") किचन शेड
+                                    th(width="12%") सेविका/मदतनीस यादी
+                                    th(width="7%") सेविका/मदतनीस जोडा
+                                    th(width="5%") संपादन
+                                    th(width="5%") हटवा
+
+
+                            tbody#centersList
+                                if !centers || centers.length === 0
+                                    tr.bg-warning.text-dark
+                                        td(colspan='10') कोणतेही अंगणवाडी केंद्र उपलब्ध नाहीत.
+                                else
+                                    each center, index in centers
+                                        tr
+                                            td #{index + 1}
+                                            td.text-capitalize #{center.center_name}
+                                            td #{center.center_number}
+                                            td.text-capitalize #{center.village_name || '-'}
+                                            td #{center.has_toilet == 'AVAILABLE' ? "होय" : "नाही"}
+                                            td #{center.has_kitchen_shed == 'AVAILABLE' ? "होय" : "नाही"}
+                                            td 
+                                                a.btn.btn-outline-primary.btn-sm(
+                                                    href=`/aanganwadi/workers/${center.id}`,
+                                                    title="सेविका/मदतनीस यादी",
+                                                )
+                                                    i.fa.fa-users
+
+                                            td 
+                                                a.btn.btn-outline-primary.btn-sm(
+                                                    href=`/aanganwadi/workers/${center.id}/add`,
+                                                    title="सेविका/मदतनीस जोडा",
+                                                )
+                                                    i.fa.fa-user-plus
+
+                                            td
+                                                a.btn.btn-outline-primary.btn-sm(
+                                                    href=`/aanganwadi/edit/${center.id}`,
+                                                    title="केंद्र संपादन करा",
+                                                )
+                                                    i.fa.fa-edit
+                                            td
+                                                button.btn.btn-outline-danger.btn-sm.delete-center-btn(
+                                                    data-center-id=`${center.id}`,
+                                                    title="केंद्र हटवा"
+                                                )
+                                                    i.fa.fa-trash

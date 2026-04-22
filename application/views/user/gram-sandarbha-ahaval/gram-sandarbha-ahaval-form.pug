@@ -1,0 +1,142 @@
+doctype html
+head
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+	link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+	link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+	link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+	link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+	link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+	//- link(rel='stylesheet' href='/asstest/bs-5.3.2/css/bootstrap.min.css')
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js')
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+	script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js") 
+
+	//- script(src='/asstest/bs-5.3.2/js/bootstrap.min.js')
+
+	//toggle
+	script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+	// extras
+
+	//mask plugin jquery	
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+	// common js setups
+	script(src='/asstest/coustom/js/base.converter.js')
+	script(src='/asstest/coustom/js/common.js')
+	//- script(src='/asstest/coustom/js/handlers/webcam.handler.marage.js')
+	script(src='/asstest/coustom/js/handlers/gram-sandarbha-ahaval/gram-sandarbha-ahaval-handler.js')
+
+	style.
+		.error {
+			color:red !important;
+			font-style:italic !important;
+			font-weight:700 !important;
+		}
+		.bg-warning{
+			background-color:#f0d688 !important;
+		}
+		body{
+			
+			height:100vh;
+		}
+		@media (min-width: 576px) {
+			.modal-dialog { max-width: none; }
+		}
+
+		.modal-dialog {
+			width: 98%;
+			height: 92%;
+			padding: 0;
+		}
+
+body
+	include ../include/navs.pug
+	.mt-2.mb-3.text-center
+		h1.heading-1 ग्राम कर संदर्भ अहवाल भरा
+
+	.container
+		.d-flex.justify-content-end.mb-3
+			a.btn.btn-success(onclick='history.back();')
+				| Back
+
+
+	.row.justify-content-center.mx-auto
+		.col-10
+			.card
+				.card-header.bg-warning.font-weight-bold ग्राम कर संदर्भ अहवाल
+				.card-body
+					form(id='addNewGramSandarbhaAhavalForm')
+						.row.justify-content-center
+							.col-11 
+								.row
+									.col-6
+										.form-group
+											label.font-weight-bold(for='malmatta-owner-name') मालमत्ता धारकाचे नाव: 
+											input.form-control(type='text' id='malmatta-owner-name' name='malmatta_owner_name' value = isEdit ? gramSandarbhaAhaval.malmatta_owner_name : '')
+									
+									.col-6
+										.form-group
+											label.font-weight-bold(for='malmatta-no') मालमत्ता क्र: 
+											input.form-control.isNumber(type='text' id='malmatta-no' name='malmatta_no' value = isEdit ? gramSandarbhaAhaval.malmatta_no : '')
+									
+									.col-6
+										.form-group
+											label.font-weight-bold(for='year-from') मागील वर्ष: 
+											input.form-control.isNumber(type='text' id='year-from' name='year_from' value = isEdit ? gramSandarbhaAhaval.year_from : '')
+									
+									.col-6
+										.form-group
+											label.font-weight-bold(for='year-to') पुढील वर्ष :
+											input.form-control.isNumber(type='text' id='year-to' name='year_to' value = isEdit ? gramSandarbhaAhaval.year_to : '')
+									
+									.col-6
+										.form-group
+											label.font-weight-bold(for='survey-number') सर्वे क्र : 
+											input.form-control(type='text' id='survey-number' name='survey_number' value = isEdit ? gramSandarbhaAhaval.survey_number : '')
+									
+									.col-6
+										.form-group
+											label.font-weight-bold(for='area-sq-feet') एकूण चौ. फूट:
+											input.form-control.isNumber(type='text' id='area-sq-feet' name='area_sq_feet' value = isEdit ? gramSandarbhaAhaval.area_sq_feet : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='area-sq-meter') एकूण चौ. मीटर :
+											input.form-control.isNumber(type='text' id='area-sq-meeter' name='area_sq_meter' value = isEdit ? gramSandarbhaAhaval.area_sq_meter : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='tax-rate') कराचा दर:
+											input.form-control.isNumber(type='text' id='tax-rate' name='tax_rate' value = isEdit ? gramSandarbhaAhaval.tax_rate : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='taxation') कर आकारणी:
+											input.form-control.isNumber(type='text' id='taxation' name='taxation' value = isEdit ? gramSandarbhaAhaval.taxation : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='year-difference') एकूण वर्ष:
+											input.form-control.isNumber(type='text' id='year-difference' name='year_difference' value = isEdit ? gramSandarbhaAhaval.year_difference : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='total-taxation') एकूण कर आकारणी:
+											input.form-control.isNumber(type='text' id='total-taxation' name='total_taxation' value = isEdit ? gramSandarbhaAhaval.total_taxation : '')
+									.col-6
+										.form-group
+											label.font-weight-bold(for='shera') शेरा:
+											input.form-control(type='text' id='shera' name='shera' value = isEdit ? gramSandarbhaAhaval.shera : '')
+									.col-12 
+										.text-center
+											if !isEdit 
+												button.btn.btn-primary(type='submit' id='saveGramSandarbhaAhavalBtn') जतन करा 
+											else
+												button.btn.btn-primary(type='submit' id='updateGramSandarbhaAhavalBtn' data-id=gramSandarbhaAhaval.id) अपडेट करा  

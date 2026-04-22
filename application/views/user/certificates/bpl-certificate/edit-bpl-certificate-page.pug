@@ -1,0 +1,119 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        // Common CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/certificates/bpl-certificate/bpl-certificate-form.css')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+
+        // JS Scripts
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src='/asstest/plugins/jquery_validation/jquery.validate.min.js')
+        script(src='/asstest/plugins/jquery_validation/additional-methods.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js')
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/certificates/bpl-certificate/bpl-certificate-form-handler.js')
+
+
+        script.
+            let _bplCertificate = !{JSON.stringify(bplCertificate)} 
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section
+            .container
+                h2.heading-1 बीपीएल प्रमाणपत्र संपादन फॉर्म
+                .d-flex.justify-content-end
+                    a.btn.btn-primary.text-light(href='/bpl-certificate/list') यादी बघा
+
+                form#bpl-certificate-form
+                    input(type='hidden' name='id', value=bplCertificate.id)
+
+                    .form.form-1
+                        .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='name') नाव
+                                    input.form-control.to-marathi(type='text' name='name', value=bplCertificate.name, required, placeholder='Name / नाव').mb-2
+                                    input.form-control(type='text' name='name_m', value=bplCertificate.name_m, placeholder='नाव (मराठीत)', required)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='gender') लिंग
+                                    select.form-control.to-marathi(name='gender', required).mb-2
+                                        option(value='') -- Select --
+                                        option(value='Male', selected=bplCertificate.gender === 'Male') Male
+                                        option(value='Female', selected=bplCertificate.gender === 'Female') Female
+                                        option(value='Other', selected=bplCertificate.gender === 'Other') Other
+                                    input.form-control(type='text' name='gender_m', value=bplCertificate.gender_m, placeholder='लिंग (मराठीत)', readonly, required)
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='bpl_list_number') बीपीएल यादी क्रमांक
+                                    input.form-control.to-marathi(type='text' name='bpl_list_number', value=bplCertificate.bpl_list_number, required, placeholder='BPL List Number / बीपीएल यादी क्रमांक').mb-2
+                                    input.form-control(type='text' name='bpl_list_number_m', value=bplCertificate.bpl_list_number_m, placeholder='बीपीएल यादी क्रमांक (मराठीत)')
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='bpl_score') गुण
+                                    input.form-control(type='text' name='bpl_score', value=bplCertificate.bpl_score, placeholder='BPL Score / गुण')
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='certificate_holder_image_name') छायाचित्र
+                                    input.form-control(type='file' name='image' accept='image/*')
+                                    if bplCertificate.certificate_holder_image_name
+                                        img.mt-2(src=`/uploads/images/certificates/bpl/${bplCertificate.certificate_holder_image_name}`, width='100')
+
+                            .col-11.col-md-6
+                                .form-group
+                                    label(for='year') वर्ष
+                                    input.form-control(type='number' name='year', value=bplCertificate.year, placeholder='Year / वर्ष')
+
+                        hr
+
+                        h5.text-danger.mb-3.text-decoration-underline कुटुंब सदस्यांची माहिती
+
+                        .row.gx-4.gy-2.mb-3
+                            .col-4
+                                input.form-control.to-marathi(type='text' id='new-member-name' placeholder='नाव')
+                            .col-4
+                                input.form-control(type='text' id='new-member-name-m' placeholder='नाव (मराठीत)')
+                            .col-3.text-end
+                                button.btn.btn-primary(type='button' id='add-family-member-btn') Add / Update
+
+                        .row.gx-4.gy-2#family-members-container
+                            //- each member, i in bplCertificate.family_members
+                                .col-12.mt-2.family-member(data-index=i)
+                                    .row.gy-2.align-items-center
+                                        .col-4
+                                            input.form-control(type='text', value=member.family_member_name, disabled)
+                                        .col-4
+                                            input.form-control(type='text', value=member.family_member_name_m, disabled)
+                                        .col-4.text-end
+                                            button.btn.btn-sm.btn-warning.edit-member-btn(type='button', data-index=i, data-id=member.id)
+                                                i.fa.fa-pencil
+                                            button.btn.btn-sm.btn-danger.delete-member-btn(type='button', data-index=i)
+                                                i.fa.fa-trash
+
+                        .button-container.mt-4.text-end
+                            button.btn.btn-success(type='submit') Update

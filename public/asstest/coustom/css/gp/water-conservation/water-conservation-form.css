@@ -1,0 +1,10 @@
+form#water-conservation-form {
+    width: 70%;
+    margin: 2rem auto;
+}
+
+@media screen and (max-width: 576px) {
+    form#water-conservation-form {
+        width: 90%;
+    }
+}

@@ -1,0 +1,120 @@
+
+
+
+.my-print 
+
+    h3.text-center वार्षिक अहवाल पुरवणी (जिल्हा ग्राम विकास निधी)
+
+    table.w-full 
+
+        thead
+
+            tr 
+
+                th(rowspan='3') जिल्हा 
+                th(rowspan='3') ग्रा. पं.
+                th(rowspan='3') ग्रा. पं. ने चालू वर्षी जि. ग्रा. वि. निधी दिला
+                th(rowspan='3') वर्षारंभी शिल्लक
+                th(rowspan='3') पंचायातीनी चालू वर्षी दिलेली निधी रक्कम
+
+
+                th(rowspan='1' colspan='4') कर्जांची परत फेड
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='2') गुंतुवणूकीवर मिळालेले व्याज
+                //- th
+
+                th(rowspan='3') एकूण उत्त्पन्न रकाना ( ५ + ६ब + ७ब + ८ + ९)
+
+                th(rowspan='3') शिल्लाकेसह एकूण उत्त्पन्न (४ + १०)
+
+                th(rowspan='3') चालू वर्षात पंचायतीला दिलेली कर्ज रक्कम
+
+                th(rowspan='1' colspan='2') गुंतवलेली रक्कम
+
+                th(rowspan='3') इतर खर्च 
+
+                th(rowspan='3') इतर खर्च रकाना (12 + 15)
+
+                th(rowspan='3') वर्षांच्या शेवटी थकीत कर्जांची रक्कम
+
+                th(rowspan='3') वर्षाअंती शिल्लक एकूण रक्कम १५
+
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='2') मुद्दल 
+                th(rowspan='1' colspan='2') व्याज
+
+                th(rowspan='2') सरकारी
+                th(rowspan='2') इतर
+
+                //- th 
+                //- th 
+
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='2' colspan='1') सरकारी रोख
+                th(rowspan='2' colspan='1') इतर
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+            tr
+            
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') देणे रक्कम
+                th(rowspan='1' colspan='1') परत केली रक्कम
+
+                th(rowspan='1' colspan='1') देय रक्कम
+                th(rowspan='1' colspan='1') व्याज परत केली रक्कम
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+
+            tr 
+                each num in [1,2,3,4,5,6,'6(ब)', 7, '7 (ब)', 8,9,10,11,12,13,14,15,16,17,18]
+                    th #{num}
+
+        tbody 
+
+
+            - let dataAddendumList = (annualReportAddendum != null && annualReportAddendum.data_list != null) ? JSON.parse(annualReportAddendum.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumAddendum = new Array(11).fill(0)
+            tbody
+                each entryArray, entryIndex in dataAddendumList 
+                    tr
+                        //- td #{entryIndex + 1}
+                        //- - let sumAddendumIndex = 0;
+                        each singleEntry in JSON.parse(entryArray)
+                            td #{singleEntry.value}
+                            //- - if (!isNaN(Number(singleEntry.value))) { sumAddendum[sumAddendumIndex] = (sumAddendum[sumAddendumIndex] || 0) + +singleEntry.value } else { sumAddendum[sumAddendumIndex] = sumAddendum[sumAddendumIndex] || ''; }
+                            //- td
+                            //- - sumAddendumIndex += 1

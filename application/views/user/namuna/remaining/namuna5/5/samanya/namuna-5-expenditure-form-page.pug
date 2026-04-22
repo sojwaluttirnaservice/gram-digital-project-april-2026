@@ -1,0 +1,108 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../../../../include/internal-gp-master-layout.pug 
+
+block custom_css 
+
+    link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-page.css')
+    //- Optional future CSS hook
+
+
+block content   
+
+    .container-fluid.mt-4
+
+        div
+            h4.heading-1 नमुना ५ सामान्य खर्च
+            div.text-end
+                a.btn.btn-secondary.float-right(href='/namuna/5/samanya/list') यादी   
+
+        .row.justify-content-center
+            .col-11.col-md-8
+                div.card.shadow-sm
+                    div.card-header.bg-primary.text-white
+                        h5.mb-0 बँक माहिती
+                    div.card-body
+                        div.row.mb-3
+                            div.col-md-4.fw-bold बँक नाव :
+                            div.col-md-8 #{existingBankRecord.bank_name}
+                        div.row
+                            div.col-md-4.fw-bold खात्यातील शिल्लक रक्कम :
+                            div.col-md-8.text-success 
+                                | ₹ #{existingBankRecord.account_balance} रुपये मात्र
+                
+            .col-11.col-md-8.mt-2
+
+                .card
+                    .card-header.bg-warning.font-weight-bold माहिती
+                    .card-body
+
+                        form#namuna-5-expenditure-samanya-form
+                            .row
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='payment_reciever') रक्कम स्वीकारणाऱ्याचे नाव
+                                        input.form-control.form-control-sm(type='text' name='payment_reciever' id='payment_reciever')
+                                        input(type="text" name="ps_bank_details_id_fk" value=existingBankRecord.id hidden)
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='payment_date') दिनांक
+                                        input.datepicker.form-control.form-control-sm(type='text' name='payment_date' id='payment_date' autocomplete="off")
+
+
+                                //- Main reason
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='main_reason') कारण (शब्दात)
+                                        a.btn(style="padding: 2px 2px; background-color: red; color:white; font-size:0.8rem;" href="/namuna/5/samanya/reasons") Manage
+                                        //- input.form-control.form-control-sm(type='text' name='reason_of_expenditure' id='reason_of_expenditure' )
+                                        select.form-control.form-control-sm(name='main_reason' id='main_reason')
+                                            option(value='') ----निवडा----
+                                            each _mainReason in mainReasons 
+                                                option(value=_mainReason.label) #{_mainReason.label}
+
+
+                                //- sub reason
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='reason_of_expenditure') उप कारण (शब्दात)
+                                        a.btn(style="padding: 2px 2px; background-color: red; color:white; font-size:0.8rem;" href="/namuna/5/samanya/reasons") Manage
+                                        select.form-control.form-control-sm(name='reason_of_expenditure' id='reason_of_expenditure')
+                                            option(value='') ----निवडा----
+
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='amount_spent') रक्कम
+                                        input.form-control.form-control-sm(type='number' step='0.01' data-max=existingBankRecord.account_balance max=existingBankRecord.account_balance name='amount_spent' id='amount_spent')
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='check_no') चेक क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='check_no' id='check_no')
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='voucher_number') प्रमाणक Voucher क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='voucher_number' id='voucher_number')
+                                        
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='ledger_title') लेखाशीर्षक
+                                        input.form-control.form-control-sm(type='text' name='ledger_title' id='ledger_title')
+
+
+                                .col-12.text-center
+                                    .form-group
+                                        button#namuna-5-expenditure-samanya-save-btn.btn.btn-success.mt-2(type='submit') जतन करा
+
+block custom_js
+    script.
+        let mainReasons = !{JSON.stringify(mainReasons)};
+    script(src="/asstest/coustom/js/handlers/namuna/namuna-5/samanya/namuna-5-expenditure-samanya-form-handler.js")
+
+

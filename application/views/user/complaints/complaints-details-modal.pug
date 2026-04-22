@@ -1,0 +1,91 @@
+//- COMPLAINT DETAILS MODAL
+.modal(tabindex="-1" id="complaint-details-modal")
+    .modal-dialog.modal-dialog-centered.modal-lg
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-file-alt.me-2.text-danger
+                    | तक्रारीचा तपशील
+                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+
+            // ================= BODY =================
+            .modal-body.p-4(style="max-height: 70vh; overflow-y: auto;")
+                div.row.g-3.mb-3
+                    //- Applicant Info
+                    div.col-md-6
+                        label.form-label(for="formName") तक्रार नोंदवणारा
+                        input.form-control(readonly name="formName")
+                    div.col-md-6
+                        label.form-label(for="formEmail") ई-मेल
+                        input.form-control(readonly name="formEmail")
+                    div.col-md-6
+                        label.form-label(for="formMobile") मोबाईल
+                        input.form-control(readonly name="formMobile")
+                    div.col-md-6
+                        label.form-label(for="formAadhar") आधार
+                        input.form-control(readonly name="formAadhar")
+                    div.col-12
+                        label.form-label(for="formAddress") पत्ता
+                        textarea.form-control(readonly name="formAddress")
+                    div.col-12
+                        label.form-label(for="complaintSubject") तक्रारीचा विषय
+                        input.form-control(type="text" readonly name="complaintSubject")
+
+                hr.my-3
+
+                //- Complaint Documents & Location
+                div.complaint-documents-section
+                    div.card.shadow-sm.rounded-3.mb-3
+                        div.card-body.p-3
+                            small.text-muted.mb-1 विषय
+                            p.fw-semibold.mb-2
+
+                            div.d-flex.flex-column.gap-2
+                                a.complaint-photo.btn.btn-outline-primary.btn-sm.rounded-pill.d-flex.align-items-center.justify-content-start(href="#" target="_blank")
+                                    i.fa.fa-image.me-2
+                                    | तक्रार फोटो पहा
+                                a.complaint-location.btn.btn-outline-success.btn-sm.rounded-pill.d-flex.align-items-center.justify-content-start(href="#" target="_blank")
+                                    i.fa.fa-map-marker-alt.me-2
+                                    | लोकेशन
+                                a.complaint-doc.btn.btn-outline-secondary.btn-sm.rounded-pill.d-flex.align-items-center.justify-content-start(href="#" target="_blank")
+                                    i.fa.fa-file-alt.me-2
+                                    | तक्रार कागदपत्र पहा
+
+                hr.my-3
+
+                //- RESOLUTION SECTION (visible if accepted/resolved)
+                div#resolution-section(style="display:none;")
+                    div.card.shadow-sm.rounded-3.mb-3
+                        div.card-body.p-3
+                            div.row.g-3
+                                div.col-md-6
+                                    label.form-label(for="complaintResolutionDate") तक्रार निवारण दिनांक
+                                    input.form-control(readonly name="complaintResolutionDate")
+                                div.col-md-6
+                                    label.form-label(for="complaintResolutionRemark") तक्रार निवारण शेरा
+                                    input.form-control(readonly name="complaintResolutionRemark")
+                                div.col-12#resolution-image-div(style='display:none;')
+                                    label.form-label(for="complaintResolutionImageUrl") तक्रार निवारणीचा फोटो
+                                    a.form-control.btn.btn-outline-info.btn-sm#resolved-complaint-photo-link(href="" target="_blank") फोटो पहा
+                                    div.mt-4
+                                    a.form-control.btn.btn-success.btn-sm#resolved-complaint-photo-location-link(href='' target="_blank") तक्रार निवारणीचे लोकेशन
+
+                //- REJECTION SECTION (visible if rejected)
+                div#rejection-section(style="display:none;")
+                    div.card.shadow-sm.rounded-3.mb-3
+                        div.card-body.p-3
+                            div.row.g-3
+                                div.col-12
+                                    label.form-label(for="complaintRejectionDate") तक्रार नाकारा दिनांक
+                                    input.form-control(readonly name="complaintRejectionDate")
+                                div.col-12
+                                    label.form-label(for="rejectionReason") नकाराचे कारण
+                                    input.form-control(readonly name="rejectionReason")
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type="button" data-bs-dismiss="modal")
+                    i.fa.fa-times.me-1
+                    | बंद करा

@@ -1,0 +1,135 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title}
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        style.
+            table { border-collapse: collapse; width: 100%; }
+            td, th {
+                padding: 0.3rem;
+                border: 1px solid oklch(26.2% 0.051 172.552);
+                vertical-align: top;
+                font-size: 0.8rem;
+            }
+
+            @media print {
+                @page { size: portrait; margin: 9mm; }
+                .hide-print { display: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                thead { display: table-header-group !important; }
+                tr { page-break-inside: avoid; break-inside: avoid; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+    body
+        div(class="hide-print fixed top-[45%] right-[2%] z-50")
+            button(
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md"
+                onclick="window.print()"
+            ) Print
+
+        if !(empDemandApplication)
+            h2(class='mt-8 text-center text-2xl font-bold text-red-500') माहीती नमुद नाही.
+        else
+            #print(class="tiro-devanagari-marathi-regular" style="width:210mm; height:297mm;")
+                div(class="p-4 border border-gray-900 bg-white h-full")
+
+                    .flex.flex-col.justify-between.h-full.px-4.py-3
+
+                        // ================= TITLE =================
+                        div(class='text-center space-y-1')
+                            h2(class='text-2xl font-bold tracking-wide') नमुना - ४
+                            h3(class='text-xl font-semibold') वैयक्तिक / सामूहिक रोजगार मागणीचा अर्ज
+
+                        // ================= ADDRESS =================
+                        div(class='mt-6 text-base leading-relaxed')
+                            p(class='font-semibold') प्रति,
+                            p ग्रामसेवक / गटविकास अधिकारी / तहसीलदार
+                            p महोदय,
+
+                        // ================= BODY =================
+                        div(class='mt-4 text-base leading-relaxed text-justify')
+                            p
+                                | मी / आम्ही दिनांक 
+                                span(class='font-medium underline px-1') #{empDemandApplication._from_date}
+                                |  पासून दिनांक 
+                                span(class='font-medium underline px-1') #{empDemandApplication._to_date}
+                                |  पर्यंत 
+                                span(class='font-medium underline px-1') #{empDemandApplication.total_days}
+                                |  एकूण दिवसासाठी रोजगाराची मागणी करत आहोत.
+
+                            p(class='mt-3')
+                                | याद्वारे आम्ही आमचा आधार क्रमांक कार्यान्वयीन यंत्रणा म्हणजे कृषी विभाग /
+                                | ग्राम विकास विभाग यांना मनरेगा योजनेसाठी माझी ओळख प्रस्थापित व प्रमाणित
+                                | करण्यासाठी तसेच माझे बँक खात्याशी जोडण्याकरिता संमती देत आहोत.
+
+                        // ================= JOB CARD =================
+                        div(class='mt-4 text-base font-medium')
+                            | जॉब कार्ड क्रमांक (गावाच्या कोड पर्यंत) :
+                            span(class='ms-1 font-semibold') #{empDemandApplication.job_card_number_fk}
+
+                        // ================= TABLE =================
+                        div(class='mt-4')
+                            table(class='w-full border border-gray-900 text-sm text-center')
+                                thead
+                                    tr
+                                        th(rowspan='2') अ.क्र.
+                                        th(rowspan='2') अर्जदाराचे नाव
+                                        th(rowspan='2') जॉब कार्ड कुटुंब क्र. (शेवटचे ४ आकडे)
+                                        th बँक खाते क्रमांक
+                                        th(rowspan='2') पाळणा घर आवश्यक आहे काय
+                                        th(rowspan='2') सही / अंगठा
+                                    tr
+                                        th आधार क्रमांक
+
+                                tbody
+                                    - let members = JSON.parse(empDemandApplication.family_members_list || '[]')
+
+                                    if members.length === 0
+                                        tr
+                                            td(colspan='6' class='text-red-600 py-4')
+                                                | मजूर सदस्यांची माहिती उपलब्ध नाही
+                                    else
+                                        each _member, _index in members
+                                            tr
+                                                td(rowspan='2') #{_index + 1}
+                                                td(rowspan='2') #{_member.member_name || '-'}
+                                                td(rowspan='2') #{empDemandApplication.job_card_number_fk ? empDemandApplication.job_card_number_fk.slice(-4) : '-'}
+
+                                                td #{_member.bank_account_number || '-'}
+                                                td(rowspan='2') #{_member.is_creche_required_at_workplace === 'YES' ? 'होय' : 'नाही'}
+                                                td(rowspan='2')
+                                                    if _member.sign_or_thumb_stamp_photo_name
+                                                        img(
+                                                            src=`/uploads/images/emp-demand/signatures/${_member.sign_or_thumb_stamp_photo_name}`
+                                                            style='width:140px; height:90px; object-fit:contain; margin:auto;'
+                                                        )
+                                                    else
+                                                        span.text-gray-500 नाही
+                                            tr
+                                                td #{_member.adhar_card_number || '-'}
+
+                        // ================= FOOTER =================
+                        div(class='mt-8 grid grid-cols-2 text-base')
+                            div(class='flex flex-col gap-3')
+                                p(class='font-semibold') मजुराची पोच मिळाल्याची सही
+                                p
+                                    span(class='font-medium') दिनांक :
+                                    span(class='ms-2 underline') _______________________
+
+                            div(class='flex items-end justify-end')
+                                p(class='font-semibold') अर्जदाराची सही
+
+
+script.
+    window.print()

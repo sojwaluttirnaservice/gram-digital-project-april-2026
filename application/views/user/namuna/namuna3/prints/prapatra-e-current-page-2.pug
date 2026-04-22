@@ -1,0 +1,79 @@
+
+
+
+.my-print 
+    h4(style='text-align: center;') प्रपत्र ई चालू
+
+    div(style='margin-bottom: 1rem;') ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist} वर्ष __________
+
+    table(style='width: 100%;')
+        thead 
+
+            tr 
+                th(rowspan='1' colspan='5') (दोन) राज्य शासन सहाय्यक अनुदान खर्च
+                //- th
+                //- th
+                //- th
+                //- th 
+
+
+                th(rowspan='1' colspan='4') (सार्वजनिक बांधकामावरील खर्च)
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='4') केंद्र शासन अनुदाने खर्च
+                //- th
+                //- th
+                //- th 
+
+            tr 
+                th(rowspan='1' colspan='1') शौचालय
+                th(rowspan='1' colspan='1') दलित वस्ती सुधार 
+                th(rowspan='1' colspan='1') पाणीपुरवठा / टी. सी. एल
+                th(rowspan='1' colspan='1') बांधकाम
+                th(rowspan='1' colspan='1') शिक्षण शाळा
+
+                th(rowspan='1' colspan='1') मानधन किमान वेतन व बैठक भत्ता
+                th(rowspan='1' colspan='1') आरोग्य
+                th(rowspan='1' colspan='1') इतर
+                th(rowspan='1' colspan='1') एकूण (दोन) शासकीय अनुदाने
+
+
+                th(rowsspan='1' colspan='1') स्वर्ण जयंती ग्राम स्वरोजगार योजना
+                th(rowspan='1' colspan='1') जवाहर ग्राम समृद्धी योजना
+                th(rowspan='1' colspan='1') इतर
+                th(rowspan='1' colspan='1') एकूण (तीन) १ ते ३
+
+            tr 
+                each num in [1,2,3,4,5]
+                    th #{num}
+
+                each num in [6, 7, 8, '1 ते ८ = 9']
+                    th #{num}
+
+                each num in [1,2,3,4]
+                    th #{num}
+
+        tbody
+            tr
+               
+                td #{prapatraEECurrent.toilet_expenses}
+                td #{prapatraEECurrent.dalit_welfare} 
+                td #{prapatraEECurrent.water_supply_tcl} 
+                td #{prapatraEECurrent.construction_expenses} 
+                td #{prapatraEECurrent.education_schools}
+
+                td #{prapatraEECurrent.honorarium_min_wage_allowance} 
+                td #{prapatraEECurrent.health_expenses} 
+                td #{prapatraEECurrent.other_expenses} 
+                td #{prapatraEECurrent.total_government_grants_2}
+
+                td #{prapatraEECurrent.golden_jubilee_village_self_employment_scheme}  
+                td #{prapatraEECurrent.jawahar_village_prosperity_scheme} 
+                td #{prapatraEECurrent.other_schemes}
+                td #{prapatraEECurrent.total_schemes_1_to_3} 
+               
+
+
+

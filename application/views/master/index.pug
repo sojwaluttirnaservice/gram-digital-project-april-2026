@@ -1,0 +1,81 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+        link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+        //js
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js') 
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        //- common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/master.main.handler.js')
+
+        title Master Panel
+
+        style.
+            .box__title{
+                padding: 0.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.89rem;
+            } 
+    body
+        .container-fluid
+            .row
+                .col-12 
+                    .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                        a.navbar-brand(href="/master") Master Panel 
+            //- .row.justify-content-center
+            //-   .col-12(style='margin-top: 5rem;')
+            .row.justify-content-center(style='margin-top: 5rem;gap: 0.4rem;')
+                - 
+                    const items = [
+                        { iconClass:'fa-users', text: 'Add User Excel', color: 'text-danger', link: '/master/user-excel'},
+                        { iconClass:'fa-home', text: 'ग्राम माहिती', color: 'text-primary', link: '/master/gram-manager'},
+                        { iconClass:'fa-upload', text: 'ग्राम अहवाल व माहिती', color: 'text-primary', link: '/master/get-add-gram-ahaval-documents-view' },
+                        { iconClass:'fa-users', text: 'ग्राम सदस्या', color: 'text-warning',link: '/master/gram-sadasya'},
+                        { iconClass:'fa-gear', text: 'कर सुधारणी', color: 'text-success',link: '/master/karSudharni'},
+                        { iconClass:'fa-list', text: 'आदर्श तक्ता', color: 'text-primary', link: '/master/adarsh-takta' },
+                        { iconClass:'fa-history', text: 'नमुना ९ नूतनीकरण', color: 'text-warning', link: '/master/set-nine-backup' },
+                        { iconClass:'fa-tachometer', text: 'Meter Backup', color: 'text-primary', link: '/master/set-meter-backup' },
+                        { iconClass:'fa-tachometer', text: 'ग्राम अधिक माहिती', color: 'text-primary', link: '/master/gram-adhik-info' },
+                        { iconClass:'fa-tachometer', text: 'ग्राम दस्तावेज', color: 'text-primary', link: '/master/gram-list-setting' },
+                        { iconClass:'fa-upload', text: 'दिव्यांग लोकांची यादी अपलोड', color: 'text-primary', link: '/master/upload-divyanga-people-yadi-view' },
+                        { iconClass:'fa-file', text: 'दिव्यांग लोकांचे अर्ज', color: 'text-primary', link: '/master/get-divyanga-people-applications-view?applicationStatus=1' },  
+                        { iconClass:'fa-upload', text: 'GR Upload', color: 'text-primary', link: '/master/upload-gr' },
+                        { iconClass:'fa-plus-square', text: 'वैद्यकीय कक्ष', color: 'text-primary', link: '/master/medical-room' },
+                        { iconClass:'fa-plus-square', text: 'कृषी विज्ञान', color: 'text-primary', link: '/master/upload-krishi-vidnyan-view' },
+                        { iconClass:'fa-upload', text: 'कच्चे व खुल्या जागा घराची यादी', color: 'text-primary', link: '/master/upload-empty-plot-list' },
+                        { iconClass:'fa-upload', text: 'आरोग्य सेवा माहिती', color: 'text-primary', link: '/master/arogya-seva-kendra-list-view' },
+                        { iconClass:'fa-upload', text: 'शासकीय योजना अपलोड', color: 'text-primary', link: '/master/upload-gov-yojna' },
+                        { iconClass:'fa-upload', text: 'शिक्षण', color: 'text-primary', link: '/master/get-add-education-details' },
+                        { iconClass:'fa-upload', text: 'नोकरी विषयक', color: 'text-primary', link: '/master/get-add-job-related-view' },
+                        { iconClass:'fa-video-camera', text: 'Zoom Meeting', color: 'text-primary', link: '/master/zoom-meetings-view' },
+                        { iconClass: "fa-qrcode", text: "QR Code", color: "text-primary", link: "/master/qr-codes"},
+                        { iconClass: "fa-file", text: "घरकुल योजना", color: "text-primary", link: "/master/gharkul-yojana"},
+                        { iconClass: "fa-file", text: "नमुना ८ फोटोज", color: "text-primary", link: "/namuna/8/home-image-status"}
+                    ]
+
+                each item in items
+                    .col-5.col-md-2.box.box--white(style='margin: 0;')
+                        a.commonModalFrom(href=item.link style ='color: black !important')
+                            p.box__title
+                                i.fa(class=`fa-1x ${item.iconClass} ${item.color}`, style='font-size: 1.5rem' aria-hidden='true')
+                                | &nbsp;#{item.text}

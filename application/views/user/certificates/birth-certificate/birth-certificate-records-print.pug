@@ -1,0 +1,110 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Birth Certificate records
+
+
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            table {
+                border-collapse: collapse;
+            }
+
+            th{
+                border: 1px solid gray;
+                padding:0.2rem 0.3rem;
+            }
+            td {
+                border: 1px solid gray !important;
+                padding:0.2rem 0.3rem;
+            }
+            @media print {
+                @page {
+                    size: A4 landscape;
+                }
+
+                .my-print {
+                    border: 0px solid transparent;
+
+                }
+                table td, tr {
+                    page-break-inside: avoid;
+                }
+            }
+    body
+
+
+        //- - const _births = Array(40).fill(birthCertificates).flatMap(arr => arr); //For development only
+
+        
+        - const _births = birthCertificates
+
+        .my-print(style='width:297mm; height:210mm; position:relative; font-size: 0.9rem;')
+
+            table(width: 98%;)
+                thead
+                    tr 
+                        td(colspan='15')
+                            div(style='position:relative;padding-top:0.4rem;display: flex; justify-content: space-between; align-items: center;')
+                                div
+                                    img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" width=90)
+
+                                div(style='position:absolute; top: 0; left: 50%; transform: translate(-50%); font-weight: bolder;  font-size: 1.2rem;') ग्रामपंचायत कार्यालय  #{gp.gp_name}
+
+                                div
+                                    img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png" width=130)
+
+                            div(style='position:relative; display: flex; justify-content: space-between;  height: 2rem; align-items: center;')
+                                div वर्ष : 
+                                    span(style="font-weight: bold") #{year}
+                                div(style='position:absolute; top: 0; left: 50%; transform: translate(-50%);background: #27272a; color: white; font-size: 1.1rem; padding: 0.2rem 1rem; font-weight: bold; border-radius: 4px;') जन्म नोंदणी रजिस्टर
+                                div नमुना - २ नियम क्रमांक ५ पहा 
+                    tr 
+                        th अ.क्र.
+                        th बाळाचे नाव
+                        th लिंग
+                        th जन्म दिनांक
+                        th जन्म ठिकाण 
+
+                        th आईचे नाव
+                        th आईचा आधार क्र
+                        th वडलांचे नाव
+                        th वडिलांचा आधार क्र
+                        th पालकांचा कायमचा पत्ता
+
+                        th ग्रामपंचायत नोंदणी क्र
+                        th ग्रामपंचायत नोंदणी दिनांक
+                        th बाळांतपणाच्या वेळी उपस्थित अधिकाऱ्याचे नाव
+                        th बाळाचे वजन
+                        th शेरा
+                tbody
+                    - for(let i = 0; i <_births.length; i++) 
+                        - const _certificate = _births[i]
+
+                        tr
+                            td #{i + 1}
+                            td #{_certificate.name_m || _certificate.name}
+                            td #{_certificate.gender_m|| _certificate.gender}
+                            td #{_certificate.date_of_birth_m || _certificate._date_of_birth}
+                            td #{_certificate.place_of_birth_m || _certificate.place_of_birth}
+                            td #{_certificate.name_of_mother_m || _certificate.name_of_mother}
+                            td #{_certificate.aadhar_number_of_mother_m  == '000000000000' || _certificate.aadhar_number_of_mother_m == null ? '-' : _certificate.aadhar_number_of_mother_m.match(/.{1,4}/g).join('-') }
+                            td #{_certificate.name_of_father_m || _certificate.name_of_father}
+                            td #{_certificate.aadhar_number_of_father_m  == '000000000000' || _certificate.aadhar_number_of_father_m == null ? '-' : _certificate.aadhar_number_of_mother_m.match(/.{1,4}/g).join('-') }
+                            td #{_certificate.permanent_address_of_parents_m || _certificate.permanent_address_of_parents_m}
+                            td #{_certificate.gp_registration_number}
+                            td #{_certificate.date_of_registration_m || _certificate._date_of_registration}
+                            td #{_certificate.official_present_at_birth_m || _certificate.official_present_at_birth || '-'}
+                            td #{_certificate.weight_of_baby ? _certificate.weight_of_baby : '-'}
+                            td #{_certificate.remarks}
+
+
+

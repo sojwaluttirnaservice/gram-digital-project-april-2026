@@ -1,0 +1,83 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+	style.
+		body {
+			//- background-image: url('/backgrounds/krishi-vidnyan/bg-agriculture-science.jpg');
+			background-image: url('https://www.environmentalscience.org/wp-content/uploads/2024/04/iStock-1500568471-640x427.jpg');
+
+			
+			background-attachment: fixed;
+			background-size: cover;
+			background-position:center;
+			background-repeat: no-repeat;
+		}
+
+
+block internal_js
+	script.
+		$(document).ready(()=>{
+
+			console.log("Printing in krisihi now")
+			$(document).on('click','.krishiVidnyanVideoModalBtn', function(e){
+				e.preventDefault()
+				let videoLink = $(this).attr('data-link')
+				daisyUIModal.show('krishiVidnyanVideoModal');
+
+				let modalBodyHtml = `<iframe class='w-full aspect-video' width="100%" height="345" src="${videoLink}"></iframe><br> <a href='${videoLink}' class='font-bold text-blue-500 italic' target='_blank'>YouTube वर बघा</a>`
+				$('#krishiVidnyanVideoModal .modal-body').html(modalBodyHtml)
+			})
+		})
+
+block content
+	.main-content-white-overlay(class='fixed top-0 left-0 w-full min-h-screen h-full bg-white bg-opacity-60 z-[10]')
+
+	section(class='relative py-6 z-[50]')
+		.container 
+
+			h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+				<i class="fa-solid fa-seedling"></i>
+				span.ml-2  कृषी विज्ञान
+
+
+
+			div(class='mt-8 flex flex-col')
+				div(class='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8')
+					div(class='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8')
+						div(class='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg')
+							table(class='min-w-full divide-y divide-gray-300')
+								thead(class='bg-gray-50')
+									tr
+										th(scope='col'  class='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6') अनु क्र
+										th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900') नाव
+										th(scope='col' class='px-3 py-3.5 text-center text-sm font-semibold text-gray-900') कृती
+								tbody(class='bg-white')
+									each el, i in krishiVidnyanData
+										tr(class=`${(i % 2 == 1) ? 'bg-gray-50' : 'bg-white'} text-center hover:bg-gray-100`)
+											td(class='whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6') #{i + 1}
+											td(class='whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500') #{el.title}
+											td(class='relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6')
+												if el.type === 1
+													a(href=`/new-gp-page/main-page/files/krishi-vidnyan-lists/${el.file_name}` class='text-indigo-600 text hover:text-indigo-900')
+														i(class='fa-solid fa-download')
+												else 
+													button(class='btn krishiVidnyanVideoModalBtn' data-link=el.file_name)
+														i(class='fa-solid fa-link text-success')
+
+
+
+	dialog#krishiVidnyanVideoModal.modal
+		.modal-box
+
+			form(method="dialog")
+
+				h3(class='text-center text-gray-500 font-bold text-xl') कृषी विज्ञान
+				button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+			.p-4(class='md:p-5')
+				.modal-body
+
+
+
+
+

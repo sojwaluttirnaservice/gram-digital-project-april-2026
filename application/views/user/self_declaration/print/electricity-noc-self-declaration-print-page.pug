@@ -1,0 +1,36 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            | , आधार क्रमांक 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAadharM || selfDeclaration.sd_applicantAadharE}
+            | , माझ्या मालकीच्या / वास्तव्याच्या घरास / इमारतीस नवीन विजेची जोडणी
+            |  घेणेकरिता महाराष्ट्र राज्य वीज वितरण कंपनी (महावितरण)
+            |  यांच्याकडे अर्ज करावयाचा आहे.
+
+        p(class="mt-3")
+            | तरी सदर विजेच्या जोडणीस ग्रामपंचायत / कार्यालयास
+            |  कोणतीही हरकत नाही, असे 
+            span(class="font-extrabold") ना हरकत प्रमाणपत्र
+            |  देण्यात यावे, ही नम्र विनंती.
+
+        p(class="mt-3")
+            | मी दिलेली वरील सर्व माहिती खरी व बरोबर आहे.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद

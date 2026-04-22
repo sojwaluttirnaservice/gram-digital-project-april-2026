@@ -1,0 +1,331 @@
+doctype html
+head
+    title नमुना ८ कर वसुली अवहाल ग्रामपंचायत अधिकारी #{gp.gp_name} 
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    style.
+        @media print {
+            @page {
+                size: A4 landscape;
+            }
+            .my-print{
+                margin-top:1cm;
+                position: relative;
+                page-break-before: always;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+            body{
+                margin:0px;
+            } 
+        } 
+        .main-heading {
+            margin-left:10%
+        }
+        .heading-second{
+            margin-left:30%
+        }
+        .heading-second-2{
+            margin-left:30%
+        }
+        #table2 td {
+            padding-left:1px;
+            padding-right:1px;
+        }
+        #table3 td {
+            padding-left:3px;
+            padding-right:3px;
+        } 
+        p {
+            padding-bottom:0px !important;
+            margin-bottom:1px !important;
+        }
+
+        td {
+            font-size:12px !important;
+            border:2px solid;
+        }
+        table {
+            width:100% !important;
+        }
+        .h5 {
+            font-size:15px !important;
+        }
+        .h6 {
+            font-size:14px !important;
+        }
+        .h7{
+            font-size:11px !important;
+        }
+        .h8{
+            font-size:10px !important;
+        }
+        #tbody-data td{
+            padding-top:20px;
+            padding-bottom:20px
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+        .my-print{
+            position: relative;
+        }
+
+body(style='position: relative;')
+    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+    .row.my-print
+        .col-12
+            table(border="2")
+                thead
+                    tr.p-0.m-0
+                        td(colspan="6").p-1.m-0 
+                            center
+                                h4 ग्राम पंचायत कार्यालय 
+                                    strong  #{gp.gp_name} 
+                                    |  पंचायत समिती 
+                                    strong  #{gp.gp_taluka}
+                                    |  जिल्हा 
+                                    strong  #{gp.gp_dist}
+                                - var date = new Date();
+                                - var _month = date.getMonth() + 1;
+                                - var _year = date.getFullYear();
+
+
+                                p.h6.font-weight-bold.text-center ग्रामपंचायतीचे नाव #{gp.gp_name} कराची मागणी वसूली अहवाल माहे  वर्ष  
+    .row
+        .col-12 
+            div
+
+                if printDetails == undefined 
+                    div(style='text-align:center; font-weight:bold; font-size: 2rem; margin-top: 2rem;') माहीती उपलब्ध नाही
+                else
+                    center 
+                        table(border="1")#table3
+                            thead
+                                tr.p-0.m-0
+                                    td(width="" rowspan="2").text-center.m-0.font-weight-bold अनू क्र
+                                    td(width="" rowspan="2").text-center.m-0.font-weight-bold करांचे नाव
+                                    td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण मागणी
+                                    td(width="" colspan="3").text-center.m-0.font-weight-bold मागील महिन्या पर्यंतची वसूली
+                                    td(width="" colspan="3").text-center.m-0.font-weight-bold चालू महिन्यातील वसूली
+                                    td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण वसूली
+                                    td(width="" colspan="3").text-center.m-0.font-weight-bold बाकी
+                                    td(width="" rowspan="2").text-center.m-0.font-weight-bold वसूली टक्के वारी
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 मागील
+                                    td(width="").text-center.m-0 चालू
+                                    td(width="").text-center.m-0 एकूण
+                                    td(width="").text-center.m-0 मागील
+                                    td(width="").text-center.m-0 चालू
+                                    td(width="").text-center.m-0 एकूण
+                                    td(width="").text-center.m-0 मागील
+                                    td(width="").text-center.m-0 चालू
+                                    td(width="").text-center.m-0 एकूण
+                                    td(width="").text-center.m-0 मागील
+                                    td(width="").text-center.m-0 चालू
+                                    td(width="").text-center.m-0 एकूण
+                                    td(width="").text-center.m-0 मागील
+                                    td(width="").text-center.m-0 चालू
+                                    td(width="").text-center.m-0 एकूण
+                            tbody#tbody-data
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 १)
+                                    td(width="").text-center.m-0 इमारत कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandBuildingLast }
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandBuildingCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandBuilding}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthRecoveryLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthRecoveryCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthRecoveryTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthRecoveryLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthRecoveryCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthRecoveryTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryRecoveryLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryRecoveryCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryRecoveryTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainRecoveryLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainRecoveryCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainRecoveryTotal}
+                                    td(width="").text-center.m-0 
+                                        //- | #{printDetails.buildingRecoveryPercentage} %
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 २)
+                                    td(width="").text-center.m-0 दिवाबत्ती कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemanDivaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemanDivaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandDiva}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthDivaLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthDivaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthDivaTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthDivaLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthDivaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthDivaTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryDivaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryDivaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryDivaTotal}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainDivaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainDivaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainDivaTotal}
+                                    td(width="").text-center.m-0 
+                                        //- | #{printDetails.divaRecoveryPercentage} %
+
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 ३) 
+                                    td(width="").text-center.m-0 आरोग्य कर 
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandArogyaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandArogyaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandArogya}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthArogyaLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthArogyaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthArogyaTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthArogyaLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthArogyaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthArogyaTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryArogyaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryArogyaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryArogyaTotal}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainArogyaLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainArogyaCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainArogyaTotal}
+                                    td(width="").text-center.m-0 
+                                        //- #{printDetails.arogyaRecoveryPercentage} %
+
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 ४)
+                                    td(width="").text-center.m-0 मागील इमा दंड कर 
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandOtherLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandOtherCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandOther}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthOtherLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthOtherCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthOtherTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthOtherLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthOtherCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthOtherTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryOtherLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryOtherCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryOtherTotal}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainOtherLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainOtherCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainOtherTotal}
+                                    td(width="").text-center.m-0 
+                                        //- | #{printDetails.otherRecoveryPercentage} %
+
+                                tr.p-0.m-0.font-weight-bold
+                                    td(width="").text-center.m-0 अ)
+                                    td(width="").text-center.m-0 एकूण कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandAll}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthTotalLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthTotalCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthAll}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthTotalLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthTotalCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthAll}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryTotalLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryTotalCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryAll}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainTotalLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainTotalCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainAll}
+                                    td(width="").text-center.m-0 #{printDetails.aRecoveryPercentage} %
+
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 १)
+                                    td(width="").text-center.m-0 सामान्य पाणी कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandGeneralWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandGeneralWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandGeneralTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthGeneralWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthGeneralWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthGeneralTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthGeneralWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthGeneralWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthGeneralTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryGeneralWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryGeneralWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryGeneralTotalWaterTax}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainGeneralWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainGeneralWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainGeneralTotalWaterTax}
+                                    td(width="").text-center.m-0 
+                                        //- | #{printDetails.generalRecoveryPercentage} %
+                                tr.p-0.m-0
+                                    td(width="").text-center.m-0 २)
+                                    td(width="").text-center.m-0 विशेष पाणी कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandSpecialWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandSpecialWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandSpecialTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthSpecialWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthSpecialWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthSpecialTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthSpecialWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthSpecialWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthSpecialTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoverySpecialWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoverySpecialWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoverySpecialTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainSpecialWaterTaxLast}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainSpecialWaterTaxCurrent}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainSpecialTotalWaterTax}
+                                    td(width="").text-center.m-0 
+                                        //- | #{printDetails.specialRecoveryPercentage} %
+
+                                tr.p-0.m-0.font-weight-bold
+                                    td(width="").text-center.m-0 ब)
+                                    td(width="").text-center.m-0 एकूण पाणी कर
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandLastTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandCurrentTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandWaterTaxAll}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthLastTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthCurrentTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthWaterTaxAll}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthLastTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthCurrentTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthWaterTaxAll}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryLastTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryCurrentTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryWaterTaxAll}
+
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainLastTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainCurrentTotalWaterTax}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainWaterTaxAll}
+                                    td(width="").text-center.m-0 #{printDetails.bRecoveryPercentage} %
+
+                                tr.p-0.m-0.font-weight-bold
+                                    td(width="").text-center.m-0 
+                                    td(width="").text-center.m-0 एकूण (अ+ब )बेरीज
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandLastABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandCurrentABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalDemandAllAB}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthLastABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthCurrentABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.lastMonthAllAB}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthLastABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthCurrentABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.currentMonthAllAB}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryLastABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryCurrentABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRecoveryAllAB}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainLastABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainCurrentABTotal}
+                                    td(width="").text-center.m-0 #{printDetails.totalRemainAllAB}
+                                    td(width="").text-center.m-0 #{printDetails.abRecoveryPercentage} %
+
+

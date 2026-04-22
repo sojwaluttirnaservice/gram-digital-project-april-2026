@@ -1,0 +1,1057 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ८ सर्व Image
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/coustom/js/common.js')
+        link(href='/asstest/coustom/css/pagination.css' rel='stylesheet')
+
+
+        //- JS  
+
+
+        script.
+            let totalRecords = !{JSON.stringify(totalRecords)}
+            document.addEventListener('DOMContentLoaded', function(){
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'form8-receipt.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) {
+                    downloadPdfBtn.addEventListener('click', downloadPdf);
+                }
+            })
+
+
+        script(src="/asstest/coustom/js/handlers/pagination.js" defer)
+        style.
+            table {
+                border-collapse: collapse;
+            }
+            td, th {
+                padding: 0.2rem;
+                border: 1px solid oklch(59.2% 0.249 0.584);
+            }
+
+            .bg-pink{
+                background: oklch(59.2% 0.249 0.584);
+            }
+
+            @media print {
+                @page {
+                    size: A4 landscape;
+                    //- margin: 9mm 9mm 9mm 9mm;
+                    margin: 18mm 9mm 5mm 9mm; /* top right bottom left */
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                .print{
+                    height:100lvh;
+                }
+
+                .my-print {
+                    position: relative;
+                    //- background: none !important; /* Prevent bg-white/90 or any tailwind override */
+                    page-break-after: always;
+                    break-after: page;
+                    //- min-height: 100lvh;
+                }
+
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .tiro-devanagari-marathi-regular-italic {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: italic;
+            }
+
+    body
+        - let year = ''
+
+        div(class="hide-print")
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                //- button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+                //- select(onchange="document.querySelectorAll('.sarpanch-sign').forEach(el => el.style.opacity = this.value === '1' ? '1' : '0');" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    option(value='1' selected=(gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='0' selected=(gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    //- option(value='1' selected=(gp.gramsevak_sign_display == 1)) ग्रामसेवक सही दाखवा
+                    //- option(value='0' selected=(gp.gramsevak_sign_display == 0)) ग्रामसेवक सही लपवा
+
+                    option(value='1' selected=(gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+            .pagination-div
+                ul(class='pagination flex items-center')
+
+                    li(class='page-item')
+                        button(class='bg-pink-400 text-white w-32 page-link previous-button px-4 py-2 rounded-md') Previous
+
+                    div(class='flex page-numbers w-fit overflow-x-scroll')
+
+                        //- li
+                            button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 1
+
+                        //- li
+                            button(class="px-3 py-1 border border-pink-300 bg-white text-pink-700 hover:bg-pink-100 rounded-md") 2
+
+
+                    li(class='page-item')
+                        button(class='bg-pink-400 text-white w-32 page-link next-button px-4 py-2 rounded-md') Next
+
+
+        //- Printing will start from over here
+
+        //- userData means many form 8 users
+        each form8User, count in userData
+            .print(class="tiro-devanagari-marathi-regular")
+                //- div(class="my-print p-2 border bg-white/80 border-gray-500 relative h-full" style='background: url("/img/background/bg-tricolor.png"); background-repeat: none;')
+                div(class="my-print p-2 border border-gray-500  bg-white/60 relative h-full print-bg")
+
+                    //- div(class="absolute inset-0 bg-white opacity-60 pointer-events-none z-[-1]")
+                    .absolute.inset-0.z-0.bg-cover.bg-no-repeat.bg-top(style="background-image: url('/img/background/bg-tricolor.png');")
+                        div(class="absolute inset-0 bg-white opacity-60")
+
+                    //- div(class='absolute top-[10%] z-[-5] w-[86%]')
+                    //-     img(src='/img/background/bg-tricolor.png' class='w-full')
+
+                    .relative.z-10.bg-white.bg-opacity-80.h-full
+                        div(class="border-b border-gray-800 mb-2 pb-2 bg-pink-100/40")
+                            div(class="grid grid-cols-[2fr_15fr_2fr] gap-4 items-center")
+                                div(class="flex justify-center items-center")
+                                    div(class="w-20 h-20 flex items-center justify-center text-xs font-bold")
+                                        img(class="waterMark" src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+                                div(class="text-center")
+                                    p(class="inline text-2xl font-semibold")
+                                        span ग्राम पंचायत कार्यालय 
+                                        span(class="text-pink-800 font-bold") #{gp.gp_name}
+                                    p(class="text-xl inline")
+                                        span , पं. स.
+                                        span(class="font-bold text-pink-700") #{gp.gp_taluka}, 
+                                        span जि.
+                                        span(class="font-bold text-pink-700") #{gp.gp_dist}
+                                    p(class="text-xs font-medium") महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/फाल्गुल १३ शके १९३७ नुसार नमुना ८ नियम ३२(९)
+
+                                    p(class="text-xs font-semibold tracking-wide") सन. 
+                                        span(class='font-bold text-base') #{y1} 
+                                        span ते 
+                                        span(class='font-bold text-base') #{y2}
+                                        span  साला करिता करास पात्र असलेल्या इमारती व जमिनी यांची भांडवली मूल्यांकनानुसार कर आकारणी नोंदणी पुस्तिका (असेसमेंट रजिस्टर)
+
+
+                                div(class="mt-1 flex justify-center items-start gap-1")
+                                    div(class="w-20 h-20 flex flex-col items-center justify-center text-xs font-bold")
+                                        div(class="w-20 h-20" id='qr-code'+count)
+                                        //- div -
+
+                                    div(class="w-20 h-20 bg-white flex flex-col items-center justify-center text-xs font-bold")
+                                        img(class="w-20 h-20 z-[10]" src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_image_name onerror="this.src='/img/fallback/no-image-found.png'")
+                                        div Pay here
+
+                        div(class="px-0.5 border-b  border-pink-200 pb-0.5")
+
+                            div(class="grid grid-cols-[3fr_12fr]")
+                                div(class="")
+                                    div(class="h-full")
+                                        div(class='mb-0.5')
+                                            - var url = "/home_map_image/home_photo/" + form8User.feu_image;
+                                            a(href=url target="_blank" class="block w-full border border-gray-800 rounded-sm overflow-hidden")
+                                                img(src=url alt="Home" class="h-[9rem] w-full" onerror="this.src='/img/fallback/no-image-found.png'")
+
+
+
+                                div(class="")
+                                    div(class="h-full pl-1")
+                                        div(class="flex text-sm gap-x-1 gap-y-2 border border-gray-800 ")
+
+                                            p(class="text-gray-700 font-medium p-1 px-0.5 border-r border-r-gray-800")
+                                                span(class='text-gray-800') अ.क्र: 
+                                                span(class="font-bold") #{indexNumberStart++}
+                                            p(class="text-gray-700 font-medium p-1 px-0.5 border-r border-r-gray-800")
+                                                span(class='text-gray-800') जुना घर क्र: 
+                                                span(class="font-bold") #{form8User.feu_homeNo || '—'}
+
+                                            p(class="text-gray-800 font-medium p-1 px-0.5 border-r border-r-gray-800")
+                                                span(class='text-gray-800') वार्ड क्र: 
+                                                span(class="font-bold") #{form8User.feu_wardNo || '—'}
+
+                                            p(class="text-gray-800 font-medium p-1 px-0.5 border-r border-r-gray-800")
+                                                span(class='text-gray-800') मालमत्ता क्रमांक: 
+                                                span(class="font-bold") #{form8User.feu_malmattaNo || '—'}
+
+                                            p(class="text-gray-800 font-medium p-1 px-0.5 border-r border-r-gray-800 w-48")
+                                                span(class='text-gray-800') आधार.क्र: 
+                                                span(class="font-bold") #{form8User.feu_aadharNo || '-'}
+
+                                            p(class="text-gray-800 font-medium w-fit px-0.5 border-r border-gray-800 p-1")
+                                                span(class='text-gray-800') रस्त्याचे/गावाचे नाव : 
+                                                span(class="font-bold") #{form8User.feu_villageName || '—'}
+
+                                            p(class="text font-medium text-gray-700 p-1 px-0.5") 
+                                                span(class='text-gray-800') घरकूल:  
+                                                span(class="font-bold") #{form8User.graha_yojana}
+                                            p(class="text-gray-700 font-medium p-1 px-0.5 w-fit ml-auto border-l border-l-gray-800") 
+                                                span(class='text-gray-800') शौचालय : 
+                                                span(class="font-bold") #{form8User.feu_havingToilet}
+
+                                        div(class="flex flex-row text-sm gap-x-2 gap-y-2 border border-t-0 border-gray-800")
+                                            p(class="text-gray-700 font-medium grow border-r border-r-gray-800")
+                                                span(class='inline-block text-gray-800 border-r border-r-gray-800 p-1') मालमत्ता धारकाचे नाव/पत्नी चे नाव: 
+                                                span(class="inline-block font-bold ml-2 p-1") #{form8User.feu_ownerName || '—'}
+
+                                            p(class="text-gray-700 font-medium w-40 shrink-0")
+                                                span(class='inline-block text-gray-800 p-1') मो. क्र.: 
+                                                span(class="inline-block font-bold p-1") #{form8User.feu_mobileNo || '—'}
+
+                                        div(class="flex flex-wrap text-sm gap-x-2 gap-y-2 border border-t-0 border-gray-800")
+                                            p(class="text-gray-700 font-medium") 
+                                                span(class='inline-block text-gray-800 p-1') भोगवटधारकाचे नाव : 
+                                                span(class="inline-block font-bold p-1 ml-2") #{form8User.feu_secondOwnerName}
+
+                                        div(class="text-sm border border-t-0 border-b border-gray-800")
+                                            div(class='border-b border-gray-800 grid grid-cols-2 gap-x-1')
+                                                p(class="text-gray-700 font-medium border-r border-r-gray-800")
+                                                    span(class='text-gray-800 p-0.5 px-1 inline-block w-20 border-r border-r-gray-950') पूर्वेस 
+                                                    span(class="font-bold p-1") #{form8User.feu_eastLandmark || '—'}
+
+                                                p(class="text-gray-700 font-medium")
+                                                    span(class='text-gray-800 p-0.5 px-1 inline-block w-20 border-r border-r-gray-800') पश्चिमेस
+                                                    span(class="font-bold p-0.5 px-1") #{form8User.feu_westLandmark || '—'}
+                                            div(class='grid grid-cols-2 gap-x-1')
+                                                p(class="text-gray-700 font-medium border-r border-r-gray-950")
+                                                    span(class='text-gray-800 p-0.5 px-1 inline-block w-20 border-r border-r-gray-800') उत्तरेस
+                                                    span(class="font-bold p-0.5 px-1") #{form8User.feu_northLandmark || '—'}
+
+                                                p(class="text-gray-700 font-medium")
+                                                    span(class='text-gray-800 p-0.5 px-1 inline-block w-20 border-r border-r-gray-800') दक्षिणेस 
+                                                    span(class="font-bold p-0.5 px-1") #{form8User.feu_southLandmark || '—'}
+
+                            //- moved this to the left by 3 indentes as per required of teh client, to restore, move in right direction
+                            if(form8User.feu_newOldDharak !== "" && form8User.feu_newPherfarDate !== "" && form8User.feu_newOldDharak != null && form8User.feu_newPherfarTharav !== "" && form8User.feu_newPherfarTharav !== "-")
+
+
+                                div(class="mt-0.5 text-sm gap-x-6 border border-gray-800")
+                                    div(class="text-gray-700 font-medium flex") 
+                                        div(class='w-42 shrink-0 text-gray-800 inline-block px-2 py-1 border-r border-r-gray-800 font-semibold') मालमत्तेचा फेरफार : 
+                                        //- div(class="text-gray-700 font-medium w-80")
+
+                                        div(class='grow px-2')
+                                            span(class='font-bold text-sm text-red-500') #{form8User.feu_newOldDharak} मासिक सभा दिनांक #{form8User.feu_newPherfarDate} ठराव क्र #{form8User.feu_newPherfarTharav} नुसार #{form8User.feu_newNewDharak} #{form8User.feu_newPherfarDocument} नुसार फेरफार घेण्यात आला.
+
+                                            - let oldOwner = form8User.old_owner?.split(',').reverse() || []
+                                            - let newOwner = form8User.new_owner?.split(',').reverse() || [] 
+                                            - let ferfarDate = form8User.ferfar_date?.split(',').reverse() || []
+                                            - let tharavNumber = form8User.tharav_no?.split(',').reverse() || []
+                                            - let dastavej = form8User.dastavej?.split(',').reverse() || []
+
+
+                                            if oldOwner && oldOwner.length > 1
+                                                -for(let i = oldOwner.length - 2; i >= 0 ; i--)
+                                                    if oldOwner[i]
+                                                        span(class="font-bold ml-3 text-sm text-red-500 ")
+                                                            del #{oldOwner[i]} मासिक सभा दिनांक #{ferfarDate[i]} ठराव क्र #{tharavNumber[i]} नुसार #{newOwner[i]} #{dastavej[i]} नुसार फेरफार घेण्यात आला
+                                                                span #{i == 0 ? "." : ", "}	
+
+
+                            div(class="mt-0.5 grid grid-cols-1 text-sm gap-x-2 gap-y-2 border border-gray-800")
+                                p(class="flex text-gray-700 font-medium ") 
+                                    span(class='text-gray-800 p-1 border-r border-r-gray-800 inline-block w-52') अपिल व इतर आदेश/बोझा/शेरा: 
+                                    span(class='font-bold inline p-1 grow') #{form8User.feu_bojaShera}
+                            div(class="grid grid-cols-1 text-sm gap-x-2 gap-y-2 border border-t-0 border-gray-800")
+                                p(class="flex text-gray-700 font-medium") 
+                                    span(class='text-gray-800 p-1 border-r border-r-gray-800 inline-block w-52') गट क्र./भुमापण क्र. /नगर भामपण क्र: 
+                                    span(class='font-bold inline p-1 grow') #{form8User.feu_gaatNo}
+
+                            div(class="text-xs mt-0.5")
+                                p(class="border bg-pink-100 font-bold border-gray-800 rounded space-x-4 flex flex-wrap items-center")
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-r border-gray-800') जागेची माहिती:
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-r border-gray-800') लांबी (पु)(प) x रुंदी (उ)(द): 
+                                    span(class='inline-block py-1 px-1 text-gray-900 border-r border-gray-800') #{form8User.feu_areaHeight} x #{form8User.feu_areaWidth}
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-r border-gray-800') एकूण जागेचे क्षेत्रफळ: 
+                                    span(class='inline-block py-1 px-1 text-gray-900 border-r border-gray-800') #{form8User.feu_totalArea}
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-r border-gray-800') एकूण जागेची चौ.मी: 
+                                    span(class='inline-block py-1 px-1 text-gray-900 border-r border-gray-800') #{form8User.feu_totalAreaSquareMeter}
+
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-r border-gray-800') पी आर.क्र व शीट/सनद क्र  : 
+                                    span(class='inline-block py-1 px-1 text-gray-900 border-r border-gray-800 opacity-0') hidden text
+
+                                    span(class='inline-block py-1 px-1 text-pink-900 border-l border-r border-gray-800') एकूण जागेची चौ.मी: 
+                                    span(class='inline-block py-1 px-1 text-gray-900') 
+
+
+
+                        - let totalSqFeetArea = 0;
+                        if totalTaxSample && totalTaxSample.length > 0
+
+                            div(class='px-0.5 py-0.5')
+
+                                div(class='flex justify-between items-center')
+                                    span(class='text-xs') खालील प्रमाणे मालमत्तेची माहिती
+                                    span(class='text-xs') (टीप: शेरा व दुरुस्त्या यावर खरे पणाबद्धल सरपंचाने सही केली पाहिजे)
+
+
+                            div(class='px-0.5')
+
+                                table.table-auto.w-full.text-xs.border.border-pink-300
+                                    thead.bg-pink-100.text-pink-800
+                                        tr 
+                                            th.p-1.text-center(align="top" width="28%") मालमत्तेचे वर्णन
+                                            th.p-1.text-center(align="top" width="8%") मालमत्तेचा प्रकार
+                                            th.p-1.text-center(align="top" width="4%") वर्ष
+                                            th.p-1.text-center(align="top" width="5%") लांबी(पु)(प)
+                                            th.p-1.text-center(align="top" width="5%") रुंदी(उ)(द)
+
+                                            th.p-1.text-center(align="top" width="6%") चौ.फु क्षेत्रफळ
+                                            th.p-1.text-center(align="top" width="6%") चौ.मीटर
+                                            th.p-1.text-center(align="top" width="6%") जमीन दर
+                                            th.p-1.text-center(align="top" width="6%") बांधकाम दर
+                                            th.p-1.text-center(align="top" width="3%") इमारत दर
+
+                                            th.p-1.text-center(align="top" width="4%") घसारा
+                                            th.p-1.text-center(align="top" width="3%") इ.वा. भारांक
+                                            th.p-1.text-center(align="top" width="6%") भांडवली मु किंमत
+                                            th.p-1.text-center(align="top" width="4%") कराचा दर
+                                            th.p-1.text-center(align="top" width="6%") कर
+
+                                    tbody
+                                        - var _totalTaxSample = totalTaxSample.filter(singleTaxSample => singleTaxSample.user_id == form8User.id);
+
+                                        each taxSample in _totalTaxSample
+
+                                            tr 
+                                                td.text-center.p-1 #{taxSample.fet_bahandkam_prakar_text}
+                                                td.text-center.p-1 #{taxSample.fet_prop_space_text}
+                                                td.text-center.p-1 #{taxSample.fet_year_two}
+                                                td.text-center.p-1 #{taxSample.fet_height}
+                                                td.text-center.p-1 #{taxSample.fet_width}
+
+                                                - totalSqFeetArea += taxSample.fet_sq_area;
+                                                td.text-center.p-1 #{taxSample.fet_sq_area}
+                                                td.text-center.p-1 #{taxSample.fet_sq_meter_area}
+                                                td.text-center.p-1 #{taxSample.fet_prop_space_land_rate}
+                                                td.text-center.p-1 #{taxSample.fet_bahandkam_prakar_ready_nater_rate}
+                                                td.text-center.p-1 
+
+                                                td.text-center.p-1 #{taxSample.fet_ghasara_value}
+                                                td.text-center.p-1 #{taxSample.fet_prop_desc_rate}
+                                                td.text-center.p-1 #{taxSample.fet_final_imarati_bhandvali_mullya}
+                                                td.text-center.p-1 #{taxSample.fet_bahandkam_prakar_tax_rate}
+                                                td.text-center.p-1 #{Math.round(taxSample.fet_final_tax)}
+
+                        - var _totalTaxArray = totalArray.filter(taxEntry => taxEntry.user_id == form8User.id);
+
+                        if _totalTaxArray && _totalTaxArray.length > 0
+                            div(class='px-0.5 py-0.5')
+
+                                div(class='flex justify-between items-start')
+                                    div(class='text-xs') भाडवली मुल्यांकनानुसार आकारण्यात आलेली कर आकारणी.
+                                        - let difference = (+form8User.feu_totalArea - totalSqFeetArea).toFixed(2)
+
+                                        - let text2 = `जुने चौ. फूट ${form8User.feu_totalArea} आहे  आणि सदर चौ फूट ${totalSqFeetArea} असून त्यात ${Math.abs(difference)} चौ फुटाची वाढ झाली आहे.`;
+                                        - let text1  = `जुने चौ. फूट ${form8User.feu_totalArea} आहे  आणि सदर चौ फूट ${totalSqFeetArea} असून त्यात ${Math.abs(difference)} चौ फुटाची कमी झाली आहे.`;
+
+                                        if difference != 0
+                                            span(style='color:red;') &nbsp; (#{`${difference > 0 ? text1 : ''}${difference < 0 ? text2 : ''}`})
+
+                                    div(class='text-xs') 
+                                        p (टीप: शेरा व दुरुस्त्या यावर खरे पणाबद्धल सरपंचाने सही केली पाहिजे)
+                                        p नंतर वाढ किवां घट झालेल्या बाबतीत आदेशाच्या संदर्भासह शेरा
+
+                            div(class='px-0.5 pt-0')
+
+                                table.table-auto.w-full.text-xs.border.border-pink-300
+                                    thead.bg-pink-100.text-pink-800
+                                        tr 
+                                            th.p-1.text-center(width="7%") एकूण बांधकाम
+                                            th.p-1.text-center(width="7%") एकूण खुली जागा
+                                            //- th.p-1.text-center(width="7%") एकूण जागेचे क्षेत्रफळ
+
+                                            th.p-1.text-center(width="7%") इमारत कर
+                                            th.p-1.text-center(width="7%") खुला कर
+                                            th.p-1.text-center(width="6%") इतर
+
+                                            th.p-1.text-center(width="6%") दिवा कर
+                                            th.p-1.text-center(width="6%") आरोग्य कर
+                                            th.p-1.text-center(width="6%") स्वच्छता कर
+                                            th.p-1.text-center(width="6%") शिक्षण कर
+
+                                            th.p-1.text-center(width="6%") वृक्ष कर
+                                            th.p-1.text-center(width="6%") अग्नी कर
+                                            th.p-1.text-center(width="6%") पाणी पट्टी कर
+
+                                            th.p-1.text-center(width="6%") एकूण कर
+                                            th.p-1.text-center(width="6%") घरपट्टी कर
+
+                                            //- Duplicate set as per requirement
+                                            th.p-1.text-center(width="6%") दिवा कर
+                                            th.p-1.text-center(width="6%") आरोग्य कर
+                                            th.p-1.text-center(width="6%") पाणी पट्टी कर
+                                            th.p-1.text-center(width="6%") एकूण कर
+
+                                    tbody
+
+
+                                        each tax in _totalTaxArray
+
+                                            tr 
+                                                td.text-center.p-1 #{(tax.total_building_work).toFixed(2)}
+                                                td.text-center.p-1 #{(tax.total_open_plot).toFixed(2)}
+                                                //- td.text-center.p-1 #{(tax.total_area).toFixed(2)}
+                                                td.text-center.p-1 #{(tax.building_tax).toFixed(2)}
+                                                td.text-center.p-1 #{(tax.open_area_tax).toFixed(2)}
+
+                                                td.text-center.p-1 #{tax.other_tex}
+                                                td.text-center.p-1 #{tax.dava_kar}
+                                                td.text-center.p-1 #{tax.arogya_kar}
+                                                td.text-center.p-1 #{tax.cleaning_tax}
+                                                td.text-center.p-1 #{tax.education_tax}
+
+                                                td.text-center.p-1 #{tax.tree_tax}
+                                                td.text-center.p-1 #{tax.fireblegate_tax}
+                                                td.text-center.p-1 #{waterTaxAmount}
+                                                - let totalTax = tax.building_tax + tax.open_area_tax + tax.other_tex + tax.dava_kar + tax.arogya_kar + tax.cleaning_tax + tax.education_tax + tax.tree_tax + tax.fireblegate_tax
+                                                td.text-center.p-1 #{Math.round(totalTax).toFixed(2)}
+                                                td.text-center.p-1
+
+                                                td.text-center.p-1
+                                                td.text-center.p-1
+                                                td.text-center.p-1
+                                                td.text-center.p-1
+
+
+                        div(class='px-0.5 py-1')
+
+                            div(class='text-[0.6rem]')
+                                p.ml-2 सदरचा उतारा हा मालकी हक्काचा नसुन कर आकारणीचा आहे. सदरच्या उताऱ्यावरून खरेदी विक्रीचा व्यवहार झालेस त्यास ग्रामपंचायत जबाबदार राहणार नाही.
+                                p.ml-2 शासन परिपत्रक क्र. VTM260 3/प्र. क्र. 2068/पं रा. 4 दि. 20 नोव्हेंबर 2003 नुसार ग्रामीण भागातील घरांची नोंदणी पती -पत्नी यांच्या संयुक्त नावे करण्याबाबत निदर्शित करण्यात आलेले आहे.
+
+                        div(id='stamps' class='mt-auto align-bottom')
+                            div(class='grid grid-cols-3 gap-4 text-xs font-semibold')
+                                div.mt-auto.text-center.text-blue-600
+                                    | कार्यालयीन शिक्का 
+
+                                div.mt-auto.text-center.text-red-900  सत्यप्रत
+
+                                div
+                                    div(class='flex items-center justify-end gap-2')
+                                        div.text-center
+                                            div(class='flex items-center justify-center gap-4')
+                                                img.sarpanch-sign(src='/print/sp.jpeg' class=(gp.srapanch_sign_display == 1 ? '' : 'opacity-0') alt='sarpanch sign' onerror="this.style.opacity='0'" style='width:6rem !important; height:2.4rem !important;')
+
+                                            p.mt-2 सरपंच
+                                            p ग्रामपंचायत कार्यालय, #{gp.gp_name}, पं. स. #{gp.gp_taluka}
+
+                                        div.text-center
+                                            div(class='flex items-center justify-center gap-4')
+                                                img.gram-adhikari-sign(src='/print/gs.jpeg' class=(gp.gramsevak_sign_display === 1 ? '' : 'opacity-0') alt='gramsevak sign' onerror="this.style.opacity='0'" style='width: 6rem !important; height: 2.4rem !important;')
+
+                                            p.mt-2 ग्रामपंचायत अधिकारी तथा सचिव
+                                            p ग्रामपंचायत कार्यालय, #{gp.gp_name}, पं. स. #{gp.gp_taluka}
+
+
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Your code here
+            var data = !{userDataString};
+            //- console.log(data)
+            data.forEach(function(userData,index){
+                giveQr(index,userData)
+            })
+
+            function giveQr(index,userData) {
+                let website = 'https://g-seva.com/pay'
+                let homeNo = userData.feu_homeNo;
+                let wardNo = userData.feu_wardNo;
+                let malmattaNo = userData.feu_malmattaNo;
+                website +=`/!{gp.pg_registration_no}/${userData.id}`;
+                website += `?r=${encodeURIComponent(window.location.origin)}`
+
+                new QRCode("qr-code"+index ,
+                    {
+                        text: website,
+                        width: 80, // Set width here
+                        height: 80, // Set height here
+                        colorDark: '#000000',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+                    }
+                );
+            }
+
+            //- query
+            function showHideSignatures(val) {
+                const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                switch (val) {
+                    case '1': // Show Sarpanch sign only
+                        sarpanchSigns.forEach(el => el.style.opacity = '1');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                        break;
+                    case '-1': // Hide Sarpanch sign only
+                        sarpanchSigns.forEach(el => el.style.opacity = '0');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                        break;
+                    case '2': // Show Gram Adhikari sign only
+                        sarpanchSigns.forEach(el => el.style.opacity = '0');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                        break;
+                    case '-2': // Hide Gram Adhikari sign only
+                        sarpanchSigns.forEach(el => el.style.opacity = '1');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                        break;
+                    case '3': // Show both signatures
+                        sarpanchSigns.forEach(el => el.style.opacity = '1');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                        break;
+                    case '-3': // Hide both signatures
+                        sarpanchSigns.forEach(el => el.style.opacity = '0');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                        break;
+                    default:
+                        sarpanchSigns.forEach(el => el.style.opacity = '0');
+                        gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                        break;
+                }
+            }
+
+            // Attach the event listener to the select element
+            document.querySelector('.form-select').addEventListener('change', function() {
+                showHideSignatures(this.value);
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//- doctype html
+//- html
+    head
+        title नमुना ८ सर्व Image
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        //- common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+        //- COMMON JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        //- JS  
+        script(src="/asstest/coustom/js/handlers/pagination.js") 
+
+
+        style.
+            @media print {
+                @page{
+                    size: A4 landscape;
+                }
+                #hide-buttons {
+                    display: none;
+                }
+
+                .my-print{
+                    position: relative;
+                    page-break-before: always;
+                }
+
+                table{
+                    page-break-inside: avoid;
+                }
+
+                .waterMark{
+                    position: absolute;
+                    opacity: 0.3;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .pagination{
+                    display: none;
+                }
+            }
+            .main-heading {
+                margin-left:10%
+            }
+            .heading-second{
+                margin-left:30%
+            }
+            .heading-second-2{
+                margin-left:30%
+            }
+            #table2 td {
+                padding-left:1px;
+                padding-right:1px;
+            }
+            #table3 td {
+                padding-left:3px;
+                padding-right:3px;
+            } 
+            p{
+                padding-bottom:0px !important;
+                margin-bottom:1px !important;
+            }
+            td{
+                font-size:12px !important;
+                border:1.5px solid;
+            }
+            table{
+                width:100% !important;
+            }
+            .h5{
+                font-size:15px !important;
+            }
+            .h6{
+                font-size:14px !important;
+            }
+            .h7{
+                font-size:11px !important;
+            }
+            .h8{
+                font-size:10px !important;
+            }
+            .qrcode{
+                width: 180px;
+                height: 180px;
+            }
+            .qrcode img{
+                width:100%;
+                height:100%;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.2;
+                top: 32%;
+                left: 50%;
+                width: 500px;
+                height: 500px;
+                transform: translateX(-50%);
+            }
+
+            .page-numbers::-webkit-scrollbar {
+                display: none;
+            }
+
+            .text-red {
+                color: red;
+            }
+
+
+        script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+        script.
+            let totalRecords = !{JSON.stringify(totalRecords)}
+
+
+            $(() => {
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (val) {
+                        case '1': // Show Sarpanch sign only
+                            sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                            break;
+                        case '-1': // Hide Sarpanch sign only
+                            sarpanchSigns.forEach(el => el.style.display = 'none');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                            break;
+                        case '2': // Show Gram Adhikari sign only
+                            sarpanchSigns.forEach(el => el.style.display = 'none');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                            break;
+                        case '-2': // Hide Gram Adhikari sign only
+                            sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                            break;
+                        case '3': // Show both signatures
+                            sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                            break;
+                        case '-3': // Hide both signatures
+                            sarpanchSigns.forEach(el => el.style.display = 'none');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                            break;
+                        default:
+                            sarpanchSigns.forEach(el => el.style.display = 'none');
+                            gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                            break;
+                    }
+                }
+
+                // Attach the event listener to the select element
+                document.querySelector('.form-select').addEventListener('change', function() {
+                    showHideSignatures(this.value);
+                });
+            });
+    body
+
+        #hide-buttons 
+
+            select.form-select
+                option(value='1' selected=(gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                option(value='-1' selected=(gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                option(value='2' selected=(gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                option(value='-2' selected=(gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                option(value='3' selected=(gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                option(value='-3' selected=(gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+        div.mt-3.mx-5
+            <ul class="pagination">
+                <li class="page-item">
+                    <button class="bg-primary text-light page-link previous-button">Previous</button>
+                </li>
+                <div class='d-flex page-numbers w-50' style='overflow-x: scroll;'> </div> 
+                <li class="page-item">
+                    <button class="bg-success text-light page-link next-button">Next</button>
+                </li>
+            </ul>
+
+        each userVal,count in userData
+            .row.my-print.mt-3
+                .col-12(style='margin-top: 2.2rem;')
+                    if showWatermark == 1
+                        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+                    include ../include/form-8-header.pug
+
+                    table.mt-3(border="2")
+                        thead
+                            tr.p-0.m-0
+                                td(colspan="6").p-0.m-0 
+                                    div.text-center
+                                        span.h6.ml-4.font-weight-bold अ.क्र: 
+                                            b.ml-1 #{indexNumberStart}
+                                            - indexNumberStart++
+                                        span.pl-4.h6.ml-1.font-weight-bold जुना घर क्र: 
+                                            b.ml-1 #{userVal.feu_homeNo}
+                                        span.pl-4.h6.ml-1.font-weight-bold वार्ड क्र: 
+                                            b.ml-1 #{userVal.feu_wardNo}
+                                        span.pl-4.h6.ml-1.font-weight-bold मालमत्ता क्रमांक: 
+                                            b.ml-1 #{userVal.feu_malmattaNo}
+                                        span.pl-4.h6.ml-1.font-weight-bold रस्त्याचे नाव/गावाचे नाव: 
+                                            b.ml-1 #{userVal.feu_villageName}
+                                        span.pl-4.h6.ml-1.font-weight-bold मो.क्र: 
+                                            b.ml-1 #{userVal.feu_mobileNo}
+                                        span.pl-4.h6.ml-1.font-weight-bold आधार.क्र:
+                                            b.ml-1 #{userVal.feu_aadharNo}
+                            tr.p-0.m-0
+                                td(colspan="1" width="10%").p-0.m-0 
+                                    p.text-right.mr-2.font-weight-bold मालमत्ता धारकाचे नाव/पत्नी चे नाव : 
+                                td(colspan="1" width="30%").p-0.m-0 
+                                    p.font-weight-bold.ml-3 #{userVal.feu_ownerName}
+                                td(colspan="4" rowspan="8" width="20%").p-0.m-0
+                                    if(userVal.feu_image !== "")
+                                        - var url = "/home_map_image/home_photo/"+userVal.feu_image;
+                                    else
+                                        - var url = "";
+                                    center.d-flex.justify-content-evenly.align-items-center(style="padding:10px")
+                                        img(src=url, alt="" srcset="" height="200")
+                                        - var id = 'qrcode'+count
+                                        div.qrcode(id=id style="margin-left:50px")
+                            tr.p-0.m-0
+                                td.p-0.m-0 
+                                    p.text-right.mr-2.font-weight-bold भोगवटधारकाचे नाव :
+                                td(colspan="1").p-0.m-0 
+                                    p.font-weight-bold.ml-3 #{userVal.feu_secondOwnerName}
+
+                            tr.p-0.m-0
+                                td.p-0.m-0 
+                                    p.text-right.font-weight-bold  पूर्वेस:
+                                td.p-0.m-0 
+                                    p.ml-3.ml-2 #{userVal.feu_eastLandmark}
+                            tr.p-0.m-0
+                                td.p-0.m-0 
+                                    p.text-right.font-weight-bold  पश्चिमेस:
+                                td.p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.feu_westLandmark}
+                            tr.p-0.m-0
+                                td(width="10%").p-0.m-0 
+                                    p.text-right.font-weight-bold  उत्तरेस:
+                                td(width="10%").p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.feu_northLandmark}
+                            tr.p-0.m-0
+                                td(width="10%").p-0.m-0 
+                                    p.text-right.font-weight-bold  दक्षिणेस:
+                                td(width="10%").p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.feu_southLandmark}
+                            tr.p-0.m-0
+                                td(width="20%").p-0.m-0 
+                                    p.text-right.font-weight-bold  घरकूल:
+                                td(width="20%").p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.graha_yojana}
+                            tr.p-0.m-0
+                                td(width="10%").p-0.m-0 
+                                    p.text-right.font-weight-bold शौच्छालय:
+                                td(width="20%").p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.feu_havingToilet}
+
+                            if(userVal.feu_newOldDharak !== "-"  && userVal.feu_newOldDharak !== "" && userVal.feu_newOldDharak !== "undefined" && userVal.feu_newOldDharak !== null)
+                                tr.p-0.m-0
+                                    td(width="10%").p-0.m-0 
+                                        p.text-right.font-weight-bold मालमत्तेचा फेरफार : 
+                                    td(width="20%" colspan='5').p-0.m-0 
+                                        p.font-weight-bold.ml-3.text-red #{userVal.feu_newOldDharak} मासिक सभा दिनांक #{userVal.feu_newPherfarDate} ठराव क्र #{userVal.feu_newPherfarTharav} नुसार #{userVal.feu_newNewDharak} #{userVal.feu_newPherfarDocument} नुसार फेरफार घेण्यात आला
+                                        - let oldOwner = userVal.old_owner?.split(',').reverse() || []	
+                                        - let newOwner = userVal.new_owner?.split(',').reverse() || [] 
+                                        - let ferfarDate = userVal.ferfar_date?.split(',').reverse() || []
+                                        - let tharavNumber = userVal.tharav_no?.split(',').reverse() || []
+                                        - let dastavej = userVal.dastavej?.split(',').reverse() || []
+
+                                        if oldOwner.length !== 0 
+                                            if oldOwner.length >= 2
+                                                -for(let i = 1; i < oldOwner.length ; i++)
+                                                    -let el = oldOwner[i]
+                                                    if el !== null  
+                                                        p.font-weight-bold.ml-3 
+                                                            del #{oldOwner[i]} मासिक सभा दिनांक #{ferfarDate[i]} ठराव क्र #{tharavNumber[i]} नुसार #{newOwner[i]} #{dastavej[i]} नुसार फेरफार घेण्यात आला
+
+                            tr.p-0.m-0
+                                td.p-0.m-0 
+                                    p.text-right.mr-2.font-weight-bold अपिल व इतर आदेश/बोझा/शेरा: 
+                                td(colspan="5" style='word-break:break-all;').p-0.m-0 
+                                    p.font-weight-bold.ml-3 #{userVal.feu_bojaShera}
+
+                            tr.p-0.m-0
+                                td(width="10%").p-0.m-0 
+                                    p.text-center.font-weight-bold  गट क्र./भुमापण क्र. /नगर भामपण क्र:
+                                td(width="10%").p-0.m-0 
+                                    p.ml-3.ml-2  #{userVal.feu_gaatNo}
+                                td(width="20%" colspan="2").p-0.m-0 
+                                    p.text-center.font-weight-bold लांबी(पु)(प) X रुंदी (उ)(द): 
+                                        span.ml-2 #{userVal.feu_areaHeight} X #{userVal.feu_areaWidth}
+                                td(width="10%").p-0.m-0 
+                                    p.text-center.font-weight-bold  एकूण जागेचे क्षेत्रफळ:
+                                        span.ml-2 #{userVal.feu_totalArea}
+                                td(width="10%").p-0.m-0 
+                                    p.font-weight-bold एकूण जागेची चौ.मी:
+                                        span.ml-2  #{userVal.feu_totalAreaSquareMeter}
+            .row
+                if(totalTaxSample.length !== 0)
+                    .col-12.mt-1
+                        div(class='d-flex align-items-center justify-content-between')
+                            span.h8.font-weight-bold खालील प्रमाणे मालमत्तेची माहिती
+                            span.h7.text-right (टीप: शेरा व दुरुस्त्या यावर खरे पणाबद्धल सरपंचाने सही केली पाहिजे)
+
+                        center
+                            table(border="1")#table2
+                                thead
+                                    tr.p-0.m-0
+                                        td(width="%").text-center.m-0.font-weight-bold मालमत्तेचे वर्णन
+                                        td(width="%").text-center.m-0.font-weight-bold मालमत्तेचे प्रकार
+                                        td(width="%").text-center.m-0.font-weight-bold वर्ष
+                                        td(width="%").text-center.m-0.font-weight-bold लांबी(पु)(प)
+                                        td(width="%").text-center.m-0.font-weight-bold रुंदी(उ)(द)
+                                        td(width="%").text-center.m-0.font-weight-bold चौ.फु क्षेत्रफळ
+                                        td(width="%").text-center.m-0.font-weight-bold चौ.मीटर
+                                        td(width="%").text-center.m-0.font-weight-bold जमीन दर
+                                        td(width="%").text-center.m-0.font-weight-bold बांधकाम दर
+                                        td(width="%").text-center.m-0.font-weight-bold इमारत दर
+                                        td(width="%").text-center.m-0.font-weight-bold घसारा
+                                        td(width="%").text-center.m-0.font-weight-bold इ.वा.भारांक
+                                        td(width="%").text-center.m-0.font-weight-bold भांडवली मु किंमत
+                                        td(width="%").text-center.m-0.font-weight-bold कराचा दर
+                                        td(width="%").text-center.m-0.font-weight-bold कर
+                                    - var _totalTaxSample = totalTaxSample.filter(el => el.user_id == userVal.id);
+                                    each tax in _totalTaxSample
+                                        tr.p-0.m-0
+                                            td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_text}
+                                            td(width="%").text-center.m-0 #{tax.fet_prop_space_text}
+                                            td(width="%").text-center.m-0 #{tax.fet_year_two}
+                                            td(width="%").text-center.m-0 #{tax.fet_height}
+                                            td(width="%").text-center.m-0 #{tax.fet_width}
+                                            td(width="%").text-center.m-0 #{tax.fet_sq_area}
+                                            td(width="%").text-center.m-0 #{tax.fet_sq_meter_area}
+                                            td(width="%").text-center.m-0 #{tax.fet_prop_space_land_rate}
+                                            td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_ready_nater_rate}
+                                            td(width="%").text-center.m-0 
+                                            td(width="%").text-center.m-0 #{tax.fet_ghasara_value}
+                                            td(width="%").text-center.m-0 #{tax.fet_prop_desc_rate}
+                                            td(width="%").text-center.m-0 #{tax.fet_final_imarati_bhandvali_mullya}
+                                            td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_tax_rate}
+                                            td(width="%").text-center.m-0 #{Math.round(tax.fet_final_tax)}
+            .row
+                - var _totalArray = totalArray.filter(el => el.user_id == userVal.id);
+                if(_totalArray.length !== 0)
+                    .col-8.mt-2
+                        div 
+                            span.h8.font-weight-bold भाडवली मुल्यांकनानुसार आकारण्यात आलेली कर आकारणी.
+                    .col-4.mt-2
+                        div 
+                            span.h4.font-weight-bold(style="float:right") 
+                                p.h7 अपील निकाल आणि त्यानंतर केलेला फेरफार
+                                p.h7 नंतर वाढ किवां घट झालेल्या बाबतीत आदेशाच्या संदर्भासह शेरा
+                    .col-12 
+                        div
+                            center 
+                                table(border="1")#table3
+                                    thead
+                                        tr.p-0.m-0
+                                            td(width="8%").text-center.m-0 एकूण बांधकाम
+                                            td(width="8%").text-center.m-0 एकूण खुली जागा
+                                            //td(width="8%").text-center.m-0 एकूण जागेचे क्षेत्रफळ
+                                            td(width="8%").text-center.m-0 इमारत कर 
+                                            td(width="8%").text-center.m-0 खुला कर
+
+                                            td(width="5%").text-center.m-0 इतर
+                                            td(width="5%").text-center.m-0 दिवा कर
+                                            td(width="5%").text-center.m-0 आरोग्य कर
+                                            td(width="5%").text-center.m-0 स्वच्छता कर
+                                            td(width="5%").text-center.m-0 शिक्षण कर
+                                            td(width="5%").text-center.m-0 वृक्ष कर
+                                            td(width="5%").text-center.m-0 अग्नी कर
+
+                                            td(width="8%").text-center.m-0 पाणी पट्टी कर
+                                            td(width="8%").text-center.m-0 एकूण कर
+                                            td(width="5%").text-center.m-0 घरपट्टी कर
+                                            td(width="5%").text-center.m-0 दिवा कर
+                                            td(width="5%").text-center.m-0 आरोग्य कर
+                                            td(width="5%").text-center.m-0 पाणी पट्टी कर
+                                            td(width="5%").text-center.m-0 एकूण कर
+                                        each value in _totalArray
+                                            tr.p-0.m-0
+                                                td(width="%").text-center.m-0 #{value.total_building_work}
+                                                td(width="%").text-center.m-0 #{value.total_open_plot}
+                                                //td(width="%").text-center.m-0 #{value.total_area}
+                                                td(width="%").text-center.m-0 #{value.building_tax}
+                                                td(width="%").text-center.m-0 #{value.open_area_tax}
+
+                                                td(width="%").text-center.m-0 #{value.other_tex}
+                                                td(width="%").text-center.m-0 #{value.dava_kar}
+                                                td(width="%").text-center.m-0 #{value.arogya_kar}
+                                                td(width="%").text-center.m-0 #{value.cleaning_tax}
+                                                td(width="%").text-center.m-0 #{value.education_tax}
+                                                td(width="%").text-center.m-0 #{value.tree_tax}
+                                                td(width="%").text-center.m-0 #{value.fireblegate_tax}
+                                                td(width="%").text-center.m-0 #{(userVal.feu_water_tax === "सामान्य पाणीकर" ? 150 : userVal.feu_water_tax === "विशेष पाणीकर" ? 1200 : 0)}
+
+                                                - let totalTax = value.building_tax + value.open_area_tax + value.other_tex + value.dava_kar + value.arogya_kar + value.cleaning_tax + value.education_tax + value.tree_tax + value.fireblegate_tax
+                                                td(width="%").text-center.m-0 #{(Math.round(totalTax)).toFixed(2)}
+
+                                                td(width="%").text-center.m-0 
+                                                td(width="%").text-center.m-0 
+                                                td(width="%").text-center.m-0 
+                                                td(width="%").text-center.m-0 
+                                                td(width="%").text-center.m-0 
+
+            .row 
+                .col-12 
+                    div.h7(style='margin-left: 2rem;') सदरचा उतारा हा मालकी हक्काचा नसुन कर आकारणीचा आहे. सदरच्या उताऱ्यावरून खरेदी विक्रीचा व्यवहार झालेस त्यास ग्रामपंचायत जबाबदार राहणार नाही.
+                    div.h7(style='margin-left: 2rem;') शासन परिपत्रक क्र. VTM260 3/प्र. क्र. 2068/पं रा. 4 दि. 20 नोव्हेंबर 2003 नुसार ग्रामीण भागातील घरांची नोंदणी पती -पत्नी यांच्या संयुक्त नावे करण्याबाबत निदर्शित करण्यात आलेले आहे.
+                .col-12
+                    table.mt-4.mb-0.table-borderless(style="background-color: transperent;")
+                        thead
+                            tr.p-0.m-0
+                                td.p-0.m-0 
+                                    div
+                                        p.h7.text-center कार्यालयीन शिक्का
+                                td.p-0.m-0 
+                                    div
+                                        p.h7.text-center सत्यप्रत
+                                td.p-0.m-0 
+                                    div
+                                        p.h7.text-right
+
+                                td.p-0.m-0 
+                                    div.position-relative.mt-4
+                                        img.gram-adhikari-sign(src='/print/gs.jpeg' class=`${gp.gramsevak_sign_display === 1 ? null : 'd-none'}` alt='gramsevak sign' onerror="this.style.display='none'" style='width: 6rem !important; height: 2.4rem !important; position: absolute; top: -1.5rem; left: 68%; transform: translate(110%, -50%)')
+                                        //- hide the sarpanch sign on all form 8 prints
+                                        img.sarpanch-sign.d-none(src='/print/sp.jpeg' class=`${gp.srapanch_sign_display === 1 ? '' : 'd-none'}` alt='sarpanch sign' onerror="this.style.display='none'" style='width: 6rem !important; height: 2.4rem !important; position: absolute; top: -1.5rem; left: 50%; transform: translate(0%, -50%)')
+                                        div(style='max-width: 200px; margin-left: auto;' class='d-flex flex-column gap-1 justify-content-center align-items-center')
+                                            p.h7 ग्रामपंचायत अधिकारी तथा सचिव
+                                            p.h7 ग्रामपंचायत कार्यालय, #{gp.gp_name}
+        script.
+            //- let totalArr = !{JSON.stringify(totalArray)};
+
+            //- let dataArr = !{JSON.stringify(userData)};
+            //- console.log(totalArr)
+            //- console.log('----------', Array.isArray(dataArr) )
+
+            //- dataArr.forEach((userVal, item) => {
+            //- 	let  _userVal = JSON.stringify(userVal);
+            //- 	let _totalArr = totalArr.filter(el => el.user_id == userVal.id);
+            //- 	console.log(`Object : ${item} ::: ${_totalArr.length}`)
+            //- })
+
+            //- totalArray.filter(el => el.user_id == userVal.id);
+
+            $(function() {
+                var data = !{userDataString};
+                //- console.log(data)
+                data.forEach(function(userData,index){
+                    generateQRCode(index,userData)
+                })
+                function generateQRCode(id,userData) {
+                    let website = 'https://g-seva.com/pay'
+                    let homeNo = userData.feu_homeNo;
+                    let wardNo = userData.feu_wardNo;
+                    let malmattaNo = userData.feu_malmattaNo;
+                    website +=`/!{gp.pg_registration_no}/${userData.id}`;
+                    website += `?redirectTo=${encodeURIComponent(window.location.origin)}`
+                    new QRCode(document.getElementById("qrcode"+id),website);
+                } 
+            })();
+
+

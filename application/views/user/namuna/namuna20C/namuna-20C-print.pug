@@ -1,0 +1,160 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २० (क)
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='16' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना २० (क)
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ५९ (१) पहा)
+
+
+                tr 
+                    th(colspan='12')
+                        | मोजमाप वही
+                tr
+                    //- 1
+                    th(rowspan='2') मोजमाप
+
+                    //- 2
+                    th(rowspan='2') कामाचे वर्णन (शक्य असल्यास कामाचे उपशीर्ष व क्षेत्राचे प्राधिकारी यांचे नाव लिहावे) 
+
+                    //- 3 to 8
+                    th(rowspan='1' colspan='6') मोजमापाचा तपशिल
+
+                    th(rowspan='2') एकूण परिमाण/ माप (पूर्वीचे हजेरीपत्रक प्रमाणे वर्णन करावे)
+                    th(rowspan='2') एकूण (७ + ९)
+
+                    //- 6 to 11
+                    th(rowspan='2') दर
+                    th(rowspan='2') रक्कम
+
+                tr 
+                    //- th 
+                    //- th
+                    th(rowspan='1' colspan='1') परिमाण
+                    th(rowspan='1' colspan='1') उंची
+                    th(rowspan='1' colspan='1') लांबी
+                    th(rowspan='1' colspan='1') रुंदी
+                    th(rowspan='1' colspan='1') खोली / उंची
+                    th(rowspan='1' colspan='1') एकूण
+
+                    //- th 
+                    //- th 
+                    //- th 
+                    //- th 
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12] 
+                        //- [13,14,15,16]
+                        th #{num}
+
+            tbody
+
+
+
+                each namuna20CEntry, index in namuna20CDetails 
+                    //- each namuna20CEntry, index in Array(20).fill(paymentnamuna20CEntry).flat()
+                    tr 
+                        td #{namuna20CEntry.measurement}
+
+                        td #{namuna20CEntry.work_description} (#{namuna20CEntry.subhead}, #{namuna20CEntry.sector_authority_name})
+                        td #{namuna20CEntry.unit}
+                        td #{namuna20CEntry.height}
+                        td #{namuna20CEntry.length}
+
+                        td #{namuna20CEntry.width}
+
+                        td #{namuna20CEntry.depth_or_elevation}
+
+                        td #{namuna20CEntry.total}
+
+                        td #{namuna20CEntry.total_measurement} , #{namuna20CEntry.total_quantity}
+
+                        td #{namuna20CEntry.grand_total}
+                        td #{namuna20CEntry.rate}
+                        td #{namuna20CEntry.amount}
+
+
+
+            tfoot 
+                tr 
+                    td(colspan='12')
+                        div
+
+                            div टीप: १) जेव्हा काम परिमाणमध्ये मोजण्यात येईल तेव्हा स्तंभ (३) व (९) भरण्यात येईल
+                            div २) स्तंभ (१२) अनुसार मोजमापावरून मंडळाला दिलेली रक्कम वजा केल्यानंतर, शिल्लक निव्वळ रक्कम प्रदान करावी

@@ -1,0 +1,451 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/tax-payer-manager.js')
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+
+        tr, th, td {
+            border:1px solid black !important;
+            padding:5px;
+            text-align:left;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+
+
+
+    script. 
+        let malNo = !{JSON.stringify(malmattaNo)}
+        let userId = !{JSON.stringify(userId)}
+
+body
+    include ../include/navs.pug
+    .modal#masterModal(tabindex='-1' role='dialog')
+        .modal-dialog.modal-dialog-centered(role='document' style='width: 90%; margin-inline: auto;')
+            .modal-content
+                .modal-header
+                    h5.modal-title(style="margin-left: calc(38%)") कर वसुली नोंदणी 
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body 
+                    .row
+                        .col-6.offset-4.mb-3
+                            form.form-inline
+                                .form-group.mx-sm-3.mb-2
+                                    select#selectSearch-1.form-control
+                                        option(value="1") नाव
+                                        option(value="2") मालमत्ता क्र
+                                        option(value="3") अनु/घर क्रमांक टाका
+                                        option(value='4') भोगवटदाराचे नाव
+                                .form-group.mx-sm-3.mb-2
+                                    input#homeId-type.form-control(type='text' placeholder='विकल्प निवडा')
+                                    input#homeId.form-control(type='hidden' placeholder='विकल्प निवडा')
+                                button#btnGetUserDetails.btn.btn-primary.mb-2(type='submit' ) माहिती पहा 
+
+                    form.row#divUserDetails.d-none
+                        .col-12.col-md-6
+                            .card
+                                .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                                .card-body
+                                    .row
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') अनु क्रमांक
+                                                input.myMainId.form-control-sm.form-control#anuKramank(type='text'  readonly)
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') घर क्रमांक
+                                                input.myMainId.form-control-sm.form-control(type='text' value="" readonly)
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                                                input#newMalmattaNo.form-control-sm.form-control(type='text' name='newMalmattaNo' readonly)
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') वार्ड नं
+                                                input#newWardNo.form-control-sm.form-control(type='text' name='newWardNo' readonly)
+                                        .col-12
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                                input#oldHomeNo.form-control-sm.form-control(type='text' name='oldHomeNo' readonly)
+
+
+                        .col-12.col-md-6
+                            .card
+                                .card-header.bg-warning.font-weight-bold मालकाची माहिती
+                                .card-body
+                                    .row
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                                input#newOwnerName.form-control-sm.form-control(type='text' name='newOwnerName' readonly)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                                input#newSecondOwnerName.form-control-sm.form-control(type='text' name='newSecondOwnerName' readonly)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                                                input#newMobileNo.form-control-sm.form-control(type='text' name='newMobileNo' readonly)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') आधार क्रं.
+                                                input#newAadharNo.form-control-sm.form-control(type='text' name='newAadharNo' readonly)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') ग्रामपंचायत
+                                                input#newGramPanchayet.form-control-sm.form-control(type='text' name='newGramPanchayet' readonly)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') गावाचे नाव
+                                                input#newVillageName.form-control-sm.form-control(type='text' name='newVillageName' readonly)
+
+                            .mt-2.d-flex.justify-content-center(style='gap: 1rem;')
+                                button#goPani.float-right.btn.btn-primary पाणी कर भरा
+                                button#goSamanya.float-right.mr-3.btn.btn-info सामान्य कर भरा
+    .container
+        .row
+            .col-12.mt-3
+                h4.ml-5.text-center
+                    i.fa.fa-file-zip-o
+                    | &nbsp;&nbsp;कर भरणा यादी( या महिन्या मधील)
+                div.d-inline-block.float-right.mb-2
+                    a(href="/tax-payer/month-summery").btn.btn-primary.btn-sm.ml-2 
+                        i.fa.fa-align-justify
+                        |   पूर्ण कर भरणा माहिती
+                div.d-inline-block.float-right.mb-2
+                    button#getTaxPayerView.btn.btn-success.btn-sm.ml-2 
+                        i.fa.fa-plus-circle
+                        |   नवीन कर भरणा करा
+
+
+
+    //- div 
+        .container 
+
+            ul.nav.nav-tabs#myTab(role="tablist")
+
+                li.nav-item(role='presentation')
+
+                    a.nav-link.active#samanya-tab(data-toggle="tab" href="#samanya" role="tab" aria-controls="samanya" aria-selected="true") Home
+
+                li.nav-item(role='presentation')
+
+                    a.nav-link#pani-tab(data-toggle="tab" href="#pani" role="tab" aria-controls="pani" aria-selected="true") Home
+
+
+            div 
+
+                //- TAble for samanya
+                div(class='tab-pane fade show active' id="samanya" role="tabpanel" aria-labelledby="samanya-tab")
+
+                    h3.fw-bold.text-center सामान्य यादी
+
+                    .table-responsive
+                        table(style='width:100%')
+
+                            thead 
+                                tr
+                                    th अनु क्र.
+                                    th मालमत्ता क्रमांक
+                                    th मालमत्ता धारकाचे नाव
+                                    th संपूर्ण सामान्य कर 
+                                    th भरणा दिनांक
+
+                                    th पावती प्रिंट
+
+                            tbody 
+                                each samanyaKarBharanaEntry, index in samanyaKarBharanaList
+                                    tr
+                                        td #{index + 1}
+                                        td #{samanyaKarBharanaEntry.feu_malmattaNo}
+                                        td #{samanyaKarBharanaEntry.feu_ownerName}
+                                        td #{samanyaKarBharanaEntry.tpl_totalSampurnaTax}
+                                        td #{samanyaKarBharanaEntry._tpl_bharnaDate}
+                                        td 
+                                            .d-flex.align-items-center.justify-content-center 
+                                                a.btn.btn-sm.btn-primary(href=`/print/tax-payer/samanya?t_no=${samanyaKarBharanaEntry.samanya_tax_list_id}&i=${samanyaKarBharanaEntry.user_id}` ) Print
+
+
+                //- talbe for water
+                div(class='tab-pane fade' id="pani" role="tabpanel" aria-labelledby="pani-tab")
+
+                    h3.fw-bold.text-center पाणी यादी
+
+                    .table-responsive
+                        table(style='width:100%')
+
+                            thead 
+                                tr
+                                    th अनु क्र.
+                                    th मालमत्ता क्रमांक
+                                    th मालमत्ता धारकाचे नाव
+                                    th संपूर्ण सामान्य कर 
+                                    th भरणा दिनांक
+
+                                    th पावती प्रिंट
+
+                            tbody 
+                                each paniKarBharanaEntry, index in paniKarBharanaList
+                                    tr
+                                        td #{index + 1}
+                                        td #{paniKarBharanaEntry.feu_malmattaNo}
+                                        td #{paniKarBharanaEntry.feu_ownerName}
+                                        td #{paniKarBharanaEntry.tpl_totalSampurnaTax}
+                                        td #{paniKarBharanaEntry._tpl_bharnaDate}
+                                        td 
+                                            .d-flex.align-items-center.justify-content-center 
+                                                a.btn.btn-sm.btn-primary(href=`/print/tax-payer/pani?t_no=${paniKarBharanaEntry.pani_tax_list_id}&i=${paniKarBharanaEntry.user_id}` ) Print
+
+
+div.container
+    ul.nav.nav-tabs#myTab.mb-4(role="tablist").d-flex.align-items-center.justify-content-center
+        li.nav-item(role='presentation')
+            a.nav-link.active#samanya-tab(data-toggle="tab" href="#samanya" role="tab" aria-controls="samanya" aria-selected="true") सामान्य यादी
+        li.nav-item(role='presentation')
+            a.nav-link#pani-tab(data-toggle="tab" href="#pani" role="tab" aria-controls="pani" aria-selected="false") पाणी यादी
+
+
+
+    //- modals for report will beh here all - 4 
+
+    //- this one is for annual samanaya report ------------------
+    .modal.fade#annual-report-samanya(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(style="max-width: 500px;")
+            .modal-content
+                .modal-header
+                    h5.modal-title#exampleModalLabel वार्षिक अहवाल प्रिंट (सामान्य)
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") ×
+                .modal-body
+
+
+                    div(style='display: flex; align-items: center; gap: 1rem;')
+
+                        div
+                            input.form-control(type='number' placeholder='वर्षापासून e.g. 2024' id='fromYearSamanya')
+
+
+                        div ते
+
+                        div
+                            input.form-control(type='number' placeholder='वर्षापर्यंत e.g. 2025' id='endYearSamanya')
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='annual-report-samanya-print-btn') Print
+
+
+
+    .modal.fade#monthly-report-samanya(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(style="max-width: 500px;")
+            .modal-content
+                .modal-header
+                    h5.modal-title#exampleModalLabel मासिक अहवाल प्रिंट (सामान्य)
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") ×
+                .modal-body
+
+
+                    div(style='display: flex; align-items: center; gap: 1rem;')
+
+                        div
+                            select.form-control(type='number' placeholder='महिना' id='monthSamanya')
+                                option(value='') निवडा महिना
+                                - for (let i = 1; i <= 12; i++)
+                                    option(value=i)= i
+
+                        div 
+
+                        div
+                            input.form-control(type='number' placeholder='वर्ष e.g. 2025' id='yearSamanya')
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='monthly-report-samanya-print-btn') Print
+
+
+
+    //- this one is for annual pani report ------------------
+    .modal.fade#annual-report-pani(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(style="max-width: 500px;")
+            .modal-content
+                .modal-header
+                    h5.modal-title#exampleModalLabel वार्षिक अहवाल प्रिंट (पाणी)
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") ×
+                .modal-body
+
+
+                    div(style='display: flex; align-items: center; gap: 1rem;')
+
+                        div
+                            input.form-control(type='number' placeholder='वर्षापासून e.g. 2024' id='fromYearPani')
+
+
+                        div ते
+
+                        div
+                            input.form-control(type='number' placeholder='वर्षापर्यंत e.g. 2025' id='endYearPani')
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='annual-report-pani-print-btn') Print
+
+
+
+    .modal.fade#monthly-report-pani(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(style="max-width: 500px;")
+            .modal-content
+                .modal-header
+                    h5.modal-title#exampleModalLabel मासिक अहवाल प्रिंट (पाणी)
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") ×
+                .modal-body
+
+
+                    div(style='display: flex; align-items: center; gap: 1rem;')
+
+                        div
+                            select.form-control(type='number' placeholder='महिना' id='monthPani')
+                                option(value='') निवडा महिना
+                                - for (let i = 1; i <= 12; i++)
+                                    option(value=i)= i
+
+                        div 
+
+                        div
+                            input.form-control(type='number' placeholder='वर्ष e.g. 2025' id='yearPani')
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='monthly-report-pani-print-btn') Print
+
+
+    div.tab-content
+        //- Table for Samanya
+        div.tab-pane.fade.show.active(id="samanya" role="tabpanel" aria-labelledby="samanya-tab")
+            h3.fw-bold.text-center सामान्य यादी
+
+            div
+                div(style='display:flex; justify-content: end; gap: 1rem; margin-bottom: 1rem;')
+                    //- print for financial year
+                    button.btn.btn-primary(data-toggle="modal" data-target="#annual-report-samanya") वार्षिक अहवाल प्रिंट
+                    //- pritn for month and year
+                    button.btn.btn-primary(data-toggle="modal" data-target="#monthly-report-samanya") मासिक अहवाल प्रिंट
+
+
+
+
+
+            .table-responsive
+                table(style='width:100%')
+                    thead
+                        tr
+                            th अनु क्र.
+                            th मालमत्ता क्रमांक
+                            th मालमत्ता धारकाचे नाव
+                            th संपूर्ण सामान्य कर
+                            th भरणा दिनांक
+                            th पावती प्रिंट
+                    tbody
+                        each samanyaKarBharanaEntry, index in samanyaKarBharanaList
+                            tr
+                                td #{index + 1}
+                                td #{samanyaKarBharanaEntry.feu_malmattaNo}
+                                td #{samanyaKarBharanaEntry.feu_ownerName}
+                                td #{samanyaKarBharanaEntry.tpl_totalSampurnaTax}
+                                td #{samanyaKarBharanaEntry._tpl_bharnaDate}
+                                td
+                                    .d-flex.align-items-center.justify-content-center
+                                        a.btn.btn-sm.btn-primary(href=`/print/tax-payer/samanya?t_no=${samanyaKarBharanaEntry.samanya_tax_list_id}&i=${samanyaKarBharanaEntry.user_id}`) Print
+
+        //- Table for Pani
+        div.tab-pane.fade(id="pani" role="tabpanel" aria-labelledby="pani-tab")
+            h3.fw-bold.text-center पाणी यादी
+
+
+            div
+                div(style='display:flex; justify-content: end; gap: 1rem; margin-bottom: 1rem;')
+                    //- print for financial year
+                    button.btn.btn-primary(data-toggle="modal" data-target="#annual-report-pani") वार्षिक अहवाल प्रिंट
+                    //- pritn for month and year
+                    button.btn.btn-primary(data-toggle="modal" data-target="#monthly-report-pani") मासिक अहवाल प्रिंट
+
+            .table-responsive
+                table(style='width:100%')
+                    thead
+                        tr
+                            th अनु क्र.
+                            th मालमत्ता क्रमांक
+                            th मालमत्ता धारकाचे नाव
+                            th संपूर्ण सामान्य कर
+                            th भरणा दिनांक
+                            th पावती प्रिंट
+                    tbody
+                        each paniKarBharanaEntry, index in paniKarBharanaList
+                            tr
+                                td #{index + 1}
+                                td #{paniKarBharanaEntry.feu_malmattaNo}
+                                td #{paniKarBharanaEntry.feu_ownerName}
+                                td #{paniKarBharanaEntry.tpl_totalWaterTax}
+                                td #{paniKarBharanaEntry._tpl_bharnaDate}
+                                td
+                                    .d-flex.align-items-center.justify-content-center
+                                        a.btn.btn-sm.btn-primary(href=`/print/tax-payer/pani?t_no=${paniKarBharanaEntry.pani_tax_list_id}&i=${paniKarBharanaEntry.user_id}`) Print
+
+
+
+    script.
+        $(function(){
+            newSelfDeclarationList = !{json_list};
+            gp = '#{gp.gp_name}';
+        })
+

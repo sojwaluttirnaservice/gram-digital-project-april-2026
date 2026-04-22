@@ -1,0 +1,87 @@
+doctype html
+head
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+	link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+	link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+	link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+	link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+	link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+	
+
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js' defer)
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+	//mask plugin jquery
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+	//toggle
+	
+	// extras
+	script(src='/asstest/plugins/select/js/select2.full.min.js')
+	// common js setups
+	script(src='/asstest/coustom/js/base.converter.js')
+	script(src='/asstest/coustom/js/common.js')
+
+	link(href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css", rel="stylesheet")
+	script(src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js")
+	script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+	script(src='/asstest/coustom/js/handlers/sms/gramsandeshseva-handler.js')
+
+	style.
+		.toggle.btn{
+			border-radius: 20rem !important;
+			height: 5px !important;
+			width: 6rem !important;
+		}
+
+
+
+		//- .toggle-group{
+		//- 	width: 100% !important;
+		//- }
+		
+
+body
+	include ../include/navs.pug
+
+	.container
+		.mt-3
+			h2.text-center संदेश पाठवा
+			.d-flex.justify-content-end.align-items-center.gap-2
+
+				//- button.btn.btn-primary(id='nagrikNondaniBtn') नागरिक
+				//- button.btn.btn-success(id='formEightUsersBtn') नमुना ८
+				a.btn.btn-secondary(id='messageRecord' href='/sms/gp-sms-records') संदेश रेकॉर्ड
+
+		
+		.mt-3(style='margin-bottom: 3rem !important;')
+			form#smsForm
+				.card
+					.card-header.bg-warning
+						div संदेश
+					.card-body 
+						.form-group
+							label.form-label(for='message') संदेश:
+							textarea.form-control(id='message' rows='7' name='message' placeholder='मेसेज इथे टाईप करा.')
+
+					.card-footer(style='border:none').mb-2
+						.row.justify-content-center(style='gap: 0.7rem')
+							//- input(type="checkbox", class='toggle ios' checked, data-toggle="toggle", data-style="ios")
+							.col-7.col-md-3
+								select.form-select.text-center(id='sendTo' name='send_to')
+									option(value='' selected) --पर्याय निवडा--
+									option(value=1 data-option='नागरिक') नागरिक
+									option(value=2 data-option='मालमत्ता धारक') मालमत्ता धारक (नमुना ८)
+									option(value=3 data-option='पदाधिकारी') पदाधिकारी
+							.col-5.col-md-2
+								button.btn.btn-success(class='' type='submit' id='sendSmsBtn') संदेश पाठवा

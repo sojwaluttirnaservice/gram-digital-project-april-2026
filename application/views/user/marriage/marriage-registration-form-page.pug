@@ -1,0 +1,624 @@
+extends ../include/index-page-master-layout.pug
+
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { 
+                opacity: 0; 
+            } 
+            100% { 
+                opacity: 1; 
+            } 
+        }
+
+block external_js 
+    script(src="/asstest/coustom/js/handlers/marriage/marriage-registration-form-page-handler.js")
+
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider') 
+                //- | नवीन अर्जचा नमूना
+                //- | #{t("complaintsRegistrationPage.heading")}
+
+    
+
+    section#form-section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden') 
+        .container 
+            form(id='marriage-registration-application-form' class='md:w-[80%] mx-auto flex flex-col gap-4')
+                
+                //- photos card
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | वराचा आणि वधू फोटो 
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वराचा फोटो :
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-camera')
+                                    input#image_h.image-upload(type='file' name="image_h" accept='image/*' class='py-1  px-2 outline-none flex-grow bg-stone-100' required placeholder='' data-target-img="groom-img-preview")
+                            
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वधूचा फोटो :
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-camera')
+                                    input#image_w.image-upload(type='file' name="image_w" accept='image/*' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='' data-target-img="bride-img-preview")
+
+
+                            - let photoImgContainerClass = 'flex items-center justify-center mt-3 md:mt-0'
+                            - let photoImgClass = 'w-28 h-36 md:w-32 md:h-40 border border-gray-800 object-cover rounded-md bg-white'
+
+                            div(class=photoImgContainerClass)
+                                img#groom-img-preview(src='' class=photoImgClass onerror="this.src='/img/fallback/upload-photo.jpg'")
+
+                            div(class=photoImgContainerClass)
+                                img#bride-img-preview(src='' class=photoImgClass onerror="this.src='/img/fallback/upload-photo.jpg'")
+
+
+                //- groom/husband details section
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | वर माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            //- name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वराचे पूर्ण नाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.mainText(type='text' name="marriageHusbandNameE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.secText(type='text' name="marriageHusbandNameM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- mobile
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मोबाईल क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input.mainText(type='text' name="marriageHusbandMobileE" class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength="10" required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input.secText(type='text' name="marriageHusbandMobileM" class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength="10" required placeholder='')
+
+                            //- aadhar
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') आधार क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-card')
+                                    input.mainText.aadhar(type='text' name="marriageHusbandAadharE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-card')
+                                    input.secText.aadhar(type='text' name="marriageHusbandAadharM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- address
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्ता
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.mainText(type='text' name="marriageHusbandAddressE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.secText(type='text' name="marriageHusbandAddressM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- father name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वडिलांचे नाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.mainText(type='text' name="marriageHusbandFatherNameE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.secText(type='text' name="marriageHusbandFatherNameM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- religion
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') धर्म
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-place-of-worship')
+                                    input.mainText(type='text' name="marriageHusbandReligionE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-place-of-worship')
+                                    input.secText(type='text' name="marriageHusbandReligionM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- nationality
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') राष्ट्रीयत्व
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-flag')
+                                    input.mainText(type='text' name="marriageHusbandNationalityE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-flag')
+                                    input.secText(type='text' name="marriageHusbandNationalityM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- birth proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जन्माचा पुरावा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-file')
+                                    select(class='py-1 px-2 outline-none flex-grow bg-stone-100' name="marriageHusbandBirthProofType" required)
+                                        option(value='') -- Select --
+                                        each _option in birthCertificateEvidences
+                                            option(value=_option.key) #{_option[language]}
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जन्माचा पुरावा अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageHusbandBirthProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- id proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') ओळखपत्र
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-badge')
+                                    select(name="marriageHusbandIdProofType" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in identityProofs
+                                            option(value=_option.key) #{_option[language]}
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') ओळखपत्र अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageHusbandIdProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- address proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्त्याचा पुरावा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-file-alt')
+                                    select(name="marriageHusbandAddressProofType" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in addressProofs
+                                            option(value=_option.key) #{_option[language]}
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्त्याचा पुरावा अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageHusbandAddressProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+
+
+                //- bride/wife details section
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | वधू माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            //- name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वधूचे पूर्ण नाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.mainText(type='text' name="marriageWifedNameE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.secText(type='text' name="marriageWifeNameM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- mobile number
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मोबाईल क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input.mainText(type='text' name="marriageWifeMobileE" class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength="10" required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input.secText(type='text' name="marriageWifeMobileM" class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength="10" required placeholder='')
+
+                            //- aadhar card number
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') आधार क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-card')
+                                    input.mainText.aadhar(type='text' name="marriageWifedAadharE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-card')
+                                    input.secText.aadhar(type='text' name="marriageWifeAadharM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- address
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्ता
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.mainText(type='text' name="marriageWifeAddressE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.secText(type='text' name="marriageWifeAddressM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- father name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वडिलांचे नाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.mainText(type='text' name="marriageWifeFatherNameE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input.secText(type='text' name="marriageWifeFatherNameM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- religion
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') धर्म
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-place-of-worship')
+                                    input.mainText(type='text' name="marriageWifeReligionE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-place-of-worship')
+                                    input.secText(type='text' name="marriageWifeReligionM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- nationality
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') राष्ट्रीयत्व
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-flag')
+                                    input.mainText(type='text' name="marriageWifeNationalityE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-flag')
+                                    input.secText(type='text' name="marriageWifeNationalityM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- birth proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जन्माचा पुरावा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-file')
+                                    select(name="marriageWifeBirthProofType" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in birthCertificateEvidences
+                                            option(value=_option.key) #{_option[language]}
+
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जन्माचा पुरावा अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageWifeBirthProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- id proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') ओळखपत्र
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-badge')
+                                    select(name="marriageWifeIdProofType" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in identityProofs
+                                            option(value=_option.key) #{_option[language]}
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') ओळखपत्र अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder( class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageWifeIdProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr(class='mt-3 border-gray-400')
+
+                            //- address proof
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्त्याचा पुरावा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-file-alt')
+                                    select(name="marriageWifeAddressProofType" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in addressProofs
+                                            option(value=_option.key) #{_option[language]}
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पत्त्याचा पुरावा अपलोड करा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative overflow-hidden w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-upload')
+                                    input(type='file' name="marriageWifeAddressProofFile" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+
+                //- wedding details section
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | विवाह माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            //- wedding date
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') विवाह दिनांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-calendar-alt')
+                                    //- here date type is by default like DD/MM/YYYY format
+                                    input.mainText.datepicker(name="marriageDate" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-calendar-alt')
+                                    input.secText(name="marriageDateM" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+
+                            //- location/place
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') विवाह ठिकाण
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.mainText(name="marriagePlaceE" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt')
+                                    input.secText(name="marriagePlaceM" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- marriage type
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') विवाह प्रकार
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-ring')
+                                    select(name="marriageTypeE" class='py-1 px-2 outline-none flex-grow bg-stone-100' required)
+                                        option(value='') -- Select --
+                                        each _option in ['Registered','Religious','Court','Other']
+                                            option(value=_option) #{_option}
+
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-ring')
+                                    input(name="marriageTypeM" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' readonly)
+
+                            //- mangal karyalay name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मंगल कार्यालय नाव
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-building')
+                                    input.mainText(name="marriageHallNameE" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-building')
+                                    input.secText(name="marriageHallNameM" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='')
+
+                            //- mangal karyalay address
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मंगल कार्यालय पत्ता
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map')
+                                    input.mainText(name="marriageHallAddressE" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-map')
+                                    input.secText(name="marriageHallAddressM" type='text' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='')
+
+                            //- mangal karyalay photo optional
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मंगल कार्यालय फोटो (ऐच्छिक)
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-camera')
+                                    input(name="marriageHallPhoto" type='file' class='py-1 px-2 outline-none flex-grow bg-stone-100' accept='image/*')
+
+                            //- preview shells
+                            div(class='col-span-1 md:col-span-2 flex flex-wrap gap-4 px-2')
+
+                                div(class='w-32 h-32 border border-gray-400 rounded-md flex items-center justify-center bg-stone-50 overflow-hidden')
+                                    img(src='' class='w-full h-full object-cover hidden' onerror="this.style.display='none'")
+
+                                div(class='w-32 h-32 border border-gray-400 rounded-md flex items-center justify-center bg-stone-50 overflow-hidden')
+                                    img(src='' class='w-full h-full object-cover hidden' onerror="this.style.display='none'")
+
+
+                //- witnesses
+                //- .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | साक्षीदार माहिती
+
+                    
+                    //- there can be max 3 witnesses and minimun 2 witnesses
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class="grid-cols-1 md:grid-cols-2 gap-4")
+
+
+                            //- witness name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') साक्षीदराचे नाव:
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+
+                            //- witness mobile
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') साक्षीदराचे मोबाईल:
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+                                .input-holder(class='mt-2 relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='')
+
+                            //- witness aadhar
+
+
+                            //-witness address
+
+                            //- witness photo
+
+                            //- witness id proof dropdown (either Aadhar or voting card)
+
+                            //- file upload for the same id proof
+
+
+                            //- wedding photos (min 2 and max 2 photos)
+
+                            //- show the preview in carousel needed for the same wedding photos 
+
+
+                            //- wedding certificate file(since this registation is on gp level and if other exists like if group wedding or court marriage before for that) 
+
+
+                            //- लग्नपत्रिका 
+                    
+
+                //- Wedding & Documents Section
+                .form-card(class='flex flex-col gap-4 z-10 mt-6')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | लग्न संबंधित कागदपत्रे
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-6 rounded-md')
+
+                        .grid(class="grid-cols-1 md:grid-cols-2 gap-6")
+
+                            //- Wedding Photos (Exactly 2)
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') लग्नाचे फोटो (२ फोटो आवश्यक) (जास्तीत जास्त ३):
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                input(type='file' name='marriageWeddingPhotos' accept='image/*' multiple class='w-full border border-stone-300 rounded-md px-4 py-2 bg-white' required)
+
+                                //- Preview Carousel Container
+                                .photo-preview-carousel(class='mt-4 w-full border rounded-md p-4 bg-stone-50 hidden')
+                                    .carousel-wrapper(class='flex overflow-x-auto gap-4')
+                                        //- JS will append preview images here
+
+
+                            //- Wedding Certificate (if exists)
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') लग्न प्रमाणपत्र (असल्यास):
+                                input(type='file' name='marriageWeddingCertificateFile' accept='image/*,application/pdf' class='w-full border border-stone-300 rounded-md px-4 py-2 bg-white')
+
+
+                            //- लग्नपत्रिका
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') लग्नपत्रिका:
+                                input(type='file' name='marriageWeddingCardFile' accept='image/*,application/pdf' class='w-full border border-stone-300 rounded-md px-4 py-2 bg-white')
+
+                        
+                //- witnesses
+                .form-card(class='flex flex-col gap-6 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | साक्षीदार माहिती
+
+                    //- minimum 2, maximum 3 witnesses
+                    each num in [1,2,3]
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-6 rounded-md mt-3')
+
+                            .witness-title(class='font-bold text-lg mb-4 border-b pb-2')
+                                | साक्षीदार #{num}
+
+                            .grid(class="grid-cols-1 md:grid-cols-2 gap-4")
+
+                                //- साक्षीदाराचे नाव
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') साक्षीदाराचे नाव:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                        i(class='fas fa-user')
+                                        input(type='text' name=`witness_name_${num}` class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='पूर्ण नाव')
+
+                                //- मोबाईल क्रमांक
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') साक्षीदाराचा मोबाईल क्रमांक:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                        i(class='fas fa-phone')
+                                        input(type='tel' name=`witness_mobile_${num}` maxlength="10" class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='मोबाईल क्रमांक')
+
+                                //- आधार क्रमांक
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') आधार क्रमांक:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                        i(class='fas fa-id-card')
+                                        input.aadhar(type='text' name=`witness_aadhar_${num}` maxlength='14' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='१२ अंकी आधार क्रमांक')
+
+                                //- पत्ता
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') पत्ता:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    textarea(name=`witness_address_${num}` rows='2' class='w-full border border-stone-300 rounded-md px-4 py-2 bg-stone-100 outline-none' required placeholder='पूर्ण पत्ता')
+
+                                //- साक्षीदार फोटो
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') साक्षीदार फोटो:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    input(type='file' name=`witness_photo_${num}` accept='image/*' class='w-full border border-stone-300 rounded-md px-4 py-2 bg-white' required)
+
+                                //- ओळखपत्र निवडा
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') ओळखपत्र:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    select(name=`witness_id_type_${num}` class='w-full border border-stone-300 rounded-md px-4 py-2 bg-stone-100 outline-none' required)
+                                        option(value='') -- Select --
+                                        option(value='aadhar') आधार कार्ड
+                                        option(value='voter') मतदान ओळखपत्र
+
+                                //- ओळखपत्र अपलोड
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') ओळखपत्र अपलोड करा:
+                                        span(class='text-red-500 font-bold') &nbsp;*
+                                    input(type='file' name=`witness_id_upload_${num}` accept='image/*,application/pdf' class='w-full border border-stone-300 rounded-md px-4 py-2 bg-white' required)
+
+
+                    .buttons-container(class='z-10')
+                        div(class='flex items-center justify-center') 
+                            button(type='button' id='saveMarriageRegistrationApplicationBtn' class='px-10 py-2 rounded-md inline-flex items-center gap-2 bg-emerald-500 transition-all duration-300 ease-in-out hover:bg-emerald-700  text-white font-bold tracking-wider') 
+                                i.fa-solid.fa-floppy-disk
+                                span जतन करा
+                                //- span #{t("complaintsRegistrationPage.form.saveBtn")}

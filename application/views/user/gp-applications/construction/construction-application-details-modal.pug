@@ -1,0 +1,173 @@
+//- FERFAR DETAILS MODAL
+.modal(tabindex='-1' id='construction-application-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-exchange.me-2.text-primary
+                    | बांधकाम परवानगी अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= APPLICANT DETAILS =================
+                h6.fw-bold.text-primary.mb-3 अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label मालमत्ता धारकाचे नाव
+                        input.form-control(readonly name='malmatta_dharak_name')
+
+                    .col-12.col-md-6
+                        label.form-label मोबाईल क्रमांक
+                        input.form-control(readonly name='applicant_mobile')
+
+                    .col-12.col-md-6
+                        label.form-label आधार क्रमांक
+                        input.form-control(readonly name='applicant_adhar')
+
+                    .col-12.col-md-6
+                        label.form-label गाव
+                        input.form-control(readonly name='gp_name')
+
+                    .col-12.col-md-6
+                        label.form-label पूर्ण पत्ता
+                        textarea.form-control(readonly name='applicant_address')
+
+                    .col-12.col-md-6
+                        label.form-label अर्जाचा विषय
+                        textarea.form-control(readonly name='application_subject')
+
+                hr.my-3
+
+                //- // ================= PROPERTY DETAILS =================
+                // ================= PROPERTY DETAILS =================
+                h6(class='fw-bold text-primary mb-3') मालमत्तेची माहिती
+                .row(class='g-3 mb-4')
+                    .col-md-6
+                        label(class='form-label') मालमत्ता क्रमांक
+                        input(class='form-control' readonly name='malmatta_no')
+
+                hr.my-3
+
+                // ================= LANDMARK DETAILS =================
+                h6(class='fw-bold text-primary mb-3') दिशानुसार स्थळाची माहिती
+                .row(class='g-3 mb-4')
+
+                    // -------- EAST --------
+                    .col-12.col-md-6
+                        label(class='form-label') पूर्व (East)
+                        input(class='form-control mb-1' readonly name='east_landmark_image_latitude' placeholder='Latitude' hidden)
+                        input(class='form-control mb-1' readonly name='east_landmark_image_longitude' placeholder='Longitude' hidden)
+                        .d-flex.gap-2.mt-1
+                            a(class='btn btn-sm btn-outline-success disabled' href='#' target='_blank' name='east_landmark_map_link') लोकेशन पहा
+                            a(class='btn btn-sm btn-outline-primary disabled' href='#' target='_blank' name='east_landmark_image_link') फोटो पहा
+                        div(class='small text-muted mt-1' name='east_landmark_status')
+
+                    // -------- WEST --------
+                    .col-12.col-md-6
+                        label(class='form-label') पश्चिम (West)
+                        input(class='form-control mb-1' readonly name='west_landmark_image_latitude' placeholder='Latitude' hidden)
+                        input(class='form-control mb-1' readonly name='west_landmark_image_longitude' placeholder='Longitude' hidden)
+                        .d-flex.gap-2.mt-1
+                            a(class='btn btn-sm btn-outline-success disabled' href='#' target='_blank' name='west_landmark_map_link') लोकेशन पहा
+                            a(class='btn btn-sm btn-outline-primary disabled' href='#' target='_blank' name='west_landmark_image_link') फोटो पहा
+                        div(class='small text-muted mt-1' name='west_landmark_status')
+
+                    // -------- NORTH --------
+                    .col-12.col-md-6
+                        label(class='form-label') उत्तर (North)
+                        input(class='form-control mb-1' readonly name='north_landmark_image_latitude' placeholder='Latitude' hidden)
+                        input(class='form-control mb-1' readonly name='north_landmark_image_longitude' placeholder='Longitude' hidden)
+                        .d-flex.gap-2.mt-1
+                            a(class='btn btn-sm btn-outline-success disabled' href='#' target='_blank' name='north_landmark_map_link') लोकेशन पहा
+                            a(class='btn btn-sm btn-outline-primary disabled' href='#' target='_blank' name='north_landmark_image_link') फोटो पहा
+                        div(class='small text-muted mt-1' name='north_landmark_status')
+
+                    // -------- SOUTH --------
+                    .col-12.col-md-6
+                        label(class='form-label') दक्षिण (South)
+                        input(class='form-control mb-1' readonly name='south_landmark_image_latitude' placeholder='Latitude' hidden)
+                        input(class='form-control mb-1' readonly name='south_landmark_image_longitude' placeholder='Longitude' hidden)
+                        .d-flex.gap-2.mt-1
+                            a(class='btn btn-sm btn-outline-success disabled' href='#' target='_blank' name='south_landmark_map_link') लोकेशन पहा
+                            a(class='btn btn-sm btn-outline-primary disabled' href='#' target='_blank' name='south_landmark_image_link') फोटो पहा
+                        div(class='small text-muted mt-1' name='south_landmark_status')
+
+                hr.my-3
+
+                // ================= ATTACHED DOCUMENTS =================
+                h6(class='fw-bold text-primary mb-3') जोडलेली कागदपत्रे
+                .row(class='g-3 mb-4' id='attached-documents-container')
+                    .col-12
+                        div(class='text-muted small') कागदपत्रे उपलब्ध नाहीत
+
+                hr.my-3
+
+                // ================= DECLARATION =================
+                //- h6.fw-bold.text-primary.mb-3 जाहीरनामा
+                //- .row.g-3
+                    .col-12
+                        textarea.form-control(readonly name='i_agree_statement')
+                            //- | नियमानुसार सर्व थकबाकी व फिस भरण्यास मी तयार आहे. करिता सदरील फेरफार माझ्या नावे करण्यात यावा ही नम्र विनंती.
+
+
+                // ================= STATUS: ACCEPTED =================
+                .div(class=`status-section ${status === 'accepted' ? '' : 'd-none'}` data-status='ACCEPTED')
+                    hr(class='my-3')
+                    h6(class='fw-bold text-success mb-3') अर्ज स्वीकार तपशील
+                    .row(class='g-3 mb-4')
+                        .col-md-6
+                            label(class='form-label') स्वीकार दिनांक
+                            input(class='form-control' readonly name='date_of_acceptance')
+                        .col-md-6
+                            label(class='form-label') स्वीकार शेरा
+                            input(class='form-control' readonly name='acceptance_remark')
+
+                // ================= STATUS: REJECTED =================
+                .div(class=`status-section ${status === 'rejected' ? '' : 'd-none'}` data-status='REJECTED')
+                    hr(class='my-3')
+                    h6(class='fw-bold text-danger mb-3') अर्ज नाकारण्याचा तपशील
+                    .row(class='g-3 mb-4')
+                        .col-md-6
+                            label(class='form-label') नकार दिनांक
+                            input(class='form-control' readonly name='date_of_rejection')
+                        .col-md-6
+                            label(class='form-label') नकार शेरा
+                            input(class='form-control' readonly name='rejection_remark')
+
+                // ================= STATUS: RESOLVED =================
+                .div(class=`status-section ${status === 'resolved' ? '' : 'd-none'}` data-status='RESOLVED')
+                    hr(class='my-3')
+                    h6(class='fw-bold text-primary mb-3') निवारणाचा तपशील
+                    .row(class='g-3 mb-4')
+                        .col-md-6
+                            label(class='form-label') मासिक सभा दिनांक
+                            input(class='form-control' readonly name='masik_sabha_date')
+                        .col-md-6
+                            label(class='form-label') मासिक ठराव क्रमांक
+                            input(class='form-control' readonly name='masik_tharav_number')
+                        .col-md-6
+                            label(class='form-label') निवारण मालमत्ता क्रमांक
+                            input(class='form-control' readonly name='resolution_malmatta_number')
+                        .col-md-6
+                            label(class='form-label') निवारण शेरा
+                            textarea(class='form-control' rows='2' readonly name='resolution_remark')
+                        .col-md-6
+                            label(class='form-label') बांधकाम प्रमाणपत्र दिनांक
+                            input(class='form-control' readonly name='construction_certificate_date')
+                        .col-md-6
+                            label(class='form-label') बांधकाम प्रमाणपत्र
+                            a(class='btn btn-sm btn-outline-primary disabled w-100' href='#' target='_blank' name='construction_certification_doc_link') प्रमाणपत्र पहा
+                            div(class='small text-muted' name='construction_certification_doc_status')
+
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा
+
+

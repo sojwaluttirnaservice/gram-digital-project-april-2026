@@ -1,0 +1,316 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २ - Print
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'namuna2-print.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPdf);
+
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (val) {
+                        case '1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '-1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                    }
+                }
+
+                document.querySelector('.form-select').addEventListener('change', function() {
+                    showHideSignatures(this.value);
+                });
+            })
+
+        style.
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                padding: 0.2rem;
+                border: 1px solid black;
+            }
+
+            /* 🔥 FIX: Force full border printing */
+            table, th, td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse !important;
+            }
+
+            @media print {
+                @page {
+                    size: A4 landscape;
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                /* 🔥 FIX: Prevent border loss on page breaks */
+                table { page-break-inside: auto !important; }
+                tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+                td, th { border: 1px solid #000 !important; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+    body
+        - let year = ''
+
+        div.hide-print
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                //button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm")
+                    option(value='1') सरपंच सही दाखवा
+                    option(value='-1') सरपंच सही लपवा
+                    option(value='2') ग्रा.अ. सही दाखवा
+                    option(value='-2') ग्रा.अ. सही लपवा
+                    option(value='3') दोन्ही सही दाखवा
+                    option(value='-3') दोन्ही सही लपवा
+
+
+        #print(class="tiro-devanagari-marathi-regular print:h-[100lvh]")
+
+            //- first page
+            div(class="my-print p-2 border-2 border-green-800 bg-white/60 relative h-[100lvh] print-bg")
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    h2(class='text-rose-500 text-2xl text-center') महाराष्ट्र ग्रामपंचायत लेखा संहिता २०११ 
+                    h6(class='mt-4 text-green-600 text-2xl text-center') नियम २१ पहा
+                    h5(class='mt-4 text-red-600 text-center text-2xl') नमुना २
+
+                    h3(class="py-8 font-extrabold text-6xl text-center bg-gradient-to-r from-yellow-400 via-yellow-600 to-amber-800 bg-clip-text text-transparent") पुनर्विनियोजन व नियतवाटप विवरणपत्र
+
+                    h4(class='mt-4 text-emerald-500 text-3xl font-extrabold text-center') सन #{fromYear} ते #{toYear}
+
+                    div(class='mt-8')
+                        h1(class='font-extrabold text-red-500 text-7xl text-center') ग्रामपंचायत कार्यालय #{gp.gp_name}
+                        h3(class='mt-8 font-bold text-red-700 text-5xl text-center') पंचायत समिती #{gp.gp_taluka}, जिल्हा. #{gp.gp_dist}
+
+
+            //- second page
+            div(class="my-print p-2 border-2 border-green-800 bg-white/60 relative h-[100lvh] print-bg")
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    h2(class='text-rose-500 text-2xl text-center') महाराष्ट्र ग्रामपंचायत लेखा संहिता २०११ 
+                    h6(class='mt-4 text-green-600 text-2xl text-center') नियम २१ पहा
+                    h5(class='mt-4 text-red-600 text-center text-2xl') नमुना २
+
+                    div(class='mt-4')
+                        h1(class='font-extrabold text-red-500 text-7xl text-center') ग्रामपंचायत कार्यालय #{gp.gp_name}
+                        h3(class='mt-8 font-bold text-red-700 text-5xl text-center') पंचायत समिती #{gp.gp_taluka}, जिल्हा. #{gp.gp_dist}
+
+                    hr 
+
+                    div 
+                        h5(class='text-5xl text-center font-extrabold tracking-wider bg-gradient-to-r from-yellow-400 via-yellow-600 to-amber-800 bg-clip-text text-transparent') प्रमाणपत्र
+                    
+                    div(class='text-blue-600')
+                        div(class='text-2xl text-blue-700') 
+                            p प्रति,
+                            
+                            div(class='pl-4')
+                                p सरपंच/सचिव/ग्रा.वि.अधिकारी,
+                                p ग्रामपंचायत कार्यालय #{gp.gp_name}
+
+
+                        div 
+                            div(class='text-2xl')
+                                p(class='w-full text-end') याज कडून प्रमाणित करण्यात येते की,
+                                | ग्रामपंचायत कार्यालय #{gp.gp_name} यांचे 
+                                | सन #{fromYear} - #{toYear} चे वार्षिक पुनर्विनियोजन व नियतवाटप यांचे विवरणपत्र
+                                | मासिक सभा ठराव क्रं. 
+                                span(class='inline-block w-24') 
+                                | दिनांक 
+                                span(class='inline-block w-24') 
+                                span अन्वये 
+                                | मंजूर करण्यात येऊन मंजुरी करीता सादर
+                    
+                            div(class='mt-12 flex justify-evenly items-center font-extrabold text-2xl')
+                                div(class='flex flex-col items-center') 
+                                    div सरपंच
+                                    div ग्रामपंचायत #{gp.gp_name}
+                                    
+
+                                div(class='flex flex-col items-center')
+                                    div सचिव / ग्रा.वि. अ
+                                    div ग्रामपंचायत #{gp.gp_name}
+
+
+            //- third page
+            div(class="my-print p-2 border-2 border-green-800 bg-white/60 relative h-[100lvh] print-bg")
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    //- h2(class='text-rose-500 text-2xl text-center') महाराष्ट्र ग्रामपंचायत लेखा संहिता २०११ 
+                    //- h6(class='mt-4 text-green-600 text-2xl text-center') नियम २१ पहा
+                    //- h5(class='mt-4 text-red-600 text-center text-2xl') नमुना २
+
+                    div(class='mt-4')
+                        //- h1(class='font-extrabold text-red-500 text-7xl text-center') ग्रामपंचायत कार्यालय #{gp.gp_name}
+                        h3(class='py-8 font-extrabold  bg-gradient-to-r from-yellow-400 via-yellow-600 to-amber-800 bg-clip-text text-transparent text-5xl text-center') पंचायत समिती #{gp.gp_taluka}
+                        h5(class='mt-2 text-4xl font-bold text-emerald-600 text-center') जिल्हा परिषद #{gp.gp_dist}
+
+                    hr
+
+                    div 
+                        h5(class='text-5xl text-center font-extrabold tracking-wider bg-gradient-to-r from-yellow-400 via-yellow-600 to-amber-800 bg-clip-text text-transparent') प्रमाणपत्र
+                    
+                    div(class='text-blue-600')
+                        div(class='text-2xl text-blue-700') 
+                            p प्रति,
+                            
+                            div(class='pl-4')
+                                p सरपंच/सचिव/ग्रा.वि.अधिकारी,
+                                p ग्रामपंचायत कार्यालय #{gp.gp_name}
+
+                        div(class='mt-4 text-2xl text-blue-700 px-4') 
+                            div विषय : ग्रा. पं. #{gp.gp_name} सन #{fromYear}-#{toYear} पुनर्विनियोजन व नियतवाटप विवरणपत मंजूर करणे बाबत.
+                        
+
+
+
+                        div 
+                            div(class='text-2xl')
+                                p महोदय,
+                                p(class='w-full text-end') उपरोक्त विषयान्वये, आपल्या ग्रामपंचायतीचा 
+                                | सन #{fromYear} - #{toYear} चे वार्षिक पुनर्विनियोजन व नियतवाटप विवरणपत्र पंचायत समिती
+                                | मासिक सभा ठराव क्रं. 
+                                span(class='inline-block w-24') 
+                                | दिनांक 
+                                span(class='inline-block w-24') 
+                                span अन्वये 
+                                | मंजूर करण्यात आला असून मंजूर पुनर्विनियोजन व नियतवाटप विवरणपत्रच्या तरतुदीप्रमाणे कार्यवाही करावी.
+                                | कार्यवाही करीता आपल्या माहिती तथा मंजुरीची एकप्रत आपणास पुढील कार्यवाहीला पाठविण्यात येत आहे. 
+                    
+                            div(class='mt-12 flex justify-end items-center font-extrabold text-2xl')
+                                
+                                    
+
+                                div(class='flex flex-col items-center')
+                                    div गटविकास अधिकारी
+                                    div पंचायत समिती #{gp.gp_taluka}
+
+
+
+            div(class="my-print p-2 bg-white/60 relative h-full print-bg")
+
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    div
+                        div
+
+                            table.table-auto.w-full.text-xs.border.border-black.bg-white
+                                thead.bg-pink-100.text-pink-800
+
+                                    tr 
+                                        th(colspan='11')
+                                            p(class='text-lg')
+                                                span ग्रामपंचायत 
+                                                span.text-pink-800.font-bold #{gp.gp_name}
+                                                span , पं. स. 
+                                                span.font-bold.text-pink-700 #{gp.gp_taluka},
+                                                span जि.
+                                                span.font-bold.text-pink-700 #{gp.gp_dist}
+                                            p(class='text-black font-bold') (महा. ग्रा. पं. लेखा संहिता २०११ नियम २१ पहा)
+
+                                    tr 
+                                        th(colspan='11')
+                                            p.text-lg.font-bold.text-black सन #{fromYear} ते #{toYear} नमुना २ (पुनर्विनियोजन व नियतवाटप विवरणपत्र)
+
+                                    tr
+                                        th.p-1.text-center(width="5%") अ. क्रं.
+
+                                        th.p-1.text-center(width="12%") जमा रकमांचे मुख्य शीर्षक
+                                        th.p-1.text-center(width="10%") मंजूर अर्थसंकल
+                                        th.p-1.text-center(width="10%") सुधारित अंदाज
+                                        th.p-1.text-center(width="8%") अधिक (+) किंवा (-) कमी
+                                        th.p-1.text-center(width="10%") शेरा
+
+                                        th.p-1.text-center(width="12%") खर्चाचे मुख्य शीर्षक
+                                        th.p-1.text-center(width="10%") मंजूर रक्कम
+                                        th.p-1.text-center(width="10%") खर्चाचा सुधारित अंदाज
+                                        th.p-1.text-center(width="8%") अधिक (+) किंवा (-) कमी
+                                        th.p-1.text-center(width="10%") शेरा 
+
+                                    tr 
+                                        each _col in [1,2,3,4,5,6,7,8,9,10,11]
+                                            th.text-center #{_col}
+
+                                tbody
+                                    each n2Entry, _index in namuna2Entries
+                                        tr
+                                            td.text-center.p-1 #{_index + 1}
+
+                                            td.text-center.p-1 #{n2Entry.income_main_head}
+                                            td.text-center.p-1 #{n2Entry.income_approved_budget}
+                                            td.text-center.p-1 #{n2Entry.income_revised_estimate}
+                                            td.text-center.p-1 #{n2Entry.income_variation}
+                                            td.text-center.p-1 #{n2Entry.income_remarks}
+
+                                            td.text-center.p-1 #{n2Entry.expense_main_head}
+                                            td.text-center.p-1 #{n2Entry.expense_approved_amount}
+                                            td.text-center.p-1 #{n2Entry.expense_revised_estimate}
+                                            td.text-center.p-1 #{n2Entry.expense_variation}
+                                            td.text-center.p-1 #{n2Entry.expense_remarks}
+                                    each _ in Array.from({length: 24})
+                                        tr
+                                            each _ in Array.from({length: 11})
+                                                td.text-center.p-1 
+                                                    span(class='opacity-0') -
+

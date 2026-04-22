@@ -1,0 +1,91 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title #{title}
+
+        //- Styles
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+
+        //- Scripts
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        //- Custom
+        link(href='/asstest/coustom/css/gp/aanganwadi/aanganwadi-center-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/gp/aanganwadi/aanganwadi-center-form-handler.js')
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section 
+            .container
+                div
+                    h2.heading-1.text-center अंगणवाडी केंद्र फॉर्म
+
+
+
+                .div.d-flex.justify-content-end.mb-3
+                    a.btn.btn-primary.text-light(href='/aanganwadi') यादी बघा
+
+
+                form(id='aanganwadi-center-form')
+                    .form.form-1
+                        .row.g-3
+                            .col-md-6
+                                .form-group
+                                    label(for='center_name') केंद्राचे नाव
+                                    input.form-control#center_name(type='text' name='center_name' placeholder='Center Name' required)
+
+                            .col-md-6
+                                .form-group
+                                    label(for='center_number') केंद्र क्रमांक
+                                    input.form-control#center_number(type='text' name='center_number' placeholder='Center Number' required)
+
+                            .col-md-6
+                                .form-group
+                                    label(for='village_name') गावाचे नाव
+                                    input.form-control#village_name(type='text' name='village_name' placeholder='Village Name' required)
+
+
+                            .col-md-3
+                                .form-group
+                                    label.d-block(for='has_toilet') शौचालय
+                                    .form-check.form-check-inline
+                                        input.form-check-input(type='radio' name='has_toilet' id='toilet_available' value='AVAILABLE', required)
+                                        label.form-check-label(for='toilet_available') आहे
+                                    .form-check.form-check-inline
+                                        input.form-check-input(type='radio' name='has_toilet' id='toilet_unavailable' value='UNAVAILABLE')
+                                        label.form-check-label(for='toilet_unavailable') नाही
+
+                            .col-md-3
+                                .form-group
+                                    label.d-block(for='has_kitchen_shed') किचन शेड
+                                    .form-check.form-check-inline
+                                        input.form-check-input(type='radio' name='has_kitchen_shed' id='kitchen_available' value='AVAILABLE', required)
+                                        label.form-check-label(for='kitchen_available') आहे
+                                    .form-check.form-check-inline
+                                        input.form-check-input(type='radio' name='has_kitchen_shed' id='kitchen_unavailable' value='UNAVAILABLE')
+                                        label.form-check-label(for='kitchen_unavailable') नाही
+
+
+                        .text-end.mt-4
+                            button.btn.btn-primary#save-aanganwadi-center-btn(type='submit') जतन करा

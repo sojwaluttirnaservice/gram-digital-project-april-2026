@@ -1,0 +1,151 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-1/expenditure/other-expenditures/namuna-1-other-expenditures-page.css' rel='stylesheet')
+    link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-1/expenditure/other-expenditures/namuna-1-other-expenditures-create-entry-page-handler.js' type='module' defer)
+
+
+    title Edit नमुना १ - इतर खर्च
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../../include/navs.pug
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+    .container
+      h2.heading-1.mt-2.mb-1 Edit नमुना १ - इतर खर्च
+
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/1/expenditure/other-expenditures') यादी
+
+      if namuna1OtherExpenditures
+
+        form(id='namuna-1-other-expenditures-form').mt-1
+          .form.form-1
+            h4(style="text-align:center; font-weight:bold; color:white; background-color:#003366; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना १ - इतर खर्च
+
+
+            .row.justify-content-center.justify-content-md-between.gx-4.gy-2.p-4
+
+
+
+              - let currentYear = new Date().getFullYear()
+              - let startYear = currentYear - 25
+              .col-11.col-md-6.col-lg-3
+
+                .form-group
+                  label.form-label(for="year") वर्ष
+                  select.form-select(id="year" name="fromYear" required)
+                    option(value='') --वर्षापासून--
+                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                      option(value=year selected = ((year == (namuna1OtherExpenditures.year - 1)) ? true: false)) #{year}
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="year") वर्ष
+                  select.form-select(id="year" name="year" required)
+                    option(value='') --निवडा--
+                    //- - let currentYear = new Date().getFullYear()
+                    //- - let startYear = currentYear - 25
+                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                      option(value=(year + 1) selected = (((year + 1) == namuna1OtherExpenditures.year) ? true: false)) #{year + 1}
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="monthly_resolution") मासिक ठराव क्र.
+                  input.form-control(type="text" id="monthly_resolution" name="monthly_resolution" required placeholder=" " value=namuna1OtherExpenditures.monthly_resolution)
+
+              //- Doubtness
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="monthly_resolution_date") मासिक ठराव दिनांक
+                  input.form-control.datepicker(type="text" id="monthly_resolution_date" name="monthly_resolution_date" required placeholder=" " value=namuna1OtherExpenditures._monthly_resolution_date)
+
+              .col-11.col-md-12.col-lg-6
+                .form-group
+                  label.form-label(for="backward_class_15_percent_expenditure") मागासवर्गीय खर्च १५ % टक्के खर्च
+                  input.form-control(type="number" id="backward_class_15_percent_expenditure" name="backward_class_15_percent_expenditure" required placeholder="" value=namuna1OtherExpenditures.backward_class_15_percent_expenditure)
+
+              .col-11.col-md-12.col-lg-6
+                .form-group
+                  label.form-label(for="women_and_child_welfare_10_percent_expenditure") महिला व बाल कल्याण १० टक्के खर्च
+                  input.form-control(type="number" id="women_and_child_welfare_10_percent_expenditure" name="women_and_child_welfare_10_percent_expenditure" required placeholder="" value=namuna1OtherExpenditures.women_and_child_welfare_10_percent_expenditure)
+
+              //- 
+              .col-11.col-md-6.col-lg-6
+                .form-group
+                  label.form-label(for="disabled_people_3_percent_expenditure") अपंग कल्याण करिता खर्च ३ % टक्के खर्च
+                  input.form-control(type="number" id="disabled_people_3_percent_expenditure" name="disabled_people_3_percent_expenditure" required placeholder="" value=namuna1OtherExpenditures.disabled_people_3_percent_expenditure)
+
+              .col-11.col-md-12.col-lg-6
+                .form-group
+                  label.form-label(for="district_rural_development_fund_contribution_025_percent") ०.२५ टक्के जिल्हा ग्रामविकास निधी वर्गणी
+                  input.form-control(type="number" id="district_rural_development_fund_contribution_025_percent" name="district_rural_development_fund_contribution_025_percent" placeholder="" value=namuna1OtherExpenditures.district_rural_development_fund_contribution_025_percent)
+
+
+              .col-11.col-md-12.col-lg-6.d-none
+                .form-group
+                  label.form-label(for="remarks") शेरा
+                  input.form-control(id="remarks" name="remarks" placeholder="शेरा" value=namuna1OtherExpenditures.remarks)
+
+                  input(name='id' value=namuna1OtherExpenditures.id hidden)
+
+
+            .d-flex.gap-4.justify-content-center
+              button.btn.btn-success(type='button' id="update-namuna-1-other-expenditures-entry-btn") Update
+              button.btn.btn-secondary(type='reset' id='reset') Reset             
+      else 
+        h4.fw-bold.text-center संबंधित नोंद उपलब्ध नाही
+

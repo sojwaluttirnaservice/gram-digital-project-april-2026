@@ -1,0 +1,49 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , वय 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAgeM || selfDeclaration.sd_applicantAgeE}
+            |  वर्षे, रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            |  याद्वारे जाहीर 
+            span(class="font-extrabold") #{declarer}
+            |  की, माझे पती 
+            span(class="font-extrabold")
+                | #{selfDeclaration.husbandNameM || selfDeclaration.husbandNameE}
+            |  यांनी मला 
+            span(class="font-extrabold")
+                | #{selfDeclaration._desertedSinceDate || "______/______/_______"}
+            |  पासून कोणताही सांभाळ न करता सोडून दिलेले असून वेगळे राहत आहेत.
+
+        p(class="mt-1")
+            | त्यानंतर आजतागायत मी त्यांच्यापासून स्वतंत्रपणे राहत असून,
+            |  माझा उदरनिर्वाह मी स्वतः / नातेवाईकांच्या मदतीने करत आहे.
+
+        p(class="mt-1")
+            | शासकीय योजना / पेन्शन / दाखला / इतर शासकीय कामकाजासाठी मला 
+            span(class="font-extrabold") परित्यक्ता असल्याचा दाखला
+            |  आवश्यक आहे.
+
+        p(class="mt-1")
+            | यासाठी आवश्यक सर्व कागदपत्रे मी सोबत जोडलेली आहेत.
+
+        p(class="mt-1")
+            | मी दिलेली वरील सर्व माहिती खरी व बरोबर असून,
+            |  भविष्यात ती चुकीची अथवा खोटी आढळल्यास त्याची संपूर्ण जबाबदारी माझी राहील.
+
+        p(class="mt-4 text-right")
+            | आपली आज्ञाधारक,

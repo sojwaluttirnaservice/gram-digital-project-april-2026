@@ -1,0 +1,33 @@
+style.
+  body { 
+      animation: fadeInAnimation ease 2s; 
+      animation-iteration-count: 1; 
+      animation-fill-mode: forwards; 
+  } 
+  .top-banner img {
+        width: 60px;
+        height: 60px;
+      }
+  .top-banner  p {
+        vertical-align: middle;
+      }
+
+  @keyframes fadeInAnimation { 
+      0% { 
+          opacity: 0; 
+      } 
+      100% { 
+          opacity: 1; 
+      } 
+  } 
+.alert.alert-warning.mb-0.pt-1.pb-1(role='alert ')
+  .row.top-banner
+    .col-12.text-center.py-4
+      span.h5 ग्रा.पं, 
+        u
+          a(href = "/") #{gp.gp_name}
+        |  ग्राम विकास सुविधा.
+script.
+  $(function(){
+    $('[data-toggle="tooltip"]').tooltip()
+  });

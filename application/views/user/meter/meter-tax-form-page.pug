@@ -1,0 +1,173 @@
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //-- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //-mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+
+    link(href='/asstest/coustom/css/meter/meter-tax-form.css' rel='stylesheet')
+    script.
+        const _lastMeterTaxDetails = !{JSON.stringify(lastMeterTaxDetails)}
+    script(src='/asstest/coustom/js/handlers/meter/meter-tax-form-handler.js')
+
+body.w-100
+    include ../include/navs.pug
+
+
+    section 
+        .container
+            div(style='margin-bottom: 4.5rem;')
+                h2.heading-1.text-center  पाणी मीटर कर भरणा नोदणी फॉर्म
+                a.btn.btn-primary(href=`/meter/meter-tax-form/${nextId}`).float-right Next
+
+                a(href="/meter").btn.btn-primary.mr-2.float-right मीटर मेन्यू
+
+            //- .search-container 
+            //-     input(type='text' id='tap-connection-id' placeholder='नळ क्रमांक भरा')
+            //-     button(type='button' id='search-btn' class='btn btn-primary') 
+            //-         //- i.fa-solid.fa-magnifying-glass
+            //-         span Search
+
+            if meterUserDetails == null 
+                h3.text-center.text-danger मीटर वापरकर्ता सापडला नाही.
+            else if meterUserDetails != null && lastMeterTaxDetails == null
+                h3.text-center.text-danger या मीटर वापरकर्त्यासाठी बिल तयार केला गेलेला नाही.
+            else if lastMeterTaxDetails != null && lastMeterTaxDetails.mbl_amount_paid != 0 && lastMeterTaxDetails.mbl_amount_payable != 0 && lastMeterTaxDetails.mbl_amount_payable - lastMeterTaxDetails.mbl_amount_paid == 0
+                h3.text-success.text-center सर्व कर आधीच भरलेला आहे
+            else
+                form(id='meter-tax-form')
+
+                    .form.form-1
+                        h4.text-center.fw-bold धारकाची माहिती
+
+                        .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                            .col-11.col-md-6.col-lg-2
+                                .form-group
+                                    input(name='id' id='' hidden) 
+                                    input(name='user_id' value=meterUserDetails.id hidden)
+                                    input(name='water_usage_from_date' value=lastMeterTaxDetails._mbl_water_usage_from_full hidden)
+                                    input(name='water_usage_to_date' value=lastMeterTaxDetails._mbl_water_usage_to_full hidden)
+
+                                    label.form-label(for="") नळ क्र 
+                                    input.form-control(type='text' name='mb_nal_connection_no' value=meterUserDetails.mb_nal_connection_no  readonly required)
+
+                            .col-11.col-md-6.col-lg-2
+                                .form-group
+
+                                    label.form-label(for="")  देयक क्रमांक
+                                    input.form-control(type='text' name='mbl_deyak_number' value=lastMeterTaxDetails.mbl_deyak_number  readonly required)
+
+
+                            .col-11.col-md-6.col-lg-3
+                                .form-group 
+                                    label.form-label(for="") मोबाइल  क्र 
+                                    input.form-control(type='text' id='mb_owner_mobile' value=meterUserDetails.mb_owner_mobile readonly)
+                            .col-11.col-md-6.col-lg-5
+                                .form-group 
+                                    label.form-label(for="") नळ कनेक्शन धारकाचेनाव 
+                                    input.form-control(type='text' id='mb_owner_name' value=meterUserDetails.mb_owner_name readonly)
+
+
+
+
+
+                    .form.form-2
+                        h4.text-center.fw-bold  करासंदर्भात माहिती
+
+                        .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    input(type='text' hidden name='id' value=lastMeterTaxDetails.id)
+                                    label.form-label(for="") देयक दिनांक
+                                    input.form-control(type='text' name='mbl_deyak_date' value=`${lastMeterTaxDetails.mbl_deyak_date.split('-').join('/')}` readonly)
+
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") मुदत दिनांक
+                                    input.form-control.is-number(type='text' name='mbl_amt_diposite_till_date' value=`${lastMeterTaxDetails.mbl_amt_diposite_till_date.split('-').join('/')}` required readonly)
+
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") कर भरणा दिनांक
+                                    input.form-control.is-number(type='text' name='mbl_payment_date' readonly required)
+
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") मुदतीच्या आत भरवायची रक्कम
+                                    input.form-control(type='text' name='mbl_before_date_amt_to_fill' value=lastMeterTaxDetails.mbl_before_date_amt_to_fill readonly)
+
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") मुदतीच्या नंतर भरवायची रक्कम
+                                    input.form-control(type='text' name='mbl_after_date_amt_to_fill' value=lastMeterTaxDetails.mbl_after_date_amt_to_fill readonly)
+
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") कर भरणा रक्कम
+                                    input.form-control.is-number(type='text' name='mbl_amount_paid'  required)
+                            
+                            .col-11.col-md-6.col-lg-4
+                                .form-group 
+                                    label.form-label(for="") पेमेंट मोड 
+                                    select.form-select(type='text' name='payment_mode'  required)
+                                        option(value='Offline' selected) Offline
+                                        option(value='Online') Online 
+                           
+                            .col-11.col-md-6.col-lg-4(id='payment-details')
+                                .form-group 
+                                    label.form-label(for="") पेमेंट माहिती 
+                                    input.form-control.is-number(type='text' name='payment_details' )
+
+                            .col-11(style='')
+                                p.text-secondary(style='font-size:0.85rem;font-weight:600') (मागील थकबाकी : &nbsp;
+                                    span.text-black(style='font-weight: bolder;') #{lastMeterTaxDetails.mbl_last_backlock} रुपये )
+
+                                if lastMeterTaxDetails != undefined && lastMeterTaxDetails.mbl_amount_paid != 0 && lastMeterTaxDetails.mbl_amount_payable != 0 && lastMeterTaxDetails._last_unpaid_amount > 0
+                                    p(style='font-style: italic; font-size: 0.9rem; color: #9b111e') 
+                                        | पूर्ण रक्कमेपैकी 
+                                        span.fw-bold.text-black #{lastMeterTaxDetails.mbl_amount_paid}
+                                        | &nbsp;आधीच भरलेली आहे , तर तुम्ही 
+                                        span.fw-bold.text-black #{lastMeterTaxDetails._last_unpaid_amount} 
+                                        | इतकी रक्कम भरावी.
+                                else
+                                    p(style='font-style: italic; font-size: 0.8rem; color: #9b111e') 
+                                        | देयक भरण्याची मुदत संपली असेल तर म्हणून तुम्हाला दंडासहीत रक्कम भरावी लागेल.
+                            if lastMeterTaxDetails == undefined || (lastMeterTaxDetails.mbl_amount_paid == 0 && lastMeterTaxDetails.mbl_amount_payable == 0)
+                                .col-11
+                                    div
+                                        input.mr-1#fine-relief-checkbox(type='checkbox' name='mbl_is_fine_relief_given')
+                                        label(style='font-size: 0.9rem;') दंड करामध्ये सवलत द्यायची?
+
+
+
+                    .button-container   
+                        button.btn.btn-primary(type='button' id='save-meter-tax-btn') Pay 

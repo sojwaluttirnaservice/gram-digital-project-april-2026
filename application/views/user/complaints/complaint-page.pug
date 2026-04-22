@@ -1,0 +1,132 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        /* Optional custom scrollbar */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+block content
+    if !complaint
+        div(class='bg-amber-50 border-l-4 border-amber-500 rounded-lg p-5 text-center mx-auto max-w-md mt-10 shadow-lg')
+            h3(class='text-amber-700 font-bold text-lg mb-2') तक्रार उपलब्ध नाही
+            p(class='text-gray-700 leading-relaxed')
+                | दिलेल्या तक्रार क्रमांकाची माहिती सध्या उपलब्ध नाही.
+                br
+                | कृपया तक्रार क्रमांक तपासा किंवा संबंधित कार्यालयाशी संपर्क साधा.
+
+    else
+        div(class='container mx-auto p-4 max-w-xl scrollbar-hide')
+
+            // ================= HEADER =================
+            div(class='flex items-center justify-between mb-4')
+                h2(class='text-2xl font-bold text-gray-800') #{complaint.complaintSubject || "तक्रार माहिती"}
+                span(class=`text-sm font-semibold px-3 py-1 rounded-full text-white ${
+                    complaint.complaintStatus === 'RESOLVED' ? 'bg-green-600' :
+                    complaint.complaintStatus === 'ACCEPTED' ? 'bg-blue-500' :
+                    complaint.complaintStatus === 'REJECTED' ? 'bg-red-500' :
+                    'bg-yellow-500'
+                }`) 
+                    | #{complaint.complaintStatus === 'RESOLVED' ? 'निवारण पूर्ण' : complaint.complaintStatus === 'ACCEPTED' ? 'मंजूर' : complaint.complaintStatus === 'REJECTED' ? 'नाकारलेली' : 'प्रलंबित'}
+
+            // ================= APPLICANT INFO =================
+            div(class='bg-white shadow-md rounded-lg p-4 mb-4')
+                div(class="mb-2 md:mb-0")
+                    p(class='text-gray-500 text-sm') तक्रार नोंदविणारा:
+                    span(class='font-semibold ml-1') #{complaint.formName}
+                div(class='flex flex-col md:flex-row md:justify-between md:gap-4')
+
+
+                    div(class='mb-2 md:mb-0')
+                        p(class='text-gray-500 text-sm') आधार:
+                        span(class='font-semibold ml-1') #{complaint.formAadhar || '-'}
+                        br
+                        p(class='text-gray-500 text-sm') मोबाईल:
+                        span(class='font-semibold ml-1') #{complaint.formMobile || '-'}
+                    div
+                        p(class='text-gray-500 text-sm') ई-मेल:
+                        span(class='font-semibold ml-1') #{complaint.formEmail || '-'}
+
+                div(class='mt-2')
+                    p(class='text-gray-500 text-sm') पत्ता:
+                    span(class='font-semibold block') #{complaint.formAddress || '-'}
+
+            // ================= COMPLAINT DETAILS =================
+            div(class='bg-white shadow-md rounded-lg p-4 mb-4')
+                p(class='text-gray-500 text-sm mb-2') विषय:
+                h3(class='text-lg font-semibold mb-3') #{complaint.complaintSubject || '-'}
+
+                div(class='flex flex-col gap-2')
+                    a(class='text-blue-500 hover:underline flex items-center gap-2' href=`/uploads/images/complaints/${complaint.complaintImageUrl || '#'}` target="_blank")
+                        i(class='fa fa-image text-lg')
+                        | #{complaint.complaintImageUrl ? 'तक्रार फोटो पहा' : 'फोटो उपलब्ध नाही'}
+                    a(class='text-blue-500 hover:underline flex items-center gap-2' href=`https://www.google.com/maps?q=${complaint.imageLatitude || 0},${complaint.imageLongitude || 0}` target="_blank")
+                        i(class='fa fa-map-marker text-lg')
+                        | #{complaint.imageLatitude && complaint.imageLongitude ? 'लोकेशन' : 'लोकेशन उपलब्ध नाही'}
+                    a(class='text-blue-500 hover:underline flex items-center gap-2' href=`/uploads/docs/complaints/${complaint.complaintDocUrl || '#'}` target="_blank")
+                        i(class='fa fa-file text-lg')
+                        | #{complaint.complaintDocUrl ? 'तक्रार कागदपत्र पहा' : 'कागदपत्र उपलब्ध नाही'}
+
+            // ================= RESOLUTION INFO =================
+            if complaint.complaintStatus === 'ACCEPTED'
+                div(class='bg-blue-50 border-l-4 border-blue-500 shadow-md rounded-lg p-4 mb-4')
+                    h3(class='font-semibold text-lg mb-3 text-blue-700') तक्रार मंजूर झाली
+                    div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                        div
+                            p(class='text-gray-500 text-sm') दिनांक:
+                            span(class='font-semibold') #{complaint._complaintResolutionDate || '-'}
+                        div
+                            p(class='text-gray-500 text-sm') शेरा:
+                            span(class='font-semibold') #{complaint.complaintResolutionRemark || '-'}
+
+            if complaint.complaintStatus === 'RESOLVED'
+                div(class='bg-green-50 border-l-4 border-green-500 shadow-md rounded-lg p-4 mb-4')
+                    h3(class='font-semibold text-lg mb-3 text-green-700') तक्रार निवारण पूर्ण
+                    div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                        div
+                            p(class='text-gray-500 text-sm') दिनांक:
+                            span(class='font-semibold') #{complaint._complaintResolutionDate || '-'}
+                        div
+                            p(class='text-gray-500 text-sm') शेरा:
+                            span(class='font-semibold') #{complaint.complaintResolutionRemark || '-'}
+                        
+                        div(class='col-span-1 md:col-span-2')
+
+                            div(class='flex items-center gap-8')
+                                div
+                                    p(class='text-gray-500 text-sm') फोटो:
+                                    if complaint.complaintResolutionImageUrl
+                                        a(class='text-blue-500 hover:underline' href=`/uploads/images/complaints/resolution/${complaint.complaintResolutionImageUrl}` target="_blank") फोटो पहा
+                                    else
+                                        span(class='font-semibold') उपलब्ध नाही
+
+                                div 
+                                    p(class='text-gray-500 text-sm') लोकेशन: 
+                                    if complaint.complaintResolutionImageUrl
+                                        - let locationUrl = `https://www.google.com/maps?q=${complaint.complaintResolutionImageLatitude},${complaint.complaintResolutionImageLongitude}`
+                                        a(class='text-blue-500 hover:underline' href=locationUrl target="_blank") लोकेशन पहा
+                                    else
+                                        span(class='font-semibold') उपलब्ध नाही                                    
+
+
+            // ================= REJECTION INFO =================
+            if complaint.complaintStatus === 'REJECTED'
+                div(class='bg-red-50 border-l-4 border-red-500 shadow-md rounded-lg p-4 mb-4')
+                    h3(class='font-semibold text-lg mb-3 text-red-700') तक्रार नाकारलेली
+                    div(class='grid grid-cols-1 gap-4')
+                        div
+                            p(class='text-gray-500 text-sm') नकार दिनांक:
+                            span(class='font-semibold') #{complaint._complaintRejectionDate || '-'}
+                        div
+                            p(class='text-gray-500 text-sm') कारण:
+                            span(class='font-semibold') #{complaint.rejectionReason || '-'}
+
+            // ================= PENDING INFO =================
+            if complaint.complaintStatus === 'PENDING'
+                div(class='bg-yellow-50 border-l-4 border-yellow-500 shadow-md rounded-lg p-4 mb-4')
+                    h3(class='text-yellow-700 font-semibold mb-2') तक्रार प्रलंबित आहे
+                    p(class='text-gray-500 text-sm') या तक्रारीवर अद्याप प्रक्रिया सुरु आहे.
+
+            // ================= FOOTER ACTIONS =================
+            //- div(class='flex justify-center mt-4')
+                a(class='bg-gray-400 text-white font-semibold py-2 px-4 rounded hover:bg-gray-500' href='/complaints/list') मागे यादीकडे

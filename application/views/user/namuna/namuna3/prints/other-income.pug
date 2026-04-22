@@ -1,0 +1,66 @@
+
+
+.my-print
+
+
+    div(style='margin: 1rem 0;')
+        div(style='font-weight: 600; font-size: 0.85rem;')
+            p(style='text-align: center; font-weight: bold;')  एक (ब करेत्तर उत्त्पन्न)
+
+    table(style='width: 100%;')
+
+        -
+            let otherIncomeHeadings = [
+                "बाजार फी",
+                "टांगा स्टँड फी",
+                "कार स्टँड फी",
+
+                "पाणी पट्टी",
+                "स्वच्छता फी",
+                "गाय चरण फी",
+
+                "डी.व्ही.डी. एफ व्याज २.५ टक्के",
+                "जमीन भाडे पट्टी",
+                "व्याज जमा",
+
+                "जागा भाडे",
+                "कोंडवाडा जमा",
+                "देणगी",
+
+                "इतर जमा",
+                "एकूण (एक) (ब) करेत्तर उत्त्पन्न १ ते १३ = १४",
+                "(१) (अ + ब ) एकूण"
+            ]  
+
+        thead
+
+            tr
+                each heading, index inotherIncomeHeadings 
+                    th #{heading}
+                
+            tr
+                each _, index inotherIncomeHeadings 
+                    th #{index + 1}
+                
+        tbody 
+
+            tr 
+                td #{otherIncome.market_fee}
+                td #{otherIncome.tanga_stand_fee}
+                td #{otherIncome.car_stand_fee}
+                td #{otherIncome.water_tax}
+                td #{otherIncome.cleanliness_fee}
+
+                td #{otherIncome.cow_grazing_fee}
+                td #{otherIncome.dvdf_interest_2_5_percent}
+                td #{otherIncome.land_rent}
+                td #{otherIncome.interest_deposit}
+
+                td #{otherIncome.land_rent_deposit}
+                td #{otherIncome.kondwada_deposit}
+                td #{otherIncome.donation}
+                td #{otherIncome.other_deposits}
+
+                td #{otherIncome.total_other_income}
+                td #{otherIncome.total_income_1_2}
+

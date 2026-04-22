@@ -1,0 +1,125 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title} 
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        style.
+            /* Table styling with soft colors */
+            table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+            th, td {
+                padding: 0.4rem 0.6rem;
+                border: 1px solid #f5c6cb; /* faint pink border */
+                vertical-align: top;
+            }
+            thead th {
+                background-color: #fde2e4; /* very light pink */
+                color: #721c24; /* darker red text for contrast */
+                text-align: center;
+                font-weight: 600;
+            }
+            tbody tr:nth-child(even) { background-color: #fef9f9; } /* super faint pink */
+            tbody tr:nth-child(odd) { background-color: #ffffff; }
+            tbody tr:hover { background-color: #fdf6f6; } /* subtle hover */
+            
+            /* special serviceMode cell coloring */
+            td.service-mode { background-color: #e6f4ea; color: #1b5e20; font-weight: 500; text-align: center; }
+
+            @media print {
+                @page { size: landscape; margin: 9mm; }
+                .hide-print { display: none !important; }
+                #print { height: 100vh; }
+                .my-print { position: relative; background: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+                thead { display: table-header-group !important; }
+                tr { page-break-inside: avoid; break-inside: avoid; }
+            }
+
+            .tiro-devanagari-marathi-regular { font-family: "Tiro Devanagari Marathi", serif; font-weight: 400; font-style: normal; }
+            .qrcode { width: 30mm; height: 30mm; }
+            .qrcode img { width: 100%; height: 100%; }
+
+    body
+        - let year = ''
+
+        div(class="hide-print")
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+        if !(selfDeclarations && selfDeclarations.length)
+            h2.mt-8.text-center.text-2xl.font-bold.text-red-500
+                | निवडलेल्या कालावधीत कोणतेही अर्ज उपलब्ध नाहीत.
+        else
+            #print.tiro-devanagari-marathi-regular
+                div(class="my-print p-2 border border-pink-200 bg-white/90 relative h-full print-bg rounded-lg shadow-md")
+                    .absolute.inset-0.bg-white.opacity-80
+                    .relative.z-10.bg-white.bg-opacity-80.h-full.p-4
+
+                        table
+                            thead
+                                tr
+                                    th(colspan='6')
+                                        p.text-xl.font-semibold.text-center
+                                            | ग्रामपंचायत कार्यालय , #{gp.gp_name || '—'} ,
+                                            | पं. स. #{gp.gp_taluka || '—'} ,
+                                            | जि. #{gp.gp_dist || '—'}
+
+                                tr
+                                    th अ. क्र.
+                                    th दिनांक
+                                    th सेवेचे नाव
+                                    th सेवा प्राप्त झाल्याचा मार्ग
+                                    th एकूण
+                                    th शेरा
+
+                                tr
+                                    each c in ['१','२','३','४','५','६']
+                                        th #{c}
+
+                            tbody
+                                each reportEntry, index in selfDeclarations
+                                    tr
+                                        td.text-center.font-medium #{index + 1}
+                                        td.text-center #{reportEntry._create_date}
+                                        td #{reportEntry.serviceName}
+                                        td.service-mode #{reportEntry.serviceMode || 'Online'}
+                                        td.text-center.font-semibold #{reportEntry.totalApplications}
+                                        td
+                                            span.opacity-0 dummy
+
+//- Optional JS for QR generation
+//- script.
+    (function(){
+        let _complaints = !{JSON.stringify(complaints)}
+
+        if(_complaints){
+            _complaints.forEach((_comp) =>{
+                generateQRCode(_comp.id);
+            })
+        }
+
+        function generateQRCode(complaintId){
+            let qrUrl = window.location.origin + "/complaints/c/" + complaintId;
+            new QRCode(document.getElementById(`qrcode-${complaintId}`), qrUrl)
+        }
+    })()

@@ -1,0 +1,852 @@
+{
+  "gp": {
+    "gpName": "ग्राम पंचायत",
+    "talukaAbb": "ता.",
+    "distAbb": "जि."
+  },
+
+  "navbar": {
+    "top": {
+      "gpName": "ग्राम पंचायत कार्यालय",
+      "panchayatSamiti": "पंचायत समिति",
+      "district": "जिला",
+
+      "citizenServiceCenter": "नागरिक सुविधा अर्ज",
+      "citizenServiceApplication": "ना. सुविधा आवेदन",
+      "citizenRegistration": "नागरिक पंजीकरण",
+      "complaintRegistration": "शिकायत पंजीकरण",
+      "propertyMutationApplication": "संपत्ति फेरफार / नामांतरण आवेदन",
+      "constructionApplication": "भवन निर्माण अनुमति आवेदन",
+      "jobCardApplication": "जॉब कार्ड आवेदन",
+      "individualGroupEmploymentDemandApplication": "व्यक्तिगत/सामूहिक रोजगार मांग आवेदन",
+
+
+      "employmentGuaranteeApplication": "VB-G RAM-G रोजगार गारंटी हेतु आवेदन",
+      "myPanchayat": "मेरी पंचायत",
+      "panchayatDecisionApp": "पंचायत निर्णय ऐप",
+      "gramSamvad": "ग्राम संवाद",
+
+      "visitors": "विज़िटर्स",
+      "gramLogin": "ग्राम लॉगिन"
+    },
+
+    "bottom": {
+      "noListAvailable": "सूची उपलब्ध नहीं",
+
+      "home": "मुख्य पृष्ठ",
+
+      "ourVillage": {
+        "value": "हमारा गाँव",
+        "dropdown": {
+          "aboutGp": "गाँव के बारे में जानकारी",
+          "gpNotes": "ग्राम पंचायत नोट्स",
+          "villageIndustries": "गाँव की उद्योग",
+          "villageNews": "गाँव की समाचार",
+          "eDavandi": "ई-दवंडी",
+          "disabledPersonsList": "विकलांग लोगों की सूची",
+          "openPlotsList": "खुली जगह और कच्चे घरों की सूची"
+        }
+      },
+
+      "officeBearers": "पदाधिकारी और सेवक वर्ग",
+
+      "guidance": {
+        "value": "मार्गदर्शन सेवा",
+        "dropdown": {
+          "online": "ONLINE मार्गदर्शन",
+          "offline": "OFFLINE मार्गदर्शन",
+          "gr": "GR"
+        }
+      },
+
+      "developmentWorksInfo": "विकास कार्य जानकारी",
+
+      "healthServices": {
+        "value": "स्वास्थ्य सेवाएँ",
+        "dropdown": {
+          "generalHealthInfo": "स्वास्थ्य सेवाएँ व जानकारी",
+          "govtHealthSchemes": "सरकारी स्वास्थ्य योजनाओं, शासन सेवाओं व अन्य सेवाओं की जानकारी"
+        }
+      },
+
+      "education": {
+        "value": "शिक्षा",
+        "dropdown": {
+          "jobRelated": "नौकरी संबंधित",
+          "schoolCollegeList": "स्कूल/कॉलेज सूची",
+          "schools": "स्कूल",
+          "anganwadi": "आंगनवाड़ी",
+          "krishiVigyan": "कृषि विज्ञान"
+        }
+      },
+
+      "medicalHelpDesk": "चिकित्सा सहायता कक्ष",
+      "rti": "सूचना का अधिकार",
+
+      "divyangRegistration": "दिव्यांग पंजीकरण"
+    }
+  },
+
+  "common": {
+    "officeTimingsStrip": {
+      "officeDayTimeKey": "कार्यालय समय",
+      "officeDaysValue": "सोमवार से शुक्रवार",
+      "officeTimeValue": "सुबह ९:४५ से शाम ६:१५ तक",
+
+      "govHolidayKey": "सरकारी छुट्टी",
+      "govHolidaysValue": "शनिवार और रविवार",
+      "govHolidayTextValue": "सार्वजनिक छुट्टी"
+    },
+
+    "goodThought": {
+      "heading": "आज का सुविचार"
+    },
+
+    "stateCabinet": {
+      "heading": "महाराष्ट्र राज्य ग्राम विकास मंत्रिमंडल",
+
+      "governer": {
+        "name": "श्री आचार्य देवव्रत",
+        "post": "राज्यपाल"
+      },
+
+      "cm": {
+        "name": "श्री देवेंद्र फडणवीस",
+        "post": "मुख्यमंत्री"
+      },
+
+      "dcm1": {
+        "name": "श्री एकनाथ शिंदे",
+        "post": "उपमुख्यमंत्री"
+      },
+
+      "dcm2": {
+        "name": "श्रीमती. सुनेत्रा अजित पवार",
+        "post": "उपमुख्यमंत्री"
+      }
+    }
+  },
+
+  "homePage": {
+    "heroSection": {
+      "smartDist": "स्मार्ट ज़िला",
+      "idealVillage": "आदर्श गाँव",
+      "peacefulVillage": "तनाव-मुक्त गाँव"
+    },
+
+    "instagramSection": {
+      "heading": "हमारे इंस्टाग्राम पर के पल"
+    },
+
+    "gpOfficersStaffSection": {
+      "heading": "ग्रामपंचायत अधिकारी एवं कर्मचारी"
+    },
+
+    "cleanIdealGpSection": {
+      "titleOne": "मेरी स्वच्छ",
+      "titleTwo": "आदर्श पंचायत"
+    },
+
+    "emergencyServicesSection": {
+      "heading": "आपातकालीन सेवाएँ",
+      "services": {
+        "police": "पुलिस सहायता – 100",
+        "fire": "अग्निशमन सेवा – 101",
+        "ambulance": "एंबुलेंस – 108",
+        "women": "महिला सहायता – 181 / 1091",
+        "child": "बाल सहायता – 1098",
+        "highway": "राष्ट्रीय राजमार्ग सहायता – 1033",
+        "unified": "सभी आपातकालीन सेवाएँ – 112"
+      }
+    },
+
+    "populationSection": {
+      "heading": "जनसंख्या जानकारी",
+      "population": {
+        "maleLabel": "पुरुष",
+        "femaleLabel": "महिला",
+        "totalPopulationLabel": "कुल जनसंख्या"
+      }
+    },
+
+    "aboutVillageSection": {
+      "heading": "गाँव के बारे में",
+      "checkWeather": "मौसम देखें"
+    },
+
+    "gpPurposesSection": {
+      "heading": "ग्रामपंचायत के उद्देश्य"
+    },
+
+    "gpWorksSection": {
+      "heading": "ग्रामपंचायत के कार्य"
+    },
+
+    "videoGallerySection": {
+      "heading": "वीडियो गैलरी"
+    },
+
+    "otherLinksSection": {
+      "heading": "अन्य लिंक"
+    },
+
+    "reportsInfoSection": {
+      "heading": "रिपोर्ट और जानकारी",
+      "noReportsAvailable": "रिपोर्ट उपलब्ध नहीं है"
+    },
+
+    "importantLinksSection": {
+      "heading": "महत्वपूर्ण लिंक"
+    },
+
+    "gpIdealChartSection": {
+      "heading": "ग्रामपंचायत आदर्श चार्ट"
+    },
+
+    "villageMapDirectionSection": {
+      "heading": "गाँव का नक्शा व दिशा"
+    }
+  },
+
+  "citizenServiceApplicationPage": {
+    "heading": "नए आवेदन का नमूना",
+    "subheading": "महाराष्ट्र लोकसेवा हक अध्यादेश -2015 के अंतर्गत प्रमाण पत्र / अन्य किसी भी काम के लिए आवेदन का नमूना",
+    "instruction": "यदि पहले आवेदन भरा गया हो तो आधार संख्या डालें",
+
+    "searchBar": {
+      "inputplaceholder": "आधार संख्या डालें",
+      "searchBtn": "खोजें"
+    },
+
+    "form": {
+      "heading": "आवेदक की जानकारी",
+
+      "inputs": {
+        "applicant": { "label": "आवेदक का नाम", "placeholder": "आवेदक का नाम" },
+        "email": { "label": "ई-मेल आईडी", "placeholder": "" },
+        "mobile": { "label": "मोबाइल नंबर", "placeholder": "" },
+        "adhar": { "label": "आधार क्र.", "placeholder": "" },
+        "address": { "label": "पूरा पता", "placeholder": "" }
+      },
+
+      "certificatesHeading": "आवश्यक प्रमाण पत्र",
+
+      "certificateInputs": {
+        "birthCertificate": {
+          "label": "जन्म प्रमाण पत्र",
+          "placeholder1": "नाम",
+          "placeholder2": "जन्म तिथि"
+        },
+        "deathCertificate": {
+          "label": "मृत्यु प्रमाण पत्र",
+          "placeholder1": "नाम",
+          "placeholder2": "मृत्यु तिथि"
+        },
+        "marriageRegistrationCertificate": {
+          "label": "विवाह पंजीकरण प्रमाण पत्र",
+          "placeholder": "विवाह की तिथी"
+        },
+        "namuna8Sample": {
+          "label": "नमूना क्र. 8 का उतारा",
+          "placeholder": "घर नंबर"
+        },
+        "clearanceCertificate": {
+          "label": "ग्राम पंचायत आने की कोई देनदारी नहीं प्रमाण पत्र"
+        },
+        "insolvencyCertificate": {
+          "label": "अधूरी वित्तीय स्थिति का प्रमाण पत्र"
+        },
+        "otherWork": {
+          "label": "अन्य काम लिखें यदि कोई हो",
+          "placeholder": "अन्य काम लिखें यदि कोई हो"
+        },
+        "complaint": {
+          "label": "गांव की शिकायत यहाँ लिखें",
+          "placeholder": "गांव की शिकायत यहाँ लिखें"
+        }
+      },
+
+      "saveBtn": "सहेजें"
+    }
+  },
+
+  "citizenRegistrationPage": {
+    "heading": "गांव के नागरिकों का पंजीकरण",
+
+    "form": {
+      "inputs": {
+        "fullName": {
+          "label": "पूरा नाम",
+          "placeholder": "पूरा नाम"
+        },
+        "adharNumber": {
+          "label": "आधार नंबर",
+          "placeholder": "आधार नंबर"
+        },
+        "dob": {
+          "label": "जन्म तिथि",
+          "placeholder": "जन्म तिथि"
+        },
+        "mobile": {
+          "label": "मोबाइल नंबर",
+          "placeholder": "मोबाइल नंबर"
+        },
+        "alternateMobile": {
+          "label": "वैकल्पिक मोबाइल नंबर (वैकल्पिक)",
+          "placeholder": "वैकल्पिक मोबाइल नंबर"
+        },
+        "occupation": {
+          "label": "पेशा (वैकल्पिक)",
+          "placeholder": "पेशा"
+        },
+        "email": {
+          "label": "ईमेल (वैकल्पिक)",
+          "placeholder": "ईमेल"
+        },
+        "bloodGroup": {
+          "label": "रक्त समूह",
+          "placeholder": "रक्त समूह"
+        },
+        "village": {
+          "label": "गांव",
+          "placeholder": "गांव चुने"
+        },
+        "uploadImage": {
+          "label": "फोटो अपलोड करें",
+          "placeholder": "फोटो अपलोड करें"
+        },
+        "abhaCardDropdown": {
+          "label": "आभा कार्ड है?"
+        },
+        "abhaCard": {
+          "label": "आभा कार्ड नंबर (यदि हो)",
+          "placeholder": "आभा कार्ड नंबर"
+        },
+        "ayushmanCardDropdown": {
+          "label": "आयुष्मान कार्ड है?"
+        },
+        "ayushmanCard": {
+          "label": "आयुष्मान कार्ड नंबर (यदि हो)",
+          "placeholder": "आयुष्मान कार्ड नंबर"
+        },
+        "schemeUnderAyushmanBharatScheme": {
+          "label": "आयुष्मान भारत योजना के अंतर्गत प्राप्त लाभ की योजना का नाम (यदि हो)",
+          "placeholder": "योजना का नाम टाइप करें या चुनें"
+        },
+        "hasDownloadedMeriGramPanchayatApp": {
+          "label": "Meri GramPanchayat ऐप डाउनलोड किया?"
+        },
+        "hasDownloadedPanchayatDecisionApp": {
+          "label": "Panchayat Decision ऐप डाउनलोड किया?"
+        },
+        "hasDownloadedGramSamvadApp": {
+          "label": "Gram Samvad ऐप डाउनलोड किया?"
+        }
+      },
+      "registerBtn": "पंजीकरण करें"
+    }
+  },
+
+  "complaintsRegistrationPage": {
+    "heading": "गाँव की शिकायत पंजीकरण",
+
+    "form": {
+      "heading": "आवेदक की जानकारी",
+
+      "inputs": {
+        "applicant": {
+          "label": "आवेदक का नाम",
+          "placeholder": "आवेदक का नाम"
+        },
+        "email": { "label": "ई-मेल आईडी", "placeholder": "" },
+        "mobile": { "label": "मोबाइल नंबर", "placeholder": "" },
+        "adhar": { "label": "आधार नंबर", "placeholder": "" },
+        "address": { "label": "पूरा पता", "placeholder": "" },
+        "complaintSubject": { "label": "शिकायत का विषय", "placeholder": "" },
+        "imageForComplaint": {
+          "label": "शिकायत हेतु आवश्यक फोटो",
+          "placeholder": ""
+        },
+        "docForComplaint": {
+          "label": "शिकायत हेतु आवश्यक दस्तावेज़",
+          "placeholder": ""
+        },
+        "garbageVanPicksUpGarbage": {
+          "label": "क्या कचरा गाड़ी आती है?"
+        },
+        "garbageCollectionVanFrequencyByWeek": {
+          "label": "सप्ताह में कचरा गाड़ी कितनी बार आती है?"
+        },
+        "isGarbageProperlyDisposed": {
+          "label": "क्या कचरा सही तरीके से निस्तारित किया जाता है?"
+        }
+      },
+
+      "saveBtn": "सहेजें"
+    }
+  },
+
+  "propertyFerfarPage": {
+    "heading": "संपत्ति फेरफार आवेदन",
+
+    "form": {
+      "applicantCard": {
+        "heading": "आवेदक की जानकारी",
+
+        "inputs": {
+          "applicantName": {
+            "label": "आवेदक का नाम"
+          },
+          "adhar": {
+            "label": "आधार क्रमांक"
+          },
+          "village": {
+            "label": "गांव"
+          },
+          "mobile": {
+            "label": "मोबाइल नंबर"
+          },
+          "address": {
+            "label": "पूरा पता"
+          }
+        }
+      },
+
+      "propertyCard": {
+        "heading": "संपत्ति की जानकारी",
+
+        "inputs": {
+          "malmattaNo": {
+            "label": "संपत्ति क्रमांक",
+            "note": "(नई खरीद होने पर न भरें)"
+          },
+          "originalOwnerName": {
+            "label": "मूल मालिक का नाम"
+          },
+          "ferfarDocument": {
+            "label": "फेरफार दस्तावेज़",
+            "selectPlaceholder": "-- चुनें --"
+          },
+          "ferfarDocumentUpload": {
+            "label": "दस्तावेज़ अपलोड करें"
+          }
+        }
+      },
+
+      "boundariesCard": {
+        "heading": "संपत्ति की सीमाएं",
+
+        "directions": {
+          "east": "पूर्व दिशा",
+          "west": "पश्चिम दिशा",
+          "north": "उत्तर दिशा",
+          "south": "दक्षिण दिशा"
+        }
+      },
+
+      "declaration": {
+        "statement": "नियमों के अनुसार सभी बकाया और शुल्क भरने के लिए मैं तैयार हूं। अतः उपरोक्त फेरफार मेरे नाम पर दर्ज किया जाए।",
+        "agreeLabel": "मैं नियम और शर्तों से सहमत हूं"
+      },
+
+      "buttons": {
+        "save": "सहेजें"
+      }
+    }
+  },
+
+  "constructionApplicationPage": {
+    "heading": "नया निर्माण अनुमति आवेदन",
+
+    "form": {
+      "heading": "आवेदक की जानकारी",
+
+      "inputs": {
+        "malmattaDharakName": {
+          "label": "संपत्ति धारक का नाम",
+          "placeholder": "उदा. श्री रामचंद्र गजानन पाटील"
+        },
+
+        "mobile": {
+          "label": "मोबाइल नंबर",
+          "placeholder": "10 अंकों का मोबाइल नंबर"
+        },
+
+        "adhar": {
+          "label": "आधार नंबर",
+          "placeholder": "12 अंकों का आधार नंबर"
+        },
+
+        "gpName": {
+          "label": "ग्राम पंचायत"
+        },
+
+        "address": {
+          "label": "पूरा पता",
+          "placeholder": "घर नंबर, सड़क, गांव का नाम"
+        },
+
+        "applicationSubject": {
+          "label": "आवेदन का विषय",
+          "defaultValue": "भवन निर्माण हेतु नक्शे के अनुसार निर्माण अनुमति प्रदान करने के संबंध में"
+        },
+
+        "malmattaNo": {
+          "label": "संपत्ति नंबर (यदि उपलब्ध हो)",
+          "placeholder": "उदा. 123 / अ"
+        }
+      },
+
+      "documents": {
+        "heading": "आवश्यक दस्तावेज़",
+        "addOptionalBtn": "नया दस्तावेज़ जोड़ें"
+      },
+
+      "landmarkPhotos": {
+        "heading": "चारों दिशाओं के फोटो",
+
+        "inputs": {
+          "east": {
+            "label": "पूर्व दिशा का फोटो"
+          },
+          "west": {
+            "label": "पश्चिम दिशा का फोटो"
+          },
+          "north": {
+            "label": "उत्तर दिशा का फोटो"
+          },
+          "south": {
+            "label": "दक्षिण दिशा का फोटो"
+          }
+        },
+
+        "locationWarning": "लोकेशन की अनुमति दिए बिना यह फॉर्म भरा नहीं जा सकता",
+        "grantLocationBtn": "लोकेशन की अनुमति दें"
+      },
+
+      "saveBtn": "सहेजें"
+    }
+  },
+
+  "aboutGpPage": {},
+
+  "gpNotesPage": {
+    "generalInfoPageSection": {
+      "pageTitle": "ग्राम पंचायत की सामान्य जानकारी",
+      "print": "प्रिंट"
+    },
+    "basicInfoSection": {
+      "sectionTitle": "मूलभूत जानकारी",
+      "email": "ई-मेल :",
+      "sarpanchName": "सरपंच का नाम :",
+      "gramSevakName": "ग्रामसेवक का नाम :",
+      "dateOfTakingCharge": "ग्राम पंचायत का कार्यभार ग्रहण करने की तारीख :",
+      "sarpanchElectionDate": "सरपंच चुनाव तिथि :",
+      "termEndDate": "कार्यकाल समाप्ति तिथि :",
+      "annualReportDate": "वार्षिक रिपोर्ट तिथि :",
+      "budgetYear": "बजट वर्ष",
+      "auditYear": "लेखा परीक्षण वर्ष :",
+      "population2011": "जनसंख्या (जनगणना 2011 के अनुसार) :"
+    },
+    "populationSection": {
+      "sectionTitle": "गांव की जनसंख्या जानकारी",
+      "category": "वर्ग",
+      "male": "पुरुष",
+      "female": "महिला",
+      "total": "कुल",
+      "scheduledCaste": "अनुसूचित जाति (SC)",
+      "scheduledTribe": "अनुसूचित जनजाति (ST)",
+      "nomadicTribes": "विमुक्त/घुमंतू जनजाति (NT)",
+      "otherBackwardClasses": "अन्य पिछड़ा वर्ग (OBC)",
+      "others": "अन्य (सामान्य)",
+      "totalPopulation": "कुल जनसंख्या"
+    },
+    "otherDetailsSection": {
+      "wardNumber": "वार्ड संख्या :",
+      "totalMembers": "कुल सदस्य :",
+      "directlyElectedSarpanch": "प्रत्यक्ष निर्वाचित सरपंच -",
+      "taxes": "कर : घरपट्टी, दिवाकर, स्वास्थ्य कर, पानी कर",
+      "numberOfHouses": "मकानों की संख्या :",
+      "area": "क्षेत्रफल :",
+      "constituencyLokSabha": "लोकसभा निर्वाचन क्षेत्र :",
+      "assembly": "विधानसभा :",
+      "website": "वेबसाइट :"
+    },
+    "healthSection": {
+      "sectionTitle": "स्वास्थ्य",
+      "healthSubCenter": "स्वास्थ्य उपकेंद्र",
+      "healthWorkerName": "स्वास्थ्य सेविका का नाम :",
+      "mobileNumber": "मो. क्र.",
+      "noRecord": "कोई स्वास्थ्य उपकेंद्र की जानकारी उपलब्ध नहीं"
+    },
+    "waterSupplySection": {
+      "sectionTitle": "पानी आपूर्ति",
+      "tankLocation": "टंकी का स्थान",
+      "capacity": "क्षमता",
+      "staff": "कर्मचारी",
+      "normalRate": "सामान्य दर",
+      "specialRate": "विशेष दर"
+    },
+    "swachhBharatMissionSection": {
+      "sectionTitle": "स्वच्छ भारत मिशन",
+      "village": "गांव",
+      "numberOfHouseholds": "परिवारों की संख्या",
+      "withToilet": "शौचालय वाले परिवार",
+      "openDefecationFreeYear": "ओडीएफ घोषित वर्ष",
+      "remarks": "टिप्पणी"
+    },
+    "wasteManagementSection": {
+      "sectionTitle": "सीवेज एवं ठोस कचरा प्रबंधन",
+      "village": "गांव",
+      "numberOfHouseholds": "परिवारों की संख्या",
+      "connectedHouseholds": "जुड़े हुए परिवार",
+      "soakPits": "सोखते गड्ढे",
+      "management": "प्रबंधन"
+    },
+    "idealTableSection": {
+      "sectionTitle": "आदर्श तालिका",
+      "serialNo": "क्र. संख्या",
+      "description": "विवरण",
+      "number": "संख्या",
+      "noInfo": "आदर्श तालिका की जानकारी उपलब्ध नहीं है।"
+    },
+    "gpCommitteeSection": {
+      "sectionTitle": "ग्राम पंचायत कार्यकारिणी",
+      "serialNo": "क्र. संख्या",
+      "memberName": "सदस्य का नाम",
+      "position": "पद",
+      "category": "वर्ग",
+      "mobileNumber": "मो. नं.",
+      "noInfo": "कार्यकारिणी की जानकारी उपलब्ध नहीं है।"
+    },
+    "awardsSection": {
+      "sectionTitle": "प्राप्त पुरस्कार"
+    },
+    "innovativeInitiativesSection": {
+      "sectionTitle": "नवोन्मेषी पहल"
+    },
+    "savingsGroupInitiativesSection": {
+      "sectionTitle": "बचत समूह पहल"
+    },
+    "savingsGroupList": {
+      "serialNo": "क्र. संख्या",
+      "groupName": "समूह का नाम",
+      "villageName": "गांव का नाम"
+    },
+    "womenEmpowermentSection": {
+      "sectionTitle": "महिला सशक्तिकरण मुद्दे"
+    },
+    "zpSchoolPointsSection": {
+      "sectionTitle": "जि. प. स्कूल मुद्दे"
+    },
+    "committeesSection": {
+      "sectionTitle": "ग्राम पंचायत स्तर की समितियाँ",
+      "resolutionNumber": "निर्णय क्रमांक",
+      "date": "तारीख",
+      "serialNo": "क्र. संख्या",
+      "memberName": "सदस्य का नाम",
+      "post": "पद",
+      "noMembers": "कोई सदस्य उपलब्ध नहीं।",
+      "noCommittees": "कोई समिति उपलब्ध नहीं।"
+    },
+    "gpEmployeeInfoSection": {
+      "sectionTitle": "कर्मचारी जानकारी",
+      "serialNo": "क्र. संख्या",
+      "memberName": "सदस्य का नाम",
+      "post": "पद",
+      "category": "वर्ग",
+      "mobileNumber": "मो. नं.",
+      "noRecord": "कर्मचारी जानकारी उपलब्ध नहीं है।"
+    },
+    "employmentAssistantsSection": {
+      "sectionTitle": "रोजगार सेवक"
+    },
+    "waterConservationStructuresSection": {
+      "sectionTitle": "जल संरक्षण संरचनाएँ",
+      "serialNo": "क्र. संख्या",
+      "structureName": "संरचना का नाम",
+      "lengthM": "लंबाई (मीटर)",
+      "storageCapacityCubicM": "संग्रह क्षमता (घन मी.)"
+    },
+    "anganwadiCentersSection": {
+      "sectionTitle": "आंगनवाड़ी केंद्रों की सूची",
+      "serialNo": "क्र. संख्या",
+      "villageName": "गांव का नाम",
+      "sevika": "सेविका",
+      "assistant": "सहायिका",
+      "numberOfChildren": "बच्चों की संख्या",
+      "toilet": "शौचालय",
+      "kitchenShed": "किचन शेड"
+    },
+    "ashaWorkersSection": {
+      "sectionTitle": "आशा सेविका सूची",
+      "serialrNo": "क्र. संख्या",
+      "name": "नाम",
+      "mobile": "मोबाइल",
+      "village": "गांव"
+    },
+    "educationalInstitutesSection": {
+      "sectionTitle": "शैक्षणिक संस्था एवं कर्मचारी जानकारी",
+      "instituteLabel": "संस्था",
+      "teachersListHeading": "शिक्षक सूची",
+      "noDesignation": "पद नहीं",
+      "noMobile": "मोबाइल नहीं",
+      "noTeachersAvailable": "शिक्षकों की जानकारी उपलब्ध नहीं।"
+    }
+  },
+
+  "villageIndustriesPage": {
+    "heading": "गाँव के उद्योगों की जानकारी",
+    "noInfo": "कोई जानकारी उपलब्ध नहीं..."
+  },
+
+  "villageNewsPage": {
+    "heading": "गाँव की खबरें",
+    "noInfo": "कोई खबर उपलब्ध नहीं..."
+  },
+
+  "eDavandiPage": {},
+
+  "disabledPeoplePage": {
+    "heading": "दिव्यांग प्रमाणपत्र धारकों की सूची",
+    "tableHeaderSection": {
+      "serialNo": "क्रमांक",
+      "applicantName": "आवेदक का नाम",
+      "age": "आयु",
+      "aadharNumber": "आधार संख्या",
+      "mobileNumber": "मोबाइल",
+      "certificate": "प्रमाणपत्र",
+      "disabilityPercentage": "विकलांगता प्रतिशत",
+      "applicationNumber": "आवेदन संख्या"
+    },
+    "tableMessagesSection": {
+      "noCertificatesFound": "कोई प्रमाणपत्र उपलब्ध नहीं है."
+    }
+  },
+
+  "onlineGuidancePage": {
+    "heading": "Zoom Meetings",
+    "todaysGuide": "आज के मार्गदर्शक",
+    "join": "जॉइन करें",
+    "tableHeaders": {
+      "serialNo": "क्रमांक",
+      "title": "शीर्षक",
+      "guide": "मार्गदर्शक",
+      "date": "तारीख",
+      "time": "समय",
+      "recording": "रिकॉर्डिंग"
+    }
+  },
+
+  "healthServiceInfoPage": {
+    "heading": "स्वास्थ्य सेवा केंद्र सूची",
+    "noList": "सूची उपलब्ध नहीं..."
+  },
+
+  "governmentSchemesPage": {
+    "heading": "सरकारी योजनाओं की जानकारी",
+    "tableRowHeadings": {
+      "serialNo": "क्रमांक",
+      "fileName": "फाइल का नाम",
+      "action": "क्रिया"
+    }
+  },
+
+  "jobsPage": {
+    "heading": "नौकरी",
+    "noInfo": "जानकारी उपलब्ध नहीं...",
+    "tableRowHeaders": {
+      "serialNo": "क्रमांक",
+      "linkOrFile": "लिंक/फ़ाइल",
+      "title": "शीर्षक",
+      "description": "विवरण"
+    },
+    "clickHere": "यहाँ क्लिक करें"
+  },
+
+  "educationPage": {
+    "heading": "शैक्षणिक संस्थाओं की सूची",
+    "aanganwadi": "आंगनवाड़ी",
+    "school": "स्कूल",
+    "college": "कॉलेज",
+    "noList": "सूची उपलब्ध नहीं..."
+  },
+
+  "medicalHelpPage": {
+    "heading": "चिकित्सा सहायता कक्ष"
+  },
+
+  "divyangaRegistrationPage": {
+    "heading": "दिव्यांग पंजीकरण",
+    "form": {
+      "inputs": {
+        "fullName": {
+          "label": "पूरा नाम",
+          "placeholder": "पूरा नाम"
+        },
+        "address": {
+          "label": "पूरा पता",
+          "placeholder": "पूरा पता"
+        },
+        "education": {
+          "label": "शिक्षा",
+          "placeholder": "शिक्षा"
+        },
+        "demand": {
+          "label": "मांग",
+          "placeholder": "मांग"
+        },
+        "mobile": {
+          "label": "मोबाइल नंबर",
+          "placeholder": "मोबाइल नंबर"
+        },
+        "typeOfDisability": {
+          "label": "अस्मर्थता का प्रकार",
+          "placeholder": "अस्मर्थता का प्रकार"
+        },
+        "percentageOfDisability": {
+          "label": "अस्मर्थता का प्रतिशत",
+          "placeholder": "अस्मर्थता का प्रतिशत"
+        },
+        "age": {
+          "label": "आयु",
+          "placeholder": "आयु"
+        },
+        "aadharNumber": {
+          "label": "आधार संख्या",
+          "placeholder": "आधार संख्या"
+        },
+        "applicationNumber": {
+          "label": "आवेदन संख्या",
+          "placeholder": "आवेदन संख्या"
+        },
+        "remarks": {
+          "label": "टिप्पणी",
+          "placeholder": "टिप्पणी"
+        },
+        "bankName": {
+          "label": "बैंक का नाम",
+          "placeholder": "बैंक का नाम"
+        },
+        "bankIfscCode": {
+          "label": "IFSC कोड",
+          "placeholder": "IFSC कोड"
+        },
+        "bankAccountNumber": {
+          "label": "बैंक खाता संख्या",
+          "placeholder": "बैंक खाता संख्या"
+        },
+        "certificateUpload": {
+          "label": "प्रमाण पत्र अपलोड करें",
+          "placeholder": ""
+        },
+        "photoUpload": {
+          "label": "अपना फोटो",
+          "placeholder": ""
+        }
+      },
+      "captureImageBtn": "फोटो लें",
+      "registerBtn": "सहेजें"
+    }
+  }
+}

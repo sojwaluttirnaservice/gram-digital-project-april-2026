@@ -1,0 +1,136 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना १४ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.2rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='8' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना १४ 
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ४६ (१) पहा)
+
+
+                tr 
+                    th(colspan='8')
+                        | मुद्रांक हिशोब नोंदवही
+                tr
+                    //- 1
+                    th(rowspan='2') दिनांक
+                    th(rowspan='1' colspan='2') मिळालेले मुद्रांक
+                    th(rowspan='1' colspan='2') वापरलेले मुद्रांक
+                    th(rowspan='2') दैनिक शिल्लक
+
+                    //-  5 to 8
+                    th(rowspan='2') सचिवाची सही
+                    th(rowspan='2') शेरा
+
+
+                tr 
+                    //- th 
+                    th(rowspan='1' colspan='1') प्रमाणक क्रमांक
+                    th(rowspan='1' colspan='1') मिळालेल्या मुद्रकाची किमत (रू. पै.)
+
+                    th(rowspan='1' colspan='1') पत्र क्रमांक पावती क्रमांक दिनांक 
+                    th(rowspan='1' colspan='1') चिकटवलेल्या मुद्रकाची किंमत (रू. पै.)
+
+                    //- th 
+                    //- th 
+                    //- th
+
+
+
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8]
+                        th #{num}
+
+            tbody
+
+
+
+                each namuna14Entry, index in namuna14Details 
+                    //- each namuna14Entry, index in Array(20).fill(paymentnamuna14Entry).flat()
+                    tr 
+                        td #{namuna14Entry._date}
+                        td #{namuna14Entry.certificate_number}
+                        td #{namuna14Entry.received_stamp_value}
+
+                        td #{namuna14Entry.letter_number}, #{namuna14Entry.receipt_number}, #{namuna14Entry._receipt_date}
+                        td #{namuna14Entry.used_stamp_value}
+                        td #{namuna14Entry.daily_balance}
+                        td 
+                        td #{namuna14Entry.remarks}
+

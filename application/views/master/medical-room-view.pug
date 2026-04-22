@@ -1,0 +1,25 @@
+extends ./master-layout
+
+block internal_css
+    style.
+        label.error{
+            color: red;
+        }
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/master-panel-handlers/medical-room-handler.js')
+block content
+    .container.mt-5(style='margin-top: 5rem !important')
+        .row
+            h4.text-center.fw-bold वैद्यकीय कक्ष
+            form#medical-room-details-form
+
+                .row.align-items-end.gap-3.justify-content-center
+
+                    .col-6.col-sm-7
+                        label.form-label(for="gr-file") Authority Person Name : 
+                        input.form-control(type='text' id="authority-person-name" name='authority_person_name')
+                    .col-6.col-sm-4.text-center
+                        button.btn.btn-primary.mt-3(type='button' id="save-medical-room-details-btn") जतन करा
+
+
+

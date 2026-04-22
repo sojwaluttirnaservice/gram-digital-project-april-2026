@@ -1,0 +1,50 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार डॉ. 
+            span(class="font-extrabold") #{occupationNoc.applicant_name}
+            |  नोंदणी क्रमांक (Medical Council No.) : 
+            span(class="font-extrabold") #{occupationNoc.medical_council_number || '__________'}
+            |  राहणार : 
+            span(class="font-extrabold") #{occupationNoc.applicant_address}
+            |  मोबाईल नं. : 
+            span(class="font-extrabold") #{occupationNoc.applicant_mobile}
+            |  माझ्या 
+            span(class="font-extrabold")
+                | #{occupationNoc.land_ownership == 'Owner' ? 'मालकीच्या' : 'भाड्याच्या'}
+            |  जागेत दवाखाना / इस्पितळ (Clinic / Hospital) सुरू करण्याचा मानस आहे.
+
+        p(class="mt-3")
+            | सदर जागेचा तपशील खालीलप्रमाणे आहे :
+            |  जागेचा पत्ता / मालमत्ता क्रमांक : 
+            span(class="font-extrabold")
+                | #{occupationNoc.malmatta_no || '__________'}
+            |  मौजे / परिसर : 
+            span(class="font-extrabold") #{occupationNoc.applicant_village}
+            |  तालुका : 
+            span(class="font-extrabold") #{occupationNoc.applicant_taluka}
+            |  जिल्हा : 
+            span(class="font-extrabold") #{occupationNoc.applicant_district}
+
+        p(class="mt-3")
+            | सदर दवाखाना / इस्पितळ सुरू करण्यासाठी स्थानिक स्वराज्य संस्थेचे
+            |  ना हरकत प्रमाणपत्र (NOC) आवश्यक असल्याने मला ते देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        p(class="mt-3")
+            | मी खात्रीपूर्वक नमूद करतो की, सर्व वैद्यकीय, स्वच्छता, जैव-वैद्यकीय कचरा व्यवस्थापन
+            |  व शासन नियमांचे काटेकोर पालन करण्यात येईल व परिसरातील नागरिकांना कोणताही त्रास होणार नाही.
+
+        p(class="mt-3")
+            | तरी मला दवाखाना / इस्पितळ सुरू करण्यासाठी ना हरकत प्रमाणपत्र देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        div(class="mt-8 text-right")
+            p धन्यवाद.
+            p आपला विश्वासू,

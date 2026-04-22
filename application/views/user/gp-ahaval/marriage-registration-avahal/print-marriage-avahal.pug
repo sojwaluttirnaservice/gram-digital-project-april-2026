@@ -1,0 +1,96 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- COMMON JS
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/coustom/js/common.js')
+    title विवाह नोंदणी अहवाल 
+
+    style.
+
+      @media print {
+        @page {
+          size: A4 landscape;
+        }
+        .my-print{
+          position: relative;
+          page-break-before: always;
+        } 
+        .waterMark{
+          position: absolute;
+          opacity: 0.3;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      th {
+        font-size: 0.7rem !important;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.3;
+        top: calc(50%);
+        left: calc(50% - 250px);
+
+        width: 500px;
+        height: 500px;
+      }
+      .my-print{
+        position: relative;
+      }
+
+      .heading-1 {
+        font-size: 1.8rem;
+      }
+
+      .heading-2 {
+        font-size: 1.4rem;
+      }
+
+  body.my-print 
+    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+    div.d-flex.flex-column.justify-content-center.align-items-center
+      p.heading-1 परिशिष्ट १ ( नमुना ड )
+      p.heading-2 विवाह नोंदणी फॉर्म
+
+    div.text-center
+      p महसुलीचे गावाचे नाव: #{gp.gp_name} ग्रामपंचायत नाव #{gp.gp_name} माहे #{month} तालुका #{gp.gp_taluka} जिल्हा #{gp.gp_dist}
+
+    table.table.table-bordered
+      thead
+        tr
+          th(scope='col') अ क्र
+          th(scope='col') विवाह माहिती मिल्यालाची तारिक 
+          th(scope='col') विवाह झाल्याची तारिक व ठिकाण 
+          th(scope='col') वरचे संपूर्ण नाव, वय, राहण्याचे ठिकाण 
+          th(scope='col') वधूचे संपूर्ण नाव, वय, राहण्याचे ठिकाण 
+          th(scope='col') धर्म (वराचा)
+          th(scope='col') धर्म (वधूचा)
+          th(scope='col') राष्ट्रीयत्वा (वरचे) 
+          th(scope='col') राष्ट्रीयत्वा (वधूचे) 
+          th(scope='col') वरचे वडिलांचे, पालकाचे संपूर्ण नाव 
+          th(scope='col') वधूचे वडिलांचे, पालकाचे संपूर्ण नाव 
+          th(scope='col') माहिती देणाराचे नाव 
+          th(scope='col') शेरा
+      tbody
+        each val, index in data
+          tr
+            td(scope='row') #{index + 1}
+            td(scope='col') #{val.date_of_reciept_of_marriage_info} 
+            td(scope='col') #{val.date_of_marriage} , #{val.place_of_marriage} 
+            td(scope='col') #{val.full_name_of_groom}, #{val.age_of_groom}, #{val.place_of_groom}
+            td(scope='col') #{val.full_name_of_bride}, #{val.age_of_bride}, #{val.place_of_bride}
+            td(scope='col') #{val.religion_of_groom}
+            td(scope='col') #{val.religion_of_bride}
+            td(scope='col') #{val.nationality_of_groom} 
+            td(scope='col') #{val.nationality_of_bride} 
+            td(scope='col') #{val.full_name_of_father_or_parent_of_groom}
+            td(scope='col') #{val.full_name_of_father_or_parent_of_bride} 
+            td(scope='col') #{val.name_of_informant}
+            td(scope='col') #{val.shera}

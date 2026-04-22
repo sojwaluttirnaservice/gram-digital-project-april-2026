@@ -1,0 +1,203 @@
+doctype html
+headlocati
+    title Marriage Certificate
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js")
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Your code here
+            //- console.log('Document fully loaded and parsed');
+            const _gp = !{JSON.stringify(zp)};
+            const _data = !{JSON.stringify(userInfo)}
+
+            //- const baseUrl = window.location.origin;
+            //- const _dataString = `नोंदणी क्र: ${_data.id}\nवराचे  नाव : ${_data.marriageHusbandNameM}\nवधूचे नाव :${_data.marriageWifeNameM}\nनोंदणी दिनांक : ${_data.registration_date}\nग्रामपंचायत: ${_gp.gp_name}\nलिंक: <a href=${window.location.href}>Click</a>`;
+            //- var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:200, height:200});	
+            //- let website =  window.location.origin
+            let website = window.location.origin
+            website += `/qr-scan/marriage-certificate?id=${_data[0].id}`
+            //- new QRCode(document.getElementById("qr-code"),website);
+
+
+            var qrcode = new QRCode(
+                'qr-code',
+
+                {
+                    text: website,
+                    width: 85, // Set width here
+                    height: 85, // Set height here
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+                }
+            );
+        });
+    style.
+
+        #qr-code img{
+            width: 100%;
+            height: 100%;
+        }
+
+        /*
+            @media print {
+                @page { 
+            size: auto;
+                margin: 4mm 7mm 4mm 10mm;
+                }
+                body {
+                    margin:0;
+                    padding:0;
+                }
+                body {transform: scale(1);}
+                table {page-break-inside: avoid;}
+
+                } 
+                    .main-heading {
+                        margin-left:10%
+                }
+                    .heading-second{
+                margin-left:30%
+            }
+            .heading-second-2{
+                margin-left:30%
+            }
+            #table2 {
+                width:100% !important;
+            }
+            #table2 td {
+                padding-left:1px;
+                padding-right:1px;
+                }
+            #table3 td {
+                padding-left:3px;
+                padding-right:3px;
+                    } 
+                    .set-height > td {
+                        height: 150px;
+                    }
+                    .set-p-break {
+                        page-break-before: always;
+                    }
+            .c-0 {
+                page-break-before: always;
+            }
+            td {
+                border-top: 2px solid gray;
+                border-right: 2px solid gray;
+                padding: 0px !important; 
+                }
+            .img{
+                width:65px;
+                height:70px;
+            }
+            .img1{
+                margin-top:-10px;
+                width:70px;
+                height:90px;
+            }
+            p{
+                font-size:15px !important;
+            }
+            .span-box{
+                padding:3px 5px;
+                margin: 5px 5px;
+                margin-top: 10px !important; 
+                border:1px solid black;
+            }
+            .h7{
+                font-size:20px !important;
+            }
+
+            .text-j {
+                line-height: 2;
+                    text-align: justify
+            } */
+        /* .bg-image {
+            background-image: url("/img/header-images/maha-mudra.jpeg");
+            background-repeat: no-repeat;
+            position:absolute;
+            }*/
+
+
+body(style="width:210mm; height:297mm;")
+    each val,index in userInfo
+        //- .col-12(style="width:210mm; height:297mm !important")
+        img(src="/marriage_certificate/Marriage certificate.jpeg")
+        .position-absolute(style="left:115px; top:125px;")
+            - image_h = "/upload/"+ val.image_h;
+            img(src=image_h, alt="" width="145" height="180")
+        .position-absolute(style="left:54.35rem; top:125px;")
+            - image_w = "/upload/"+ val.image_w;
+            img(src=image_w, alt="" width="145" height="180")
+        .position-absolute(style="top:30.1rem; left: 15.4rem;")
+            p #{val.marriageHusbandNameM}
+        .position-absolute(style="top: 32.7rem; left: 19.3rem")
+            p #{val.marriageHusbandNameE}
+        .position-absolute(style="top: 35.2rem; left: 29.7rem")
+            p #{val.marriageHusbandAadharE}
+        .position-absolute(style="top: 37.9rem; left: 13.6rem")
+            p #{val.marriageHusbandAddressM}
+
+        .position-absolute(style="top: 40.8rem; left: 15.4rem")
+            p #{val.marriageWifeNameM}
+        .position-absolute(style="top: 44rem; left: 16.2rem")
+            p #{val.marriageWifedNameE}
+        .position-absolute(style="top: 46.4rem; left: 29.7rem")
+            p #{val.marriageWifedAadharE}
+        .position-absolute(style="top: 49.2rem; left: 12.3rem")
+            p #{val.marriageWifeAddressM}  
+
+        .position-absolute(style="top: 52.1rem; left: 20rem")
+            p #{val.marriageDateM}  
+        .position-absolute(style="top: 52.1rem; left: 32.6rem")
+            p #{val.marriagePlaceM}
+        .position-absolute(style="top: 58rem; left: 18rem")
+            p #{val.marriageDate}  
+        .position-absolute(style="top: 58rem; left: 29.4rem")
+            p #{val.marriagePlaceE}
+
+        .position-absolute(style="top: 65.2rem; left: 14rem")
+            p #{val.marriageVolumeM}
+        .position-absolute(style="top: 65.2rem; left: 35rem")
+            p #{val.marriageAnuKramankM}
+        .position-absolute(style="top: 65.2rem; left: 54.5rem")
+            p #{val.marriageVolume}
+
+        .position-absolute(style="top: 68.3rem; left: 13.9rem")
+            p #{val.marriageAnuKramank}
+        .position-absolute(style="top: 68.2rem; left: 28.9rem")
+            p #{val.registration_date_two}
+        .position-absolute(style="top: 71.2rem; left: 13.9rem")
+            p #{val.registration_date}
+        .position-absolute(style="top: 77rem; left: 18rem")
+            p #{place}
+        .position-absolute(style="top: 80.3rem; left: 18rem")
+            p #{data}
+
+        .position-absolute(style="top: 89rem; left: 19.5rem")
+            p #{zp.gp_name}
+        .position-absolute(style="top: 91rem; left: 19.5rem")
+            p #{zp.gp_name}
+
+        .position-absolute(style='top: 76.6rem; left: 33rem;')
+            //- if showBankQrCode != null && showBankQrCode == 1
+            //- 	img(src=`${bankQrCodePath}/${bankQrCodeName}` width='170' height='170' style='z-index:500;' onerror="this.style.display = 'none'")
+
+            #qr-code(style='width: 100px !important; height: 100px;')
+
+
+        .position-absolute(style='top: 87rem; left: 33rem;')
+            //- Removing signature
+            img(src='/print/gs.jpeg' class=`${zp.gramsevak_sign_display === 1 ? "" : 'd-none'}` alt='gramsevak sign' onerror="this.style.display='none'" style='width: 6rem !important; height: 2.4rem !important; position: absolute; top: -0.9rem; left: 50% !important; transform: translate(300%, -160%)')
+            //- img(src='/print/sp.jpeg' class=`${zp.srapanch_sign_display === 1 ? "" : 'd-none'}` alt='sarpanch sign' onerror="this.style.display='none'" style='width: 6rem !important; height: 2.4rem !important; position: absolute; top: -0.9rem; left: 50%; transform: translate(-20%, -50%)')

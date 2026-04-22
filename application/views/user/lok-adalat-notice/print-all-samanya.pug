@@ -1,0 +1,437 @@
+doctype html
+head
+	title (नमुना ९ वसुली यादी (सामान्य व पाणी कर))
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	//- link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+	style.
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		@media print {
+			@page{
+				size: A4 landscape;
+				padding: 1rem;
+			}
+			.my-print{
+				position: relative;
+				page-break-before: always;
+				margin: 0 auto;
+			}
+			table{
+				//- page-break-inside: avoid;
+			}
+			.waterMark{
+				position: absolute;
+				opacity: 0.3;
+				width: 100%;
+				height: 100%;
+			}
+			#hide-buttons {
+				display: none;
+			}
+		}
+
+		table, th, td{
+			border: 1px solid black;
+			padding: 3px; 
+			text-align:center;
+			border-collapse: collapse;
+		}
+		.body-f-size {
+			font-size: 1rem !important;
+		}
+		.head-f-size {
+			font-size: 15px;
+			text: bold;
+			text-align: center;
+		}
+		.center{
+			text-align: center;
+		}
+		.form9Heading{
+			font-size: 1.4rem;
+			font-weight: bold; 
+			color: red;
+		}
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			top: calc(50% - 180px);
+			left: calc(50% - 250px);
+			width: 500px;
+			height: 500px;
+		}
+		.my-print {
+			position: relative; 
+			width: 100%;
+		}
+body 
+
+	#hide-buttons 
+		button( onclick='window.print()' style='position:fixed; top: 49%; left: 1rem; background: blue; color: white;') Print
+	- let numbers = 0;
+		.my-print
+			img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+			//- table(style="width:100% !important; height:100%;")
+				thead
+
+					tr
+						th(colspan='27')
+
+							div(style="display: flex; justify-content: space-between; padding-top: 1rem; padding-bottom: 1rem; margin-left: 1rem; margin-right: 1rem;")
+								div(style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;")
+									img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+								div(style="display: flex; justify-content: center; text-align: center; flex-direction: column;")
+									p.m-0.p-0.form9Heading ग्राम पंचायत कार्यालय #{zp.gp_name} पंचायत समिती  #{zp.gp_taluka} जिल्हा #{zp.gp_dist} 
+									p.m-0.p-0.form9Heading वसुली नोंद वही #{year.year1}- #{year.year2}
+								div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+									img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+
+					tr.head-f-size
+						th.srNo(width='') अनु.क्र. 
+						th(width='') मा.क्र.
+						th(width='') जुना मा.क्र.
+						th(width='') मालकाचे नाव
+						th(width='') भोगवटदाराचे नाव
+
+						th(width='') मागील इमारत एकूण 
+						th(width='') चालू इमारत एकूण
+						th(width='') एकूण इमारत कर
+
+						th(width='') मागील घर पट्टी वर दडं कर
+
+						th(width='') मागील दिवा कर 
+						th(width='') चालू दिवा कर
+						th(width='') एकूण दिवा कर
+
+						th(width='') मागील आरोग्य कर
+						th(width='') चालू आरोग्य कर
+						th(width='') एकूण आरोग्य कर
+
+
+
+						th(width='') मागील स्वच्छता कर
+						th(width='') चालू स्वच्छता कर
+						th(width='') एकूण स्वच्छता कर 
+
+						th(width='') संपूर्ण सामान्य कर 
+
+						th(width='') मागील विशेष पाणी कर 
+						th(width='') चालू विशेष पाणी कर 
+						th(width='') एकूण विशेष पाणी कर 
+
+						th(width='') मागील सामान्य पाणी कर 
+						th(width='') चालू सामान्य पाणी कर 
+						th(width='') एकूण सामान्य पाणी कर 
+
+						th(width='') संपूर्ण पाणी कर 
+
+						th(width='') संपूर्ण एकूण कर
+
+					tr(style='font-size: 1.2rem !important')
+						td.srNo(width='') 1
+						td(width='') 2
+						td(width='') 3
+						td(width='') 4 
+						td(width='') 5
+
+						td(width='') 6
+						td(width='') 7
+						td(width='') 8
+
+						td(width='') 9
+
+						td(width='') 10
+						td(width='') 11
+						td(width='') 12
+
+						td(width='') 13
+						td(width='') 14
+						td(width='') 15
+
+						td(width='') 16
+						td(width='') 17 
+
+						td(width='') 18
+						td(width='') 19
+						td(width='') 20 
+
+						td(width='') 21
+						td(width='') 22
+						td(width='') 23
+
+						td(width='') 24
+						td(width='') 25
+						td(width='') 26
+
+						td(width='') 27
+
+
+
+
+				tbody
+
+					each el, i in data
+						tr.body-f-size
+							td #{i+1} 
+							td #{el.feu_malmattaNo}
+							td #{el.feu_homeNo}
+							td #{el.feu_ownerName}
+							td #{el.feu_secondOwnerName}
+
+							td #{el.lastBuildingTax} 
+							td #{el.currentBuildingTax}
+							td #{el._totalBuildingTax}
+
+							td #{el.lastTaxFine}
+
+							td #{el.lastDivaTax} 
+							td #{el.currentDivaTax}
+							td #{el._totalDivaTax}
+
+							td #{el.lastArogyaTax}
+							td #{el.currentArogyaTax}
+							td #{el._totalArogyaTax}
+
+
+
+							td #{el.lastCleaningTax}
+							td #{el.currentCleaningTax}
+							td #{el._totalCleaningTax}
+
+
+
+							td #{el._totalSamanyaTax}
+
+							td #{el.lastSpacialWaterTax}
+							td #{el.currentSpacialWaterTax}
+							td #{el._totalSpacialWaterTax}
+
+							td #{el.lastGenealWaterTax}
+							td #{el.currentGenealWaterTax}
+							td #{el._totalGenealWaterTax}
+
+							td #{el.totalWaterTax}
+
+							td #{el._totalSamanyaTax + el.totalWaterTax}
+						- numbers++;
+
+
+			table(style="width:100% !important; height:100%;")
+				thead
+
+					tr
+						th(colspan='27')
+
+							div(style="display: flex; justify-content: space-between; padding-top: 1rem; padding-bottom: 1rem; margin-left: 1rem; margin-right: 1rem;")
+								div(style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;")
+									img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+								div(style="display: flex; justify-content: center; text-align: center; flex-direction: column;")
+									p.m-0.p-0.form9Heading ग्राम पंचायत कार्यालय #{zp.gp_name} पंचायत समिती  #{zp.gp_taluka} जिल्हा #{zp.gp_dist} 
+									p.m-0.p-0.form9Heading वसुली नोंद वही #{year.year1}- #{year.year2}
+								div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+									img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+					tr.head-f-size
+						th.srNo(width='5%') अनु.क्र.
+						th(width='5%') मा.क्र.
+						th(width='5%') जुना मा.क्र.
+						th(width='10%') मालकाचे नाव
+						th(width='10%') भोगवटदाराचे नाव
+						th(width='6%') मागील इमारत एकूण
+						th(width='6%') चालू इमारत एकूण
+						th(width='6%') एकूण इमारत कर
+						th(width='6%') मागील घर पट्टी वर दडं कर
+						th(width='6%') मागील दिवा कर
+						th(width='6%') चालू दिवा कर
+						th(width='6%') एकूण दिवा कर
+						th(width='6%') मागील आरोग्य कर
+						th(width='6%') चालू आरोग्य कर
+						th(width='6%') एकूण आरोग्य कर
+						th(width='6%') मागील स्वच्छता कर
+						th(width='6%') चालू स्वच्छता कर
+						th(width='6%') एकूण स्वच्छता कर
+						th(width='6%') संपूर्ण सामान्य कर
+						th(width='6%') मागील विशेष पाणी कर
+						th(width='6%') चालू विशेष पाणी कर
+						th(width='6%') एकूण विशेष पाणी कर
+						th(width='6%') मागील सामान्य पाणी कर
+						th(width='6%') चालू सामान्य पाणी कर
+						th(width='6%') एकूण सामान्य पाणी कर
+						th(width='6%') संपूर्ण पाणी कर
+						th(width='8%') संपूर्ण एकूण कर
+
+					tr(style='font-size: 1.2rem !important')
+						td.srNo(width='5%') 1
+						td(width='5%') 2
+						td(width='5%') 3
+						td(width='10%') 4
+						td(width='10%') 5
+						td(width='6%') 6
+						td(width='6%') 7
+						td(width='6%') 8
+						td(width='6%') 9
+						td(width='6%') 10
+						td(width='6%') 11
+						td(width='6%') 12
+						td(width='6%') 13
+						td(width='6%') 14
+						td(width='6%') 15
+						td(width='6%') 16
+						td(width='6%') 17
+						td(width='6%') 18
+						td(width='6%') 19
+						td(width='6%') 20
+						td(width='6%') 21
+						td(width='6%') 22
+						td(width='6%') 23
+						td(width='6%') 24
+						td(width='6%') 25
+						td(width='6%') 26
+						td(width='6%') 27
+
+				- 
+					let totalLastBuildingTax = 0;
+					let totalCurrentBuildingTax = 0;
+
+					let totalLastTaxFine = 0;
+
+					let totalLastDivaTax = 0;
+					let totalCurrentDivaTax = 0;
+
+					let totalLastArogyaTax = 0;
+					let totalCurrentArogyaTax = 0;
+
+					let totalLastCleaningTax = 0;
+					let totalCurrentCleaningTax = 0;
+
+					let totalTotalSamanyaTax = 0;
+
+					let totalLastSpecialWaterTax = 0;
+					let totalCurrentSpecialWaterTax = 0;
+
+					let totalLastGeneralWaterTax = 0;
+					let totalCurrentGeneralTax = 0;
+
+
+					let totalTotalWaterTax = 0;
+
+					let totalSamanyaPlusWaterTax = 0;
+				tbody
+					each el, i in data
+						tr.body-f-size
+							td(style='width:5%') #{i+1}
+							td(style='width:5%') #{el.feu_malmattaNo}
+							td(style='width:5%') #{el.feu_homeNo}
+							td(style='width:10%') 
+								p #{el.feu_ownerName}
+							td(style='width:10%') #{el.feu_secondOwnerName}
+
+							- totalLastBuildingTax += el.lastBuildingTax
+							td(style='width:6%') #{el.lastBuildingTax}
+							- totalCurrentBuildingTax += el.currentBuildingTax
+							td(style='width:6%') #{el.currentBuildingTax}
+							td(style='width:6%') #{el._totalBuildingTax}
+
+							- totalLastTaxFine += el.lastTaxFine
+							td(style='width:6%') #{el.lastTaxFine}
+
+							- totalLastDivaTax += el.lastDivaTax
+							td(style='width:6%') #{el.lastDivaTax}
+							- totalCurrentDivaTax += el.currentDivaTax
+							td(style='width:6%') #{el.currentDivaTax}
+							td(style='width:6%') #{el._totalDivaTax}
+
+							- totalLastArogyaTax += el.lastArogyaTax
+							td(style='width:6%') #{el.lastArogyaTax}
+							- totalCurrentArogyaTax += el.currentArogyaTax
+							td(style='width:6%') #{el.currentArogyaTax}
+							td(style='width:6%') #{el._totalArogyaTax}
+
+
+							- totalLastCleaningTax += el.lastCleaningTax
+							td(style='width:6%') #{el.lastCleaningTax}
+							- totalCurrentCleaningTax += el.currentCleaningTax
+							td(style='width:6%') #{el.currentCleaningTax}
+							td(style='width:6%') #{el._totalCleaningTax}
+
+							- totalTotalSamanyaTax += el._totalSamanyaTax
+							td(style='width:6%') #{el._totalSamanyaTax}
+
+							- totalLastSpecialWaterTax += el.lastSpacialWaterTax
+							td(style='width:6%') #{el.lastSpacialWaterTax}
+							- totalCurrentSpecialWaterTax += el.currentSpacialWaterTax
+							td(style='width:6%') #{el.currentSpacialWaterTax}
+							td(style='width:6%') #{el._totalSpacialWaterTax}
+
+							- totalLastGeneralWaterTax += el.lastGenealWaterTax
+							td(style='width:6%') #{el.lastGenealWaterTax}
+							- totalCurrentGeneralTax += el.currentGenealWaterTax
+							td(style='width:6%') #{el.currentGenealWaterTax}
+							td(style='width:6%') #{el._totalGenealWaterTax}
+
+							- totalTotalWaterTax += el.totalWaterTax
+							td(style='width:6%') #{el.totalWaterTax}
+
+							- totalSamanyaPlusWaterTax += (el._totalSamanyaTax + el.totalWaterTax)
+							td(style='width:8%') #{el._totalSamanyaTax + el.totalWaterTax}
+
+						- numbers++;
+
+
+					//- tfoot 
+					tr 
+						//- anu kramank to bhogavatdaarache naav
+						th(colspan='5') Total
+
+						//- building tax
+						th #{totalLastBuildingTax}
+						th #{totalCurrentBuildingTax}
+						th #{totalLastBuildingTax + totalCurrentBuildingTax}
+
+						//- tax fine
+						th #{totalLastTaxFine}
+
+						//- diva tax
+						th #{totalLastDivaTax}
+						th #{totalCurrentDivaTax}
+						th #{totalLastDivaTax + totalCurrentDivaTax}
+
+						//- arogya tax
+						th #{totalLastArogyaTax}
+						th #{totalCurrentArogyaTax}
+						th #{totalLastArogyaTax + totalCurrentArogyaTax}
+
+						//- cleaning tax
+						th #{totalLastCleaningTax}
+						th #{totalCurrentCleaningTax}
+						th #{totalLastCleaningTax + totalCurrentCleaningTax}
+
+						//- total Samanya kar
+						th #{totalTotalSamanyaTax}
+
+						//- special water atx 
+						th #{totalLastSpecialWaterTax}
+						th #{totalCurrentSpecialWaterTax}
+						th #{totalLastSpecialWaterTax + totalCurrentSpecialWaterTax}
+
+						//- general water tax 
+						th #{totalLastGeneralWaterTax}
+						th #{totalCurrentGeneralTax}
+						th #{totalLastGeneralWaterTax + totalCurrentGeneralTax}
+
+						//- total water tax 
+						th #{totalTotalWaterTax}
+
+						//- totalSamanya + totalWAter tax
+						th #{totalSamanyaPlusWaterTax}

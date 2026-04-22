@@ -1,0 +1,138 @@
+/* =====================================================
+   BOOTSTRAP BG & TEXT :: SMOOTH GRADIENT OVERRIDES
+   File: ui-override-bg-dec-2025.css
+   ===================================================== */
+
+/* -------------------------------------
+   PRIMARY
+------------------------------------- */
+.bg-primary {
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 60%, #0284c7 100%);
+    color: #ffffff;
+}
+.text-primary {
+    background: linear-gradient(90deg, #38bdf8, #0ea5e9, #0284c7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   SUCCESS
+------------------------------------- */
+.bg-success {
+    background: linear-gradient(135deg, #dcfce7 0%, #4ade80 55%, #16a34a 100%);
+    color: #064e3b;
+}
+.text-success {
+    background: linear-gradient(90deg, #4ade80, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   DANGER
+------------------------------------- */
+.bg-danger {
+    background: linear-gradient(135deg, #fee2e2 0%, #f87171 55%, #dc2626 100%);
+    color: #7f1d1d;
+}
+.text-danger {
+    background: linear-gradient(90deg, #f87171, #ef4444, #dc2626);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   WARNING (SMOOTH & CARD SAFE)
+------------------------------------- */
+.bg-warning {
+    background: linear-gradient(135deg, #fde68a 0%, #facc15 55%, #f59e0b 100%);
+    color: #1f2937;
+}
+.text-warning {
+    background: linear-gradient(90deg, #fde68a, #facc15, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   INFO
+------------------------------------- */
+.bg-info {
+    background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 60%, #38bdf8 100%);
+    color: #0c4a6e;
+}
+.text-info {
+    background: linear-gradient(90deg, #7dd3fc, #38bdf8, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   SECONDARY
+------------------------------------- */
+.bg-secondary {
+    background: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 55%, #4b5563 100%);
+    color: #111827;
+}
+.text-secondary {
+    background: linear-gradient(90deg, #9ca3af, #6b7280, #4b5563);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* -------------------------------------
+   LIGHT (CARD BASE)
+------------------------------------- */
+.bg-light {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+    color: #1f2937;
+}
+.text-light {
+    color: #f8fafc;
+}
+
+/* -------------------------------------
+   DARK
+------------------------------------- */
+.bg-dark {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: #f9fafb;
+}
+.text-dark {
+    color: #111827;
+}
+
+/* =====================================================
+   OPTIONAL NEW CARD-ONLY VARIANTS (SAFE ADDITIONS)
+   ===================================================== */
+
+/* Soft Primary Card */
+.bg-primary-subtle {
+    background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+    color: #0c4a6e;
+}
+
+/* Soft Success Card */
+.bg-success-subtle {
+    background: linear-gradient(135deg, #ecfdf5, #dcfce7);
+    color: #065f46;
+}
+
+/* Soft Warning Card */
+.bg-warning-subtle {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    color: #92400e;
+}
+
+/* Soft Danger Card */
+.bg-danger-subtle {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    color: #7f1d1d;
+}

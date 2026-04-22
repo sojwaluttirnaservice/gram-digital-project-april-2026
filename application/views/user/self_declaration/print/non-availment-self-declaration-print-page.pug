@@ -1,0 +1,39 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}, 
+            |  आधार क्रमांक 
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAadharM || selfDeclaration.sd_applicantAadharE}. 
+            |  मी आजपर्यंत केंद्र शासन / राज्य शासन / जिल्हा परिषद / ग्रामपंचायत यांच्या कोणत्याही शासकीय योजनेचा लाभ घेतलेला नाही.
+
+        p(class="mt-3")
+            | मला हे प्रमाणपत्र 
+            span(class="font-extrabold")
+                | #{selfDeclaration.certificateReason || "__________________________"}
+            |  या कारणासाठी आवश्यक आहे.
+
+        p(class="mt-3")
+            | तरी सदर बाबीचे प्रमाणपत्र देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        p(class="mt-3")
+            | मी दिलेली वरील सर्व माहिती खरी व बरोबर असून,
+            |  भविष्यात ती चुकीची आढळल्यास कायदेशीर कारवाईस मी जबाबदार राहीन.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद

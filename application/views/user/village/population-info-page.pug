@@ -1,0 +1,1106 @@
+extends ../include/index-page-master-layout.pug
+
+block content
+    section
+        .container
+            div(class='gp-general-info-page-heading mt-8')
+                h4(class='general-heading sticky text-center text-xl md:text-2xl font-bold text-blue-900 tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 border-blue-900')  
+                    i(class='fa-solid fa-pen')
+                    span(class='ml-2') 
+                        //- | ग्रामपंचायतीची सर्वसाधारण माहिती
+                        | #{t("gpNotesPage.generalInfoPageSection.pageTitle")}
+
+                .text-end
+                    a(class='px-4 py-2 rounded-md bg-blue-500 text-white font-medium tracking-wider' href='/village/gp-info-print' target='_blank') 
+                        //- | प्रिंट काढा
+                        | #{t("gpNotesPage.generalInfoPageSection.pageTitle")}
+
+    section(class='py-8 md:py-16 relative')
+        .container(class='mx-auto px-4 md:px-8 max-w-6xl space-y-8')
+
+            //- Basic Info Card (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 space-y-2 border border-gray-100')
+                div(class='flex items-center space-x-2 mb-4 text-blue-700')
+                    svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6')
+                        path(stroke-linecap='round' stroke-linejoin='round' d='M2.25 6.75v10.5a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25V6.75M4.5 6.75L12 12.75l7.5-6')
+                    h5(class='font-semibold text-lg') 
+                        //- | मूलभूत माहिती
+                        | #{t("gpNotesPage.basicInfoSection.sectionTitle")}
+
+                - let members = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
+
+                p(class='text-sm md:text-base font-medium') 
+                    //- span Email : -
+                    span #{t("gpNotesPage.basicInfoSection.email")}
+                - let sarpanchDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'सरपंच')) : null
+
+                p(class='text-sm md:text-base font-medium') #{t("gpNotesPage.basicInfoSection.sarpanchName")} #{sarpanchDetails ? sarpanchDetails.name : '-'}
+
+                - let gramsevakDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'ग्रामसेवक' || member.p_name == 'ग्रामविकास अधिकारी' || member.p_name == 'ग्रामपंचायत अधिकारी')) : null
+                
+                p(class='text-sm md:text-base font-medium') 
+                    //- span ग्रामसेवकाचे नाव : 
+                    span #{t("gpNotesPage.basicInfoSection.gramSevakName")}
+                    span #{gramsevakDetails ? gramsevakDetails.name : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span ग्रामपंचायतीचा चार्ज घेतल्याचा दिनांक :
+                    span #{t("gpNotesPage.basicInfoSection.dateOfTakingCharge")} 
+                    #{gp && gp.charge_taken_date ? gp.charge_taken_date : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span सरपंच निवडणूक दिनांक : 
+                    span #{t("gpNotesPage.basicInfoSection.sarpanchElectionDate")} 
+                    span #{gp && gp.sarpanch_election_date ? gp.sarpanch_election_date : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span मुदत संपण्याची दिनांक : 
+                    span #{t("gpNotesPage.basicInfoSection.termEndDate")} 
+                    span #{gp && gp.term_end_date ? gp.term_end_date : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span वार्षिक अहवाल दिनांक : 
+                    span #{t("gpNotesPage.basicInfoSection.annualReportDate")} 
+                    span #{gp && gp.annual_report_date ? gp.annual_report_date : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span अंदाजपत्रक सन 
+                    span #{t("gpNotesPage.basicInfoSection.budgetYear")} 
+                    span #{gp && gp.budget_year ? gp.budget_year : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span हिशेच तपासणी वर्ष : 
+                    span #{t("gpNotesPage.basicInfoSection.auditYear")} 
+                    span #{gp && gp.audit_year ? gp.audit_year : '-'}
+                p(class='text-sm md:text-base font-medium') 
+                    //- span लोकसंख्या सन २०११ च्या जनगणनेनुसार
+                    span #{t("gpNotesPage.basicInfoSection.population2011")} 
+
+
+
+            //- Population Section (translation done)
+            each subVillage in subVillages
+                div(class="mb-8")
+                    h4.text-xl.font-semibold.text-blue-700.mb-2 #{subVillage.gp_name} 
+                        //- span गावाची लोकसंख्या माहिती
+                        span #{t("gpNotesPage.populationSection.sectionTitle")}
+
+                    div(class='overflow-x-auto rounded-xl shadow border border-blue-200 bg-white')
+                        table(class='table-auto w-full text-sm text-gray-800')
+                            thead(class='bg-blue-500 text-white text-left uppercase text-sm')
+                                tr
+                                    th(class='px-5 py-3 border') 
+                                        //- | संवर्ग
+                                        | #{t("gpNotesPage.populationSection.category")}
+                                    th(class='px-5 py-3 border') 
+                                        //- | पुरुष
+                                        | #{t("gpNotesPage.populationSection.male")}
+                                    th(class='px-5 py-3 border') 
+                                        //- | स्त्री
+                                        | #{t("gpNotesPage.populationSection.female")}
+                                    th(class='px-5 py-3 border') 
+                                        //- | एकूण
+                                        | #{t("gpNotesPage.populationSection.total")}
+
+                            tbody
+                                //- SC
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border px-5 py-2') 
+                                        //- | अनुसूचित जाती (SC)
+                                        | #{t("gpNotesPage.populationSection.scheduledCaste")}
+                                    td(class='border px-5 py-2') #{subVillage.sc_count_male}
+                                    td(class='border px-5 py-2') #{subVillage.sc_count_female}
+                                    td(class='border px-5 py-2') #{subVillage.sc_count}
+
+                                //- ST
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border px-5 py-2') 
+                                        //- | अनुसूचित जमाती (ST)
+                                        | #{t("gpNotesPage.populationSection.scheduledTribe")}
+                                    td(class='border px-5 py-2') #{subVillage.st_count_male}
+                                    td(class='border px-5 py-2') #{subVillage.st_count_female}
+                                    td(class='border px-5 py-2') #{subVillage.st_count}
+
+                                //- NT
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border px-5 py-2') 
+                                        //- | विमुक्त जाती/भटक्या जमाती (NT)
+                                        | #{t("gpNotesPage.populationSection.nomadicTribes")}
+                                    td(class='border px-5 py-2') #{subVillage.nt_count_male}
+                                    td(class='border px-5 py-2') #{subVillage.nt_count_female}
+                                    td(class='border px-5 py-2') #{subVillage.nt_count}
+
+                                //- OBC
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border px-5 py-2') 
+                                        //- | इतर मागासवर्गीय (OBC)
+                                        | #{t("gpNotesPage.populationSection.otherBackwardClasses")}
+                                    td(class='border px-5 py-2') #{subVillage.obc_count_male}
+                                    td(class='border px-5 py-2') #{subVillage.obc_count_female}
+                                    td(class='border px-5 py-2') #{subVillage.obc_count}
+
+                                //- Others
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border px-5 py-2') 
+                                        //- | इतर (Open/General)
+                                        | #{t("gpNotesPage.populationSection.others")}
+                                    td(class='border px-5 py-2') #{subVillage.open_others_count_male}
+                                    td(class='border px-5 py-2') #{subVillage.open_others_count_female}
+                                    td(class='border px-5 py-2') #{subVillage.open_others_count}
+
+                                //- Total Row (Optional, if you want frontend total)
+                                -
+                                    let totalMale = subVillage.sc_count_male + subVillage.st_count_male + subVillage.nt_count_male + subVillage.obc_count_male + subVillage.open_others_count_male;
+                                    let totalFemale = subVillage.sc_count_female + subVillage.st_count_female + subVillage.nt_count_female + subVillage.obc_count_female + subVillage.open_others_count_female;
+                                    let totalAll = subVillage.sc_count + subVillage.st_count + subVillage.nt_count + subVillage.obc_count + subVillage.open_others_count;
+                                tr(class='font-bold bg-blue-100 text-blue-900')
+                                    td(class='border px-5 py-2') 
+                                        //- | एकूण लोकसंख्या
+                                        | #{t("gpNotesPage.populationSection.totalPopulation")}
+                                    td(class='border px-5 py-2') #{totalMale}
+                                    td(class='border px-5 py-2') #{totalFemale}
+                                    td(class='border px-5 py-2') #{totalAll}
+
+
+            //- Other Details Card (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 space-y-2 border border-gray-100')
+                - let mainVillageFirst = (subVillages && subVillages[0]) ? subVillages[0] : {}
+                p 
+                    span वार्ड संख्याः 
+                    span #{t("gpNotesPage.otherDetailsSection.wardNumber")}
+                    span #{mainVillageFirst.ward_number || '-'}, 
+                    //- span एकूण सदस्य :- 
+                    span #{t("gpNotesPage.otherDetailsSection.totalMembers")}
+                    span #{mainVillageFirst.total_members || '-'}, 
+                    //- span जनतेतून सरपंच- 
+                    span #{t("gpNotesPage.otherDetailsSection.directlyElectedSarpanch")}
+                    span #{mainVillageFirst.sarpanch_directly_elected_count || '-'}
+                //- p करः घरपट्टी, दिवाकर, आरोग्य कर, पाणीपट्टी
+                p #{t("gpNotesPage.otherDetailsSection.taxes")}
+                //- p घरांची संख्या :
+                p #{t("gpNotesPage.otherDetailsSection.numberOfHouses")}
+                    if subVillages && subVillages.length > 0 
+
+                        for sub_village, subvillageInd in subVillages
+                            span #{sub_village.gp_name} - 
+                            span #{sub_village.home_count || 0}
+                            if subvillageInd != subVillages.length - 1
+                                span , 
+                //- p क्षेत्रफळ:
+                p #{t("gpNotesPage.otherDetailsSection.area")} 
+                    if subVillages && subVillages.length > 0
+                        for sub_village, subvillageInd in subVillages
+                            span #{sub_village.gp_name} - 
+                            span #{sub_village.area_in_sq_hectare}
+                            if subvillageInd != subVillages.length - 1
+                                span ,
+
+                p 
+                    //- span मतदार संघ (लोकसभा): 
+                    span #{t("gpNotesPage.otherDetailsSection.constituencyLokSabha")}  
+                    span #{mainVillageFirst.constituency_number}-#{mainVillageFirst.constituency_name}
+                p 
+                    //- span विधानसभा: 
+                    span #{t("gpNotesPage.otherDetailsSection.assembly")} 
+                    span #{mainVillageFirst.assembly_constituency_number}-#{mainVillageFirst.assembly_constituency_name}
+                p 
+                    //- span Website: 
+                    span #{t("gpNotesPage.otherDetailsSection.website")} 
+                    a(class='text-blue-600 underline' href=mainVillageFirst.gp_url target='_blank') #{mainVillageFirst.gp_url}
+
+            //- // आरोग्य (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 border border-gray-100')
+                h5(class='text-lg font-bold mb-2 text-green-700') 🏥
+                    //- span आरोग्य
+                    span #{t("gpNotesPage.healthSection.sectionTitle")}
+
+                if subVillages && subVillages.length > 0
+
+                    each subVillage, subVillageInd in subVillages 
+
+                        h6(class='font-semibold mb-1') #{subVillageInd + 1}. #{subVillage.gp_name} 
+                            //- span आरोग्य उपकेंद्र
+                            span #{t("gpNotesPage.healthSection.sectionTitle")}
+                        ul(class='list-disc list-inside text-sm space-y-1')
+                            - let healthSubCenters = subVillage && subVillage.health_sub_centers ? JSON.parse(subVillage.health_sub_centers) : []
+
+                            if healthSubCenters && healthSubCenters.length
+                                each healthSubCenter, healthSubCenterInd in healthSubCenters
+                                    li.pl-4 
+                                        //- | आरोग्य उपकेंद्र : 
+                                        | #{t("gpNotesPage.healthSection.healthSubCenter")} : 
+                                        | #{healthSubCenter.name}
+                                        p.ml-4 
+                                            //- | आरोग्य सेविकेचे नाव : 
+                                            | #{t("gpNotesPage.healthSection.healthWorkerName")} : 
+                                            | #{healthSubCenter.worker_name}, 
+                                            //- | मो. क्र. 
+                                            | #{t("gpNotesPage.healthSection.mobileNumber")}. 
+                                            | #{healthSubCenter.worker_contact}
+
+                                    if healthSubCenterInd < healthSubCenters.length - 1
+                                        hr
+
+                            else 
+                                h6.text-left 
+                                    //- span कोणतेही आरोग्य उपकेंद्राची नोंद नाही
+                                    span #{t("gpNotesPage.healthSection.noRecord")}
+
+                        if subVillageInd < subVillages.length - 1
+                            hr(class='border-t-2 border-gray-400 my-4')
+
+            //- पाणीपुरवठा (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 border border-gray-100')
+                h5(class='text-lg font-bold mb-4 text-blue-800') 
+                    //- | पाणीपुरवठा
+                    | #{t("gpNotesPage.waterSupplySection.sectionTitle")} 
+                div(class='overflow-x-auto')
+                    table(class='table-auto w-full text-sm text-left text-gray-700 border border-gray-300')
+                        thead(class='bg-blue-100 text-blue-900')
+                            tr
+                                th(class='border px-4 py-2') 
+                                    //- | टाकीचे ठिकाण
+                                    | #{t("gpNotesPage.waterSupplySection.tankLocation")} 
+                                th(class='border px-4 py-2') 
+                                    //- | क्षमता
+                                    | #{t("gpNotesPage.waterSupplySection.capacity")} 
+                                th(class='border px-4 py-2') 
+                                    //- | कर्मचारी
+                                    | #{t("gpNotesPage.waterSupplySection.staff")} 
+                                th(class='border px-4 py-2') 
+                                    //- | सामान्य दर
+                                    | #{t("gpNotesPage.waterSupplySection.normalRate")} 
+                                th(class='border px-4 py-2') 
+                                    //- | विशेष दर
+                                    | #{t("gpNotesPage.waterSupplySection.specialRate")} 
+                        tbody
+                            each subVillage in subVillages
+                                tr
+                                    td(class='border px-4 py-2') #{subVillage.tank_location || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.tank_capacity || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.staff_in_charge || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.normal_rate || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.special_rate || '-'}
+
+
+            //- स्वच्छ भारत मिशन (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 border border-gray-100')
+                h5(class='text-lg font-bold mb-4 text-blue-800') 
+                    //- span स्वच्छ भारत मिशन
+                    span #{t("gpNotesPage.swachhBharatMissionSection.sectionTitle")} 
+                div(class='overflow-x-auto')
+                    table(class='table-auto w-full text-sm text-left text-gray-700 border border-gray-300')
+                        thead(class='bg-blue-100 text-blue-900')
+                            tr
+                                th(class='border px-4 py-2') 
+                                    //- | गाव
+                                    | #{t("gpNotesPage.swachhBharatMissionSection.village")} 
+                                th(class='border px-4 py-2') 
+                                    //- | कुटुंब संख्या
+                                    | #{t("gpNotesPage.swachhBharatMissionSection.numberOfHouseholds")} 
+                                th(class='border px-4 py-2') 
+                                    //- | शौचालय असलेली
+                                    | #{t("gpNotesPage.swachhBharatMissionSection.withToilet")} 
+                                th(class='border px-4 py-2') 
+                                    //- | हागणदारी मुक्ती वर्ष
+                                    | #{t("gpNotesPage.swachhBharatMissionSection.openDefecationFreeYear")} 
+                                th(class='border px-4 py-2') 
+                                    //- | शेरा
+                                    | #{t("gpNotesPage.swachhBharatMissionSection.remarks")} 
+                        tbody
+                            each subVillage in subVillages
+                                tr
+                                    td(class='border px-4 py-2') #{subVillage.gp_name || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.number_of_households || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.number_of_households_having_toilets || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.open_defecation_free_year || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.odf_plus_remarks || '-'}
+
+
+
+            //- सांडपाणी व घनकचरा व्यवस्थापन (translation done)
+            div(class='bg-white shadow-lg rounded-xl p-6 border border-gray-100')
+                h5(class='text-lg font-bold mb-4 text-blue-800') 
+                    //- | सांडपाणी व घनकचरा व्यवस्थापन
+                    | #{t("gpNotesPage.wasteManagementSection.sectionTitle")}
+                div(class='overflow-x-auto')
+                    table(class='table-auto w-full text-sm text-left text-gray-700 border border-gray-300')
+                        thead(class='bg-blue-100 text-blue-900')
+                            tr
+                                th(class='border px-4 py-2') 
+                                    //- | गाव
+                                    | #{t("gpNotesPage.wasteManagementSection.village")}
+                                th(class='border px-4 py-2') 
+                                    //- | कुटुंब संख्या
+                                    | #{t("gpNotesPage.wasteManagementSection.numberOfHouseholds")}
+                                th(class='border px-4 py-2') 
+                                    //- | जोडलेले कुटुंब
+                                    | #{t("gpNotesPage.wasteManagementSection.connectedHouseholds")}
+                                th(class='border px-4 py-2') 
+                                    //- | शोषखड्डे
+                                    | #{t("gpNotesPage.wasteManagementSection.soakPits")}
+                                th(class='border px-4 py-2') 
+                                    //- | व्यवस्थापन
+                                    | #{t("gpNotesPage.wasteManagementSection.management")}
+                        tbody
+                            each subVillage in subVillages
+                                tr
+                                    td(class='border px-4 py-2') #{subVillage.gp_name || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.number_of_households || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.households_connected_to_waste_management || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.soak_pits || '-'}
+                                    td(class='border px-4 py-2') #{subVillage.waste_management || '-'}
+
+
+
+            //- आदर्श तक्ता  (Ideal Table) (translation done)
+            div(class="mt-8 px-4")
+                h5(class="text-2xl font-semibold text-center text-blue-800 mb-2") 
+                    //- | ग्रामपंचायत 
+                    | #{t("gp.gpName")}
+                    | #{gp && gp.gp_name ? gp.gp_name : '-'} 
+                    //- | ता. 
+                    | #{t("gp.talukaAbb")}. 
+                    | #{gp && gp.gp_taluka ? gp.gp_taluka : '-'}, 
+                    //- | जि. 
+                    | #{t("gp.distAbb")}. 
+                    | #{gp && gp.gp_dist ? gp.gp_dist : '-'}
+
+                h5(class="text-xl text-center font-bold text-blue-700 mb-4") 
+                    span "
+                    //- span आदर्श तक्ता
+                    span #{t("gpNotesPage.idealTableSection.sectionTitle")}
+                    span " 
+
+                - let adarshTakta = (gp && gp.ps_gram_adarsh_takta) ? JSON.parse(gp.ps_gram_adarsh_takta) : {}
+
+                if Object.keys(adarshTakta).length > 0
+                    div(class="overflow-x-auto")
+                        table(class="w-full table-auto border border-blue-300 rounded-md shadow-sm")
+                            thead
+                                tr(class="bg-blue-100 text-blue-800")
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | अ. क्र.
+                                        | #{t("gpNotesPage.idealTableSection.serialNo")} 
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | विवरण
+                                        | #{t("gpNotesPage.idealTableSection.description")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | संख्या
+                                        | #{t("gpNotesPage.idealTableSection.number")}
+
+                            tbody
+                                each key, taktaIndex in Object.keys(adarshTakta)
+                                    tr(class="odd:bg-white even:bg-blue-50")
+                                        td(class="px-4 py-2 border border-blue-200") #{taktaIndex + 1}
+                                        td(class="px-4 py-2 border border-blue-200") #{key}
+                                        td(class="px-4 py-2 border border-blue-200") #{adarshTakta[key] || '-'}
+                else
+                    p(class="text-center text-red-600 mt-2") 
+                        //- | अद्याप आदर्श तक्त्याची माहिती उपलब्ध नाही.
+                        | #{t("gpNotesPage.idealTableSection.noInfo")}
+
+
+
+            //- ग्रामपंचायत कार्यकारिणी (GP Committee) (translation done)
+            div(class="mt-8 px-4")
+                h5(class="text-xl font-semibold text-center text-blue-800 mb-2") 
+                    //- | ग्रामपंचायत 
+                    | #{t("gp.gpName")}
+                    | #{gp && gp.gp_name ? gp.gp_name : '-'} 
+                    //- | ता. 
+                    | #{t("gp.talukaAbb")}. 
+                    | #{gp && gp.gp_taluka ? gp.gp_taluka : '-'}, 
+                    //- | जि. 
+                    | #{t("gp.distAbb")}. 
+                    | #{gp && gp.gp_dist ? gp.gp_dist : '-'}
+
+                h5(class="text-xl text-center font-bold text-blue-700 mb-4") 
+                    span "
+                    //- span ग्रामपंचायत कार्यकारिणी
+                    span #{t("gpNotesPage.gpCommitteeSection.sectionTitle")}
+                    span " 
+
+
+                if mainGpMembers && mainGpMembers.length > 0
+                    div(class="overflow-x-auto")
+                        table(class="w-full table-auto border border-blue-300 rounded-md shadow-sm")
+                            thead
+                                tr(class="bg-blue-100 text-blue-800")
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | अ. क्र.
+                                        | #{t("gpNotesPage.gpCommitteeSection.serialNo")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | सदस्याचे नाव
+                                        | #{t("gpNotesPage.gpCommitteeSection.memberName")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | पद
+                                        | #{t("gpNotesPage.gpCommitteeSection.position")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | प्रवर्ग
+                                        | #{t("gpNotesPage.gpCommitteeSection.category")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | मो. नं.
+                                        | #{t("gpNotesPage.gpCommitteeSection.mobileNumber")}
+
+                            tbody
+                                each member, index in mainGpMembers
+                                    tr(class="odd:bg-white even:bg-blue-50")
+                                        td(class="px-4 py-2 border border-blue-200") #{index + 1}
+                                        td(class="px-4 py-2 border border-blue-200") #{member.name || '-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{member.p_name || '-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{'-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{member.sadasyaMobile || '-'}
+                else
+                    p(class="text-center text-red-600 mt-2")
+                        //- span अद्याप कार्यकारिणीची माहिती उपलब्ध नाही.
+                        span #{t("gpNotesPage.gpCommitteeSection.noInfo")}
+
+
+
+            //- AWARDS (translation done)
+            if awards && awards.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-blue-200')
+                    h5(class='text-lg font-bold mb-4 text-blue-800') 
+                        //- | प्राप्त पुरस्कार
+                        | #{t("gpNotesPage.awardsSection.sectionTitle")}
+
+                    ul.space-y-2
+                        each award in awards 
+                            li(class='bg-blue-50 rounded-md p-3 text-blue-900 shadow-sm border border-blue-100')
+                                p(class='font-semibold') #{award.award_name}
+                                if award.award_desc
+                                    p.text-sm.text-blue-700.mt-1 #{award.award_desc}
+                                if award.award_year
+                                    p.text-xs.text-blue-600.mt-1.font-medium 
+                                        span.mr-2
+                                            i.fa.fa-calendar
+                                        span #{award.award_year}
+
+
+            //- उपक्रम (translation done)
+            if innovativeInitiatives && innovativeInitiatives.length > 0
+                div(class="bg-white p-4 rounded-xl shadow-sm border border-blue-200")
+                    h5(class="text-xl font-bold text-blue-800 mb-6 text-center") 
+                        //- span नाविन्य उपक्रम
+                        span #{t("gpNotesPage.innovativeInitiativesSection.sectionTitle")}
+
+                    .grid(class="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5")
+                        each initiative in innovativeInitiatives
+                            div(class="transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-lg bg-blue-50 border border-blue-100 rounded-xl p-5")
+                                .flex.items-center.mb-3
+                                    i(class="fa fa-lightbulb text-yellow-500 text-xl mr-3")
+                                    h6(class="text-blue-900 font-semibold text-lg mb-0") #{initiative.initiative_name}
+
+            //- बचतगट उपक्रम (translation done)
+            if initiatives && initiatives.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-blue-200')
+                    h5(class='text-lg font-bold mb-4 text-blue-800') 
+                        //- span बचतगट उपक्रम
+                        span #{t("gpNotesPage.savingsGroupInitiativesSection.sectionTitle")}
+
+                    ul.list-disc.list-inside.text-blue-700
+                        each initiative in initiatives 
+                            li #{initiative.point_desc}
+
+            //- बचतगट यादी (translation done)
+            if groups && groups.length > 0
+                div(class='overflow-x-auto mt-6')
+                    table(class='min-w-full table-auto border-collapse border border-blue-300')
+                        thead
+                            tr(class='bg-blue-100 text-blue-800')
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | अनु. क्र.
+                                    | #{t("gpNotesPage.savingsGroupList.serialNo")}
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | बचतगटाचे नाव
+                                    | #{t("gpNotesPage.savingsGroupList.groupName")}
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | गावाचे नाव
+                                    | #{t("gpNotesPage.savingsGroupList.villageName")}
+
+                        tbody
+                            each group, ind in groups 
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border border-blue-200 px-4 py-2') #{ind + 1}
+                                    td(class='border border-blue-200 px-4 py-2 capitalize') #{group.group_name}
+                                    td(class='border border-blue-200 px-4 py-2 capitalize') #{group.village_name}
+
+
+
+            //- WOMEN EMPOWERMENT POINTS (translation done)
+            if womenEmpowermentPoints && womenEmpowermentPoints.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-pink-200')
+                    h5(class='text-lg font-bold mb-4 text-pink-800') 
+                        //- span महिला सक्षमीकरण मुद्दे
+                        span #{t("gpNotesPage.womenEmpowermentSection.sectionTitle")}
+
+                    ul.space-y-2
+                        each point in womenEmpowermentPoints
+                            li(class='bg-pink-50 rounded-md p-3 text-pink-900 shadow-sm border border-pink-100')
+                                p(class='font-semibold') #{point.point_desc}
+
+            //- ZP SCHOOL POINTS (translation done)
+            if zpSchoolPoints && zpSchoolPoints.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-green-200')
+                    h5(class='text-lg font-bold mb-4 text-green-800') 
+                        //- | जि. प. शाळा मुद्दे 
+                        | #{t("gpNotesPage.zpSchoolPointsSection.sectionTitle")}
+
+                    ul.space-y-2
+                        each point in zpSchoolPoints
+                            li(class='bg-green-50 rounded-md p-3 text-green-900 shadow-sm border border-green-100')
+                                p(class='font-semibold') #{point.point_desc}
+
+
+
+
+
+            //- समिती यादी (translation done)
+            h5.mt-4.text-center.text-2xl.font-bold.text-blue-700 
+                //- span ग्रामपंचायत स्तरावरील समित्या
+                span #{t("gpNotesPage.committeesSection.sectionTitle")}
+
+            if committees && Array.isArray(committees) && committees.length > 0
+                each committee, index in committees
+                    .mb-6.p-4.rounded-lg.shadow-md.bg-blue-50.border.border-blue-200
+                        h6.text-xl.font-semibold.text-blue-800.mb-1 #{committee.committee_name || 'नाव उपलब्ध नाही'}
+
+                        p.text-sm.text-blue-700.text-center
+                            //- | निवड ठराव क्रमांक
+                            | #{t("gpNotesPage.committeesSection.resolutionNumber")} : 
+                            | #{committee.resolution_number || '-'} ,
+                            //- | दिनांक : 
+                            | #{t("gpNotesPage.committeesSection.date")} : 
+                            | #{committee._resolution_date || '-'}
+
+                        - const committee_members = Array.isArray(committee.committee_members) ? committee.committee_members.filter(Boolean) : []
+
+                        if committee_members.length > 0
+                            .overflow-x-auto.mt-3
+                                table.table-auto.w-full.text-center.text-sm
+                                    thead
+                                        tr.bg-blue-200.text-blue-900
+                                            th.px-3.py-2 
+                                                //- | अ.क्र
+                                                | #{t("gpNotesPage.committeesSection.serialNo")}
+                                            th.px-3.py-2 
+                                                //- | सदस्याचे नाव
+                                                | #{t("gpNotesPage.committeesSection.memberName")}
+                                            th.px-3.py-2 
+                                                //- | पद
+                                                | #{t("gpNotesPage.committeesSection.post")}
+                                    tbody
+                                        each c_member, cInd in committee_members
+                                            if c_member
+                                                tr.bg-white.border-b
+                                                    td.px-3.py-2 #{cInd + 1}
+                                                    td.px-3.py-2
+                                                        div.flex.items-center.gap-2
+                                                            - let imgUrl =  (c_member && c_member.profile_image_url) ? `/uploads/images/committees/committeeMembers/${c_member.profile_image_url}` : ''
+                                                            a(href=imgUrl style='width:37px; height:37px; border-radius:50%; overflow:hidden;display:flex;align-items:center;justify-content:center;')
+                                                                img(src=imgUrl style='width:100%;height:100%;' onerror="this.src='/img/fallback/no-image-found.png'")
+                                                            span #{c_member.member_name || '-'}
+                                                    td.px-3.py-2 #{c_member.member_post || '-'}
+                        else
+                            p.text-sm.text-center.text-red-600.mt-2 
+                                //- span सदस्यांची नोंद उपलब्ध नाही.
+                                span #{t("gpNotesPage.committeesSection.noMembers")}
+            else
+                p.text-center.text-red-600.mt-6.font-medium 
+                    //- | कोणतीही समिती उपलब्ध नाही.
+                    | #{t("gpNotesPage.committeesSection.noCommittees")}
+
+
+
+
+
+
+            //- कर्मचारी माहिती (GP Employee info) (translation done)
+            div(class="mt-8 px-4")
+                h5(class="text-xl font-semibold text-center text-blue-800 mb-2") 
+                    //- |ग्रामपंचायत #{gp && gp.gp_name ? gp.gp_name : '-'}, ता. #{gp && gp.gp_taluka ? gp.gp_taluka : '-'}, जि. #{gp && gp.gp_dist ? gp.gp_dist : '-'}
+                    //- | ग्रामपंचायत 
+                    | #{t("gp.gpName")}
+                    | #{gp && gp.gp_name ? gp.gp_name : '-'} 
+                    //- | ता. 
+                    | #{t("gp.talukaAbb")}. 
+                    | #{gp && gp.gp_taluka ? gp.gp_taluka : '-'}, 
+                    //- | जि. 
+                    | #{t("gp.distAbb")}. 
+                    | #{gp && gp.gp_dist ? gp.gp_dist : '-'}
+
+                h5(class="text-xl text-center font-bold text-blue-700 mb-4") 
+                    span "
+                    //- span कर्मचारी माहिती
+                    span #{t("gpNotesPage.gpEmployeeInfoSection.sectionTitle")}
+                    span " 
+
+                if gpWorkers && gpWorkers.length > 0
+                    div(class="overflow-x-auto")
+                        table(class="w-full table-auto border border-blue-300 rounded-md shadow-sm")
+                            thead
+                                tr(class="bg-blue-100 text-blue-800")
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | अ. क्र.
+                                        | #{t("gpNotesPage.gpEmployeeInfoSection.serialNo")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | सदस्याचे नाव
+                                        | #{t("gpNotesPage.gpEmployeeInfoSection.memberName")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | पद
+                                        | #{t("gpNotesPage.gpEmployeeInfoSection.post")}
+                                    th(class="px-4 py-2 text-left border border-blue-300") 
+                                        //- | प्रवर्ग
+                                        | #{t("gpNotesPage.gpEmployeeInfoSection.category")}
+                                    th(class="px-4 py-2 text-left border border-blue-300")
+                                        //- | मो. नं.
+                                        | #{t("gpNotesPage.gpEmployeeInfoSection.mobileNumber")}
+
+                            tbody
+                                each worker, index in gpWorkers
+                                    tr(class="odd:bg-white even:bg-blue-50")
+                                        td(class="px-4 py-2 border border-blue-200") #{index + 1}
+                                        td(class="px-4 py-2 border border-blue-200") #{worker.name || '-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{worker.p_name || '-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{worker.s_name || '-'}
+                                        td(class="px-4 py-2 border border-blue-200") #{worker.sadasyaMobile || '-'}
+                else
+                    p(class="text-center text-red-600 mt-2") 
+                        //- span अद्याप कार्यकारिणीची माहिती उपलब्ध नाही.
+                        span #{t("gpNotesPage.gpEmployeeInfoSection.noRecord")}
+
+            //- (translation done)
+            if employementAssistants && employementAssistants.length > 0
+                div(class="mt-6 px-4")
+                    h5(class="text-lg font-semibold text-pink-800 mb-2")
+                        //- | रोजगार सेवक
+                        | #{t("gpNotesPage.employmentAssistantsSection.sectionTitle")}
+
+                    each employementAssistant, index in employementAssistants
+                        p(class="pl-2 text-gray-700") #{index + 1}. &nbsp; #{employementAssistant.name || '-'}
+
+
+
+            //- जल संधारण संरचना (translation done)
+            if structures && structures.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-blue-200 mt-6')
+                    h5(class='text-lg font-bold mb-4 text-blue-800') 
+                        //- span जल संधारण संरचना
+                        span #{t("gpNotesPage.waterConservationStructuresSection.sectionTitle")}
+
+                    table(class='min-w-full table-auto border-collapse border border-blue-300')
+                        thead
+                            tr(class='bg-blue-100 text-blue-800')
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | अनु. क्र.
+                                    | #{t("gpNotesPage.waterConservationStructuresSection.serialNo")}
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | संरचनेचे नाव
+                                    |#{t("gpNotesPage.waterConservationStructuresSection.structureName")}
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | लांबी (मीटर)
+                                    | #{t("gpNotesPage.waterConservationStructuresSection.lengthM")} 
+                                th(class='border border-blue-300 px-4 py-2 text-left') 
+                                    //- | साठवण क्षमता (घन मी.)
+                                    | #{t("gpNotesPage.waterConservationStructuresSection.storageCapacityCubicM")} 
+
+                        tbody
+                            each structure, index in structures
+                                tr(class='hover:bg-blue-50')
+                                    td(class='border border-blue-200 px-4 py-2') #{index + 1}
+                                    td(class='border border-blue-200 px-4 py-2 capitalize') #{structure.structure_name}
+                                    td(class='border border-blue-200 px-4 py-2') #{structure.structure_length_m}
+                                    td(class='border border-blue-200 px-4 py-2') #{structure.storage_capacity_cubic_m || '-'}
+
+
+
+            //- आंगणवाडी केंद्र
+            //- DON'T DELETE THIS
+            //- if aanganwadiCenters && aanganwadiCenters.length > 0
+                h2 aanganwaddee
+
+                - totalYearlyStatsLength = aanganwadiCenters && aanganwadiCenters.yearly_stats && aanganwadiCenters.yearly_stats[0]  ? aanganwadiCenters.yearly_stats.length : 0
+
+                - totalAgeWiseColumnsCount = 0
+                if aanganwadiCenters && aanganwadiCenters.yearly_stats && aanganwadiCenters.yearly_stats[0] 
+                    each stat in aanganwadiCenters.yearly_stats
+                        if stat && stat.agewise_children && stat.agewise_children.length
+                            - totalAgeWiseColumnsCount += stat.agewise_children.length
+
+                table 
+                    thead 
+                        tr
+                            th(rowspan='3') अ.क्र.
+                            th(rowspan='3') 
+                            th(rowspan='1') 
+                            th(rowspan='3') 
+                            //- मुलांची संख्या 
+                            //- Children's count colspan calculation
+
+                            th(rowspan='1' colspan=totalAgeWiseColumnsCount) 
+
+                    tbody 
+                        each center, centerInd in aanganwadiCenters
+                            tr 
+                                td #{centerInd + 1}
+                                td -village-name
+
+                                td sevika
+
+                                td  madatniss
+
+                                //- [{"stat_id": 4, "year_range": "2023-24", "agewise_children": null}]
+
+                                //- dynamic column renderinfg of agewise count
+                                if center && center.yearly_stats && center.yearly_stats.length > 0  && center.yearly_stats[0]
+                                    each stat in center.yearly_stats
+                                        if stat && stat.agewise_children && stat.agewise_children.length > 0 && stat.agewise_children[0]
+                                            each ageGroup in stat.agewise_children
+                                                td #{ageGroup.child_count}
+
+
+                                td - is toilet yes
+                                td - is kithcn shed yes
+
+
+            //- DON'T DELETE THIS
+            //- - this is the old one 
+            //- if aanganwadiCenters && aanganwadiCenters.length > 0
+                - let totalYearlyStatsLength = 0
+                - let totalAgeWiseColumnsCount = 0
+                - let ageWiseLengths = []
+
+                each center in aanganwadiCenters
+                    if center && Array.isArray(center.yearly_stats)
+                        - totalYearlyStatsLength += center.yearly_stats.length
+                        each stat in center.yearly_stats
+                            if stat && Array.isArray(stat.agewise_children) && stat.agewise_children.length > 0
+                                - ageWiseLengths.push(stat.agewise_children.length)
+
+                - ageWiseLengths.sort((a, b) => b - a)
+
+                //- - let firstColWidth = ageWiseLengths[0] || 2
+                //- - let secondColWidth = ageWiseLengths[1] || 2
+                //- - let sumOfTopTwo = firstColWidth + secondColWidth
+
+                //- - totalAgeWiseColumnsCount = Math.max(4, sumOfTopTwo)
+
+
+
+                h2.text-xl.font-semibold.text-center.mb-4 अंगणवाडी केंद्रांची यादी
+
+                table.table.table-bordered.table-hover.text-center.w-full
+                    thead
+                        tr.bg-success.text-white
+                            th(rowspan='3') अनु क्र.
+                            th(rowspan='3') गावाचे नाव
+                            th(rowspan='3') सेविका
+                            th(rowspan='3') मदतनीस
+
+                            //- if totalYearlyStatsLength > 0
+                            //- th(colspan=totalAgeWiseColumnsCount rowspan='1') मुलांची संख्या
+                            th(colspan='4' rowspan='1') मुलांची संख्या
+
+
+                            th(rowspan='3') शौचालय
+                            th(rowspan='3') किचन शेड
+
+                        //- // 2nd row: Year Ranges
+                        //- if totalYearlyStatsLength > 0
+                            tr
+                                if aanganwadiCenters && aanganwadiCenters.length > 0 && aanganwadiCenters[0] && aanganwadiCenters.yearly_stats
+                                //-     each stat in aanganwadiCenters.yearly_stats
+                                //-         - let columnWidth = stat && stat.agewise_children ? stat.agewise_children.length : 0
+                                    th(colspan=`"${columnWidth}"` rowspan='1') #{stat.year_range}
+
+                        tr
+                            - const firstYearRange = aanganwadiCenters?.[0]?.yearly_stats?.[0]?.year_range || '-'
+                            - const secondYearRange = aanganwadiCenters?.[0]?.yearly_stats?.[1]?.year_range || '-'
+
+                            //- th(rowspan='1', colspan=firstColWidth)= firstYearRange
+                            //- th(rowspan='1', colspan=firstColWidth)= secondYearRange
+
+                            th(rowspan='1' colspan='2')= firstYearRange
+                            th(rowspan='1' colspan='2')= secondYearRange
+
+                        //- // 3rd row: Age Groups
+                        //- if totalYearlyStatsLength > 0
+                            tr
+                                - let firstAgeWiseCountArray = (aanganwadiCenters && aanganwadiCenters[0] && aanganwadiCenters[0].yearly_stats && aanganwadiCenters[0].yearly_stats[0] && aanganwadiCenters[0].yearly_stats[0].agewise_children) ? aanganwadiCenters[0].yearly_stats[0].agewise_children : []
+
+                                - for(let col = 0; col < firstColWidth; col++)
+
+                                    - let ageGroup = firstAgeWiseCountArray[0]
+
+                                        th(rowspan='1' colspan='1') #{ageGroup.min_age} - #{ageGroup.max_age}
+
+                        tr
+                            //- // First array (yearly_stats[0])
+                            - let firstAgeWiseCountArray = (aanganwadiCenters && aanganwadiCenters[0] && aanganwadiCenters[0].yearly_stats && aanganwadiCenters[0].yearly_stats[0] && aanganwadiCenters[0].yearly_stats[0].agewise_children) ? aanganwadiCenters[0].yearly_stats[0].agewise_children : []
+                            - var minAge0 = (firstAgeWiseCountArray[0]) ? firstAgeWiseCountArray[0].min_age : '-'
+                            - var maxAge0 = (firstAgeWiseCountArray[0]) ? firstAgeWiseCountArray[0].max_age : '-'
+                            - var minAge1 = (firstAgeWiseCountArray[1]) ? firstAgeWiseCountArray[1].min_age : '-'
+                            - var maxAge1 = (firstAgeWiseCountArray[1]) ? firstAgeWiseCountArray[1].max_age : '-'
+
+                            //- // Second array (yearly_stats[1])
+                            - let secondAgeWiseCountArray = (aanganwadiCenters && aanganwadiCenters[0] && aanganwadiCenters[0].yearly_stats && aanganwadiCenters[0].yearly_stats[1] && aanganwadiCenters[0].yearly_stats[1].agewise_children) ? aanganwadiCenters[0].yearly_stats[1].agewise_children : []
+                            - var minAge2 = (secondAgeWiseCountArray[0]) ? secondAgeWiseCountArray[0].min_age : '-'
+                            - var maxAge2 = (secondAgeWiseCountArray[0]) ? secondAgeWiseCountArray[0].max_age : '-'
+                            - var minAge3 = (secondAgeWiseCountArray[1]) ? secondAgeWiseCountArray[1].min_age : '-'
+                            - var maxAge3 = (secondAgeWiseCountArray[1]) ? secondAgeWiseCountArray[1].max_age : '-'
+
+                            //- // Rendering all 4 th elements
+                            th(rowspan='1' colspan='1') #{minAge0} ते #{maxAge0}
+                            th(rowspan='1' colspan='1') #{minAge1} ते #{maxAge1}
+                            th(rowspan='1' colspan='1') #{minAge2} ते #{maxAge2}
+                            th(rowspan='1' colspan='1') #{minAge3} ते #{maxAge3}
+
+
+                    tbody
+                        each center, centerInd in aanganwadiCenters
+                            tr
+                                td #{centerInd + 1}
+                                td #{center.village_name || '-'}
+
+                                // सेविका नाव (empty for now)
+                                td
+                                    //- = center.workers?.filter(w => w.role === 'सेविका').map(w => w.name).join(', ') || '-' 
+                                    |
+
+                                // मदतनीस नाव (empty for now)
+                                td
+                                    //- = center.workers?.filter(w => w.role === 'मदतनीस').map(w => w.name).join(', ') || '-' 
+                                    |
+
+                                // मुलांची वयोवारी संख्या
+                                //- // First array (yearly_stats[0])
+                                - let firstAgeWiseCountArray = (aanganwadiCenters && center && center.yearly_stats && center.yearly_stats[0] && center.yearly_stats[0].agewise_children) ? center.yearly_stats[0].agewise_children : []
+                                - var firstCount0 = (firstAgeWiseCountArray[0]) ? firstAgeWiseCountArray[0].child_count : '-'
+                                - var secondCount0= (firstAgeWiseCountArray[0]) ? firstAgeWiseCountArray[1].child_count : '-'
+
+                                //- // Second array (yearly_stats[1])
+                                - let secondAgeWiseCountArray = (aanganwadiCenters && center && center.yearly_stats && center.yearly_stats[1] && center.yearly_stats[1].agewise_children) ? center.yearly_stats[1].agewise_children : []
+                                - var firstCount1 = (secondAgeWiseCountArray[0]) ? secondAgeWiseCountArray[0].child_count : '-'
+                                - var secondCount2 = (secondAgeWiseCountArray[0]) ? secondAgeWiseCountArray[0].child_count : '-'
+
+                                //- // Rendering all 4 th elements
+                                th(rowspan='1' colspan='1') #{firstCount0}
+                                th(rowspan='1' colspan='1') #{secondCount0}
+                                th(rowspan='1' colspan='1') #{firstCount1}
+                                th(rowspan='1' colspan='1') #{secondCount2}
+
+                                //- // शौचालय स्थिती
+                                td #{center.has_toilet === 'AVAILABLE' ? 'होय' : 'नाही'}
+
+                                //- // किचन शेड स्थिती
+                                td #{center.has_kitchen_shed === 'AVAILABLE' ? 'होय' : 'नाही'}
+
+
+            //- (translation done)
+            if aanganwadiCenters && aanganwadiCenters.length > 0
+                - let totalYearlyStatsLength = 0
+                - let totalAgeWiseColumnsCount = 0
+                - let ageWiseLengths = []
+                - let firstCenter = aanganwadiCenters[0]
+
+                //- Count yearly stats and agewise columns
+                if firstCenter && Array.isArray(firstCenter.yearly_stats)
+                    - totalYearlyStatsLength = firstCenter.yearly_stats.length
+                    each stat in firstCenter.yearly_stats
+                        if stat && Array.isArray(stat.agewise_children) && stat.agewise_children.length > 0
+                            - totalAgeWiseColumnsCount += stat.agewise_children.length
+                            - ageWiseLengths.push(stat.agewise_children.length)
+
+                - ageWiseLengths.sort((a, b) => b - a)
+
+                //- - let firstColWidth = ageWiseLengths[0] || 2
+                //- - let secondColWidth = ageWiseLengths[1] || 2
+                //- - let sumOfTopTwo = firstColWidth + secondColWidth
+                //- - totalAgeWiseColumnsCount = Math.max(4, sumOfTopTwo)
+
+                h2(class='text-2xl font-bold text-center text-red-700 my-6 border-2 border-red-700 rounded-lg px-4 py-2')
+                    //- | अंगणवाडी केंद्रांची यादी
+                    | #{t("gpNotesPage.anganwadiCentersSection.sectionTitle")}
+
+                .overflow-x-auto.mt-3
+                    table(class='w-full border-collapse border border-gray-400 text-center')
+                        thead
+                            // 1st Header Row
+                            tr(class='bg-green-600 text-white')
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3') 
+                                    //- | अनु क्र.
+                                    | #{t("gpNotesPage.anganwadiCentersSection.serialNo")}
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3') 
+                                    //- | गावाचे नाव
+                                    | #{t("gpNotesPage.anganwadiCentersSection.villageName")}
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3')
+                                    //- | सेविका
+                                    | #{t("gpNotesPage.anganwadiCentersSection.sevika")}
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3') 
+                                    //- | मदतनीस
+                                    | #{t("gpNotesPage.anganwadiCentersSection.assistant")}
+
+                                //- if totalYearlyStatsLength > 0
+                                //- th(colspan=totalAgeWiseColumnsCount rowspan='1') मुलांची संख्या
+                                th(class='px-2 py-2 border border-gray-300' colspan='4') 
+                                    //- | मुलांची संख्या
+                                    | #{t("gpNotesPage.anganwadiCentersSection.numberOfChildren")}
+
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3') 
+                                    //- | शौचालय
+                                    | #{t("gpNotesPage.anganwadiCentersSection.toilet")}
+                                th(class='px-2 py-2 border border-gray-300' rowspan='3') 
+                                    //- | किचन शेड
+                                    | #{t("gpNotesPage.anganwadiCentersSection.kitchenShed")}
+
+                            // 2nd Header Row: Year Ranges
+                            tr(class='bg-green-500 text-white')
+                                - const firstYearRange = firstCenter?.yearly_stats?.[0]?.year_range || '-'
+                                - const secondYearRange = firstCenter?.yearly_stats?.[1]?.year_range || '-'
+
+                                //- th(rowspan='1', colspan=firstColWidth)= firstYearRange
+                                //- th(rowspan='1', colspan=secondColWidth)= secondYearRange
+                                th(class='px-2 py-2 border border-gray-300' colspan='2')= firstYearRange
+                                th(class='px-2 py-2 border border-gray-300' colspan='2')= secondYearRange
+
+                            // 3rd Header Row: Age Groups
+                            tr(class='bg-green-400 text-white')
+                                - let firstAgeWiseCountArray = firstCenter?.yearly_stats?.[0]?.agewise_children || []
+                                - let secondAgeWiseCountArray = firstCenter?.yearly_stats?.[1]?.agewise_children || []
+
+                                - var minAge0 = firstAgeWiseCountArray[0] ? firstAgeWiseCountArray[0].min_age : '-'
+                                - var maxAge0 = firstAgeWiseCountArray[0] ? firstAgeWiseCountArray[0].max_age : '-'
+                                - var minAge1 = firstAgeWiseCountArray[1] ? firstAgeWiseCountArray[1].min_age : '-'
+                                - var maxAge1 = firstAgeWiseCountArray[1] ? firstAgeWiseCountArray[1].max_age : '-'
+
+                                - var minAge2 = secondAgeWiseCountArray[0] ? secondAgeWiseCountArray[0].min_age : '-'
+                                - var maxAge2 = secondAgeWiseCountArray[0] ? secondAgeWiseCountArray[0].max_age : '-'
+                                - var minAge3 = secondAgeWiseCountArray[1] ? secondAgeWiseCountArray[1].min_age : '-'
+                                - var maxAge3 = secondAgeWiseCountArray[1] ? secondAgeWiseCountArray[1].max_age : '-'
+
+                                th(class='px-2 py-2 border border-gray-300') #{minAge0} ते #{maxAge0}
+                                th(class='px-2 py-2 border border-gray-300') #{minAge1} ते #{maxAge1}
+                                th(class='px-2 py-2 border border-gray-300') #{minAge2} ते #{maxAge2}
+                                th(class='px-2 py-2 border border-gray-300') #{minAge3} ते #{maxAge3}
+
+                        tbody
+                            each center, centerInd in aanganwadiCenters
+                                tr(class='hover:bg-gray-100')
+                                    td(class='px-2 py-2 border border-gray-300') #{centerInd + 1}
+                                    td(class='px-2 py-2 border border-gray-300') #{center.village_name || '-'}
+
+                                    // सेविका नाव (empty for now)
+
+                                    - let sevikaNames = (center && Array.isArray(center.workers)) ? center.workers.filter(w => w.role === 'सेविका').map(w => w.name).join(', ') : '-' 
+                                    td(class='px-2 py-2 border border-gray-300') 
+                                        div #{sevikaNames}
+
+
+                                    // मदतनीस नाव (empty for now)
+                                    - let madatnisNames = (center && Array.isArray(center.workers)) ? center.workers.filter(w => w.role === 'मदतनीस').map(w => w.name).join(', ') : '-' 
+                                    td(class='px-2 py-2 border border-gray-300')
+                                        div #{madatnisNames}
+
+
+                                    //- // मुलांची वयोवारी संख्या
+                                    //- // First array (yearly_stats[0])
+                                    - let firstAgeWiseCountArray = center?.yearly_stats?.[0]?.agewise_children || []
+                                    - var firstCount0 = firstAgeWiseCountArray[0] ? firstAgeWiseCountArray[0].child_count : '-'
+                                    - var secondCount0 = firstAgeWiseCountArray[1] ? firstAgeWiseCountArray[1].child_count : '-'
+
+                                    //- // Second array (yearly_stats[1])
+                                    - let secondAgeWiseCountArray = center?.yearly_stats?.[1]?.agewise_children || []
+                                    - var firstCount1 = secondAgeWiseCountArray[0] ? secondAgeWiseCountArray[0].child_count : '-'
+                                    - var secondCount2 = secondAgeWiseCountArray[1] ? secondAgeWiseCountArray[1].child_count : '-'
+
+                                    //- // Rendering all 4 td elements
+                                    td(class='px-2 py-2 border border-gray-300') #{firstCount0}
+                                    td(class='px-2 py-2 border border-gray-300') #{secondCount0}
+                                    td(class='px-2 py-2 border border-gray-300') #{firstCount1}
+                                    td(class='px-2 py-2 border border-gray-300') #{secondCount2}
+
+                                    //- // शौचालय स्थिती
+                                    td(class='px-2 py-2 border border-gray-300') #{center.has_toilet === 'AVAILABLE' ? 'होय' : 'नाही'}
+
+                                    //- // किचन शेड स्थिती
+                                    td(class='px-2 py-2 border border-gray-300') #{center.has_kitchen_shed === 'AVAILABLE' ? 'होय' : 'नाही'}
+
+
+
+            //- आशा सेविका यादी (translation in pr)
+            if workers && workers.length > 0
+                div(class='bg-white shadow-lg rounded-xl p-6 border border-pink-200 mt-6')
+                    h5(class='text-lg font-bold mb-4 text-pink-800') 
+                        //- | आशा सेविका यादी
+                        | #{t("gpNotesPage.ashaWorkersSection.sectionTitle")}
+
+                    table(class='min-w-full table-auto border-collapse border border-pink-300')
+                        thead
+                            tr(class='bg-pink-100 text-pink-800')
+                                th(class='border border-pink-300 px-4 py-2 text-left') 
+                                    //- | अनु. क्र.
+                                    | #{t("gpNotesPage.ashaWorkersSection.serialNo")}
+                                th(class='border border-pink-300 px-4 py-2 text-left') 
+                                    //- | नाव
+                                    | #{t("gpNotesPage.ashaWorkersSection.name")}
+                                th(class='border border-pink-300 px-4 py-2 text-left') 
+                                    //- | मोबाईल
+                                    | #{t("gpNotesPage.ashaWorkersSection.mobile")}
+                                th(class='border border-pink-300 px-4 py-2 text-left') 
+                                    //- | गाव
+                                    | #{t("gpNotesPage.ashaWorkersSection.village")}
+
+                        tbody
+                            each worker, index in workers
+                                tr(class='hover:bg-pink-50')
+                                    td(class='border border-pink-200 px-4 py-2') #{index + 1}
+                                    td(class='border border-pink-200 px-4 py-2 capitalize') #{worker.name}
+                                    td(class='border border-pink-200 px-4 py-2') #{worker.mobile}
+                                    td(class='border border-pink-200 px-4 py-2 capitalize') #{worker.village || '-'}
+
+
+
+
+
+
+            if institutesWithStaff && institutesWithStaff.length > 0
+                section(class="bg-blue-50 py-10 px-4 md:px-10 rounded-2xl shadow-inner border border-blue-200")
+                    h3(class="text-2xl font-bold text-blue-800 text-center mb-8")
+                        i(class="fa fa-school mr-2 text-blue-600")
+                        //- | शैक्षणिक संस्था व कर्मचारी माहिती
+                        | #{t("gpNotesPage.educationalInstitutesSection.sectionTitle")}
+
+                    each institute, instituteIndex in institutesWithStaff
+                        div(class="bg-white shadow-md rounded-xl p-6 mb-6 border border-blue-300 hover:shadow-lg transition-shadow")
+                            div(class="flex items-center gap-3 mb-4")
+                                div(class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full shadow-sm")
+                                    i(class="fa fa-university mr-2")
+                                    //- | संस्था 
+                                    | #{t("gpNotesPage.educationalInstitutesSection.instituteLabel")} 
+                                    | #{instituteIndex + 1}
+                                h4(class="text-xl font-bold text-blue-900") #{institute.institute_name}
+
+                            h6(class="text-base font-semibold text-blue-700 mb-3 mt-2 flex items-center")
+                                i(class="fa fa-users mr-2 text-blue-500")
+                                //- | शिक्षक यादी
+                                | #{t("gpNotesPage.educationalInstitutesSection.teachersListHeading")}
+
+                            - let staffMembers = institute && institute.staff_members ? institute.staff_members : []
+
+                            if staffMembers && staffMembers.length > 0
+                                div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4")
+                                    each staff in staffMembers
+                                        div(class="bg-blue-100 p-4 rounded-lg shadow-sm border border-blue-200 hover:bg-blue-200 transition-colors")
+                                            h5(class="text-blue-900 font-semibold text-lg capitalize mb-1") 
+                                                i(class="fa fa-user mr-2 text-blue-600")
+                                                | #{staff.staff_name}
+                                            div(class="flex items-center text-sm text-blue-700 font-medium")
+                                                i(class="fa fa-id-badge mr-2 text-blue-500")
+                                                span.bg-blue-50.px-2.py-1.rounded.border.border-blue-300
+                                                    | #{staff.staff_designation || `${t("gpNotesPage.educationalInstitutesSection.noDesignation")}`}
+                                            p(class="text-blue-800 text-sm")
+                                                i(class="fa fa-phone mr-2 text-blue-500")
+                                                | #{staff.staff_mob_no || `${t("gpNotesPage.educationalInstitutesSection.noMobile")}`}
+                            else
+                                p(class="text-sm text-red-600 font-medium mt-2") 
+                                    //- span शिक्षकांची नोंद उपलब्ध नाही.
+                                    span #{t("gpNotesPage.educationalInstitutesSection.noTeachersAvailable")}
+
+
+block external_js
+    //- script(src='/asstest/coustom/js/handlers/some-folder/somefilename' defer)

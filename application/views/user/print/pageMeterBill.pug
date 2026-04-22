@@ -1,0 +1,304 @@
+doctype html
+head
+  title पाण्याचे मागणी बिल (मीटर)
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+
+    @media print {
+      @page { 
+        size: auto;
+        margin: 4mm 7mm 4mm 10mm;
+      }
+
+      .select-div{
+        display: none;
+      }
+
+        body {
+          margin:0;
+          padding:0;
+        }
+        body {
+          transform: scale(1);
+        }
+        table {
+          page-break-inside: avoid;
+        }
+      } 
+      .main-heading {
+        margin-left:10%
+      }
+      .heading-second{
+        margin-left:30%
+      }
+      .heading-second-2{
+        margin-left:30%
+      }
+      #table2 {
+        width:100% !important;
+      }
+      #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+        border-color:red !important;
+      }
+
+
+    #table3 td {
+      padding-left:3px;
+      padding-right:3px;
+      border-color:red !important;
+    } 
+
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+
+    .c-0 {
+      page-break-before: always;
+    }
+
+    td {
+      border-top: 2px solid red;
+      border-right: 2px solid red;
+      padding: 0px !important; 
+    }
+
+    .img{
+      width:70px;
+      height:70px;
+    }
+
+    .img1{
+      margin-top:0px;
+      width:70px;
+      height:70px;
+    }
+
+    .select-div {
+      padding-top: 2rem;
+    }
+
+    .waterMark {
+      position: absolute;
+      top: 25%;
+      left: 13%;
+      z-index: -10;
+      opacity: 0.2;
+    }
+
+    p{
+      font-size:15px !important;
+    }
+
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('show-watermark-select').addEventListener('change', function(e) {
+          e.preventDefault();
+          let val = this.value;
+          let waterMarks = document.querySelectorAll('.waterMark');
+          for (let i = 0; i < waterMarks.length; i++) {
+            waterMarks[i].style.display = val == 1 ? 'block' : 'none';
+          }
+        });
+      });
+body
+
+  div.select-div
+    .row.justify-content-center
+      .col-2
+        select.form-control(id='show-watermark-select')
+          option(value=1 ) Show WaterMark 
+          option(value=0) Hide watermark
+  -const monthsArrayMarathi = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"]
+  - var pageCount = 0;
+  each meter,index in bills
+
+    - pageCount += 1;
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+
+      .col-12.postion-relative
+        image.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        each value in [1,2]
+          if(value == 1)
+            - className = "mt-0";
+          else
+            - className = "mt-5";
+          table(border="2" class=className)#table2
+            thead
+              tr.p-0.m-0
+                td.p-1.m-0(colspan="15") 
+                  .row.p-0.m-0
+                    .col-2.p-0.m-0
+                      img.img(src="/img/header-images/sant-gadge-baba.png" alt="")
+                    .col-8.text-center.p-0.m-0
+                      span.font-weight-bold.text-warning(style='font-size: 1.6rem;') ग्राम पंचायत कार्यालय , #{zp.gp_name}
+                      div.font-weight-bold.text-danger पंचायत समिती  #{zp.gp_taluka}, 
+                        span.font-weight-bold.text-primary  जिल्हा #{zp.gp_dist}
+                      h6.p-0.m-0.font-weight-bold पाण्याचे मागणी बील 
+                    .col-2.p-0.m-0
+                      img.img1(src="/img/header-images/sant-gadge-baba1.png" alt="").float-right
+
+              //-First Row         
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(width="10%")
+                  p.ml-2.h5 नळ कनेक्शन क्र.: 
+                td.pt-1.m-0(width="10%") 
+                  p.ml-2.h5 #{meter.mbl_nal_number}
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 देयक क्रमांक : 
+                td.pt-1.m-0(width="10%") 
+                  p.ml-2.h5 #{meter.mbl_deyak_number}
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 देयक दिनांक:
+                td.pt-1.m-0(width="10%") 
+                  p.ml-2.h5  #{meter._mbl_deyak_date}  
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5 मुदतीच्या आत भरवायची रक्कम:
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5 #{meter.mbl_amt_before_mudat}
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5 देयक भरण्याची अंतिम तारीख:
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5 #{meter.mbl_deyak_amt_fill_last_date}
+
+              //-Second Row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(width="10%")
+                  p.ml-2.h5 विभाग /वार्ड क्र:
+                td.pt-1.m-0(width="10%")
+                  p.ml-2.h5 #{meter.mbl_ward_number}
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5 मीटर ग्राहक क्र:
+                td.p-0.m-0( width="10%")
+                  p.ml-2.h5  #{meter.mbl_user_meter_number}
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 व्हाल क्रमाक:
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 #{meter.mbl_valve_number}
+                td.p-0.m-0(colspan="2" width="20%")
+                  p.ml-2.h5 ग्राहक क्रमांक: #{meter.mbl_user_number}
+                td.p-0.m-0(colspan="2" width="20%")
+                  p.ml-2.h5 नळाचा वापर: #{meter.mbl_nal_usage_type}
+
+              //- Third row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(colspan="2")
+                  p.ml-2.h5 नळ कनेक्शन धारकाचेनाव:
+                td.pt-1.m-0(colspan="4").text-left
+                  p.ml-2.h5 #{meter.mbl_user_name}
+                td.p-0.m-0(colspan="2" width="20%")
+                  p.ml-2.h5 मो न:  #{meter.mbl_user_mobile_no}
+                td.text-left.p-0.m-0(colspan="2" width="20%")
+                  p.m-0.h5.text-center(style="border-bottom:1px solid") पाणी आकारणी:
+                  p.m-0.h5.p-0
+                    each _rate, _index in rates
+                      small(style=`${_index != rates.length - 1 ? 'border-bottom:1px solid;display:block' : ''}`).pl-1 #{_index + 1}] #{_rate.unit_form} ते #{_rate.unit_to} यु.  = #{_rate.rate} रु(प्रती यु.)
+
+                    //- small(style="border-bottom:1px solid;display:block").pl-1 2] १४ ते २० यु.  = ७ रु .६४ पै.(प्रती यु.)
+                    //- small(style="border-bottom:1px solid;display:block").pl-1 1] ० ते १४ यु. = १०० रु 
+                    //- small.pl-1 3] २० यु. या वरील = १२रु .६३ पै.  .(प्रती यु.)
+
+              //- Fourth row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(colspan="6" width="60%")
+                  p.ml-2.h5 पाणी वापरण्याचा कालावधी /  देयकाचा कालावधी  
+                td.p-0.m-0(colspan="2" width="10%")
+                  p.ml-2.h5 एकूण पाणी वापर युनिट   
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 मीटर रीडिंग सुरवात
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 मीटर रीडिंग समाप्ती   
+
+              //- Fifth row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(colspan="6" width="60%")
+                  - let [year1, month1, day1] = meter._mbl_water_usage_from_full.split('-')
+                  - let [year2, month2, day2] = meter._mbl_water_usage_to_full.split('-')
+                  p.ml-2.h5 
+                    span #{day1} #{monthsArrayMarathi[+month1 - 1]} #{year1} ते #{day2} #{monthsArrayMarathi[+month2 - 1]} #{year2} 
+                td.p-0.m-0(colspan="2" width="10%")
+                  p.ml-2.h5 #{meter.mbl_total_water_usage} 
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 #{meter.mbl_meter_reading_start}
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 #{meter.mbl_meter_reading_end}
+
+              //- Sixth row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(colspan="6" width="60%")
+                  p.ml-2.h5 मीटर फोटो असल्यास
+                td.p-0.m-0(width="5%")
+                  p.ml-2.h5 एकूण युनिट  
+                td.p-0.m-0(width="5%")
+                  p.ml-2.h5 दर 
+                td.p-0.m-0(width="10%")
+                  p.m-0.ml-2.h5 पाणी आकारणी (a)
+                td.p-0.m-0( width="10%")
+                  p.m-0.ml-2.h5 #{meter.mbl_water_unit}
+
+              //- Sevetth row
+              tr.p-0.m-0.text-center
+                td.pt-1.m-0(colspan="6" rowspan="5" width="60%")
+                  p.ml-2.h5 
+                    if(meter.mbl_meter_image !== "")
+                      - var src = "/meter_upload/"+meter.mbl_meter_image
+                      img(src=src, alt="" srcset="" width="320" height="150")
+
+                td.p-0.m-0( rowspan="2" width="10%")
+                  p.ml-2.h5 #{meter.mbl_total_unit}
+                td.p-0.m-0( rowspan="2" width="10%")
+                  p.ml-2.h5 #{meter.mbl_rate}
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 मीटर बाबत  (b) 
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 0
+
+              //- Eigth row
+              tr.p-0.m-0.text-center
+                td.p-1.m-0(width="10%")
+                  p.ml-2.h5 एकूण (a+b) 
+                td.p-0.m-0(width="10%")
+                  p.ml-2.h5 #{meter.mbl_water_unit}
+              tr.p-0.m-0
+                td.p-1.m-0(colspan="3" width="10%")
+                  p.ml-2.h5 मागील थकबाकी 
+                td.p-0.m-0(colspan="2" width="10%").text-center
+                  p.ml-2.h5 #{meter.mbl_last_backlock} 
+              tr.p-0.m-0
+                td.p-1.m-0(colspan="3" width="10%")
+                  p.ml-2.h5 एकूण रक्कम  
+                td.p-0.m-0(colspan="2" width="20%").text-center
+                  p.ml-2.h5 #{meter.mbl_final_total_amt}
+              tr.p-0.m-0
+                td.p-1.m-0(colspan="3" width="10%")
+                  p.ml-2.h5 मुदतीच्या आत भरवायची रक्कम  
+                td.p-0.m-0(colspan="2" width="10%").text-center
+                  p.ml-2.h5 #{meter.mbl_before_date_amt_to_fill}
+              tr.p-0.m-0
+                td.pt-1.m-0(colspan="4" width="40%").text-center
+                  p.ml-2.h5 दिनांक  #{meter.mbl_amt_diposite_till_date}  पर्यंत भरावयाची रक्कम
+                td.pt-1.m-0(colspan="2" width="20%").text-center
+                  p.ml-2.h5 #{meter.mbl_before_date_amt_to_fill}
+                td.p-0.m-0(colspan="3" width="10%")
+                  p.ml-2.h5 मुदतीच्या नंतर  भरवायची रक्कम (2%) 
+                td.p-0.m-0(colspan="2" width="10%").text-center
+                  p.ml-2.h5 #{meter.mbl_after_date_amt_to_fill}
+              tr.p-0.m-0(style="border-color:red !important")
+                td.pt-4.mt-0(colspan="10" style="border-color:red !important")
+                  p.ml-2.h5.float-left ग्राम पंचायत शिक्का 
+                  p.pt-0.ml-2.h5.float-right 
+                    | सरपंच /ग्रामविकास अधिकारी सही 
+                    br
+                    | ग्राम पंचायत 
+                    u 
+                      strong #{zp.gp_name}
+

@@ -1,0 +1,224 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    title #{title}
+
+    // Common CSS
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    // Scripts
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/labor-attendance/labor-attendance-sheet-handler.js')
+
+    script.
+        $(function() {
+            $(document).on('click','#open-month-year-modal-btn', function(e){
+                e.preventDefault();
+                $('#monthYearModal').modal('show');
+            });
+        })
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+            .modal-dialog { 
+                max-width: none; 
+            }
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+
+body
+    include ../include/navs.pug
+
+    //- .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content(style='max-width: 600px').mx-auto
+                .modal-header
+                    h4.modal-title.fs-5#exampleModalLabel महिना वर्ष निवडा
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .row.justify-content-center
+                        .col-3
+                            input.form-control(type='text' name='year' placeholder='Year')
+                .modal-footer
+                    button.btn.btn-primary(type="button" id='print-bpl-work-record-btn') प्रिंट करा
+
+
+    if !work 
+        h2.mt-4.text-center सदर कामाची कोणतीही नोंद मिळाली नाही
+    else
+        .container-fluid
+            .row
+                .col-12.mt-3
+                    h4.ml-5.text-center
+                        span.fa.fa-id-card
+                        | &nbsp; हजेरी पत्रक 
+                        //- a(href="/labor-attendance/work/create").float-right.btn.btn-primary.btn-sm.mr-2
+                            span.fa.fa-plus
+                            |  नवीन नोंदणी
+
+                        //- button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                        //-     | रजिस्टर प्रिंट
+
+                .col-12
+
+                    //- div(style="display:grid; grid-template-columns:1fr 1fr")
+
+                        div 
+                            h5 कामाचा तपशील 
+                            p 
+                                span.font-weight-bold कामाचे नाव : 
+                                span #{work.name}
+                            
+                            p
+                                span.font-weight-bold प्रारंभ दिनांक : 
+                                span #{work._start_date}
+
+                            p 
+                                span.font-weight-bold अंतिम दिनांक  : 
+                                span #{work._end_date}
+
+                        div 
+                            h5 कामगाराचा तपशील 
+                            p 
+                                span.font-weight-bold कामगाराचे नाव : 
+                                span #{worker.worker_name}
+                            
+                            p
+                                span.font-weight-bold संपर्क क्र : 
+                                span #{worker.worker_phone}
+
+                            p 
+                                span.font-weight-bold मजुरी प्रति दिवस (रु) : 
+                                span #{worker.daily_rate}
+
+
+
+                    div.my-4.row.justify-content-between(style='gap:0.5rem;')
+                        //- // कामाचा तपशील card
+                        .col-12.col-md-5
+                            div(style="background:rgba(255,255,255,0.65); border:1px solid #ddd; border-radius:8px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.1);")
+                                h5(style="margin-bottom:12px; font-weight:600;") कामाचा तपशील
+                                p
+                                    span(style="font-weight:600;") कामाचे नाव : 
+                                    span #{work.name}
+                                
+                                p
+                                    span(style="font-weight:600;") प्रारंभ दिनांक : 
+                                    span #{work._start_date}
+
+                                p 
+                                    span(style="font-weight:600;") अंतिम दिनांक : 
+                                    span #{work._end_date}
+
+                        //- // कामगाराचा तपशील card
+                        .col-12.col-md-5
+                            div(style="background:rgba(255,255,255,0.65); border:1px solid #ddd; border-radius:8px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.1);")
+
+                                if !worker
+                                    h6.text-center कामगाराची नोंद सापडली नाही. चुकीचा आइडी .
+                                else
+                                    h5(style="margin-bottom:12px; font-weight:600;") कामगाराचा तपशील
+                                    p
+                                        span(style="font-weight:600;") कामगाराचे नाव : 
+                                        span #{worker.worker_name}
+                                    
+                                    p
+                                        span(style="font-weight:600;") संपर्क क्र : 
+                                        span #{worker.worker_phone}
+
+                                    p 
+                                        span(style="font-weight:600;") मजुरी प्रति दिवस (रु) : 
+                                        span #{worker.daily_rate}
+
+                    if worker
+                        .table-responsive(style='margin-bottom: 5rem;')
+                            table.table.table-bordered.text-center
+                                thead
+                                    tr.bg-success.text-white
+                                        th(width="5%") अ. क्र.
+                                        th(width="20%") दिनांक 
+                                        th(width="20%") हजेरीची स्थिती
+                                        //- th(width="10%") प्रारंभ तारीख
+                                        //- th(width="10%") शेवटची तारीख
+                                        th(width="15%") Action
+
+
+                                -
+                                    function getDayName(dateStr) {
+                                        // dateStr should be in format "DD-MM-YYYY"
+                                        const [day, month, year] = dateStr.split('-').map(Number);
+                                        const date = new Date(year, month - 1, day); // Month is 0-indexed in JS
+
+                                        // Array of weekday names in Marathi or English
+                                        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                                        
+                                        return days[date.getDay()];
+                                    }
+
+
+                                tbody#workerAttendanceRecordList
+                                    if workerAttendanceRecord == null || workerAttendanceRecord.length == 0
+                                        tr 
+                                            td(colspan='9') कोणतीही नोंद उपलब्ध नाही.
+                                    else 
+                                        each attendance, index in workerAttendanceRecord 
+
+                                            - let isPresent = attendance.present_type == 'full' || attendance.present_type == 'present'
+                                            tr 
+                                                td #{index + 1}
+                                                td 
+                                                    div
+                                                        span #{attendance._date}, 
+                                                        span #{getDayName(attendance._date)}
+                                                td 
+                                                    div 
+                                                        if isPresent
+                                                            span(style="background-color: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-weight: bold; display:inline-block; width:4rem;") हजर
+                                                        else 
+                                                            span(style="background-color: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px; font-weight: bold; bold; display:inline-block; width:4rem;") गैरहजर
+                                                td
+                                                    div(class='d-flex align-items-center justify-content-center')
+
+                                                        if !isPresent
+                                                            button.mark-present-btn(data-workId=work.id data-workerId=workerId data-date=attendance.date style="background:#10B981; color:#fff; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:600; font-size:14px; display:inline-flex; align-items:center; width:10rem;")
+                                                                i.fa.fa-check-circle(style="margin-right:8px;")
+                                                                span Mark Present
+                                                        else 
+                                                            button.mark-absent-btn(data-attendanceId=attendance.id style="background:#EF4444; color:#fff; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:600; font-size:14px; display:inline-flex; align-items:center; width:10rem;")
+                                                                i.fa.fa-ban(style="margin-right:8px;")
+                                                                span Mark Absent 
+

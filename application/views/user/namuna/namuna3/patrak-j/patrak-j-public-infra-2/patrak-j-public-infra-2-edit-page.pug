@@ -1,0 +1,176 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        //- common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+        link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-3/patrak-j/patrak-j-p-infra-2/namuna-3-patrak-j-public-infra-2-page-form-handler.js' type='module' defer)
+
+        title प्रपत्र जे चालू (सार्वजनिक बांधकाम २)
+
+        style.
+            .heading-1 {
+                font-weight: bold !important;
+                font-size: 1.4rem;
+                text-align: center;
+                color: #bb2525;
+                border-radius: 15px;
+                border: 2px solid #bb2525;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 8px;
+                margin: 0 auto 1.4rem;
+                width: fit-content;
+            }
+
+            label.error {
+                color: red;
+                font-size: 0.9rem;
+            }
+
+    body
+        include ../../../../include/navs.pug
+        .container
+            h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+            div
+                .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+                    a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+            form(id='patrak-j-public-infra-2-form').mt-1
+                .form.form-1
+                    h4(style="text-align:center; font-weight:bold; color:white; background-color:#C71585; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना ३ प्रपत्र जे चालू (सार्वजनिक बांधकाम २)
+
+                    .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="year") वर्ष
+                                input.form-control(type='text' name="year" id="year" placeholder="Enter Year" value=patrakJPublicInfra2.year readonly required)
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="gram_panchayat_name") ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+                                input.form-control(type='text' name="gram_panchayat_name" id="gram_panchayat_name" value=patrakJPublicInfra2.gram_panchayat_name placeholder="Enter Gram Panchayat Name" required)
+
+                        //- झाडू कामगारा (Houses)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="existing_houses_at_year_start") वर्षारंभी अस्तित्व असलेली घरे
+                                input.form-control(type="text" name="existing_houses_at_year_start" id="existing_houses_at_year_start" value=patrakJPublicInfra2.existing_houses_at_year_start placeholder="Enter Existing Houses at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="constructed_houses_in_year") वर्षात बांधलेली घरे
+                                input.form-control(type="text" name="constructed_houses_in_year" id="constructed_houses_in_year" value=patrakJPublicInfra2.constructed_houses_in_year placeholder="Enter Constructed Houses in Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="repaired_houses_in_year") वर्षात दुरुस्त केलेली घरे
+                                input.form-control(type="text" name="repaired_houses_in_year" id="repaired_houses_in_year" value=patrakJPublicInfra2.repaired_houses_in_year placeholder="Enter Repaired Houses in Year")
+
+                        //- मैदाने (Fields)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="fields_at_year_start") वर्षारंभी अस्तित्व असलेली मैदाने
+                                input.form-control(type="text" name="fields_at_year_start" id="fields_at_year_start" value=patrakJPublicInfra2.fields_at_year_start placeholder="Enter Fields at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="fields_separated_in_year") वर्षात ज्या अलग राखून ठेवलेली मैदाने
+                                input.form-control(type="text" name="fields_separated_in_year" id="fields_separated_in_year" value=patrakJPublicInfra2.fields_separated_in_year placeholder="Enter Fields Separated in Year")
+
+                        //- कुरण (Pastures)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="pastures_at_year_start") वर्षारंभी अस्तित्व असलेली कुरणे
+                                input.form-control(type="text" name="pastures_at_year_start" id="pastures_at_year_start" value=patrakJPublicInfra2.pastures_at_year_start placeholder="Enter Pastures at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="pastures_separated_in_year") वर्षात राखून ठेवलेली कुरणे
+                                input.form-control(type="text" name="pastures_separated_in_year" id="pastures_separated_in_year" value=patrakJPublicInfra2.pastures_separated_in_year placeholder="Enter Pastures Separated in Year")
+
+                        //- ----------
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="at_year_start") वर्षाच्या सुरुवातीस असलेली
+                                input.form-control(type="text" name="at_year_start" id="at_year_start" placeholder="" value=patrakJPublicInfra2.at_year_start)
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="additional_created_in_year") वर्षात जादा तयार केलेली
+                                input.form-control(type="text" name="additional_created_in_year" id="additional_created_in_year" placeholder="" value=patrakJPublicInfra2.additional_created_in_year)
+
+
+                        //- वखारी (Barns)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="existing_barns_at_start_of_year") वर्षारंभी अस्तित्व असलेली वखारी
+                                input.form-control(type="text" name="existing_barns_at_start_of_year" id="existing_barns_at_start_of_year" value=patrakJPublicInfra2.existing_barns_at_start_of_year placeholder="Enter Existing Barns at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="barns_constructed_during_year") वर्षात बांधलेली वखारी
+                                input.form-control(type="text" name="barns_constructed_during_year" id="barns_constructed_during_year" value=patrakJPublicInfra2.barns_constructed_during_year placeholder="Enter Barns Constructed During Year")
+
+                        //- इतर सार्वजनिक कामे (Other Public Works)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="existing_works_at_start_of_year") वर्षाच्या सुरुवातीस असलेली कामे
+                                input.form-control(type="text" name="existing_works_at_start_of_year" id="existing_works_at_start_of_year" value=patrakJPublicInfra2.existing_works_at_start_of_year placeholder="Enter Existing Works at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="works_done_during_year") वर्षात जादा केलेली कामे
+                                input.form-control(type="text" name="works_done_during_year" id="works_done_during_year" value=patrakJPublicInfra2.works_done_during_year placeholder="Enter Works Done During Year")
+
+                        //- शाळा (Schools)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="existing_schools_at_start_of_year") वर्षारंभी अस्तित्व असलेल्या शाळा
+                                input.form-control(type="text" name="existing_schools_at_start_of_year" id="existing_schools_at_start_of_year" value=patrakJPublicInfra2.existing_schools_at_start_of_year placeholder="Enter Existing Schools at Start of Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="schools_established_during_year") वर्षात स्थापन केलेल्या शाळा
+                                input.form-control(type="text" name="schools_established_during_year" id="schools_established_during_year" value=patrakJPublicInfra2.schools_established_during_year placeholder="Enter Schools Established During Year")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="students_in_primary_schools") प्राथमिक शाळेत जाणाऱ्या विद्यार्थ्यांची संख्या
+                                input.form-control(type="text" name="students_in_primary_schools" id="students_in_primary_schools" value=patrakJPublicInfra2.students_in_primary_schools placeholder="Enter Number of Students in Primary Schools")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="student_percentage_in_58_col") ५८ कॉ. मधील विद्यार्थ्यांचे %
+                                input.form-control(type="text" name="student_percentage_in_58_col" id="student_percentage_in_58_col" value=patrakJPublicInfra2.student_percentage_in_58_col placeholder="Enter Percentage of Students in 58 Com")
+
+                                input(name='id' value=patrakJPublicInfra2.id hidden)
+
+                    .col-12.text-center
+                        button.btn.btn-success(type='submit' id='update-patrak-j-public-infra-2-btn') Update
+

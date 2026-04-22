@@ -1,0 +1,43 @@
+extends ../include/index-page-master-layout.pug
+
+
+block internal_css 
+    style.
+        body {
+            background-image: url('/backgrounds/village/villlage-news.webp');
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+
+block content
+
+    .main-content-white-overlay(class='fixed top-0 left-0 w-full min-h-screen h-full bg-white bg-opacity-60 z-[10]')
+
+    section(class='relative py-8 md:py-16 z-[50] text-gray-800')
+        .container 
+            div(id='village-information-container relative')
+                h4.general-heading(class='sticky top-0 left-0 text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 my-border-blue')  
+                    <i class="fa-solid fa-newspaper"></i>
+                    span.ml-2(id='') 
+                        //- | गावाकडील बातम्या
+                        | #{t("villageNewsPage.heading")}
+
+
+                .news-container(class='mt-8')
+                    - var gramNewsList = JSON.parse(gp.gp_gramNewsList)
+                    if gramNewsList && gramNewsList.length > 0
+                        div(class='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4')
+
+                            each newsItem in gramNewsList
+                                - var link ='/new-gp-page/main-page/images/news/'+newsItem.image
+                                .individual-news(class='border-4 border-emerald-800 rounded-md p-1 shadow-lg')
+                                    a(href=link, data-lightbox="roadtrip")
+                                        img(class='w-full' src=link, alt="..." class='rounded-md')
+
+                    else 
+                        div(class='') 
+                            div(class='w-fit mx-auto md:text-xl lg:text-3xl font-extrabold tracking-widest') 
+                                //- | बातम्या उपलब्ध नाही...
+                                | #{t("villageNewsPage.noInfo")}

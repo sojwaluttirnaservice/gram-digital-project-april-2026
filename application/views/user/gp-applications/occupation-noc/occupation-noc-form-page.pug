@@ -1,0 +1,201 @@
+extends ../../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { opacity: 0; } 
+            100% { opacity: 1; } 
+        }
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider')
+                | व्यवसायासाठी ना हरकत प्रमाणपत्र अर्ज
+            //- h5(class='text-center') (कुक्कुट पालनासाठी)
+
+    //- =========================================================
+    //- MOBILE SEARCH SECTION (COMMENTED AS REQUESTED)
+    //- =========================================================
+    //-
+    //- section(class='py-6 bg-white border-b')
+        .container
+            h5(class='text-center font-semibold mb-1') अर्जदाराचा मोबाईल क्रमांक तपासणी
+            p(class='text-center text-sm text-gray-600 mb-4')
+                | कृपया अर्ज करण्यासाठी मोबाईल क्रमांक प्रविष्ट करा
+            div(id='check-by-mobile' class='my-2')
+                div(class='flex justify-center gap-3 items-center')
+                    label(for='applicant_mobile' class='text-sm font-medium') मोबाईल क्रमांक :
+                    input(type='text' id='applicant_mobile' class='py-1 px-2 border border-gray-600 outline-none max-w-52 bg-stone-100' placeholder='उदा. 9991212342' maxlength='10')
+                    button(type='button' class='px-4 py-1 border border-gray-700 bg-gray-200 font-medium') तपासा
+
+    section#form-section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden')
+        .container
+            form(id='occupation-noc-application-form' class='md:w-[80%] mx-auto flex flex-col gap-4')
+
+                // ===============================
+                // Applicant Identity Details
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | अर्जदाराची माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') अर्जदाराचे पूर्ण नाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='applicant_name' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='पूर्ण नाव')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मोबाईल क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input(type='text' name='applicant_mobile' maxlength='10' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='मोबाईल क्रमांक')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') ई-मेल 
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-envelope')
+                                    input(type='email' name='applicant_email' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='ई-मेल (असल्यास)')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') आधार क्रमांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-id-card')
+                                    input(type='text' name='applicant_aadhaar' maxlength='12' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='आधार क्रमांक')
+
+                            .input-group(class='px-2 md:col-span-2')
+                                label(class='font-bold tracking-wider') संपूर्ण पत्ता
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-start gap-2 bg-stone-100')
+                                    i(class='fas fa-map-marker-alt mt-2')
+                                    textarea(name='applicant_address' rows='2' class='py-1 px-2 outline-none flex-grow bg-stone-100' required placeholder='घर क्रमांकासह संपूर्ण पत्ता')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') Medical Council Number (दवाखाना असल्यास)
+                                    //- span(class='text-red-500 font-bold') &nbsp;
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='medical_council_number' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder="" autocomplete="off")
+
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जन्मदिनांक
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input.datepicker(type='text' name='dob' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder="e.g. 21-02-2026 (DD-MM-YYYY)" autocomplete="off" required)
+
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') गाव
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='applicant_village' class='py-1 px-2 outline-none flex-grow bg-stone-100' value=gp.gp_name required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') तालुका
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='applicant_taluka' class='py-1 px-2 outline-none flex-grow bg-stone-100' value=gp.gp_taluka required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जिल्हा
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='applicant_district' class='py-1 px-2 outline-none flex-grow bg-stone-100' value=gp.gp_dist required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') Application Date
+                                    span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input.datepicker(type='text' name='createdAt' class='py-1 px-2 outline-none flex-grow bg-stone-100' autocomplete="off")
+
+                            div(class='col-span-1 md:col-span-2')
+                                hr.mt-3
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वृक्षाचा प्रकार (वृक्षतोड असल्यास)
+                                    //- span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='tree_type' class='py-1 px-2 outline-none flex-grow bg-stone-100' value=gp.gp_dist required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') वृक्ष संख्या (वृक्षतोड असल्यास)
+                                    //- span(class='text-red-500 font-bold') &nbsp;*
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    input(type='text' name='tree_count' class='py-1 px-2 outline-none flex-grow bg-stone-100' value=gp.gp_dist required)
+
+
+
+                // ===============================
+                // Subject Selection
+                // ===============================
+                .form-card(class='flex flex-col gap-4')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border shadow-lg font-bold text-xl')
+                        | सेवा विषय निवड
+
+                    .form-body(class='space-y-2 shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+
+                        .input-group(class='px-2')
+                            div(class='flex items-center gap-2')
+                                label(class='font-bold') सेवा विषय
+                                    span(class='text-red-500') *
+                                    //- // Hidden field to store numeric ID
+                                    input(type='hidden' class='bg-white' name='subject_id' id='subject_id' value='')
+                                //- div(class='service-website-container')
+                            .input-holder(class='relative w-full border px-4 py-1 rounded-md bg-stone-100')
+                                select(
+                                    id='occupation_noc_subject_codes_select'
+                                    name='subject_code'  
+                                    class='w-full bg-stone-100 outline-none'
+                                    required
+                                )
+                                    option(value='') -- सेवा विषय निवडा --
+                                    each occupationNocSubject in occupationNocSubjects
+                                        //- // value is subject_name so it submits text
+                                        option(value=occupationNocSubject.subject_code) #{occupationNocSubject.subject_code ? occupationNocSubject.subject_code.split("_").join(" ") : "विषय उनुप्लब्ध"}
+                        .input-group(class='px-2')
+                            div(class='flex items-center gap-2')
+                                    label(class='font-bold') अर्ज विषय
+                                        span(class='text-red-500') *
+                                        //- // Hidden field to store numeric ID
+                                        input(type='hidden' class='bg-white' name='subject_id' id='subject_id' value='')
+                            .input-holder(class='mt-2 relative w-full border px-4 py-1 rounded-md bg-stone-100')
+                                input(type='text' name='application_subject' class='w-full py-1 px-2 outline-none flex-grow bg-stone-100' readonly required)
+
+                // ===============================
+                // Dynamic Documents Section
+                // ===============================
+                .form-card(class='flex flex-col gap-4')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border shadow-lg font-bold text-xl')
+                        | आवश्यक कागदपत्रे
+
+                    .form-body(
+                        id='documents-container'
+                        class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md grid grid-cols-1 md:grid-cols-2 gap-4'
+                    )
+                        p(class='text-sm text-gray-600 md:col-span-2 text-center')
+                            | कृपया सेवा विषय निवडा
+
+                // ===============================
+                // Submit
+                // ===============================
+                .buttons-container(class='text-center mt-4')
+                    button(type='button' id='submit-occupation-noc-application-btn' class='px-10 py-2 rounded-md bg-emerald-600 text-white font-bold hover:bg-emerald-700')
+                        | जतन करा
+
+
+    script. 
+        let _OCCUPATION_NOC_SUBJECTS = !{JSON.stringify(occupationNocSubjects)}
+    script(src='/asstest/coustom/js/handlers/gp-applications/occupation-noc/occupation-noc-application-form-handler.js')

@@ -1,0 +1,294 @@
+doctype html
+head
+  title नमुना ९ पाणी
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+        @page { 
+        size: landscape;
+        margin: 10mm 5mm 5mm 5mm;
+     }
+
+      .m-top{
+       margin: 10mm 5mm 5mm 5mm !important;
+      }
+      .m-bottom{
+        margin: 5mm 5mm 10mm 5mm !important;
+      }
+     }
+
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td.td {
+      height: 80px;
+    }
+    .set-height > td.td1 {
+      height: 40px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    td{
+        font-size:12px !important;
+        border:1px solid;
+      }
+      table{
+        width:100% !important;
+      }
+      .h5{
+         font-size:15px !important;
+      }
+      .h6{
+        font-size:14px !important;
+      }
+
+       .h7{
+        font-size:11px !important;
+      }
+body
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0
+  - var start = 0;
+  while count < main_length
+    - start = count*5;
+    - array1 = data.slice(start, (start+5));
+    - arrayLen =  5 - array1.length;
+    if(arrayLen !== 0)
+      while arrayLen > 0
+          - var singleVar = {lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0,feu_wardNo:"-",feu_malmattaNo:"-",feu_ownerName:"-",feu_secondOwnerName:"-",lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0}
+          - array1.push(singleVar)
+          - arrayLen--
+    - count++;
+    .row.set-p-break.m-top
+      .col-12.p-0.m-0 
+        table.table.table-borderless
+          thead
+            tr.p-0.m-0
+              td(colspan="6").p-1.m-0 
+                div
+                  span.float-left पान क्र  #{count}
+                  p.h4.text-center.font-weight-bold ग्रामपंचायत कार्यालय #{zp.gp_name} 
+                div.mt-2.mb-2
+                  span.h6.float-left नमुना-९
+                  p.h6.text-center.font-weight-bold.mr-4  नियम २२ (९),३२(४), ५(६) व ७ पहा
+                  p.text-center.h5.font-weight-bold सन #{y1} ते #{y2} या वर्षाची आकारणी केलेल्या पाणीपट्टी कराचे मागणी नोंदणी पुस्तक वही.
+      .col-12.p-0.m-0
+        center
+          table(border="1")#table2
+            thead
+              tr.p-0.m-0
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block अ 
+                  span.d-block नु 
+                  span.d-block क्र.
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block वा
+                  span.d-block र्ड
+                  span.d-block नं
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block घर 
+                  span.d-block क्र
+                  span.d-block व
+                  span.d-block नळ
+                  span.d-block नं 
+                td(width="20%" rowspan="3").text-center.m-0 
+                  span.d-block मालमत्ता धारकाच्ये नाव
+                  small.d-block (ज्या वेक्तीकडून कर येणे असेल त्या वेक्तीचे नाव)
+                td(width="5%" rowspan="3").text-center.m-0 
+                  span.d-block भोगवटधाराचे 
+                  span.d-block नाव
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block मागील 
+                  span.d-block विशेष 
+                  span.d-block पाणी कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block चालू 
+                  span.d-block विशेष 
+                  span.d-block पाणी कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block एकूण 
+                  span.d-block वि.पाणी 
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block मागील 
+                  span.d-block सार्वज
+                  span.d-block  निक 
+                  span.d-block पाणी कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block चालू
+                  span.d-block सार्वज
+                  span.d-block निक  
+                  span.d-block पाणी कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block एकूण 
+                  span.d-block सा.पाणी 
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block एकूण 
+                  span.d-block पाणीपट्टी 
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block बुक क्र.व 
+                  span.d-block पावती 
+                  span.d-block क्र
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block दिनां
+                  span.d-block क 
+                td(colspan="6").text-center.m-0 
+                  span.d-block पाणीपट्टी कर वसुली रकाणा
+                td(colspan="3").text-center.m-0 
+                  span.d-block बाकी पाणी पट्टी कर रकाणा
+                td(width="8%"  rowspan="3").text-center.m-0 
+                  span.d-block सूट मंजूर 
+                  span.d-block करणाऱ्या
+                  span.d-block अदेशासह शेरा
+
+              tr.p-0.m-0
+                td(colspan="2").text-center.m-0 
+                  span.d-block विशेष पाणी कर वसुली
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block वि.पाणी
+                  span.d-block कर वसुली 
+                td( colspan="2").text-center.m-0 
+                  span.d-block सार्वजनिक पाणी कर वसुली
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block सा.पाणी 
+                  span.d-block कर वसुली 
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block वि.पा. कर
+                td(width="5%" rowspan="2").text-center.m-0 
+                  span.d-block सा.पा. कर
+                td(width="5%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+
+              tr.p-0.m-0
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+              tr.p-0.m-0
+                td.text-center.m-0 1
+                td.text-center.m-0 2
+                td.text-center.m-0 3
+                td.text-center.m-0 4
+                td.text-center.m-0 5
+                td.text-center.m-0 6
+                td.text-center.m-0 7
+                td.text-center.m-0 8
+                td.text-center.m-0 9
+                td.text-center.m-0 10
+                td.text-center.m-0 11
+                td.text-center.m-0 12
+                td.text-center.m-0 13
+                td.text-center.m-0 14
+                td.text-center.m-0 15
+                td.text-center.m-0 16
+                td.text-center.m-0 17
+                td.text-center.m-0 18
+                td.text-center.m-0 19
+                td.text-center.m-0 20
+                td.text-center.m-0 21
+                td.text-center.m-0 22
+                td.text-center.m-0 23
+                td.text-center.m-0 24
+            
+              - var lastSpacialWaterTax= 0;
+              - var currentSpacialWaterTax= 0;
+              - var totalSpacialWaterTax= 0;
+              - var lastGenealWaterTax= 0;
+              - var currentGenealWaterTax= 0;
+              - var totalGenealWaterTax= 0;
+              - var totalWaterTax= 0;
+              each val in array1
+                - pageCount += 1;
+                - lastSpacialWaterTax += Math.round(val.lastSpacialWaterTax) ;
+                - currentSpacialWaterTax += Math.round(val.currentSpacialWaterTax) ;
+                - totalSpacialWaterTax += Math.round(val.totalSpacialWaterTax) ;
+                - lastGenealWaterTax += Math.round(val.lastGenealWaterTax) ;
+                - currentGenealWaterTax += Math.round(val.currentGenealWaterTax) ;
+                - totalGenealWaterTax += Math.round(val.totalGenealWaterTax) ;
+                - totalWaterTax += Math.round(val.totalWaterTax) ;
+
+                tr.p-0.m-0.set-height
+                  td.td.text-center.m-0 #{pageCount}
+                  td.text-center.m-0 #{val.feu_wardNo}
+                  td.text-center.m-0 #{val.feu_malmattaNo}
+                  td.text-center.m-0 #{val.feu_ownerName}
+                  td.text-center.m-0 #{val.feu_secondOwnerName} 
+                  td.text-center.m-0 #{Math.round(val.lastSpacialWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.currentSpacialWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.totalSpacialWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.lastGenealWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.currentGenealWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.totalGenealWaterTax)}
+                  td.text-center.m-0 #{Math.round(val.totalWaterTax)}
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+              tr.p-0.m-0.set-height
+                  td.td1(colspan="5").text-center.m-0 
+                    p.h6 पान क्रमांक नुसार एकूण पाणी कर 
+                  td.text-center.m-0 #{lastSpacialWaterTax}
+                  td.text-center.m-0 #{currentSpacialWaterTax}
+                  td.text-center.m-0 #{totalSpacialWaterTax}
+                  td.text-center.m-0 #{lastGenealWaterTax}
+                  td.text-center.m-0 #{currentGenealWaterTax}
+                  td.text-center.m-0 #{totalGenealWaterTax}
+                  td.text-center.m-0 #{totalWaterTax}
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0 
+                  td.text-center.m-0 

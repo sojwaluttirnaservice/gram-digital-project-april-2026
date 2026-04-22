@@ -1,0 +1,413 @@
+doctype html
+head
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	//- common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+	link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+	link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+	link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+	link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+	link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+	title #{title}
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js')
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+	//mask plugin jquery
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")   
+
+	//google fonts
+	link(rel='preconnect' href='https://fonts.googleapis.com')
+	link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+	link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+
+	//toggle
+	script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+	// extras
+	script(src='/asstest/plugins/select/js/select2.full.min.js')
+	// common js setups
+	script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" defer)
+	script(src='/asstest/coustom/js/base.converter.js')
+	script(src='/asstest/coustom/js/common.js')
+	script(src='/asstest/coustom/js/handlers/home-manager.js' defer)
+
+	style.
+
+		.error {
+			color:red !important;
+			font-style:italic !important;
+			font-weight:700 !important;
+		}
+		.bg-warning{
+			background-color:#fffd70 !important;
+		}
+		.bg-warning{
+			background-color:#fffd70 !important;
+		}
+		.hand:hover{
+			background-color:#ecc6db
+		}
+		.modal-dialog {
+			width: 98%;
+			height: 92%;
+			padding: 0;
+		}
+
+		.modal-dialog {
+			max-width: 1300px;
+		}
+
+body
+	include ./include/navs.pug
+
+	.back-image
+		include ./include/home-logout-button.pug
+		.container-fluid
+			include ./include/allHomeModal.pug
+
+			.row
+				.col-12.d-flex.justify-content-center.mt-4
+					h5.heading-1 ग्राम सेवा दाखले व इतर सुविधा 
+				.col-12
+					.row.d-flex.justify-content-center.align-items-center
+						.col-5.col-md-2.p-2.box.box--white
+							a.commonModalFrom(href='/payment/online' class="d-flex justify-content-center align-items-center" style='text-decoration:none;color:inherit;') 
+								p(class="i fa fa-calendar fa-2x text-success" )
+								p.pl-2 
+									small Online कर भरणा तपासणी
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="12" class="d-flex justify-content-center align-items-center") 
+								p(class="i fa fa-calendar fa-2x text-success" )
+								p.pl-2 
+									small जन्म / मृत्यू नोंदणी
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="13" class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-globe.fa-2x
+								p.pl-2
+									small ग्रामपंचायत अंतर्गत वापरल्या जाणाऱ्या वेबसाईट
+
+
+						a.col-5.col-md-2.p-2.box.box--white(href='/village')
+							.commonModalFrom( class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-globe.fa-2x
+								p.pl-2
+									small ग्राम माहिती
+
+						a.col-5.col-md-2.p-2.box.box--white(href='/gram-list-setting')
+							.commonModalFrom( class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-globe.fa-2x
+								p.pl-2
+									small ग्राम दस्तावेज
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="14" class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-users.fa-2x
+								p.pl-2 
+									small विवाह नोंदणी
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="15" class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-graduation-cap.fa-2x
+								p.pl-2
+									small ग्रा.प थकबाकी/निराधार प्रमाणपत्र
+
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="16" class="d-flex justify-content-center align-items-center") 
+								p
+									i.fa.fa-stack-overflow.fa-2x
+								p.pl-2
+									small नवीन अर्ज 
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="17" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-envelope.fa-2x.text-primary
+								p.pl-2
+								small ग्राम संदेश सेवा
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="23" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-list-ul.fa-2x.text-primary
+								p.pl-2
+									small मुख्य पोस्ट(नोटीस)
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="18" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file-zip-o.fa-2x.text-primary
+								p.pl-2
+									small रहिवासी स्वयं घोषणापत्र
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="28" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-calendar.fa-2x.text-primary
+								p.pl-2 
+									small ग्राम पंचायत नोटीस मासिक/ग्रामसभा
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="20" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-th-list.fa-2x.text-primary
+								p.pl-2
+								small पंचायत  समिती अहवाल
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="21" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file-excel-o.fa-2x.text-primary
+								p.pl-2
+									small नमुना ८ यादी  
+						a.col-5.col-md-2.p-2.box.box--white(href='/divyanga/applications')
+							.commonModalFrom(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file.fa-2x.text-primary
+								p.pl-2
+									small दिव्यांग लोकांचे अर्ज 
+
+						//- yadi and certificates
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/gp-certificates")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small ग्रामपंचायत दाखले 
+
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="form-9/yadi")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small यादी आणि प्रमाणपत्र  
+
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="gp-notice")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small ग्रामपंचायतद्वारे नोटीस
+
+						//- print blank certificates
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/print/blankCertificate/")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small Blank प्रमाणपत्र 
+
+						.col-5.col-md-2.p-2.box.box--white
+							a(class="d-inline-flex justify-content-center align-items-center" style='color:black; width:100%;' href="/print/card-print?p=0&tp=100" target="_blank")
+								p
+									i.fa.fa-qrcode.fa-2x.text-primary
+								p.pl-2
+									small QR कार्ड  
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="22" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file-excel-o.fa-2x.text-primary
+								p.pl-2
+									small नमुना ९ यादी 
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="24" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.text-primary.fa.fa-file-image-o.fa-2x
+								p.pl-2
+									small छायाचित्रे
+						.col-5.col-md-2.p-2.box.box--white
+							div(class="d-flex justify-content-center align-items-center")
+								p
+									a(href="/get-people-list") 
+										i.text-primary.fa.fa-users.fa-2x
+								p.pl-2
+									small Reg. Member List
+
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="rokad-vahi")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-solid.fa-book.fa-2x.text-primary
+								p.pl-2
+									small दैनंदिन रोकड वही
+
+						//- Tharav (ठराव)
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="tharav/masikSabhaTharav")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-solid.fa-clipboard.fa-2x.text-primary
+								p.pl-2
+									small मासिक सभा ठराव
+
+						//- Send sms Feature of master panel
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/sms")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-regular.fa-envelope-open.fa-2x.text-primary
+								p.pl-2
+									small Send SMS feature UI
+
+						//- 
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/masik-notice/sabha-attendance")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-solid.fa-book.fa-2x.text-primary
+								p.pl-2
+									small हजेरी पत्रक
+
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/labor-attendance/work/list")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-solid.fa-book.fa-2x.text-primary
+								p.pl-2
+									small मजुरी हजेरीपत्रक
+
+						//- Gram sandarbha ahaval
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/gram-sandarbha-ahaval/gram-sandarbha-ahaval-view")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-th-list.fa-2x.text-primary
+								p.pl-2
+									small ग्राम कर संदर्भ अहवाल
+
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/nagrik/report")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-th-list.fa-2x.text-primary
+								p.pl-2
+									small नागरिक नोंदणी रिपोर्ट 
+
+						//-Manipulate form 8 data
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/update-database-table/update-form-8-data-view")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-th-list.fa-2x.text-primary
+								p.pl-2
+									small Update form 8 database
+
+
+						//- All namune / सर्व नमुने
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/namuna")
+							div(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-th-list.fa-2x.text-primary
+								p.pl-2
+									small नमुने
+
+
+
+				//- Second section for this
+
+				.col-12.d-flex.justify-content-center.mt-3
+					h5.heading-1 ग्राम करा संदर्भात सेवा
+				.col-12.d-flex.justify-content-center.align-items-center
+					.row.d-flex.justify-content-center.align-items-center
+						.col-5.col-md-2.p-2.box.box--white
+							.getForm8  
+								div(class="d-flex justify-content-center align-items-center") 
+									p
+										i.fa.fa-file-o.fa-2x
+									p.pl-2
+										small नमुना ८ नोदणी फॉर्म  
+						.col-5.col-md-2.p-2.box.box--white
+							.getForm8Tax(data-id="1" class="d-flex justify-content-center align-items-center")  
+								p.box__title 
+									i.fa.fa-edit.fa-2x
+								p.pl-2
+									small नमुना ८ कर आकारणी/दुरुस्ती
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="form-8/fer-far")
+							div(class="d-flex justify-content-center align-items-center")  
+								p.box__title 
+									i.fa.fa-edit.fa-2x
+								p.pl-2
+									small नमुना ८ फेरफार
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="2" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-stack-exchange.fa-2x
+								p.pl-2
+									small नमुना ९ सामान्य थकीत व चालू कर नोदणी फॉर्म
+
+						a.col-5.col-md-2.p-2.box.box--white(href='/watertax')
+							.commonModalFrom( class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-stack-exchange.fa-2x
+								p.pl-2
+									small नमुना ९ पाणी थकीत व चालू कर नोदणी फॉर्म
+
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="25" class="d-flex justify-content-center align-items-center" ) 
+								p.box__title 
+									i.text-primary.fa.fa-save.fa-2x
+								p.pl-2
+									small मीटर/नळ नोंदणी
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="8" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file-archive-o.fa-2x
+								p.pl-2
+									small मागणी 
+									small लेख नोंदणी
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="10" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-file-zip-o.fa-2x
+								p.pl-2
+									small पाणीकर 
+									small नळ कट नोटीस नोंदणी
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="form8/formEightPrintTab")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small नमुना 8 प्रिंट 
+						a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="form9/formNinePrintTab")
+							div(class="d-flex justify-content-center align-items-center")
+								p.box__title 
+									i.fa.fa-solid.fa-print.fa-2x.text-primary
+								p.pl-2
+									small नमुना ९ प्रिंट 
+						a.col-5.col-md-2.p-2.box.box--white(href='/magni-bill')
+							.commonModalFrom(class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-print.fa-2x.text-warning
+								p.pl-2
+									small मागणी बील
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="9" class="d-flex justify-content-center align-items-center") 
+								p.box__title 
+									i.fa.fa-print.fa-2x.text-secondary
+								p.pl-2
+									small मागणी लेख
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="11" class="d-flex justify-content-center align-items-center" ) 
+								p.box__title 
+									i.fa.fa-print.fa-2x.text-primary
+								p.pl-2
+									small पाणी कर नळ कट नोटीस  
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="19" class="d-flex justify-content-center align-items-center" ) 
+								p
+									i.fa.fa-dropbox.fa-2x.text-primary
+								p.pl-1
+									small कर भरणा (नमुना 10)
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="26" class="d-flex justify-content-center align-items-center" ) 
+								p.box__title 
+									i.fa.fa-print.fa-2x.text-primary
+								p.pl-2
+									small मीटर प्रिंट
+						.col-5.col-md-2.p-2.box.box--white
+							.commonModalFrom(data-id="27" class="d-flex justify-content-center align-items-center" ) 
+								p.box__title 
+									i.fa.fa-print.fa-2x.text-primary
+								p.pl-2
+									small मीटर पाण्याचे नमुना ९ नोंदणी वही

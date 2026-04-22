@@ -1,0 +1,88 @@
+.modalExamsQuestionEdit.modal.m-0.p-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+        .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+          .modal-content(style="max-width:100%; height:100vh")
+            .modal-header.examsQuestionEditModalHeader
+              h5.modal-title.font-weight-bold
+                span.text-danger MHT-CET&nbsp;
+                  i.fa.fa-angle-double-right
+                span.text-primary &nbsp;BIOLOGY&nbsp;
+                  i.fa.fa-angle-double-right
+                span.text-success &nbsp;BOOLD
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+            .modal-body(style="overflow-y :scroll")
+                  .questionEditBody
+                    .form-group.col-12.mt-3
+                      label.font-weight-bold.text-secondary(for='')
+                        | Question
+                        span.text-danger *
+                        span
+                          i.fa.fa-info-circle.text-secondary.hand(aria-hidden='true')
+                      textarea.editor#idEntryQuestion.form-control(name='idEntryQuestion', rows='3')
+                      input(type="text" class="btn_qpaste form-control" placeholder="Paste image here" style="background-color: #f8edd1;")
+                    .form-group.col-12.mt-3#tableMCQOption
+                        table.table.table-borderless.m-0.p-0
+                          thead
+                            tr
+                              th(width='4%') Correct
+                              th(width='95%') Option
+                          tbody#mcqOtionSet
+                          button.float-right.btn-sm.btn.btn-primary.d-none
+                            i.fa.fa-plus-circle(aria-hidden='true')
+                            |  New Option
+                        .clearfix
+                        .form-group.col-11.mt-3.ml-4.pt-1.pb-1.bg-light-gray
+                            p.font-weight-bold.hand.text-secondary.pt-1(data-toggle='collapse', data-target='#questionExpanation', aria-expanded='false', aria-controls='questionExpanation')
+                              i.fa.fa-plus(aria-hidden='true')
+                              |  Add Explaination
+                            #questionExpanation.collapse.ml-2.pb-2
+                              textarea#questionExpanationText.form-control(rows='5')
+                              input(type="text" class="btnCommonPaste form-control" placeholder="Paste image here" style="background-color: #f8edd1;")
+                        .clearfix
+                        .form-group.col-11.mt-3.ml-4.pt-1.pb-1.bg-light-gray
+                          p.font-weight-bold.hand.text-secondary.pt-1(data-toggle='collapse', data-target='#advanceOption', aria-expanded='false', aria-controls='advanceOption')
+                            i.fa.fa-magic(aria-hidden='true')
+                            |  Advance Option
+                          #advanceOption.ml-2.pb-2
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | PUBLICATION NAME
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              input#questionPublicationName.form-control(type='text', name='', aria-describedby='helpId', placeholder='')
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | BOOK NAME
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              input#questionBookName.form-control(type='text', name='', aria-describedby='helpId', placeholder='')
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | PAGE NUMBER
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              input#questionPageNumber.form-control(type='text', name='', aria-describedby='helpId', placeholder='')
+                            .clearfix
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | RIGHT MARKS
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              input#questionRightMarks.form-control(type='text', name='', aria-describedby='helpId', placeholder='')
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | NEGATIVE MARKS
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              input#questionWrongMarks.form-control(type='text', name='', aria-describedby='helpId', placeholder='')
+                            .form-group.col-3.d-inline-block
+                              label.h6.text-secondary
+                                | DIFFICULTY LEVEL
+                                span
+                                  i.fa.fa-info-circle.hand(aria-hidden='true')
+                              select#questionDifficultyLavel.form-control(name='')
+                                option(value="0") Select Difficulty
+                                option(value="3") Difficult
+                                option(value="2") Normal
+                                option(value="1") Easy
+                        // save answer

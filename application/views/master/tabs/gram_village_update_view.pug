@@ -1,0 +1,505 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		meta(http-equiv='X-UA-Compatible' content='ie=edge')
+		title ग्रामपंचायत माहिती
+		// CSS
+		link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+		link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+		link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+		link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+		link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+		link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+		link(href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css' rel='stylesheet')
+
+		// JS
+		script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+		script(src='/asstest/plugins/popper/popper.min.js') 
+		script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+		script(src='/asstest/plugins/date/jquery-ui.js')
+		script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+		script(src='/asstest/plugins/notify/notify.js')
+		script(src='/asstest/plugins/jquery_validation/jquery.validate.min.js')
+		script(src='/asstest/plugins/jquery_validation/additional-methods.js')  
+		script(src='/asstest/coustom/js/base.converter.js')
+		script(src='/asstest/coustom/js/common.js')
+		script(src='/asstest/coustom/js/handlers/master.main.handler.js')
+
+
+		script.
+			let data = !{JSON.stringify(sub_village)};
+			$(function(){
+				$('#inputGramVellageName').val(data.gp_name);
+				$('#inputGramVellageUrl').val(data.gp_url);
+				$('#inputGramVellageMale').val(data.gp_male);
+				$('#inputGramVellageFemale').val(data.gp_female);
+
+
+				$('#inputSCCountMale').val(data.sc_count_male);
+				$('#inputSCCountFemale').val(data.sc_count_female);
+				$('#inputSCCount').val(data.sc_count);
+
+				$('#inputSTCountMale').val(data.st_count_male);
+				$('#inputSTCountFemale').val(data.st_count_female);
+				$('#inputSTCount').val(data.st_count);
+
+				$('#inputNTCountMale').val(data.nt_count_male);
+				$('#inputNTCountFemale').val(data.nt_count_female);
+				$('#inputNTCount').val(data.nt_count);
+
+				$('#inputOBCCountMale').val(data.obc_count_male);
+				$('#inputOBCCountFemale').val(data.obc_count_female);
+				$('#inputOBCCount').val(data.obc_count);
+
+				$('#inputOpenOthersCountMale').val(data.open_others_count_male);
+				$('#inputOpenOthersCountFemale').val(data.open_others_count_female);
+				$('#inputOpenOthersCount').val(data.open_others_count);
+
+
+				$('#ward_numbers').val(data.ward_numbers);
+				$('#total_members').val(data.total_members);
+				$('#sarpanch_directly_elected_count').val(data.sarpanch_directly_elected_count);
+				$('#home_count').val(data.home_count);
+				$('#area_in_sq_hectare').val(data.area_in_sq_hectare);
+				$('#area_in_sq_km').val(data.area_in_sq_km);
+				$('#constituency_number').val(data.constituency_number);
+				$('#constituency_name').val(data.constituency_name);
+				$('#assembly_constituency_number').val(data.assembly_constituency_number);
+				$('#assembly_constituency_name').val(data.assembly_constituency_name);
+				$('#number_of_households').val(data.number_of_households);
+				$('#number_of_households_having_toilets').val(data.number_of_households_having_toilets);
+				$('#open_defecation_free_year').val(data.open_defecation_free_year);
+				$('#odf_plus_remarks').val(data.odf_plus_remarks);
+				$('#households_connected_to_waste_management').val(data.households_connected_to_waste_management);
+				$('#soak_pits').val(data.soak_pits);
+				$('#waste_management').val(data.waste_management);
+				$('#tank_location').val(data.tank_location);
+				$('#tank_capacity').val(data.tank_capacity);
+				$('#staff_in_charge').val(data.staff_in_charge);
+				$('#normal_rate').val(data.normal_rate);
+				$('#special_rate').val(data.special_rate);
+
+
+				// Populate health sub centers
+				if (data.health_sub_centers) {
+					try {
+
+
+						console.log(typeof data.health_sub_centers === 'string')
+
+						console.log(data)
+
+						centers = typeof data.health_sub_centers === 'string' ? JSON.parse(data.health_sub_centers) : []
+						console.log(centers)
+						centers.forEach(center => {
+							addHealthSubCenterRowWithData(center.name, center.worker_name, center.contact);
+						});
+					} catch (e) {
+						console.error("Invalid health_sub_centers JSON", e);
+					}
+				}
+			});
+
+			function addHealthSubCenterRowWithData(name = '', worker = '', contact = '') {
+				const container = document.getElementById('healthSubCentersContainer');
+				const row = document.createElement('div');
+				row.className = 'row g-2 mb-2';
+
+				row.innerHTML = `
+					<div class="col-md-4">
+						<input type="text" class="form-control" value="${name}" placeholder="उपकेंद्राचे नाव">
+					</div>
+					<div class="col-md-4">
+						<input type="text" class="form-control" value="${worker}" placeholder="कामगाराचे नाव">
+					</div>
+					<div class="col-md-3">
+						<input type="text" class="form-control" value="${contact}" placeholder="संपर्क क्रमांक">
+					</div>
+					<div class="col-md-1 d-flex align-items-center">
+						<button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.row').remove()">x</button>
+					</div>
+				`;
+
+				container.appendChild(row);
+			}
+
+			function addHealthSubCenterRow() {
+				addHealthSubCenterRowWithData('', '', '');
+			}
+	body
+		.container-fluid
+			.row.justify-content-center
+				.col-12 
+					.nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+						a.navbar-brand(href="/master") Master Panel
+
+				.col-10(style='margin-top: 6rem')
+					form
+						.row.mt-2.mx-2.justify-content-between(style='row-gap: 1rem;')
+
+							// Basic Info
+							.col-md-4
+								label गावाचे नाव
+								input#inputGramVellageName.form-control(type='text' placeholder='उदाहरण: मासोद')
+
+							.col-md-4
+								label गावाचा URL
+								input#inputGramVellageUrl.form-control(type='text' placeholder='उदाहरण: http://g-seva.com')
+
+							.col-md-2
+								label पुरुष
+								input#inputGramVellageMale.form-control(type='number')
+
+							.col-md-2
+								label स्त्रिया
+								input#inputGramVellageFemale.form-control(type='number')
+
+							// Caste-wise counts (SC, ST, NT, OBC, Others)
+							each group in ['SC', 'ST', 'NT', 'OBC', 'OpenOthers']
+								.col-md-2
+									label #{group} (पुरुष)
+									input.form-control(type='number' id=`input${group}CountMale`)
+
+								.col-md-2
+									label #{group} (स्त्रिया)
+									input.form-control(type='number' id=`input${group}CountFemale`)
+
+								.col-md-2
+									label #{group} संख्या
+									input.form-control(type='number' id=`input${group}Count`)
+
+							// Additional Details
+							.col-md-3
+								label वार्ड संख्या
+								input#ward_numbers.form-control(type='text')
+
+							.col-md-3
+								label एकूण सदस्य
+								input#total_members.form-control(type='text')
+
+							.col-md-3
+								label सरपंच थेट निवडून आलेले
+								input#sarpanch_directly_elected_count.form-control(type='text')
+
+							.col-md-3
+								label घरांची संख्या
+								input#home_count.form-control(type='text')
+
+							.col-md-3
+								label क्षेत्रफळ (हे.)
+								input#area_in_sq_hectare.form-control(type='text')
+
+							.col-md-3
+								label क्षेत्रफळ (किमी.)
+								input#area_in_sq_km.form-control(type='text')
+
+							.col-md-3
+								label मतदार संघ क्रमांक
+								input#constituency_number.form-control(type='text')
+
+							.col-md-3
+								label मतदार संघ नाव
+								input#constituency_name.form-control(type='text')
+
+							.col-md-3
+								label विधानसभा क्रमांक
+								input#assembly_constituency_number.form-control(type='text')
+
+							.col-md-3
+								label विधानसभा नाव
+								input#assembly_constituency_name.form-control(type='text')
+
+							.col-md-3
+								label कुटुंब संख्या
+								input#number_of_households.form-control(type='text')
+
+							.col-md-3
+								label स्वच्छतागृह असलेली कुटुंबे
+								input#number_of_households_having_toilets.form-control(type='text')
+
+							.col-md-3
+								label हागणदारी मुक्ती वर्ष
+								input#open_defecation_free_year.form-control(type='text')
+
+							.col-md-3
+								label ODF+ शेरा
+								input#odf_plus_remarks.form-control(type='text')
+
+							.col-md-3
+								label कचरा व्यवस्थापन जोडलेली कुटुंबे
+								input#households_connected_to_waste_management.form-control(type='text')
+
+							.col-md-3
+								label शोषखड्डे
+								input#soak_pits.form-control(type='text')
+
+							.col-md-3
+								label कचरा व्यवस्थापन
+								input#waste_management.form-control(type='text')
+
+							// Water Supply
+							.col-md-4
+								label टाकीचे ठिकाण
+								input#tank_location.form-control(type='text')
+
+							.col-md-2
+								label टाकी क्षमता (ली.)
+								input#tank_capacity.form-control(type='number')
+
+							.col-md-3
+								label जबाबदार कर्मचारी
+								input#staff_in_charge.form-control(type='text')
+
+							.col-md-2
+								label सामान्य दर (₹)
+								input#normal_rate.form-control(type='number' step='0.01')
+
+							.col-md-2
+								label विशेष दर (₹)
+								input#special_rate.form-control(type='number' step='0.01')
+
+							// Health Sub Centers
+							.col-12
+								h5.mt-4 आरोग्य उपकेंद्र माहिती
+								#healthSubCentersContainer
+
+							.col-12
+								button.btn.btn-sm.btn-info(type='button' onclick='addHealthSubCenterRow()') नवीन उपकेंद्र जोडा
+
+							.col-12.text-center.mt-4
+								button.btn.btn-outline-primary#updateGramVillageBtn(type='submit' data-id=sub_village.id) अपडेट करा
+
+		//- script.
+
+
+			$(function(){
+				// Existing initialization of other fields here...
+
+				// Assuming data.health_sub_centers is a JSON string of array objects like:
+				// [{name: '...', worker_name: '...', contact: '...'}, {...}]
+				if (data.health_sub_centers) {
+					try {
+						const centers = JSON.parse(data.health_sub_centers);
+						centers.forEach(center => {
+							addHealthSubCenterRowWithData(	center.name, 
+								center.worker_name, 
+								center.contact);
+						});
+					} catch (e) {
+						console.error("Invalid health_sub_centers JSON", e);
+					}
+				}
+			});
+
+			function addHealthSubCenterRow() {
+				const container = document.getElementById('healthSubCentersContainer');
+				const row = document.createElement('div');
+				row.className = 'row g-2 mb-2';
+				row.innerHTML = `
+					<div class="col-md-4">
+					<input type="text" class="form-control" placeholder="उपकेंद्राचे नाव">
+					</div>
+					<div class="col-md-4">
+					<input type="text" class="form-control" placeholder="कामगाराचे नाव">
+					</div>
+					<div class="col-md-3">
+					<input type="text" class="form-control" placeholder="संपर्क क्रमांक">
+					</div>
+					<div class="col-md-1 d-flex align-items-center">
+					<button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.row').remove()">x</button>
+					</div>`;
+				container.appendChild(row);
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//- doctype html
+//- html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		meta(http-equiv='X-UA-Compatible' content='ie=edge')
+		// common css
+		link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+		link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+		link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+		link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+		link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+		link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+		link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+		//js
+		script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+		script(src='/asstest/plugins/popper/popper.min.js') 
+		script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+		script(src='/asstest/plugins/date/jquery-ui.js')
+		script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+		script(src='/asstest/plugins/notify/notify.js')
+		script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+		script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+		// common js setups
+		script(src='/asstest/coustom/js/base.converter.js')
+		script(src='/asstest/coustom/js/common.js')
+		script(src='/asstest/coustom/js/handlers/master.main.handler.js')
+
+		script.
+			let data = !{JSON.stringify(sub_village)};
+			$(function(){
+				$('#inputGramVellageName').val(data.gp_name)
+				$('#inputGramVellageUrl').val(data.gp_url)
+				$('#inputGramVellageMale').val(data.gp_male)
+				$('#inputGramVellageFemale').val(data.gp_female);
+
+				$('#inputSCCountMale').val(data.sc_count_male);
+				$('#inputSCCountFemale').val(data.sc_count_female);
+				$('#inputSCCount').val(data.sc_count);
+
+				$('#inputSTCount').val(data.st_count_male);
+				$('#inputSTCount').val(data.st_count_female);
+				$('#inputSTCount').val(data.st_count);
+
+				$('#inputNTCount').val(data.nt_count_male);
+				$('#inputNTCount').val(data.nt_count_female);
+				$('#inputNTCount').val(data.nt_count);
+
+				$('#inputOBCCount').val(data.obc_count_male);
+				$('#inputOBCCount').val(data.obc_count_female);
+				$('#inputOBCCount').val(data.obc_count);
+
+				$('#inputOpenOthersCount').val(data.open_others_count_male);
+				$('#inputOpenOthersCount').val(data.open_others_count_female);
+				$('#inputOpenOthersCount').val(data.open_others_count);
+
+			})
+
+
+	body
+		.container-fluid
+			.row.justify-content-center
+				.col-12 
+					.nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+						a.navbar-brand(href="/master") Master Panel
+
+				.col-10(style='margin-top: 6rem')
+					form
+						.row.mt-2.mx-2.justify-content-between(style='row-gap: 1rem;')
+							.col-2
+								.form-group
+									label.form-label गावाचे नाव
+									input#inputGramVellageName.form-control(type='text' placeholder="eg. मासोद")
+							.col-4
+								.form-group
+									label.form-label गावाचा URL 
+									input#inputGramVellageUrl.form-control(type='text' placeholder="http://g-seva.com/")
+							.col-3
+								.form-group
+									label.form-label गावाचे पुरुष संख्या 
+									input#inputGramVellageMale.form-control(type='number' placeholder="eg.145")
+							.col-3
+								.form-group
+									label.form-label गावाचे स्त्री संख्या 
+									input#inputGramVellageFemale.form-control(type='number' placeholder="eg.145") 
+
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label SC (पुरुष) संख्या
+								input#inputSCCountMale.form-control(type='number' placeholder="eg.145") 
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label SC (स्त्रिया) संख्या
+								input#inputSCCountFemale.form-control(type='number' placeholder="eg.145") 
+
+							.col-2
+								.form-group
+									label.form-label SC संख्या
+									input#inputSCCount.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label ST (पुरुष) संख्या
+								input#inputSTCountMale.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label ST (स्त्रिया) संख्या
+								input#inputSTCountFemale.form-control(type='number' placeholder="eg.145") 
+
+							.col-2
+								.form-group
+									label.form-label ST संख्या
+									input#inputSTCount.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label NT (पुरुष) संख्या
+								input#inputNTCountMale.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label NT (स्त्री) संख्या
+								input#inputNTCountFemale.form-control(type='number' placeholder="eg.145") 
+
+							.col-2
+								.form-group
+									label.form-label NT संख्या
+									input#inputNTCount.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label OBC (पुरुष)  संख्या
+								input#inputOBCCountMale.form-control(type='number' placeholder="eg.145") 
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label OBC (स्त्री)  संख्या
+								input#inputOBCCountFemale.form-control(type='number' placeholder="eg.145") 
+
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label Open/Others (पुरुष)   संख्या
+								input#inputOpenOthersCountMale.form-control(type='number' placeholder="eg.145") 
+
+							.col-6.col-sm-4.col-md-2
+								label.form-label Open/Others (स्त्री)  संख्या
+								input#inputOpenOthersCountFemale.form-control(type='number' placeholder="eg.145") 
+
+							.col-2
+								.form-group
+									label.form-label OBC संख्या
+									input#inputOBCCount.form-control(type='number' placeholder="eg.145") 
+							.col-2
+								.form-group
+									label.form-label Open/Others संख्या
+									input#inputOpenOthersCount.form-control(type='number' placeholder="eg.145") 
+							.col-12.mt-2.text-center
+								button.mt-4.btn.btn-outline-primary(id='updateGramVillageBtn' data-id = sub_village.id) अपडेट करा

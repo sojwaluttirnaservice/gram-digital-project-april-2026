@@ -1,0 +1,40 @@
+form#aanganwadi-center-form {
+    width: 70%;
+    margin: 2rem auto;
+}
+
+/* year form range css */
+.year-range input {
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.year-range input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    outline: none;
+}
+
+.card-body .row {
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.add-age-group-form {
+    padding-top: 1rem;
+    border-top: 2px dashed #c1eac5;
+    margin-top: 1rem;
+}
+
+.age-group-row:last-child {
+    border-bottom: none;
+}
+
+@media screen and (max-width: 576px) {
+    form#aanganwadi-center-form {
+        width: 90%;
+    }
+}

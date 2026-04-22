@@ -1,0 +1,276 @@
+doctype html
+head
+    title लोक अदालत नोटीस
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+    style.
+
+        @media print {
+            @page { 
+                size: A4;
+
+            }
+            body {
+                margin:0;
+                padding:0;
+            }
+            body {transform: scale(1);}
+
+            .my-print {
+                margin: 3mm 2mm 3mm 2mm;
+            }
+
+            #print-date-input {
+                display: none;
+            }
+        }
+
+        #reader {
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            animation: slide-in 0.4s;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes slide-in {
+            from {
+                top: -300px;
+                opacity: 0;
+            }
+            to {
+                top: 0;
+                opacity: 1;
+            }
+        }
+        #qr-code img{
+            width: 100%;
+            height: 100%;
+        }
+
+
+    script.
+        document.addEventListener('DOMContentLoaded', function () {
+            const _data = !{JSON.stringify(lokAdalatNotice)};
+
+
+
+            const input = document.getElementById('print-date-input');
+            const output = document.getElementById('print-date');
+
+            if (input && output) {
+                input.addEventListener('input', function () {
+                    output.textContent = input.value;
+                });
+            }
+        });
+
+    //- script.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Your code here
+            //- console.log('Document fully loaded and parsed');
+            const _data = !{JSON.stringify(lokAdalatNotice)};
+            const _gp = !{JSON.stringify(gp)};
+
+
+            //- const qrData = JSON.stringify(_data);
+            //- const _dataString = `मृतकाचे नाव : ${_data.name_of_deceased_m} \nName of Deceased :${_data.name_of_deceased}\nआधार क्रमांक: ${_data.aadhar_of_deceased_m}\nAadhar Number: ${_data.aadhar_of_deceased}\n लिंग : ${_data.gender_m}\nGender:${_data.gender}\nमृत्यू दिनांक : ${_data.date_of_death_m}\nDate of Death: ${_data._date_of_death} \nमृत्यूचे ठिकाण: ${_data.address_of_deceased_at_death_time_m} \nPlace of Death: ${_data.place_of_death}\n ग्रामपंचायत: ${_gp.gp_name}`;
+            //- const _dataString = `मृतकाचे नाव : ${_data.name_of_deceased_m} \n लिंग : ${_data.gender_m}\n मृत्यू दिनांक : ${_data.date_of_death_m}\n मृत्यूचे ठिकाण: ${_data.address_of_deceased_at_death_time_m} \n  ग्रामपंचायत: ${_gp.gp_name}`;
+            //- console.log(_dataString.length)
+            //- var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:150, height:150});
+
+            let website = window.location.origin
+            website += `/qr-scan/death-certificate?id=${_data.id}`
+            new QRCode(document.getElementById("qr-code"),website);
+        });
+
+body
+    .my-print(style="width:210mm; height:298mm; border: 4px solid gray; padding: 0.4rem; position: relative;")
+
+
+        if lokAdalatNotice == null 
+            div(style="font-size: 4rem; text-align:center;") No certificate found 
+
+        else
+
+
+            div 
+
+                h1(style='text-align: center; padding-left:1rem; padding-right:1rem;') जिल्हा विधी सेवा प्राधिकरण,
+                    //- span(style='font-weight: bold') #{gp.gp_taluka} 
+                    span जिल्हा 
+                    span(style='font-weight: bold') #{gp.gp_dist}
+                h2(style='text-align: center; margin-bottom:0') राष्ट्रीय लोक अदालत नोटीस
+                h3(style='text-align: center; margin-top:0')  नमुना ब 
+                h5(style='text-align: center;') पहा नियम (१०) (१) (५) (अ)
+
+            div(style='margin-top: 1rem; font-size: 1rem;  padding-left:1rem; padding-right:1rem;')
+                div 
+                    span(style='font-weight: bold') अर्जदार: 
+                    span सरपंच सचिव ग्रामपंचायत 
+                    span(style='font-weight: bold') #{gp.gp_name} 
+                    span तालुका 
+                    span(style='font-weight: bold') #{gp.gp_taluka} 
+                    span जिल्हा 
+                    span #{gp.gp_dist}
+
+            div(style='text-align: center; margin-top: 1rem; font-weight: bold;') विरुद्ध
+
+
+            div(style='margin-top: 1rem; font-size: 1rem;  padding-left:1rem; padding-right:1rem;')
+                div 
+                    span(style='font-weight: bold') गैरअर्जदार : 
+                    span श्री/श्रीमती
+                    span(style='font-weight: bold') &nbsp;#{lokAdalatNotice.applicant_name} 
+                    span राहणार तालुका 
+                    span(style='font-weight: bold') #{gp.gp_taluka}
+
+            div(style='margin-top:1rem; padding-left:1rem; padding-right:1rem;')
+                div(style='font-weight: bold;') महोदय महोदया 
+
+                div(style='margin-left: 1rem; line-height: 2.3rem;')
+
+                    span(style='opacity: 0;') difiivv
+
+                    span
+
+                        | आपणास नोटीस द्वारे कळविण्यात येते की ग्रामपंचायत
+                    span(style='font-weight: bold') &nbsp;#{gp.gp_name} &nbsp;
+                    span
+                        | तालुका 
+                    span(style='font-weight: bold') &nbsp;#{gp.gp_taluka} 
+                    span जिल्हा 
+                    span(style='font-weight: bold') &nbsp;#{gp.gp_dist} 
+                    span यांना गैर अर्जदार श्री श्रीमती 
+                    span(style='font-weight: bold') &nbsp;#{lokAdalatNotice.applicant_name} 
+                    span राहणार 
+                    span(style='font-weight: bold') &nbsp;#{gp.gp_taluka} 
+                    span
+                        | यांच्याकडून ग्रामपंचायतचे कराची एकूण थकीत रक्कम रुपये 
+                    span(style='font-weight: bold') &nbsp;#{lokAdalatNotice.amount}   
+
+                    span
+                        | अक्षरी रुपये 
+                    span(style='font-weight: bold') #{lokAdalatNotice.amount_in_words} 
+                    span
+                        | घेणे असल्याबाबतचा वाद आहे त्याकरिता 
+                        | अर्जदार यांनी सदरचे प्रकरण राष्ट्रीय लोक अदालत दिनांक 
+                    span(style='font-weight: bold') &nbsp;#{lokAdalatNotice.court_date}
+                    span
+                        | रोजी सकाळी 
+                    span(style='font-weight: bold') #{lokAdalatNotice.court_time}
+                    span वाजता दिवाणी न्यायालयात 
+                    span(style='font-weight: bold') #{lokAdalatNotice.court_address} 
+                    span
+                        | यांचे समक्ष आयोजित समोपचाराने व सलोख्याने मिटवण्यासाठी ठेवण्यास विनंती केली आहे 
+
+
+
+
+            div(style='margin-top:1rem; padding-left:1rem; padding-right:1rem;')
+                div(style='line-height: 2.3rem;') आपणास या नोटीस द्वारे विनंती करण्यात येते की आपण 
+                    span | दिनांक 
+                    span(style='font-weight: bold') #{lokAdalatNotice.court_date} 
+                    span रोजी सकाळी 
+                    span(style='font-weight: bold') #{lokAdalatNotice.court_time} 
+                    span दिवाणी 
+                    span(style='font-weight: bold') #{lokAdalatNotice.court_address} 
+                    span
+                        | यांचे समक्ष आयोजित राष्ट्रीय लोक अदालत समक्ष स्वतः उपस्थित राहून 
+                        | आपले म्हणणे मांडावे आणि सदर वाद आपी तडजोडीने राष्ट्रीय लोक 
+                        | अदालत मध्ये मिटविण्याकरिता सहकार्य करावे  तडजोड झालेली रक्कम स्वीकारण्याची व्यवस्था 
+                        | दिनांक 
+                    span(style='font-weight: bold') #{lokAdalatNotice.date_of_settlement_acceptance} 
+                    span रोजी राष्ट्रीय लोक न्यायालयामध्ये करण्यात आलेली आहे 
+
+
+
+
+
+            div(style='margin-top:1rem; padding-left:1rem; padding-right:1rem;')  आदेशानुसार सहा. अधिक्षक जिल्हा विधी सेवा प्राधिकरण
+                span(style='font-weight: bold')  #{gp.gp_dist}
+
+
+
+
+            div(style='margin-top: 4rem;  padding-left:2rem; padding-right:2rem; display:flex; justify-content: space-between')
+
+                .left 
+                    div(style='display: flex; flex-direction: column; gap:1rem;')
+                        div 
+                            span(style='font-weight: bold;') ठिकाण : 
+                            span #{lokAdalatNotice.place}
+                        div
+                            input#print-date-input.form-control(type="text" placeholder="प्रिंट तारीख भरा (e.g. 07-05-2025)" style="margin-top: 0.3rem; width: 200px;")
+                        div 
+                            span(style='font-weight: bold;') दिनांक : 
+                            // ✅ Manual input for print date
+                            span#print-date
+
+                .right 
+                    div 
+                        div(style='text-align: center;') आदेशानुसार 
+
+                        div(style='margin-top: 1rem;')
+
+
+
+                            div सहा. अधिक्षक 
+                            div जिल्हा विधी सेवा प्राधिकरण,
+                            div जि. #{gp.gp_dist}
+
+
+
+
+
+
+
+            //- div(style='font-size: 0.8rem; text-align: center; color: darkblue; font-weight: bold;  margin-top: 2.8rem;')
+                di "THIS IS A COMPUTER GENERATED CERTIFICATE WHICH CONTAINS FACSIMILE SIGNATURE OF THE ISSUING AUTHORITY"
+
+                div THE GOVT. OF INDIA VIDE CIRCULAR NO. 1/12/2014-VS(CRS) DATED 27-JULY-2015 HAS
+                div APPROVED THIS CERTIFICATE AS A VALID LEGAL DOUCMENT FOR ALL OFFICIAL PURPOSES.
+
+                div(style='color:green;font-weight: bold;') "प्रत्येक जन्म आणि मृत्यूच्या घटनेची नोंदणी करण्याची खात्री करा" / ENSURE REGISTRATION OF EVERY BIRTH AND DEATH
+
+                p#bar-code
+
+
+

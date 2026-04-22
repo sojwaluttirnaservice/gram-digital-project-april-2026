@@ -1,0 +1,200 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २३ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{ 
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='17' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना क्रमांक २३ 
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name} तालुका : #{gp.gp_taluka} जिल्हा: #{gp.gp_dist}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६८ पहा)
+
+
+                tr 
+                    th(colspan='17')
+                        | ताब्यातील रस्त्यांची नोंदवही
+                tr
+                    //- 1 to 2
+                    th(rowspan='3') अनु. क्र
+                    th(rowspan='3') रस्त्याचे नाव
+
+
+                    //- column 3 and 4
+                    th(rowspan='1' colspan='2') गाव
+
+
+                    //- 5 to 9
+                    th(rowspan='3') लांबी (किमी)
+                    th(rowspan='3') रुंदी (किमी)
+                    th(rowspan='3') रस्त्याचा प्रकार (खडीचा, बिनखडीचा डांबरी किंवा सिमेंटचा)
+                    th(rowspan='3') पूर्ण केल्याची तारीख
+                    th(rowspan='3') प्रति किलोमीटर  रस्ता तयार करण्यात आलेला खर्च
+
+
+                    //- 10, 11, 12, 13, 14, 15
+                    //- १० (क) ते (च)
+                    th(rowspan='1' colspan='6') दुरुस्त्या
+
+
+                    //-  16, 17 or ११, १२
+                    th(rowspan='3') शेरा
+                    th(rowspan='3') मालमत्तेची पडताळणी केल्याचे दर्शक म्हणून सरपंचवसचिव ह्यांच्या सह्या
+
+                tr 
+                    //- th
+                    //- th
+                    th(rowspan='2' colspan='1') पासून
+                    th(rowspan='2' colspan='1') पर्यंत
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    th(rowspan='1' colspan='2') चालू
+                    th(rowspan='1' colspan='2') विशेष
+                    th(rowspan='1' colspan='2') मूळ बांधकाम
+
+                    //- th
+                    //- th
+
+                tr 
+                    //- th 
+                    //- th 
+
+                    //- th 
+                    //- th
+
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    th(rowspan='1' colspan='1') खर्च
+                    th(rowspan='1' colspan='1') स्वरूप
+                    th(rowspan='1' colspan='1') खर्च
+                    th(rowspan='1' colspan='1') स्वरूप
+                    th(rowspan='1' colspan='1') खर्च 
+                    th(rowspan='1' colspan='1') स्वरूप
+
+                    //- th
+                    //- th
+
+                tr 
+                    each num in ['१', '२', '३', '४', '५', '६', '७', '८', '९', '१०(क)', '१०(ख)', '१०(ग)', '१०(घ)', '१०(ड)', '१०(च)', '११', '१२']
+                        th #{num}
+
+            tbody
+
+                each namuna23Entry, index in namuna23Details 
+                    //- each namuna23Entry, index in Array(20).fill(paymentnamuna23Entry).flat()
+                    tr 
+                        td #{index + 1}
+                        td #{namuna23Entry.road_name}
+
+                        td #{namuna23Entry.start_village}
+                        td #{namuna23Entry.end_village}
+
+
+                        td #{namuna23Entry.length_km}
+                        td #{namuna23Entry.width_km}
+
+                        td #{namuna23Entry.road_type}
+
+                        td #{namuna23Entry._completion_date}
+
+                        td #{namuna23Entry.cost_per_km}
+
+                        //- Repairs
+
+                        td #{namuna23Entry.ongoing_repairs_cost}
+                        td #{namuna23Entry.ongoing_repairs_form}
+
+                        td #{namuna23Entry.special_repairs_cost}
+                        td #{namuna23Entry.special_repairs_form}
+
+                        td #{namuna23Entry.original_construction_cost}
+                        td #{namuna23Entry.original_construction_form}
+
+                        td #{namuna23Entry.remarks}
+
+                        td
+

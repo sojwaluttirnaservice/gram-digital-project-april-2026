@@ -1,0 +1,431 @@
+doctype html
+head
+    title नमुना ८ सर्व
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- COMMON JS
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    //- JS  
+    script(src="/asstest/coustom/js/handlers/pagination.js") 
+
+    style.
+        @media print {
+            @page{
+                size: A4 landscape;
+            }
+
+            #hide-buttons {
+                display: none;
+            }
+
+            .my-print{
+                position: relative;
+                page-break-before: always;
+            }
+
+            table{
+                page-break-inside: avoid;
+            }
+
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+
+            .pagination{
+                display: none;
+            }
+        }
+        .main-heading {
+            margin-left:10%
+        }
+        .heading-second{
+            margin-left:30%;
+            font-size: 1.3rem;
+        }
+        .heading-second-2{
+            margin-left:30%
+        }
+        #table2 td {
+            padding-left:1px;
+            padding-right:1px;
+        }
+        #table3 td {
+            padding-left:3px;
+            padding-right:3px;
+        } 
+        p{
+            padding-bottom:0px !important;
+            margin-bottom:1px !important;
+        }
+        td{
+            font-size:12px !important;
+            border:1.5px solid;
+        }
+        table{
+            width:100% !important;
+        }
+        .h5{
+            font-size:15px !important;
+        }
+        .h6{
+            font-size:14px !important;
+        }
+        .h7{
+            font-size:11px !important;
+        }
+        .h8{
+            font-size:10px !important;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.2;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translateX(-50%);
+        }
+
+        .page-numbers::-webkit-scrollbar {
+            display: none;
+        }
+
+        .text-red {
+            color: red;
+        }
+    script.
+        let totalRecords = !{JSON.stringify(totalRecords)}
+
+        $(() => {
+            function showHideSignatures(val) {
+                const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                switch (val) {
+                    case '1': // Show Sarpanch sign only
+                        sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                        break;
+                    case '-1': // Hide Sarpanch sign only
+                        sarpanchSigns.forEach(el => el.style.display = 'none');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                        break;
+                    case '2': // Show Gram Adhikari sign only
+                        sarpanchSigns.forEach(el => el.style.display = 'none');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                        break;
+                    case '-2': // Hide Gram Adhikari sign only
+                        sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                        break;
+                    case '3': // Show both signatures
+                        sarpanchSigns.forEach(el => el.style.display = 'inline-block');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'inline-block');
+                        break;
+                    case '-3': // Hide both signatures
+                        sarpanchSigns.forEach(el => el.style.display = 'none');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                        break;
+                    default:
+                        sarpanchSigns.forEach(el => el.style.display = 'none');
+                        gramAdhikariSigns.forEach(el => el.style.display = 'none');
+                        break;
+                }
+            }
+
+            // Attach the event listener to the select element
+            document.querySelector('.form-select').addEventListener('change', function() {
+                showHideSignatures(this.value);
+            });
+        });
+
+body
+
+    #hide-buttons 
+        select.form-select
+            option(value='1' selected=(zp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+            option(value='-1' selected=(zp.srapanch_sign_display == 0)) सरपंच सही लपवा
+            option(value='2' selected=(zp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+            option(value='-2' selected=(zp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+            option(value='3' selected=(zp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+            option(value='-3' selected=(zp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+    div.mt-3.mx-5
+        ul.pagination
+            li.page-item
+                button.bg-primary.text-light.page-link.previous-button Previous
+            .d-flex.page-numbers.w-50(style="overflow-x: scroll;").
+            li.page-item
+                button.bg-success.text-light.page-link.next-button Next
+
+    each userVal,count in userData
+        .row.my-print
+            .col-12(style='margin-top: 2.2rem;')
+                if showWatermark == 1
+                    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+                include ../include/form-8-header.pug
+                table(border="1")            
+                    thead
+                        tr.p-0.m-0
+                            td(colspan="6").p-0.m-0 
+                                //- div.text-center
+                                .d-flex.align-items-center.justify-content-center.pb-0(style='gap:0.5rem;')
+                                    span.h6.font-weight-bold अ.क्र: 
+                                        b.ml-1 #{indexNumberStart}
+                                        - indexNumberStart++
+                                    span.pl-4.h6.font-weight-bold जुना घर क्र: 
+                                        b.ml-1 #{userVal.feu_homeNo}
+                                    span.pl-4.h6.font-weight-bold वार्ड क्र: 
+                                        b.ml-1 #{userVal.feu_wardNo}
+                                    span.pl-4.h6.font-weight-bold मालमत्ता क्र: 
+                                        b.ml-1 #{userVal.feu_malmattaNo}
+                                    span.pl-4.h6.font-weight-bold रस्त्याचे नाव/गावाचे नाव: 
+                                        b.ml-1 #{userVal.feu_villageName}
+                                    span.pl-4.h6.font-weight-bold मो.क्र: 
+                                        b.ml-1 #{userVal.feu_mobileNo}
+                                    span.pl-4.h6.font-weight-bold आधार.क्र: 
+                                        b.ml-1 #{userVal.feu_aadharNo}
+                        tr.p-0.m-0
+                            td(colspan="2").p-0.m-0 
+                                p.text-right.mr-2.font-weight-bold मालमत्ता धारकाचे नाव/पत्नी चे नाव : 
+                            td(colspan="4").p-0.m-0 
+                                p.font-weight-bold.ml-3 #{userVal.feu_ownerName}
+                        tr.p-0.m-0
+                            td(colspan="2").p-0.m-0 
+                                p.text-right.mr-2.font-weight-bold भोगवटधारकाचे नाव :
+                            td(colspan="4").p-0.m-0 
+                                p.font-weight-bold.ml-3 #{userVal.feu_secondOwnerName}
+
+                        if(userVal.feu_newOldDharak != "-"  && userVal.feu_newOldDharak != "" && userVal.feu_newOldDharak != "undefined" && userVal.feu_newOldDharak != null)
+                            tr.p-0.m-0
+                                td(colspan="2").p-0.m-0 
+                                    p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार: 
+                                td(colspan="4").p-0.m-0 
+                                    p.font-weight-bold.ml-3.text-red #{userVal.feu_newOldDharak} मासिक सभा दिनांक #{userVal.feu_newPherfarDate} ठराव क्र #{userVal.feu_newPherfarTharav} नुसार #{userVal.feu_newNewDharak} #{userVal.feu_newPherfarDocument} नुसार फेरफार घेण्यात आला
+                                    - let oldOwner = userVal.old_owner?.split(',').reverse() || []	
+                                    - let newOwner = userVal.new_owner?.split(',').reverse() || [] 
+                                    - let ferfarDate = userVal.ferfar_date?.split(',').reverse() || []
+                                    - let tharavNumber = userVal.tharav_no?.split(',').reverse() || []
+                                    - let dastavej = userVal.dastavej?.split(',').reverse() || []
+
+
+                                    if oldOwner.length !== 0 										
+                                        if oldOwner.length > 1
+                                            -for(let i = oldOwner.length - 2; i >= 0 ; i--)
+                                                -let el = oldOwner[i]
+                                                if el !== null  
+                                                    p.font-weight-bold.ml-3 
+                                                        del #{oldOwner[i]} मासिक सभा दिनांक #{ferfarDate[i]} ठराव क्र #{tharavNumber[i]} नुसार #{newOwner[i]} #{dastavej[i]} नुसार फेरफार घेण्यात आला
+                                                            span #{i == 0 ? "." : ","}	
+
+                        tr.p-0.m-0
+                            td(colspan="2").p-0.m-0 
+                                p.text-right.mr-2.font-weight-bold अपिल व इतर आदेश/बोझा/शेरा: 
+                            td(colspan="4" style='word-break:break-all;').p-0.m-0 
+                                p.font-weight-bold.ml-3 #{userVal.feu_bojaShera}
+                        tr.p-0.m-0
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  पूर्वेस:
+                            td(width="10%").p-0.m-0 
+                                p.ml-3.ml-2 #{userVal.feu_eastLandmark}
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  पश्चिमेस:
+                            td(width="10%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.feu_westLandmark}
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  घरकूल:
+                            td(width="20%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.graha_yojana}
+                        tr.p-0.m-0
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  उत्तरेस:
+                            td(width="10%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.feu_northLandmark}
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  दक्षिणेस:
+                            td(width="10%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.feu_southLandmark}
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold शौच्छालय:
+                            td(width="20%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.feu_havingToilet}
+                        tr.p-0.m-0
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  गट क्र./भुमापण क्र. /नगर भामपण क्र:
+                            td(width="10%").p-0.m-0 
+                                p.ml-3.ml-2  #{userVal.feu_gaatNo}
+                            td(width="10%" colspan="2").p-0.m-0 
+                                p.text-center.font-weight-bold लांबी(पु)(प) X रुंदी (उ)(द): 
+                                    span.ml-2 #{userVal.feu_areaHeight} X #{userVal.feu_areaWidth}
+                            td(width="10%").p-0.m-0 
+                                p.text-center.font-weight-bold  एकूण जागेचे क्षेत्रफळ:
+                                    span.ml-2 #{userVal.feu_totalArea}
+                            td(width="20%").p-0.m-0 
+                                p.font-weight-bold एकूण जागेची चौ.मी:
+                                    span.ml-2  #{userVal.feu_totalAreaSquareMeter}
+        - let totalSqFeetArea = 0;
+        .row
+            if(totalTaxSample.length !== 0)
+                .col-12.mt-1
+                    div(class='d-flex align-items-center justify-content-between')
+                        span.h8.font-weight-bold खालील प्रमाणे मालमत्तेची माहिती
+                        span.h7.text-right (टीप: शेरा व दुरुस्त्या यावर खरे पणाबद्धल सरपंचाने सही केली पाहिजे)
+
+                    center
+                        table(border="1")#table2
+                            thead
+                                tr.p-0.m-0
+                                    td(width="%").text-center.m-0.font-weight-bold मालमत्तेचे वर्णन
+                                    td(width="%").text-center.m-0.font-weight-bold मालमत्तेचे प्रकार
+                                    td(width="%").text-center.m-0.font-weight-bold वर्ष
+                                    td(width="%").text-center.m-0.font-weight-bold लांबी(पु)(प)
+                                    td(width="%").text-center.m-0.font-weight-bold रुंदी(उ)(द)
+                                    td(width="%").text-center.m-0.font-weight-bold चौ.फु क्षेत्रफळ
+                                    td(width="%").text-center.m-0.font-weight-bold चौ.मीटर
+                                    td(width="%").text-center.m-0.font-weight-bold जमीन दर
+                                    td(width="%").text-center.m-0.font-weight-bold बांधकाम दर
+                                    td(width="%").text-center.m-0.font-weight-bold इमारत दर
+                                    td(width="%").text-center.m-0.font-weight-bold घसारा
+                                    td(width="%").text-center.m-0.font-weight-bold इ.वा.भारांक
+                                    td(width="%").text-center.m-0.font-weight-bold भांडवली मु किंमत
+                                    td(width="%").text-center.m-0.font-weight-bold कराचा दर
+                                    td(width="%").text-center.m-0.font-weight-bold कर
+                                - var _totalTaxSample = totalTaxSample.filter(el => el.user_id == userVal.id);
+                                each tax, _ind in _totalTaxSample
+                                    tr.p-0.m-0
+                                        td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_text}
+                                        td(width="%").text-center.m-0 #{tax.fet_prop_space_text}
+                                        td(width="%").text-center.m-0 #{tax.fet_year_two}
+                                        td(width="%").text-center.m-0 #{tax.fet_height}
+                                        td(width="%").text-center.m-0 #{tax.fet_width}
+
+                                        - totalSqFeetArea += tax.fet_sq_area;
+                                        td(width="%").text-center.m-0 #{tax.fet_sq_area}
+                                        td(width="%").text-center.m-0 #{tax.fet_sq_meter_area}
+                                        td(width="%").text-center.m-0 #{tax.fet_prop_space_land_rate}
+                                        td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_ready_nater_rate}
+                                        td(width="%").text-center.m-0 
+                                        td(width="%").text-center.m-0 #{tax.fet_ghasara_value}
+                                        td(width="%").text-center.m-0 #{tax.fet_prop_desc_rate}
+                                        td(width="%").text-center.m-0 #{tax.fet_final_imarati_bhandvali_mullya}
+                                        td(width="%").text-center.m-0 #{tax.fet_bahandkam_prakar_tax_rate}
+                                        td(width="%").text-center.m-0 #{Math.round(tax.fet_final_tax)}
+        .row
+            - var _totalArray = totalArray.filter(el => el.user_id == userVal.id);
+            if(_totalArray.length !== 0)
+                .col-8.mt-2
+                    div 
+                        span.h8.font-weight-bold भाडवली मुल्यांकनानुसार आकारण्यात आलेली कर आकारणी.
+                        - let difference = (+userVal.feu_totalArea - totalSqFeetArea).toFixed(2)
+
+                        //- if 
+                        - let text2 = `जुने चौ. फूट ${userVal.feu_totalArea} आहे  आणि सदर चौ फूट ${totalSqFeetArea} असून त्यात ${Math.abs(difference)} चौ फुटाची वाढ झाली आहे.`;
+                        - let text1  = `जुने चौ. फूट ${userVal.feu_totalArea} आहे  आणि सदर चौ फूट ${totalSqFeetArea} असून त्यात ${Math.abs(difference)} चौ फुटाची कमी झाली आहे.`;
+                        span.h8.font-weight-semibold.text-danger &nbsp; (#{`${difference > 0 ? text1 : ''}${difference < 0 ? text2 : ''}`})
+
+                //- .col-6.mt-2 
+                //- 	div.h7 सदरचा उतारा हा मालकी हक्काचा नसुन कर आकारणीचा आहे. सदरच्या उताऱ्यावरून खरेदी विक्रीचा व्यवहार झालेस त्यास ग्रामपंचायत जबाबदार राहणार नाही.
+
+
+                .col-4.mt-2
+                    div 
+                        span.h4.font-weight-bold(style="float:right") 
+                            p.h7 अपील निकाल आणि त्यानंतर केलेला फेरफार
+                            p.h7 नंतर वाढ किवां घट झालेल्या बाबतीत आदेशाच्या संदर्भासह शेरा
+                .col-12 
+                    div
+                        center 
+                            table(border="1")#table3
+                                thead
+                                    tr.p-0.m-0
+                                        td(width="8%").text-center.m-0 एकूण बांधकाम
+                                        td(width="8%").text-center.m-0 एकूण खुली जागा
+                                        //td(width="8%").text-center.m-0 एकूण जागेचे क्षेत्रफळ
+                                        td(width="8%").text-center.m-0 इमारत कर 
+                                        td(width="8%").text-center.m-0 खुला कर
+
+                                        td(width="8%").text-center.m-0 इतर
+                                        td(width="8%").text-center.m-0 दिवा कर
+                                        td(width="8%").text-center.m-0 आरोग्य कर
+                                        td(width="5%").text-center.m-0 स्वच्छता कर
+                                        td(width="5%").text-center.m-0 शिक्षण कर
+                                        td(width="5%").text-center.m-0 वृक्ष कर
+                                        td(width="5%").text-center.m-0 अग्नी कर
+                                        td(width="5%").text-center.m-0 पाणी पट्टी कर
+                                        td(width="8%").text-center.m-0 एकूण कर
+                                        td(width="5%").text-center.m-0 घरपट्टी कर
+                                        td(width="5%").text-center.m-0 दिवा कर
+                                        td(width="5%").text-center.m-0 आरोग्य कर
+                                        td(width="5%").text-center.m-0 पाणी पट्टी कर
+                                        td(width="5%").text-center.m-0 एकूण कर
+                                    each value in _totalArray
+                                        tr.p-0.m-0
+                                            td(width="%").text-center.m-0 #{(value.total_building_work).toFixed(2)}
+                                            td(width="%").text-center.m-0 #{(value.total_open_plot).toFixed(2)}
+                                            //td(width="%").text-center.m-0 #{value.total_area}
+                                            td(width="%").text-center.m-0 #{(value.building_tax).toFixed(2)}
+                                            td(width="%").text-center.m-0 #{(value.open_area_tax).toFixed(2)}
+                                            td(width="%").text-center.m-0 #{value.other_tex}
+                                            td(width="%").text-center.m-0 #{value.dava_kar}
+                                            td(width="%").text-center.m-0 #{value.arogya_kar}
+                                            td(width="%").text-center.m-0 #{value.cleaning_tax}
+                                            td(width="%").text-center.m-0 #{value.education_tax}
+                                            td(width="%").text-center.m-0 #{value.tree_tax}
+                                            td(width="%").text-center.m-0 #{value.fireblegate_tax}
+                                            td(width="%").text-center.m-0 #{(userVal.feu_water_tax === "सामान्य पाणीकर" ? 150 : userVal.feu_water_tax === "विशेष पाणीकर" ? 1200 : 0)}
+
+                                            - let totalTax = value.building_tax + value.open_area_tax + value.other_tex + value.dava_kar + value.arogya_kar + value.cleaning_tax + value.education_tax + value.tree_tax + value.fireblegate_tax
+                                            td(width="%").text-center.m-0 #{(Math.round(waterTaxAmount) + Math.round(totalTax)).toFixed(2)}
+
+                                            td(width="%").text-center.m-0 
+                                            td(width="%").text-center.m-0 
+                                            td(width="%").text-center.m-0 
+                                            td(width="%").text-center.m-0 
+                                            td(width="%").text-center.m-0 
+        .row
+            .col-12
+
+                div.h7(style='margin-left: 2rem;') सदरचा उतारा हा मालकी हक्काचा नसुन कर आकारणीचा आहे. सदरच्या उताऱ्यावरून खरेदी विक्रीचा व्यवहार झालेस त्यास ग्रामपंचायत जबाबदार राहणार नाही.
+                div.h7(style='margin-left: 2rem;') शासन परिपत्रक क्र. VTM260 3/प्र. क्र. 2068/पं रा. 4 दि. 20 नोव्हेंबर 2003 नुसार ग्रामीण भागातील घरांची नोंदणी पती -पत्नी यांच्या संयुक्त नावे करण्याबाबत निदर्शित करण्यात आलेले आहे.
+
+                table.mt-3.table-borderless
+                    thead
+                        tr.p-0.m-0
+                            td.p-0.m-0 
+                                div
+                                    p.h7.text-center कार्यालयीन शिक्का
+                            td.p-0.m-0 
+                                div
+                                    p.h7.text-center सत्यप्रत
+                            td.p-0.m-0 
+                                div
+                            td.p-0.m-0
+
+                                div.position-relative
+                                    img.sarpanch-sign(src='/print/sp.jpeg' class=`` alt='sarpanch sign' onerror="this.style.display='none'" style=`${zp.srapanch_sign_display === 1 ? '' : 'display: none;'} width: 6rem !important; height: 2.4rem !important; position: absolute; top: -1.5rem; left: 65%; transform: translate(0%, -50%);`) 
+                                    img.gram-adhikari-sign(src='/print/gs.jpeg' alt='gramsevak sign' onerror="this.style.display='none'" style=`${zp.gramsevak_sign_display === 1 ? '' : 'display: none;'} width: 6rem !important; height: 2.4rem !important; position: absolute; top: -1.5rem; left: 78%; transform: translate(110%, -50%)`)
+
+                                    div(style='display:flex; justify-items:end; gap:2rem;')
+                                        div(style='width: 200px; margin-left:auto;' class='d-flex flex-column gap-1 justify-content-center align-items-center')
+                                            p.h7 सरपंच
+                                            p.h7 ग्रामपंचायत कार्यालय, #{zp.gp_name}
+                                        div(style='width: 200px;' class='d-flex flex-column gap-1 justify-content-center align-items-center')
+                                            p.h7 ग्रामपंचायत अधिकारी तथा सचिव
+                                            p.h7 ग्रामपंचायत कार्यालय, #{zp.gp_name}
+
+
+
+
+
+
+

@@ -1,0 +1,120 @@
+//- FERFAR DETAILS MODAL
+.modal(tabindex='-1' id='ferfar-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-exchange.me-2.text-primary
+                    | फेरफार अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= APPLICANT DETAILS =================
+                h6.fw-bold.text-primary.mb-3 अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-md-6
+                        label.form-label अर्जदाराचे नाव
+                        input.form-control(readonly name='applicant_name')
+
+                    .col-md-6
+                        label.form-label मोबाईल क्रमांक
+                        input.form-control(readonly name='applicant_mobile')
+
+                    .col-md-6
+                        label.form-label आधार क्रमांक
+                        input.form-control(readonly name='applicant_adhar')
+
+                    .col-md-6
+                        label.form-label गाव
+                        input.form-control(readonly name='applicant_village')
+
+                    .col-12
+                        label.form-label पूर्ण पत्ता
+                        textarea.form-control(readonly name='applicant_address')
+
+                hr.my-3
+
+                // ================= PROPERTY DETAILS =================
+                h6.fw-bold.text-primary.mb-3 मालमत्तेची माहिती
+                .row.g-3.mb-4
+                    .col-md-6
+                        label.form-label मालमत्ता क्रमांक
+                        input.form-control(readonly name='malmatta_no')
+
+                    .col-md-6
+                        label.form-label मूळ मालकाचे नाव
+                        input.form-control(readonly name='original_owner_name')
+
+                    .col-md-6
+                        label.form-label फेरफार कागदपत्र प्रकार
+                        input.form-control(readonly name='ferfar_document')
+
+                    .col-md-6
+                        label.form-label फेरफार कागदपत्र
+                        a.btn.btn-outline-primary.btn-sm.form-control#ferfar-document-link(href='' target='_blank')
+                            i.fa.fa-file.me-1
+                            | कागदपत्र पहा
+
+                hr.my-3
+
+                // ================= PROPERTY BOUNDARIES =================
+                h6.fw-bold.text-primary.mb-3 मालमत्तेच्या सीमा
+                .row.g-3.mb-4
+                    .col-md-6
+                        label.form-label पूर्व बाजू
+                        input.form-control(readonly name='east_landmark')
+
+                    .col-md-6
+                        label.form-label पश्चिम बाजू
+                        input.form-control(readonly name='west_landmark')
+
+                    .col-md-6
+                        label.form-label उत्तर बाजू
+                        input.form-control(readonly name='north_landmark')
+
+                    .col-md-6
+                        label.form-label दक्षिण बाजू
+                        input.form-control(readonly name='south_landmark')
+
+                hr.my-3
+
+                // ================= DECLARATION =================
+                h6.fw-bold.text-primary.mb-3 जाहीरनामा
+                .row.g-3
+                    .col-12
+                        textarea.form-control(readonly name='i_agree_statement')
+                            //- | नियमानुसार सर्व थकबाकी व फिस भरण्यास मी तयार आहे. करिता सदरील फेरफार माझ्या नावे करण्यात यावा ही नम्र विनंती.
+
+                if status == 'resolved'
+
+                    hr.my-3
+
+                    h6.fw-bold.text-primary.mb-3 निवारणाचा तपशील
+
+                    .row.g-3.mb-4
+                        .col-md-6
+                            label.form-label मासिक सभा दिनांक
+                            input.form-control(readonly name='masik_sabha_date')
+
+                        .col-md-6
+                            label.form-label मासिक ठराव क्रमांक
+                            input.form-control(readonly name='masik_tharav_number')
+
+                        .col-md-6
+                            label.form-label निवारण मालमत्ता क्रमांक
+                            input.form-control(readonly name='resolution_malmatta_number')
+
+                        .col-md-6
+                            label.form-label पूर्तता झाल्याचा शेरा
+                            textarea.form-control(readonly name='resolution_remark')
+
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा

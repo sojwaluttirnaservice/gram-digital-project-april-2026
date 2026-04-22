@@ -1,0 +1,146 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        title ब्लिचिंग अवहाल ग्रामपंचायत अधिकारी प्रिंट 
+
+        style.
+            @media print {
+                @page{
+                    size: A4 landscape;
+                }
+                .my-print{
+                    position: relative;
+                    page-break-before: always;
+                }
+                table{
+                    page-break-inside: avoid;
+                }
+                .waterMark{
+                    position: absolute;
+                    opacity: 0.3;
+                    width: 100%;
+                    height: 100%;
+                }
+            }   
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 2.5rem;
+            }
+
+            th, td {
+                border: 1px solid black;
+                text-align: center;
+            }
+
+            .subheading {
+                margin-bottom: 2.4rem;
+                font-size: 1.6rem;
+            }
+
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                top: calc(50% - 250px);
+                left: calc(50% - 250px);
+                width: 500px;
+                height: 500px;
+            }
+
+            body {
+                border: 1px solid black;
+            }
+
+    body.p-3
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+        div.text-center
+            h1.mb-4 ग्रामपंचायत कार्यालय #{gp.gp_name} पं. स.  #{gp.gp_taluka} जिल्हा #{gp.gp_district}
+            div.date-box.mb-4
+                h3 (दिनांक #{data._date_from} ते #{data._date_to} पर्यंत)
+
+        h2.subheading नमुना नं १ विहिरी निर्जंतुक केल्याचा अवहाल 
+        table 
+            thead 
+                tr 
+                    th(width='5%') अ.क्र.
+                    th ग्रामपंचायत नाव 
+                    th गावाचे नाव
+                    th गावातील एकून सार्वजनिक विहिरींची संख्या  
+                    th निर्जंतुक केलेल्या विहिरींची संख्या 
+                    th विहिरी निर्जंतुक करण्याचा दिवस 
+                    th निर्जंतुक करणाराचे नाव 
+                    th हुद्द 
+                    th शेरा 
+            tbody 
+                tr 
+                    th १
+                    th २
+                    th ३
+                    th ४
+                    th ५
+                    th ६
+                    th ७
+                    th ८
+                    th ९
+                tr 
+                    td 1
+                    td #{data.gp_name}
+                    td #{data.village_name}
+                    td #{data.total_public_well_count}
+                    td #{data.cleaned_well_count}
+                    td #{data.well_cleaning_day}
+                    td #{data.well_cleaner_name}
+                    td #{data.hudda}
+                    td #{data.well_cleaning_shera}
+
+        h2.subheading.mt-2 नमुना नं २ ब्लिचिंग पवारच्या साठ्यबाबतची माहिती
+        table 
+            thead 
+                tr 
+                    th(width='5%') अ.क्र.
+                    th ग्रामपंचायत नाव 
+                    th गावाचे नाव
+                    th महिन्याचा सुरुवातीस साठ कि ग्राम 
+                    th महिन्यात विकत घेतेलेला साठ कि ग्राम 
+                    th चालू महिन्यात खर्च झालेला साठ कि ग्राम 
+                    th महिना अखेर शिक्काक साठ कि ग्राम 
+                    th शेरा 
+            tbody 
+                tr 
+                    th १
+                    th २
+                    th ३
+                    th ४
+                    th ५
+                    th ६
+                    th ७
+                    th ८
+                tr 
+                    td 1
+                    td #{data.gp_name}
+                    td #{data.village_name}
+                    td #{data.month_start_quantity}
+                    td #{data.month_purchased_quantity}
+                    td #{data.current_month_used_quantity}
+                    td #{data.month_last_remaining_quantity}
+                    td #{data.bleaching_storage_shera}
+
+        .d-flex.justify-content-end
+            div
+                p सचिव/ग्रामविकास अधिकारी
+                p ग्रामपंचायत कार्यालय #{gp.gp_name}
+

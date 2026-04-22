@@ -1,0 +1,73 @@
+
+
+.my-print 
+
+    div 
+        | ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist}
+
+    hr
+    
+    h5.text-center अ) जवाहर ग्रामसमृद्धी योजना ________
+
+    hr
+
+    h3.text-center जमा खर्चाचा अहवाल
+
+    hr
+
+    h4.text-center जमेचा अहवाल
+
+    hr
+
+
+    table 
+
+        thead
+            tr 
+                th(rowspan='2' colspan='1')  सुरुवातीची शिल्लक दिनांक ________
+                th(rowspan='2' colspan='1') वर्षात प्राप्त अनुदान
+                th(rowspan='2' colspan='1') वर्षात प्राप्त व्याज
+                th(rowspan='2' colspan='1') देणगी
+                th(rowspan='2' colspan='1') ग्रामसेवा निधीतून वळती केलेली रक्कम
+                th(rowspan='2' colspan='1') ग्रामनिधीतून वळती केलेली रक्कम
+
+                th(rowspan='1' colspan='2') उसनवार
+
+                th(rowspan='2' colspan='1') एकूण उसनवार रक्कम (7 + 8)
+                th(rowspan='2' colspan='1') किरकोळ प्राप्ती
+                th(rowspan='2' colspan='1') वर्षात एकूण जमा (2 + 3 + 4 + 5 + 6 + 9 + 10)
+                th(rowspan='2' colspan='1') सुरुवातीची शिल्लकी सह एकूण जमा (1 + 11)
+
+            tr 
+                //- th 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') ग्रामनिधीतून
+                th(rowspan='1' colspan='1') खाजगी
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,10,11,12]
+                    th #{num}              
+
+        tbody 
+            - let dataCollectionList = (annualCollectionReport != null && annualCollectionReport.data_list != null) ? JSON.parse(annualCollectionReport.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumCollection = new Array(11).fill(0)
+            tbody
+                each entryArray, entryIndex in dataCollectionList 
+                    tr
+                        //- td #{entryIndex + 1}
+                        //- - let sumCollectionIndex = 0;
+                        each singleEntry in JSON.parse(entryArray)
+                            td #{singleEntry.value}
+                            //- - if (!isNaN(Number(singleEntry.value))) { sumCollection[sumCollectionIndex] = (sumCollection[sumCollectionIndex] || 0) + +singleEntry.value } else { sumCollection[sumCollectionIndex] = sumCollection[sumCollectionIndex] || ''; }
+                            //- td
+                            //- - sumCollectionIndex += 1

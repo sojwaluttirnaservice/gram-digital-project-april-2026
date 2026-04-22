@@ -1,0 +1,188 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २८
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%; /* Ensure table width takes up full width */
+                height: 100%; /* Ensure table height takes up full height of the print area */
+            }
+
+            tr, th, td {
+                border: 1px solid gray;
+                height: 30px; /* Default row height */
+            }
+
+            th, td {
+                padding: 0.5rem;
+                text-align: center;
+                height: auto; /* Ensures height adjusts to content */
+            }
+
+            .my-print {
+                page-break-before: always; /* Forces each table entry to start on a new page */
+                width: 210mm;
+                height: 297mm; /* Full height of A4 paper */
+                background: red; /* For debugging; can be removed */
+                display: block;
+            }
+
+            .my-print table {
+                width: 100%;
+                height: 100%; /* Take up full height */
+            }
+
+            .my-print table th, .my-print table td {
+                padding: 0.5rem;
+                border: 1px solid gray;
+                text-align: center;
+                height: auto; /* Adjust row height based on content */
+            }
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size: A4 landscape; /* Forces horizontal orientation */
+                    margin: 0; /* Removes margin for printing */
+                }
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+                #hide-buttons {
+                    display: none; /* Hide print button during print */
+                }
+                .my-print {
+                    width: 100%;
+                    page-break-before: always; /* Ensures each entry is printed on a new page */
+                    height: 100%;
+                }
+                .my-print table {
+                    height: 100%; /* Make sure table takes up full height */
+                }
+                .my-print table th, .my-print table td {
+                    padding: 1rem;
+                    height: auto;
+                }
+                /* Ensuring the height of the rows will adjust depending on the content */
+                th, td {
+                    height: auto; /* Adjust height based on content */
+                }
+            }
+
+            #hide-buttons {
+                button {
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        // Optional: Button to trigger print preview (if needed)
+        #hide-buttons
+            button(type='button' onclick='window.print()') Print
+
+        // Iterate through the `namuna28Details` array
+
+        if namuna28Details
+            each namuna28Entry in namuna28Details
+                .my-print(style=' background: white;')
+
+                    div(style='padding: 2rem; width: 100%;')
+                        table(style='width: 100%;')
+                            thead
+                                tr
+                                    th(colspan="11")
+                                        div
+                                            div(style='display: flex; align-items: center; justify-content: space-between;')
+                                                div नमुना २८
+                                                div ग्रामपंचायत कार्यालय
+                                                    span #{gp.gp_name}
+                                                div
+                                                    img(src='/new-gp-page/main-page/images/header-images/mudra-nav-2.png' style='width: 100px;')
+                                        div
+                                            div.text-center(style='font-size: 10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २५(७) पहा)
+                                        div(style='font-size: 13px;') माहे #{namuna28Entry.month} वर्ष #{namuna28Entry.year}
+
+                            tr
+                                th(colspan="11") मागासवर्गीयांसाठी १५ टक्के व महिला बाल कल्याण १० टक्के (किंवा त्यानंतर विहित केलेला) करवयाचे खचाचे मासिक विवरण
+
+                            tr
+                                th(rowspan="1") अनु. क्र
+
+                                th(rowspan="1") योजनेचे स्वरूप
+                                th(rowspan="1") सन #{fromYear}/#{toYear} मध्ये मागासवर्गीयांसाठीम केलेली तरतूद
+                                th(rowspan="1") चालू महिन्यात झालेले उत्पन्न
+
+                                th(rowspan="1") टक्के खर्च करावयाची रक्कम
+                                th(rowspan="1") खर्चाच्या बाबी बाबवर / योजनावर
+                                th(rowspan="1") मागील महिन्यात झालेला खर्च
+
+                                th(rowspan="1") चालू महिन्यात झालेला खर्च
+                                th(rowspan="1") एकूण खर्च
+                                th(rowspan="1") खर्चाची टक्केवारी
+                                th(rowspan="1") शेरा
+
+                            tr
+                                th १
+                                td मागासवर्गीय १५% खर्च
+                                td #{namuna28Entry.bc_15_provision}
+                                td #{namuna28Entry.bc_15_income}
+                                td #{namuna28Entry.bc_15_exp_amount}
+                                td #{namuna28Entry.bc_15_expenditure_scheme}
+                                td #{namuna28Entry.bc_15_expenditure_prev_month}
+                                td #{namuna28Entry.bc_15_expenditure_current_month}
+                                td #{namuna28Entry.bc_15_total_expenditure}
+                                td #{namuna28Entry.bc_15_expenditure_percentage}
+                                td #{namuna28Entry.bc_15_remarks}
+
+                            tr
+                                th २
+                                td महिला बाल कल्याण १०% खर्च
+                                td #{namuna28Entry.wc_10_provision}
+                                td #{namuna28Entry.wc_10_income}
+                                td #{namuna28Entry.wc_10_exp_amount}
+                                td #{namuna28Entry.wc_10_expenditure_scheme}
+                                td #{namuna28Entry.wc_10_expenditure_prev_month}
+                                td #{namuna28Entry.wc_10_expenditure_current_month}
+                                td #{namuna28Entry.wc_10_total_expenditure}
+                                td #{namuna28Entry.wc_10_expenditure_percentage}
+                                td #{namuna28Entry.wc_10_remarks}
+
+                            tr
+                                th ३
+                                td अपंग कल्याण ३%
+                                td #{namuna28Entry.dw_5_provision}
+                                td #{namuna28Entry.dw_5_income}
+                                td #{namuna28Entry.dw_5_exp_amount}
+                                td #{namuna28Entry.dw_5_expenditure_scheme}
+                                td #{namuna28Entry.dw_5_expenditure_prev_month}
+                                td #{namuna28Entry.dw_5_expenditure_current_month}
+                                td #{namuna28Entry.dw_5_total_expenditure}
+                                td #{namuna28Entry.dw_5_expenditure_percentage}
+                                td #{namuna28Entry.dw_5_remarks}
+
+                        div 
+                            div(style='text-align: end')
+
+                                div(style='margin-top: 4rem; margin') सरपंचाची सही
+
+
+        else 
+            h4(style='margin-top:3rem; text-align:center;font-size:3rem;') नोंद उपलब्ध नाही.                             

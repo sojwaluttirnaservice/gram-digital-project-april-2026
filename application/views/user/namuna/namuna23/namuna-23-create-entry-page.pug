@@ -1,0 +1,184 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-23/namuna-23-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-23/namuna-23-create-entry-page-handler.js' type='module' defer)
+
+    title नमुना २३ ताब्यातील रस्त्यांची नोंदवही
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../include/navs.pug
+
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना २३ ताब्यातील रस्त्यांची नोंदवही 
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/23') यादी
+      form(id='namuna-23-form').mt-1
+        .form.form-1
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+
+            //- row 1
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="month") महिना
+                select.form-select(id="month" name="month" required)
+                  option(value='') --निवडा--
+                  option(value="1") ०१ (जानेवारी)
+                  option(value="2") ०२ (फेब्रुवारी)
+                  option(value="3") ०३ (मार्च)
+                  option(value="4") ०४ (एप्रिल)
+                  option(value="5") ०५ (मे)
+                  option(value="6") ०६ (जून)
+                  option(value="7") ०७ (जुलै)
+                  option(value="8") ०८ (ऑगस्ट)
+                  option(value="9") ०९ (सप्टेंबर)
+                  option(value="10") १० (ऑक्टोबर)
+                  option(value="11") ११ (नोव्हेंबर)
+                  option(value="12") १२ (डिसेंबर)
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="year") वर्ष
+                select.form-select(id="year" name="year" required)
+                  option(value='') --निवडा--
+                  - let currentYear = new Date().getFullYear()
+                  - let startYear = currentYear - 25
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                    option(value=year) #{year}
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="road_name") रस्त्याचे नाव
+                input.form-control(type="text" id="road_name" name="road_name" required placeholder="दिनांक")
+
+            //- row 2
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="start_village") गावापासून
+                input.form-control(type="text" id="start_village" name="start_village" required placeholder="")
+
+            .col-11.col-md-12.col-lg-6
+              .form-group
+                label.form-label(for="end_village") गावापर्यंत
+                input.form-control(id="end_village" name="end_village"  required placeholder="")
+
+            //- row 3
+            .col-11.col-md-12.col-lg-4
+              .form-group
+                label.form-label(for="length_km") लांबी
+                input.form-control(id="length_km" name="length_km"  required placeholder="")
+
+            .col-11.col-md-6.col-lg-4
+              .form-group
+                label.form-label(for="width_km") रुंदी
+                input.form-control(type="text" id="width_km" name="width_km" required placeholder="")
+
+            .col-11.col-md-12.col-lg-4
+              .form-group
+                label.form-label(for="road_type") रस्त्याचा प्रकार
+                input.form-control(type="text" id="road_type" name="road_type" placeholder="उदा., खडीचा, बिनखडीचा, डांबरी, किंवा सिमेंटचा")
+
+
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="completion_date") पूर्ण होण्याची तारीख
+                input.form-control.datepicker(type="text" id="completion_date" name="completion_date" required placeholder="")
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="cost_per_km") प्रति किलोमीटर रस्ता खर्च
+                input.form-control(type="number" id="cost_per_km" name="cost_per_km" required placeholder="")
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="ongoing_repairs_cost") चालू दुरुस्तीचा खर्च
+                input.form-control(type="text" id="ongoing_repairs_cost" name="ongoing_repairs_cost" required placeholder="")
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="ongoing_repairs_form") चालू दुरुस्तीचा स्वरूप
+                input.form-control(type="text" id="ongoing_repairs_form" name="ongoing_repairs_form" required placeholder="")
+
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="special_repairs_cost") विशेष दुरुस्तीचा खर्च
+                input.form-control(type="number" id="special_repairs_cost" name="special_repairs_cost" required placeholder="")
+
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="special_repairs_form") विशेष दुरुस्तीचा स्वरूप
+                input.form-control(type="text" id="special_repairs_form" name="special_repairs_form" required placeholder="")
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="original_construction_cost") मूळ बांधकामाचा खर्च
+                input.form-control(type="number" id="original_construction_cost" name="original_construction_cost" required placeholder="")
+
+
+            .col-11.col-md-6.col-lg-3
+              .form-group
+                label.form-label(for="original_construction_form") मूळ बांधकामाचा स्वरूप
+                input.form-control(type="text" id="original_construction_form" name="original_construction_form" required placeholder="")
+
+
+            .col-11.col-md-12.col-lg-3
+              .form-group
+                label.form-label(for="remarks") शेरा 
+                input.form-control(id="remarks" name="remarks" placeholder=" शेरा")
+
+          .d-flex.gap-4.justify-content-center
+            button.btn.btn-primary(type='button' id="submit-namuna-23-entry") Save
+            button.btn.btn-secondary(type='reset' id='reset') Reset

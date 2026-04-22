@@ -1,0 +1,224 @@
+
+
+
+.my-print
+
+
+    div 
+        h4.text-center नमुना ३
+
+        h6.text-center सन ____________ या वर्षाचा जमा व खर्च ग्रामपंचायत
+
+
+    div 
+        div(style='display: flex; align-items: center; justify-content: space-between;')
+            div #{gp.gp_taluka} पंचायत
+
+            div #{gp.gp_dist} जिल्हा
+
+    
+    table.w-full
+    
+      thead(style="text-align: left;")
+        tr
+          th(width='40%') जमा रकमांचा तपशील (१)
+          th(width='10%') रक्कम (२)
+          th(width='40%') खर्चाचा तपशील (३)
+          th(width='10%') रक्कम (४)
+
+      tbody
+        //- ---------------------------------------------------
+        tr 
+          td(style="text-align: left;") ग्राम निधी जमा
+          td(style="text-align: right;")
+          td(style="text-align: left;") (एक) ग्राम निधीतून खर्च
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (एक)(अ) कर
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (१) मालमत्ता कर, जमिनी व इमारती यावरील कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१) सरपंच मानधन
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (२) दिवाबत्त्ती कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२) सदस्य बैठक भत्ता
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (३) स्वच्छता कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (३) सदस्य/सरपंच प्रवास भत्ता
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (४) दुकाने, लघुउद्योग व हॉटेल चालविणे यावरील कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (४) कर्मचारी वेतन
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (५) यात्रा कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (५) कर्मचारी प्रवास भत्ता
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (६) जत्रा, उत्सव व इतर मनोरंजन कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (६) कार्यालयीन खर्च
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (७) सायकल व इतर वाहनावरील कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (७) दुरुस्ती व देखभाल
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (८) टोल टॅक्स
+          td(style="text-align: right;")
+          td(style="text-align: left;") (८) स्वच्छता
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (९) उतारू व मालावरील कर
+          td(style="text-align: right;")
+          td(style="text-align: left;") (९) पाणीपुरवठा हातपंप वसुली
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (१०) वनविकास कर
+          td(style="text-align: right;")
+          td(style="text-align: left;")
+            div(10) विद्युत देयके
+            div &emsp; अ) पाणी पुरवठा
+            div &emsp; ब) रस्त्यावरील दिवाबत्ती
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (११) सेवा कर
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (१२) व्यापारी किंवा आजीविका यावरील कर (शेतीव्यतिरिक्त)
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (१३) गुरांच्या बाजारातील दलालीचा व्यवसाय व आजीविका यावरील कर
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr 
+          td(style="text-align: left;") (१४) इतर कर
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+
+        //- ---------------------------------------------------
+        tr
+          td(style="text-align: left;")
+            div.text-center एकूण (एक) (अ) कर
+          td(style="text-align: right;")
+          td(style="text-align: left;")
+            div.text-center एकूण १० (अ + ब)
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१) बाजार फी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (११) पथ दिवाबत्ती, साहित्य व इतर
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (२) टांगा स्टॅण्ड फी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१२) शिक्षण
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (३) कार स्टॅण्ड फी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१३) आरोग्य
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (४) पाणी पट्टी
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (५) स्वच्छता फी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१४) रस्ते व गटार नाली सफाई
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (६) गाय चरण की
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (७) डीव्हीडी एफ व्याज २.५%
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१५) इतर बांधकाम
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (८) जमीन भाडेपट्टी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१६) वाचनालय
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (९) व्याज जमा
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१७) जलशुध्दीकरण/टी.सी.एल
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१०) जागा भाडे
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१८) बाग व मैदान
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (११) कोंडवाडा जमा
+          td(style="text-align: right;")
+          td(style="text-align: left;") (१९) समाज कल्याण (आदिवासी व मागासवर्ग)
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१२) देणगी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२०) डी.व्ही.डी.एफ. वर्गणी
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१३) निविदा फी
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२१) महिला व बालकल्याण
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१४) अनामत रक्कम
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२२) सामाजिक व सांस्कृतीक कार्यक्रम
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१५) लेख परी. वसुली
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२३) कोंडवाडा
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;") (१६) इतर जमा
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२४) साहित्य खरेदी
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;")
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२५) शेती
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;")
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२६) इतर -
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;")
+          td(style="text-align: right;")
+          td(style="text-align: left;") (२७) ५% दिव्यांग कल्याण
+          td(style="text-align: right;")
+        tr
+          td(style="text-align: left;")
+            div.text-center एकूण (एक) (ब) करेत्तर उत्त्पन्न
+          td(style="text-align: right;")
+          td(style="text-align: left;")
+            div.text-center एकूण एक ग्रामनिधी
+          td(style="text-align: right;")

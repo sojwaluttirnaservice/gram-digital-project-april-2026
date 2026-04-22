@@ -1,0 +1,156 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../include/internal-gp-master-layout.pug
+
+
+block content   
+
+    .container-fluid.mt-4
+
+        div
+            h4.heading-1 नमुना ७ नोंदणी
+            div.text-end
+                a.btn.btn-secondary.float-right(href='/namuna/7/list') यादी   
+
+        .row.justify-content-center
+            .col-11.col-md-8
+
+                .card
+                    .card-header.bg-warning.font-weight-bold माहिती
+                    .card-body
+
+                        form#namuna-7-form
+                            .row
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='recipient_name') पावती धारकाचे नाव
+                                        input.form-control.form-control-sm(type='text' name='recipient_name' id='recipient_name')
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='date') दिनांक
+                                        input.datepicker.form-control.form-control-sm(type='text' name='date' id='date' autocomplete="off")
+
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='tax_category') कर प्रकार
+                                        select.form-control.form-control-sm(name='tax_category' id='tax_category')
+                                            option(value='') ----निवडा----
+                                            each _opt in dropdown
+                                                option(value=_opt.tax_category) #{_opt.tax_category}
+
+
+
+                                //- .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='payment_for') पैसे कशासाठी
+                                        select.form-control.form-control-sm(name='payment_for' id='payment_for')
+                                            option(value='') ----निवडा----
+                                            each _opt in _paymentOptions
+                                                option(value=_opt.payment_for data-pramanpatra_name=_opt.pramanpatra_name) #{_opt.pramanpatra_name}
+
+                                        input(name="payment_for_desc" value="")
+
+                                //- .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='tax_category') कर प्रकार
+                                        select.form-control.form-control-sm(name='tax_category' id='tax_category')
+                                            option(value='') ----निवडा----
+                                            each _opt in dropdown
+                                                option(value=_opt.tax_category) #{_opt.tax_category}
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='payment_for') पैसे कशासाठी
+                                            
+                                        a.btn(style="padding: 2px 2px; background-color: red; color:white; font-size:0.8rem;" href="/namuna/7/reasons") Manage
+                                        select.form-control.form-control-sm(name='payment_for' id='payment_for')
+                                            option(value='') ----निवडा----
+
+                                        input(type='hidden' name='payment_for_desc' id='payment_for_desc')
+
+
+
+
+
+
+                                .col-12.col-md-6.d-none
+                                    .form-group
+                                        label.font-weight-bold(for='reason_in_words') कारण (शब्दात)
+                                        input.form-control.form-control-sm(type='text' name='reason_in_words' id='reason_in_words' readonly)
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='amount') रक्कम
+                                        input.form-control.form-control-sm(type='number' step='0.01' name='amount' id='amount')
+
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='payment_medium') पेमेंट प्रकार
+                                        select.form-control.form-control-sm(name='payment_medium' id='payment_medium')
+                                            option(value='') ----निवडा----
+                                            option(value='CASH') नगद 
+                                            option(value='CHEQUE') चेक
+                                            option(value='DEMAND_DRAFT') डिमांड ड्राफ्ट
+                                            option(value='RTGS') RTGS
+                                            option(value='UPI') UPI
+                                            option(value='OTHER') इतर
+
+
+                                // CASH (no extra input)
+                                .col-12#cash-section(style='display:none;')
+                                    .alert.alert-info.mt-2
+                                        span नगद पेमेंट निवडले आहे.
+
+
+                                // CHEQUE
+                                .col-12.col-md-6#cheque-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='check_no') चेक क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='check_no' id='check_no')
+
+
+                                // DEMAND DRAFT
+                                .col-12.col-md-6#dd-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='demand_draft_no') डिमांड ड्राफ्ट क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='demand_draft_no' id='demand_draft_no')
+
+
+                                // RTGS
+                                .col-12.col-md-6#rtgs-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='rtgs_no') RTGS व्यवहार क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='rtgs_no' id='rtgs_no')
+
+
+                                // UPI
+                                .col-12.col-md-6#upi-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='transaction_number') UTR/Transaction No:
+                                        input.form-control.form-control-sm(type='text' name='transaction_number' id='transaction_number')
+
+
+                                // OTHER
+                                .col-12.col-md-6#other-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='other_id') व्यवहार क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='other_id' id='other_id')
+
+                                .col-12.col-md-6#other-name-section(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='other_id_name') व्यवहार प्रकार
+                                        input.form-control.form-control-sm(type='text' name='other_id_name' id='other_id_name')
+
+
+                                .col-12.text-center
+                                    .form-group
+                                        button#namuna-7-samanya-save-btn.btn.btn-success.mt-2(type='submit') जतन करा
+
+block custom_js
+    script.
+        const dropdown = !{JSON.stringify(dropdown)};
+    script(src="/asstest/coustom/js/handlers/namuna/namuna-7/namuna-7-form-page-handler.js")

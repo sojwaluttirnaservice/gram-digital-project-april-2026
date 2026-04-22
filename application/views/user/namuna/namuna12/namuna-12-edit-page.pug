@@ -1,0 +1,251 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		meta(http-equiv='X-UA-Compatible' content='ie=edge')
+		// common css
+		link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+		link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+		link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+		link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+		link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+		script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+		script(src='/asstest/plugins/popper/popper.min.js')
+		script(src='/asstest/plugins/date/jquery-ui.js')
+		script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+		script(src='/asstest/plugins/notify/notify.js')
+		script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+		script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+		// Bootstrap 5 CSS & JS
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+		// common js setups
+		script(src='/asstest/coustom/js/base.converter.js')
+		script(src='/asstest/coustom/js/common.js')
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+		link(href='/asstest/coustom/css/namuna/namuna-12/namuna-12-page.css' rel='stylesheet')
+
+
+		script(src='/asstest/coustom/js/handlers/namuna/namuna-12/namuna-12-create-entry-page-handler.js' type='module' defer)
+		script.
+			let _namuna12Entry = !{JSON.stringify(namuna12Entry)}
+			//- console.log(_namuna12Entry)
+
+		title Edit नमुना १२ आकस्मिक खर्चाचे प्रयोजन 
+		style.
+			.heading-1 {
+				font-weight: bold !important;
+				font-size: 1.4rem;
+				text-align: center;
+				color: #bb2525;
+				border-radius: 15px;
+				border: 2px solid #bb2525;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 8px;
+				margin: 0 auto 1.4rem;
+				width: fit-content;
+			}
+
+			label.error {
+				color: red;
+				font-size: 0.9rem;
+			}
+
+	body
+		include ../../include/navs.pug
+
+
+		-
+			const months = [
+				"०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+				"०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+				"०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+			]
+
+		.container
+			h2.heading-1.mt-2.mb-1 Edit नमुना १२ आकस्मिक खर्चाचे प्रयोजन
+
+			div
+				.d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+					a.btn.btn-primary.btn-sm(href='/namuna') नमुने
+					a.btn.btn-primary.btn-sm(href='/namuna/12') यादी
+
+
+			.modal.fade#spendingDetailsFormModal(tabindex="-1" aria-labelledby="spendingDetailsFormModalLabel" aria-hidden="false")
+				.modal-dialog.modal-dialog-centered.modal-dialog-scrollable
+					.modal-content
+						.modal-header
+							h1.modal-title.fs-5#spendingDetailsFormModalLabel खर्चाची नोंद
+							button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+						.modal-body
+
+							form(id='spendingDetailsForm')
+
+								.row 
+									.col-12 
+										.form-group 
+											label.form-label(for="item_name_or_goods_name") मागविलेल्या वस्तूचे/ मालाचे नाव
+											input.form-control(type='text' id='item_name_or_goods_name' name='item_name_or_goods_name' placeholder='')
+
+									.col-6
+										.form-group 
+											label.form-label(for="approval_number") पंचायतीचा मंजुरी क्रमांक
+											input.form-control(type='text' id='approval_number' name='approval_number' placeholder='')
+									.col-6
+										.form-group 
+											label.form-label(for="approval_date") पंचायतीचा मंजूरी दिनांक
+											input.form-control.datepicker(type='text' id='approval_date' name='approval_date' placeholder='' )
+
+									.col-6
+										.form-group 
+											label.form-label(for="quantity_or_weight") नग/ वजन
+											input.form-control(type='number' id='quantity_or_weight' name='quantity_or_weight' placeholder='')
+
+									.col-6
+										.form-group 
+											label.form-label(for="rate") दर
+											input.form-control(type='number' id='rate' name='rate' placeholder='')
+
+
+									.col-6
+										.form-group 
+											label.form-label(for="unit") युनिट 
+											input.form-control(type='text' id='unit' name='unit' placeholder='')
+
+
+									.col-6
+										.form-group 
+											label.form-label(for="total_amount") एकूण रक्कम
+											input.form-control(type='number' id='total_amount' name='total_amount' placeholder='')
+											input(name='main_namuna_12_id_fk' id='main_namuna_12_id_fk' hidden)
+											input(name='id' id='id' hidden)
+
+
+											//- no use in databse, but needed for javascript purpose
+											input(name='index' id='index' hidden)
+
+									.col-12 
+										.form-group 
+											label.form-label(for="total_amount_previous_expense") एकूण रक्कम पूर्वीचा खर्च
+											input.form-control(type='text' id='total_amount_previous_expense' name='total_amount_previous_expense' placeholder='')
+								//- .mt-4.text-center
+						.modal-footer
+							button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+							button.btn.btn-success(type='button' id='updateNamuna12SpendingEntryBtn') Update Entry
+							button.btn.btn-primary(type="submit" id='addEntryToTableBtn') Add Entry 
+
+
+
+			if namuna12Entry
+
+				form(id='namuna-12-form').mt-1
+					.form.form-1
+						h4.text-center.fw-bold नमुना १२ नोंदणी
+
+						input(name='id' value=namuna12Entry.id required hidden)
+
+						.row.justify-content-center.justify-content-md-between.gx-4.gy-2
+							.col-11.col-md-6.col-lg-3
+								.form-group
+									label.form-label(for="month") महिना
+									select.form-select(id="month" name="month" required)
+										option(value='') --निवडा--
+										each month, monthIndex in months 
+											option(value=(monthIndex + 1) selected=(namuna12Entry.month == (monthIndex + 1)))=month
+
+							.col-11.col-md-6.col-lg-3
+								.form-group
+									label.form-label(for="year") वर्ष
+									select.form-select(id="year" name="year" required)
+										option(value='') --निवडा--
+										- let currentYear = new Date().getFullYear()
+										- let startYear = currentYear - 25
+										each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+											option(value=year selected=(namuna12Entry.year == year)) #{year}
+
+							.col-11.col-md-6.col-lg-3
+								.form-group
+									label.form-label(for="bill_number") देयक क्रमांक
+									input.form-control(type="text" id="bill_number" name="bill_number" value=namuna12Entry.bill_number required placeholder="")
+
+							.col-11.col-md-6.col-lg-4
+								.form-group
+									label.form-label(for="bill_date") देयक दिनांक
+									input.form-control.datepicker(type="text" id="bill_date" name="bill_date" value=namuna12Entry._bill_date required placeholder="")
+
+							.col-11.col-md-12.col-lg-6
+								.form-group
+									label.form-label(for="name_of_person_accepting_bill") देयक स्वीकारणाऱ्याचे नाव
+									input.form-control(id="name_of_person_accepting_bill" name="name_of_person_accepting_bill" value=namuna12Entry.name_of_person_accepting_bill required placeholder="")
+
+
+							.col-12
+								hr
+
+							.col-12 
+
+								.d-flex.align-items-center.justify-content-between(style='gap: 1rem; width: 100%;')
+
+									h6.fw-bold.fs-3.text-decoration-underline
+										| खर्चाचा तपशिल
+									button.btn.btn-primary(type="button" data-bs-toggle="modal" data-bs-target="#spendingDetailsFormModal" id='openSpendingDetailsModalForNewEntry')
+										| खर्चाची नोंद करा
+
+
+								.table-responsive 
+									table.table.mt-4.table-striped#spending-table
+
+										thead
+											tr
+												th अ.क्र.
+												th मागविलेल्या वस्तूचे/मालाचे नाव
+												th मंजूरी क्रमांक
+												th मंजूरी दिनांक
+												th नग/वजन
+												th दर
+												th युनिट
+												th एकूण रक्कम
+												th एकूण रक्कम पूर्वीचा खर्च
+												th Action
+
+										tbody#spending-details-body
+
+
+
+							.col-12
+								hr
+
+							.col-11.col-md-12.col-lg-6
+								.form-group
+									label.form-label(for="total_spending") एकूण रक्कम
+									input.form-control(id="total_spending" name="total_spending" value=namuna12Entry.total_spending required readonly placeholder="" )
+
+							.col-11.col-md-12.col-lg-3
+								.form-group
+									label.form-label(for="certificate_number") प्रमाणक क्रमांक
+									input.form-control(type="text" id="certificate_number" name="certificate_number" value=namuna12Entry.certificate_number placeholder="अग्रीम / अग्रीमातून खर्च")
+
+							.col-11.col-md-6.col-lg-3
+								.form-group
+									label.form-label(for="page_number_in_cash_book") रोकडवहीतील पृष्ठ क्रमांक
+									input.form-control(type="number" id="page_number_in_cash_book" name="page_number_in_cash_book" value=namuna12Entry.page_number_in_cash_book required placeholder="एकूण रक्कम")
+
+
+							.col-11.col-md-12.col-lg-12
+								.form-group
+									label.form-label(for="remarks") शेरा 
+									input.form-control(id="remarks" name="remarks" placeholder="" value=namuna12Entry.remarks)
+
+						.d-flex.gap-4.justify-content-center
+							button.btn.btn-success(type='button' id="update-namuna-12-entry") Update
+							button.btn.btn-secondary(type='reset' id='reset') Reset
+			else 
+				h4.fw-bold.text-center संबंधित नोंद उपलब्ध नाही
+

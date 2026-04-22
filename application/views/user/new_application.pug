@@ -1,0 +1,273 @@
+extends ./include/index-page-master-layout.pug
+
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { 
+                opacity: 0; 
+            } 
+            100% { 
+                opacity: 1; 
+            } 
+        }
+
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider') 
+                //- | नवीन अर्जचा नमूना
+                | #{t("citizenServiceApplicationPage.heading")}
+
+    section(class='py-4')
+        .container
+            div(class='flex flex-col gap-2 items-center') 
+                h4.small-line(class='font-semibold text-gray-500 text-center')
+                    //- | महाराष्ट्र लोकसेवा हक्क अध्यादेश -2015 अंतर्गत दाखला /प्रमाणपत्र व इतर कोणत्याही कामा मिळणे कारिता अर्जचा नमूना
+                    | #{t("citizenServiceApplicationPage.subheading")}
+
+                h6(class='text-red-400 text-center font-bold')
+                    //- | पूर्वी अर्ज भरला असल्यास आधार क्रमांक टाका*
+                    | #{t("citizenServiceApplicationPage.instruction")}
+                    span *
+
+
+
+                input(id='formSearch' class='px-2 py-1 outline-none border bg-white border-gray-300 rounded-sm w-64 sm:w-72 md:w-96' type='text' placeholder=(t("citizenServiceApplicationPage.searchBar.inputplaceholder")))
+
+                button(type='button' id='btnFormSearch' class='px-5 py-1 rounded-md inline-flex items-center gap-2 bg-emerald-500 transition-all duration-300 ease-in-out  hover:bg-emerald-700  text-white font-bold tracking-wider') 
+                    i.fa-solid.fa-magnifying-glass
+                    //- span शोधा
+                    span #{t("citizenServiceApplicationPage.searchBar.searchBtn")}
+
+
+
+
+    section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden')
+        .bg-shape(class='absolute top-0 left-0  h-full aspect-square z-2 top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2')
+            .shape(class='h-full aspect-square my-bg-blue rotate-[45deg]')
+        .container 
+            .form-container(class='')
+                form(id='newForm8' class=' md:w-[80%] mx-auto flex flex-col gap-4')
+
+                    //- CARD 1
+                    .form-card(class='flex flex-col gap-4 z-10')
+
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2  px-8 lg:px-20 border text-center shadow-lg font-bold text-xl md:text-2xl my-text-blue') 
+                            //- span अर्जदाराची माहिती
+                            span #{t("citizenServiceApplicationPage.form.heading")}
+
+
+
+
+                        - let inputClass = 'relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden'
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | अर्जदाराचे नाव
+                                            | #{t("citizenServiceApplicationPage.form.inputs.applicant.label")}
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-user')
+                                            input#formName(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formName" placeholder=(t("citizenServiceApplicationPage.form.inputs.applicant.placeholder")))
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | ई-मेल आईडी 
+                                            | #{t("citizenServiceApplicationPage.form.inputs.email.label")}
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-envelope')
+                                            input#formEmail(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formEmail")
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | मोबाईल क्रमांक 
+                                            | #{t("citizenServiceApplicationPage.form.inputs.mobile.label")}
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-phone')
+                                            input#formMobile(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="10" name="formMobile")
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | आधार क्रं.
+                                            | #{t("citizenServiceApplicationPage.form.inputs.adhar.label")}
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-id-card')
+                                            input#formAadhar(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="12" name="formAadhar")
+
+                                .input-group(class='mb-3 px-2  md:col-span-2')
+                                    div(class='flex flex-col gap-2')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | पूर्ण पत्ता 
+                                            | #{t("citizenServiceApplicationPage.form.inputs.address.label")}
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-map-marker-alt')
+                                            textarea#formAddress(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formAddress")
+
+                                .input-group(class='mb-3 px-2 md:col-span-1')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider')  मु. पोस्ट :
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-map-marker-alt')
+                                            input#formGPDetails(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' readonly value="मु. पो. "+gp.gp_name+" ता. "+gp.gp_taluka+ " जि. "+gp.gp_dist)
+
+                                
+                                .input-group(class='mb-3 px-2 md:col-span-1')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | आधार क्रं.
+                                            | Application Date : 
+                                        .input-holder(class=inputClass)
+                                            i(class='fas fa-id-date')
+                                            input#create_date.datepicker(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="10" name="create_date")
+
+
+                    //- CARD 2
+                    .form-card(class='flex flex-col gap-4 z-10')
+
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 md:px-20 border text-center shadow-lg font-bold text-xl md:text-2xl my-text-blue') 
+                            //- span दाखल्याची आवश्यकता
+                            span #{t("citizenServiceApplicationPage.form.certificatesHeading")}
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            div(class='flex flex-col gap-4')
+
+                                //- <!-- Form Row 1 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckOne' name="dakhlaCheckOne" type='checkbox' data-i="0" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            
+                                            //- this is the actaul label
+                                            div.hidden #{doc_list[0].dt_doc_name}
+                                            //- and below is the translation version of above, keeping the above hidden using the class hidden of tailwind, not commenting now and wont comment
+                                            //- And do the same for the below other input labels in this form
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.birthCertificate.label")}
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col sm:flex-row gap-2')
+                                            input(id='dakhlaCheckOneName' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.birthCertificate.placeholder1")) name="dakhlaCheckOneName")
+                                            input(id='dakhlaCheckOneDate' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.birthCertificate.placeholder2")) name="dakhlaCheckOneDate")
+
+                                //- <!-- Form Row 2 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckTwo' name="dakhlaCheckTwo" type='checkbox' data-i="1" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[1].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.deathCertificate.label")} 
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col sm:flex-row gap-2')
+                                            input(id='dakhlaCheckTwoName' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.deathCertificate.placeholder1")) name="dakhlaCheckTwoName")
+                                            input(id='dakhlaCheckTwoDate' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.deathCertificate.placeholder2")) name="dakhlaCheckTwoDate")
+
+                                //- <!-- Form Row 3 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckThree' name="dakhlaCheckThree" data-i="2" type='checkbox' class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[2].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.marriageRegistrationCertificate.label")}  
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col')
+                                            input(id='dakhlaCheckThreeDate' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.marriageRegistrationCertificate.placeholder")) name="dakhlaCheckThreeDate")
+
+                                //- <!-- Form Row 4 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckFour' name="dakhlaCheckFour" type='checkbox' data-i="3" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[3].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.namuna8Sample.label")} 
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col')
+                                            input(id='dakhlaCheckFourNumber' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.namuna8Sample.placeholder")) name="dakhlaCheckFourNumber")
+
+                                //- <!-- Form Row 5 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckEight' name="dakhlaCheckEight" type='checkbox' data-i="7" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[7].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.clearanceCertificate.label")} 
+                                    //- .right(class='w-full lg:flex-grow')
+                                    //- 	<!-- No additional fields -->
+
+                                //- <!-- Form Row 6 -->
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckFive' name="dakhlaCheckFive" type='checkbox' data-i="4" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[4].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.insolvencyCertificate.label")} 
+  
+                                    //- .right(class='w-full lg:flex-grow')
+                                        <!-- No additional fields -->
+
+
+
+                                //- Form Row 7, adding hardcoded new Document name bpl certificate on (18Feb2026)
+                                .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckSix' name="dakhlaCheckSix" type='checkbox' data-i="9" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[8] ? doc_list[8].dt_doc_name : 'दारिद्र्यरेषेखालचा दाखला' }
+                                            //- incorrect label thsi commented part, just kept for later modification
+                                            //- div #{t("citizenServiceApplicationPage.form.certificateInputs.insolvencyCertificate.label")} 
+                                            div #{doc_list[8] ? doc_list[8].dt_doc_name : 'दारिद्र्यरेषेखालचा दाखला' }
+  
+                                
+
+                                //- <!-- Form Row 7 -->
+                                //- .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckSix' name="dakhlaCheckSix" type='checkbox' data-i="5" class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[5].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.otherWork.label")} 
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col')
+                                            textarea(id='dakhlaCheckSixTextArea' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.otherWork.placeholder"))  name="dakhlaCheckSixTextArea")
+
+                                //- <!-- Form Row 8 -->
+                                //- .form-row(class='flex flex-col lg:flex-row items-center gap-4 lg:gap-6 border-gray-30 pb-4 border-b-2 border-gray-500')
+                                    .left(class='w-full lg:w-96 border-b border-gray-300 lg:border-b-0 lg:border-r lg:border-gray-500')
+                                        div(class='flex items-center gap-4 font-bold')
+                                            input(id='dakhlaCheckSeven' name="dakhlaCheckSeven" data-i="6" type='checkbox' class='h-5 w-5 bg-white border-2 border-blue-900 rounded focus:ring-2 focus:ring-indigo-500')
+                                            div.hidden #{doc_list[6].dt_doc_name}
+                                            div #{t("citizenServiceApplicationPage.form.certificateInputs.complaint.label")} 
+                                    .right(class='w-full lg:flex-grow')
+                                        div(class='flex flex-col')
+                                            textarea(id='dakhlaCheckSevenTextArea' class='py-1 px-2 border outline-none bg-stone-100 flex-grow placeholder:italic' placeholder=(t("citizenServiceApplicationPage.form.certificateInputs.complaint.placeholder")) name="dakhlaCheckSevenTextArea")
+
+                    .buttons-container(class='z-10')
+                        div(class='flex items-center justify-center') 
+                            button(type='button' id='saveNewUserForm' class='px-10 py-2 rounded-md inline-flex items-center gap-2 bg-emerald-500 transition-all duration-300 ease-in-out hover:bg-emerald-700  text-white font-bold tracking-wider') 
+                                i.fa-solid.fa-floppy-disk
+                                //- span जतन करा
+                                span #{t("citizenServiceApplicationPage.form.saveBtn")}
+block internal_js
+    script(src='/asstest/coustom/js/handlers/new-application.js')
+block external_js 
+    script.
+        $(document).ready(function() {
+            doc_list= !{json_doc_list};
+            console.log(doc_list);
+            //-  $('#gharkulYojna').select2().val("").trigger('change');
+            //-  $('#havingToilet').select2().val("").trigger('change');
+            $( "#gharkulYojna option" ).last().prop('selected',true);
+        });
+
+
+
+

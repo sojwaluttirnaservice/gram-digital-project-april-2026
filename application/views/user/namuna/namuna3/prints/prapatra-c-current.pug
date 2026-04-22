@@ -1,0 +1,65 @@
+
+
+.my-print
+
+
+    div(style='margin: 1rem 0;')
+        div(style='font-weight: 600; font-size: 0.85rem;')
+            p(style='text-align: center;') प्रपत्र 'क' चालू
+            
+            p(style='text-align: center;') ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist} वर्ष _______
+            div ग्रामनिधी जमा (एक) (क) अभिहस्तांतरीत रकमा
+
+    table(style='width: 100%;')
+
+
+        -
+            let prapatraCCurrentHeadings = [
+                "मुद्रांक शुल्क",
+                "उपकर",
+                "जमीन महसूल",
+                "जमीन समानी करण",
+
+                "गौण खनिजे",
+                "पथ दिवाबत्ती देयाकाचा भरणा करण्यासाठी अनुदान",
+                "नळ पाणी पुरवठ्यातील देयाकासाठी ५०% अनुदान",
+                "मागास व आदिवासी क्षेत्रासाठी सहाय्य",
+                
+                "यात्राकरा ऐवजी अनुदाने",
+                "जकात नुकसान भरपाई अनुदान",
+                "इतर अनुदान",
+                "एकूण (एक) क (१ ते ११)",
+                "एकूण (एक) (अ + ब + क)",
+                "",
+                ""
+            ]  
+
+
+        thead
+
+            tr
+                each heading, index in prapatraCCurrentHeadings
+                    th #{heading}
+                
+            tr
+                each _, index in prapatraCCurrentHeadings
+                    th #{index + 1}
+                
+        tbody 
+
+            tr 
+                td #{transferredAmount.stamp_duty_fee} 
+                td #{transferredAmount.tax_amount} 
+                td #{transferredAmount.land_revenue} 
+                td #{transferredAmount.land_uniform_tax} 
+                td #{transferredAmount.minor_minerals_amount} 
+
+                td #{transferredAmount.road_lighting_subsidy} 
+                td #{transferredAmount.water_supply_subsidy} 
+                td #{transferredAmount.backward_tribal_area_support} 
+                td #{transferredAmount.travel_subsidy} 
+                td #{transferredAmount.tax_loss_compensation_grant} 
+
+                td #{transferredAmount.other_grants} 
+                td #{transferredAmount.total_k_amount} 
+                td #{transferredAmount.total_abk_amount} 

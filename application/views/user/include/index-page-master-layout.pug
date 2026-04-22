@@ -1,0 +1,305 @@
+html
+    head
+        title ग्राम पंचायत #{gp.gp_name}
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width,initial-scale=1")
+
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+
+
+        //- FAVICON
+
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/header-images/g-seval-globe.png">
+
+
+        //- google fonts 
+        //- ENGLISH 
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        //- link(href="https://fonts.googleapis.com/css2?family=Chivo:wght@700&display=swap" rel="stylesheet")
+
+        //- MARATHI FONT
+
+        //- YATRA ONE
+        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+        //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+
+
+
+        //- DEKKO
+        <link href="https://fonts.googleapis.com/css2?family=Dekko&display=swap" rel="stylesheet">
+
+
+        //- common css
+        link(rel="stylesheet" href="/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css")
+        link(rel="stylesheet" href="/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css")
+        link(rel="stylesheet" href="/asstest/lightbox/dist/css/lightbox.css")
+
+        //- Contains the container class css (DONT DELETE OR REMOVE)
+        link(rel="stylesheet" href="/asstest/coustom/css/index-page-outer/index-page.css")
+
+        //- link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.min.css')
+        //- latest font aweseome
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+        link(rel='stylesheet' href='/asstest/plugins/jquery-ui-1.13.2/jquery-ui.css')
+
+        //- link(href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css")
+        link(href="/asstest/plugins/daisyUi/daisyUi.css" rel="stylesheet" type="text/css")
+
+
+        //- link(rel="stylesheet" href="/new-gp-page/css/g-seva-main-page.min.css")
+
+
+        //- common scripts
+        script(src='/asstest/coustom/js/handlers/lazy-loader-handler.js' defer)
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/webcamjs/webcam.js' defer)
+        script(src='/asstest/plugins/jquery-ui-1.13.2/jquery-ui.js')
+        script(src='/asstest/coustom/js/common.js' defer)
+
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        script(src="/asstest/lightbox/dist/js/lightbox.js" defer)
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+
+        //- script(src="https://cdn.tailwindcss.com")
+
+        link(rel="stylesheet" href="/asstest/coustom/css/index-page-outer/index-navigation-outer.css")
+        script(src='/asstest/coustom/js/handlers/index-page-master-layout/navigation-bar.js' defer)
+        //- exposing langauge variable ("DONT REMOVE THIS BELWO LINE")
+        script.
+            window.siteLanguage = "#{language}";
+        script(src="/asstest/coustom/js/handlers/index-page-master-layout/language-handler.js")
+        //- Lottie files cdn
+        //- origina content link taken on teh sever
+        //- script(src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"  defer)
+        script(src='/asstest/plugins/lottie-player/lottie-player.js' defer)
+
+        //- mask plugin jquery
+        //- script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"  defer)
+        script(src='/asstest/plugins/jquery-mask/jquery-mask-2.js')
+
+
+        script(src='/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/owl.carousel.js')
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+        style.
+            .yatra-one-regular {
+                font-family: "Yatra One", system-ui;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .dekko-regular {
+                font-family: "Dekko", cursive;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .poppins-marathi-font {
+                font-family:"Poppins", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            /* ===================================================
+            UNIVERSAL Lazy-Loading Base Styles
+            =================================================== */
+
+            .lazy-image,
+            //- .lazy-video,
+            .lazy-lottie {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 20;
+            }
+
+            /* ===================================================
+            1️⃣ IMAGES - Lazy Loading
+            =================================================== */
+
+            .lazy-image {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+                object-fit: cover;
+                border-radius: 1.5rem;  /* Or rounded-full if needed in markup */
+            }
+
+            .lazy-image.loaded {
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            2️⃣ VIDEOS - Lazy Loading
+            =================================================== */
+
+            .lazy-video {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .lazy-video.loaded {
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            3️⃣ LOTTIE Animations - Lazy Loading
+            =================================================== */
+
+            .lazy-lottie {
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+            }
+
+            .lazy-lottie.loaded {
+                visibility: visible;
+                transition-delay: 0s;
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            Shimmer Placeholder
+            =================================================== */
+
+            .shimmer-placeholder {
+                background: linear-gradient(
+                    to right,
+                    #eeeeee 8%,
+                    #dddddd 18%,
+                    #eeeeee 33%
+                );
+                background-size: 800px 104px;
+                animation: shimmer 1.2s infinite linear;
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+                border-radius: 1.5rem;  /* Or rounded-full in markup as needed */
+            }
+
+            /* ===================================================
+            Shimmer Animation Keyframes
+            =================================================== */
+
+            @keyframes shimmer {
+                0% {
+                    background-position: -800px 0;
+                }
+                100% {
+                    background-position: 800px 0;
+                }
+            }
+
+
+            /* Main calendar background */
+            .ui-datepicker {
+                z-index: 99999 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #ccc;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+            }
+
+            /* Header (month/year bar) */
+            .ui-datepicker-header {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: none;
+            }
+
+            /* Month & Year dropdowns */
+            .ui-datepicker select {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #ccc !important;
+            }
+
+            /* Individual options (important for some browsers) */
+            .ui-datepicker select option {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            }
+
+            /* Hover / focus fix */
+            .ui-datepicker select:focus {
+                outline: none;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+
+        //- <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/additional-methods.min.js"></script>
+        block external_css 
+        block internal_css
+
+    body.yatra-one-regular
+        //- body
+        .wrapper(class='relative')
+            //- Scroll Up Button
+            div#scrollUpContainer(class='hidden fixed z-[100] bottom-5 right-5')
+                button#scrollUpBtn(class='w-12 h-12 z-[1000] flex items-center justify-center rounded-full bg-sky-700 border-2 border-green-400 text-white shadow-lg transition-transform transition-colors duration-300 transform hover:scale-110 hover:bg-gradient-to-br hover:from-blue-600 hover:to-green-500 hover:border-green-300' title='Scroll to top')
+                    i(class='fas fa-arrow-up text-xl')
+
+            include ./index-header.pug
+
+
+            main(class='relative')
+
+                //- dialog#myModal.modal
+                    .modal-box
+
+                        form(method="dialog")
+
+                            h3(class='text-center text-gray-500 font-bold text-xl') गाव निवडा
+                            button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+
+                        .p-4(class='md:p-5')
+                            .modal-body
+                                table.table.table-bordered(class='w-full border-collapse border border-gray-200')
+                                    thead
+                                        tr
+                                            each value, index in sub_village
+                                                th(width="5%" class='border border-gray-300 p-2') #{index + 1}
+                                                th(class='border border-gray-300 p-2')
+                                                    - var url = value.gp_url + "/login";
+                                                    button(data-url=url, class='redirectToLoginPageModalBtn text-blue-500 hover:text-blue-700') #{value.gp_name}
+
+                block content
+
+
+        //- script(src='/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/owl.carousel.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js')
+
+        script.
+            gpCount = #{sub_count}
+
+            const scrollContainer = document.getElementById("scrollUpContainer");
+            const scrollBtn = document.getElementById('scrollUpBtn');
+
+            // Show/hide button on scroll
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 150) {
+                    scrollContainer.classList.remove("hidden");
+                } else {
+                    scrollContainer.classList.add("hidden");
+                }
+            });
+
+            // Scroll smoothly to top when clicked
+            scrollBtn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+
+        script(src='/gram-panchayet/js/main.js')
+        block internal_js
+        block external_js
+
+

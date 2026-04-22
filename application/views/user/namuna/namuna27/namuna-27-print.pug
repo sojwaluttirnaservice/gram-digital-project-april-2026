@@ -1,0 +1,131 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २७ 
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='9' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना २७ 
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६९ पहा)
+
+                            div(style='font-size:13px;') सन #{fromYear} ते #{toYear}  वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
+
+
+                tr 
+                    th(colspan='9')
+                        | लेखापरीक्षणातील  आक्षेपांच्या पूर्ततेच्या मासिक विवरण
+                tr
+                    //- 1
+                    th(rowpsan='1') अनु. क्र
+
+                    //- 2 to 3
+                    th(rowpsan='1') लेखापरीक्षण अहवालाचे वर्ष
+                    th(rowpsan='1') लेखापरीक्षण अहवालातील परिच्छेद संख्या
+
+
+                    th(rowpsan='1') ग्रामपंचायतीने या महिन्यात पूर्तता केलेल्या परीच्छेदांची संख्या
+
+
+                    th(rowpsan='1') पंचायत समितीने मान्य आक्षेपाद्वारे मान्य केलेल्या पुर्तातांची संख्या
+
+                    th(rowpsan='1') लेखा परीक्षकाने ज्या बाबतीत पूर्तता मान्य केली आहे त्या अपेक्षांची संख्या
+                    th(rowpsan='1') प्रलंबित असलेल्या आक्षेपांची संख्या
+                    th(rowpsan='1') पूर्तता न केल्याबद्दलची कारणे (३-६)
+                    th(rowspan='1') शेरा
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9]
+                        th #{num}
+
+            tbody
+
+                each namuna27Entry, index in namuna27Details 
+                    //- each namuna27Entry, index in Array(20).fill(paymentnamuna27Entry).flat()
+                    tr 
+                        td #{index + 1}
+
+                        td #{namuna27Entry.audit_report_year}
+                        td #{namuna27Entry.paragraph_number}
+                        td #{namuna27Entry.paragraphs_resolved_by_gp}
+
+
+                        td #{namuna27Entry.objections_resolved_by_committee}
+                        td #{namuna27Entry.objections_resolved_by_auditor}
+
+                        td #{namuna27Entry.pending_objections}
+
+                        td #{namuna27Entry.reasons_for_non_compliance}
+                        td #{namuna27Entry.remarks}

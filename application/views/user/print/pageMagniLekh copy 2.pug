@@ -1,0 +1,244 @@
+doctype html
+head
+  title मागणी लेख
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+        
+       
+    }
+    .text-j {
+      line-height: 2;
+       text-align: justify
+    }
+body
+  - var pageCount = 0;
+  each val,index in data
+    - pageCount += 1;
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      .col-6
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-2.p-0.m-0
+                      img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+                    .col-8.text-center.p-0.m-0
+                      span.h6.font-weight-bold मागणी लेख 
+                      span.p-0.m-0.h6.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+                      small.d-block.font-weight-bold मागणी लेख नमुना
+                      small.d-block.font-weight-bold  नमुना 3 पहा
+                    .col-2.p-0.m-0
+                      img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव श्री/श्रीमती:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटदाराचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.pt-2.pb-1.h6.font-weight-bold.text-j 
+                        span मालमत्ता क्र.
+                          span.span-box &nbsp;#{val.feu_malmattaNo}
+                        span.ml-5 क्र.:
+                          span.span-box &nbsp;#{pageCount}
+                        span.ml-5 राहणार.:
+                          span.span-box #{val.feu_villageName}
+                        span.ml-2 नोटीस देण्यात येते कि.
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव श्री/श्रीमती:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटदाराचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0
+                .row.p-0.m-0.mb-2
+                  .col-12.p-0.m-0
+                    p.pt-2.pb-1.m-0.ml-2.h6.text-j 
+                      span यज कडे 
+                      span.font-weight-bold घर कर व पाणी कर यज कडून दिनांक
+                      span.span-box #{y1}
+                      span रोजी सुरु होणाऱ्या आणि दिनांक 
+                      span.span-box #{y2}
+                      span रोजी संपणाऱ्या वर्षाच्या मुदतीसाठी येणे असलेल्या एकूण रक्कम 
+                      span.span-box #{val.total_tax}
+                      span रुपये च्या रकमेची  मागणी करीत आहे. आणि ह्या लेखाची बजावणी केलेल्या तारखे पासून 
+                      span तीस (३०) दिवसाच्या ऊक्त रक्कम या मागणीच्या लेख बद्दलची फी रुपये 
+                      span.span-box #{Math.round((val.total_tax * 2) /100 )}
+                      span  (२% दंडाप्रमाणे) हि
+                      span.span-box #{val.feu_villageName}
+                      span येथील ग्रामपंचायतिच्या कार्यालयात भरण्यात आले नाही किवां ती ना भरल्यास 
+                      span पंचायतीची खात्री होईल असे पुरेसे कारण दर्शविण्यात आले नाही तरी ती रक्कम 
+                      span खर्चासह वसूल करण्यासाठी जप्तीचे अधिपत्र काढण्यात येईल.
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mt-2
+                    .col-3.p-0.m-0
+                      br
+                      p.ml-2.h5.font-weight-bold दिनांक
+                    .col-9.p-0.m-0
+                        p.h6.font-weight-bold.text-center 
+                          span.mr-2.float-right.d-block.float-right सरपंच सही 
+                          br
+                          span.float-right.d-block  ग्रा.पं कार्यालय , #{zp.gp_name} 
+
+      .col-6
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-2.p-0.m-0
+                      img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+                    .col-8.text-center.p-0.m-0
+                      span.h6.font-weight-bold मागणी लेख 
+                      span.p-0.m-0.h6.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+                      small.d-block.font-weight-bold मागणी लेख नमुना
+                      small.d-block.font-weight-bold  नमुना 3 पहा
+                    .col-2.p-0.m-0
+                      img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव श्री/श्रीमती:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटदाराचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.pt-2.pb-1.h6.font-weight-bold.text-j 
+                        span मालमत्ता क्र.
+                          span.span-box &nbsp;#{val.feu_malmattaNo}
+                        span.ml-5 क्र.:
+                          span.span-box &nbsp;#{pageCount}
+                        span.ml-5 राहणार.:
+                          span.span-box #{val.feu_gramPanchayet}
+                        span.ml-2 नोटीस देण्यात येते कि.
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव श्री/श्रीमती:&nbsp;#{val.feu_ownerName}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटदाराचे नाव:&nbsp;#{val.feu_secondOwnerName}
+            tr.p-0.m-0
+              td.p-0.m-0
+                .row.p-0.m-0.mb-2
+                  .col-12.p-0.m-0
+                    p.pt-2.pb-1.m-0.ml-2.h6.text-j 
+                      span यज कडे 
+                      span.font-weight-bold घर कर व पाणी कर यज कडून दिनांक
+                      span.span-box #{y1}
+                      span रोजी सुरु होणाऱ्या आणि दिनांक 
+                      span.span-box #{y2}
+                      span रोजी संपणाऱ्या वर्षाच्या मुदतीसाठी येणे असलेल्या एकूण रक्कम 
+                      span.span-box #{Math.round(val.total_tax)}
+                      span रुपये च्या रकमेची  मागणी करीत आहे. आणि ह्या लेखाची बजावणी केलेल्या तारखे पासून 
+                      span तीस (३०) दिवसाच्या ऊक्त रक्कम या मागणीच्या लेख बद्दलची फी रुपये 
+                      span.span-box #{Math.round((val.total_tax * 2) /100 )}
+                      span  (२% दंडाप्रमाणे) हि
+                      span.span-box #{val.feu_gramPanchayet}
+                      span येथील ग्रामपंचायतिच्या कार्यालयात भरण्यात आले नाही किवां ती ना भरल्यास 
+                      span पंचायतीची खात्री होईल असे पुरेसे कारण दर्शविण्यात आले नाही तरी ती रक्कम 
+                      span खर्चासह वसूल करण्यासाठी जप्तीचे अधिपत्र काढण्यात येईल.
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mt-2
+                    .col-2.p-0.m-0
+                      br
+                      p.ml-2.h5.font-weight-bold दिनांक
+                    .col-9.p-0.m-0
+                        p.h6.font-weight-bold.text-center 
+                          span.mr-2.float-right.d-block.float-right सरपंच सही 
+                          br
+                          span.float-right.d-block  ग्रा.पं कार्यालय, #{zp.gp_name}
+              

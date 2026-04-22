@@ -1,0 +1,62 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    style.
+        .required-star { color: red; margin-left: 3px; }
+
+block content
+
+    .container-fluid.mt-4
+        div
+            h5.heading-1 Create PPT
+
+    .container
+        .card
+            .card-header.bg-warning.text-center माहिती
+            .card-body
+                form#ppt-form(enctype="multipart/form-data")
+                    .row.justify-content-center
+
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold(for="title") 
+                                    | PPT चे Title
+                                    span.required-star *
+                                input.form-control(type="text" name="title" placeholder="Title टाका" required)
+
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold(for="description") 
+                                    | PPT चे वर्णन
+                                    span.required-star *
+                                input.form-control(type="text" name="description" placeholder="वर्णन टाका" required)
+
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold 
+                                    | Cover Image
+                                    span.required-star *
+                                input.form-control(type="file" name="cover_image" accept="image/*" required)
+
+                        each _, index in [1,2,3]
+                            .col-12.col-sm-6.col-lg-5
+                                .form-group
+                                    label.font-weight-bold 
+                                        | Page #{index + 1} Banner Image
+                                        span.required-star *
+                                    input.form-control(type="file" name=`page_${index + 1}_image` accept="image/*" required)
+
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold 
+                                    | Other Page Background Image
+                                    span.required-star *
+                                input.form-control(type="file" name="remaining_pages_header_image" accept="image/*" required)
+
+                        .col-12.mt-2.d-flex.justify-content-center
+                            button(type="button" id="save-ppt-main-details-btn" class="btn btn-primary px-4")
+                                i.fa.fa-save.me-2
+                                | Save
+
+block custom_js 
+    script(src="/asstest/coustom/js/handlers/ppt/ppt-form-handler.js")

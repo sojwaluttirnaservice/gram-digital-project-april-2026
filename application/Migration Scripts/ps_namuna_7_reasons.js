@@ -1,0 +1,57 @@
+const { Sequelize } = require("sequelize");
+const sequelize = require("../config/db-connect-migration");
+
+const ps_namuna_7_reasons = sequelize.define(
+  "ps_namuna_7_reasons",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+
+    tax_category: {
+      type: Sequelize.ENUM("SAMANYA", "PANI"),
+      allowNull: true,
+      comment: "Applicable only for tax-related payments",
+    },
+
+    certificate_category: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        defaultValue: "CERTIFICATE"
+    },
+
+    reason_in_words: {
+      type: Sequelize.STRING(50), // usually short text
+      allowNull: true,
+    },
+
+    simple_id: {
+        type: Sequelize.TINYINT,
+        allowNull: true
+
+        // see the file paymentForOptions in payment_for: 16, this thing
+    },
+
+    // Created and Updated timestamps
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal(
+        "CURRENT_TIMESTAMP",
+      ),
+    },
+  },
+  {
+    timestamps: true,
+    comment: "नमुना ७ कारण",
+  },
+);
+
+module.exports = ps_namuna_7_reasons;

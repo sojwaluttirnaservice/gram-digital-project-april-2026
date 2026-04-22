@@ -1,0 +1,68 @@
+extends ../master-layout
+block internal_css 
+	style.
+
+		th, tr, td {
+			border: 1px solid gray !important; 
+		}
+		tr,td {
+			vertical-align:center !important;
+		}
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/gram-ahaval-document-upload-handler.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row
+			h4.text-center ग्राम अहवाल अपलोड
+				
+			.col-md-12
+				.text-end
+					button.btn.btn-primary#upload-gram-ahaval-document-btn(type='button') माहिती भरा
+
+			.col-12.mt-5
+				table.table.table-striped.table-success
+					thead 
+						tr 
+							th.text-center(width='3%') क्रं  
+							th.text-center(width='10%') फाईल 
+							th अहवाल नाव 
+							//- th.text-center(width='3%') Edit 
+							th.text-center(width='3%') काढा
+					tbody 
+						each doc, index in gram_ahaval_documents
+							tr 
+								td.text-end #{index + 1}
+								td.text-center 
+									- let filePath = `/new-gp-page/main-page/files/gram-ahaval-documents/${doc.document_file_name}`;
+									a(href=filePath target='_blank')
+										i.fa.fa-file
+								td #{doc.document_name}
+								//- td.text-center 
+								//- 	button.btn.text-success(class='edit-gram-ahaval-document-btn' type='button' data-id=job.id data-fileName=job.file_name  data-document = doc)
+								//- 		i.fa.fa-edit
+								td.text-center 
+									button.btn.text-danger(class='delete-gram-ahaval-document-btn' type='button' data-id=doc.id data-fileName=doc.document_file_name)
+										i.fa.fa-trash
+
+	
+	.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='gram-ahaval-document-modal' )
+		.modal-dialog(style='min-width:50% !important;')
+			.modal-content.p-2
+				.modal-header.bg-warning माहिती भरा 
+					h1.modal-title.fs-5() 
+					button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+				.modal-body
+					form#gram-ahaval-document-form
+						.row 
+							.col-12.col-md-6 
+								.form-group 
+									label.form-label(for="")  अहवाल नाव
+									input.form-control(type='text' name='document_name')
+							.col-12.col-md-6 
+								.form-group 
+									label.form-label(for="") File
+									input.form-control(type='file' name='document_file')
+
+							.col-12.text-center.mt-4
+								button.btn.btn-primary(id='uploadGramAhavalDocumentBtn') जतन करा
+								 

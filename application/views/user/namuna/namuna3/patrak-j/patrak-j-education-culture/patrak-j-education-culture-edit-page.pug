@@ -1,0 +1,198 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+        link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-3/patrak-j/patrak-j-edu-culture/namuna-3-patrak-j-edu-culture-page-form-handler.js' type='module' defer)
+
+        title प्रपत्र जे चालू (शिक्षण व सांस्कृतिक कार्य)
+
+    style.
+        .heading-1 {
+            font-weight: bold !important;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #bb2525;
+            border-radius: 15px;
+            border: 2px solid #bb2525;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            margin: 0 auto 1.4rem;
+            width: fit-content;
+        }
+
+        label.error {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+    body
+        include ../../../../include/navs.pug
+        .container
+            h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+            div
+                .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+                    a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+            form(id='patrak-j-edu-culture-form').mt-1
+                .form.form-1
+                    h4(style="text-align:center; font-weight:bold; color:white; background-color:#CD5C5C; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना ३ प्रपत्र जे चालू (शिक्षण व सांस्कृतिक कार्य)
+
+                    .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="year") वर्ष
+                                input.form-control(type='text' name="year" id="year" value=patrakJEducationCulture.year required)
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="gram_panchayat_name") ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+                                input.form-control(type='text' name="gram_panchayat_name" id="gram_panchayat_name" value=patrakJEducationCulture.gram_panchayat_name required)
+
+
+                        //- खोल्या
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="rooms_at_year_start") वर्षाच्या सुरुवातीस असलेल्या खोल्या
+                                input.form-control(type="text" name="rooms_at_year_start" id="rooms_at_year_start" value=patrakJEducationCulture.rooms_at_year_start placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="rooms_constructed_in_year") वर्षात बांधलेल्या खोल्या
+                                input.form-control(type="text" name="rooms_constructed_in_year" id="rooms_constructed_in_year" value=patrakJEducationCulture.rooms_constructed_in_year placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="rooms_repaired_in_year") वर्षात दुरुस्त केलेल्या खोल्या
+                                input.form-control(type="text" name="rooms_repaired_in_year" id="rooms_repaired_in_year" value=patrakJEducationCulture.rooms_repaired_in_year placeholder="")
+
+                        //- शिक्षण व सांस्कृतिक कार्य (edu & Cultural Works)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="students_in_schools") शाळेत जाणाऱ्या मुलांची संख्या
+                                input.form-control(type="text" name="students_in_schools" id="students_in_schools" value=patrakJEducationCulture.students_in_schools placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="students_in_col_61a") कॉ. ६१ अ तील विद्यार्थ्याची आकडेवारी
+                                input.form-control(type="text" name="students_in_col_61a" id="students_in_col_61a" value=patrakJEducationCulture.students_in_col_61a placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="change_from_last_year") गतवर्षापेक्षा वाढ किंवा घट
+                                input.form-control(type="text" name="change_from_last_year" id="change_from_last_year" value=patrakJEducationCulture.change_from_last_year placeholder="")
+
+                        //- कार्य/इतर (Other Works)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="arenas_at_year_start") वर्षात सुरुवातीस असलेले आखाडे
+                                input.form-control(type="text" name="arenas_at_year_start" id="arenas_at_year_start" value=patrakJEducationCulture.arenas_at_year_start placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="arenas_constructed_in_year") वर्षात बांधलेली आखाडे
+                                input.form-control(type="text" name="arenas_constructed_in_year" id="arenas_constructed_in_year" value=patrakJEducationCulture.arenas_constructed_in_year placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="clubs_at_year_start") वर्षाच्या सुरुवातीस असलेले क्लब
+                                input.form-control(type="text" name="clubs_at_year_start" id="clubs_at_year_start" value=patrakJEducationCulture.clubs_at_year_start placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="clubs_established_in_year") वर्षात स्थापन केलेली क्लब
+                                input.form-control(type="text" name="clubs_established_in_year" id="clubs_established_in_year" value=patrakJEducationCulture.clubs_established_in_year placeholder="")
+
+                        //- नाटकगृहे (Theatres)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="theatres_at_year_start") वर्षाच्या सुरुवातीस असलेली नाटकगृहे
+                                input.form-control(type="text" name="theatres_at_year_start" id="theatres_at_year_start" value=patrakJEducationCulture.theatres_at_year_start placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="theatres_constructed_in_year") वर्षात बांधलेली नाट्यगृहे
+                                input.form-control(type="text" name="theatres_constructed_in_year" id="theatres_constructed_in_year" value=patrakJEducationCulture.theatres_constructed_in_year placeholder="")
+
+                        //- ग्रंथालये (Libraries)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="libraries_at_year_start") वर्षाच्या सुरुवातीस असलेली ग्रंथालये
+                                input.form-control(type="text" name="libraries_at_year_start" id="libraries_at_year_start" value=patrakJEducationCulture.libraries_at_year_start placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="libraries_established_in_year") वर्षात स्थापन केलेली ग्रंथालये
+                                input.form-control(type="text" name="libraries_established_in_year" id="libraries_established_in_year" value=patrakJEducationCulture.libraries_established_in_year placeholder="")
+
+                        //- नोकरांची संख्या (Employee Count)
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="clerks_count") कारकून
+                                input.form-control(type="text" name="clerks_count" id="clerks_count" value=patrakJEducationCulture.clerks_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="inspectors_count") निरीक्षक
+                                input.form-control(type="text" name="inspectors_count" id="inspectors_count" value=patrakJEducationCulture.inspectors_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="sweepers_count") झाडूवाले
+                                input.form-control(type="text" name="sweepers_count" id="sweepers_count" value=patrakJEducationCulture.sweepers_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="scavengers_count") भंगी
+                                input.form-control(type="text" name="scavengers_count" id="scavengers_count" value=patrakJEducationCulture.scavengers_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="patta_workers_count") पट्टेवाले
+                                input.form-control(type="text" name="patta_workers_count" id="patta_workers_count" value=patrakJEducationCulture.patta_workers_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="kondawada_workers_count") कोंडवाडा मोहरील
+                                input.form-control(type="text" name="kondawada_workers_count" id="kondawada_workers_count" value=patrakJEducationCulture.kondawada_workers_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="watchmen_count") पहारेकरी
+                                input.form-control(type="text" name="watchmen_count" id="watchmen_count" value=patrakJEducationCulture.watchmen_count placeholder="")
+
+                        .col-11.col-md-6.col-lg-6
+                            .form-group
+                                label.form-label(for="other_water_supply_workers_count") इतर पाणी पुरवठा कर्मचारी
+                                input.form-control(type="text" name="other_water_supply_workers_count" id="other_water_supply_workers_count" value=patrakJEducationCulture.other_water_supply_workers_count placeholder="")
+
+                                input(name='id' value=patrakJEducationCulture.id  hidden)
+
+                    .col-12.text-center
+                        button.btn.btn-success(type='submit' id='update-patrak-j-edu-culture-btn') Update

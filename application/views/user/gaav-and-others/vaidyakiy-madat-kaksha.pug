@@ -1,0 +1,41 @@
+extends ../include/index-page-master-layout.pug
+
+block content 
+
+    section(class='py-8 md:py-16')
+        .container
+
+            div(class='')
+                h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                    <i class="fa-solid fa-list"></i>
+                    //- span.ml-2 वैद्यकीय मदत कक्ष
+                    span.ml-2 #{t("medicalHelpPage.heading")}
+
+                p(class='text-center font-semibold')
+                    span ( Authority Person Name : 
+                    span#authority-person-name 
+                    span )
+
+
+        div(class='flex justify-center mt-8')
+            - const link = "/new-gp-page/main-page/images/prahar/image-1.jpeg"
+            img.img(src=link, alt="" class='border-2 p-2 rounded-md')
+
+block internal_js 
+    script.
+        $(function(){
+            async function getAuthorityPersonDetails(){
+                try {
+                    let response = await fetch('/master/get-medical-room-authority-person', {
+                        method: "GET"
+                    });
+
+                    let { authorityPerson } = await response.json();
+                    //- console.log("Person ----------------------", authorityPerson);
+                    $('#authority-person-name').text(authorityPerson?.authority_person_name ? authorityPerson.authority_person_name : '-')
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+            getAuthorityPersonDetails();
+        })

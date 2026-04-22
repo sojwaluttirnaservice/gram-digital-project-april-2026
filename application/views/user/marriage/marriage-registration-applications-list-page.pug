@@ -1,0 +1,359 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- Optional future CSS hook
+
+block content
+
+
+    //- include ./marriage-applications-report-print-modal.pug
+    include ./marriage-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        //- Header
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                - let background = {pending: 'oklch(86.9% 0.022 252.894)', accepted: "oklch(90.5% 0.093 164.15)", rejected : "oklch(88.5% 0.062 18.334)", resolved : 'oklch(70.4% 0.14 182.503)'}
+                - let statuses = {pending: 'प्रलंबित', accepted: "मान्य", rejected : "रद्द", resolved : 'पूर्त'}
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-users.me-2
+                                | #{statuses[status]} विवाह नोंदणी अर्ज यादी
+                            p.mb-0.text-muted.small #{statuses[status]} विवाह नोंदणी खाली दर्शविली आहे.
+                        div.d-flex(style='gap:1rem;')
+                            //- button.btn.btn-secondary.btn-sm(data-bs-toggle="modal" data-bs-target="#print-report-modal")
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+                            
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(href='/marriage/list') प्रलंबित अर्ज
+                            
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(href=`/marriage/list?status=accepted&sort=${sort}`) मान्य अर्ज
+                                
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(href=`/marriage/list?status=rejected&sort=${sort}`) रद्द अर्ज
+
+                            button.btn.btn-primary.btn-sm(id='open-month-year-modal-btn' data-bs-toggle="modal" data-bs-target="#monthYearModal")
+                                |  विवाह नोंदणी रजिस्टर प्रिंट
+
+                            a.btn.btn-primary.btn-sm(href="/marriage/add-new")
+                                span.fa.fa-user-plus
+                                |  नवीन नोंदणी करा 
+
+                            //- if status != 'resolved' 
+                                a.btn.btn-success.btn-sm(style='background: oklch(60% 0.118 184.704);' href=`/marriage/list?status=resolved&sort=${sort}`) पूर्त तक्रार
+
+
+
+        //- Table
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                //- div.mb-4
+                    //- div(class="d-flex align-items-center" style="gap:0.75rem;")
+
+                        label(class="small fw-bold mb-0") क्रमवारी :
+
+                        select(id="complaint-sort-order" class="form-select form-select-sm" style="width:160px;")
+                            option(value="desc" selected=(sort=="desc")) नवीन आधी
+                            option(value="asc" selected=(sort=="asc")) जुने आधी
+
+                div.card.shadow-sm
+
+
+                    div.card-body
+
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width="5%") अ. क्रं.
+                                        th(width="8%") नोंदणी क्र.
+                                        th(width="10%") खंड क्रमांक
+                                        th(width="12%") पती
+                                        th(width="12%") पत्नी
+                                        th(width="10%") विवाह दिनांक
+                                        th(width="8%") अर्जाचा मोड
+                                        th(width="12%") तपशील
+                                        th(width="6%") प्रत
+                                        th(width="10%") नोंदणी माहिती
+                                        th(width="5%") विवाह स्थळ
+                                        th(width="4%") संदेश
+
+                                        if status != 'resolved'
+                                            th(width="8%") Action
+
+
+                                tbody#marriageApplications
+                                    if !marriageList || marriageList.length == 0
+                                        tr
+                                            td(colspan="8" class="text-center text-danger py-4")
+                                                i.fa.fa-info-circle.me-2
+                                                | विवाह नोंदणी यादी उपलब्ध नाही. 
+                                    else
+                                        each marriage, _index in marriageList
+                                            tr
+                                                //- Index
+                                                td.text-center #{_index + 1}
+
+                                                //- ID
+                                                td.text-center
+                                                    span.badge.bg-secondary #{marriage.id}
+
+                                                td.text-center 
+                                                    span #{marriage.marriageVolume || marriage.marriageVolumeM || '-'} 
+                                                    
+                                                td.text-center 
+                                                    span #{marriage.marriageHusbandNameE || marriage.marriageHusbandNameM}
+
+                                                td.text-center 
+                                                    span #{marriage.marriageWifedNameE || marriage.marriageWifeNameM}
+
+                                                td.text-center 
+                                                    span #{marriage.marriageDate}
+
+                                                td.text-center 
+                                                    if marriage.application_mode == 'ONLINE'
+                                                       span.text-success.fw-bold ऑनलाईन
+                                                    else 
+                                                        span.text-danger.fw-bold ऑफलाईन
+
+                                              
+                                                //- Complaint Details                                                
+                                                td.text-center
+                                                    button.btn.btn-sm.btn-outline-primary.view-marriage-details-btn(type="button" data-marriage=JSON.stringify(marriage))
+                                                        i.fa.fa-eye.me-1
+                                                        | बघा
+
+                                                //- this one is for the application print
+                                                //- td.text-center 
+                                                    a.btn.btn-sm.btn-info(href=`/marriage/print/${marriage.id}` target='_blank')
+                                                        i.fa.fa-print
+                                                
+                                                td.text-center
+                                                    if status == "accepted"
+                                                        button.btn.text-primary.printModel(data-id = marriage.id)
+                                                            i.fa.fa-print.hand
+                                                    else 
+                                                        span -
+                                                    
+
+                                                td.text-center
+                                                    div.d-flex.flex-column.align-items-center.gap-1
+                                                        span.fw-semibold #{marriage.registration_date || marriage.registration_date_two}
+
+
+                                                td.text-center 
+                                                    span #{marriage.marriagePlaceE || marriage.marriagePlaceM}
+
+                                                //- SMS
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSNewApplication(
+                                                        data-id=index
+                                                        title="संदेश पाठवा"
+                                                    )
+
+                                                //- Actions
+                                                if status != 'resolved'
+                                                    td
+                                                        div.d-flex.justify-content-center.align-items-center(style="gap:0.6rem;")
+                                                            
+                                                            //- a.fa.fa-edit.editMarriage.hand(data-id = marriageRegistrationEntry.id)
+                                                            a.btn.btn-success.btn-sm(href=`/marriage/edit-marriage/${marriage.id}`)
+                                                                i.fa.fa-edit
+
+                                                            button.removeMarriage.btn.btn-sm.btn-danger(data-id = marriage.id data-certId=marriage.id)
+                                                                .fa.fa-trash.hand
+
+                                                            if status == 'pending'
+                                                                button.btn.btn-success.btn-sm.accept-marriage-registration-application-btn(
+                                                                    type="button"
+                                                                    data-marriage=JSON.stringify(marriage)
+                                                                    data-marriageId=marriage.id
+                                                                )
+                                                                    | Accept
+
+                                                                button.btn.btn-danger.btn-sm.reject-marriage-registration-application-btn(
+                                                                    type="button"
+                                                                    data-marriage=JSON.stringify(marriage)
+                                                                    data-marriageId=marriage.id
+                                                                )
+                                                                    | Reject
+
+                                                            //- else if status == 'accepted'
+                                                            //-     button.btn.btn-success.btn-sm.resolve-marriage-application-btn(
+                                                            //-         type="button"
+                                                            //-         data-ferfar=JSON.stringify(marriage)
+                                                            //-         data-ferfarId=marriage.id
+                                                            //-     )
+                                                            //-         | Resolve                                                          
+                                                            
+                                                            //- if (status == 'accepted' || status == 'rejected')
+                                                                button.btn.btn-secondary.btn-sm.revoke-marriage-application-btn(
+                                                                    type="button"
+                                                                    data-marriage=JSON.stringify(marriage)
+                                                                    data-marriageId=marriage.id
+                                                                    disabled=(marriage.application_mode == "OFFLINE")
+                                                                )
+                                                                    | Revoke
+
+
+
+    //- ACCEPTANCE MODAL
+    .modal(tabindex="-1" id="accept-marriage-registration-application-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-success text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-check-circle me-2")
+                        | विवाह नोंदणी अर्ज स्वीकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#accept-marriage-registration-application-form
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") पतीचे नाव
+                            input(type='text' name='marriageHusbandNameE' class='form-control' readonly) 
+                            input(type='text' name="marriageHusbandNameM" class='form-control' readonly)
+
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") पत्नीचे नाव
+                            input(type='text' name='marriageWifedNameE' class='form-control' readonly) 
+                            input(type='text' name="marriageWifeNameM" class='form-control' readonly)
+
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") खंड क्रमांक
+                            input.mainText(type='text' name='marriageVolume' class='form-control') 
+                            input.secText(type='text' name="marriageVolumeM" class='form-control')
+
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") नोंदणी दिनांक 
+                            input.mainText.datepicker(type='text' name='registration_date' class='form-control') 
+                            input.secText(type='text' name="registration_date_two" class='form-control')
+
+                        .mb-2
+                            label(for="acceptance_remark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | शेरा
+                            textarea(type="text" name="acceptance_remark" class="form-control" placeholder="शेरा लिहा (ऐच्छिक)")
+
+
+                            input(name='id' hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='accept-marriage-registration-application-btn' class="btn btn-sm btn-success")
+                        i(class="fa fa-check me-1")
+                        | स्वीकारा
+
+
+    //- REJECTION MODAL
+    .modal(tabindex="-1" id="reject-marriage-registration-application-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-danger text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-times-circle me-2")
+                        | अर्ज नाकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#reject-marriage-registration-application-form
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") पतीचे नाव
+                            input(type='text' name='marriageHusbandNameE' class='form-control' readonly) 
+                            input(type='text' name="marriageHusbandNameM" class='form-control' readonly)
+
+                        .mb-3
+                            label(for="" class="form-label fw-semibold") पत्नीचे नाव
+                            input(type='text' name='marriageWifedNameE' class='form-control' readonly) 
+                            input(type='text' name="marriageWifeNameM" class='form-control' readonly)
+
+                        .mb-2
+                            label(for="rejection_remark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | नकाराचे कारण
+                            textarea(name="rejection_remark" class="form-control" placeholder="नकार देण्याचे कारण लिहा")
+
+                            input(name="id" hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='reject-marriage-registration-application-btn' class="btn btn-sm btn-danger")
+                        i(class="fa fa-ban me-1")
+                        | नाकारा
+
+
+    //- marriage modal print
+    .modal#marriageModel(tabindex='-1' role='dialog')
+        .modal-dialog.modal-dialog-centered(role='document' style="width:60% !important;")
+            .modal-content
+                .modal-header
+                    h5.modal-title विवाह नोंदणी प्रिंट
+                    button.close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body 
+                    .row
+                        .col-3
+                        .col-3
+                            .form-group.mb-2
+                                input#printPlace.form-control(placeholder="---- ठिकाण ----")
+                        .col-1
+                            .form-group.mt-2.text-center
+                                span.font-weight-bold आणि
+                        .col-3
+                            .form-group.mb-2
+                                input#date31.form-control(placeholder="--- दिनांक ---")
+                                input#idData.form-control(type="hidden" placeholder="--- दिनांक ---")
+                        .col-12
+                            .d-flex.justify-content-center(style='gap:1.2rem;')
+                                button#btnPrintCertificate.btn.btn-primary(type='button' data-format='old') प्रिंट करा (Color)
+                                button#btnPrintMarriageCertificate.btn.btn-primary(type='button' data-format='new') प्रिंट करा (Black & White)
+
+
+    - let marathiMonths = ["जानेवारी","फेब्रुवारी","मार्च","एप्रिल","मे","जून","जुलै","ऑगस्ट","सप्टेंबर","ऑक्टोबर","नोव्हेंबर","डिसेंबर"];
+
+    .modal.fade#monthYearModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered
+            .modal-content(style='max-width: 600px').mx-auto
+                .modal-header
+                    div
+                        h4.modal-title.fs-5#exampleModalLabel महिना वर्ष निवडा
+                        p(class='text-danger' style='font-size:0.8rem;') विवाह नोंदणी रजिस्टर प्रिंट मारताना महिना व वर्ष हे विवाह नोंदणीनुसार निवडावे.
+                        button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+                    .row.justify-content-center
+                        .col-3
+                            select.form-select(name='month')
+                                each month, index in marathiMonths
+                                    option(value=(index + 1)) #{month}
+
+                        .col-3
+                            input.form-control(type='text' name='year' placeholder='Year')
+
+
+                .modal-footer
+                    //- button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id='marriage-register-report-print-btn') Print
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/marriage/marriage-registration-applications-list-page-handler.js')
+    //- script(src='/asstest/coustom/js/handlers/marriage/marriage-registration-sorting-handler.js')

@@ -1,0 +1,195 @@
+extends ../../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        body {
+            animation: fadeInAnimation ease 2s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    script(src='/asstest/coustom/js/handlers/gp-applications/ferfar/property-ferfar-form-handler.js' defer)
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider')
+                | #{t("propertyFerfarPage.heading")}
+
+    section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden')
+        .bg-shape(class='absolute top-0 left-0 h-full aspect-square z-2 top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2')
+            .shape(class='h-full aspect-square my-bg-blue rotate-[45deg]')
+
+        .container
+            .form-container
+                form(id='property-ferfar-form' class='md:w-[80%] mx-auto flex flex-col gap-6')
+
+                    // ===============================
+                    // CARD : APPLICANT DETAILS
+                    // ===============================
+                    .form-card(class='flex flex-col gap-4 z-10')
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 lg:px-20 border text-center shadow-lg font-bold text-xl md:text-2xl my-text-blue')
+                            span #{t("propertyFerfarPage.form.applicantCard.heading")}
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            //- Grid: 1 column mobile, 2 columns md+
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                                .input-group(class='px-2 md:col-span-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | अर्जदाराचे नाव
+                                        span #{t("propertyFerfarPage.form.applicantCard.inputs.applicantName.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-user')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='applicant_name' required)
+
+                                //- Aadhaar and Village side by side
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | आधार क्रमांक
+                                        span #{t("propertyFerfarPage.form.applicantCard.inputs.adhar.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-id-card')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='applicant_adhar' maxlength='12' required)
+
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | गाव
+                                        span #{t("propertyFerfarPage.form.applicantCard.inputs.village.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-location-dot')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='applicant_village' value=gp.gp_name required)
+
+                                .input-group(class='px-2 md:col-span-1')
+                                    label(class='font-bold tracking-wider')
+                                        //- | मोबाईल क्रमांक
+                                        span #{t("propertyFerfarPage.form.applicantCard.inputs.mobile.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-phone')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='applicant_mobile' maxlength='10' required)
+
+                                //- Application Date
+                                .input-group(class='px-2 md:col-span-1')
+                                    label(class='font-bold tracking-wider')
+                                        //- | Application Date 
+                                        span Application Date
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-calendar-alt')
+                                        input.datepicker(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='application_date' maxlength='10' required)
+                                
+                                .input-group(class='px-2 md:col-span-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | पूर्ण पत्ता
+                                        span #{t("propertyFerfarPage.form.applicantCard.inputs.address.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-map-marker-alt')
+                                        textarea(class='py-1 px-2 outline-none bg-stone-100 flex-grow' name='applicant_address' required)
+
+                    // ===============================
+                    // CARD : PROPERTY DETAILS
+                    // ===============================
+                    .form-card(class='flex flex-col gap-4 z-10')
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-lg my-text-blue')
+                            //- span मालमत्तेची माहिती
+                            span #{t("propertyFerfarPage.form.propertyCard.heading")}
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | मालमत्ता क्रमांक 
+                                        span #{t("propertyFerfarPage.form.propertyCard.inputs.malmattaNo.label")}
+                                        span(class='text-xs') 
+                                            //- | (नवीन खरेदी असल्यास भरू नये)
+                                            | #{t("propertyFerfarPage.form.propertyCard.inputs.malmattaNo.note")}
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-hashtag')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='malmatta_no')
+
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | मूळ मालकाचे नाव
+                                        span #{t("propertyFerfarPage.form.propertyCard.inputs.originalOwnerName.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-user-tie')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name='original_owner_name' required)
+
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | फेरफार कागदपत्र
+                                        span #{t("propertyFerfarPage.form.propertyCard.inputs.ferfarDocument.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-file')
+                                        select(class='py-1 px-2 outline-none bg-stone-100 flex-grow' name='ferfar_document' required)
+                                            option(value='' selected) 
+                                                //- |  -- निवडा --
+                                                | #{t("propertyFerfarPage.form.propertyCard.inputs.ferfarDocument.selectPlaceholder")}
+
+                                            each doc in dastaveg
+                                                option(value=doc)=doc
+
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider')
+                                        //- | कागदपत्र अपलोड
+                                        span #{t("propertyFerfarPage.form.propertyCard.inputs.ferfarDocumentUpload.label")}
+                                        span(class='text-red-600 font-bold ml-1') *
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas fa-upload')
+                                        input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='file' name='ferfarDocument' required)
+
+                    // ===============================
+                    // CARD : PROPERTY BOUNDARIES
+                    // ===============================
+                    .form-card(class='flex flex-col gap-4 z-10')
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-lg my-text-blue')
+                            //- span मालमत्तेच्या सीमा
+                            span #{t("propertyFerfarPage.form.boundariesCard.heading")}
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                                each lbl, dir in { east: t("propertyFerfarPage.form.boundariesCard.directions.east"), west:t("propertyFerfarPage.form.boundariesCard.directions.west"), north:t("propertyFerfarPage.form.boundariesCard.directions.north"), south:t("propertyFerfarPage.form.boundariesCard.directions.south") }
+                                    .input-group(class='px-2')
+                                        label(class='font-bold tracking-wider') #{lbl}
+                                            span(class='text-red-600 font-bold ml-1') *
+                                        .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                            i(class='fas fa-arrows-left-right')
+                                            input(class='py-1 px-2 outline-none bg-stone-100 flex-grow' type='text' name=`${dir}_landmark` required)
+
+                    // ===============================
+                    // DECLARATION
+                    // ===============================
+                    .form-card(class='flex flex-col gap-4 z-10')
+                        .form-body(class='shadow-lg border bg-white px-4 py-4 rounded-md')
+                            p(class='text-sm text-gray-700')
+                                //- | नियमानुसार सर्व थकबाकी व फिस भरण्यास मी तयार आहे. करिता सदरील फेरफार माझ्या नावे करण्यात यावा ही नम्र विनंती.
+                                | #{t("propertyFerfarPage.form.declaration.statement")}
+                            input(type='hidden' name='i_agree_statement' value='नियमानुसार सर्व थकबाकी व फिस भरण्यास मी तयार आहे. करिता सदरील फेरफार माझ्या नावे करण्यात यावा ही नम्र विनंती.')
+                            label(class='flex items-start gap-3 cursor-pointer')
+                                input(type='checkbox' name='i_agree_statement_status' value='AGREE' required)
+                                span(class='font-semibold')
+                                    //- | मी अटी व शर्ती मान्य करतो/करते
+                                    | #{t("propertyFerfarPage.form.declaration.agreeLabel")}
+                                    span(class='text-red-600 font-bold ml-1') *
+
+                    // ===============================
+                    // SUBMIT
+                    // ===============================
+                    .buttons-container(class='z-10')
+                        div(class='flex items-center justify-center')
+                            button(type='submit' id='submit-ferfar-form-btn' class='px-10 py-2 rounded-md inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-700 text-white font-bold')
+                                i(class='fa-solid fa-floppy-disk')
+                                //- span जतन करा
+                                span #{t("propertyFerfarPage.form.buttons.save")}

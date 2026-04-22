@@ -1,0 +1,157 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+
+block content
+
+    .container 
+
+        div 
+            h4.heading-1 Edit १ ते ७ दाखला अर्ज
+
+        form
+            
+            .card 
+                .card-header.bg-warning.font-weight-bold.text-center अर्जदाराची माहिती
+
+                .card-body 
+
+                    .row
+                        .col-md-6
+                            .form-group 
+                                label.form-label नाव
+                                input.form-control#formName(name="formName" value=application.formName)
+                                input#id(name="id" value=application.id hidden)
+
+                        .col-md-6
+                            .form-group 
+                                label.form-label ई-मेल आईडी 
+                                input.form-control#formEmail(name="formEmail" value=application.formEmail)
+
+                        .col-md-6
+                            .form-group 
+                                label.form-label मोबाईल क्रमांक 
+                                input.form-control#formMobile(name="formMobile" value=application.formMobile)
+
+                        .col-md-6
+                            .form-group 
+                                label.form-label आधार क्रं.
+                                input.form-control#formAadhar(name="formAadhar" value=application.formAadhar)
+
+                        .col-md-6
+                            .form-group 
+                                label.form-label पूर्ण पत्ता
+                                input.form-control#formAddress(name="formAddress" value=application.formAddress)
+
+                        .col-md-6
+                            .form-group 
+                                label.form-label  Application Date
+                                input.form-control#create_date.datepicker(name="create_date" value=application._create_date)
+
+            br
+
+            .card 
+                .card-header.bg-warning.font-weight-bold.text-center कागदपत्रे
+
+                - let originallySelectedDocs = JSON.parse(application.docDetails)
+
+                //- - let getSelectedDocument = (docObject) => ((match) => match ? { isChecked: true, ...match } : { isChecked: false, ...docObject })(originallySelectedDocs.find(doc => doc.docTitle.trim() === docObject.docTitle.trim()));
+                - let getSelectedDocument = (docObject) => ((match) => match ? { isChecked: true, ...match } : { isChecked: false, ...docObject })(originallySelectedDocs.find(doc => (doc.docTitle || '').trim() === (docObject.dt_doc_name || '').trim()));
+
+                .card-body
+                    - let result = null 
+                    .row 
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[0].dt_doc_name}
+
+                                - result = getSelectedDocument(doc_list[0])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckOne" name="dakhlaCheckOne" data-i="0" type="checkbox" checked=result.isChecked)
+                                    div 
+                                        input.form-control(name="dakhlaCheckOneName" data-i="0"  value=result.docCol1)
+                                    div
+                                        input.form-control(name="dakhlaCheckOneDate" data-i="0"  value=result.docCol2)
+
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[1].dt_doc_name}
+                                - result = getSelectedDocument(doc_list[1])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckTwo" name="dakhlaCheckTwo" data-i="1" type="checkbox" checked=result.isChecked)
+                                    div 
+                                        input.form-control(id="dakhlaCheckTwoName" data-i="1"  name="dakhlaCheckTwoName" value=result.docCol1)
+                                    div 
+                                        input.form-control(id="dakhlaCheckTwoDate" data-i="1"  name="dakhlaCheckTwoDate" value=result.docCol2)
+
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[2].dt_doc_name}
+                                - result = getSelectedDocument(doc_list[2])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckThree" name="dakhlaCheckThree" data-i="2" type="checkbox" checked=result.isChecked)
+                                    div 
+                                        input.form-control(id="dakhlaCheckThreeDate" data-i="2" name="dakhlaCheckThreeDate" value=result.docCol1)
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[3].dt_doc_name}
+                                - result = getSelectedDocument(doc_list[3])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckFour" name="dakhlaCheckFour" data-i="3"  type="checkbox" checked=result.isChecked)
+                                    div 
+                                        input.form-control(id="dakhlaCheckFourNumber" data-i="3" name="dakhlaCheckFourNumber" value=result.docCol1)
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[7].dt_doc_name}
+                                - result = getSelectedDocument(doc_list[7])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckEight" name="dakhlaCheckEight" data-i="7"  type="checkbox" checked=result.isChecked)
+                                    
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[4].dt_doc_name}
+                                - result = getSelectedDocument(doc_list[4])
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckFive" name="dakhlaCheckFive" data-i="4"  type="checkbox" checked=result.isChecked)
+                                    
+
+
+                        .col-12.col-md-6
+                            .form-group 
+                                label(for="") #{doc_list[8] ? doc_list[8].dt_doc_name : 'दारिद्र्यरेषेखालचा दाखला' }
+                                - result = getSelectedDocument(doc_list[8] ? doc_list[8] : {id: 8, dt_doc_name: "दारिद्र्यरेषेखालचा दाखला"})
+
+                                div 
+                                    div 
+                                        input(id="dakhlaCheckFive" name="dakhlaCheckFive" data-i="8" type="checkbox" checked=result.isChecked)
+                                    
+
+
+                        .col-12   
+                            .text-center    
+
+                                button.btn.btn-success(id="update-application-btn") Update
+
+block custom_js 
+    script.
+        window.docMasterList = !{JSON.stringify(doc_list)};
+    script(src="/asstest/coustom/js/handlers/edit-application.js")

@@ -1,0 +1,167 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/masik-notice-manager.js')
+
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+
+    script.
+        let _notice = null
+        $(function(){
+
+            $('#sabhaNumber').on('input', function(){
+                if(isNaN($(this).val())){
+                    $(this).val('')
+                }
+            })
+            
+           flatpickr('#sabhaScheduleTime', {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K", // 12-hour format with AM/PM
+                time_24hr: false // 12-hour clock
+            });
+
+        })
+
+    style.
+        body{
+            
+            height:100vh;
+        }
+
+        .numInput, .flatpickr-time, .arrowUp, .arrowDown, .flatpickr-time-separator {
+            font-size: 1.3rem !important;
+        }
+
+        label.error{
+            color: red;
+            font-size: 0.85rem;
+        }
+
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row.justify-content-center
+            .col-12
+                center
+                    a(href="/masik-notice").float-right.btn.btn-primary.btn-sm.mr-2 यादी बघा
+                    h5.font-weight-bold.m-3  सभा नोटीस
+            .col-12
+                .row.justify-content-center
+                    .col-11.col-md-8
+                        .card
+                            .card-header.bg-warning.font-weight-bold सभा नोटीस भरा
+                            form#newSabhaForm
+                                .card-body.row
+                                    .col-md-6
+                                        .row
+                                            .form-group.col-6
+                                                label.font-weight-bold(for='sabhaName') सभा नाव: 
+                                                //- input.form-control#sabhaName(type='text' placeholder="सभा नाव" name="sabhaName" autocomplete="off")
+                                                
+                                                - const sabhaTypes = ['मासिक सभा','तहकूब मासिक सभा','ग्रामसभा','तहकूब ग्रामसभा','महिला सभा','तहकुभ महिला सभा','विशेष सभा']
+                                                
+                                                select.form-control#sabhaName(name="sabhaName" autocomplete="off")
+                                                    option(value='') -- निवडा --
+                                                    each sabha, index in sabhaTypes
+                                                        option(value=sabha data-sabhaType=index)= sabha
+                                            .form-group.col-6
+                                                label(style='opacity: 0') ' '
+                                                button.form-control#enterNewSabhaBtn.btn.btn-primary(type="button" style='font-size: 0.8rem') सभा प्रकार भरा 
+                                            
+                                            .form-group.col-6
+                                                label.font-weight-bold(for='sabhaNumber') सभा  क्र : 
+                                                input.form-control#sabhaNumber(type='text'  name="sabhaNumber" )
+
+                                            .form-group.col-6
+                                                label.font-weight-bold(for='sabhaDate') दिनांक: 
+                                                input.form-control#sabhaDate(type='text' placeholder="DD/MM/YYYY" name="sabhaDate" minlength='10' maxlength='10' autocomplete="off")
+                                            .form-group.col-6
+                                                label.font-weight-bold(for='sabhaSchedule') काळ:
+                                                select.form-control#sabhaSchedule(name="sabhaSchedule")
+                                                    option(value="सकाळी") सकाळी
+                                                    option(value="दुपारी") दुपारी
+                                                    option(value="रात्री") रात्री
+                                            .form-group.col-6
+                                                label.font-weight-bold(for='sabhaScheduleTime') वेळ:
+                                                input#sabhaScheduleTime.form-control(type='text' placeholder="वेळ" name="sabhaScheduleTime" autocomplete="off")
+
+                                            .form-group.col-12.col-md-6
+                                                label.font-weight-bold(for='sabhaPlace') स्थळ:
+                                                input#sabhaPlace.form-control(type='text' placeholder="स्थळ" name="sabhaPlace" autocomplete="off")
+
+                                    .col-12.col-md-6
+                                        span.font-weight-bold विषय:
+                                        ol.d-flex.flex-column(style='gap:0.2rem;list-style: none;')
+                                            -
+                                                let existingSubs = [
+                                                    "मागील सभेचा प्रस्ताव व वाचन करणे.",
+                                                    "माहे --------------- महिन्याचे जमा खर्चाला मंजुरात देणे.",
+                                                    "जन्म - मृत्य -उपजत मृत्यू व विवाह नोदणीस मानुरात देणे.",
+                                                    "आलेल्या परीपत्रकाचे वाचन करणे.",
+                                                    "नवीन व जुन्या मालमत्तेचे  फेरफार घेने किवा बांधकाम परवानगी देणे."
+                                                ]
+
+                                            each existingSub, _index in existingSubs
+                                                li(style='display:flex; align-items:start;gap:0.3rem;')
+                                                    div(style='display:flex; align-items:start;')
+                                                        button.btn.btn-sm.btn-primary(type='button' class='add-in-list-btn' data-subject=`${existingSub}` style='font-size:0.8rem; padding:0.1rem 0.6rem;')
+                                                            i.fa.fa-plus
+                                                        span.ml-2 #{_index + 1}. &nbsp;
+                                                    span #{existingSub}
+                                                    
+                                    .form-group.col-12
+                                        label.font-weight-bold(for='masikNoticevishay') विषय:
+                                        div(style='display:flex; align-items:start; gap:1rem;')
+                                            button.btn.btn-primary.btn-sm#add-in-list-from-input-btn
+                                                i.fa.fa-plus
+                                            input#masikNoticevishay.form-control(type='text' placeholder="विषय" name="masikNoticevishay")
+                                        table.table.table-border
+                                            tbody#mn-list
+                                    .form-group.col-12.text-center
+                                        button#saveGpMasikNotice.btn.btn-success(type="button") जतन करा  
+
+
+        // Modal structure for adding a new sabha
+        .modal.fade#addSabhaModal(tabindex="-1", role="dialog", aria-labelledby="addSabhaModalLabel", aria-hidden="true")
+            .modal-dialog(role="document" style='background: white')
+                .modal-content
+                    .modal-header
+                        h5.modal-title Add New Sabha
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .form-group
+                            label(for="sabhaName") Sabha Name:
+                            input#sabhaName.form-control(type="text", placeholder="Enter Sabha Name")
+                    .modal-footer
+                        button#addNewSabhaBtn.btn.btn-primary.mt-3(type="button", style='font-size: 0.8rem', data-toggle="modal", data-target="#addSabhaModal") Add Sabha

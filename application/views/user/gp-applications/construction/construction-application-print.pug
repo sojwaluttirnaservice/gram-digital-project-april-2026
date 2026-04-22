@@ -1,0 +1,148 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title इमारत बांधकाम परवानगी अर्ज
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet")
+
+        style.
+            body {
+                margin: 0;
+                background: #f3f4f6;
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+            #pdfContent {
+                width: 210mm;
+                height: 297mm;
+                background: white;
+                border: 1px solid #6B7280; /* gray-500 */
+                box-sizing: border-box;
+                position: relative;
+                overflow: hidden;
+                padding: 4rem;
+            }
+
+            @media print {
+                @page {
+                    border: 1px solid black;
+                }
+                body {
+                    background: white;
+                }
+
+                #pdfContent {
+                    width: 210mm;
+                    height: 297mm;
+                    padding: 5mm;
+                    margin: 0;
+                    border: none;
+                    overflow: visible;
+                }
+
+                .no-print {
+                    display: none !important;
+                }
+            }
+
+    body
+        section(class="flex justify-center")
+
+            #pdfContent
+                // ===== WATERMARK =====
+                div(class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none")
+                    img(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="w-[60%]")
+
+                div(class="relative z-10 w-full flex flex-col h-full text-[14.5px] leading-snug")
+                    
+                    // ===== HEADER =====
+                    div(class="text-center border-b-2 border-gray-800 pb-3 mb-4")
+                        h1(class="text-[28px] font-extrabold tracking-wide")
+                            | इमारत बांधकाम परवानगी अर्ज
+                        p(class="font-bold mt-1")
+                            | ग्रामपंचायत #{gp.gp_name}, पंचायत समिती #{gp.gp_taluka}, जिल्हा #{gp.gp_dist}
+
+                    // ===== META =====
+                    div(class="flex justify-between font-bold mb-4")
+                        p प्रति,
+                        p दिनांक : #{constructionApplication._application_date || ''}
+
+                    // ===== ADDRESS =====
+                    div(class="mb-4 font-bold")
+                        p मा. सरपंच / ग्रामपंचायत अधिकारी,
+                        p ग्रामपंचायत #{constructionApplication.gp_name}
+
+                    // ===== SUBJECT =====
+                    div(class="mb-4")
+                        span(class="font-extrabold") विषय :
+                        span(class="font-bold") #{constructionApplication.application_subject}
+
+                    // ===== INTRO =====
+                    div(class="mb-3 font-bold")
+                        | खालील अर्जदाराकडून इमारत बांधकाम परवानगीसाठी अर्ज सादर करण्यात आलेला आहे.
+                        | त्याचा तपशील पुढीलप्रमाणे :
+
+                    // ===== APPLICANT DETAILS =====
+                    div(class="mb-3")
+                        p
+                            span(class="font-extrabold") १) अर्जदाराचे नाव :
+                            span(class="ml-2") #{constructionApplication.malmatta_dharak_name}
+                        p
+                            span(class="font-extrabold") २) मोबाईल क्रमांक :
+                            span(class="ml-2") #{constructionApplication.applicant_mobile}
+                        p
+                            span(class="font-extrabold") ३) आधार क्रमांक :
+                            span(class="ml-2") #{constructionApplication.applicant_adhar}
+                        p
+                            span(class="font-extrabold") ४) अर्जदाराचा संपूर्ण पत्ता :
+                            span(class="ml-2") #{constructionApplication.applicant_address}
+
+                    // ===== PROPERTY DETAILS =====
+                    div(class="mb-3")
+                        p
+                            span(class="font-extrabold") ५) संबंधित मालमत्तेचा क्रमांक :
+                            span(class="ml-2") #{constructionApplication.malmatta_no}
+
+                    // ===== BOUNDARIES =====
+                    div(class="mb-3 font-bold")
+                        p संबंधित मालमत्तेची चतुःसिमा :
+                        p(class="ml-6") पूर्वेस : #{constructionApplication.east_landmark_image_name ? 'फोटो जोडलेला' : '—'}
+                        p(class="ml-6") पश्चिमेस : #{constructionApplication.west_landmark_image_name ? 'फोटो जोडलेला' : '—'}
+                        p(class="ml-6") उत्तरेस : #{constructionApplication.north_landmark_image_name ? 'फोटो जोडलेला' : '—'}
+                        p(class="ml-6") दक्षिणेस : #{constructionApplication.south_landmark_image_name ? 'फोटो जोडलेला' : '—'}
+
+                    // ===== DOCUMENTS =====
+                    - const docs = (() => { try { return JSON.parse(constructionApplication.attached_documents || '[]') } catch(e){ return [] } })()
+                    div(class="mb-4 font-bold")
+                        p सादर केलेली कागदपत्रे :
+                        if docs.length
+                            ol(class="ml-6 list-decimal font-bold")
+                                each doc in docs
+                                    li #{doc.document_name}
+                        else
+                            p(class="ml-6") कागदपत्रे उपलब्ध नाहीत
+
+                    // ===== OFFICIAL REQUEST =====
+                    div(class="mt-4 font-bold")
+                        | वरील तपशील व सादर कागदपत्रांच्या आधारे संबंधित अर्जावर
+                        | नियमाप्रमाणे तपासणी करून इमारत बांधकाम परवानगी
+                        | देण्याबाबत योग्य तो निर्णय घेण्यात यावा.
+
+                    // ===== SIGNATURE =====
+                    div(class="flex justify-between mt-auto font-bold")
+                        p दिनांक :
+                        div(class="text-right")
+                            p अर्जदाराची सही
+                            p(class="mt-2 font-extrabold") #{constructionApplication.malmatta_dharak_name}
+
+script.
+    document.addEventListener('DOMContentLoaded', function () {
+        window.print();
+    });

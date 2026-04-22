@@ -1,0 +1,249 @@
+doctype html
+head
+	title निराधार प्रमाणपत्र
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+	style.
+
+		@media print {
+			@page{
+				size: A4 portrait;
+			}
+			.my-print{
+				position: relative;
+				page-break-before: always;
+			}
+			table{
+				page-break-inside: avoid;
+			}
+			.waterMark{
+				position: absolute;
+				opacity: 0.3;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.main-heading {
+			margin-left:10%
+		}
+
+		.heading-second{
+			margin-left:30%
+		}
+
+		.heading-second-2{
+			margin-left:30%
+		}
+
+		#table2 {
+			width:100% !important;
+			border: 1px solid black;
+		}
+
+		#table2 tr { 
+			border: 1px solid black;
+		}
+
+		#table2 td {
+			padding-left:10px !important;
+			padding-right:10px !important;
+		}
+
+		.set-height > td {
+			height: 150px;
+		}
+
+		.c-0 {
+			page-break-before: always;
+		}
+
+		.img{
+			width:65px;
+			height:70px;
+		}
+
+		.img1{
+			15px !important;
+		}
+
+		.span-box{
+			padding:3px 5px;
+			margin: 5px 5px;
+			margin-top: 10px !important; 
+			border:1px solid black;
+		}
+
+		.h7{
+			font-size: 18px !important;
+		}
+
+		.h8{
+			font-size: 16px !important;
+		}
+
+		.text-j {
+			line-height: 2;
+			text-align: justify
+		}
+
+		body{
+			width: 210mm; 
+			height: 297mm;
+		}
+
+		.cirtificate-body p{
+			line-height:42px
+		}
+
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			top: calc(50% - 250px);
+			left: calc(50% - 250px);
+			width: 500px;
+			height: 500px;
+		}
+		.my-print{
+			position: relative;
+		}
+
+
+	script.
+		document.addEventListener('DOMContentLoaded', function() {
+			// Your code here
+			//- console.log('Document fully loaded and parsed');
+			const _data = !{JSON.stringify(userInfo)};
+			let website = window.location.origin;
+
+			website += `/qr-scan/niradhar-certificate?id=${_data.id}`
+			//- new QRCode(document.getElementById("qr-code"),website);
+
+			var qrcode = new QRCode(
+				'qr-code',
+
+				{
+					text: website,
+					width: 95, // Set width here
+					height: 95, // Set height here
+					colorDark: '#000000',
+					colorLight: '#ffffff',
+					correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+				}
+			);
+		});
+
+
+body
+	each val,index in userInfo
+		- var  className = 'row my-print mt-4 c-'+(index%2); 
+		div.relative(class=className)
+
+
+			div(style='position: absolute; left:2rem; bottom: 4rem; ')
+				#qr-code(style='width: 100px; height: 100px;')
+			img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+			.col-12
+				table(border="1")#table2
+					thead
+						tr.p-0.m-0
+							td(colspan="3" )
+								center
+									p.ml-2.h7.font-weight-bold.mt-3 
+										span  ग्राम पंचायत  कार्यालय
+										u  #{zp.gp_name} 
+										span ता. 
+										u  #{zp.gp_taluka}
+										span   जि &nbsp;&nbsp;
+										u #{zp.gp_dist}
+									p.ml-2.h7.font-weight-bold.mb-3
+										span Grampanchayat Office 
+										u  #{zp.gp_name} 
+										span Tal. 
+										u  #{zp.gp_taluka}
+										span   Dist.&nbsp;&nbsp;
+										u #{zp.gp_dist}
+						tr.p-0.m-0.pb-5
+							td.p-0.m-0(colspan="3").mt-5
+								.row.p-0.m-0
+									.col-12.p-0.m-0.mt-5.cirtificate-body 
+										h3.pt-1.pb-1.m-0.ml-2.font-weight-bold.text-center
+											u निराधार असल्याचा दाखला Certificate of Niradhar
+										p.mb-3.h8.pt-1.pb-1.m-0.ml-2.text-right.mr-5
+											|  जा.क्र.: #{val.id}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;दिनांक: #{data}
+										p.h8.pt-1.pb-1.m-0.ml-2.text-right.mr-5 
+											|  Dispatch no: #{val.id}   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: #{data}
+										p.h7.mt-3.ml-3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											span प्रमाणित करण्यात येते की, Certified that
+										p.h7.ml-3 
+											span  ग्रामपंचायत अधिकारी/ग्रामविकास अधिकारी ग्रामपंचायत 
+											strong #{zp.gp_name}  
+											span , ता. 
+											strong #{zp.gp_taluka}
+											span , जि. 
+											strong #{zp.gp_dist}
+										p.h7.ml-3
+											span   Gramsevak /Village Development Officer, Grampanchayat 
+											strong  #{zp.gp_name} 
+											span , tal. 
+											strong  #{zp.gp_taluka} 
+											span , Dist.
+											strong  #{zp.gp_dist}
+
+										p.h7.ml-3
+											span  यांजकडून दाखला देण्यात येतो की, श्री./श्रीमती 
+											strong  #{val.certificateHolderNameM}
+										p.h7.ml-3 
+											span  Is issuing the certificate that Mr.Mrs.
+											strong  #{val.certificateHolderNameE}
+										p.h7.ml-3
+											span  आधारकार्ड क्र. :
+											strong   #{val.certificateAadharM} 
+											span     Adhar Card Number: 
+											span    #{val.certificateAadharE}
+										p.h7.ml-3
+											span   हे/ह्या मौजे
+											strong   #{val.certificateVillageM} 
+											span   ता. 
+											strong  #{val.certificateTalukaM}
+											span   जि.
+											strong  #{val.certificateDistM},
+											span    महाराष्ट्र येथील कायमचे रहिवासी असून
+										p.h7.ml-3 
+											span  Is a permanent resident. Of 
+											strong   #{val.certificateVillageE} 
+											span   tal. 
+											strong  #{val.certificateTalukaE}
+											span   Dist
+											strong  #{val.certificateDistE},
+											span   Maharashtra
+										p.h7.ml-3 
+											span  येथील रहिवासी असनू स्थानिक चौकशीच्या आधारे निराधार असल्याचा दाखला त्यांचे विनंती अर्जानुसार देण्यात येत आहे.
+										p.h7.ml-3 
+											span  Is a resident .and certified that as per the local level enquiry, she is Niradhar . Certificate is issued on request of applicant.
+										p.h7.ml-3 
+											span  ठिकाण : #{place}
+										p.h7.ml-3 
+											span  Place : #{place}
+										#setBottom
+										div(style="padding-top:10rem !important;")      
+						tr.p-0.m-0.mt-5
+							td.pt-0.pb-0.p-0.m-0.mt-5.pt-5(colspan="3" width="30%")
+								.row.p-0.m-0.mt-5
+									.col-8.p-0.m-0
+									.col-4.p-0.m-0
+										p.ml-2.h6.font-weight-bold.text-center 
+											span सही व शिक्का Signature with stamp
+										p.ml-2.h6.font-weight-bold.text-center 
+											span ग्रामपंचायत अधिकारी/ग्रामविकास अधिकारी 
+										p.ml-2.h6.font-weight-bold.text-center 
+											span Gramsevak /Village Development Officer 
+
+
+

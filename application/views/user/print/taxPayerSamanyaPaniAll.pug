@@ -1,0 +1,283 @@
+//- this page the is counterpart of the taxPayerSamanya.pug.
+//- instead of showing the individual receipt, we will show the all reciepts either montwise or yearwise (i.e all)
+
+
+doctype html
+head
+    title पाणी कर नमुना १० वसुली पावती वर्षाचा अहवाल
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+
+    style.
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media print {
+            @page{
+                size: A4 landscape;
+                padding: 1rem;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+                margin: 0 auto;
+            }
+            table{
+                //- page-break-inside: avoid;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+            #hide-buttons {
+                display: none;
+            }
+        }
+
+        table, th, td{
+            border: 1px solid black;
+            padding: 3px; 
+            text-align:center;
+            border-collapse: collapse;
+        }
+        .body-f-size {
+            font-size: 1rem !important;
+        }
+        .head-f-size {
+            font-size: 15px;
+            text: bold;
+            text-align: center;
+        }
+        .center{
+            text-align: center;
+        }
+        .form9Heading{
+            font-size: 1.4rem;
+            font-weight: bold; 
+            color: red;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 180px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+        .my-print {
+            position: relative; 
+            width: 100%;
+        }
+body 
+
+    #hide-buttons 
+        button( onclick='window.print()' style='position:fixed; top: 49%; left: 1rem; background: blue; color: white;') Print
+    - let numbers = 0;
+        .my-print
+            img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+            table(style="width:100% !important; height:100%;")
+                thead
+
+                    tr
+                        th(colspan='27')
+
+                            div(style="display: flex; justify-content: space-between; padding-top: 1rem; padding-bottom: 1rem; margin-left: 1rem; margin-right: 1rem;")
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;")
+                                    img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                                div(style="display: flex; justify-content: center; text-align: center; flex-direction: column;")
+                                    p.m-0.p-0.form9Heading ग्राम पंचायत कार्यालय #{gp.gp_name} पंचायत समिती  #{gp.gp_taluka} जिल्हा #{gp.gp_dist} 
+                                    //- p.m-0.p-0.form9Heading वसुली नोंद वही #{year.year1}- #{year.year2}
+
+                                    if month && year
+                                        p.m-0.p-0.form9Heading पाणी कर नमुना १० वसुली पावती अहवाल महिना : #{month} वर्ष : #{year} 
+
+                                    if startYear && endYear
+                                        p.m-0.p-0.form9Heading पाणी कर नमुना १० वसुली पावती अहवाल 1 एप्रिल #{startYear} ते 31 मार्च #{endYear}
+
+                                div(style="display: flex; flex-direction: column; justify-content: center; align-items: center;")
+                                    img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+
+                    tr.head-f-size
+                        th.srNo(width='5%') अनु.क्र.
+                        th(width='5%') मा.क्र.
+                        //- th(width='5%') जुना मा.क्र.
+                        th(width='10%') मालकाचे नाव
+                        th(width='10%') भोगवटदाराचे नाव
+                        th(width='6%') भरणा दिनांक
+                        th(width='6%') पावती क्रमांक
+
+
+                        //- samanya water tax--------------
+                        th(width='6%') मागील सामान्य पाणी कर
+                        th(width='6%') चालू सामान्य पाणी कर
+
+                        th(width='6%') एकूण सामान्य पाणी कर
+
+
+                        //- water tax
+                        th(width='6%') मागील विशेष पाणी कर
+                        th(width='6%') चालू विशेष पाणी कर
+                        th(width='6%') एकूण विशेष पाणी कर
+
+                        th(width='6%') मागील नोटिस फी / दंड फी
+                        th(width='6%') चालू नोटिस फी / दंड फी
+                        th(width='6%') एकूण नोटिस फी / दंड फी
+
+                        th(width='6%') मागील वारंट फी
+                        th(width='6%') चालू वारंट फी
+                        th(width='6%') एकूण वारंट फी
+
+                        th(width='6%') संपूर्ण पाणी कर
+
+
+                    tr(style='font-size: 1.2rem !important')
+                        td.srNo(width='5%') 1
+                        td(width='5%') 2
+                        td(width='5%') 3
+                        td(width='10%') 4
+                        td(width='10%') 5
+                        td(width='6%') 6
+
+                        //- general water tax
+                        td(width='6%') 7
+                        td(width='6%') 8
+                        td(width='6%') 9
+
+
+                        //- special water tax
+                        td(width='6%') 10
+                        td(width='6%') 11
+                        td(width='6%') 12
+
+                        //- --------------------
+                        td(width='6%') 13
+                        td(width='6%') 14
+                        td(width='6%') 15
+
+                        //- -------------------
+                        td(width='6%') 16
+                        td(width='6%') 17
+                        td(width='6%') 18
+
+                        //---------------------
+                        td(width='6%') 19
+                        //- td(width='6%') 20
+
+
+
+                //- -----------------------
+                - let finalTotalLastGeneralWaterTax = 0
+                - let finalTotalCurrentGeneralWaterTax = 0
+
+                - let finalTotalGeneralWaterTax = 0
+
+                //- ------------------------
+
+                - let finalTotalLastSpecialWaterTax = 0
+                - let finalTotalCurrentSpecialWaterTax = 0
+
+                - let finalTotalSpecialWaterTax = 0
+
+                - let finalTotalTaxSum = 0
+
+                tbody
+                    each el, i in receipts
+                        - let rowwiseTotalTax = 0
+                        tr.body-f-size
+                            td(style='width:5%') #{i+1}
+                            td(style='width:5%') #{el.feu_malmattaNo}
+                            //- td(style='width:5%') #{el.feu_homeNo}
+                            td(style='width:10%') 
+                                p #{el.feu_ownerName}
+                            td(style='width:10%') #{el.feu_secondOwnerName}
+                            td(style='width:6%') #{el.myDate}
+                            td(style='width:6%') #{el.id}
+
+
+
+                            //- general water tax---------------------------
+                            - finalTotalLastGeneralWaterTax += el.tpl_lastGenealWaterTax
+                            td(style='width:6%') #{el.tpl_lastGenealWaterTax}
+                            - finalTotalCurrentGeneralWaterTax += el.tpl_currentGenealWaterTax
+                            td(style='width:6%') #{el.tpl_currentGenealWaterTax}
+
+                            - let totalGeneralWaterTax = Math.round(el.tpl_lastGenealWaterTax + el.tpl_currentGenealWaterTax)
+                            - finalTotalGeneralWaterTax += totalGeneralWaterTax
+                            - rowwiseTotalTax += totalGeneralWaterTax
+
+                            td(style='width:6%') #{totalGeneralWaterTax}
+
+
+                            //- special water tax------------------
+                            - finalTotalLastSpecialWaterTax += el.tpl_lastSpacialWaterTax
+                            td(style='width:6%') #{el.tpl_lastSpacialWaterTax}
+                            - finalTotalCurrentSpecialWaterTax += el.tpl_currentSpacialWaterTax
+                            td(style='width:6%') #{el.tpl_currentSpacialWaterTax}
+
+                            - let totalSpecialWaterTax = Math.round(el.tpl_lastSpacialWaterTax + el.tpl_currentSpacialWaterTax)
+                            - finalTotalSpecialWaterTax += totalSpecialWaterTax
+                            - rowwiseTotalTax += totalSpecialWaterTax
+                            td(style='width:6%') #{totalSpecialWaterTax}
+
+
+                            //- नोटिस फी / दंड फी -----------------------------
+
+                            td(style='width:6%') 0
+                            td(style='width:6%') 0
+                            - let totalNoticeFee = 0
+                            - rowwiseTotalTax +=totalNoticeFee 
+                            td(style='width:6%') #{totalNoticeFee}
+
+
+                            //- वारंट फी ---------------------------------------
+
+                            td(style='width:6%') 0
+                            td(style='width:6%') 0
+                            //- total tax
+                            - let totalWarrantFee = 0
+                            - rowwiseTotalTax += totalWarrantFee 
+                            td(style='width:6%') #{totalWarrantFee}
+
+
+
+                            //- --------------------------------------------
+                            td(style='width:6%') #{rowwiseTotalTax}
+
+                            - finalTotalTaxSum += rowwiseTotalTax
+
+                        - numbers++;
+
+                tfoot
+
+                    tr(style='font-size: 1.2rem !important')
+                        td(colspan='6') एकूण
+
+                        td(colspan='1') #{finalTotalLastGeneralWaterTax}
+                        td(colspan='1') #{finalTotalCurrentGeneralWaterTax}
+                        td(colspan='1') #{finalTotalGeneralWaterTax}
+
+                        td(colspan='1') #{finalTotalLastSpecialWaterTax}
+                        td(colspan='1') #{finalTotalCurrentSpecialWaterTax}
+                        td(colspan='1') #{finalTotalSpecialWaterTax}
+
+
+                        td(colspan='1') #{0}
+                        td(colspan='1') #{0}
+                        td(colspan='1') #{0}
+
+
+                        td(colspan='1') #{0}
+                        td(colspan='1') #{0}
+                        td(colspan='1') #{0}
+
+
+                        td(colspan='1') #{finalTotalTaxSum}

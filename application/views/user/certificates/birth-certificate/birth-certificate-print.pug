@@ -1,0 +1,279 @@
+doctype html
+head
+	title Birth Certificate
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js")
+	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+	style.
+
+		@media print {
+			@page { 
+				size: A4;
+
+			}
+			body {
+				margin:0;
+				padding:0;
+			}
+			body {transform: scale(1);}
+
+			.my-print {
+				margin: 0;
+			}
+		}
+
+		#reader {
+			width: 300px;
+			height: 300px;
+			margin: 20px auto;
+			}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			max-width: 500px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			animation: slide-in 0.4s;
+		}
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		@keyframes slide-in {
+			from {
+				top: -300px;
+				opacity: 0;
+			}
+			to {
+				top: 0;
+				opacity: 1;
+			}
+		}
+
+		.qr-code{
+			width: 95px;
+			height: 95px;
+		}
+
+		#qr-code img{
+			width: 100%;
+			height: 100%;
+		}
+
+
+	script.
+		document.addEventListener('DOMContentLoaded', function() {
+			// Your code here
+			//- console.log('Document fully loaded and parsed');
+			const _data = !{JSON.stringify(birthCertificate)};
+			const _gp = !{JSON.stringify(gp)};
+
+
+			//- const qrData = JSON.stringify(_data);
+			//- const _dataString = `नाव : ${_data.name_m}\nName :${_data.name}\nलिंग : ${_data.gender_m}\nGender:${_data.gender}\nजन्म दिनांक : ${_data.date_of_birth_m}\nDate of Birth: ${_data._date_of_birth} \nजन्माचे ठिकाण: ${_data.place_of_birth_m} \nPlace of Birth: ${_data.place_of_birth}\nग्रामपंचायत: ${_gp.gp_name}`;
+
+
+			//- var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:150, height:150});
+
+			website = window.location.origin
+			website += `/qr-scan/birth-certificate?id=${_data.id}`
+
+
+			var qrcode = new QRCode(
+				'qr-code',
+
+				{
+					text: website,
+					width: 95, // Set width here
+					height: 95, // Set height here
+					colorDark: '#000000',
+					colorLight: '#ffffff',
+					correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+				}
+			);
+		});
+
+body
+	.my-print(style="width:210mm; height:298mm; border: 4px solid gray; padding: 0.4rem; position: relative;")
+
+		if birthCertificate == null 
+			div(style="font-size: 4rem; text-align:center;") No certificate found 
+
+		else
+
+
+			div(style='color:darkblue; font-weight:bold; display: grid; grid-template-columns: 1fr 1fr 1fr')
+
+				div(style='display: flex; align-items:center; justify-content:center')
+					div 
+						div(style="opacity:0") क्रमांक #{birthCertificate.id}
+						div(style="opacity:0") Number #{birthCertificate.id}
+						img(src="/img/water-mark-images/Seal_of_Maharashtra.png" width='60' height='60')
+				div(style='text-align:center; font-size:0.8rem; font-weight:bold')
+					img(width='60' height='90' src='/img/certificates/satyamev.png')
+					div महाराष्ट्र शासन
+					div GOVERNMENT OF MAHARASHTRA
+
+					div आरोग्य विभाग 
+					div DEPARTMENT OF HEALTH
+
+
+					h4(style='text-transform: uppercase; margin-top:0.2rem; margin-bottom: 0.2rem;') GRAM PANCHAYAT #{gp.gp_name}
+
+					h4(style='display: flex; flex-direction: column; color:green; font-weight: bold !important;  margin-top:0.2rem')
+						span जन्म प्रमाणपत्र 
+						span BIRTH CERTIFICATE
+
+				div(style='display: flex; align-items:center; justify-content:center')
+					div(style='text-align:center;')
+						div फॉर्म ५ 
+						div form 5
+						img(src="/img/certificates/birth-death-certificate.jpg" width='70' height='60')
+
+			div(style='margin-top: 1rem; font-size: 0.8rem')
+				div जन्म व जन्म नोंदणी अधिनियम, १९६९ च्या कलम १२/१७ आणि महाराष्ट्र जन्म आणि जन्म नोंदणी नियम, २००० चे नियम ८/१३ अन्वये देण्यात आले आहे. 
+				div (ISSUED UNDER SECTION 12/17 OF THE REGISTRATION OF BIRTHS & DEATHS ACT, 1969 AND RULE 8/13 OF THE MAHARASHTRA REGISTRATION OF BIRTHS & DEATHS RULES 2000.)
+
+			div(style='margin-top:0.5rem; font-size:0.8rem;')
+				div प्रमाणित करण्यात येत आहे की, खालील माहिती जन्मच्या मूळ अभिलेखाच्या नोंदवहीतून घेतली आहे, जी की, तालुका #{gp.gp_taluka}, जिल्हा #{gp.gp_dist}, राज्य महाराष्ट्राच्या नोंदवहीत उल्लेख आहे.
+				div THIS IS TO CERTIFY THAT THE FOLLOWING INFORMATION HAS BEEN TAKEN FROM THE ORIGINAL RECORD OF DEATH WHICH IS THE REGISTER FOR GRAM PANCHAYAT #{gp.gp_name} OF TAHSIL/BLOCK #{gp.gp_taluka} OF DISTRICT #{gp.gp_dist} OF STATE/UNION TERRITORY MAHARASHTRA, INDIA.
+
+
+
+
+
+			.row(style='display: grid; grid-template-columns: 1fr 1fr; margin-top: 1.8rem;')
+				.col-6(style='display:flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem')
+					div नाव / NAME : #{birthCertificate.name_m} / #{birthCertificate.name}
+
+					div  
+						div जन्म दिनांक / DATE OF BIRTH:
+						div #{birthCertificate._date_of_birth} 
+						div #{birthCertificate.date_of_birth_in_words}
+
+
+					div 
+						div आईचे पूर्ण नाव / NAME OF MOTHER:
+						div #{birthCertificate.name_of_mother_m} /  #{birthCertificate.name_of_mother}
+					div 
+						div आधार क्रमांक / MOTHER'S AADHAR NUMBERR:
+						div  #{birthCertificate.aadhar_number_of_mother_m ? birthCertificate.aadhar_number_of_mother_m.match(/.{1,4}/g).join('-') : ''} /  #{birthCertificate.aadhar_number_of_mother ? birthCertificate.aadhar_number_of_mother.match(/.{1,4}/g).join('-') : ''}
+
+					div 
+						div बाळाच्या जन्माच्या वेळी आई-वडिलांचा पत्ता / ADDRESS OF PARENTS AT THE TIME OF BIRTH OF THE CHILD:
+						div #{birthCertificate.address_of_parents_at_birth_time_of_baby_m}
+						div #{birthCertificate.address_of_parents_at_birth_time_of_baby}
+
+
+					div 
+						div नोंदणी क्रमांक / REGISTRATION NO:
+						div(style="font-weight: bold;") B-#{`${birthCertificate._date_of_birth.split('-').pop()}`}:#{gp.birth_death_gp_id}-#{String(birthCertificate.gp_registration_number).padStart(9, '0').slice(-6)}
+
+					div 
+						div शेरा / REMARKS (IF ANY):
+						div #{birthCertificate.remarks}
+
+					div 
+						div(style="font-weight:bold;") (Certificate Id : #{birthCertificate.id})
+
+					div 
+						div प्रमाणपत्र दिल्याचा दिनांक / DATE OF ISSUE:
+						div #{birthCertificate._date_of_issue}
+
+
+					div 
+						div UPDATED ON: 
+						div #{birthCertificate._updated_on}
+						div(style="margin-bottom: 0.5rem; margin-top:0.5rem; font-weight:bold;") QR :
+						#qr-code.qr-code
+
+
+
+				.col-6(style='display:flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem')  
+					div लिंग / SEX: #{birthCertificate.gender_m} /  #{birthCertificate.gender}
+
+					div
+						div जन्म ठिकाण  / PLACE OF BIRTH:
+						div #{birthCertificate.place_of_birth_m} 
+						div #{birthCertificate.place_of_birth}
+
+					div
+						div  वडिलांचे पूर्ण नाव / NAME OF FATHER
+						div #{birthCertificate.name_of_father_m} 
+						div #{birthCertificate.name_of_father}
+
+					div
+						div  वडिलांचा / FATHER'S AADHAR NO:
+						div #{birthCertificate.aadhar_number_of_father_m ? birthCertificate.aadhar_number_of_father_m.match(/.{1,4}/g).join('-') : ""} 
+						div #{birthCertificate.aadhar_number_of_father? birthCertificate.aadhar_number_of_father.match(/.{1,4}/g).join('-') : ""}
+
+
+					div
+						div आई-वडिलांचा कायमचा पत्ता / PERMANENT ADDRESS OF PARENTS
+						div #{birthCertificate.permanent_address_of_parents_m} 
+						div #{birthCertificate.permanent_address_of_parents}
+
+					div 
+						div नोंदणी दिनांक / DATE OF REGISTRATION :
+						div #{birthCertificate.date_of_registration_m}
+						div #{birthCertificate._date_of_registration}
+
+					div 
+						div बाळांतपणाच्या वेळी उपस्थित अधिकाऱ्याचे नाव / Official Present at birth :
+						div #{`${birthCertificate.official_present_at_birth_m ? birthCertificate.official_present_at_birth_m : '-'}`}
+						div #{birthCertificate.official_present_at_birth ? birthCertificate.official_present_at_birth : '-'}
+
+					div 
+						div बाळाचे वजन :
+						div #{birthCertificate.weight_of_baby ? birthCertificate.weight_of_baby : '-'}
+
+
+					div 
+						img(src='/print/gs.jpeg' width='150' height='50' style=`opacity:${gp.gramsevak_sign_display == 1 ? "100": "0"}`) 
+						div(style="margin-top: 0.4rem;") निर्गमित करणारे प्राधिकारी/ ISSUING AUTHORITY
+						div(style="color: blue; font-weight:bold;")
+							div रेजिस्ट्रार (जन्म  व  जन्म )
+							div REGISTRAR (BIRTH & DEATH)
+							div GRAM PANCHAYAT #{gp.gp_name}
+
+
+			div(style='font-size: 0.8rem; text-align: center; color: darkblue; font-weight: bold;  margin-top: .5rem;')
+				di "THIS IS A COMPUTER GENERATED CERTIFICATE WHICH CONTAINS FACSIMILE SIGNATURE OF THE ISSUING AUTHORITY"
+
+				div THE GOVT. OF INDIA VIDE CIRCULAR NO. 1/12/2014-VS(CRS) DATED 27-JULY-2015 HAS
+				div APPROVED THIS CERTIFICATE AS A VALID LEGAL DOUCMENT FOR ALL OFFICIAL PURPOSES.
+
+				div(style='color:green;font-weight: bold;') "प्रत्येक जन्म आणि जन्मच्या घटनेची नोंदणी करण्याची खात्री करा" / ENSURE REGISTRATION OF EVERY BIRTH AND DEATH
+
+				p#bar-code
+
+
+

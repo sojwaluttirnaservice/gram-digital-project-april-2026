@@ -1,0 +1,231 @@
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title} 
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/coustom/js/common.js')
+
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+        script(src="/asstest/coustom/js/handlers/common/generate-qr-code-util-handler.js" defer)
+
+        //- JS  
+
+
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'form8-receipt.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) {
+                    downloadPdfBtn.addEventListener('click', downloadPdf);
+                }
+            })
+
+
+        script(src="/asstest/coustom/js/handlers/pagination.js" defer)
+        style.
+            table {
+                border-collapse: collapse;
+            }
+            td, th {
+                padding: 0.2rem;
+                border: 1px solid oklch(59.2% 0.249 0.584);
+            }
+
+            @media print {
+                @page {
+                    size: A4 portrait;
+                    //- margin: 9mm 9mm 9mm 9mm;
+                    margin: 18mm 9mm 5mm 9mm; /* top right bottom left */
+                    border: 2px solid gray;
+                    padding: 1rem;
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                .print{
+                    height:100lvh;
+                }
+
+                .my-print {
+                    position: relative;
+                    background: none !important; /* Prevent bg-white/90 or any tailwind override */
+                    page-break-after: always;
+                    break-after: page;
+                    //- min-height: 100lvh;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .tiro-devanagari-marathi-regular-italic {
+                font-family: "Tiro Devanagari Marathi", serif;
+                //- font-weight: 400;
+                font-style: italic;
+            }
+
+
+    body
+        - let year = ''
+
+        div(class="hide-print")
+            div(id='mentioned-qr-target-tag' style='display: none;' data-target='qr-code-container' data-targetUrl=`/self-declaration/print/${selfDeclaration.id}` data-size='150')
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+
+                //- select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    //- option(value='1' selected=(gp.gramsevak_sign_display == 1)) ग्रामसेवक सही दाखवा
+                    //- option(value='0' selected=(gp.gramsevak_sign_display == 0)) ग्रामसेवक सही लपवा
+
+                    option(value='1' selected=(gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+
+        //- =====================
+        //- बेरोजगार प्रमाणपत्र स्वयंघोषणापत्र (PRINT PAGE)
+        //- =====================
+
+        .print(class="tiro-devanagari-marathi-regular" style='width:210mm;height:297mm;')
+            div(class="relative h-full bg-gradient-to-b from-amber-50 to-white")
+
+                // ===== WATERMARK =====
+                div(class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none")
+                    img(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="w-[75%]")
+
+                // ===== CONTENT =====
+                div(class="relative z-10 h-full flex flex-col px-14 py-10 text-stone-900")
+
+                    // ===== HEADING =====
+                    div(class="text-center mb-8 border-b-4 border-stone-600 pb-4")
+                        h1(class="text-4xl font-bold tracking-wide") #{certificate} स्वयंघोषणापत्र
+
+
+                    div(class="grid grid-cols-5")
+                        // ===== ADDRESS SECTION =====
+                        div(class="col-span-4")
+                            div(class="text-lg leading-relaxed mb-6")
+                                div प्रति,
+                                div मा. सरपंच / ग्रामसेवक / तहसीलदार
+                                div ग्रामपंचायत / तहसील 
+                                    span(class="font-extrabold") #{gp.gp_name}
+                                div तालुका 
+                                    span(class="font-extrabold") #{gp.gp_taluka}
+                                    |  जिल्हा 
+                                    span(class="font-extrabold") #{gp.gp_dist}
+                                div(class="mt-3")
+                                    span(class="font-extrabold") विषय : 
+                                    span(class="font-bold underline")
+                                        | #{selfDeclaration.applicationSubject}
+
+                        div(class='col-span-1')
+                            div(class='w-full h-[10.5rem] border-2 border-gray-500')
+                                img(src=`/self_declaration/${selfDeclaration.sd_user_image}` class='w-full h-full')
+                    // ===== GENDER LOGIC =====
+                    - let isMale = selfDeclaration.sd_applicantGender == "पुरुष"
+                    - let prefix = isMale ? "श्री" : "श्रीमती"
+                    - let doer = isMale ? "करणारा" : "करणारी"
+                    - let declarer = isMale ? "करतो" : "करते"
+
+                    // ===== DECLARATION BODY =====
+                    block declaration_body
+                    //- div(class="text-lg leading-loose text-justify mt-6")
+
+                        p महोदय/महोदया,
+
+                        p(class="mt-4")
+                            | मी खाली सही 
+                            span(class="font-extrabold") #{doer}
+                            |  
+                            span(class="font-extrabold") #{prefix}.
+                            span(class="font-extrabold")
+                                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+                            | , रा. 
+                            span(class="font-extrabold")
+                                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE} 
+                            | आधार क्रमांक 
+                            span(class="font-extrabold")
+                                | #{selfDeclaration.sd_applicantAadharM || selfDeclaration.sd_applicantAadharE}
+                            | , याद्वारे जाहीर 
+                            span(class="font-extrabold") #{declarer}
+                            |  की, मी सध्या कोणत्याही शासकीय अथवा खासगी नोकरीत कार्यरत नाही
+                            |  तसेच माझ्या नावावर कोणताही नियमित उत्पन्नाचा स्रोत उपलब्ध नाही.
+
+                        p(class="mt-3")
+                            | मला हे 
+                            span(class="font-extrabold") बेरोजगार प्रमाणपत्र
+                            |  
+                            span(class="font-extrabold")
+                                | #{selfDeclaration.certificateReason}
+                            |  या कारणासाठी आवश्यक आहे.
+
+                        p(class="mt-3")
+                            | मी वर नमूद केलेली सर्व माहिती खरी व बरोबर असून,
+                            |  भविष्यात ती चुकीची आढळल्यास त्याची संपूर्ण जबाबदारी माझी राहील.
+
+                        p(class="mt-3")
+                            | तरी मला बेरोजगार असल्याबाबत प्रमाणपत्र देण्यात यावे,
+                            |  ही नम्र विनंती.
+
+
+                    //- common
+                    // ===== DATE & PLACE =====
+                    div(class="flex justify-between mt-8 text-lg")
+                        div
+                            div(class="font-extrabold") दिनांक :
+                            div(class="mt-1 font-extrabold")
+                                | #{new Date().toLocaleDateString('en-GB').replace(/\//g,'-')}
+                        div
+                            div(class="font-extrabold") ठिकाण :
+                            div(class="mt-1 font-extrabold")
+                                | #{gp.gp_name}
+
+
+                    include ./bottom-common-print-part.pug

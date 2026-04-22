@@ -1,0 +1,174 @@
+extends ../include/index-page-master-layout.pug
+
+
+block internal_css
+
+	link(rel="preconnect", href="https://fonts.googleapis.com")
+	link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+	link(href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&display=swap", rel="stylesheet")
+
+	link(rel="preconnect", href="https://fonts.googleapis.com")
+	link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+	link(href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap", rel="stylesheet")
+
+
+	style.
+		body {
+			background-image: url('/backgrounds/village/bg-village-info.jpg');
+			background-attachment: fixed;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+
+		.amita-regular {
+			font-family: "Amita", serif;
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		.amita-bold {
+			font-family: "Amita", serif;
+			font-weight: 700;
+			font-style: normal;
+		}
+
+		.rozha-one-regular {
+			font-family: "Rozha One", serif;
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		/* ===============================
+		   Force white text inside details
+		   =============================== */
+		#gpMahitiDetails,
+		#gpMahitiDetails * {
+		  color: #ffffff !important;               /* main text color */
+		  background: transparent !important;      /* remove any colored bg from inner tags */
+		  text-shadow: 0 1px 2px rgba(0,0,0,0.45); /* helps readability over the bg */
+		  box-shadow: none !important;
+		  border-color: rgba(255,255,255,0.12) !important;
+		}
+
+		#gpMahitiDetails a {
+		  color: inherit !important;
+		  text-decoration: underline !important;
+		}
+
+		#gpMahitiDetails h1,
+		#gpMahitiDetails h2,
+		#gpMahitiDetails h3,
+		#gpMahitiDetails h4,
+		#gpMahitiDetails h5,
+		#gpMahitiDetails h6,
+		#gpMahitiDetails strong,
+		#gpMahitiDetails b {
+		  color: #ffffff !important;
+		}
+
+		#gpMahitiDetails ul li::marker,
+		#gpMahitiDetails ol li::marker {
+		  color: #ffffff !important;
+		}
+
+		#gpMahitiDetails svg,
+		#gpMahitiDetails svg * {
+		  fill: #ffffff !important;
+		  stroke: #ffffff !important;
+		}
+
+		#gpMahitiDetails img.invert-to-white {
+		  filter: brightness(0) invert(1) !important;
+		}
+
+		/* subtle overlay to improve contrast */
+		.main-content-white-overlay {
+			/* already present in your template - ensure sufficient contrast */
+			background-color: rgba(255,255,255,0.06);
+			backdrop-filter: blur(4px);
+		}
+
+
+
+block internal_js
+	script.
+		$(function(){
+
+			// `gp` object expected to be provided from server-side
+			let gp = !{JSON.stringify(gp || {})};
+
+			// Safe defaults if gp missing
+			let gpMahitiTitle = gp.gp_mahiti_title || 'ग्रामपंचायत माहिती';
+			let gpMahitiDetails = gp.gp_mahiti_details || '';
+
+			// Inject title and details (details may contain HTML)
+			$('#gpMahitiTitle').html(gpMahitiTitle);
+			$('#gpMahitiDetails').html(gpMahitiDetails);
+
+			// --------- Sanitize styles that would override our white color ----------
+			// We'll remove inline color/background related styles but preserve other inline styles.
+			$('#gpMahitiDetails').find('*').each(function(){
+				try {
+					// remove only color/background inline properties (safer than removing entire style attr)
+					this.style.removeProperty('color');
+					this.style.removeProperty('background');
+					this.style.removeProperty('background-color');
+					this.style.removeProperty('background-image');
+					this.style.removeProperty('background-repeat');
+					this.style.removeProperty('background-position');
+					this.style.removeProperty('opacity');
+				} catch (e) {
+					// ignore errors for elements without style object
+				}
+			});
+
+			// Force final CSS state (in case inline styles persisted in some browsers)
+			$('#gpMahitiDetails').css({
+				'color': '#ffffff',
+				'background': 'transparent'
+			});
+			$('#gpMahitiDetails').find('*').css({
+				'color': '#ffffff',
+				'background': 'transparent'
+			});
+
+			// Make sure links stay visible and clickable
+			$('#gpMahitiDetails').find('a').css({
+				'color': '#ffffff',
+				'text-decoration': 'underline'
+			});
+
+			// Optional: invert small icon images in the content if they have class 'invert-to-white'
+			// $('#gpMahitiDetails').find('img.invert-to-white').css('filter','brightness(0) invert(1)');
+
+			// log for debugging
+			console.log("gp mahiti details injected. title:", gpMahitiTitle);
+			// end ready
+		})
+
+block content
+	.main-content-white-overlay(class='fixed top-0 left-0 w-full min-h-screen h-full bg-white bg-opacity-20 backdrop-blur-sm z-[10]')
+
+	section(class='relative py-8 md:py-16 z-[50] text-gray-800 ')
+		.container 
+			div(id='village-information-container relative')
+				h4.general-heading(class='sticky w-full md:w-fit amita-bold top-0 left-0 text-center text-xl md:text-4xl font-extrabold text-white tracking-wider w-fit mx-auto px-2 md:px-8 pb-2 border-b-2 my-border-blue')  
+					i.fa-solid.fa-book-open
+					span.ml-2(id='gpMahitiTitle')
+
+	
+				.info-container(class='mt-8')
+					div(class='flex justify-center ')
+						.gp-village-guide(class='mx-auto flex flex-col items-center gap-2')
+							.image-holder(class='relative w-36 rounded-xl overflow-hidden border-2 my-border-blue')
+								- var link = '/new-gp-page/main-page/files/village-guide'
+								img.img(src=`/new-gp-page/main-page/files/village-guide/${gp.village_guide_image_name}`, alt=gp.village_guide_name onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+
+							p(class='bg-white/50 text-center text-gray-600 tracking-wider font-bold px-4 py-1 rounded-md w-fit min-w-[120%]') #{gp.village_guide_name ? gp.village_guide_name : '-'}
+					
+					
+					.para-container.mt-6
+						//- Removed inline style; rely on global override to make all text white
+						#gpMahitiDetails(class='font-bold rozha-one-regular font-serif text-base md:!text-[19px] text-white/80 tracking-widest leading-6 md:leading-10') 
+							//- content injected via JS
+

@@ -1,0 +1,267 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ६ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+
+
+            #hide-buttons{
+                #print-btn{
+                    position: fixed;
+                    top: 4%;
+                    right: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                .hide-print {
+                    display: none;
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+        - let isMonthYearTypeReport = (month && year) ? true : false;
+        - let isFinancialYearTypeReport = (fromYear && toYear) ? true : false;
+
+        .hide-print
+
+            div(style='position:fixed; top:50%; right:0; transform:translateY(-50%); display:flex; flex-direction:column; align-items:flex-end; gap:8px; margin-right:12px; z-index:1000;')
+
+
+                button(style='padding:8px 14px; border:none; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.2); background:#0d6efd; color:#fff;' onclick='window.print()') Print
+
+                div(style='display:flex; flex-direction:column; gap:8px;')
+
+                    select#report-type(style='padding:6px 8px; border:1px solid #ccc; border-radius:5px; outline:none;')
+                        option(value='' selected=(!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                        option(value='monthYear' selected=isMonthYearTypeReport) महिना व वर्षानुसार
+                        option(value='financialYear' selected=isFinancialYearTypeReport) आर्थिक वर्षानुसार
+
+                    // Month Year Inputs
+                    div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'}; gap:8px;`)
+                        select#report-month(style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;')
+                            - for(let i=1;i<=12;i++)
+                                option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                        input#report-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=year placeholder='Year')
+
+                    // Financial Year Inputs
+                    div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'}; gap:8px;`)
+                        input#from-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=fromYear placeholder='From Year')
+                        input#to-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=toYear placeholder='To Year')
+
+                    button#generate-report(style='padding:8px 14px; border:none; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.2); background:#0d6efd; color:#fff;') रिपोर्ट तयार करा
+
+
+
+        each _entry in collectionList
+            - let _collectionList = _entry.data
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='36' )
+                            div
+                                div.text-center नमुना ६
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
+
+
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    //- div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१, २२(२), (३),  (४), (५) व (६), २५(१), ३२, (२), (३) व (४)(च), ३६(२) ३८(१) आणि ६६(१) पहा)
+                                    div.text-center(style="font-size:10px;") १९(७),२५(१)(२) व (३), ३२(५) व (६), ३३(२)(३) व ३५,३६ (२), ३८(१), ४२(४)(ध),६३,६६(२) आणि (४) पहा 
+
+
+                    tr 
+                        th(colspan='37')
+
+                            //- div  माहे #{month} , #{year} सन यावर्षाचा जमा दिलेल्या वर्गीकृत नोंदणीवही 
+                            div सन #{_entry.year || "____"} च्या #{_entry.month || "_____"} महिन्याबद्दल जमा बाजू/दिलेल्या रकमांची वर्गीकृत नोंदवही
+
+                            //- div
+                                | ग्रामनिधी जमा रकमांचा तपशिल
+
+                            div ग्रामपंचायत कार्यालय 
+                                span #{gp.gp_name}, पं. स. #{gp.gp_taluka}, जिल्हा: #{gp.gp_dist}
+
+                    tr
+                        //- 1 to 3
+                        //- th(rowspan="2" colspan="1") अनु.क्र.
+                        th(rowspan="2" colspan="1") लेखा  शीर्ष अर्थसंकल्पात  निर्दिष्ट केल्याप्रमाणे बाब
+                        th(rowspan="2" colspan="1") अर्थसंकल्पनीय तरतूद
+
+                        //- 4 to 34
+                        th(rowspan="1" colspan="31") तारखा
+
+                    
+
+                        //- 35 to 37
+                        th(rowspan="2" colspan="1") महीण्याची एकूण  रक्कम
+                        th(rowspan="2" colspan="1") आधीच्या महिन्या अखेरपर्यंतची एकूण  रक्कम
+                        th(rowspan="2" colspan="1") चढती बेरीज
+
+                    tr 
+                        //- th
+                        //- th
+                        //- th
+
+                        //- 4 to 34
+
+                        each marathiNum in Array.from({ length: 31 }, (_, i) => (i + 1).toLocaleString('mr-IN'))
+                            th(rowspan="1" colspan="1")  #{marathiNum}
+
+
+
+                tbody 
+                    each collection in _collectionList
+                        - let monthTotal = 0
+                        tr
+                            td #{collection['taxName']}
+
+                            td -
+                            
+                            each _, dayIndex in Array.from({length: 31})
+                                - let collectionAmountForThisTax = collection[dayIndex + 1]
+                                td #{collectionAmountForThisTax}
+                                - monthTotal += collectionAmountForThisTax
+
+                            td #{monthTotal}
+
+                            td -
+
+                            td -
+                                
+
+
+
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else if(reportType.value == "date") {
+                    //- params.set("date", )
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });
+

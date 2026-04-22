@@ -1,0 +1,150 @@
+doctype html
+
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src='/asstest/coustom/js/handlers/marriageRegistrationAvahalManager.js')
+
+  title विवाह नोंदणी अवहाल 
+
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+      font-size:0.5rem !important;
+      color:red;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+
+    table th {
+      font-size: 0.75rem;
+    }
+
+    table td {
+      font-size: 0.75rem;
+    }
+
+    .modal-dialog {
+      width: 98%;
+      height: 92%;
+      padding: 0;
+    }
+    @media (min-width: 576px) {
+      .modal-dialog {
+        max-width: none; 
+      }
+    }
+
+body
+  include ../../include/navs.pug
+
+  .modal#marriageRegistrationTypeModal(tabindex='-1' role='dialog')
+    .modal-dialog(role='document' style="width:60% !important;")
+      .modal-content
+        .modal-header
+          h5.modal-title विवाह नोंदणी प्रकार
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body
+          div.d-flex.justify-content-around.align-items-center.marriageRegistrationTypes
+
+  .container-fluid
+    .row.p-0.p-1.pt-3
+
+      .col-12 
+        center
+          h5.font-weight-bold.m-3 विवाहनोंदणी अहवाल
+      .col-12
+        div.d-flex.justify-content-between.align-items-center
+
+          div.form-group.btn.btn-primary.w-auto.d-flex.align-items-center.justify-content-center.m-0
+
+            select#selectMarraigeAvahalType.pt-1.pb-1.pl-2.pr-2.mr-2.w-50(for='selectMarraigeAvahalType')
+              option(value=-1)  प्रकार
+              option(value='under18Marriage') १८ वर्षाचे आतील मुलीची विवाह नोंदणी 
+              option(value='marriage') विवाह नोंदणी
+
+            select#selectAvahalYear.pt-1.pb-1.pl-2.pr-2.mr-2.ml-2(for='years')
+            select#selectAvahalMonth.pt-1.pb-1.pl-2.pr-2.mr-2(for='month')
+
+          div
+            button.btn.btn-danger#printMarraigeAvahalBtn.mr-2(type='button') प्रिंट   
+
+            button#newMarriageRegistrationButton.btn.btn-primary
+              i.fa.fa-plus
+              | &nbsp; नवीन विवाहनोंदणी अहवाल
+
+      .col-12.d-flex.justify-content-center.align-items-center.mt-5
+        table.table.table-bordered.text-center.m-0.d-none#marriageAvahalListTable
+
+
+
+  .modal#newMarriageRegistrationAvahalModal(tabindex='-1')
+    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+      .modal-content.modal-sm.w-auto
+        .modal-header
+          h5.modal-title विवाहनोंदणी अहवाल 
+        .modal-body
+          div.form-group
+            label(for='monthDropdown') महिना 
+            select(name='month' id='monthDropdown' class='form-control')
+              - 
+                let months = [
+                  {name: "January", id: '01'}, 
+                  {name: "February", id: '02'}, 
+                  {name: "March", id: '03'}, 
+                  {name: "April", id: '04'}, 
+                  {name: "May", id: '05'}, 
+                  {name: "June", id: '06'}, 
+                  {name: "July", id: '07'}, 
+                  {name: "August", id: '08'}, 
+                  {name: "September", id: '09'}, 
+                  {name: "October", id: '10'}, 
+                  {name: "November", id: '11'}, 
+                  {name: "December", id: '12'}, 
+                ]
+              option(value=-1) --Select Month--
+              each month in months 
+                option(value=month.id) #{month.name}
+
+          div.form-group
+            label(for='marriageRegistrationAvahalYear') वर्ष
+            input.form-control(type='text' maxlength=4 id='marriageRegistrationAvahalYear' name='marriageRegistrationAvahalYear' value='')
+
+        .modal-footer.d-flex.justify-content-center
+          button.btn.btn-secondary.closeMarriageRegistrationAvahalModal(type='button' data-bs-dismiss='modal') Close
+          button.btn.btn-primary#addNewMarriageRegistrationAvahal(type='button') Save changes

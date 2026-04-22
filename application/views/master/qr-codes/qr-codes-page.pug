@@ -1,0 +1,89 @@
+extends ../master-layout
+block internal_css 
+	link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css")
+	style.
+		a{
+			text-decoration: none;
+		}
+		td, th{
+			vertical-align: middle !important;
+			border: 1px solid gray !important;
+		}
+
+		label.error{
+			color: red;
+			font-size: 0.8rem;
+		}
+
+		#qr-code-list {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 2rem;
+		}
+
+block custom_js
+	link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+	script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js" defer)
+
+	script.
+		$( function() {
+			$( ".datepicker" ).datepicker({
+				dateFormat: 'dd/mm/yy'
+			});
+
+
+			flatpickr('.timepicker', {
+				enableTime: true,
+				noCalendar: true,
+				dateFormat: "H:i K",
+				time_24hr: false
+			})
+		});
+
+	style.
+		#qr-code-list{
+			display:grid;
+		}
+
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/qr-codes-handler.js')
+
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+
+		#qr-code-list 
+			.qrCodeColumn
+				form.d-flex.flex-column.gap-2(id='bank-qr-code-form')
+
+					h5 Bank QR सामान्य
+
+					input.form-control(type='file' name='bankQrCodeImage')
+					input.form-control(type="text" name="oldBankQrCodeImageName" value=qrCodes.bank_qr_code_image_name hidden)
+
+					.d-flex.align-items-center.justify-content-center.gap-2
+
+						button.btn.btn-primary(type='button' id='show-hide-bank-qr-code-btn' data-currentVisibility=qrCodes.show_bank_qr_code_image)  #{qrCodes.show_bank_qr_code_image == 1 ? "Hide QR" : "Show QR"}
+						button.btn.btn-success(type='button' id='upload-bank-qr-code-btn') Upload Image
+
+					.d-flex.justify-content-center
+						div(style='width: 60%; aspect-ratio:1; min-width: 150px;')
+
+							img(src=`${basePath}/${qrCodes.bank_qr_code_image_name}` alt="" onerror="this.src= ''" name='bankQrCodeImagePreview' style='width: 100%; height: 100%;')
+
+			.qrCodeColumn
+				form.d-flex.flex-column.gap-2(id='bank-qr-code-water-form')
+
+					h5 Bank QR  पाणी 
+
+					input.form-control(type='file' name='bankQrCodeImageForWater')
+					input.form-control(type="text" name="oldBankQrCodeImageNameForWater" value=qrCodes.bank_qr_code_water_image_name hidden)
+
+					.d-flex.align-items-center.justify-content-center.gap-2
+
+						button.btn.btn-primary(type='button' id='show-hide-bank-qr-code-water-btn' data-currentVisibility=qrCodes.show_bank_qr_code_water_image)  #{qrCodes.show_bank_qr_code_water_image == 1 ? "Hide QR" : "Show QR"}
+						button.btn.btn-success(type='button' id='upload-bank-qr-code-water-btn') Upload Image
+
+					.d-flex.justify-content-center
+						div(style='width: 60%; aspect-ratio:1; min-width: 150px;')
+
+							img(src=`${basePath}/${qrCodes.bank_qr_code_water_image_name}` alt="" onerror="this.src= ''" name='bankQrCodeImagePreviewForWater' style='width: 100%; height: 100%;')

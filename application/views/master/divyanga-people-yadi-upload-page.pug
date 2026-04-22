@@ -1,0 +1,38 @@
+extends ./master-layout
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/divyanga-people-yadi-upload-page.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			h4.col-12.text-center दिव्यांग लोकांची यादी अपलोड
+
+			.col-12
+				form#upload-divyanga-people-list
+					.row.justify-content-center.align-items-center
+						.col-12.col-md-4
+							label(for="divyanga-file-name") File name 
+							input.form-control(type='text', id="divyanga-file-name")
+						.col-12.col-md-4
+							label(for="divyanga-people-list-file") 
+							input.form-control(type='file', id="divyanga-people-list-file")
+						.col-12.col-lg-2.text-center
+							button.btn.btn-primary.mt-4(type='button' id="submit-divyanga-people-file") जतन करा
+			.col-12.col-sm-8.mt-5
+				.table-responsive
+					table.table
+						thead 
+							tr 
+								th Sr. No.
+								th File Name
+								th Delete
+						tbody 
+							each file, index in filesList
+								tr 
+									td #{index + 1}
+									td #{file.file_name}
+									td 
+										button.btn.text-danger(id='delete-divyanga-file-btn' type='button' data-id=file.id data-fileName=file.file_name)
+											i.fa.fa-trash
+
+
+

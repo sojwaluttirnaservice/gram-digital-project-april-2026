@@ -1,0 +1,84 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    // Optional future CSS hook
+
+block content
+
+    .container-fluid.mt-4
+        .row
+            .col-12
+                h4.heading-1.text-center Create Slide
+
+    .container.mt-4
+        .row.justify-content-center.mb-3
+            .col-12.col-xl-9
+                .card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    .card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-plus-circle.me-2
+                                | नवीन स्लाईड जोडा
+                            p.mb-0.text-muted.small या फॉर्मद्वारे PPT मध्ये नवीन स्लाईड जोडा.
+                        div.d-flex(style='gap:1rem;')
+                            a.btn.btn-outline-secondary.btn-sm(href=`/ppt/slides/list/page/${pptId}`)
+                                i.fa.fa-arrow-left.me-1
+                                | मागे (Back)
+        .card.shadow-sm
+            .card-header.bg-warning.text-center.font-weight-bold स्लाईड माहिती
+            .card-body
+                form#ppt-slide-form(enctype="multipart/form-data")
+                    .row.justify-content-center
+                        // Hidden inputs
+                        input(type="hidden" name="ppt_id_fk" value=pptId)
+
+                        // Row 1: Slide Order & Type (1/2 width each on md+)
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_order") स्लाईड क्रमांक (Order)
+                                input.form-control(type="number" name="slide_order" placeholder="उदा. 1" required)
+
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_type") स्लाईड प्रकार (Type)
+                                select.form-control(name="slide_type" required)
+                                    option(value="content") Content (माहिती)
+                                    option(value="image") Image (इमेज)
+                                    option(value="mixed") Mixed (मिश्रित)
+
+                        // Row 2: Title & Subtitle (1/2 width each on md+)
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_title") स्लाईडचे Title
+                                input.form-control(type="text" name="slide_title" placeholder="Title टाका")
+
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_subtitle") स्लाईडचे Subtitle
+                                input.form-control(type="text" name="slide_subtitle" placeholder="Subtitle टाका")
+
+                        // Row 3: Description (Full Width)
+                        .col-12.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_description") स्लाईडचे वर्णन
+                                textarea.form-control(name="slide_description" rows="2" placeholder="वर्णन टाका")
+
+                        // Row 3: Before & After Uploads
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold Before Images (पूर्वीचे फोटो)
+                                input.form-control(type="file" name="before_images" accept="image/*" multiple)
+                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता
+
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold After Images (नंतरचे फोटो)
+                                input.form-control(type="file" name="after_images" accept="image/*" multiple)
+                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता
+
+                        // Submit Button
+                        .col-12.text-center.mt-3
+                            button#save-ppt-slide-btn.btn.btn-primary.px-4(type="submit") Save (जतन करा)
+
+block custom_js 
+    script(src="/asstest/coustom/js/handlers/ppt/ppt-slide-form-handler.js")

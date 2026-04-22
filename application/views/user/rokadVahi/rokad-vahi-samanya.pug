@@ -1,0 +1,850 @@
+extends ../master-layout/master-layout
+
+block internal_css
+    style.
+        @media print {
+            .hide-print { display: none !important; }
+            @page{
+                size:  landscape;
+            }
+        }
+
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+
+        body {
+            //- width: 210mm; 
+            //- height: 297mm;
+            //- width:297mm;
+            //- height:297mm;
+            //- border: 1px solid black;
+        }
+        .my-print{
+            position: relative;
+            padding: 5px !important;
+        }
+
+        .page-break{
+            break-after: page;
+            page-break-after: always;
+        }
+
+        .fs-7 {
+            font-size: 0.8rem !important;
+        }
+
+block custom_js
+    script(src="/asstest/coustom/js/handlers/namuna/namuna-5k/namuna-5k-samanya-print-page-handler.js")
+block content
+
+    - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+
+
+    //- <!-- Modal -->
+    .modal.fade#taxPayModal(tabindex="-1" aria-labelledby="taxPayModalLabel" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered
+            form#tax-payment-form.modal-content
+                .modal-header
+                    h1.modal-title.fs-5#taxPayModalLabel कर भरणा करा.
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body
+
+
+                    if lastPaymentRecord
+                        .bg-danger.text-white.px-2
+                            div मागील भरणा दिनांक: #{lastPaymentRecord._payment_upto_date}
+                            div ऑफलाइन रक्कम (न भरलेली): #{samanyaBankRecord.account_offline_amount}
+
+                    .form-group
+                        label.form-label(for="payment_upto_date") भरणा रक्कम दिनांक
+                        input.form-control(class='datepicker' name="payment_upto_date")
+
+                    //- .form-group 
+                    //-     label.form-label(for="actual_cash_outstanding") भरणा रक्कम
+                    //-     input.form-control(name="actual_cash_outstanding")
+                    
+                    .form-group 
+                        label.form-label(for="deposited_cash_amount") भरणा रक्कम
+                        input.form-control(name="deposited_cash_amount" type="number")
+
+
+                    .form-group 
+                        label.form-label(for="receiptFile") पावती फाईल
+                        input.form-control(name="receiptFile" type="file" accept="image/*")
+
+
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button" id="save-save-offline-payment-namuna-5k-samanya-btn") कर जमा करा.
+
+
+    .hide-print
+
+        div(class="position-fixed top-50 end-0 translate-middle-y d-flex flex-column align-items-end gap-2 me-3 z-50" style="z-index:1000;")
+
+            button(class='btn btn-primary fw-bold shadow' data-bs-toggle="modal" data-bs-target="#taxPayModal") कर भरणा करा 
+            button(class="btn btn-primary fw-semibold shadow" onclick="window.print()") Print
+
+            //- select(class="form-select w-auto shadow-sm")
+                option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+            //- select(id='certificate-dropdown' class="form-select shadow-sm")
+                option(value="" selected=(paymentFor == -1)) सर्व दाखले
+                - const certificates = [{ id: 1, value: "सामान्य कर भरणा" }, { id: 2, value: "पाणी कर भरणा" }, { id: 3, value: "विवाह नोंदणी प्रमाणपत्र" }, { id: 4, value: "रहिवासी स्वयंघोषितपत्र" }, { id: 5, value: "नमुना ८ प्रिंट" }, { id: 6, value: "थकबाकी/निराधार प्रमाणपत्र" }];
+                each _option in certificates
+                    option(value=_option.id selected=(paymentFor == _option.id)) #{_option.value} दाखवा
+
+
+                //- month and year wise
+
+                //- financial year wise
+
+                //- if month and year wise, you select , show correspoding intputs and inquery if month and year append e.g. ?month=4&year=2023 
+                //- if financial year wise, you select , show correspoding intputs and inquery if financial year append e.g. ?fromYear=2023&toYear=2024
+            div(class='d-flex flex-column gap-2')
+
+                select#report-type(class='form-select shadow-sm')
+                    - let isMonthYearTypeReport = (month && year) ? true : false;
+                    - let isFinancialYearTypeReport = ( fromYear && toYear) ? true : false;
+
+                    option(value='' selected = (!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                    option(value='monthYear' selected=(isMonthYearTypeReport)) महिना व वर्षानुसार
+                    option(value='financialYear' selected=(isFinancialYearTypeReport)) आर्थिक वर्षानुसार
+
+                // Month Year Inputs
+                div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};` class='gap-2')
+                    select#report-month(class='form-select')
+                        - for(let i=1;i<=12;i++)
+                            option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                    input#report-year(type='number' class='form-control' value=(year) placeholder='Year')
+
+                // Financial Year Inpu/s
+                div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};` class=' gap-2')
+                    input#from-year(type='number' class='form-control' value=(fromYear) placeholder='From Year')
+                    input#to-year(type='number' class='form-control' value=(toYear) placeholder='To Year')
+
+                button#generate-report(class='btn btn-primary shadow-sm') रिपोर्ट तयार करा
+
+
+    //- step 1: Variable declaration for total (might be financial year reasons)
+    - let finalCount = 0;
+
+
+    - let finalDakhalFeeTotal = 0;
+    - let finalFerfarFeeTotal = 0;
+    - let finalNividaFeeTotal = 0;
+    - let finalBayanaTotal = 0;
+    - let finalAnudanTotal = 0;
+    - let finalOtherTotal = 0;
+
+
+    // SAMANYA TAX TOTALS
+
+    - let finalLastBuildingTax = 0
+    - let finalLastFineTax = 0
+    - let finalLastDivaTax = 0
+    - let finalLastArogyaTax = 0
+    - let finalLastCleaningTax = 0 // new
+
+    - let finalCurrentBuildingTax = 0
+    - let finalCurrentFineTax = 0
+    - let finalCurrentDivaTax = 0
+    - let finalCurrentArogyaTax = 0
+    - let finalCurrentCleaningTax = 0 // new
+
+
+    - let finalOnlineTotal = 0
+    - let finalOfflineTotal = 0
+
+
+
+    //- step 2; month variable declaration for monthly totals
+    - let monthDakhalFeeTotal = 0;
+    - let monthNividaFeeTotal = 0;
+    - let monthFerfarFeeTotal = 0;
+    - let monthBayanaTotal = 0;
+    - let monthAnudanTotal = 0;
+    - let monthOtherTotal = 0;
+
+
+    // SAMANYA MONTH TOTALS
+
+    - let monthLastBuildingTax = 0
+    - let monthLastFineTax = 0
+    - let monthLastDivaTax = 0
+    - let monthLastArogyaTax = 0
+    - let monthLastCleaningTax = 0 // new
+
+    - let monthCurrentBuildingTax = 0
+    - let monthCurrentFineTax = 0
+    - let monthCurrentDivaTax = 0
+    - let monthCurrentArogyaTax = 0
+    - let monthCurrentCleaningTax = 0 // new
+
+
+    - let monthOnlineTotal = 0
+    - let monthOfflineTotal = 0
+
+    if !paymentDetails || paymentDetails.length === 0
+        div.d-flex.justify-content-center.align-items-center(style='height: 100vh;')
+            h3.text-muted माहिती उपलब्ध नाही
+
+    else
+        each _group, _groupIndex in paymentDetails 
+
+            - let entries = _group.entries;
+            - let groupDate = _group.payment_date;
+            .my-print.m-0.p-0.d-flex.flex-column
+                //- img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+                div
+                    div.d-flex.justify-content-between.pt-2.pb-2
+                        div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                            img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                            span.fw-semibold 
+                            if isMonthYearTypeReport 
+                                span माहे #{getMonthName(month)} वर्ष : #{year}
+                            else if isFinancialYearTypeReport
+                                span वित्तीय वर्ष : #{fromYear} - #{toYear}
+
+                            //- span.fw-semibold वर्ष 
+                        div.d-flex.flex-column.align-items-center.justify-content-center
+                            p.fw-semibold ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+                            p.fw-semibold(style='font-size:0.6rem;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१,२२ (२),(३),(४),(५), व (६),२५(१),३२(५),३३(२),(३),व (४)(च),३६(२)३८(१) आणि ६६(१) पहा)
+                            p.fw-bold.fs-4 दैनिक रोकड वही (दाखले)
+
+                        div.d-flex.flex-column.justify-content-center.align-items-center
+                            img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+                            p.fw-semibold पान क्र:- 
+                div
+
+                    
+                    table.table.table-bordered
+                        thead 
+                            tr.text-center
+                                th(rowspan="3" colspan="1").fs-7 अनु.क्र.
+                                th(rowspan="3" colspan="1").fs-7 पावती क्रमांक 
+                                th(rowspan="3" colspan="1").fs-7 कोणाकडून मिळाली ते
+                                th(rowspan="3" colspan="1").fs-7 मोबाईल न.
+
+                                th(rowspan="3" colspan="1").fs-7 प्रमाणपत्र नाव
+
+                                th(rowspan="1" colspan="12") जमा रकमेचा तपशील
+                                th(rowspan="2" colspan="6").fs-7 नमुना ७ (सामान्य फंड)
+
+
+                                //- th(rowspan="2" colspan="1").fs-7 रुपये
+                                th(rowspan="3" colspan="1").fs-7 पेमेंट मोड
+                                th(rowspan="3" colspan="1").fs-7 व्यवहार संदर्भ क्रमांक
+                                th(rowspan="3" colspan="1").fs-7 दिनांक
+                                th(rowspan="3" colspan="1").fs-7 शेरा
+
+                            tr
+                                th(rowspan="1" colspan="6") मागील
+                                th(rowspan="1" colspan="6") चालू 
+
+
+                            tr.text-center 
+                                //- th
+                                //- th
+                                //- th
+                                //- th
+
+                                //- 5th column
+                                th(rowspan="1" colspan="1") इमारत 
+                                th(rowspan="1" colspan="1") दंड 
+                                th(rowspan="1" colspan="1") दिवाबत्ती 
+                                th(rowspan="1" colspan="1") आरोग्य
+                                th(rowspan="1" colspan="1") स्वच्छता 
+                                th(rowspan="1" colspan="1") एकूण 
+
+                                //- 10th column
+                                th(rowspan="1" colspan="1") इमारत
+                                th(rowspan="1" colspan="1") दंड
+                                th(rowspan="1" colspan="1") दिवाबत्ती
+                                th(rowspan="1" colspan="1") आरोग्य
+                                th(rowspan="1" colspan="1") स्वच्छता 
+                                th(rowspan="1" colspan="1") एकूण
+
+                                //- 15th column
+                                th(rowspan="1" colspan="1") दाखला फी
+                                th(rowspan="1" colspan="1") निविदा फी
+                                th(rowspan="1" colspan="1") फेरफार फी
+                                th(rowspan="1" colspan="1") बायाना रक्कम
+                                th(rowspan="1" colspan="1") अनुदान पावती
+                                th(rowspan="1" colspan="1") इतर
+
+
+                            //- tr.text-center
+                                each _, _ind in Array.from({length: 9})
+                                    th #{_ind + 1}
+
+
+                        //- Step3 : iterate over entries for each date and show date wise totals and accumulate month wise totals and show month wise totals and accumulate final totals and show at the end of report
+
+                        //- now accumulate datewise first
+                        - let currentDateDakhalaFeeTotal = 0;
+                        - let currentDateNividaFeeTotal = 0;
+                        - let currentDateFerfarFeeTotal = 0;
+                        - let currentDateBayanaTotal = 0;
+                        - let currentDateAnudanTotal = 0;
+                        - let currentDateOtherTotal = 0;
+
+                        // SAMANYA DAY TOTALS
+
+                        - let currentDateLastBuildingTax = 0
+                        - let currentDateLastFineTax = 0
+                        - let currentDateLastDivaTax = 0
+                        - let currentDateLastArogyaTax = 0
+                        - let currentDateLastCleaningTax = 0 // new
+
+                        - let currentDateCurrentBuildingTax = 0
+                        - let currentDateCurrentFineTax = 0
+                        - let currentDateCurrentDivaTax = 0
+                        - let currentDateCurrentArogyaTax = 0
+                        - let currentDateCurrentCleaningTax = 0 // new
+
+                        - let offlineDayWiseTotal = 0;
+                        - let onlineDayWiseTotal = 0;
+
+
+                        tbody.rokadVahiData
+                            if((!entries || entries.length == 0))
+                                tr 
+                                    td.text-center.fw-bold(colspan='9') माहिती उपलब्ध नाही
+                            else
+
+
+                                each detail, index in entries
+
+
+
+                                    //- - finalCount += 1;
+                                    tr 
+                                        th #{index + 1} 
+                                        th #{detail.id}
+                                        th #{detail.recipient_name}
+                                        th -
+
+                                        th #{detail.payment_for == -1 ? `${paymentTypesMap[detail.payment_for]}-${detail.reason_in_words}` : detail.payment_for_desc}
+
+
+
+                                        //- samanya tax details go here for your information 
+
+                                        - const s = detail.samanya || {}
+
+
+                                        - const lb = Number(s.tpl_lastBuildingTax) || 0
+                                        - const lf = Number(s.tpl_lastTaxFine) || 0
+                                        - const ld = Number(s.tpl_lastDivaTax) || 0
+                                        - const la = Number(s.tpl_lastArogyaTax) || 0
+
+                                        - const lc = Number(s.tpl_lastCleaningTax) || 0 // new
+
+                                        - const cb = Number(s.tpl_currentBuildingTax) || 0
+                                        - const cf = 0
+                                        - const cd = Number(s.tpl_currentDivaTax) || 0
+                                        - const ca = Number(s.tpl_currentArogyaTax) || 0
+
+                                        - const cc = Number(s.tpl_currentCleaningTax) || 0 // new
+
+                                        // accumulate day samanya totals
+
+                                        - currentDateLastBuildingTax += lb ?? 0
+                                        - currentDateLastFineTax += lf ?? 0
+                                        - currentDateLastDivaTax += ld ?? 0
+                                        - currentDateLastArogyaTax += la ?? 0
+
+                                        - currentDateLastCleaningTax += lc ?? 0 // new
+
+                                        - currentDateCurrentBuildingTax += cb ?? 0
+                                        - currentDateCurrentFineTax += 0
+                                        - currentDateCurrentDivaTax += cd ?? 0
+                                        - currentDateCurrentArogyaTax += ca ?? 0
+
+                                        - currentDateCurrentCleaningTax += cc ?? 0 // new
+
+                                        th #{lb != null ? lb : 0}
+                                        th #{lf != null ? lf : 0}
+                                        th #{ld != null ? ld : 0}
+                                        th #{la != null ? la : 0}
+
+                                        //- new
+                                        th #{lc != null ? lc : 0} 
+                                        //- last cleaning tax added
+                                        th #{+lb + +lf + +ld + +la + +lc}
+
+                                        th #{cb != null ? cb : 0}
+                                        th 0
+                                        th #{cd != null ? cd : 0}
+                                        th #{ca != null ? ca : 0}
+
+                                        //- new cleanign added
+                                        th #{cc != null ? cc : 0}
+                                        //- cleaning current tax added
+                                        th #{+cb + +cf + +cd + +ca + +cc}
+
+
+                                        //- दाखला फी
+                                        th 
+                                            - let condition = detail.payment_type == "CERTIFICATE" && ![10,11,12,13,15].includes(+detail.payment_for)
+                                            - let dakhalaAmount = condition ? detail.payment_amount : 0
+                                            //- | #{[3, 4, 5, 6, 7, 8, 9].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{dakhalaAmount}
+
+
+                                            - currentDateDakhalaFeeTotal += dakhalaAmount
+
+                                        //- निविदा फी (सामान्य)
+                                        th
+                                            - let nividaAmount = [11].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[11].includes(detail.payment_for) ? detail.payment_amount : "0"}
+                                            | #{nividaAmount}
+                                            - currentDateNividaFeeTotal += nividaAmount
+
+                                        //- फेरफार फी
+                                        th 
+                                            - let ferfarAmount = [10].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[10].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{ferfarAmount}
+                                            - currentDateFerfarFeeTotal += ferfarAmount
+
+                                        //- बायाना रक्कम (अमामत) (सामान्य)
+                                        th 
+                                            - let bayanaAmount = [12].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[13].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{bayanaAmount}
+                                            - currentDateBayanaTotal += bayanaAmount
+
+                                        //- अनुदान रक्कम (सामान्य)
+                                        th
+                                            - let anudanAmount = [13].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[15].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{anudanAmount}
+                                            - currentDateAnudanTotal += anudanAmount
+
+                                        //- other free
+                                        th 
+                                            - let otherAmount = [15].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[19].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{otherAmount}
+                                            - currentDateOtherTotal += otherAmount
+
+
+                                        //- th #{detail.payment_amount}
+                                        - const amt = Number(detail.payment_amount) || 0
+                                        th 
+                                            if detail.payment_mode === 1  
+                                                span.text-success ऑनलाइन 
+                                                - onlineDayWiseTotal += +amt
+                                            else 
+                                                span.text-danger ऑफलाइन
+                                                - offlineDayWiseTotal += +amt
+                                        th 
+                                            if detail.payment_mode == 0
+                                                | -
+                                            else
+                                                if detail.payment_medium === 'CHEQUE'
+                                                    | चेक क्र. : #{detail.check_no}
+                                                else if detail.payment_medium === 'DEMAND_DRAFT'
+                                                    | डिमांड ड्राफ्ट क्र. : #{detail.demand_draft_no}
+                                                else if detail.payment_medium === 'RTGS'
+                                                    | RTGS क्र. :  #{detail.rtgs_no}
+                                                else if detail.payment_medium === 'UPI' || detail.payment_medium == null
+                                                    | UPI व्यवहार आयडी : #{detail.transaction_number}
+
+                                        th #{detail.payment_date.split('-')[2]}-#{detail.payment_date.split('-')[1]}-#{detail.payment_date.split('-')[0]}
+                                        th -    
+
+
+
+                        - monthDakhalFeeTotal += currentDateDakhalaFeeTotal
+                        - monthNividaFeeTotal += currentDateNividaFeeTotal
+                        - monthFerfarFeeTotal += currentDateFerfarFeeTotal
+                        - monthBayanaTotal += currentDateBayanaTotal
+                        - monthAnudanTotal += currentDateAnudanTotal
+                        - monthOtherTotal += currentDateOtherTotal
+
+                        //- accumulate month samanya totals
+
+                        - monthLastBuildingTax += currentDateLastBuildingTax
+                        - monthLastFineTax += currentDateLastFineTax
+                        - monthLastDivaTax += currentDateLastDivaTax
+                        - monthLastArogyaTax += currentDateLastArogyaTax
+                        //- for cleaning tax new LAST
+                        - monthLastCleaningTax += currentDateLastCleaningTax
+
+                        - monthCurrentBuildingTax += currentDateCurrentBuildingTax
+                        - monthCurrentFineTax += currentDateCurrentFineTax
+                        - monthCurrentDivaTax += currentDateCurrentDivaTax
+                        - monthCurrentArogyaTax += currentDateCurrentArogyaTax
+                        //- new cleaning tax CURRENT
+                        - monthCurrentCleaningTax += currentDateCurrentCleaningTax
+
+                        - monthOnlineTotal += onlineDayWiseTotal
+                        - monthOfflineTotal += offlineDayWiseTotal
+
+                        tfoot 
+                            tr 
+                                th(colspan="5") #{groupDate.split('-').reverse().join('-')} रोजीची एकूण रक्कम
+
+
+                                th #{currentDateLastBuildingTax}
+                                th #{currentDateLastFineTax}
+                                th #{currentDateLastDivaTax}
+                                th #{currentDateLastArogyaTax}
+                                //- new
+                                th #{currentDateLastCleaningTax}
+                                //- added cleaning tax in sum
+                                th #{currentDateLastBuildingTax + currentDateLastFineTax + currentDateLastDivaTax + currentDateLastArogyaTax + currentDateLastCleaningTax}
+
+                                th #{currentDateCurrentBuildingTax}
+                                th #{currentDateCurrentFineTax}
+                                th #{currentDateCurrentDivaTax}
+                                th #{currentDateCurrentArogyaTax}
+                                //- new
+                                th #{currentDateCurrentCleaningTax}
+                                //- added cleaning tax in sum
+                                th #{currentDateCurrentBuildingTax + currentDateCurrentFineTax + currentDateCurrentDivaTax + currentDateCurrentArogyaTax + currentDateCurrentCleaningTax}
+
+                                th #{currentDateDakhalaFeeTotal}
+                                th #{currentDateNividaFeeTotal}
+                                th #{currentDateFerfarFeeTotal}
+                                th #{currentDateBayanaTotal}
+                                th #{currentDateAnudanTotal}
+                                th #{currentDateOtherTotal}
+
+                                th(colspan="4")
+                                    p 
+                                        span ऑफलाइन : 
+                                        span.text-danger.font-bold #{offlineDayWiseTotal}
+                                        span &nbsp; and &nbsp; 
+                                        span ऑनलाइन : 
+                                        span.text-success.font-bold #{onlineDayWiseTotal}
+
+                            - let currentMonth = Number(_group.payment_date.split('-')[1])
+                            - let nextMonth = paymentDetails[_groupIndex + 1] ? Number(paymentDetails[_groupIndex + 1].payment_date.split('-')[1]) : null
+
+
+                            if currentMonth !== nextMonth
+                                tr 
+                                    th(colspan="5") #{getMonthName(currentMonth)} (#{currentMonth}) महिन्याची एकूण रक्कम
+
+
+                                    th #{monthLastBuildingTax}
+                                    th #{monthLastFineTax}
+                                    th #{monthLastDivaTax}
+                                    th #{monthLastArogyaTax}
+                                    //- new
+                                    th #{monthLastCleaningTax} 
+                                    //- cleaning added new in sum
+                                    th #{monthLastBuildingTax + monthLastFineTax + monthLastDivaTax + monthLastArogyaTax + monthLastCleaningTax}
+
+                                    th #{monthCurrentBuildingTax}
+                                    th #{monthCurrentFineTax}
+                                    th #{monthCurrentDivaTax}
+                                    th #{monthCurrentArogyaTax}
+                                    //- new 
+                                    th #{monthCurrentCleaningTax}
+                                    //- cleaning added in sum
+                                    th #{monthCurrentBuildingTax + monthCurrentFineTax + monthCurrentDivaTax + monthCurrentArogyaTax + monthCurrentCleaningTax}
+
+
+                                    th #{monthDakhalFeeTotal}
+                                    th #{monthNividaFeeTotal}
+                                    th #{monthFerfarFeeTotal}
+                                    th #{monthBayanaTotal}
+                                    th #{monthAnudanTotal}
+                                    th #{monthOtherTotal}
+
+                                    
+                                    th(colspan="4")
+                                        span ऑफलाइन :
+                                        span.text-danger.fw-bold #{monthOfflineTotal}
+                                        |  |  
+                                        span ऑनलाइन :
+                                        span.text-success.fw-bold #{monthOnlineTotal}
+
+                                - monthDakhalFeeTotal = 0
+                                - monthNividaFeeTotal = 0
+                                - monthFerfarFeeTotal = 0
+                                - monthBayanaTotal = 0
+                                - monthAnudanTotal = 0
+                                - monthOtherTotal = 0
+
+                                - monthLastBuildingTax = 0
+                                - monthLastFineTax = 0
+                                - monthLastDivaTax = 0
+                                - monthLastArogyaTax = 0
+                                - monthLastCleaningTax = 0
+
+                                - monthCurrentBuildingTax = 0
+                                - monthCurrentFineTax = 0
+                                - monthCurrentDivaTax = 0
+                                - monthCurrentArogyaTax = 0
+                                - monthCurrentCleaningTax = 0
+
+
+                                //- reset
+                                - monthOnlineTotal = 0
+                                - monthOfflineTotal = 0
+
+
+                                //- - finalCount += monthCount;
+
+
+
+
+
+
+
+                        - finalDakhalFeeTotal += currentDateDakhalaFeeTotal;
+                        - finalNividaFeeTotal += currentDateNividaFeeTotal;
+                        - finalFerfarFeeTotal += currentDateFerfarFeeTotal;
+                        - finalBayanaTotal += currentDateBayanaTotal;
+                        - finalAnudanTotal += currentDateAnudanTotal;
+                        - finalOtherTotal += currentDateOtherTotal;
+
+
+                        - finalLastBuildingTax += currentDateLastBuildingTax
+                        - finalLastFineTax += currentDateLastFineTax
+                        - finalLastDivaTax += currentDateLastDivaTax
+                        - finalLastArogyaTax += currentDateLastArogyaTax
+                        //- new
+                        - finalLastCleaningTax += currentDateLastCleaningTax
+
+                        - finalCurrentBuildingTax += currentDateCurrentBuildingTax
+                        - finalCurrentFineTax += currentDateCurrentFineTax
+                        - finalCurrentDivaTax += currentDateCurrentDivaTax
+                        - finalCurrentArogyaTax += currentDateCurrentArogyaTax
+                        //- new
+                        - finalCurrentCleaningTax += currentDateCurrentCleaningTax
+
+
+                        - finalOnlineTotal += onlineDayWiseTotal
+                        - finalOfflineTotal += offlineDayWiseTotal
+
+
+                    //- div 
+                        //- p OFFLINE : #{offlineDayWiseTotal} and ONLINE : #{onlineDayWiseTotal}
+            if groupIndex !== paymentDetails.length - 1
+                div.page-break
+
+            //- div.hide-print एकूण : #{finalCount}
+
+        .my-print.m-0.p-0.d-flex.flex-column
+            //- img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+            div
+                div.d-flex.justify-content-between.pt-2.pb-2
+                    div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                        img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                        if isMonthYearTypeReport 
+                            span माहे #{getMonthName(month)} वर्ष : #{year}
+                        else if isFinancialYearTypeReport
+                            span वित्तीय वर्ष : #{fromYear} - #{toYear}
+
+                    div.d-flex.flex-column.align-items-center.justify-content-center
+                        p.fw-semibold ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+                        p.fw-semibold(style='font-size:0.6rem;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१,२२ (२),(३),(४),(५), व (६),२५(१),३२(५),३३(२),(३),व (४)(च),३६(२)३८(१) आणि ६६(१) पहा)
+                        p.fw-bold.fs-4 दैनिक रोकड वही (दाखले)
+
+                    div.d-flex.flex-column.justify-content-center.align-items-center
+                        img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+                        p.fw-semibold पान क्र:- 
+            div
+                table.table.table-bordered
+                    thead 
+                        tr.text-center
+                            th(rowspan="3" colspan="1").fs-7 अनु.क्र.
+                            th(rowspan="3" colspan="1").fs-7 पावती क्रमांक 
+                            th(rowspan="3" colspan="1").fs-7 कोणाकडून मिळाली ते
+                            th(rowspan="3" colspan="1").fs-7 मोबाईल न.
+
+                            th(rowspan="3" colspan="1").fs-7 प्रमाणपत्र नाव
+
+                            th(rowspan="1" colspan="12") जमा रकमेचा तपशील
+                            th(rowspan="2" colspan="6").fs-7 नमुना ७ (सामान्य फंड)
+
+
+                            //- th(rowspan="2" colspan="1").fs-7 रुपये
+                            th(rowspan="3" colspan="1").fs-7 पेमेंट मोड
+                            th(rowspan="3" colspan="1").fs-7 व्यवहार संदर्भ क्रमांक
+                            th(rowspan="3" colspan="1").fs-7 दिनांक
+                            th(rowspan="3" colspan="1").fs-7 शेरा
+
+                        tr
+                            th(rowspan="1" colspan="6") मागील
+                            th(rowspan="1" colspan="6") चालू 
+
+
+                        tr.text-center 
+                            //- th
+                            //- th
+                            //- th
+                            //- th
+
+                            //- 5th column
+                            th(rowspan="1" colspan="1") इमारत 
+                            th(rowspan="1" colspan="1") दंड 
+                            th(rowspan="1" colspan="1") दिवाबत्ती 
+                            th(rowspan="1" colspan="1") आरोग्य 
+                            //- new
+                            th(rowspan="1" colspan="1") स्वच्छता 
+                            th(rowspan="1" colspan="1") एकूण 
+
+                            //- 10th column
+                            th(rowspan="1" colspan="1") इमारत
+                            th(rowspan="1" colspan="1") दंड
+                            th(rowspan="1" colspan="1") दिवाबत्ती
+                            th(rowspan="1" colspan="1") आरोग्य
+                            //- new
+                            th(rowspan="1" colspan="1") स्वच्छता 
+                            th(rowspan="1" colspan="1") एकूण
+
+                            //- 15th column
+                            th(rowspan="1" colspan="1") दाखला फी
+                            th(rowspan="1" colspan="1") निविदा फी
+                            th(rowspan="1" colspan="1") फेरफार फी
+                            th(rowspan="1" colspan="1") बायाना रक्कम
+                            th(rowspan="1" colspan="1") अनुदान पावती
+                            th(rowspan="1" colspan="1") इतर
+
+
+
+                    tfoot 
+                        tr 
+                            th(colspan="5") एकूण रक्कम 
+
+
+                            th #{finalLastBuildingTax}
+                            th #{finalLastFineTax}
+                            th #{finalLastDivaTax}
+                            th #{finalLastArogyaTax}
+                            //- new
+                            th #{finalLastCleaningTax}
+                            //- added cleaning in below
+                            th #{finalLastBuildingTax + finalLastFineTax + finalLastDivaTax + finalLastArogyaTax + finalLastCleaningTax}
+
+                            th #{finalCurrentBuildingTax}
+                            th #{finalCurrentFineTax}
+                            th #{finalCurrentDivaTax}
+                            th #{finalCurrentArogyaTax}
+                            //- new 
+                            th #{finalCurrentCleaningTax}
+                            //- added cleaning in below
+                            th #{finalCurrentBuildingTax + finalCurrentFineTax + finalCurrentDivaTax + finalCurrentArogyaTax + finalCurrentCleaningTax}
+
+                            th #{finalDakhalFeeTotal}
+                            th #{finalNividaFeeTotal}
+                            th #{finalFerfarFeeTotal}
+                            th #{finalBayanaTotal}
+                            th #{finalAnudanTotal}
+                            th #{finalOtherTotal}
+
+                            //- th(colspan="4") #{finalDakhalFeeTotal + finalNividaFeeTotal + finalFerfarFeeTotal + finalBayanaTotal + finalAnudanTotal + finalOtherTotal}
+
+                            th(colspan="4")
+                                span ऑफलाइन :
+                                span.text-danger.font-bold  #{finalOfflineTotal}
+                                |  |  
+                                span ऑनलाइन : 
+                                span.text-success.font-bold #{finalOnlineTotal}
+
+
+
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else if(reportType.value == "date") {
+                    //- params.set("date", )
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

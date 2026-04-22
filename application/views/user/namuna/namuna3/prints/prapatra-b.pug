@@ -1,0 +1,209 @@
+
+
+//- प्रपत्र 'ब'
+
+
+
+.my-print
+
+    //- UPPER HALF
+    table(style='width: 100%;')
+
+        thead
+
+            tr 
+                th(colspan='17' )
+                    div
+                        div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                            div सन ____ - _____ वर्षाचे
+
+                            div जिल्हा, #{gp.gp_dist}
+
+                            div यातील ग्रामपंचायातीचा रचना व कामकाज दर्शविणारी तालिका
+
+            tr
+                //- 1
+                th(rowspan='2' colspan='1') अ.क्र.
+                th(rowspan='2' colspan='1') ग्रामपंचायतीचे गट व ग्रामपंचायतीचे नाव व गावाचा मिळून गट बनला असेल त्यांची नावे
+                th(rowspan='2' colspan='1') क्षेत्रफळ चौरस हे - आर
+                th(rowspan='2' colspan='1') २०१ च्या खाने सुमारास क्षेत्रातील लोकसंख्या 
+
+                th(rowspan='2' colspan='1') स्थापना केल्याची तारीख
+                th(rowspan='2' colspan='1') मागील सार्वत्रिक निवडणूक तारीख
+                th(rowspan='2' colspan='1') नेहमीची मुदल संपण्याची तारीख
+                th(rowspan='2' colspan='1') राखीव नसलेल्या पदांची संख्या
+
+                //- 9 to 12
+                th(rowspan='1' colspan='4') ग्राम पंचायतीने राखून ठेवलेल्या जागा
+                //- th
+                //- th
+                //- th
+
+
+                //- 13 to 14
+                th(rowspan='2' colspan='1') राखून ठेवलेल्या जागांची एकूण संख्या (९ ते १२)
+                th(rowspan='2' colspan='1') एकूण जागा संख्या (८ + १२)
+
+                th(rowspan='1' colspan='3') निवडून आलेल्या किंवा नेमलेल्या सदस्यांची प्रत्यक्ष संख्या
+                //- th
+                //- th
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //-  9 to 12
+                th(rowspan='1' colspan='1') स्त्रिया
+                th(rowspan='1' colspan='1') अनुसूचित जाती
+                th(rowspan='1' colspan='1') अनुसूचित जमाती
+                th(rowspan='1' colspan='1') इतर मागासवर्गीय
+
+                //- th
+                //- th 
+
+                //- 15 5o 17
+                th(rowspan='1' colspan='1') निवडणूक झालेल्या ग्रा.पं. सदस्यांची संख्या
+                th(rowspan='1' colspan='1') पोट निवडणूक झालेल्या ग्रा.पं. सदस्यांची संख्या
+                th(rowspan='1' colspan='1') एकूण १५ + २६
+
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
+                    th(rowspan='3' colspan='1') #{num}
+
+        tbody
+
+            tr 
+                td 
+                td #{prapatraB.gp_groups}
+                td #{prapatraB.sq_meter_area}
+                td #{prapatraB.population_at_201}
+                
+                td #{prapatraB._establishment_date}
+                td #{prapatraB._last_election_date}
+                td #{prapatraB._regular_term_expiry_date}
+
+                td #{prapatraB.not_reserved_posts_count}
+
+                td #{prapatraB.reserved_seats_female}
+                td #{prapatraB.reserved_seats_scheduled_caste}
+                td #{prapatraB.reserved_seats_scheduled_tribe}
+                td #{prapatraB.reserved_seats_other_backward_classes}
+
+                td #{prapatraB.reserved_seats_female + prapatraB.reserved_seats_scheduled_caste + prapatraB.reserved_seats_scheduled_tribe + prapatraB.reserved_seats_other_backward_classes}
+                td #{prapatraB.not_reserved_posts_count + prapatraB.reserved_seats_other_backward_classes}
+
+                td #{prapatraB.elected_grampanchayat_members_count}
+                td #{prapatraB.by_election_grampanchayat_members_count}
+                td #{prapatraB.elected_grampanchayat_members_count + prapatraB.by_election_grampanchayat_members_count}
+
+
+
+
+
+    div(style='text-align: center; margin: 1rem 0;font-weight: bold;') निवडून आलेल्या किंवा नेमलेल्या सदस्यांची प्रत्यक्ष संख्या चालू 
+
+    table(style='width: 100%;')
+        thead 
+
+            tr
+                th(rowspan='1' colspan='1') स्त्रिया 
+                th(rowspan='1' colspan='1') पुरुष
+                th(rowspan='1' colspan='1')
+
+                th(rowspan='1' colspan='3') अनुसूचित जमाती
+                //- th
+                //- th
+                th(rowspan='1' colspan='3') अनुसूचित जाती
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') इतर मागासवर्गीय
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') -
+
+            tr 
+                th(rowspan='2' colspan='1') निवडून आलेल्या स्त्री सदस्या
+                th(rowspan='2' colspan='1') निवडून आलेल्या पुरुष सदस्य
+                th(rowspan='2' colspan='1') एकूण १८ + १९
+
+                th(rowspan='1' colspan='3') निवडून आलेले सदस्य
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') निवडून आलेले सदस्य
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') निवडून आलेले सदस्य
+                //- th
+                //- th
+
+                th निवडून आलेल्या सदस्यांची एकूण प्रत्यक्ष संख्या
+
+
+            tr 
+                //- th
+                //- th
+                //- th
+
+
+                th(rowspan='1' colspan='1') स्त्री 
+                th(rowspan='1' colspan='1') पुरुष
+                th(rowspan='1' colspan='1') एकूण २१ + २२
+
+
+                th(rowspan='1' colspan='1') स्त्री 
+                th(rowspan='1' colspan='1') पुरुष
+                th(rowspan='1' colspan='1') एकूण २४ + २५
+
+
+
+                th(rowspan='1' colspan='1') स्त्री 
+                th(rowspan='1' colspan='1') पुरुष
+                th(rowspan='1' colspan='1') एकूण २७ + २८
+
+            tr 
+                each num in [18,19,20,21,22,23,24,25,26,27,28,29,30]
+                    th #{num}
+
+        tbody 
+
+            tr 
+                
+
+                //- Down half
+                td #{prapatraB.elected_female_members_count}
+                td #{prapatraB.elected_male_members_count}
+
+                td #{prapatraB.elected_female_members_count + prapatraB.elected_male_members_count}
+
+                td #{prapatraB.scheduled_tribe_members_elected_female}
+                td #{prapatraB.scheduled_tribe_members_elected_male}
+
+                td #{prapatraB.scheduled_tribe_members_elected_female + prapatraB.scheduled_tribe_members_elected_male}
+
+                //- -------
+                td #{prapatraB.scheduled_caste_members_elected_female}
+                td #{prapatraB.scheduled_caste_members_elected_male}
+                td #{prapatraB.scheduled_caste_members_elected_female + prapatraB.scheduled_caste_members_elected_male}
+
+
+                //- -------------
+                td #{prapatraB.other_backward_classes_members_elected_female}
+                td #{prapatraB.other_backward_classes_members_elected_male}
+                td #{prapatraB.other_backward_classes_members_elected_female + prapatraB.other_backward_classes_members_elected_male}
+
+                //- 
+                td  -
+         
+                

@@ -1,0 +1,205 @@
+
+extends ../user/include/index-page-master-layout.pug
+
+block external_css 
+    link(href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet")
+
+
+block external_js
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+block internal_css
+
+block content 
+
+    section.relative
+
+        img(class='fixed top-0 left-0 bg-cover lg:w-full h-full z-[10]' src='https://i.pinimg.com/736x/87/93/73/87937304f81403887d2c7914af693c35.jpg')
+
+        div(class='fixed top-0 left-0 w-full h-full z-[15] bg-gray-600/70')
+
+        .container
+
+            #login-form-container
+
+                div(class='mt-8 sm:mt-16 mx-auto relative z-[20] border-2 border-white rounded-md bg-white/50 backdrop-blur-md shadow-xl max-w-[400px] md:max-w-[800px] shadow-xl transition duration-300 ease-in hover:shadow-2xl' )
+                    div(class='grid grid-cols-1 md:grid-cols-2')
+
+                        div(class='hidden md:flex md:flex-col border-r')
+                            //- .lottie-holder(class='h-96 aspect-square')
+                            //- 	lottie-player(src="/animations/admin-login/animate-admin-login.json" class='w-full h-full' background="transparent" speed="1", loop, autoplay)
+
+                            .g-seva-icon-holder(class='w-full  flex justify-center items-center flex-grow')
+                                img(src='/img/header-images/g-seval-globe.png' class='w-[60%] aspect-square' alt='G-Seva logo globe')
+
+                            //- div(class='h-16 py-2 px-1 flex items-center justify-center') 
+                            //- 	//- p(class='font-bold') G- सेवा
+                            //- 	img(src='/img/header-images/g-sevalogo-new-2.png')
+                        form(id='login-form' class='h-full px-8 py-8 flex flex-col justify-center')
+
+                            h6.mb-4(class='text-center font-bold text-xl underline underline-offset-8') #{gp.gp_name}
+
+                            h6.mb-4(class='text-center font-bold text-xl') GRAM LOGIN
+
+                            - let inputClassName = 'peer block bg-white w-full px-4 pt-6 pb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition duration-200'
+                            - let labelClassName = 'absolute text-gray-700 bg-white/70 rounded-sm px-1 left-3 -top-2.5 transition-all duration-200 peer-placeholder-shown:top-4 peer-placeholder-shown:left-4 peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:left-3 peer-focus:text-sm peer-focus:text-gray-800'
+
+
+                            if withoutLogin
+                                p#warning-text(data-continue=`${continueOn}` class='text-sm text-red-500 text-center') ग्राम लॉगिन एक्सेस करण्यासाठी लॉगिन करा.
+
+                            .input-fields-container(class='flex flex-col gap-4')
+
+                                //- Username
+                                .input-group(class='mb-3 px-lg-2')
+                                    div(class='relative')
+                                        input#login(class=`${inputClassName}` name='userName' type='text' placeholder=' ' required)
+                                        label(class=`${labelClassName}` for='login') Username
+
+                                //- Password 
+                                .input-group(class='mb-3 px-lg-2')
+                                    div(class='relative')
+                                        input#password(class=`${inputClassName}` name='password' type='password' placeholder=' ' required)
+                                        label(class=`${labelClassName}` for='password') Password
+
+                                .input-group#otp-box(class='mb-3 px-lg-2' style="display:none;")
+                                    div(class='relative')
+                                        input#otp(class=`${inputClassName}` name='otp' type='text' placeholder='' maxlength='6')
+                                        label(class=`${labelClassName}` for='otp') OTP
+
+                                    div
+                                        p(class='text-red-600 text-sm mt-2') * OTP प्राप्त करण्यासाठी 9561135790 या क्रमांकावर सकाळी 10.30 ते संध्याकाळी 6.00 या वेळेत संपर्क साधावा.
+
+                            .buttons-container 
+
+                                //- ORIGINALLY A LOGIN BUTTON, BUT NOW MAKING IT SEND OTP BUTTON, no change in functionality, just label change name
+                                button#login-btn(type='button' data-sendSendOtpBtn class='px-4 py-2 w-full rounded-md text-white font-bold tracking-wide bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-50 transition duration-200') Login
+                                button#loginWithOtpBtn(type='button' style="display:none;" data-loginWithOtpBtn class='px-4 py-2 w-full rounded-md text-white font-bold tracking-wide bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-200') Login With Otp
+                                
+
+
+block internal_js 
+    script.
+        $(document).ready(function() {
+
+            let otpBox = document.getElementById('otp-box')
+            let loginBtn = document.querySelector('[data-sendSendOtpBtn]');
+            let loginWithOtpBtn = document.querySelector('[data-loginWithOtpBtn]')
+
+            //- Authentication of the user 
+            $(document).on('click', '#login-btn', async function(e) {
+                e.preventDefault()
+
+                const $btn = $(this);
+                const originalText = $btn.text();
+
+                // disable button + loading text
+                $btn.prop('disabled', true).text('Sending OTP...');
+
+                const loginData = new FormData(document.getElementById('login-form'));
+
+                try {
+                    const _response = await fetch('/lCheck', {
+                        method: 'POST',
+                        body: loginData
+                    })
+
+                    const {call, message} = await _response.json();
+
+                    if(call == 1) {
+
+                        alertjs.success({
+                            t: 'SUCCESS',
+                            m: "सदर लॉगिन साठी OTP तुमच्या मोबाईल वर पाठवला आहे."
+                        }, () =>{
+                            otpBox.style.display = "block";
+                            document.getElementById('otp').setAttribute('required', 'required');
+                            loginBtn.style.display = "none";
+                            loginWithOtpBtn.style.display = "block";
+                        })
+
+                        return;
+                    }
+
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message
+                    })
+
+                } catch(err){
+                    console.error('Error whilte trying to login:', err)
+                    alertjs.warning({
+                        t: 'Error',
+                        m: 'Error while trying to login'
+                    })
+                } finally {
+                    // re-enable button
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            })
+
+
+            $(document).on('click', "#loginWithOtpBtn", async function(e){
+                e.preventDefault();
+
+                let otpValue = $('#otp').val();
+
+                if(!otpValue?.trim()){
+                    alertjs.warning({
+                        t: "Warning",
+                        m: 'Enter An Otp'
+                    })
+                    return;
+                }
+
+                const $btn = $(this);
+                const originalText = $btn.text();
+
+                // disable button + loading text
+                $btn.prop('disabled', true).text('Verifying OTP...');
+
+                const loginData = new FormData(document.getElementById('login-form'));
+
+                try {
+                    const _response = await fetch('/otpCheck', {
+                        method: 'POST',
+                        body: loginData
+                    })
+
+                    const {success, message} = await _response.json();
+
+                    if(success) {
+                        alertjs.success({
+                            t: 'SUCCESS',
+                            m: message
+                        }, () =>{
+                            const warningTextEl = document.getElementById("warning-text");
+                            let continueOn = null;
+
+                            if (warningTextEl) {
+                                continueOn = warningTextEl.getAttribute("data-continue");
+                            }
+
+                            window.location.href = continueOn ? continueOn : "/";
+                        })
+
+                        return;
+                    }
+
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message
+                    })
+
+                } catch(err){
+                    console.error('Error whilte trying to login:', err)
+                    alertjs.warning({
+                        t: 'Error',
+                        m: 'Error while trying to login'
+                    })
+                } finally {
+                    // re-enable button
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            })
+        })

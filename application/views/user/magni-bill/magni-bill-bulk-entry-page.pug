@@ -1,0 +1,88 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    script(src='/asstest/coustom/js/handlers/magni-bill/magni-bill-bulk-entry-page-handler.js' type='module' defer)
+
+    title मागणी लेख एकत्र नोंदणी
+
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        font-size: 90%;
+      }
+
+      tr, td, th {
+        border: 1px solid black;
+        padding: 0.2rem;
+      }
+
+      th {
+        text-align: center;
+      }
+
+  body
+    include ../include/navs.pug
+
+    .container
+      h2.heading-1.mt-2.mb-1 मागणी लेख एकत्र नोंदणी
+
+      a.btn.btn-primary.btn-sm.float-right(href='/magni-lekh') मागणी लेख यादी
+
+      //- .d-flex.align-items-center.justify-content-end
+
+
+      form(id='year-range-form')
+
+        .row(style="display: flex; justify-content: center; align-items: center;")
+          .col-2 
+            .form-group
+              label.form-label(for="") किमान रक्कम
+              input.form-control(name='min_amount') 
+
+          .col-2 
+            .form-group 
+              label.form-label कमाल रक्कम 
+              input.form-control(name='max_amount')
+
+          .col-4(style="display: flex; justify-content: flex-start; align-items: flex-end; gap: 1rem;")
+            button.btn.btn-primary(id='fetch-magni-lekh-entries-btn' type='button') नोंदी मिळवा
+            button.btn.btn-success(id='add-to-magni-lekh-bulk-btn' type='button') एकत्र नोंद करा
+
+        #table
+
+
+

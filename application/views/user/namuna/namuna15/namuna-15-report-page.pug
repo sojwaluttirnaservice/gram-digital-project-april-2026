@@ -1,0 +1,160 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // Common CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+        // Extra Bootstrap CSS
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous")
+
+        // JS Includes
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+        title Report - किरकोळ मागणी नोंदवही
+
+        // Custom JS Handler
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-15/namuna-15-report-page-handler.js' type='module' defer)
+
+        style.
+            /* Basic styles for the body */
+            body {
+                margin: 0;
+            }
+
+            .text-center {
+                text-align: center !important; 
+            }
+
+            /* Styles for the table */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center !important; 
+            }
+
+            th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            /* Print styles */
+            @media print {
+                body {
+                    margin: 0 !important; 
+                    padding: 0 !important; 
+                }
+
+                table {
+                    page-break-inside: auto;
+                }
+
+                tr {
+                    page-break-inside: avoid;
+                    page-break-after: auto;
+                }
+
+                th, td {
+                    font-size: 12pt !important; 
+                }
+
+                @page {
+                    size: A4;
+                    margin: 20mm !important; 
+                }
+            }
+
+    body
+        include ../../include/navs.pug
+
+        div(id='hide-buttons')
+
+            h5.text-center नमुना १५ (उपभोग्य वस्तूसाठा नोंदवही)
+            div(style='padding: 1rem 0rem;display: flex; align-items: center; justify-content: center; gap: 2rem;')
+                div(style='display:flex; gap: 1rem;')
+                    - let startYear = 2020
+                    - let currentYear = new Date().getFullYear()
+                    select.form-select(id='from-year')
+                        option(value='') -- Select -- 
+                        each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                            option(value=year) #{year}
+
+                    select.form-select(id='to-year')
+                        option(value='') -- Select -- 
+                        each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                            option(value=year) #{year}
+
+                button.btn.btn-primary(id='show-result-btn') Show Result
+                button.btn.btn-success(id='edit-report-btn') Edit
+                a.btn.btn-success(href='/namuna/15/edit') Edit All
+                button.btn.btn-secondary(id='show-all-result-btn') Show All
+                button.btn.btn-success(id="go-to-print-btn") Print Table
+
+        table
+            thead
+                tr 
+                    th(colspan='14')
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+                                div नमुना १५
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ नुसार (नियम ११ (१) व (२), २४ (२)(ग) २३, ३३(४)(घ),४७(२),५५(३३ व ५९ (३))
+
+                            div 
+                                div.text-center(style='font-size: 20px; margin-top:0.2rem;') उपभोग्य वस्तुसाठा लेखा नोंदणी वही
+
+                tr
+                    th(rowspan='2') अ.क्र.
+                    th(rowspan='2') तारीख
+                    th(rowspan='2') प्रारंभिक शिल्लक
+                    th(rowspan='2') मिळालेल्या वस्तुंची नाव
+                    th(rowspan='2') वस्तूंची संख्या किंवा परिमाण
+                    th(rowspan='2') एकूण
+                    th(rowspan='2') कोणास दिले किंवा कोणत्या प्रयोजनाकरिता
+                    th(rowspan='2') दिलेल्या वस्तुंची संख्या किंवा परिणाम
+                    th(rowspan='2') शिल्लक
+                    th(rowspan='2') वस्तु देणाऱ्या अधिकाऱ्यांचे नाव
+                    th(rowspan='2') वस्तु घेणाऱ्या अधिकाऱ्याचे नाव
+                    th(rowspan='2') शेरा
+
+            tbody(id='namuna-15-table-body')
+                each namunaEntryRow, index in namuna15Details
+                    tr 
+                        td #{index + 1}
+                        td #{namunaEntryRow._date}
+                        td #{namunaEntryRow.initial_quantity}
+                        td #{namunaEntryRow.received_item_name}
+                        td #{namunaEntryRow.item_quantity}
+                        td #{namunaEntryRow.total}
+                        td #{namunaEntryRow.purpose_or_receiver}
+                        td #{namunaEntryRow.issued_item_quantity}
+                        td #{namunaEntryRow.remaining_quantity}
+                        td #{namunaEntryRow.issuing_officer_name}
+                        td #{namunaEntryRow.receiving_officer_name}
+                        td #{namunaEntryRow.remarks}

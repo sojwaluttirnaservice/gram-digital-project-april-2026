@@ -1,0 +1,63 @@
+
+
+
+.my-print 
+
+    table(style='width: 100%;')
+
+        thead 
+
+            tr
+
+                th(rowspan='1' colspan='9') दोन (अ) राज्य शासन सहाय्यक अनुदाने जमा
+                //- th
+                //- th 
+                //- th 
+                //- th 
+                //- th 
+                //- th 
+                //- th 
+                //- th 
+                th(rowspan='1' colspan='2') दोन (ब) आमदार, खासदार डोंगरी विकास कार्यकार्यांतर्गत जि. ग्रा. वि. यंत्रणे कडून
+                //- th 
+
+            tr 
+                th(rowspan='1' colspan='1') शौचालय
+                th(rowspan='1' colspan='1') दलित वस्ती सुधार
+                th(rowspan='1' colspan='1') पाणी पुरवठा टी.सी. एल
+                th(rowspan='1' colspan='1') बांधकाम
+                th(rowspan='1' colspan='1') शिक्षण शाळा
+                th(rowspan='1' colspan='1') मानधन किमान वेतन व बैठक भत्ता
+                th(rowspan='1' colspan='1') आरोग्य 
+                th(rowspan='1' colspan='1') इतर
+                th(rowspan='1' colspan='1') एकूण (दोन)(अ) (१ ते ८)
+
+                th(rowspan='1' colspan='1') आलेला निधी
+                th(rowspan='1' colspan='1') एकूण (दोन) (अ + ब)
+
+            
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9]
+                    th #{num}    
+
+                each num in [1,2]
+                    th #{num}  
+
+        tbody 
+
+            tr 
+
+                td #{stateAuxiliaryGrants.toilet_fund}
+                td #{stateAuxiliaryGrants.dalit_vasti_improvement_fund} 
+                td #{stateAuxiliaryGrants.water_supply_tcl_fund} 
+                td #{stateAuxiliaryGrants.construction_fund} 
+                td #{stateAuxiliaryGrants.education_school_fund} 
+
+                td #{stateAuxiliaryGrants.minimum_wage_and_meeting_allowance_fund} 
+                td #{stateAuxiliaryGrants.health_fund} 
+                td #{stateAuxiliaryGrants.other_fund}
+                td #{stateAuxiliaryGrants.total_2a_1_to_8} 
+
+                td #{stateAuxiliaryGrants.received_fund} 
+                td #{stateAuxiliaryGrants.total_2_ab} 
+                

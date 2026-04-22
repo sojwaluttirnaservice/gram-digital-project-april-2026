@@ -1,0 +1,75 @@
+
+
+
+.my-print 
+
+    //- प्रपत्र 
+    table(style='width: 100%;')
+
+
+
+            
+        thead
+
+
+            tr 
+                th(colspan="12")
+                    div(style='text-align: center') प्रपत्र 'ग' सामान्य निधी
+                    div _____ - ___ वर्षातील #{gp.gp_dist} जिल्ह्यातील #{gp.gp_name} ग्रामपंचायतीच्या करासंबधीची मागणी, वसुली किंवा व फी वगैरेची येणे असलेली थकबाकी दर्शविणारे पत्रक
+            
+            tr
+                th(rowspan='2' colspan='1') अनु.क्र
+                th(rowspan='2' colspan='1') कराचे नाव
+                th(rowspan='2' colspan='1') वर्षाच्या आरंभी येणे असलेली बाकी
+
+                th(rowspan='2' colspan='1') वर्षासाठी केलेली मागणी
+                th(rowspan='2' colspan='1') वसूल करावयाची मागणी
+                th(rowspan='2' colspan='1') वसूल केलेली रक्कम
+                th(rowspan='2' colspan='1') सूट म्हणून दिलेली रक्कम
+
+                th(rowspan='1' colspan='3') वर्षाच्या अखेरीस असलेली थकबाकी
+                //- th
+                //- th 
+                
+                th(rowspan='2' colspan='1') वसुलीचे रोकडा प्रमाण
+                th(rowspan='2' colspan='1') वसुलीच्या कामासंबधीचा शेरा
+                
+
+            tr
+                //- th(rowspan='2' colspan='1')
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                th(rowspan='1' colspan='1') मागील थकबाकी
+                th(rowspan='1' colspan='1') चालू अखेरीस थकबाकी
+                th(rowspan='1' colspan='1') एकूण
+
+                //- th
+                //- th
+
+
+        - let dataGList = (prapatraG != null && prapatraG.data_list != null) ? JSON.parse(prapatraG.data_list) : [JSON.stringify([{value: 'Empty'}])]
+        - let sumG = new Array(11).fill(0)
+        tbody
+            each entryArray, entryIndex in dataGList 
+                tr
+                    td #{entryIndex + 1}
+                    - let sumGIndex = 0;
+                    each singleEntry in JSON.parse(entryArray)
+                        td #{singleEntry.value}
+                        - if (!isNaN(Number(singleEntry.value))) { sumG[sumGIndex] = (sumG[sumGIndex] || 0) + +singleEntry.value } else { sumG[sumGIndex] = sumG[sumGIndex] || ''; }
+                        //- td
+                        - sumGIndex += 1
+
+        tfoot 
+            tr 
+                td
+                td एकूण
+                
+                each entry in sumG.slice(1)
+                    td #{entry}
+                    

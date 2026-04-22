@@ -1,0 +1,263 @@
+.examEditMode
+  #modalManagePublish.modal.p-0.m-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+    .modal-dialog.p-0.m-0(role='document')
+      .modal-content.p-0.m-0
+        .modal-header
+          h5.publishModalTitle.modal-tilte Exams Name 
+          .d-inline-block#publishModalTab.navModalTab.nav.align-content-center(role='tablist')
+            button#publishExamsTab.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#publishExamsAction', role='tab', aria-controls='publishExamsAction', aria-selected='true')
+              | Publish
+            button#publishViewConfigTab.btn.btn-secondary.mr-2.btn-sm.d-none(data-toggle='tab', href='#publishViewConfigAction', role='tab', aria-controls='publishViewConfigAction', aria-selected='true')
+              | Config Exams
+            button#modaPublishDetailsTab.btn.btn-secondary.mr-2.btn-sm.d-none(data-toggle='tab', href='#modaPublishDetailsAction', role='tab', aria-controls='modaPublishDetailsAction', aria-selected='true')
+              | PublishDetails
+            button#publishViewQuestionPaperTab.btn.btn-success.mr-2.btn-sm.d-none(data-toggle='tab', href='#publishViewQuestionPaper', role='tab', aria-controls='publishViewQuestionPaper', aria-selected='true')
+              | View Paper
+            button#publishViewManageLegendsTab.btn.btn-success.mr-2.btn-sm.d-none(data-toggle='tab', href='#publishViewManageLegends', role='tab', aria-controls='publishViewManageLegends', aria-selected='true')
+              | Legends
+            button#publishViewManageStudentsTab.btn.btn-success.mr-2.btn-sm.d-none(data-toggle='tab', href='#publishViewManageStudentsAction', role='tab', aria-controls='publishViewManageStudentsAction', aria-selected='true')
+              | Paper
+          .d-inline-block#publishModalButton.align-content-end
+          
+        .modal-body#loadMathjsx.bg-light-gray
+          #nav-tabContentModal.tab-content
+            #publishInstructionSetAction.tab-pane.fade(role='tabpanel', aria-labelledby='publishInstructionSetAction')
+             .row#mainGraph.m-0.p-0
+                .col-12.m-0.p-0
+                  .card.m-0.p-0
+                    .card-body.m-0.p-0(style='height:85vh;overflow-y:scroll')
+                      .card-header
+                        strong.text-primary Instruction
+                        .form-group.d-inline.ml-2
+                          select.form-control.col-11.d-inline#selectLanguage(style="width:150px")
+                            option(value="0") English
+                            option(value="1") Marathi
+                        .form-group.d-inline.ml-2
+                          select.form-control.col-11.d-inline#selectPage(style="width:150px")
+                            option(value="0") Page One
+                            option(value="1") Page Two
+                        button.btn.btn-success#saveServerInstruction.float-right.mr-1 Save Set
+                      textarea#instructionData
+
+            #publishExamsSettingAction.tab-pane.fade(role='tabpanel', aria-labelledby='publishExamsSettingTab')
+              #stepTwoToggleGroup.row.p-0
+                // Arrangement & Grouping (Random Question)
+                .col-8.offset-2
+                  p.m-0.bg-primary.mr-2.p-1.text-white
+                    span.font-weight-bold.p-2 Common Exams Setting
+                    .card.card-body.m-0.mr-2.remove-radius.p-0
+                      table.table.m-0.table-bordered
+                        tbody
+                          tr
+                            th Show Marks Per Question
+                            td.text-center(width='10%')
+                              input.settingHnadler#enableMarkPerQuestion(data-size='sm', type='checkbox', data-toggle='toggle', data-on='Yes', data-off='No', data-onstyle='success', data-offstyle='danger')
+                          tr  
+                            th Select Clock Format
+                            td.text-center(width='10%')
+                              input.settingHnadler#clockType(data-width='100', type='checkbox', data-toggle='toggle', data-off='hh:mm:ss', data-on='mm:ss', data-onstyle='primary', data-offstyle='primary')
+                          tr  
+                            th Show Submit Button After
+                            td.text-center(width='20%')
+                              input.settingHnadler#setSubmitBtnIn.form-control(type="text",value="")
+                              small.text-danger#setMarksSubmited This Time Is In Minuets
+                          tr
+                            td(colspan="2")
+                              button#savePublishExamSetting.btn.btn-primary.float-right.btn-sm(data-pid="0") Save Changes
+            #publishViewConfigAction.tab-pane.fade(role='tabpanel', aria-labelledby='publishViewConfigTab')
+              .row
+            #publishViewManageLegends.tab-pane.fade(role='tabpanel', aria-labelledby='publishViewManageLegendsTab')
+              .row
+                .col-8.offset-2
+                  table.table.table-bordered.manageLegendsTable.mt-2
+                    thead
+                      tr
+                        th Sr.
+                        th Topic Name
+                        th Legend Name
+                        th Legend Priority
+                    tbody
+                .col-10
+                  button.btn.btn-primary.btn-sm.float-right.updateLegendList Update List   
+            #modaPublishDetailsAction.tab-pane.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='modaPublishDetailsTab')
+              .row
+                .col-10.offset-1
+                  .row
+                    .form-group.col-4
+                      label.text-primary(for="publishDate") Exams Name
+                      input.pExamName.examTyping.form-control(type="text" name="" data-settext=".publishModalTitle")  
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Total Question
+                      p.text-disable.pTotalQuestion.text-mute.font-weight-bold 150
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Total Marks
+                      p.text-disable.pTotalMatks.text-mute.font-weight-bold 100
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Duration
+                      p.text-disable.pDuration.text-mute.font-weight-bold 60 MIN
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Is Nigative
+                      p.text-disable.pIsNegative.text-mute.font-weight-bold YES
+                    .form-group.col-2
+                      label.text-primary(for="publishDate") Publish Date
+                      p.text-disable.pPublishDate.text-mute.font-weight-bold 25-01-2019
+                    .form-group.col-2.text-primary
+                      label Batch
+                      p.text-disable.pBatch.text-mute.font-weight-bold Batch-1
+                    .form-group.col-2.text-primary
+                      label Exams Type
+                      p.text-disable.pExamsType.text-mute.font-weight-bold 
+                    .form-group.col-2.text-primary
+                      label.d-block Exams Link
+                      p.text-disable.text-mute.font-weight-bold.pLinkText.d-block 1234
+                  hr 
+                  .row
+                    .col-12
+                      button.updateDetails.float-right.btn.btn-primary.btn-sm Update Details
+            #publishViewQuestionPaper.tab-pane.fade(role='tabpanel', aria-labelledby='publishViewQuestionPaperTab')
+              .row
+                .col-2.offset-10
+                  .form-group
+                    label#foundQuestion.text-success.font-weight-bold(for="") Question Found*
+                    select.form-control#QPViewSubjectFillter
+                      option(value = '0') All
+                      option(value = '1') Subject_1
+                      option(value = '2') Subject_2
+                      option(value = '3') Subject_3
+                      option(value = '4') Subject_4
+                      option(value = '5') Subject_5
+                      option(value = '6') Subject_6
+                      option(value = '7') Subject_6
+              .row#finalPaperTable(style="height:83vh;overflow-y:scroll")
+                .col-12
+                  table.table.table-bordered.printFinalQuestionTable.mt-2
+                    tbody
+                      tr
+                        td(width="2%").p-0.text-center
+                          | 1)
+                        td(width="96%").p-0
+                          .p-2(data-index='0', data-q='8229')
+                            span.question.d-block
+                              span.questionText.d-inline-block
+                                p
+                                  | Sasdasd asda sd a sd asd sapple sample Sample  dsfsdf sd f sd fs df sd f sd f  cffghgh asd asdas asdasd
+                            span.questionOptionView.d-block.ml-1.mt-3
+                              .questionOption.mt-2
+                                span.optionRadio.opActive A
+                                span.optionText
+                                  p ewrwr324asd a ds
+                              .questionOption.mt-2
+                                span.optionRadio B
+                                span.optionText
+                                  p werwerasfsfds
+                              .questionOption.mt-2
+                                span.optionRadio C
+                                span.optionText
+                                  p 234sdfsd 
+                              .questionOption.mt-2
+                                span.optionRadio D
+                                span.optionText
+                                  p werwesdfsdf
+                        td
+                          span.text-primary.m-1.hand.editQuestion(data-q='0')
+                            i.fa.fa-pencil(aria-hidden='true')
+                          span.text-danger.m-1.hand.deleteQuestion(data-q='8229', data-index='0')
+                            i.fa.fa-trash(aria-hidden='true')
+            #publishExamsAction.tab-pane.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='publishExamsTab')
+              .row
+                .col-10.offset-1
+                  .row
+                    .form-group.col-4
+                      label.text-primary(for="publishDate") Exams Name
+                      input.eExamName.form-control(type="text" name="")  
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Total Question
+                      p.text-disable.eTotalQuestion.text-mute.font-weight-bold 150
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Total Marks
+                      p.text-disable.eTotalMatks.text-mute.font-weight-bold 100
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Duration
+                      p.text-disable.eDuration.text-mute.font-weight-bold 60 MIN
+                    .form-group.col-2
+                      label.d-block.text-primary(for="") Is Negative
+                      p.text-disable.eIsNegative.text-mute.font-weight-bold YES
+                    .form-group.col-2
+                      label.text-primary(for="publishDate") Publish Date
+                      input.ePublishDate.form-control(type="text" name="publishDate" value="" placeholder="Select Date")  
+                    .form-group.col-2
+                      label Select Batch
+                      select.eBatch.form-control
+                        option(value="0") ---- Select ------
+                        option(value="1") Batch-1 
+                        option(value="2") Batch-2 
+                        option(value="3") Batch-3 
+                        option(value="3") Batch-4 
+                        option(value="3") Batch-5
+                        option(value="3") Batch-6 
+                        option(value="3") Batch-7 
+                        option(value="3") Batch-8 
+                        option(value="3") Batch-9 
+                        option(value="3") Batch-10 
+                    .form-group.col-2
+                      label Exams Type
+                      select.eExamType.form-control
+                        option(value="0") ---- Select ------
+                        option(value="1") JEE MAIN 
+                        option(value="2") MHT-CET(PCM) 
+                        option(value="3") MHT-CET(PCB)
+                    .form-group.col-1.p-0.m-0
+                      label.d-block Link
+                      button.eCreateLinkCode.btn.btn-info.d-block Create
+                    .form-group.col-1.pt-4
+                      p.text-disable.pt-3.h5.text-danger.examLinkText.d-block(style="margin-left: -40px !important;")
+                  hr 
+                  .row
+                    .col-12
+                      button.savePulishExams.float-right.btn.btn-primary.btn-sm Save Details
+            #publishViewManageStudentsAction.tab-pane.tab-pane.fade.show(role='tabpanel', aria-labelledby='publishViewManageStudentsTab')
+              .row
+                .col-12
+                  button.btn.btn-outline-success.btn-sm.float-right.manageStudentForExams
+                    i.fa.fa-user-circle-o 
+                    |&nbsp;Manage Student
+              .row
+                .col-12
+                  table.table.table-bordered.printStudentAddedForPost.mt-2
+                    thead
+                      tr
+                        th Sr.NO
+                        th Name
+                        th Mobile
+                        th Appication No.
+                        th Date Of Birth
+                    tbody.tbody
+            #publishAddManageStudentsAction.tab-pane.tab-pane.fade.show(role='tabpanel', aria-labelledby='publishAddManageStudentsTab')
+              .row
+                .col-2
+                  .form-group
+                    lable.text-secondary.font-weight-bold Student Applied Type*
+                    select.ml-3.form-control.candiatePostList
+                      option(value="1") PCM
+                      option(value="2") PCB
+                .col-3.p-0.m-0
+                  .form-group.p-0
+                    button.ml-2.mt-4.btn.btn-success.mr-2.saveCandidateListByPost Save
+                    button.mt-4.btn.btn-danger.cancelAddingStudent Cancel
+              .row
+                .col-10.offset-1
+                  table.table.table-bordered.mt-2.tableStudentList
+                    thead
+                      tr
+                        th(width="1%").text-center Sr.NO
+                        th(width="15%") Name
+                        th(width="4%") Mobile
+                        th(width="4%") Appication No.
+                        th(width="5%") DOB
+                    tbody.tbody
+                      tr
+                        td(colspan="5").text-center.text-danger 
+                          | Select A Post To Display
+    script.
+      $( ".ePublishDate" ).datepicker({ dateFormat: 'dd-mm-yy',minDate: new Date() });
+                  

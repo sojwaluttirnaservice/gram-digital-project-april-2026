@@ -1,0 +1,197 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        //- common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')  
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        //-mask plugin jquery
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+        //-toggle
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        //- extras
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        //- common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+        link(href='/asstest/coustom/css/certificates/death-certificate/death-certificate-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/certificates/death-certificate/death-certificate-form-handler.js')
+    body.w-100
+        include ../../include/navs.pug
+
+        section 
+            .container
+                div
+                    h2.heading-1.text-center मृत्यू नोंदणी फॉर्म
+                .text-end
+                    a.btn.btn-primary.text-light(href='/death-certificate') यादी बघा
+
+                form(id='death-certificate-form')
+                    .form.form-1.form-danger
+                        .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_deceased') मृताचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_deceased' placeholder='Name of Deceased / मृताचे नाव' required).mb-3
+                                    input.form-control(type='text' name='name_of_deceased_m' placeholder='मृताचे नाव (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='gender') लिंग
+                                    select.form-select.to-marathi(type='text' name='gender' placeholder='Gender / लिंग' required).mb-3
+                                        option(value='' selected disabled) -- Select --
+                                        each _gender in ['Male', 'Female', "Others"]
+                                            option(value=_gender) #{_gender}
+                                    input.form-control(type='text' name='gender_m' placeholder='लिंग (मराठीत)' required readonly)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_death') मृत्यू दिनांक 
+                                    input.form-control.to-marathi(type='text' maxLength='10' class='datepicker' name='date_of_death' placeholder='Date of Death / मृत्यू दिनांक' required).mb-3
+                                    input.form-control(type='text' name='date_of_death_m' maxLength='10' placeholder='मृत्यू दिनांक (मराठीत)' required)
+
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_death') आधार  क्रमांक 
+                                    input.form-control.to-marathi(type='text' maxLength='12' class='' name='aadhar_of_deceased' placeholder='Aadhar of deceased /आधार  क्रमांक' required).mb-3
+                                    input.form-control(type='text' name='aadhar_of_deceased_m' maxLength='12' placeholder='आधार  क्रमांक (मराठीत)' required)
+
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='place_of_death') मृत्यू ठिकाण 
+                                    input.form-control.to-marathi(type='text' name='place_of_death' placeholder='Place of Death / मृत्यू ठिकाण' required).mb-3
+                                    input.form-control(type='text' name='place_of_death_m' placeholder='मृत्यू ठिकाण (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='age_of_deceased') मृताचे वय 
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='3' name='age_of_deceased' placeholder='Age of Deceased / मृताचे वय' required).mb-3
+                                    input.form-control(type='text' name='age_of_deceased_m' maxLength='3' placeholder='मृताचे वय (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_husband_or_wife') पती/पत्नीचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_husband_or_wife' placeholder='Name of Husband/Wife / पती/पत्नीचे नाव').mb-3
+                                    input.form-control(type='text' name='name_of_husband_or_wife_m' placeholder='पती/पत्नीचे नाव (मराठीत)')
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='aadhar_number_of_husband_or_wife') पती/पत्नीचा आधार क्रमांक
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='12' name='aadhar_number_of_husband_or_wife' placeholder='Aadhaar No. of Husband/Wife / पती/पत्नीचा आधार क्रमांक' ).mb-3
+                                    input.form-control(type='text' name='aadhar_number_of_husband_or_wife_m' maxLength='12' placeholder='पती/पत्नीचा आधार क्रमांक (मराठीत)' )
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_mother') आईचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_mother' placeholder='Name of Mother / आईचे नाव' ).mb-3
+                                    input.form-control(type='text' name='name_of_mother_m' placeholder='आईचे नाव (मराठीत)' )
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='aadhar_number_of_mother') आईचा आधार क्रमांक
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='12' name='aadhar_number_of_mother' placeholder='Aadhaar No. of Mother / आईचा आधार क्रमांक' ).mb-3
+                                    input.form-control(type='text' name='aadhar_number_of_mother_m' maxLength='12' placeholder='आईचा आधार क्रमांक (मराठीत)' )
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_father') वडिलांचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_father' placeholder='Name of father / वडिलांचे नाव' ).mb-3
+                                    input.form-control(type='text' name='name_of_father_m' placeholder='वडिलांचे नाव (मराठीत)' )
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='aadhar_number_of_father') वडिलांचा  आधार क्रमांक
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='12' name='aadhar_number_of_father' placeholder='Aadhaar No. of father / वडिलांचा  आधार क्रमांक' ).mb-3
+                                    input.form-control(type='text' name='aadhar_number_of_father_m' maxLength='12' placeholder='वडिलांचा  आधार क्रमांक (मराठीत)' )
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='address_of_deceased_at_death_time') मृत्यूवेळी मृताचे पत्ता 
+                                    input.form-control.to-marathi(type='text' name='address_of_deceased_at_death_time' placeholder='Address of Deceased at Death Time / मृत्यूवेळी मृताचे पत्ता' required).mb-3
+                                    input.form-control(type='text' name='address_of_deceased_at_death_time_m' placeholder='मृत्यूवेळी मृताचे पत्ता (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='permanent_address_of_deceased') मृताचे कायमचे पत्ता 
+                                    input.form-control.to-marathi(type='text' name='permanent_address_of_deceased' placeholder='Permanent Address of Deceased / मृताचे कायमचे पत्ता' required).mb-3
+                                    input.form-control(type='text' name='permanent_address_of_deceased_m' placeholder='मृताचे कायमचे पत्ता (मराठीत)' required)
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_registration') नोंदणी दिनांक 
+                                    input.form-control.to-marathi(name='date_of_registration' maxLength='10' class='datepicker' placeholder='Date of Registration / नोंदणी दिनांक' required).mb-3
+                                    input.form-control(type='text' name='date_of_registration_m' maxLength='10' placeholder='नोंदणी दिनांक (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='informer_name')  माहिती देणाऱ्याचे नाव
+                                    input.form-control.to-marathi(name='informer_name' placeholder='माहिती देणाऱ्याचा पत्ता  (English)').mb-3
+                                    input.form-control(type='text' name='informer_name_m' placeholder='माहिती देणाऱ्याचा पत्ता  (मराठीत)' )
+
+                            .col-11.col-md-12.col-lg-12
+                                .form-group
+                                    label.form-label(for='informer_address') माहिती देणाऱ्याचा पत्ता  
+                                    input.form-control.to-marathi(name='informer_address' placeholder=' माहिती देणाऱ्याचा पत्ता  (English)' ).mb-3
+                                    input.form-control(type='text' name='informer_address_m' placeholder='माहिती देणाऱ्याचा पत्ता  (मराठीत)' )
+
+                            .col-11.col-md-12
+                                .form-group
+                                    label.form-label(for='reason_of_death') मृत्यूचे कारण 
+                                    input.form-control(type='text' name='reason_of_death' placeholder='Reason of Death / मृत्यूचे कारण (English)' required).mb-3
+                                    input.form-control(type='text' name='reason_of_death_m' placeholder='Reason of Death / मृत्यूचे कारण (मराठीत)' required)
+
+                            .col-11.col-md-12
+                                .form-group
+                                    label.form-label(for='date_of_death_in_words') मृत्यू दिनांक शब्दात 
+                                    input.form-control(type='text' name='date_of_death_in_words' placeholder='Date of Death in Words / मृत्यू दिनांक शब्दात' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='remarks') शेरा 
+                                    input.form-control(type='text' name='remarks' placeholder='Remarks (if any) / शेरा').mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='ps_registration_number') ग्रामपंचायत नोंदणी क्रमांक
+                                    input.form-control.to-marathi(type='text' name='gp_registration_number' placeholder='ग्रामपंचायत नोंदणी क्रमांक' ).mb-3
+
+                            //- .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='created_on') अर्ज दिनांक 
+                                    input.form-control(type='text' class='datepicker' maxLength='10' name='अर्ज दिनांक' placeholder='Date of Application / प्रमाणपत्र दिनांक').mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_issue') प्रमाणपत्र दिनांक 
+                                    input.form-control(type='text' class='datepicker' maxLength='10' name='date_of_issue' placeholder='Date of Issue / प्रमाणपत्र दिनांक').mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group 
+                                    label.form-label(for='') ग्रामपंचायत नोंदणी मृत्यू अहवाल
+                                    input.form-control(type='file' accept='image/*' name='gpRegistrationDeathReportFile')
+
+                    .button-container
+                        button.btn.btn-primary(type='submit' id='save-death-certificate-btn') Submit
+

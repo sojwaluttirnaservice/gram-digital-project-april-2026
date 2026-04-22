@@ -1,0 +1,37 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            |  याद्वारे जाहीर 
+            span(class="font-extrabold") #{declarer}
+            |  की, ग्रामपंचायत नोंदीत माझे नाव 
+            span(class="font-extrabold")
+                | #{selfDeclaration.misspelledNameM || selfDeclaration.misspelledNameE}
+            |  असे नोंदलेले असून माझे खरे व योग्य नाव 
+            span(class="font-extrabold")
+                | #{selfDeclaration.correctNameM || selfDeclaration.correctNameE}
+            |  असे आहे.
+
+        p(class="mt-3")
+            | तरी कृपया ग्रामपंचायत अभिलेखामध्ये माझ्या नावाची आवश्यक ती दुरुस्ती / बदल करून द्यावा,
+            |  ही नम्र विनंती.
+
+        p(class="mt-3")
+            | मी दिलेली माहिती खरी व बरोबर असून भविष्यात ती चुकीची आढळल्यास त्याची संपूर्ण जबाबदारी माझी राहील.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद

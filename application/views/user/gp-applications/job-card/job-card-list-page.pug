@@ -1,0 +1,256 @@
+extends ../../include/internal-gp-master-layout.pug 
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    // ================= MODALS =================
+    include ./job-card-report-modal.pug
+    //- include ./job-card-application-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        // ================= HEADER =================
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                -
+                    let background = {
+                        pending: 'oklch(86.9% 0.022 252.894)',
+                        accepted: 'oklch(90.5% 0.093 164.15)',
+                        rejected: 'oklch(88.5% 0.062 18.334)',
+                        resolved: 'oklch(70.4% 0.14 182.503)'
+                    }
+                -
+                    let statuses = {
+                        pending: 'प्रलंबित',
+                        accepted: 'मान्य',
+                        rejected: 'रद्द',
+                        resolved: 'पूर्त'
+                    }
+
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-id-card.me-2
+                                | #{statuses[status]} जॉब कार्ड अर्ज यादी
+                            p.mb-0.text-muted.small #{statuses[status]} जॉब कार्ड अर्ज खाली दर्शविले आहेत.
+
+                        div.d-flex(style='gap:1rem;')
+                            button.btn.btn-secondary.btn-sm(
+                                data-bs-toggle="modal"
+                                data-bs-target="#print-report-modal"
+                            )
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(href='/gp-applications/job-card/list') #{statuses['pending']} जॉब कार्ड अर्ज
+
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(
+                                    href=`/gp-applications/job-card/list?status=accepted&sort=${sort}`
+                                ) #{statuses['accepted']} जॉब कार्ड अर्ज
+
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(
+                                    href=`/gp-applications/job-card/list?status=rejected&sort=${sort}`
+                                ) #{statuses['rejected']} जॉब कार्ड अर्ज
+
+                            //- if status != 'resolved'
+                                a.btn.btn-success.btn-sm(
+                                    style='background: oklch(60% 0.118 184.704);'
+                                    href=`/gp-applications/job-card/list?status=resolved&sort=${sort}`
+                                ) #{statuses[resolved]} जॉब कार्ड अर्ज
+
+
+        // ================= TABLE =================
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                // ===== Sorting =====
+                div.mb-4
+                    div.d-flex.align-items-center(style='gap:0.75rem;')
+                        label.small.fw-bold.mb-0 क्रमवारी :
+                        select#job-card-sort-order.form-select.form-select-sm(style='width:160px;')
+                            option(value='desc' selected=(sort=='desc')) नवीन आधी
+                            option(value='asc' selected=(sort=='asc')) जुने आधी
+
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width='8%') अर्ज क्र.
+                                        th(width='18%') कुटुंब प्रमुख
+                                        th(width='14%') संपर्क
+                                        th(width='20%') अर्ज तपशील
+                                        th(width='10%') अर्ज प्रत
+                                        th(width='15%') नोंदणी दिनांक
+                                        th(width='5%') SMS
+
+                                        if status != 'resolved'
+                                            th(width='10%') Action
+
+                                tbody#jobCardApplications
+                                    if !jobCardApplications || jobCardApplications.length === 0
+                                        tr
+                                            td.text-center.text-danger.py-4(colspan='8')
+                                                i.fa.fa-info-circle.me-2
+                                                | #{statuses[status]} जॉब कार्ड अर्ज यादी रिक्त आहे.
+                                    else
+                                        each jobCard, index in jobCardApplications
+                                            tr
+                                                // ===== ID =====
+                                                td.text-center
+                                                    span.badge.bg-secondary #{jobCard.id}
+
+                                                // ===== Family Head =====
+                                                td
+                                                    strong #{jobCard.family_head_name}
+                                                    br
+                                                    small.text-muted अर्जदार:
+                                                    span.ms-1 #{jobCard.applicant_name}
+
+                                                // ===== Contact =====
+                                                td.text-center
+                                                    i.fa.fa-phone.text-muted.me-1
+                                                    | #{jobCard.applicant_mobile || '-'}
+
+                                                // ===== Details =====
+                                                td.text-center
+                                                    button.btn.btn-sm.btn-outline-primary.view-job-card-details-btn(
+                                                        type='button'
+                                                        data-jobCard=JSON.stringify(jobCard)
+                                                    )
+                                                        i.fa.fa-eye.me-1
+                                                        | तपशील बघा
+                                                
+                                                td.text-center
+                                                    a.btn.btn-sm.btn-info(href=`/gp-applications/job-card/j/${jobCard.id}` target='_blank')
+                                                        i.fa.fa-print
+
+                                                // ===== Date =====
+                                                td.text-center
+                                                    span.small.text-muted नोंदणी दिनांक
+                                                    br
+                                                    span.fw-semibold #{jobCard._createdAt}
+
+                                                // ===== SMS =====
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSJobCard(
+                                                        data-id=jobCard.id
+                                                        title='संदेश पाठवा'
+                                                    )
+
+                                                // ===== Actions =====
+                                                if status != 'resolved'
+                                                    td.text-center
+                                                        div.d-flex.justify-content-center(style='gap:0.6rem;')
+
+                                                            if status == 'pending'
+                                                                button.btn.btn-success.btn-sm.accept-job-card-btn(
+                                                                    type='button'
+                                                                    data-jobCard=JSON.stringify(jobCard)
+                                                                    data-jobCardId=jobCard.id
+                                                                ) Accept
+
+                                                                button.btn.btn-danger.btn-sm.reject-job-card-btn(
+                                                                    type='button'
+                                                                    data-jobCard=JSON.stringify(jobCard)
+                                                                    data-jobCardId=jobCard.id
+                                                                ) Reject
+
+                                                            //- else if status == 'accepted'
+                                                                button.btn.btn-success.btn-sm.resolve-job-card-btn(
+                                                                    type='button'
+                                                                    data-jobCard=JSON.stringify(jobCard)
+                                                                    data-jobCardId=jobCard.id
+                                                                ) Resolve
+
+                                                            if status == 'accepted'
+                                                                a.btn.btn-info.revoke-job-card-btn(href=`/gp-applications/job-card/card/${jobCard.id}` style='display:block; height:2.3rem;' target="_blank") 
+                                                                    i.fa.fa-print
+
+
+                                                            if status == 'rejected'
+                                                                a.btn.btn-success.btn-sm(
+                                                                    type='button'
+                                                                    href=`/gp-applications/job-card/edit/${jobCard.id }`
+                                                                    data-jobCard=JSON.stringify(jobCard)
+                                                                    data-jobCardId=jobCard.id
+                                                                ) Edit                                                                
+                                                            if (status == 'accepted' || status == 'rejected')
+                                                                button.btn.btn-secondary.btn-sm.revoke-job-card-btn(
+                                                                    type='button'
+                                                                    data-jobCard=JSON.stringify(jobCard)
+                                                                    data-jobCardId=jobCard.id
+                                                                ) Revoke
+
+
+    //- ACCEPTANCE MODAL
+    .modal(tabindex='-1' id='accept-job-card-modal')
+        .modal-dialog(class='modal-dialog-centered')
+            .modal-content(class='shadow-lg rounded-3')
+                .modal-header(class='bg-success text-white')
+                    h5.modal-title(class='mb-0')
+                        i(class='fa fa-check-circle me-2')
+                        | जॉब कार्ड अर्ज स्वीकारा
+                    button(type='button' class='btn-close btn-close-white' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                    form#accept-job-card-form
+                        .mb-3
+                            label(for='applicant_name' class='form-label fw-semibold') अर्जदाराचे नाव
+                            input(type='text' name='applicant_name' class='form-control' readonly)
+
+                        .mb-3
+                            label(for='job_card_number' class='form-label fw-semibold') जॉब कार्ड नंबर
+                            input(type='text' name='job_card_number' class='form-control' value="MH")
+                        .mb-2
+                            label(for='acceptance_remark' class='form-label fw-semibold') 
+                                i(class='fa fa-comment-dots me-1 text-muted')
+                                | शेरा
+                            textarea(name='acceptance_remark' class='form-control' placeholder='शेरा लिहा (ऐच्छिक)')
+                        input(name='id' hidden required)
+                .modal-footer(class='justify-content-between')
+                    button(type='button' class='btn btn-sm btn-outline-secondary' data-bs-dismiss='modal')
+                        i(class='fa fa-times me-1')
+                        | बंद करा
+                    button(type='submit' id='accept-job-card-btn' class='btn btn-sm btn-success')
+                        i(class='fa fa-check me-1')
+                        | स्वीकारा
+
+    //- REJECTION MODAL
+    .modal(tabindex='-1' id='reject-job-card-modal')
+        .modal-dialog(class='modal-dialog-centered')
+            .modal-content(class='shadow-lg rounded-3')
+                .modal-header(class='bg-danger text-white')
+                    h5.modal-title(class='mb-0')
+                        i(class='fa fa-times-circle me-2')
+                        | जॉब कार्ड अर्ज नाकारा
+                    button(type='button' class='btn-close btn-close-white' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                    form#reject-job-card-form
+                        .mb-3
+                            label(for='applicant_name' class='form-label fw-semibold') अर्जदाराचे नाव
+                            input(type='text' name='applicant_name' class='form-control' readonly)
+                        .mb-2
+                            label(for='rejection_remark' class='form-label fw-semibold')
+                                i(class='fa fa-comment-dots me-1 text-muted')
+                                | नकाराचे कारण
+                            textarea(name='rejection_remark' class='form-control' placeholder='नकार देण्याचे कारण लिहा')
+                        input(name='id' hidden required)
+                .modal-footer(class='justify-content-between')
+                    button(type='button' class='btn btn-sm btn-outline-secondary' data-bs-dismiss='modal')
+                        i(class='fa fa-times me-1')
+                        | बंद करा
+                    button(type='submit' id='reject-job-card-btn' class='btn btn-sm btn-danger')
+                        i(class='fa fa-ban me-1')
+                        | नाकारा
+
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/job-card/job-card-applications-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/gp-applications/job-card/job-card-applications-list-page-sorting-handler.js')

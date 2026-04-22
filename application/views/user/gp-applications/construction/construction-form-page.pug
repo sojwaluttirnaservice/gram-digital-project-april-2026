@@ -1,0 +1,197 @@
+extends ../../include/index-page-master-layout.pug
+
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { 
+                opacity: 0; 
+            } 
+            100% { 
+                opacity: 1; 
+            } 
+        }
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider')
+                | #{t("constructionApplicationPage.heading")}
+
+    section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden')
+        .container
+            form(id='construction-application-form' class='md:w-[80%] mx-auto flex flex-col gap-4')
+
+                // ===============================
+                // अर्जदाराची माहिती
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | #{t("constructionApplicationPage.form.heading")}
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.malmattaDharakName.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='malmatta_dharak_name' class='py-1 px-2 outline-none bg-stone-100 flex-grow' placeholder=t("constructionApplicationPage.form.inputs.malmattaDharakName.placeholder") required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.mobile.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-phone')
+                                    input(type='text' name='applicant_mobile' class='py-1 px-2 outline-none bg-stone-100 flex-grow' maxlength='10' placeholder=t("constructionApplicationPage.form.inputs.mobile.placeholder") required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.adhar.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-id-card')
+                                    input(type='text' name='applicant_adhar' class='py-1 px-2 outline-none bg-stone-100 flex-grow' maxlength='12' placeholder=t("constructionApplicationPage.form.inputs.adhar.placeholder") required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.gpName.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-building')
+                                    input(type='text' name='gp_name' class='py-1 px-2 outline-none bg-stone-100 flex-grow' readonly value=gp.gp_name)
+
+                            .input-group(class='px-2 md:col-span-1')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.address.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-start gap-2')
+                                    i(class='fas fa-map-marker-alt mt-2')
+                                    textarea(name='applicant_address' class='py-1 px-2 outline-none bg-stone-100 flex-grow' rows='2' placeholder=t("constructionApplicationPage.form.inputs.address.placeholder") required)
+
+                            .input-group(class='px-2 md:col-span-1')
+                                label(class='font-bold tracking-wider') Application Date
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-start gap-2')
+                                    i(class='fas fa-map-marker-alt mt-2')
+                                    input.datepicker(name='application_date' class='py-1 px-2 outline-none bg-stone-100 flex-grow' placeholder='e.g.00-00-0000' required)
+
+                            
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.applicationSubject.label")}
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-file')
+                                    input(type='text' name='application_subject' class='py-1 px-2 outline-none bg-stone-100 flex-grow' value='इमारत बांधकामासाठी नकाशानुसार बांधकाम परवानगी मिळणे बाबत' required)
+
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') #{t("constructionApplicationPage.form.inputs.malmattaNo.label")}
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                    i(class='fas fa-hashtag')
+                                    input(type='text' name='malmatta_no' class='py-1 px-2 outline-none bg-stone-100 flex-grow' placeholder=t("constructionApplicationPage.form.inputs.malmattaNo.placeholder") required)
+
+                // ===============================
+                // आवश्यक कागदपत्रे
+                // ===============================
+
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | #{t("constructionApplicationPage.form.documents.heading")}
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md flex flex-col gap-3')
+
+                        - 
+                            const mandatoryDocuments = [
+                                {
+                                    mr: "खरेदी नोंदणी कागदपत्रे",
+                                    en: "Sale Deed / Purchase Registration Document",
+                                    hi: "खरीद पंजीकरण दस्तावेज"
+                                },
+                                {
+                                    mr: "अर्जदाराच्या नावाचा ७/१२ उतारा",
+                                    en: "7/12 Extract in Applicant's Name",
+                                    hi: "आवेदक के नाम पर 7/12 उतारा"
+                                },
+                                {
+                                    mr: "ग्रामपंचायत नमुना क्र. ८",
+                                    en: "Gram Panchayat Form No. 8",
+                                    hi: "ग्राम पंचायत नमूना नं. 8"
+                                },
+                                {
+                                    mr: "बांधकामाचा अंदाजपत्रक (Estimate)",
+                                    en: "Construction Cost Estimate",
+                                    hi: "निर्माण अनुमान"
+                                },
+                                {
+                                    mr: "बांधकामाचा नकाशा",
+                                    en: "Building Layout / Construction Map",
+                                    hi: "निर्माण नक्शा"
+                                },
+                                {
+                                    mr: "अधिकृत अभियंत्याचे प्रमाणपत्र",
+                                    en: "Authorized Engineer Certificate",
+                                    hi: "अधिकृत अभियंता प्रमाणपत्र"
+                                }
+                            ];
+
+
+
+                        each doc, idx in mandatoryDocuments
+                            .input-group(class='px-2 grid grid-cols-1 md:grid-cols-2 gap-2 items-center')
+                                div 
+                                    label(class='font-bold tracking-wider') #{doc[language]} 
+                                        span(class='text-red-500 font-bold') &nbsp; *
+                                    input(type='text' name='mandatory_document_name_'+(idx+1) class='py-1 px-2 outline-none bg-stone-100 border border-stone-300 rounded-md w-full' readonly value=doc['mr'])
+                                div 
+                                    label(class='hidden md:block opacity-0')  read only label
+                                    input(type='file' name='mandatory_document_file_'+(idx+1) class='py-1 px-2 outline-none bg-stone-100 border border-stone-300 rounded-md w-full' required)
+
+                        //- Optional documents container
+                        #optional-documents-container(class='flex flex-col gap-2')
+
+                        .buttons-container(class='flex flex-wrap gap-2 mt-2')
+                            button(type='button' id='add-optional-doc' class='px-4 py-1 rounded-md bg-blue-600 text-white font-bold hover:bg-blue-700') #{t("constructionApplicationPage.form.documents.addOptionalBtn")} 
+
+                // ===============================
+                // चारही दिशांचे फोटो
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | #{t("constructionApplicationPage.form.landmarkPhotos.heading")}
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            - let labels = { east: "पूर्व (East)", west: "पश्चिम (West)", north: "उत्तर (North)", south: "दक्षिण (South)" };
+
+                            each icon, dir in { east: 'fa-arrow-right', west: 'fa-arrow-left', north: 'fa-arrow-up', south: 'fa-arrow-down' }
+                                .input-group(class='px-2')
+                                    label(class='font-bold tracking-wider') #{labels[dir]} दिशा फोटो (Direction Photo)
+                                    .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                        i(class='fas '+icon)
+                                        input(type='file' accept="image/*" name=dir+'_landmark_image_name' class='py-1 px-2 outline-none bg-stone-100 flex-grow')
+
+                                        input(type='text' name=dir + '_landmark_image_longitude' hidden)
+                                        input(type='text' name=dir + '_landmark_image_latitude' hidden)
+
+
+                div 
+                    p(id='warning-text' style='display: none;' class='text-sm text-red-500') #{t("constructionApplicationPage.form.landmarkPhotos.locationWarning")} 
+
+                .buttons-container(class='text-center mt-4')
+                    button(type='submit' id='save-construction-application-btn' class='px-10 py-2 rounded-md bg-emerald-600 text-white font-bold hover:bg-emerald-700')
+                        | #{t("constructionApplicationPage.form.saveBtn")}
+
+                    
+                    
+                    button(type='button' id='grant-location-access' style='display: none;' class='px-10 py-2 rounded-md bg-gray-600 text-white font-bold hover:bg-emerald-700')
+                        | #{t("constructionApplicationPage.form.landmarkPhotos.grantLocationBtn")}
+ 
+                
+
+block internal_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/construction/construction-application-form-handler.js')

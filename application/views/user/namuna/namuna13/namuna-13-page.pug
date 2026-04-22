@@ -1,0 +1,145 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-13/namuna-13-page-handler.js' type='module' defer)
+
+    title कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+    style.
+
+        label.error {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        thead, tbody, th, tr, td {
+            border: 1px solid black !important;
+        }
+
+body
+    include ../../include/navs.pug
+
+    .container 
+        div.my-4
+            .text-center
+                h2.heading-1 नमुना १३ (कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही)
+
+            div.d-flex.gap-4.justify-content-center.mb-4
+
+                div 
+                    select.form-select(name='show-report-by')
+
+                        option(value='-1') --Select Report Type--
+
+                        option(value='1') फक्त वर्ष
+                        option(value='2') वर्ष श्रेणी
+                        option(value='3') महिना व वर्ष
+
+                - let startYear = 2020
+                - let currentYear = new Date().getFullYear()
+
+                div(id='show-report-by-div')
+                    div(data-target='1' style='display:none')
+                        div.d-flex.gap-2
+                            select.form-select(name='selected_year' id='selected-year')
+                                option(value='') -- Select --
+                                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                    option(value=year) #{year}
+
+                    div(data-target='2' style='display:none')
+                        div.d-flex.gap-2
+
+                            div
+                                select.form-select(name='selected_from_year' id='selected-from-year')
+                                    option(value='') -- Select --
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                        option(value=year) #{year}
+
+                            div 
+                                select.form-select(name='selected_to_year' id='selected-to-year')
+                                    option(value='') -- Select --
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                                        option(value=year) #{year}
+
+                    div(data-target='3' style='display:none')
+                        div.d-flex.gap-2
+                            div
+                                select.form-select(name='selected_month' id='selected-month')
+                                    option(value='-1') --Select Month --
+                                    - for(let month = 1; month <= 12; month++)
+                                        option(value=month)= month
+
+                            div
+                                select.form-select(name='selected_year_2' id='selected-year-2')
+                                    option(value='') -- Select Year--
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                        option(value=year) #{year}
+                //- div
+                    button.btn.btn-success(type='button' id='submit-all-entries-btn' role='button' aria-label='Submit all form entries' data-action='submit-all') Submit All
+
+                div
+                    button.btn.btn-secondary(id='show-namuna-13-report-btn') Report
+
+                a.btn.btn-primary.float-right(href='/namuna/13/post/create') पद नोंदणी
+                a.btn.btn-primary.float-right(href='/namuna') नमुने
+
+
+            .table-responsive
+
+                table.table
+                    thead 
+                        tr 
+                            th अ. क्र
+                            th पदनाम
+                            th पदांची संख्या
+                            th मंजूर पदे
+
+
+                            th आदेश दिनांक
+                            th.text-center एडीट पद
+                            th.text-center कर्मचारी नोंदणी / यादी
+
+                    tbody
+                        each post, index in posts
+                            tr 
+                                td #{index + 1}
+                                td #{post.post_name}
+                                td #{post.post_count}
+                                td #{post.approved_post}
+
+                                td #{post._order_date}
+                                td
+                                    .d-flex.justify-content-center.gap-2
+                                        a.btn.btn-success.btn-sm(href=`/namuna/13/post/edit/${post.id}`)
+                                            i.fa.fa-pencil
+
+                                td
+                                    .d-flex.justify-content-center.gap-2
+                                        button.btn.btn-primary.btn-sm(class='namuna-13-create-employee-btn' data-approvedPosts=post.approved_post  data-postId=post.id data-link=`/namuna/13/create/${post.id}`) नोंदणी
+                                        a.btn.btn-secondary.btn-sm(href=`/namuna/13/list/${post.id}`) यादी
+

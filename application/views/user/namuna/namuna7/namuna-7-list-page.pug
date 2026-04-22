@@ -1,0 +1,84 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../include/internal-gp-master-layout.pug
+
+
+block content 
+
+    div.container-fluid.mt-4 
+
+
+        .row.justify-content-center
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-file-powerpoint.me-2
+                                | नमुना ७ यादी 
+                                if taxCategory == "SAMANYA"
+                                    span.text-danger (सामान्य)
+                                else if taxCategory == "SAMANYA"
+                                    span.text-danger (पाणी)
+                                else
+                                    span.text-danger (सर्व)
+                                span(style="font-size: 0.9rem;") (एकूण: #{namuna7Entries ? namuna7Entries.length : 0})
+                            //- p.mb-0.text-muted.small 
+                        div.d-flex(style='gap:1rem;')
+
+
+                            a.btn.btn-secondary(href='/namuna/7/list') नमुना 7 सर्व यादी
+                            a.btn.btn-secondary(href='/namuna/7/list?taxCategory=SAMANYA') नमुना 7 सामान्य यादी 
+                            a.btn.btn-secondary(href='/namuna/7/list?taxCategory=PANI') नमुना 7 पाणी यादी
+                            a.btn.btn-secondary(href="/namuna/7/dakhle-pay-list?for=samanya") नमुना ७ सामान्य प्रिंट 
+                            a.btn.btn-secondary(href="/namuna/7/dakhle-pay-list?for=pani") नमुना ७ पाणी प्रिंट 
+                            a.btn.btn-primary.btn-sm(href="/namuna/7/form")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+            .col-11.mt-4
+
+
+                .table-responsive
+                    table.table.table-bordered.table-striped
+                        thead
+                            tr
+                                th अ. क्र.
+                                th नमुना ७ क्र. 
+                                th पावती धारकाचे नाव
+                                th दिनांक
+                                th पैसे कशासाठी
+                                th रक्कम
+
+                                th पेमेंट पावती क्रमांक
+                                th पेमेंट प्रकार
+                                th व्यवहार क्रमांक
+
+
+
+                        tbody
+                            each _entry, _index in namuna7Entries
+                                tr
+                                    td #{_index + 1}
+                                    td #{_entry.id}
+                                    td #{_entry.recipient_name}
+                                    td #{_entry._date}
+                                    td #{_entry.payment_for == 19 ? `${paymentTypesMap[_entry.payment_for]}-${_entry.reason_in_words}` : paymentTypesMap[_entry.payment_for]}
+                                    td #{_entry.amount}
+
+                                    td #{_entry.ps_payment_information_id_fk}
+                                    td #{_entry.payment_medium}
+
+                                    td
+                                        if _entry.payment_medium === 'CHEQUE'
+                                            | #{_entry.check_no}
+                                        else if _entry.payment_medium === 'DEMAND_DRAFT'
+                                            | #{_entry.demand_draft_no}
+                                        else if _entry.payment_medium === 'RTGS'
+                                            | #{_entry.rtgs_no}
+                                        else if _entry.payment_medium === 'UPI'
+                                            | #{_entry.transaction_number}
+                                        else if _entry.payment_medium === 'OTHER'
+                                            | #{_entry.other_id_name} - #{_entry.other_id}
+                                        else
+                                            | -

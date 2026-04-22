@@ -1,0 +1,177 @@
+doctype html
+html(lang='mr')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        title व्यवसाय ना हरकत प्रमाणपत्र अर्ज
+
+        script(src='https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4')
+
+        link(rel='preconnect' href='https://fonts.googleapis.com')
+        link(rel='preconnect' href='https://fonts.gstatic.com', crossorigin)
+        link(href='https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&display=swap' rel='stylesheet')
+
+        style.
+            body {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+            .line {
+                border-bottom: 1px dotted black;
+                display: inline-block;
+                width: 220px;
+                height: 14px;
+                vertical-align: bottom;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 20mm;
+            }
+            @media print {
+                @page {
+                    border: 1px solid black;
+                }
+                .hide-print {
+                    display: none !important;
+                }
+                body {
+                    background: white;
+                    margin: 0;
+                    padding: 0;
+                }
+                #print {
+                    width: 210mm !important;
+                    margin: 0 !important;
+                    box-shadow: none !important;
+                }
+                .print-page {
+                    box-shadow: none !important;
+                    margin: 0 !important;
+                    min-height: auto !important;
+                    max-width: 210mm !important;
+                    page-break-after: always;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+                
+                @page {
+                    width: 210mm;
+                    height: 297mm;
+                    border: 2px solid black;
+                    background-image: url("/img/water-mark-images/Seal_of_Maharashtra.png")
+                }
+            }
+
+    body(class='bg-gray-100 text-black text-[15px] leading-[1.9]')
+        div(class='hide-print fixed top-1/2 right-4 z-50')
+            button(onclick='window.print()' class='bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow') Print
+
+        div(id='print' class='w-[210mm] mx-auto my-6')
+            div(class='print-page bg-white')
+                div(class='p-12')
+
+                    div(class='font-bold flex flex-col items-center gap-2 text-center')
+                        div(class='text-[26px] font-bold')
+                            p कार्यालय ग्रामपंचायत :
+                                span(class='font-bold') #{gp.gp_name}
+
+                        div(class='text-[20px]')
+                            span पंचायत समिती :
+                            span(class='font-bold') #{gp.gp_taluka},
+                            span जिल्हा :
+                            span(class='font-bold') #{gp.gp_dist}
+                            br
+                            span(class='text-[14px] font-normal')
+                                | दिनांक :
+                                span &nbsp; #{new Date().toLocaleDateString('en-GB').replace(/\//g, '-')}
+
+                    div(class='flex justify-between text-[14px] leading-[1.8] mb-6 mt-6')
+                        div
+                            | वाचा :
+                            br
+                            span(class='font-semibold') १) महाराष्ट्र प्रदूषण नियंत्रण मंडळाने सुचना केलेल्या उपाय योजना पत्र क्र. एमपीसीबी / जेडी / एपीसी / बी-५३७० दि. २९/०९/२०११
+                            br
+                            span(class='font-semibold') २) अर्जदाराचा अर्ज दिनांक 
+                            span #{occupationNoc._createdAt}
+                            br
+                            span(class='font-semibold') ३) ग्रामपंचायत सभा दि. 
+                            span #{occupationNoc._sabha_date}
+                            span(class='font-semibold')  &nbsp; ठराव क्र. 
+                            span #{occupationNoc.resolution_no}
+
+                    h1(class='text-center text-[24px] font-bold my-8 tracking-wide') व्यवसाय ना हरकत प्रमाणपत्र
+
+                    div(class='text-justify text-lg mb-4')
+                        | प्रमाणपत्र देण्यात येते की, अर्जदार श्री/श्रीमती 
+                        span(class='font-bold') #{occupationNoc.applicant_name}
+                        |  रा. 
+                        span(class='font-bold') #{occupationNoc.applicant_address}
+                        |  ता. 
+                        span(class='font-bold') #{occupationNoc.applicant_taluka}
+                        |  जि. 
+                        span(class='font-bold') #{occupationNoc.applicant_district}
+                        |  यांना मौजे 
+                        span(class='font-bold') #{gp.gp_name}
+                        |  मिळकत क्र. 
+                        span(class='font-bold') #{occupationNoc.malmatta_no}
+                        |  या ठिकाणी कुक्कुटपालन व्यवसाय करण्यास ग्रामपंचायत कार्यालयाची कोणतीही हरकत नाही.
+
+
+
+                    div(class='text-[14px] leading-[1.8] text-justify mt-6')
+                        p(class='text-xl font-bold') अटी व शर्ती :
+                        div(class='list-decimal text-base pl-5 mt-2 space-y-3')
+                            - 
+                                const poultryConditions = [
+                                        'सदरील व्यवसायासाठी शासकीय नियमानुसार आवश्यक असणाऱ्या संबंधित विभागाची परवानगी घेणे बंधनकारक राहील',
+                                        'पोल्ट्री फार्ममुळे पिण्याच्या पाण्याचे स्त्रोत, अगर नदी नाला  प्रवाह प्रदूषित होणार नाही, याची खबरदारी घेण्यात यावी.',
+                                        'कुक्कुट शेडची दिशा पूर्व - पश्चिम असावी म्हणजे सूर्य प्रकाश सरळ आत येणार नाही शेडची जमिनीपासून ची उंची 3 फूट ठेवण्यात यावी व पक्षी गृहाचे तळ सिमेंट कॉक्रेटचे असले पाहिजे',
+                                        'पोल्ट्रींच्या अवतीभवती वृक्ष लागवड करावी. पोल्ट्री फार्म ला जाळीचे कुंपण करण्यात यावे',
+                                        'पोल्ट्रींग जमिनीचे काँक्रिटीकरण/ फरशी, नाली, पक्के गटार, सांडपाणी सेफ्टीक  टाकी यंत्रणा, सोकपीट व कंपोस्ट खड्डे तयार करण्यात यावे. पोल्ट्रींग चे नियमित निर्जीतुकीकरण करावे पक्षी कंटाई नंतर तयार होणाऱ्या कचऱ्याची शास्त्रोक्त पद्धतीने विल्हेवाट लावावी',
+                                        'जागेची निवड करताना शेड लोकवस्ती पासून तसेच हायवे पासून दूर असावे. कारण आवाज गडबड गोंधळ इ.मुळे पक्षांवर ताण येतो.',
+                                        'ज्या पोल्ट्रीत  कत्तलखाना असेल असे पोल्ट्री फार्म मानवी वस्ती पासून दूरवर असावेत.',
+                                        'कुक्कुट पालकाने पक्षासाठी पुरेपूर हवा खेळती राहिल याकडे लक्ष दिले पाहिजे. वायू प्रदूषण होणार नाही याकडे लक्ष दयावे.',
+                                        'कुक्कुट पालन अनुक्रमे अंडी उंबवणे व पिल्ले वाढवणे यामुळे प्रदूषण कमी प्रमाणात होते परंतु त्याचे शेड निर्जतुकीकरण पशुसंवर्धन विभागाच्या सूचनानुसार करणे आवश्यक आहे.',
+                                        'जे पक्षी मटणासाठी वापरले जातात त्यांना रेड कक्षात मोजले पाहिजे जाते. त्याचे कटाई कक्ष मानवी वस्ती व पाण्याच्या साठ्यापासून सुरक्षित अंतरावर असले पाहिजेत. शक्यतो व्यवस्थित रस्ता असावा व जमीन खडकाळ व उतरणीवर असावी म्हणजे पावसाचे पाणी साचणार नाही.',
+                                        'कुक्कुट पालन करणे पक्षीगृहाचे नियमित निर्जीतूकरण फवारणी करून साफसफाई ठेवली पाहिजे जेणेकरून कुठल्याही प्रकारचे प्रदूषण होणार नाही',
+                                        'कुकुट पालकाने कुक्कुट पक्षाची विस्टा पंखे व त्याचे इतर प्रकारचे उपयोगात न येणारे अवयवाची वैज्ञानिक पद्धतीने विल्हेवाट लावली पाहिजे',
+                                        'कुकुट पालक आणि पक्षी पत्ता साठी काँग्रेसचे खड्डे तयार करून त्यावर मातीयुक्त थर देण्यात यावा जेणेकरून त्याचा शेतीसाठी खत म्हणून वापर करण्यात येईल',
+                                        'कुकुट पक्षाची विष्ठा टाकण्याचे काँक्रेट टाकी नियमित स्वच्छ करून घ्यावेत व ते मानवी वस्ती पासून सुरक्षित अंतरावर असावेत जेणेकरून हवेद्वारे त्याची दुर्गंधी येणार नाही',
+                                        'कुक्कुट पक्षाची विस्तार 24 तासाच्या आत उचलली गेली पाहिजे जेणेकरून त्यावर जंतू वाढणार नाही.',
+                                        'कुक्कुटपालकाने आपल्या पक्षाचे सर्व लसीकरण,निर्जतुकीकरण  इत्यादी नोंद ठेवली पाहिजे आणि मरतुक झालेले पक्षी खोल खड्ड्यात पुरले पाहिजेत, जेणेकरून पाळीव कुत्रे किंवा पक्षी येते येणार नाहीत  व त्यामुळे आरोग्याचा प्रश्न निर्माण होणार नाही.',
+                                        'कुक्कुट पक्षाची मुलमंत्र वाहण्याच्या गटार वेगळे बांधण्यात यावेत, जेणेकरून पावसाच्या पाण्यात ते मिसळणार नाही',
+                                        'योग्य प्रकारची रासायनिक स्प्रे नियमित फवारण्यात यावेत, जेणेकरून दुर्गंधी येणार नाही तसेच शेडमध्ये माश्या, उंदीर, घूस, मांजर, चिमण्या व कावळे इ. येणार नाहीत याची काळजी घ्यावी नवीन पक्षीशेड बांधताना नजीकच्या पशुधन विकास अधिकारी यांच्याशी संपर्क साधावा',
+                                        'पक्षाची मरतूक होत असेल तर ताबडतोब जवळच्या पशुवैद्यकीय अधिकाऱ्यास सूचित करणे आवश्यक आहे जेणेकरून भविष्यात आरोग्याच्या दृष्टीने काळजी घेणे शक्य होईल.'
+                                    ]
+
+                            
+                            each point, _index in poultryConditions
+                                p 
+                                    span(class='w-12 text-right') #{_index + 1}. 
+                                    span #{point}
+
+                            div(class='w-full block') 
+                                div(class='h-[5rem] opacity-10') 
+                                    each __ in Array.from({length:250})
+                                        span _                    
+
+                            
+
+                    div(class='text-justify mt-6')
+                        p ग्रामपंचायतने नमूद केलेल्या सर्व अटी व शर्तींचे पालन होत नसल्याचे आढळून आल्यास, सदर ना हरकत प्रमाणपत्र रद्द करण्याचे सर्व अधिकार ग्रामपंचायतीकडे राहतील.
+                        p वरील सर्व अटी व शर्तींच्या अधीन राहून सदर ना हरकत प्रमाणपत्र देण्यात येत आहे.
+
+
+                    div(class='flex justify-between mt-14 text-[14px]')
+                        div
+                            | सरपंच
+                            br
+                            | ग्रामपंचायत :
+                            span(class='font-bold') #{gp.gp_name}
+
+                        div
+                            | ग्रामपंचायत अधिकारी
+                            br
+                            | ग्रामपंचायत :
+                            span(class='font-bold') #{gp.gp_name}
+
+                    

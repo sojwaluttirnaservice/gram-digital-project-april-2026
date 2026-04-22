@@ -1,0 +1,100 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title बचतगट उपक्रम यादी
+
+        // CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+
+        // JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        // ✅ Updated initiative handler
+        script(src='/asstest/coustom/js/handlers/gp/women-saving-groups/initiative-list-page-handler.js')
+
+        style.
+            .error {
+                color: red !important;
+                font-style: italic !important;
+                font-weight: 700 !important;
+            }
+            body {
+                background-color: #fff3e9 !important;
+                min-height: 100vh;
+            }
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+            }
+            .table thead th {
+                vertical-align: middle;
+            }
+
+    body
+        include ../../include/navs.pug
+
+        .container-fluid
+            .row
+                .col-12.mt-3
+                    .page-header
+                        h4.text-center.mb-0.text-success
+                            i.fa.fa-lightbulb-o.mr-2
+                            | बचतगट उपक्रम / कामे नोंदी
+                        a(href="/wg-initiatives/add" class="btn btn-primary btn-sm")
+                            i.fa.fa-plus-circle.mr-1
+                            | नवीन उपक्रम जोडा
+
+            .row
+                .col-12
+                    .table-responsive.mt-3(style='margin-bottom: 5rem;')
+                        table.table.table-bordered.table-hover.text-center
+                            thead
+                                tr.bg-success.text-white
+                                    th(width="10%") अनु क्र.
+                                    th(width="75%") उपक्रमाचे / कामाचे वर्णन
+                                    th(width="7%") संपादन
+                                    th(width="8%") हटवा
+
+                            tbody#initiativesList
+                                if !initiatives || initiatives.length === 0
+                                    tr.bg-warning.text-dark
+                                        td(colspan='4') कोणतेही उपक्रम उपलब्ध नाहीत.
+                                else
+                                    each initiative, index in initiatives
+                                        tr
+                                            td #{index + 1}
+                                            td.text-capitalize #{initiative.point_desc}
+                                            td
+                                                a.btn.btn-outline-primary.btn-sm(
+                                                    href=`/wg-initiatives/edit/${initiative.id}`,
+                                                    title="संपादन करा",
+                                                    target="_blank"
+                                                )
+                                                    i.fa.fa-edit
+                                            td
+                                                button.btn.btn-outline-danger.btn-sm.delete-initiative-btn(
+                                                    data-initiative-id=`${initiative.id}`,
+                                                    title="हटवा"
+                                                )
+                                                    i.fa.fa-trash

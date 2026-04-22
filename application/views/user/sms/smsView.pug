@@ -1,0 +1,302 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")   
+
+    //google fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+    link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+
+    //- 5.3 version bootstrap css
+    link(rel="stylesheet" href="/asstest/plugins/bootstrap-5.3.2/css/bootstrap.min.css")
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/sms/smsHandler.js')
+
+    //- 5.3 version bootstrap script
+    script(src="/asstest/plugins/bootstrap-5.3.2/js/bootstrap.min.js")
+
+    //- Excel sheet cdn
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js')
+
+    title #{title}
+    style.
+
+        .title-primary {
+            font-weight: bold;
+            font-size: 1.3rem;
+            background-color: #DC3545;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            min-width: 30rem;
+            box-shadow: 1px 1px 4px #DC3545;
+            text-transform: uppercase;
+        }
+        .title-secondary {
+            font-weight: bold;
+            background-color: #ebe8e8;
+            color: black;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+            box-shadow: 1px 1px 4px #DC3545;
+            border-radius: 0.5rem;
+        }
+        .sms-page-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: center;
+            justify-content: center;
+
+            max-width: 40%;
+        }
+
+        .grid-el {
+            display: flex;
+            flex-direction: column;
+        }	
+
+        .smsTemplateInput{
+            display: inline-block;
+            width: fit-content !important;
+        }
+
+        .smsTemplateInput:focus {
+            outline: none;
+            box-shadow: 0 0 5px 0.5px #DC3545;
+        }
+
+        .form-control:focus{
+            box-shadow: 0 0 5px 0.5px #DC3545;
+        }
+
+        .input-field:focus {
+            border: none;
+            outline: none;
+        }
+
+        .button {
+            cursor: pointer;
+            margin-top: 0.9rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: transparent;
+            font-weight: bold;
+            color: white;
+            background-color: #DC3545;
+            transition: 0.3s ease;
+            box-shadow: 1px 1px 4px #DC3545;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sms-section select:focus {	
+            outline: none;
+        }
+
+        .sms-section option {
+            border-radius: 0.5rem;  
+            color: black;
+        }
+
+        #send-sms-btn{
+            padding: 0.4rem 2rem;
+            font-weight: 600;
+        }
+
+        #send-sms-btn:focus{
+            outline: none;
+        }
+
+        .sms-toggling-buttons{
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            gap: 1rem;
+        }
+        .heading-1 {
+            font-weight: bold !important;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #bb2525;
+            border-radius: 15px;
+            border: 2px solid #bb2525;
+            display: block;
+            text-align: center;
+            padding: 8px;
+            margin-bottom: 1.4rem;
+            width: fit-content;
+            margin: 0 auto 2rem auto;
+
+        }
+
+        label{
+            font-weight:600;
+        }
+
+
+        #template-preview.active{
+            box-shadow:0 0 10px 2px  #e9ecef;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        label.error {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        //- .is-invalid{
+        //- 	color: black;
+        //- }
+
+
+
+body 
+    include ../include/navs.pug
+    section.py-4.sms-section
+        .container
+
+
+
+            h3.heading-1 सेंड मेसेज
+
+            .sms-toggling-buttons 
+                button.btn.btn-primary#switchToSmsViewBtn Send SMS 
+                //- button.btn.btn-success#switchToCreateTemplateBtn Add SMS template
+
+                a(href='/sms/report' class='btn btn-secondary') Report
+
+                a(class='btn btn-secondary' href='/sms/templates-page') Templates
+
+
+            #smsViewDiv.py-4 
+                form#sendSmsForm.row.px-2.gy-3
+                    .col-4
+                        div.d-flex.flex-column.mb-4 
+                            label(for='senderId') Sender ID 
+                            select.form-select(id='senderId' name='sender_id') 
+                                option(value='-1') -- Select Sender Id --
+                                each senderId in JSON.parse(senderList)
+                                    option(value=senderId.sender_id) #{senderId.sender_id}
+                    .col-4
+                        div.d-flex.flex-column.mb-4
+                            label(for='smsTemplate') Select Template
+                            select.form-select(id='smsTemplate')
+                                option(value='-1') -- Select Template -- 
+                                //- #smsTemplateOptions
+
+                    //- was for pinnacle
+                    //- .col-4
+                    //- 	div.d-flex.flex-column.mb-4 
+                    //- 		label(for='headerId') Header Id
+                    //- 		input.form-control(type='text' id='headerId' name='header_id')
+
+                    //- for digiweapons comp
+                    .col-4
+                        div.d-flex.flex-column.mb-4 
+                            label(for='entityId') Entity Id 
+                            input.form-control(type='text' id='entityId' name='entity_id')
+
+                    .col-12
+                        div#template-preview
+                    .col-12 
+                        div.d-flex.flex-column.mb-4.mt-2
+                            label(for='smsPreview') Preview SMS
+                            textarea.form-control(cols="80" rows="5" name="sms" id='smsPreview' readonly)
+
+
+
+
+                            div
+                                div.mt-3#units-count Count: 0 &emsp; Units: 1
+
+
+                                div(style='width:300px;')
+
+                                    label Select Input Type for Mobile Number
+                                    select.form-select(type='' id='select-way')
+                                        option(value='1')  Excel 
+                                        option(value='2') Custom
+                                        option(value='3') नागरिक
+                                        option(value='4') मालमत्ता धारक (नमुना ८)
+                                        option(value='5') पदाधिकारी / ग्रामसदस्य
+
+                                div(class='views' class='pt-2')
+
+                                    div(class='view-select' data-viewId='1')
+
+                                        div 
+                                            a(href='/asstest/sample-files/sms/sample-mobile-numbers.xlsx') Download Sample Excel
+
+                                        div.ms-auto.mt-2 Select Mobile Numbers List 
+                                            input#candidate-excel-sheet-input(type='file')
+                                            button.btn.btn-secondary#upload-candidate-sheet-btn(type='button') Upload Sheet 
+
+                                    div(class='view-select' data-viewId='2')
+                                        textarea.form-control(type='text' name='custom_mobile_number_string' placeholder='Enter your mobile number here separated by comma (e.g. 9090112233,8421282799)' rows='4')
+
+                    .col-12   
+                        button.btn.btn-primary#send-sms-btn(type='button') Send
+
+                    .col-12
+                        label(for='candidateMobileNumbers').mb-2.fw-semibold Candidate Mobile Numbers:
+                        div(id='warning-div' style='display: none; color: red; font-size: 1.2rem;') 
+                        #mobile-count
+                        textarea.form-control#candidateMobileNumbers(cols='80' rows='10' name='mobile'  readonly)
+
+
+            #createSmsTemplateDiv.py-4
+                form#createTemplateForm.px-2.row.gx-3.gy-4
+                    .col-6
+                        label.form-label(for="sender_id") Sender Id
+                        input.form-control#sender_id(type="text" name="sender_id" aria-describedby="emailHelp")
+                    .col-6
+                        label.form-label(for="template_id") Template Id
+                        input.form-control#template_id(type="text" name='template_id')
+                    .col-6
+                        label.form-label(for="template_name") Template Name
+                        input.form-control#template_name(type="text" name='template_name')
+
+                    .col-6 
+                        label.form-label(for='header_id') Header Id
+                        input.form-control#header_id(type='text' name='header_id')
+
+                    .col-12
+                        label.form-label(for="template_string") Template SMS content
+                        textarea.form-control#template_string(type="text" name='template_string')
+                        #template_string_help.form-text To enter the dynamic data, type '{#var#}' 
+
+                    .col-12.text-center
+                        button.btn.btn-primary#submit-new-template-btn(type="button") Submit

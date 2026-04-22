@@ -1,0 +1,222 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ३१ प्रवास भत्ता देयक 
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='21' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना ३१ प्रवास भत्ता देयक 
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४(२) (ग)(२) पहा)
+
+                            //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
+
+
+                tr 
+                    th(colspan='21')
+                        | प्रवास भत्ता देयक
+                tr
+                    //- 1 to 2
+                    th(rowspan='3') सरपंच/उपसरपंच /सदस्य यांचे नाव
+                    th(rowspan='3') कार्यालयाचे ठिकाण
+
+                    //- 3 to 8
+                    th(rowspan='1' colspan='6') कार्यालयीन प्रवासाचा तपशील
+
+                    //- 9
+                    th(rowspan='3') रेल्वे(मेल, पसेंजर), बोट, रस्त्यावरून धावणाऱ्या/ट्रोली यापैकी केलेल्या प्रवासाचे साधन
+
+                    //- 10 to 12
+                    th(rowspan='1' colspan='3') रेल्वे / बोटीचे नाव
+
+                    //- 13 to 15
+                    th(rowspan='1' colspan='3') रस्त्याने किंवा ट्रोलीने केलेल्या प्रवासाकरिता मेल भत्ता
+
+                    th(rowspan='1' colspan='3') दैनिक भत्ता
+
+                    th(rowspan='3') प्रवासाचे कारण
+                    th(rowspan='3') प्रत्येक स्तंभाची बेरीज
+
+                    th(rowspan='3') शेरा
+
+                tr 
+                    //-1 to 2
+                    //- th
+                    //- th
+
+                    //- 3 to 5
+                    th(rowspan='1' colspan='3') निगमन
+                    //- 6 to 8
+                    th(rowspan='1' colspan='3') आगमन
+
+                    //-  9
+                    //- th
+
+                    //- 10 to 12
+                    th(rowspan='2' colspan='1') वर्ग
+                    th(rowspan='2' colspan='1') तिकिटांची संख्या
+                    th(rowspan='2' colspan='1') रक्कम
+
+
+                    //- 13 to 15
+                    th(rowspan='2' colspan='1') किमी
+                    th(rowspan='2' colspan='1') दर
+                    th(rowspan='2' colspan='1') रक्कम
+
+                    //- 16 to 18 
+                    th(rowspan='2' colspan='1') दिवसाची संख्या
+                    th(rowspan='2' colspan='1') दर
+                    th(rowspan='1' colspan='1') रक्कम
+
+                    //- 19 to 21
+                    //- th
+                    //- th
+                    //- th
+
+
+                tr 
+                    //-1 to 2
+                    //- th
+                    //- th
+
+                    //- 3 to 5
+                    th(rowspan='1' colspan='1') ठिकाण
+                    th(rowspan='1' colspan='1') दिनांक
+                    th(rowspan='1' colspan='1') वेळ
+
+                    //- 6 to 8
+                    th(rowspan='1' colspan='1') ठिकाण
+                    th(rowspan='1' colspan='1') दिनांक
+                    th(rowspan='1' colspan='1') वेळ
+
+                    //-  9
+                    //- th
+
+                    //- 10 to 12
+                    //- th
+                    //- th
+                    //- th
+
+                    //- 13 to 15
+                    //- th
+                    //- th
+                    //- th
+
+                    //- 16 to 18 
+                    //- th
+                    //- th 
+                    //- th
+
+                    //- 19 to 21
+                    //- th
+                    //- th
+                    //- th
+
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+                        th #{num}
+
+            tbody
+
+                each namuna31Entry, index in namuna31Details 
+                    //- each namuna31Entry, index in Array(20).fill(paymentnamuna31Entry).flat()
+                    tr 
+                        td #{namuna31Entry.name_of_person}
+                        td #{namuna31Entry.office_location}
+
+                        td #{namuna31Entry.departure_place}
+                        td #{namuna31Entry._departure_date}
+                        td #{namuna31Entry._departure_time}
+
+                        td #{namuna31Entry.arrival_place}
+                        td #{namuna31Entry._arrival_date}
+                        td #{namuna31Entry._arrival_time}
+
+
+                        td #{namuna31Entry.means_of_travel}
+
+                        td #{namuna31Entry.rail_boat_name_class}
+                        td #{namuna31Entry.ticket_count}
+                        td #{namuna31Entry.ticket_amount}
+
+                        td #{namuna31Entry.road_distance_km}
+                        td #{namuna31Entry.road_rate_per_km}
+                        td #{namuna31Entry.road_amount}
+
+                        td #{namuna31Entry.daily_allowance_days}
+                        td #{namuna31Entry.daily_allowance_rate}
+                        td #{namuna31Entry.daily_allowance_amount}
+
+                        td #{namuna31Entry.travel_reason}
+                        td #{namuna31Entry.total_travel_amount}
+                        td #{namuna31Entry.remarks}

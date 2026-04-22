@@ -1,0 +1,56 @@
+#modalViewExmasResult.modal.p-0.m-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+  .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+    .modal-content(style="max-width:100%; height:100vh")
+      .modal-header
+        h5.modalTitle.modal-tilte Result Manager
+        .d-inline-block#navModalTab.navModalTab.nav.align-content-center(role='tablist')
+          button#viewExmaResultTab.btn.mr-2.btn-sm.btn-primary.active.d-none(data-toggle='tab', href='#viewExmaResultAction', role='tab', aria-controls='viewExmaResultAction', aria-selected='true')
+            | Result
+          button.closeModal.btn.btn-danger.btn-sm(data-mname="#modalViewExmasResult") Exit
+      .modal-body#loadMathjsx
+        #nav-tabContentModal.tab-content
+          #viewExmaResultAction.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='viewExmaResultTab')
+            .row
+             .col-12
+                .text-center
+                  table.table.table-bordered.examsResultTable.m-0.p-0
+                    thead.text-primary
+                      tr
+                        th.p-0.m-0(width='15%') Student Name
+                        th.p-0.m-0(width='6%') T. Socre
+                        th.p-0.m-0(width='6%') T. % ile
+                        th.p-0.m-0(width='8%') Sub 1 Name
+                        th.p-0.m-0(width='8%') Sub 1 Socre
+                        th.p-0.m-0(width='8%') Sub 1 % ile
+
+                        th.p-0.m-0(width='8%') Sub 2 Name
+                        th.p-0.m-0(width='8%') Sub 2 Socre
+                        th.p-0.m-0(width='8%') Sub 2 % ile
+
+                        th.p-0.m-0(width='8%') Sub 3 Name
+                        th.p-0.m-0(width='8%') Sub 3 Socre
+                        th.p-0.m-0(width='8%') Sub 3 % ile
+
+                        th.p-0.m-0(width='10%') DOB
+                        th.p-0.m-0(width='2%') QP
+
+                    tbody.text-secondary
+                      tr
+                        td.p-0.m-0(width='5%') 100
+                        td.p-0.m-0(width='10%') Deepak Shinde
+                        td.p-0.m-0(width='6%') 105
+                        td.p-0.m-0(width='6%') 69.21354
+                        td.p-0.m-0(width='8%') Biology
+                        td.p-0.m-0(width='8%') 196
+                        td.p-0.m-0(width='8%') 99.123456
+
+                        td.p-0.m-0(width='8%') Biology
+                        td.p-0.m-0(width='8%') 196
+                        td.p-0.m-0(width='8%') 99.123456
+
+                        td.p-0.m-0(width='8%') Biology
+                        td.p-0.m-0(width='8%') 196
+                        td.p-0.m-0(width='8%') 99.123456
+
+                        td.p-0.m-0(width='10%') 24061990
+             

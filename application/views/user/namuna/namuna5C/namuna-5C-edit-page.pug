@@ -1,0 +1,161 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-18/namuna-18-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-18/namuna-18-create-entry-page-handler.js' type='module' defer)
+
+
+    //- does note exists yet
+    title Edit नमुना १८ - किरकोळ रोकडवही
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../include/navs.pug
+
+    .container
+      h2.heading-1.mt-2.mb-1 Edit नमुना १८ - किरकोळ रोकडवही
+
+
+      if namuna18Entry
+
+        form(id='namuna-18-form').mt-1
+          .form.form-1
+            h4.text-center.fw-bold नमुना १८ नोंदणी
+
+            .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+              .col-11.col-md-6.col-lg-3
+                .form-group
+
+                  input(name='id' value=namuna18Entry.id hidden) 
+
+                  label.form-label(for="month") महिना
+                  select.form-select(id="month" name="month" required)
+                    option(value='') --निवडा--
+                    option(value="1" selected=(namuna18Entry.month == '1' ? 'selected' : '')) ०१ (जानेवारी)
+                    option(value="2" selected=(namuna18Entry.month == '2' ? 'selected' : '')) ०२ (फेब्रुवारी)
+                    option(value="3" selected=(namuna18Entry.month == '3' ? 'selected' : '')) ०३ (मार्च)
+                    option(value="4" selected=(namuna18Entry.month == '4' ? 'selected' : '')) ०४ (एप्रिल)
+                    option(value="5" selected=(namuna18Entry.month == '5' ? 'selected' : '')) ०५ (मे)
+                    option(value="6" selected=(namuna18Entry.month == '6' ? 'selected' : '')) ०६ (जून)
+                    option(value="7" selected=(namuna18Entry.month == '7' ? 'selected' : '')) ०७ (जुलै)
+                    option(value="8" selected=(namuna18Entry.month == '8' ? 'selected' : '')) ०८ (ऑगस्ट)
+                    option(value="9" selected=(namuna18Entry.month == '9' ? 'selected' : '')) ०९ (सप्टेंबर)
+                    option(value="10" selected=(namuna18Entry.month == '10' ? 'selected' : '')) १० (ऑक्टोबर)
+                    option(value="11" selected=(namuna18Entry.month == '11' ? 'selected' : '')) ११ (नोव्हेंबर)
+                    option(value="12" selected=(namuna18Entry.month == '12' ? 'selected' : '')) १२ (डिसेंबर)
+
+              .col-11.col-md-6.col-lg-2
+                .form-group
+                  label.form-label(for="year") वर्ष
+                  select.form-select(id="year" name="year" required)
+                    option(value='') --निवडा--
+                    - let currentYear = new Date().getFullYear()
+                    - let startYear = currentYear - 25
+                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                      option(value=year selected=(namuna18Entry.year == year ? 'selected' : '')) #{year}
+
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="date") दिनांक
+                  input.form-control.datepicker(type="text" id="date" name="date" value=namuna18Entry._date required placeholder="दिनांक")
+
+              .col-11.col-md-6.col-lg-4
+                .form-group
+                  label.form-label(for="reference-number") धनादेश क्रमांक / प्रमाणपत्र क्रमांक
+                  input.form-control(type="text" id="reference-number" name="reference_number" value=namuna18Entry.reference_number required placeholder="क्रमांक")
+
+              .col-11.col-md-12.col-lg-6
+                .form-group
+                  label.form-label(for="sender-receiver-details") कोणाकडून प्राप्त झाले / कोणाला दिले
+                  textarea.form-control(id="sender-receiver-details" name="sender_receiver_details" rows="3" required placeholder="कोणाकडून प्राप्त झाले / कोणाला दिले")= namuna18Entry.sender_receiver_details
+
+              .col-11.col-md-12.col-lg-6
+                .form-group
+                  label.form-label(for="details") तपशील
+                  textarea.form-control(id="details" name="details" rows="3" required placeholder="तपशील")= namuna18Entry.details
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="amount") रक्कम
+                  input.form-control(type="number" id="amount" name="amount" value=namuna18Entry.amount required placeholder="रक्कम")
+
+              .col-11.col-md-12.col-lg-3
+                .form-group
+                  label.form-label(for="advance-transactions") अग्रीम / अग्रीमातून खर्च
+                  input.form-control(type="number" id="advance-transactions" name="advance_transactions" value=namuna18Entry.advance_transactions placeholder="अग्रीम / अग्रीमातून खर्च")
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="total-amount") एकूण रक्कम
+                  input.form-control(type="number" id="total-amount" name="total_amount" value=namuna18Entry.total_amount required placeholder="एकूण रक्कम")
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="transaction-type") हिशोब प्रकार
+                  select.form-select(id="transaction-type" name="transaction_type" required)
+                    option(value='') --निवडा--
+                    option(value="CREDIT" selected=(namuna18Entry.transaction_type == 'CREDIT' ? 'selected' : '')) जमा (CREDIT)
+                    option(value="DEBIT" selected=(namuna18Entry.transaction_type == 'DEBIT' ? 'selected' : '')) खर्च (DEBIT)
+
+
+
+
+              //- .col-11.col-md-12.col-lg-12
+                .form-group
+                  label.form-label(for="remarks") टीप
+                  input.form-control(id="remarks" name="remarks" placeholder="टीप")
+
+            .d-flex.gap-4.justify-content-center
+              button.btn.btn-success(type='button' id="update-namuna-18-entry") Update
+              button.btn.btn-secondary(type='reset' id='reset') Reset
+
+      else 
+        h4.fw-bold.text-center संबंधित नोंद उपलब्ध नाही
+

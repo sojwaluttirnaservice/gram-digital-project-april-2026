@@ -1,0 +1,81 @@
+extends ./master-layout
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/education-details-upload-handler.js' defer)
+	script.
+		let educationInstituteList = !{JSON.stringify(educationInstituteList)}
+block custom_css 
+	style.
+		a{
+			text-decoration: none;
+		}
+
+block content
+
+	- let isMasterView = (typeof isMasterPanel == 'undefined' || isMasterPanel) 
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center.mb-5
+			.col-12
+				h4.text-center शिक्षण
+			.col-12.mt-2
+				.row.gy-5.gx-2.justify-content-center.justify-content-md-start
+					div.text-end
+						button.btn.btn-primary(type='button' style='width:fit-content' id='createNewInstituteBtn') नवीन  जोडा 
+					if educationInstituteList.length > 0
+						each institute in educationInstituteList
+							.col-11.col-sm-6.col-md-4.col-lg-3
+								.card(style='border: 3px solid gray;')
+									- let path = `/new-gp-page/main-page/files/education-institute-files/${institute.institute_image}`
+									img.card-img-top.show-institute(src=path style='height: 8rem' alt="..."  data-id=institute.id data-instituteName=institute.institute_name)
+									.card-body
+										h6.card-title.text-center.show-institute(style='cursor:pointer;' data-id=institute.id data-instituteName=institute.institute_name) #{institute.institute_name} (#{institute.institute_type === 1 ? 'अंगणवाडी' : institute.institute_type === 2 ? 'शाळा' :institute.institute_type === 3 ? 'कॉलेज' : ''})
+
+									.card-footer(style='border:none')
+										.d-flex.justify-content-center.align-items-center(style='gap:0.4rem') 
+											button.btn.text-success(class='edit-institute-btn' type='button' data-id=institute.id)
+												i.fa.fa-edit
+											button.btn.text-danger(class='delete-institute-btn' type='button' data-id=institute.id data-instituteImage=institute.institute_image)
+												i.fa.fa-trash
+
+											//- span #{institute.institute_type === 1 ? 'अंगणवाडी' : institute.institute_type === 2 ? 'शाळा': 'कॉलेज' }
+											a.btn.text-success(style='cursor:pointer;' href = isMasterView ? `/master/master-institute-gallery-view?id=${institute.id}&instituteName=${institute.institute_name}` : `/education/institute-gallery-view?id=${institute.id}&instituteName=${institute.institute_name}` data-id=institute.id data-instituteName=institute.institute_name)
+												i.fa.fa-image 
+											a.btn.text-primary(style='cursor:pointer;' href = isMasterView ? `/master/master-institute-details-view?id=${institute.id}&instituteName=${institute.institute_name}` : `/education/gp-institute-details-view?id=${institute.id}&instituteName=${institute.institute_name}` data-id=institute.id data-instituteName=institute.institute_name) 
+												i.fa.fa-users 
+
+
+
+
+			.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='upload-education-institute-details-modal' )
+				.modal-dialog(style='min-width:50% !important;')
+					.modal-content.p-2
+						.modal-header.bg-warning माहिती भरा 
+							h1.modal-title.fs-5() 
+							button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+						.modal-body
+
+							form#upload-education-institute-details(action="") 
+								.card.mb-3
+
+									.card-body
+										.row.gy-3
+											.col-12
+												.form-group
+													label(for="institute-name") School/College Name 
+													input.form-control(type='text' id="institute-name")
+											.col-12
+												.form-group
+													label(for="institute-photo") School/College Photo		
+													input.form-control(type='file' id="institute-photo")
+											.col-12
+												.form-group
+													label(for="institute-photo") Type 
+													select.form-control#institute-type
+														option(value='-1') -- Type --
+														option(value='1') अंगणवाडी
+														option(value='2') शाळा
+														option(value='3') कॉलेज
+
+									div.d-flex.justify-content-center
+										button#upload-institute-details-btn.mt-2.mb-2.btn.btn-primary(type='submit') जतन करा						   
+
+

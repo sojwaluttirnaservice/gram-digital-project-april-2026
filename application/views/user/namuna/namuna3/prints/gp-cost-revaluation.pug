@@ -1,0 +1,53 @@
+
+
+
+.my-print 
+
+    h3.text-center ग्रा. पं. #{gp.gp_name} पं.स. #{gp.gp_taluka} जिल्हा #{gp.gp_dist}
+
+    h4.text-center विषय : ग्रामपंचायत फेर आकारणी बाबत
+
+    table 
+        thead
+            tr 
+                th(rowspan='2' colspan='1') अनु.क्र 
+                th(rowspan='2' colspan='1') मागील फेर आकारणी अमलात आणण्याची तारीख
+                th(rowspan='2' colspan='1') आकारलेल्या कराचे नाव
+                th(rowspan='2' colspan='1') वर्षासाठी केलेली रक्कम
+
+                th(rowspan='2' colspan='1') फेर कर दर ४ वर्षानी आकारणी करण्याचे  वर्ष
+                th(rowspan='2' colspan='1') फेर कर आकारणी केलेले वर्ष 
+                th(rowspan='2' colspan='1') फेर आकारणी मध्ये आकारलेल्या कराचे नाव
+                th(rowspan='2' colspan='1') आकारणी केलेली रक्कम (वर्षासाठी)
+                th(rowspan='2' colspan='1') फेर कर आकारणी नंतर उत्त्पन्नात वाढ कराची रक्कम
+
+                th(rowspan='1' colspan='2') एकूण मालमत्ता संख्या
+                
+            tr 
+                //- th 
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') इमारती
+                th(rowspan='1' colspan='1') जमिनी
+
+        tbody
+            - let dataGpCostRevaluationList = (gpCostRevaluation != null && gpCostRevaluation.data_list != null) ? JSON.parse(gpCostRevaluation.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumGpCostRevaluation = new Array(11).fill(0)
+            tbody
+                each entryArray, entryIndex in dataGpCostRevaluationList 
+                    tr
+                        td #{entryIndex + 1}
+                        //- - let sumGpCostRevaluationIndex = 0;
+                        each singleEntry in JSON.parse(entryArray)
+                            td #{singleEntry.value}
+                            //- - if (!isNaN(Number(singleEntry.value))) { sumGpCostRevaluation[sumGpCostRevaluationIndex] = (sumGpCostRevaluation[sumGpCostRevaluationIndex] || 0) + +singleEntry.value } else { sumGpCostRevaluation[sumGpCostRevaluationIndex] = sumGpCostRevaluation[sumGpCostRevaluationIndex] || ''; }
+                            //- td
+                            //- - sumGpCostRevaluationIndex += 1

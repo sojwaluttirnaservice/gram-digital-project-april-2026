@@ -1,0 +1,284 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        //- Bootstrap 5 CSS & JS
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        //- // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+        link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-page.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-3/namuna-3-page-handler.js' type='module' defer)
+
+        title नमुना ३ 
+
+        style.
+            .heading-1 {
+                font-weight: bold !important;
+                font-size: 1.4rem;
+                text-align: center;   
+                color: #bb2525;
+                border-radius: 15px;
+                border: 2px solid #bb2525;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 8px;
+                margin: 0 auto 1.4rem; /* Automatically center horizontally */
+                width: fit-content; /* Allow width to adjust based on content */
+            }
+
+            label.error {
+                color: red;
+                font-size: 0.9rem;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 2rem;
+                font-size: 90%;
+            }
+
+            tr, td, th {
+                border: 1px solid black;
+                padding: 0.2rem;
+            }
+
+            th {
+                text-align: center;
+            }
+
+    body
+        include ../../include/navs.pug
+
+        .modal.fade#yearModal(tabindex="-1" aria-labelledby="monthYearModalLabel" aria-hidden="true")
+            .modal-dialog.modal-dialog-centered
+                .modal-content
+                    .modal-header
+                        h1.modal-title.fs-5#monthYearModalLabel महिना व वर्ष निवडा
+                        button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    .modal-body
+
+                        form(id='year-form') 
+
+
+                            select.form-select(name='year')
+                                option(value='') -- वर्ष निवडा --
+
+                                - let currYear  = new Date().getFullYear()
+                                - let startYr = currYear  - 25
+                                each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                                    option(value=year) #{year}
+
+
+
+                    .modal-footer
+                        button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                        button.btn.btn-primary(type="button" id='open-form-btn') Form
+
+
+
+        div 
+
+            -
+                const formLinks = [
+
+
+                    {
+                        redirectUrl: '/prapatra-b',
+                        linkName: 'प्रपत्र ब'
+                    },
+
+                    {
+                        redirectUrl: '/prapatra-f',
+                        linkName: 'प्रपत्र फ'
+                    },
+
+                    {
+                        redirectUrl: '/prapatra-g',
+                        linkName: 'प्रपत्र ग'
+                    },
+
+                    {
+                        redirectUrl: '/wc-welfare',
+                        linkName: 'महिला बाल कल्याण १० टक्के खर्च केल्याचा वार्षिक अहवाल '
+                    },
+
+                    {
+                        redirectUrl: '/backward-class',
+                        linkName: 'मागासवर्गीयासाठी १५ टक्के खर्च केल्याचा वार्षिक अहवाल '
+                    },
+
+
+                    {
+                        redirectUrl: '/prapatra-c-a-tax',
+                        linkName: 'प्रपत्र क (एक)(अ) कर'
+                    },
+
+                    {
+                        redirectUrl: '/other-income',
+                        linkName: 'प्रपत्र क (एक)(ब)करेत्तर उत्त्पन्न'
+                    },
+
+                    //- प्रपत्र क चालू
+                    {
+                        redirectUrl: '/transferred-amount',
+                        linkName: 'एक (क) अभिहस्तांतरीत रकमा (प्रपत्र क चालू)'
+                    },
+
+                    //- प्रपत्र क चालू
+                    {
+                        redirectUrl: '/state-auxiliary-grants',
+                        linkName: 'दोन (अ) राज्य शासन सहाय्यक अनुदाने जमा (प्रपत्र क चालू)'
+                    },
+
+                    //- प्रपत्र क चालू
+                    {
+                        redirectUrl: '/central-auxiliary-grants',
+                        linkName: '(तीन) केंद्र शासन अनुदाने जमा (प्रपत्र क चालू)'
+                        //- this contains the संकीर्ण जमा of print, प्रारंभीची शिल्लक
+                    },
+
+                    //- प्रपत्र क चालू
+                    {
+                        redirectUrl: '/initial-balance',
+                        linkName: 'प्रारंभीची शिल्लक'
+                    },
+
+                    //- प्रपत्र इ चालू
+                    {
+                        redirectUrl: '/prapatra-e-current',
+                        linkName: 'प्रपत्र इ चालू'
+                    },
+
+                    //- प्रपत्र ई चालू
+                    {
+                        redirectUrl: '/prapatra-ee-current',
+                        linkName: 'प्रपत्र ई चालू'
+                    },
+
+
+
+
+                    //- ---------------
+                    //- प्रपत्र जे चालू
+                    //- --------------
+
+                    //- प्रपत्र जे चालू
+                    {
+                        redirectUrl: '/patrak-j-cleanliness',
+                        linkName: 'प्रपत्र जे चालू (स्वच्छता व आरोग्य)'
+                    },
+
+                    //- प्रपत्र जे चालू
+                    {
+                        redirectUrl: '/patrak-j-p-infra-1',
+                        linkName: 'प्रपत्र जे चालू (सार्वजनिक बांधकाम १)'
+                    },
+
+                    //- प्रपत्र जे चालू
+                    {
+                        redirectUrl: '/patrak-j-p-infra-2',
+                        linkName: 'प्रपत्र जे चालू (सार्वजनिक बांधकाम २)'
+                    },
+
+                    //- प्रपत्र जे चालू
+                    {
+                        redirectUrl: '/patrak-j-edu-culture',
+                        linkName: 'प्रपत्र जे चालू (शिक्षण व संस्कृती)'
+                    },
+
+                    //- ---------------------------------
+                    {
+                        redirectUrl: '/annual-report-addendum',
+                        linkName: 'वार्षिक अहवाल पुरवणी'
+                    },
+
+                    {
+                        redirectUrl: '/j-patrak',
+                        linkName: 'जे पत्रक'
+                    },
+
+                    {
+                        redirectUrl: '/j-patrak-masik-sabha',
+                        linkName: 'जे पत्रक (मासिक सभा)'
+                    },
+
+                    {
+                        redirectUrl: '/annual-collection-report',
+                        linkName: 'जमेचा अहवाल'
+                    },
+
+                    {
+                        redirectUrl: '/annual-expenditure-report',
+                        linkName: 'खर्चाचा अहवाल'
+                    },
+                    
+                    {
+                        redirectUrl: '/gp-water-supply-fund',
+                        linkName: "ग्राम पाणी पुरवठा निधी"
+                    },
+
+                    {
+                        redirectUrl: '/patrak-g-gp-water-supply',
+                        linkName: "पत्रक 'ग' (ग्राम पाणी पुरवठा निधी)"
+                    },
+
+                    {
+                        redirectUrl: '/gp-cost-revaluation',
+                        linkName: 'ग्रामपंचायत फेर आकारणी बाबत'
+                    },
+
+                    {
+                        redirectUrl: '/reciept-book-report',
+                        linkName: 'पावती पुस्तक विवरण'
+                    },
+                ]
+
+
+            div
+
+                .container
+
+                    div(class='py-4 text-center text')
+                        h5.heading-1 नमुना ३
+
+                        div
+                            .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+                                a.btn.btn-primary(href='/namuna') नमुने 
+
+                    div(class='namuna-links mb-4')
+
+                        each formLink in formLinks
+                            button(data-redirectUrl=formLink.redirectUrl class='box box--white namuna-link open-form-modal-btn') 
+                                span #{formLink.linkName} 
+                                //- span(style='font-size:0.85rem;') (#{formLink.bracketName})
+
+
+
+
+
+

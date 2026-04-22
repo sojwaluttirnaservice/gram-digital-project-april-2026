@@ -1,0 +1,146 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        title फेरफार अवहाल ग्रामपंचायत अधिकारी प्रिंट 
+
+        style.
+            @media print {
+                @page{
+                    size: A4 landscape;
+                }
+                .my-print{
+                    position: relative;
+                    page-break-before: always;
+                }
+                table{
+                    page-break-inside: avoid;
+                }
+                .waterMark{
+                    position: absolute;
+                    opacity: 0.3;
+                    width: 100%;
+                    height: 100%;
+                }
+            }   
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 4.8rem;
+            }
+
+            th,
+            td {
+                border: 1px solid black;
+                text-align: center;
+                font-size:0.9rem;
+            }
+
+            .subheading {
+                margin-bottom: 2.4rem;
+                font-size: 1.6rem;
+            }
+
+            .form8PrintHeading{
+                font-size: 1.8rem;
+                font-weight: bold; 
+                color: red;
+                text-align: center;
+            }
+
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                top: calc(50% - 250px);
+                left: calc(50% - 250px);
+                width: 500px;
+                height: 500px;
+            }
+
+            body {
+                border: 1px solid black;    
+            }
+
+            .body-f-size  th{
+                font-size: 1rem !important;
+            }
+
+
+    body.p-3
+        //- include ../../include/form-8-header.pug
+
+        .my-print
+            img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+            div.d-flex.justify-content-between.pt-4.pb-4.mx-3
+                div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                div.d-flex.justify-content-center.text-center.flex-column
+                h1.m-0.p-0.form8PrintHeading ग्राम पंचायत कार्यालय #{gp.gp_name} पंचायत समिती  #{gp.gp_taluka} जिल्हा #{gp.gp_dist} 
+                div.d-flex.flex-column.justify-content-center.align-items-center
+                img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="100" height="40")
+     
+
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        //- div.text-center
+        //-     h1.mb-4 ग्रामपंचायत कार्यालय #{gp.gp_name} पं. स.  #{gp.gp_taluka}
+        //-     div.date-box.mb-4
+
+        //- h2.subheading फेरफार नोंदणी रेजीस्टर  
+        table
+            thead
+                tr.body-f-size
+                    th अनु क्र.
+                    th अर्ज न
+                    th फेरफार अर्ज प्राप्त दिनांक
+                    th ठराव क्रमांक व दिनांक
+                    th रेजीस्ट्री नंबर
+                    th फेरफार दस्त एवजा नुसार मालमत्ता घेणाऱ्याचे नाव
+                    th फेरफार दस्त एवजा नुसार मालमत्ता देणाऱ्याचे नाव
+                    th मालमत्ता क्र /नवीन किवा जुना असल्यास
+                    th एकूण जागा मीटर
+                    th एकूण जागा फुट
+                    th दिलेली जागा फुट
+                    th शिल्लक फुट
+                    th ग्रा प सभानुसार फेरफार ठराव
+                    th दिनांक
+                    th दस्तएवजा नुसार तपशील
+                    th सक्षम अधिकारी याची सही
+                    th शेरा
+                    th फोटो
+                    th अंगठा
+
+            tbody#ferfarAvahalList
+                each el, index in ferfarAvahalList
+                    tr  
+                        td #{index + 1}
+                        td #{el.id}
+                        td #{el._ferfar_date}
+                        td #{el.tharav_no}
+                        td #{el.registry_no}
+                        td #{el.feu_new_owner}
+                        td #{el.feu_old_owner}
+                        td #{el.feu_malmatta_no}
+                        td #{el.feu_totalAreaSquareMeter}
+                        td #{el.feu_totalArea}
+                        td -
+                        td -
+                        td -
+                        td #{el.ferfar_date}
+                        td -
+                        td -
+                        td -
+                        td 
+                        td 
+

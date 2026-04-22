@@ -1,0 +1,182 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    title Print - नमुना १६
+
+    style.
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Basic styles for the body */
+        body {
+            //- font-family: Arial, sans-serif;
+            margin: 0;
+            //- padding: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Styles for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #hide-buttons {
+                display: none;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            tr {
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            th, td {
+                border: 1px solid black !important;
+                font-size: 12px;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+
+            .my-print {
+                //- height: 210mm;
+                //- width: 298mm;
+                padding: 1rem;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 4mm ;
+                //- padding: 1mm;
+            }
+        }
+
+
+    link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+
+        //- include ../../include/navs.pug
+
+        .my-print
+            table
+                thead
+
+                    tr 
+                        th(colspan='22' style='')
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                    div नमुना १६
+
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ४७(५) पहा)
+
+                                div 
+                                    if fromYear && toYear
+                                        div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                    else if (month && year)
+                                        div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                    else if year 
+                                        div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+                                div#hide-buttons
+                                    button(onclick='window.print()') Print
+
+
+                    tr 
+                        th(colspan='22')
+                            div जडवस्तू संग्रह किंवा जंगम मालमत्ता नोंदवहीचा नमुना
+                    tr
+
+                        //- 1
+                        th(rowspan='2' colspan='2') अ.क्र.
+
+                        //- 2
+                        th(rowspan='2' colspan='2')  वस्तूचे वर्णन
+
+                        //- 3
+                        th(rowspan='2' colspan='2') खरेदीचे प्राधिकार व खरेदीची तारीख
+
+                        //-4
+                        th(rowspan='2' colspan='2') संख्या किंवा परिमाण
+
+                        //- 5
+                        th(rowspan='2' colspan='2') किंमत
+
+                        //- 6
+                        th(rowspan='2' colspan='2') सरपंचाची/ सचिवाची अद्याक्षारी 
+
+                        //- 7
+                        th(rowspan='1' colspan='2') अंतिम विल्व्हेवाट
+
+                        //- 8
+                        th(rowspan='2' colspan='2') वसूल केलेली रक्कम व कोषागाराची तारीख
+
+                        //- 9
+                        th(rowspan='2' colspan='2') साठ्यातील शिल्लक
+
+                        //- 10
+                        th(rowspan='2' colspan='2') सरपंचाची/ सचिवाची अद्याक्षारी 
+                        //- 11
+                        th(rowspan='2' colspan='2') शेरा
+
+                    tr
+
+                        //- 7
+                        th(rowspan='1' colspan='1') संख्या किंवा परिमाण, विल्हेवाटाचे स्वरूप
+                        th(rowspan='1' colspan='1') प्रधिकार पत्र किंवा प्रमाणपत्र
+
+                        //- th एडिट  / डिलीट 
+
+
+                tbody
+                    each entry, index in namuna16Details
+                        tr
+                            td(colspan='2') #{index + 1}
+                            td(colspan='2') #{entry.item_description}
+                            td(colspan='2') #{entry.purchase_authority}, #{entry._purchase_date}
+                            td(colspan='2') #{entry.quantity}
+                            td(colspan='2') #{entry.cost}
+                            td(colspan='2')  <!-- Add any data you need here if required -->
+                            td(colspan='1') #{entry.disposal_count}, #{entry.disposal_details}
+                            td(colspan='1') #{entry.authorization_certificate}
+                            td(colspan='2') #{entry.recovered_amount}, #{entry._treasury_date}
+                            td(colspan='2') #{entry.stock_balance}
+                            td(colspan='2')
+                            td(colspan='2') #{entry.remarks}
+

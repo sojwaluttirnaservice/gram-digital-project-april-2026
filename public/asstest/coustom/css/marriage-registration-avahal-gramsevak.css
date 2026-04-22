@@ -1,0 +1,19 @@
+#marriageRegistrationWrapper {
+  min-height: 100vh;
+  width: 70%;
+  margin: 0 auto;
+}
+
+h4,
+h5,
+h5 {
+  text-align: center;
+}
+
+h6 {
+  margin-top: 1rem;
+}
+
+h4 {
+  font-weight: bold;
+}

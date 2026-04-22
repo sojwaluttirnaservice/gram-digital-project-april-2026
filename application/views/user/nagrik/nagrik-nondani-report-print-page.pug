@@ -1,0 +1,112 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title}
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+        style.
+            table { border-collapse: collapse; width: 100%; }
+            td, th {
+                padding: 0.3rem;
+                border: 1px solid #000;
+                font-size: 0.75rem;
+                vertical-align: top;
+            }
+
+            @media print {
+                @page { size: landscape; margin: 10mm; }
+                .hide-print { display: none !important; }
+                * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                thead { display: table-header-group; }
+                tr { break-inside: avoid; }
+            }
+
+            .qrcode {
+                width: 30mm;
+                height: 30mm;
+            }
+
+    body
+        div.hide-print
+            button(onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded")
+                | Print
+
+        if !(nagrikList && nagrikList.length)
+            h2.text-center.text-red-500.mt-10 No records found
+
+        else
+            #print
+                table
+                    thead
+                        tr
+                            th(colspan='10')
+                                b ग्रामपंचायत सदस्य यादी
+
+                        tr
+                            th अ. क्र.
+                            th ID
+                            th नाव / पत्ता / संपर्क
+                            th मोबाईल
+                            th ई-मेल
+                            th जन्म दिनांक
+                            th व्यवसाय
+                            th रक्त गट
+                            th गाव
+                            th QR Code
+
+                    tbody
+                        each n, i in nagrikList
+                            tr
+                                td #{i + 1}
+                                td #{n.id}
+
+                                td
+                                    div
+                                        b नाव: 
+                                        | #{n.fName}
+                                    if n.fVillage
+                                        div
+                                            b गाव:
+                                            | #{n.fVillage}
+
+                                td
+                                    div #{n.fMobile}
+                                    if n.fAltMobile
+                                        div #{n.fAltMobile}
+
+                                td #{n.fEmail}
+                                td #{n.dob}
+                                td #{n.fOccupation}
+                                td #{n.fBloodGroup}
+                                td #{n.fVillage}
+
+                                // QR CODE (UNCHANGED LOGIC)
+                                td
+                                    div(class='flex justify-center p-1')
+                                        - let qrId = `qrcode-${n.id}`
+                                        div.qrcode(id=qrId)
+
+script.
+    (function(){
+        let _nagrikList = !{JSON.stringify(nagrikList)}
+
+        if(_nagrikList){
+            _nagrikList.forEach((_nagrik) =>{
+                generateQRCode(_nagrik.id);
+            })
+        }
+
+        function generateQRCode(nagrikId){
+            let qrUrl = window.location.origin + "/nagrik/n/" + nagrikId;
+            new QRCode(document.getElementById(`qrcode-${nagrikId}`), qrUrl)
+        }
+    })()

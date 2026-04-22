@@ -1,0 +1,29 @@
+div(class="mt-4 flex items-start gap-2")
+    div(class="flex-shrink-0")
+
+        #qr-code-container 
+
+        div(class="text-center")
+            span(class="text-sm font-bold") वैधता तपासा
+
+    div(class="flex-grow")
+        // ===== SIGNATURE =====
+        div(class="w-full flex justify-end")
+            div(class="w-[50%] text-center text-lg")
+
+                //- Signature Image
+                div(class="h-20 flex items-end justify-center mb-2")
+                    img(class="h-16 w-36" src=`/uploads/images/self-declaration/signatures/${occupationNoc.applicantSignature}` onerror="this.src='/img/fallback/no-image-found.png'")
+
+                //- Signature Line
+                div(class="text-sm border-stone-500 pt-2 font-semibold") अर्जदाराची सही
+
+                //- Applicant Name
+                div(class="")
+                    | अर्जदाराचे नाव :
+                    span(class="font-bold") #{occupationNoc.sd_applicantFullSelfNameM || occupationNoc.sd_applicantFullSelfNameE} 
+
+                //- Mobile Number
+                div(class="font-semibold")
+                    | मोबाईल क्र :
+                    span(class="font-bold") #{occupationNoc.mobile}

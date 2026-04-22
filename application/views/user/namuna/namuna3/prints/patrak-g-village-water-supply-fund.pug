@@ -1,0 +1,62 @@
+
+
+
+.my-print 
+
+    h4.text-center पत्रक 'ग' (ग्राम पाणीपुरवठा निधी)
+    br
+    h4.text-center सन ___________ वर्षातील ________ #{gp.gp_dist} जिल्हा #{gp.gp_name} ग्रामपंचायतीच्या पाणीपुरवठा करा संबंधीची मागणी वसुली येणे असलेली थकबाकी दर्शविणारे पत्रक
+
+
+    table.w-full 
+
+        thead
+            tr 
+                th(rowspan='2' colspan='1') अ.क्र. 
+                th(rowspan='2' colspan='1') कराचे नाव
+                th(rowspan='2' colspan='1') वर्षाच्या आरंभी येणे असलेली बाकी
+                th(rowspan='2' colspan='1') वर्षासाठी केलेली मागणी
+                th(rowspan='2' colspan='1') वसूल करावयाची एकूण मागणी (2 + 3 = 5)
+                th(rowspan='2' colspan='1') वसूल केलेली रक्कम ग्रामपाणी पुरवठा निधी पत्रक
+                th(rowspan='2' colspan='1') सूट दिलेली / बुडत खाते टाकलेली रक्कम
+
+                th(rowspan='1' colspan='3') वर्षाच्या अखेरीस असलेली थकबाकी
+                //- th
+                //- th
+
+                th(rowspan='2' colspan='1') वसुलीचे शेकडा प्रमाण
+                th(rowspan='2' colspan='1') वसुलीच्या कामासंबंधीचा शेरा
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') मागील थकबाकी
+                th(rowspan='1' colspan='1') चालूपैकी बाकी
+                th(rowspan='1' colspan='1') एकूण (5 - (6 + 7))
+
+                //- th
+                //- th
+            
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,10,11,12]
+                    th #{num}
+
+        tbody 
+            - let dataPatrakGGPWaterSupplyList = (patrakGGPWaterSupply != null && patrakGGPWaterSupply.data_list != null) ? JSON.parse(patrakGGPWaterSupply.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumPatrakGGPWaterSupply = new Array(11).fill(0)
+            tbody
+                each entryArray, entryIndex in dataPatrakGGPWaterSupplyList 
+                    tr
+                        td #{entryIndex + 1}
+                        //- - let sumPatrakGGPWaterSupplyIndex = 0;
+                        each singleEntry in JSON.parse(entryArray)
+                            td #{singleEntry.value}
+                            //- - if (!isNaN(Number(singleEntry.value))) { sumPatrakGGPWaterSupply[sumPatrakGGPWaterSupplyIndex] = (sumPatrakGGPWaterSupply[sumPatrakGGPWaterSupplyIndex] || 0) + +singleEntry.value } else { sumPatrakGGPWaterSupply[sumPatrakGGPWaterSupplyIndex] = sumPatrakGGPWaterSupply[sumPatrakGGPWaterSupplyIndex] || ''; }
+                            //- td
+                            //- - sumPatrakGGPWaterSupplyIndex += 1

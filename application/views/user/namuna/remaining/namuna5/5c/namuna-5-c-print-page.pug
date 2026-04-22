@@ -1,0 +1,356 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ५ (क) - प्रिंट
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'namuna2-print.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPdf);
+
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (val) {
+                        case '1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '-1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                    }
+                }
+
+                document.querySelector('.form-select').addEventListener('change', function() {
+                    showHideSignatures(this.value);
+                });
+            })
+
+        style.
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                padding: 0.2rem;
+                border: 1px solid black;
+            }
+
+            /* 🔥 FIX: Force full border printing */
+            table, th, td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse !important;
+            }
+
+            @media print {
+                @page {
+                    size:landscape;
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                /* 🔥 FIX: Prevent border loss on page breaks */
+                table { page-break-inside: auto !important; }
+                tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+                td, th { border: 1px solid #000 !important; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+    body
+        - let year = ''
+
+        div.hide-print
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                //button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm")
+                    option(value='1') सरपंच सही दाखवा
+                    option(value='-1') सरपंच सही लपवा
+                    option(value='2') ग्रा.अ. सही दाखवा
+                    option(value='-2') ग्रा.अ. सही लपवा
+                    option(value='3') दोन्ही सही दाखवा
+                    option(value='-3') दोन्ही सही लपवा
+
+
+        #print(class="tiro-devanagari-marathi-regular print:h-[100lvh]")
+
+
+            div(class="my-print p-2 bg-white/60 relative h-full print-bg")
+
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    div
+                        div
+
+                            table.table-auto.w-full.text-xs.border.border-black.bg-white
+                                thead.bg-pink-100.text-pink-800
+
+                                    tr 
+                                        th(colspan='28')
+                                            div
+                                                div
+                                                    div(class='text-base') दैनिक रोकड वही - नमुना क्रमांक ५ (क)
+                                                    div(class='text-[0.75rem]') महा. क्र. व लेखा संहिता २०११ (नियम २१, २२(२),(३),(४),(५) व (६), २५(१), ३२(५), ३३(२),(३) व (४)(५), ३६(२))
+                                                div(class='text-center') 
+                                                    div(class='text-base')
+                                                        span ग्रामपंचायत 
+                                                        span.text-pink-800.font-bold #{gp.gp_name}
+                                                        span , तालुका 
+                                                        span.font-bold.text-pink-700 #{gp.gp_taluka},
+                                                        span जिल्हा 
+                                                        span.font-bold.text-pink-700 #{gp.gp_dist}
+
+                                                    div
+                                                        div महिना ___ व  सन ____ सालाबद्दल
+
+                                    tr
+                                        //- 1
+                                        th.p-0.text-center(class='p-0.5' rowspan='3' colspan='1' width='6%') जमा केल्याचा महिना व तारीख
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='4%') पावती अ. क्र.
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='10%') कोणाकडून मिळाले ते
+                                        
+
+                                        th.p-1.text-center(rowspan='1' colspan='20'  width='60%') जमा रक्कमे संबंधीचा तपशिल
+
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='4%') रोख रक्कम (रुपये)
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='4%') ऑनलाइन रक्कम (रुपये)
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='4%') धनादेश चेक (रुपये)
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='6%') धनादेश बँकेत जमा केल्याचा दिनांक किंवा रोख रक्कम जमा केल्याचा दिनांक
+                                        th.p-1.text-center(rowspan='3' colspan='1' width='6%') धनादेश पावतीचा दिनांक
+                                        
+
+                                    tr
+                                        //- 1 
+                                        //- th 
+                                        
+                                        //- 2
+                                        //- th
+
+                                        //- 3
+                                        //- th 
+
+                                        //- 4,5,6
+                                        th.p-1.text-center(rowspan='1' colspan='3') घरपट्टी  ००३५-१०१
+
+                                        //- 7
+                                        th.p-1.text-center(rowspan='2' colspan='1') दंड
+
+                                        //- 8,9,10
+                                        th.p-1.text-center(rowspan='1' colspan='3') दिवाबत्ती ००४४-१०१
+
+                                        //- 11,12,13
+                                        th.p-1.text-center(rowspan='1' colspan='3') आरोग्य पट्टी ०२१५-१०३
+
+                                        //- 14,15,16
+                                        th.p-1.text-center(rowspan='1' colspan='3') स्वच्छता कर ०२१५-८००
+
+                                        //- 17
+                                        th.p-1.text-center(rowspan='1' colspan='1') दाखला फी
+
+                                        //- 18
+                                        th.p-1.text-center डिपॉझिट
+
+                                        //- 19
+                                        th.p-1.text-center जागा भाडे
+
+                                        //- 20
+                                        th.p-1.text-center अनुदान
+
+                                        //- 21
+                                        th.p-1.text-center व्याज
+
+                                        //- 22
+                                        th.p-1.text-center इतर
+
+                                        //- 23
+                                        th.p-1.text-center एकूण 
+
+                                        //- 24
+                                        //- th
+
+                                        //- 25
+                                        //- th
+
+                                        //- 26
+                                        //- th
+
+                                        //- 27
+                                        //- th
+                                
+
+                                    tr 
+                                        //- 1 
+                                        //- th 
+                                        
+                                        //- 2
+                                        //- th
+
+                                        //- 3
+                                        //- th 
+
+                                        //- 4
+                                        th.p-1.text-center मागील
+                                        //- 5
+                                        th.p-1.text-center चालू
+                                        //- 6
+                                        th.p-1.text-center एकूण
+
+                                        //- 7
+                                        //- th 
+
+                                        //- 8
+                                        th.p-1.text-center मागील 
+                                        //- 9
+                                        th.p-1.text-center चालू
+                                        //- 10
+                                        th.p-1.text-center एकूण
+                                    
+                                        //- 11
+                                        th.p-1.text-center मागील 
+                                        //- 12
+                                        th.p-1.text-center चालू
+                                        //- 13
+                                        th.p-1.text-center एकूण                                   
+
+                                        //- 14
+                                        th.p-1.text-center मागील 
+                                        //- 15
+                                        th.p-1.text-center चालू
+                                        //- 16
+                                        th.p-1.text-center एकूण 
+
+                                        //- 17
+                                        th.p-1.text-center 
+
+                                        //- 18
+                                        th.p-1.text-center 
+
+                                        //- 19
+                                        th.p-1.text-center 
+                                        //- 20
+                                        th.p-1.text-center 
+                                        
+                                        //- 21
+                                        th.p-1.text-center 
+                                        
+                                        //- 22
+                                        th.p-1.text-center 
+
+                                        //- 23
+                                        th.p-1.text-center
+
+                                        //- 23
+                                        //- th.p-1.text-center
+
+                                        //- 24
+                                        //- th
+
+                                        //- 25
+                                        //- th
+
+                                        //- 26
+                                        //- th 
+
+                                        //- 27
+                                        //- th
+
+
+                                        
+
+                                tbody
+                                    each n5Entry, _index in namuna5CEntries
+                                        tr
+                                            td.text-center.p-1 #{n5Entry.ddddddd}-
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+                                            td.text-center.p-1 #{n5Entry.ddddddd}
+
+
+                                    each _ in Array.from({length: 24})
+                                        tr
+                                            each _ in Array.from({length: 28})
+                                                td.text-center.p-1 
+                                                    span(class='opacity-0') -
+

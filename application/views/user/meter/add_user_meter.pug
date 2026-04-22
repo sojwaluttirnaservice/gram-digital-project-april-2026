@@ -1,0 +1,198 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+
+
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+    @media (min-width: 576px) {
+    .modal-dialog { max-width: none; }
+      }
+      .modal-dialog {
+        width: 98%;
+        height: 92%;
+        padding: 0;
+      }
+body
+  include ../include/navs.pug
+  .container-fluid
+    .row.p-0.p-1.pt-3
+      .col-12
+        center
+          a(href="/meter/meter-list").float-right.btn.btn-primary.btn-sm.mr-2 यादी बघा
+          h5.font-weight-bold.m-3
+            span मीटर माहिती भरा 
+            
+            
+      .col-12
+        //- if(more === undefined)
+        form#newMeterUserDetails
+          .row
+            .col-12
+              .card
+                .card-header.bg-warning.font-weight-boldd-flex.justify-content-between
+                  span माहिती भरा
+                  a.btn.btn-primary.float-right(href=`/meter/add-new-meter/${+nextId}`) Next
+                .card-body.row.form#meterUserForm
+                  .col-8
+                    .row
+
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') नळ कनेक्शन क्र.
+                        input.form-control-sm.form-control(value=meter.mb_nal_connection_no type='text' placeholder="" autocomplete="off" name="mbl_nal_number")
+                        input.form-control-sm.form-control(value=meter.id type='hidden' placeholder="" autocomplete="off" name="user_id")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') देयक क्र.
+                        input.form-control-sm.form-control(value=meter.mb_nal_connection_no type='text' placeholder="" autocomplete="off" name="mbl_deyak_number")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') देयक दिनांक 
+                        input.form-control-sm.form-control#mbl_deyak_date(type='text' placeholder="" autocomplete="off" name="mbl_deyak_date")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मुदतीच्या आत भरवायची रक्कम 
+                        input.form-control-sm.form-control#mbl_amt_before_mudat(type='text' placeholder="" autocomplete="off" name="mbl_amt_before_mudat" readonly)
+
+
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') देयक भरण्याची अंतिम तारीख
+                        input.form-control-sm.form-control#mbl_deyak_amt_fill_last_date(type='text' placeholder="" autocomplete="off" name="mbl_deyak_amt_fill_last_date" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') विभाग / वार्ड / झोन क्र  
+                        input.form-control-sm.form-control(value=meter.mb_zone_number type='number' placeholder="" autocomplete="off" name="mbl_ward_number")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मीटर ग्राहक क्र 
+                        input.form-control-sm.form-control(value=meter.mb_meter_connection_no type='number' placeholder="" autocomplete="off" name="mbl_user_meter_number")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') ग्राहक क्रमांक 
+                        input.form-control-sm.form-control(value=meter.mb_owner_number type='number' placeholder="" autocomplete="off" name="mbl_user_number")
+
+
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') व्हाल क्र. 
+                        input.form-control-sm.form-control(value=meter.mb_wall_number type='number' placeholder="" autocomplete="off" name="mbl_valve_number")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') नळाचा वापर 
+                        select.form-control-sm.form-control#mbl_nal_usage_type(type='number' placeholder="" autocomplete="off" name="mbl_nal_usage_type")
+                          option(value="") ---- निवडा ---
+                          option(value="निवासी") निवासी 
+                          option(value="दुकान") दुकान  
+                          option(value="बंद मीटर") बंद मीटर
+                          option(value="इतर") इतर
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') नळ कनेक्शन धारकाचेनाव 
+                        input.form-control-sm.form-control(value=meter.mb_owner_name type='text' placeholder="" autocomplete="off" name="mbl_user_name")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मो न  
+                        input.form-control-sm.form-control(value=meter.mb_owner_mobile type='number' placeholder="" autocomplete="off" name="mbl_user_mobile_no")
+
+
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') पाणी आकारणी 
+                        input.form-control-sm.form-control#mbl_water_unit(type='number' placeholder="" autocomplete="off" name="mbl_water_unit" readonly)
+                      .form-group.col-3
+                        label(for='my-input').font-weight-bold पाणी वापरण्याचा कालावधी पासून
+                        input.form-control-sm.form-control.my-datepicker#mbl_water_usage_from(type='text' placeholder="MM/YYYY" autocomplete="off" name="mbl_water_usage_from")
+
+                      .form-group.col-3
+                        label(for='my-input').font-weight-bold पाणी वापरण्याचा कालावधी पर्यंत
+                        input.form-control-sm.form-control.my-datepicker#mbl_water_usage_to(type='text' placeholder="MM/YYYY" autocomplete="off" name="mbl_water_usage_to" readonly)
+
+                      //- .form-group.col-3
+                      //-     label.font-weight-bold(for='my-input') एकूण पाणी वापर लीटर 
+                      //-     input.form-control-sm.form-control#mbl_total_water_usage(type='number' placeholder="" autocomplete="off" name="mbl_total_water_usage")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मीटर रीडिंग सुरवात
+                        input.form-control-sm.form-control#mbl_meter_reading_start(type='number' placeholder="" autocomplete="off" name="mbl_meter_reading_start" value=`${lastMeterTaxDetails ? lastMeterTaxDetails.mbl_meter_reading_end : 0}`)
+
+
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मीटर रीडिंग समाप्ती 
+                        input.form-control-sm.form-control#mbl_total_unit(type='number' placeholder="" autocomplete="off" name="mbl_meter_reading_end")
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') एकूण युनिट
+                        input.form-control-sm.form-control#mbl_total_unit_2(type='number' placeholder="" autocomplete="off" name="mbl_total_unit" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') दर
+                        input.form-control-sm.form-control#mbl_rate(type='number' placeholder="" autocomplete="off" name="mbl_rate" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') पाणी आकारणी (a)
+                        input.form-control-sm.form-control#mbl_water_amt(type='number' placeholder="" autocomplete="off" name="mbl_water_amt" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मागील थकबाकी (b)
+                        input.form-control-sm.form-control#mbl_last_backlock(type='number' placeholder="" autocomplete="off" name="mbl_last_backlock" value=`${lastMeterTaxDetails ? lastMeterTaxDetails._last_unpaid_amount : 0}`)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') एकूण रक्कम (a+b) 
+                        input.form-control-sm.form-control#mbl_final_total_amt(type='number' placeholder="" autocomplete="off" name="mbl_final_total_amt" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मुदतीच्या आत भरवायची रक्कम  
+                        input.form-control-sm.form-control#mbl_before_date_amt_to_fill(type='number' placeholder="" autocomplete="off" name="mbl_before_date_amt_to_fill" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मुदतीच्या नंतर  भरवायची रक्कम
+                        input.form-control-sm.form-control#mbl_after_date_amt_to_fill(type='number' placeholder="" autocomplete="off" name="mbl_after_date_amt_to_fill" readonly)
+                      .form-group.col-3
+                        label.font-weight-bold(for='my-input') मुदत दिनांक
+                        input.form-control-sm.form-control#mbl_amt_diposite_till_date(type='text' placeholder="" autocomplete="off" name="mbl_amt_diposite_till_date" readonly)
+                  .col-4
+                    .row
+                      .form-group.col-12
+                        label.font-weight-bold(for='my-input') मीटर फोटो
+                        input#image1.form-control-sm.form-control(type='file')
+                        img#image-1-preview(src="" alt="" width="100%" style="border:1px solid" height="400")
+
+
+                  .form-group.col-12
+                    
+                    button#saveMeterUser.btn.btn-success.float-right.mt-2 जतन करा
+
+
+
+  script.
+    var rates = !{JSON.stringify(rates)};
+    let _lastMeterTaxDetails = !{JSON.stringify(lastMeterTaxDetails)}
+    //- var id = #{meter.id};
+    //- var user_type = '#{type}';
+    //- console.log(user_type)
+    //- var updateType =  !{moreJson} ;
+    //- console.log(updateType)
+  script(src='/asstest/coustom/js/handlers/meter-manager.js')
+
+
+

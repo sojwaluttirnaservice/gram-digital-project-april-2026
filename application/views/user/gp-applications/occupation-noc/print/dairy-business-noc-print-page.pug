@@ -1,0 +1,44 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार श्री./श्रीमती 
+            span(class="font-extrabold") #{occupationNoc.applicant_name}
+            |  राहणार : 
+            span(class="font-extrabold") #{occupationNoc.applicant_address}
+            |  मोबाईल नं. : 
+            span(class="font-extrabold") #{occupationNoc.applicant_mobile}
+            |  माझ्या 
+            span(class="font-extrabold")
+                | #{occupationNoc.land_ownership == 'Owner' ? 'मालकीच्या' : 'भाड्याच्या'}
+            |  जागेवर दुग्ध व्यवसाय (दूध संकलन केंद्र / दूध विक्री केंद्र / दूध प्रक्रिया) सुरू करण्याचा मानस आहे.
+
+        p(class="mt-3")
+            | सदर जागेचा तपशील खालीलप्रमाणे आहे :
+            |  गट क्रमांक / मालमत्ता क्रमांक : 
+            span(class="font-extrabold")
+                | #{occupationNoc.survey_no || occupationNoc.malmatta_no || '________'}
+            |  मौजे / परिसर : 
+            span(class="font-extrabold") #{occupationNoc.applicant_village}
+            |  तालुका : 
+            span(class="font-extrabold") #{occupationNoc.applicant_taluka}
+            |  जिल्हा : 
+            span(class="font-extrabold") #{occupationNoc.applicant_district}
+
+        p(class="mt-3")
+            | सदर दुग्ध व्यवसाय करताना स्वच्छता, आरोग्य, पाणीपुरवठा व शासन नियमांचे पूर्णतः पालन करण्यात येईल
+            |  तसेच परिसरातील नागरिकांना दुर्गंधी, घाण किंवा वाहतुकीचा त्रास होणार नाही,
+            |  याची खबरदारी घेतली जाईल.
+
+        p(class="mt-3")
+            | तरी मला दुग्ध व्यवसाय सुरू करण्यासाठी ग्रामपंचायतीकडून ना हरकत प्रमाणपत्र (NOC) देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        div(class="mt-8 text-right")
+            p धन्यवाद.
+            p आपला विश्वासू,

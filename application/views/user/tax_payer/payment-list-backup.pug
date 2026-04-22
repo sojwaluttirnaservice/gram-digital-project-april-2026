@@ -1,0 +1,328 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://checkout.razorpay.com/v1/checkout.js")
+    style.
+        .error {
+            background-color:yellow;
+            padding:2px;
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+    script.
+        let oldList = !{JSON.stringify(oldOwnerList)}
+        console.log(oldList)
+        let printedUser = !{JSON.stringify(user)}
+        console.log(printedUser)
+body
+    include ../include/navs-1.pug
+    .container-fluid
+
+        //- Modal structure
+        div.modal.fade#mapModal(tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true")
+            div.modal-dialog.modal-lg
+                div.modal-content
+                    div.modal-header
+                        h5.modal-title#mapModalLabel Map
+                        button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    div.modal-body
+                        p मॅप मध्ये उघडा.
+                        //- Embed your map here, for example Google Maps iframe
+                        iframe#mapIframe(width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
+                    div.modal-footer
+                        a.btn.btn-primary(href=`https://www.google.com/maps?q=${user.home_image_latitude},${user.home_image_longitude}`) Open In Map
+                        button.btn.btn-secondary(type="button" data-bs-dismiss="modal" id='close-map-modal-btn' onclick="var modal = bootstrap.Modal.getInstance(document.getElementById('mapModal')); modal.hide();") Close
+
+        .card-group
+            .card.bg-light-gray
+                .card-body
+                    .col-lg-8.offset-lg-2.col-12
+                        center
+                            input#homeId-type(type="hidden")
+                            h4.font-weight-bold नमुना ९ सामान्य करासंदर्भात वसुली फॉर्म
+
+                        div
+                            .card
+                                .card-header.bg-warning.font-weight-bold
+                                    div.text-center धारकाची माहिती
+                                .card-body
+                                    .row
+                                        .col-6.col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') अनु / घर क्रमांक
+                                                input.form-control-sm.form-control(type='text' disabled value=user.id)
+
+                                        .col-6.col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input')  मालमत्ता क्र.
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_malmattaNo)
+
+                                        .col-6.col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') वार्ड नं
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_wardNo)
+
+                                        .col-6.col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_homeNo)
+
+                                        .col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') पेमेंट मोबाइल नों.
+                                                input.form-control-sm.form-control#paymentMobileNumber(type='text'  value=user.feu_mobileNo)
+
+                                        .col-lg-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_ownerName)
+
+                                        .col-lg-3
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') आधार क्रं.
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_aadharNo maxlength="12")
+
+                                        .col-lg-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_secondOwnerName)
+
+                                        .col-lg-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                                input.form-control-sm.form-control(type='text' disabled value=user.feu_gaatNo)
+
+                                        .col-12
+                                            div 
+                                                - let locationExists = user.home_image_latitude && user.home_image_longitude
+                                                a(class='btn btn-primary' style='width:100%;' disabled=(!locationExists) data-lat=user.home_image_latitude data-long=user.home_image_longitude href=`https://www.google.com/maps?q=${user.home_image_latitude},${user.home_image_longitude}`) #{ locationExists ? 'Open In Google Maps' : 'No Location Found'}
+
+
+                                                button#map-link(class='btn btn-primary' style='width:100%;display:none;' disabled=true data-lat=user.home_image_latitude data-long=user.home_image_longitude href=`https://www.google.com/maps?q=${user.home_image_latitude},${user.home_image_longitude}`)
+
+
+
+
+
+                        //- मालमत्तेचा फेरफार
+                        div(class='mt-4') 
+                            .card
+                                .card-header.bg-warning
+                                    .font-weight-bold  मालमत्तेचा फेरफार
+                                .card-body
+                                    - let oldOwnerListInString = oldOwnerList.join(", ")
+                                    .row
+                                        .col-12.col-md-12
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जुना धारक
+                                                input#newOldDharak.form-control-sm.form-control(type='text' name='newOldDharak' value=(oldOwnerListInString ? oldOwnerListInString : user.feu_newOldDharak))
+
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') नवीन धारक
+                                                input#newNewDharak.form-control-sm.form-control(type='text' name='newNewDharak' value="-" )
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') दिनांक
+                                                input#newPherfarDate.form-control-sm.form-control(type='text' name='newPherfarDate' value="-" )
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') ठराव क्रमांक
+                                                input#newPherfarTharav.form-control-sm.form-control(type='text' name='newPherfarTharav' value="-" )
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') कोणत्या दस्तावेजनी
+                                                select#newPherfarDocument.form-control(type='text' name='newPherfarDocument' )
+                                                    option(value="") -- निवडा --
+                                                    -let _dastavej = dastaveg != null ? dastaveg : []
+                                                    each value,index in _dastavej
+                                                        option(value=value) #{value}
+                                        .col-12 
+                                            .form-group
+                                                input.pherfar-text.form-control-sm.form-control(type='text' disabled)
+
+
+
+
+
+
+                        //- जागेची माहिती 
+                        div(class='mt-4') 
+                            .card
+                                .card-header.bg-warning
+                                    .font-weight-bold जागेची माहिती
+                                .card-body
+                                    .row
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                                input#newGaatNo.form-control-sm.form-control(type='text' name='newGaatNo' value=user.feu_gaatNo)
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') ग्रामपंचायत
+                                                input#newGramPanchayet.form-control-sm.form-control(type='text' name='newGramPanchayet' value=user.feu_gramPanchayet)
+                                        .col-12.col-md-4
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') गावाचे नाव
+                                                input#newVillageName.form-control-sm.form-control(type='text' name='newVillageName' value=user.feu_villageName)
+
+                        //- क्षेत्रफळ माहिती 
+                        div(class='mt-4') 
+                            .card
+                                .card-header.bg-warning
+                                    .font-weight-bold क्षेत्रफळ माहिती
+                                .card-body
+                                    .row
+                                        //- sq foot
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जागेची लांबी  (फुट)
+                                                input#newAreaHeightFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaHeightFoot' value=user.feu_areaHeight)
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जागेची रुंदी  (फुट)
+                                                input#newAreaWidthFoot.isNaN.form-control-sm.form-control(type='text' name='newAreaWidthFoot' value=user.feu_areaWidth)
+
+                                        //-  sq meter
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जागेची लांबी (मी.)
+                                                input#newAreaHeightMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaHeightMeter' value=(user.feu_areaHeight/3.281).toFixed(2))
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') जागेची रुंदी (मी.)
+                                                input#newAreaWidthMeter.isNaN2.form-control-sm.form-control(type='text' name='newAreaWidthMeter' value=(user.feu_areaWidth/3.281).toFixed(2))
+
+                                        //- total area in foot
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') एकूण जागेचे क्षेत्र.(चौ.फुट)
+                                                input#newTotalAreaSquareFoot.form-control-sm.form-control(type='text' name='newTotalAreaSquareFoot' value=user.feu_totalArea)
+
+                                        //- total area in meter
+                                        .col-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                                                input#newTotalAreaSquareMeter.form-control-sm.form-control(type='text' name='newTotalAreaSquareMeter' value=user.feu_totalAreaSquareMeter)
+
+
+                        //- दिशा माहिती 
+                        div(class='mt-4') 
+                            .card
+                                .card-header.bg-warning
+                                    .font-weight-bold दिशा माहिती
+                                .card-body
+                                    .row
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') पूर्वेस
+                                                input#newEastLandmark.form-control-sm.form-control(type='text' name='newEastLandmark' value=user.feu_eastLandmark)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') पश्चिमेस
+                                                input#newWestLandmark.form-control-sm.form-control(type='text' name='newWestLandmark' value=user.feu_westLandmark)
+                                        .col-12.col-md-6
+                                            .form-group 
+                                                label.font-weight-bold(for='my-input') उत्तरेस
+                                                input#newNorthLandmark.form-control-sm.form-control(type='text' name='newNorthLandmark' value=user.feu_northLandmark)
+                                        .col-12.col-md-6
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') दक्षिणेस
+                                                input#newSouthLandmark.form-control-sm.form-control(type='text' name='newSouthLandmark' value=user.feu_southLandmark)
+                                        .col-12
+                                            .form-group
+                                                label.font-weight-bold(for='my-input') बोजा/शेरा
+                                                textarea#newBojaShera.form-control-sm.form-control(type='text' name='newBojaShera' value=user.feu_bojaShera)
+
+
+                        div(class='mt-4')
+                            .row.justify-content-between(style="gap:1rem;")
+                                .col-12.col-md-5
+                                    h6 घराचा फोटो 
+                                    div(style='border:1px solid black;')
+                                        img(src=`/home_map_image/home_photo/${user.feu_image || `${user.feu_malmattaNo}.jpeg`}` style='height:200px; width:100%;' onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                .col-12.col-md-5
+                                    h6 नकाशाचा फोटो 
+                                    div(style='border:1px solid black;')
+                                        img(src=`/home_map_image/map_photo/${user.feu_image_map || `${user.feu_malmattaNo}_map.jpeg`}` style='height:200px; width:100%;' onerror="this.src='/img/fallback/no-image-found.png'")
+
+
+                        div(class='mt-4')
+                            .card
+                                .card-header.bg-warning
+                                    .font-weight-bold.text-center  कर भरा
+
+                                .card-body
+                                    .row
+                                        .col-lg-12
+                                            .form-group
+                                                ul.list-group
+                                                    - let url;
+                                                    li.list-group-item 
+                                                        - url = '/new-application-form'
+                                                        a(href=url) अर्ज भरा
+                                                    li.list-group-item 
+                                                        - url = '/tax-payer/new/samanya-payment/'+user.id
+                                                        a(href=url) सामान्य कर भरा
+                                                    li.list-group-item 
+                                                        - url = '/tax-payer/pani-payment/'+user.id
+                                                        a(href=url) पाणी कर भरा 
+
+
+script.
+    document.addEventListener('DOMContentLoaded', () => {
+        const mapModalEl = document.getElementById('mapModal');
+        const mapIframe = document.getElementById('mapIframe');
+
+        const mapLink = document.getElementById('map-link');
+
+        const latitude = mapLink.getAttribute('data-lat');
+        const longitude = mapLink.getAttribute('data-long');
+
+        // Create Google Maps embed URL dynamically
+        const mapSrc = `https://www.google.com/maps?q=${latitude},${longitude}&output=embed`;
+
+        // Set iframe src
+        mapIframe.src = mapSrc;
+
+        // Initialize and show Bootstrap modal on page load
+        const bsModal = new bootstrap.Modal(mapModalEl);
+        bsModal.show();
+
+
+        $(document).on('click', '#close-map-modal-btn', function(e){
+            $("#mapModal").modal('hide')
+        })
+    });
+
+
+
+

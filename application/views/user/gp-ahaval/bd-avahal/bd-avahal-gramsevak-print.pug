@@ -1,0 +1,234 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title जन्म-मृत्यू अवहाल ग्रामपंचायत अधिकारी प्रिंट
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous")
+
+
+        //- CUSTOM CSS
+        link(rel="stylesheet" href="/asstest/coustom/css/bd-avahal-gramsevak.css")
+
+        //- JS FILES
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/coustom/js/handlers/bdAhavalManager.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous")
+
+        style.
+            @media print {
+                @page{
+                    size: A4 potrait;
+                }
+                .my-print{
+                    position: relative;
+                    page-break-before: always;
+                }
+                table{
+                    page-break-inside: avoid;
+                }
+                .waterMark{
+                position: absolute;
+                    opacity: 0.3;
+                    width: 100%;
+                    height: 100%;
+                }
+            }   
+
+            .subheading {
+                margin-bottom: 2.4rem;
+                font-size: 1.6rem;
+            }
+
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                top: calc(50% - 250px);
+                left: calc(50% - 250px);
+                width: 500px;
+                height: 500px;
+            }
+
+            body {
+                border: 1px solid black;
+                padding: 1rem;
+            }
+
+
+        script.
+            $(document).ready(()=>{
+                $(".datepicker").datepicker();
+            })
+
+    body#body
+        div.header-container
+            div.grid-el.el-1
+                img(src="/img/header-images/mudra-nav.jpg" width="100" height="40")
+                span नमुना-८
+            div.grid-el.el-2
+                span.heading-1 महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/फाल्गुल १३ शके १९३७ नुसार नमुना ८ नियम ३२(९)
+                span.heading-3 ग्रामपंचायत कार्यालय #{zp.gp_name} प.स. #{zp.gp_taluka} जि. #{zp.gp_dist}
+
+            div.grid-el.el-3
+                img(src="/img/header-images/g-sevalogo-new.jpeg" width="140" height="40" style='margin-right: 3.3rem;')
+
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+        #bdAvahalGramsevakContainer
+            form#BDAvahalForm
+                #formHeading 
+                    h1.fw-medium जन्म मृत्यू मासिक अहवाल
+                    span (नमुना क्रमांक. ११, १२ व १३)
+
+                ol.inputBox
+                    li (१) अहवाल माहे : 
+                        span #{data.month}
+                        |  वर्ष : 
+                        span #{data.year}
+
+                    li (२) जिल्हा : 
+                        | #{data.district_name}
+                    li (३) शहर/गाव : 
+                        | #{data.village_name}
+                    li (४) नोंदणी केंद्राचे नाव : 
+                        | #{data.registration_center_name}
+                    li (५) जनगणना सांकेतांक क्रमांक : 
+                        | #{data.census_code_number}
+
+                hr.my-3.text-dark
+
+                h4 नमुना क्रमांक - ११ : जन्माचा संकलित अहवाल 
+
+                table#birthTable.mx-auto(style='width:80%')
+                    tr 
+                        th(width="55%") महिन्यात नोंदविण्यात आलेले जिवंत जन्म
+                        th(width="15%") पुरुष 
+                        th(width="15%") स्त्री
+                        th(width="15%") एकूण 
+
+                    tr 
+                        td ( अ ) घटना घडल्यापासून एक वर्षाचे आत नोंदविलेले
+                        td #{data.birth_live_birth_recorded_in_a_year_male}
+                        td #{data.birth_live_birth_recorded_in_a_year_female} 
+                        td #{data.birth_live_birth_recorded_in_a_year_total > 0 ? data.birth_live_birth_recorded_in_a_year_total : 'निरंक'} 
+
+                    tr 
+                        td ( ब ) घटना घडल्यापासून एक वर्षाचे नंतर नोंदविलेले
+                        td #{data.birth_live_birth_recorded_after_a_year_male}
+                        td #{data.birth_live_birth_recorded_after_a_year_female}
+                        td #{data.birth_live_birth_recorded_after_a_year_total > 0 ?  data.birth_live_birth_recorded_after_a_year_total : 'निरंक'}
+
+                    tr 
+                        td एकूण (अ + ब)
+                        td #{data.birth_live_birth_recorded_total_male}
+                        td #{data.birth_live_birth_recorded_total_female}
+                        td #{data.birth_live_birth_recorded_total_total > 0 ? data.birth_live_birth_recorded_total_total : 'निरंक'}
+
+                hr.my-3.text-dark
+
+                h4.mt-4 नमुना क्रमांक - १२ : मृत्यूचा संकलित अहवाल 
+
+                p महिन्यात नोंदविण्यातनो आलेल्या मृत्यूचे विवरण
+                table#deathTable
+                    tr 
+                        th(colspan="4" width="24%") घटना घडल्यापासून एक वर्षाचे आत नोंदविलेले
+                        th(colspan="4" width="24%") घटना घडल्यापासून एक वर्षाचे नंतर नोंदविलेले
+                        th(colspan="4" width="24%") एकूण
+                        th(colspan="4" width="24%") एकूण मृत्यूंपैकी अर्भक मृत्यू(वयाचे एक वर्ष पूर्ण होण्याचे आधी झालेले मृत्यू)
+                        th माता मृत्यू
+
+                    tr 
+                        td(colspan="4") (१)
+                        td(colspan="4") (२)
+                        td(colspan="4") (३ = १ + २)
+                        td(colspan="4") (४)
+                        td (५)
+
+                    tr 
+                        td पुरुष
+                        td स्त्री
+                        td तृ
+                        td एकूण
+                        td पुरुष
+                        td स्त्री
+                        td तृ
+                        td एकूण
+                        td पुरुष
+                        td स्त्री
+                        td तृ
+                        td एकूण
+                        td पुरुष
+                        td स्त्री
+                        td तृ
+                        td एकूण
+                        td 
+
+
+                    tr 
+                        td #{data.death_recorded_in_a_year_male} 
+                        td #{data.death_recorded_in_a_year_female}
+                        td #{data.death_recorded_in_a_year_other} 
+                        td #{data.death_recorded_in_a_year_total > 0 ? data.death_recorded_in_a_year_total : 'निरंक'}
+                        td #{data.death_recorded_after_a_year_male}
+                        td #{data.death_recorded_after_a_year_female}
+                        td #{data.death_recorded_after_a_year_other}
+                        td #{data.death_recorded_after_a_year_total > 0 ? data.death_recorded_after_a_year_total : 'निरंक'}
+                        td #{data.death_recorded_total_male}
+                        td #{data.death_recorded_total_female} 
+                        td #{data.death_recorded_total_other}
+                        td #{data.death_recorded_total_total > 0 ? data.death_recorded_total_total : 'निरंक'}
+                        td #{data.infant_mortality_count_out_of_total_deaths_male}
+                        td #{data.infant_mortality_count_out_of_total_deaths_female}
+                        td #{data.infant_mortality_count_out_of_total_deaths_other} 
+                        td #{data.infant_mortality_count_out_of_total_deaths_total > 0 ? data.infant_mortality_count_out_of_total_deaths_total : 'निरंक'}
+                        td #{data.mother_death_count}
+
+                p.mt-2(style='font-size:0.8rem') टीप : १. अर्भक मृत्यू व माता मृत्यू हे एकूण मृत्यूमध्ये समाविष्ट असावेत, २. तृ - तृतीयपंथी
+
+                hr.my-3.text-dark
+
+                h4.mt-3 नमुना क्रमांक - १३ : मृत जन्म (उपजत मृत्यू) चा संकलित अहवाल
+                table#stillbirth
+                    tr 
+                        td(width="52%") महिन्यात नोंदविलेले मृत जन्म (उपजत मूत्यू)
+                        td पुरुष
+                        td(width="8%") #{data.fetal_death_count_male}
+                        td स्त्री
+                        td(width="8%") #{data.fetal_death_count_female}
+                        td एकूण
+                        td(width="8%") #{data.fetal_death_count_total > 0 ? data.fetal_death_count_total : 'निरंक'}
+                hr.my-3.text-dark
+
+                p(style='font-size: 0.8rem') एकूण जिवंत जन्मांची संख्या /मृत्यूची संख्या/ मृत जन्म (उपजत मृत्यू) संख्या ही अहवालासोबत प्राप्त झालेल्या अनुक्रमे नमुना क्रमांक १/२/३ अहवालाच्या संख्येइतकी असावी
+
+                .d-flex.justify-content-between.align-items-start.w-100(style='margin-top: 15rem; flex: 1')
+                    div
+                        p 
+                            span.fw-bold दिनांक :  
+                            span #{data._date}
+                        p.fw-bold प्रत सादर : 
+                        p.fw-bold जिल्हा निबंधक/गट विकास अधिकारी/ पंचायत समिती : 
+                            span.fw-bold #{zp.gp_taluka}
+
+                    #signAndStamp
+                        p.fw-bold निबंधकाचे नाव/सही
+                        p.fw-bold शिक्का

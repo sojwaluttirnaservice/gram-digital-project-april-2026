@@ -1,0 +1,148 @@
+//- =========================
+// PRINT REPORT MODAL – TAHSIL OFFICE SEVA
+//- =========================
+.modal(tabindex="-1" id="print-report-modal")
+    .modal-dialog.modal-dialog-centered.modal-md
+        .modal-content.shadow-lg.rounded-4
+
+            //- ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-file-alt.me-2.text-danger
+                    | नागरिकांना सेवा सुविधा रिपोर्ट
+                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+
+            //- ================= BODY =================
+            .modal-body.p-4
+
+                // Report Type Selector
+                .mb-4
+                    label.form-label.fw-semibold रिपोर्ट प्रकार
+                    select.form-select#print-tahsil-report-type
+                        option(value='yearToYear' selected) वित्तीय वर्षानुसार प्रिंट
+                        option(value='monthToMonth') महिन्यानुसार प्रिंट
+
+                // ===== YEAR TO YEAR =====
+                #tahsil-year-to-year
+                    .border.rounded-3.p-3.bg-light
+                        h6.fw-semibold.mb-3.text-secondary
+                            i.fa.fa-calendar-alt.me-2
+                            | वित्तीय वर्ष निवडा
+
+                        .row.g-3
+                            .col-6
+                                label.form-label वर्षापासून
+                                input.form-control(name='fromYear' type='number' placeholder='उदा. 2022')
+
+                            .col-6
+                                label.form-label वर्षापर्यंत
+                                input.form-control(name='toYear' type='number' placeholder='उदा. 2023')
+
+                // ===== MONTH TO MONTH =====
+                #tahsil-month-to-month
+                    .border.rounded-3.p-3.bg-light
+                        h6.fw-semibold.mb-3.text-secondary
+                            i.fa.fa-calendar.me-2
+                            | महिना निवडा
+
+                        .row.g-3
+                            .col-6
+                                label.form-label महिना
+                                input.form-control(name='month' type='number' min='1' max='12' placeholder='1 ते 12')
+
+                            .col-6
+                                label.form-label वर्ष
+                                input.form-control(name='year' type='number' placeholder='उदा. 2024')
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type="button" data-bs-dismiss="modal")
+                    i.fa.fa-times.me-1
+                    | बंद करा
+
+                button.btn.btn-sm.btn-success#print-tahsil-report-btn(type="submit")
+                    i.fa.fa-print.me-1
+                    | प्रिंट
+
+//- ====================== JS ======================
+script.
+    $(function () {
+
+        const $reportType = $('#print-tahsil-report-type');
+        const $yearToYear = $('#tahsil-year-to-year');
+        const $monthToMonth = $('#tahsil-month-to-month');
+        const $printBtn = $('#print-tahsil-report-btn');
+
+        // Initial UI
+        function initializeView() {
+            $monthToMonth.hide();
+            $yearToYear.show();
+        }
+
+        // Toggle form by report type
+        function toggleReportForm(type) {
+            if (type === 'yearToYear') {
+                $yearToYear.show();
+                $monthToMonth.hide();
+            } else {
+                $yearToYear.hide();
+                $monthToMonth.show();
+            }
+        }
+
+        // Build report URL
+        function buildReportUrl() {
+            const type = $reportType.val();
+            let queryParams = [];
+
+            if (type === 'yearToYear') {
+                const fromYear = $('[name="fromYear"]').val();
+                const toYear = $('[name="toYear"]').val();
+
+                if (!fromYear || !toYear) {
+                    alert('कृपया वर्षापासून आणि वर्षापर्यंत भरा');
+                    return null;
+                }
+
+                queryParams.push(
+                    `type=yearToYear`,
+                    `fromYear=${fromYear}`,
+                    `toYear=${toYear}`
+                );
+            } else {
+                const month = $('[name="month"]').val();
+                const year = $('[name="year"]').val();
+
+                if (!month || !year) {
+                    alert('कृपया महिना आणि वर्ष भरा');
+                    return null;
+                }
+
+                queryParams.push(
+                    `type=monthToMonth`,
+                    `month=${month}`,
+                    `year=${year}`
+                );
+            }
+
+            // URL points to tahsil office seva report endpoint
+            return `/gp-applications/to-seva/report?${queryParams.join('&')}`;
+        }
+
+        // ================= Event Bindings =================
+        initializeView();
+
+        $(document).on('change', '#print-tahsil-report-type', function () {
+            toggleReportForm($(this).val());
+        });
+
+        $(document).on('click', '#print-tahsil-report-btn', function (e) {
+            e.preventDefault();
+
+            const reportUrl = buildReportUrl();
+            if (!reportUrl) return;
+
+            window.open(reportUrl, '_blank');
+        });
+
+    });

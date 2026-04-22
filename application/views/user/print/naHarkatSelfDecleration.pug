@@ -1,0 +1,157 @@
+doctype html
+head
+    title ना हरकत स्वयं घोषणापत्र
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+    script(src="/asstest/coustom/js/handlers/common/generate-qr-code-util-handler.js" defer)
+    
+    style.
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        p {
+            margin: 0px;
+            line-height: 3rem;
+            letter-spacing: 1.2px;
+            font-size: 1.1rem;
+        }
+        @media print {
+            @page{
+                size: A4 portrait;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+            }
+            .waterMark{
+                position: absolute;
+                opacity: 0.3;
+                width: 100%;
+                height: 100%;
+            }
+        }  
+        .my-print{
+            position: relative;
+            border: 1px solid black;
+            padding-top: 1.4rem !important;
+        }
+        .dakhlaTitle{
+            margin-top: 5rem;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.7rem;
+        }
+        .personImage {
+            width: 12rem;
+            height: 12rem;
+        }
+        .imageBlock{
+            display: flex;
+            justify-content: end;
+        }
+        img {
+            margin-right: 3rem;
+        }
+        .textBlock{
+            margin-top: 3rem;
+            padding: 0rem 2.8rem;
+            text-align:justify; 
+        }
+
+        .textBlock p {
+            line-height: 3.8 !important;
+        }
+
+        .footerBlock {
+            padding: 0rem 2.8rem;
+            margin-top: 12rem;
+            margin-bottom: 5rem;
+            display: flex;
+            justify-content: space-around;
+        }
+        .border-big{
+            border-bottom: 3px solid black;
+        }
+        .border-small {
+            border-bottom: 1px solid black;
+            margin-bottom: 3px;
+        }
+        .majkurText{
+            font-size: 13px;
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+body.m-0.p-0(style="width: 210mm; height: 297mm;")
+    div(id='mentioned-qr-target-tag' style='display: none;' data-target='qr-code-container' data-targetUrl=`/self-declaration/noc/${userInfo.id}` data-size='190')
+    .row.my-print.m-0.p-0
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        .col-12.text-center
+            p शासन निर्णय क्रमांक:
+                strong आरटीएस -२०१८/प्र.क्र.१४५/आस्था.५
+            .border-small
+            .border-big
+        .col-12.text-center   
+            p.majkurText (ज्या दाखल्यासाठी स्वघोषणापत्राव्दारे मजकूर जाहीर करावयाचा आहे, त्या स्वघोषणाप्रत्रातीलशेवटचा परिच्छेद खलीलप्रमाणे नमूद करवा.)
+        .col-12
+            h3.dakhlaTitle ना हरकत स्वयं घोषणापत्र
+        .col-12
+            div(style='display:flex; justify-content: space-between;padding: 0rem 2.8rem;margin-top: 5rem;')
+                div
+                    div(id='qr-code-container')
+                .imageBlock
+                    - var img = "/self_declaration/"+userInfo.sd_user_image;
+                    img.personImage(src=img)
+        .col-12.textBlock
+            p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; मी  
+                strong #{userInfo.sd_applicantFullSelfNameM}, 
+                | श्री. 
+                strong #{userInfo.sd_applicantFullParentNameM} 
+                | #{userInfo.sd_applicantGender == 'पुरुष' ? "यांचा" : "यांची"} 
+                strong #{userInfo.sd_applicantRelation} 
+                | वय 
+                strong #{userInfo.sd_applicantAgeM} 
+                | वर्ष,आधार कार्ड क्रमांक (असल्यास)  
+                strong #{userInfo.sd_applicantAadharM} व 
+                | व्यवसाय 
+                strong #{userInfo.sd_applicantOccupationM} 
+                | राहणार  
+                strong #{userInfo.sd_applicantAddressM} 
+                | याद्वारे घोषित करतो/करते कि,मी रा. 
+                strong #{userInfo.sd_applicantVillage} 
+                | ता. 
+                strong #{userInfo.sd_applicantTaluka}  
+                | जी. 
+                strong #{userInfo.sd_applicantState} 
+                | येथील 
+                strong #{userInfo.sd_applicantResidency} 
+                | रहिवासी आहे. या व्दारे घोषित करतो / करते की, वरील सर्व माहिती माझ्या व्यक्तिगत माहिती व समजूतीनुसार खरी आहे. सदर माहिती खोटी आढळून आल्यास, भारतीय दंड संहिता अन्वये आणि /किंवा संबंधित कायध्यानुसार माझ्यावर खटला भरला जाईल व त्यानुसार मी शिक्षेस पात्र राहीन. तसेच सदर   स्वयंघोषणापत्राव्दारे मला मिळालेले सर्व लाभ सर्वकषरित्या काढून घेण्यात येतील, याची मलापूर्ण जाणीव आहे.
+
+        .col-12.footerBlock
+            div
+                p ठिकाण : #{place}
+                p.mt-2 दिनांक : #{date}
+            div
+                p अर्जदाराची सही व अंगठा: 
+                p.mt-2 अर्जादाराच्ये नाव : 
+                    strong #{userInfo.sd_applicantFullSelfNameM} 
+
+        .col-12.text-center
+            .border-small
+            .border-big
+            p शासन निर्णय क्रमांक:
+                strong आरटीएस -२०१८/प्र.क्र.१४५/आस्था.५
+            .col-12.text-center(style='margin-top: -1rem;')
+                p.majkurText (ज्या दाखल्यासाठी स्वघोषणापत्राव्दारे मजकूर जाहीर करावयाचा आहे, त्या स्वघोषणाप्रत्रातीलशेवटचा परिच्छेद खलीलप्रमाणे नमूद करवा.)
+

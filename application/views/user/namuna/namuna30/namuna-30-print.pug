@@ -1,0 +1,165 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title print नमुना ३० ग्रामपंचायत लेखापरीक्षा आक्षेप पूर्तता नोंदवही 
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%; font-size:98%;')
+
+            thead
+
+                tr 
+                    th(colspan='15' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना ३०
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ७३(३) पहा)
+
+                            //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
+
+
+                tr 
+                    th(colspan='15')
+                        |  ग्रामपंचायत लेखापरीक्षा आक्षेप पूर्तता नोंदवही
+
+                tr
+                    //- 1
+                    th(rowspan='2') अनु. क्र
+
+                    //- 2 to 5
+                    th(rowspan='2') लेखापरीक्षणअहवाल वर्ष
+                    th(rowspan='2') लेखापरीक्षण अहवाल प्राप्त झाल्याचा  दिनांक
+                    th(rowspan='2') अहवालातील आक्षेपांची संख्या व त्यांचा अनुक्रमांक
+                    th(rowspan='2') केवळ माहितीसाठी  असणारा आक्षेप क्रमांक व संख्या 
+
+                    //- 6  to 10
+                    th(rowspan='2') पूर्तताकरावयाच्या आक्षेपांचे क्रमांक व संख्या
+                    //- Dupplicate c olumn
+                    //- th(rowspan='2') पूर्तताकरावयाच्या आक्षेपांचे क्रमांक व संख्या
+                    th(rowspan='2') पूर्तता केलेले आक्षेप पंचायत समितीकडे पाठवविल्याचा जावक क्रमांक व दिनांक
+                    th(rowspan='2') पूर्तता केलेले आक्षेप  पंचायत समितीने जि. प. कडे/लेखा परीक्षकाकडे पाठविलेल्याचा ठराव क्रमांक व जावक  क्र. दिनांक
+
+                    th(rowspan='2') जि.प./  लेखा परीक्षक यांनी मंजूर केलेले आक्षेप क्रमांक व संख्या
+                    //- 11 to 15
+                    th(rowspan='1' colspan='5') शिल्लक  आक्षेपांची वर्गवारी व क्रमांक
+
+                    //- 16
+                    th(rowspan='2') शेरा
+
+                tr 
+                    //- 1 to 5
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    //- th
+                    //- th
+                    th(rowspan='1' colspan='1') पुस्तकी समायोजन
+                    th(rowspan='1' colspan='1') वसुली
+
+                    th(rowspan='1' colspan='1') मुल्यांकन
+                    th(rowspan='1' colspan='1') नियमबाहय 
+                    th(rowspan='1' collapse='1') एकूण
+
+                    //- th
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                        th #{num}
+
+            tbody
+
+                each namuna30Entry, index in namuna30Details
+
+                    tr 
+                        td #{index + 1}
+                        td #{namuna30Entry.audit_report_year}
+                        td #{namuna30Entry._report_received_date}
+                        td #{namuna30Entry.objection_count} व #{namuna30Entry.objection_sequence}
+                        //- केवळ माहितीसाठी
+                        td #{namuna30Entry.info_only_objection_sequence} व  #{namuna30Entry.info_only_objection_count} 
+
+                        //- पूर्तता करावयाच्या आक्षेपांचा क्रमांक व संख्या
+                        td #{namuna30Entry.resolve_objection_sequence} व #{namuna30Entry.resolve_objection_count} 
+                        //- Resolved Objections Sent to Panchayat Samiti (पाठवलेले आक्षेप तपशील)
+                        td #{namuna30Entry.resolved_objection_outward_number} व #{namuna30Entry._resolved_objection_outward_date}
+                        //- Resolution passed and outward number/date of objections forwarded to Zilla Parishad/Auditor
+                        td #{namuna30Entry.resolution_forwarded_number} व #{namuna30Entry._resolution_forwarded_date}
+                        //- जि.प./  लेखा परीक्षक यांनी मंजूर केलेले आक्षेप क्रमांक व संख्या
+                        td #{namuna30Entry.zp_approved_objection_sequence} व #{namuna30Entry.zp_approved_objection_count}
+                        td #{namuna30Entry.book_adjustment_details}
+
+                        td #{namuna30Entry.recovery_details}
+                        td #{namuna30Entry.assessment_details}
+                        td #{namuna30Entry.irregularity_details}
+                        td #{namuna30Entry.total_remaining_objection_count}
+                        td #{namuna30Entry.remarks}
+

@@ -1,0 +1,100 @@
+extends ../master-layout/master-layout.pug
+
+block internal_css
+	style.
+		@media print {
+			@page{
+				size: A4 landscape;
+			}
+			.my-print{
+				position: relative;
+				page-break-before: always;
+			}
+			table{
+				page-break-inside: avoid;
+			}
+			.waterMark{
+				position: absolute;
+				opacity: 0.3;
+				width: 100%;
+				height: 100%;
+			}
+
+			.pagination {
+				display: none;
+			}
+		} 
+
+
+		.heading-second{
+			font-size: 1.8rem;
+			font-weight: bold;
+			color: #CA3125;
+		}
+
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			top: calc(50% - 250px);
+			left: calc(50% - 250px);
+			width: 500px;
+			height: 500px;
+		}
+
+		.my-print{
+			position: relative;
+		}
+		tr, th {
+			padding: 0.8rem !important;
+		}
+
+		table {
+			page-break-inside: ;
+		}
+block internal_js
+	script. 
+		$(document).ready(()=>{
+			let sabha_print_data = !{JSON.stringify(data)}
+			let months_marathi = !{JSON.stringify(months_marathi)}
+			console.log(sabha_print_data, '---')
+
+			$('.sabha-attendance-table-body').html(sabha_print_data.map((el_1,i)=>{
+				return `
+					<tr class='text-center'>
+						<th>${el_1.sabasad_name}</th>
+						${months_marathi.map((el_2,i_2)=>{
+							return `<th>${el_1.present_months.split(',').includes((i_2+1).toString())  ? 'P': 'A' }`
+						}).join('')}
+						<th>${el_1.m_bhatta}</th>
+						<th>${el_1.m_bhatta * el_1.months.split(',').length}</th>
+						<th></th>
+					</tr>	
+				`
+			}))
+		})
+
+block custom_js 
+	//- script(src='/asstest/coustom/js/handlers/sabha-attendance-manager.js' defer)
+block content 
+	.row.my-print.m-0.p-0
+		img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+		.col-12
+			div.d-flex.justify-content-between.pt-2.pb-2
+				div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+					img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+					span.font-weight-bold नमुना-८
+				div.d-flex.flex-column.align-items-center.justify-content-center
+					p.heading-second ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+				div.d-flex.flex-column.justify-content-center.align-items-center
+					img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+		table.tablelandscape.table-bordered.w-100
+			thead 
+				tr.text-center
+					th सभासद नाव 
+					each month in months_marathi 
+						th #{month}
+					th प्रति बैठक भात
+					th एकूण बैठक भात 
+					th बैठक भत्ता मिळाल्याची सही
+
+			tbody.sabha-attendance-table-body

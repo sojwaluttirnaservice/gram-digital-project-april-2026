@@ -1,0 +1,58 @@
+
+//- प्रपत्र - 'फ'
+
+
+.my-print 
+
+    -
+        let tableHeadings = [
+            "अनु. क्र.",
+            "पंचायत समिती जिल्हा/ विभाग",
+            "ग्रामपंचायतीचे गट ग्रामपंचायतीचे नाव",
+            "प्रारंभीची शिल्लक",
+            "प्रारंभीची शिल्लक वगळून उत्त्पन्न",
+            "प्रारंभीची शिल्लक धरून ४ + ५",
+            "एकूण खर्च (पत्रकाचे column)",
+            "अखेरची (६ - ७) शिल्लक",
+            "शेरा"
+        ]
+    table(style='width: 100%;')
+
+            
+        thead 
+
+            tr 
+                th(colspan="9")
+                    div(style='text-align: center') प्रपत्र फ
+                    div _____ - ___ वर्षातील #{gp.gp_dist} जिल्ह्यातील ______ ग्रामपंचायतीची आर्थिक परिस्तिथी दर्शविणारे पत्रक 'फ'
+            
+            
+            tr
+                each tHeading in tableHeadings
+                    th #{tHeading}
+
+            tr 
+                each _, index in tableHeadings
+                    th #{index + 1}
+
+        - let dataList = (prapatraF != null && prapatraF.data_list != null) ? JSON.parse(prapatraF.data_list) : [[{value: 'This'}]]
+        - let sum = new Array(8).fill(0)
+        tbody
+            each entryArray, entryIndex in dataList 
+                tr
+                    td #{entryIndex + 1}
+                    - let sumIndex = 0;
+                    each singleEntry in JSON.parse(entryArray)
+                        td #{singleEntry.value}
+                        - if (!isNaN(Number(singleEntry.value))) { sum[sumIndex] = (sum[sumIndex] || 0) + +singleEntry.value } else { sum[sumIndex] = sum[sumIndex] || ''; }
+                        //- td
+                        - sumIndex += 1
+
+        tfoot 
+            tr 
+                td
+                td एकूण
+                td
+                each entry in sum.slice(2)
+                    td #{entry}
+                    

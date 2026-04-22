@@ -1,0 +1,119 @@
+extends ../../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { opacity: 0; } 
+            100% { opacity: 1; } 
+        }
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider')
+                | वैयक्तिक सामूहिक रोजगार मागणीचा अर्ज
+
+    
+
+    section(class='py-6 bg-white border-b')
+        .container
+            h5(class='text-center font-semibold mb-1') अर्जदाराचा जॉब कार्ड क्रमांक तपासणी
+
+            p(class='text-center text-sm text-gray-600 mb-4')
+                | कृपया अर्ज करण्यासाठी जॉब कार्ड क्रमांक प्रविष्ट करा
+
+            div(id='check-by-job-card-number' class='my-2')
+                div(class='flex justify-center gap-3 items-center')
+                    label(for='job_card_number' class='text-sm font-medium') जॉब कार्ड क्रमांक :
+
+                    input(type='text' id='job_card_number' value="MH" class='py-1 px-2 border border-gray-600 outline-none max-w-52 bg-stone-100' placeholder='MH234353....' )
+
+                    button(type='button' id='check-job-card-number-exists-btn' class='px-4 py-1 border border-gray-700 bg-gray-200 font-medium')
+                        | तपासा
+
+                p(id='job-card-check-status' class='text-sm text-blue-700 mt-3 text-center font-medium' style='display:none;')
+                    | सदर जॉब कार्ड क्रमांकाची तपासणी सुरू आहे, कृपया प्रतीक्षा करा...
+
+
+    section#form-section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden' style='display:none;')
+        .container
+            form(id='job-card-application-form' class='md:w-[80%] mx-auto flex flex-col gap-4' enctype='multipart/form-data')
+
+                // ===============================
+                // Family Head & Applicant Info
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | कुटुंब प्रमुख व अर्जदाराची माहिती
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                        .grid(class='grid-cols-1 md:grid-cols-2 gap-4')
+
+                            //- // Family Head Name
+                            //- .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') कुटुंब प्रमुखाचे नाव
+                                    span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='family_head_name' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='कुटुंब प्रमुखाचे नाव' required)
+
+                            //- // Applicant Name
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') अर्जदाराचे नाव 
+                                    span(class='text-red-500 font-bold') &nbsp; * : 
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-user')
+                                    input(type='text' name='applicant_name' class='py-1 px-2 outline-none flex-grow bg-stone-100' placeholder='अर्जदाराचे नाव' required)
+
+                            // Mobile
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') मोबाईल नंबर 
+                                    //- span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input(type='text' name='applicant_mobile' class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength='10' placeholder='मोबाईल नंबर' readonly)
+
+                            // Job Card number
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') जॉब कार्ड क्रमांक : 
+                                    //- span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-phone')
+                                    input(type='text' name='job_card_number_fk' class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength='10' placeholder='मोबाईल नंबर' readonly)
+
+                                                       
+
+                            // From Date
+                            .input-group(class='px-2')
+                                label(class='font-bold tracking-wider') पासून
+                                    //- span(class='text-red-500 font-bold') &nbsp; *
+                                .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 bg-stone-100')
+                                    i(class='fas fa-calendar-alt')
+                                    input.datepicker(type='text' name='from_date' class='py-1 px-2 outline-none flex-grow bg-stone-100' maxlength='10' placeholder='e.g.00-00-0000')
+                                    input(type='text' name='to_date' hidden)
+
+
+
+                // ===============================
+                // Family Members Dynamic Table
+                // ===============================
+                .form-card(class='flex flex-col gap-4 z-10')
+                    .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2 px-8 border text-center shadow-lg font-bold text-xl my-text-blue')
+                        | कुटुंबातील सदस्य
+
+                    .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md flex flex-col gap-3')
+                        #family-members-container
+                            // Dynamic family members will be appended here
+
+                // ===============================
+                // Submit
+                // ===============================
+                .buttons-container(class='text-center mt-4')
+                    button(type='submit' id='save-emp-demand-application-btn' class='px-10 py-2 rounded-md bg-emerald-600 text-white font-bold hover:bg-emerald-700') जतन करा
+
+    script(src='/asstest/coustom/js/handlers/gp-applications/emp-demand/emp-demand-application-form-handler.js')

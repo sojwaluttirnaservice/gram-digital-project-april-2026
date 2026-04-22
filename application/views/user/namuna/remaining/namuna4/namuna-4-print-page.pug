@@ -1,0 +1,452 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ४ - Print
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPdf);
+
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (val) {
+                        case '1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '-1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                    }
+                }
+
+                document.querySelector('.form-select').addEventListener('change', function() {
+                    showHideSignatures(this.value);
+                });
+            })
+
+        style.
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                border: 1px solid black;
+                text-align: start;
+                vertical-align: top;
+                padding: 0.4rem;
+            }
+
+            /* 🔥 FIX: Force full border printing */
+            table, th, td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse !important;
+            }
+
+            @media print {
+                @page {
+                    size: A4 portrait;
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                /* 🔥 FIX: Prevent border loss on page breaks */
+                table { page-break-inside: auto !important; }
+                tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+                td, th { border: 1px solid #000 !important; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+    body
+        - let year = ''
+
+        div.hide-print
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+                //button(class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md" id="download-pdf-btn") Download
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm")
+                    option(value='1') सरपंच सही दाखवा
+                    option(value='-1') सरपंच सही लपवा
+                    option(value='2') ग्रा.अ. सही दाखवा
+                    option(value='-2') ग्रा.अ. सही लपवा
+                    option(value='3') दोन्ही सही दाखवा
+                    option(value='-3') दोन्ही सही लपवा
+
+
+        #print(class="tiro-devanagari-marathi-regular print:h-[100lvh]")
+
+            div(class="my-print p-2 bg-white/60 relative h-full print-bg")
+
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+                    div 
+                        p(class='text-3xl font-bold text-center') ग्रामपंचायत #{gp.gp_name}, पं. स. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+
+                        p(class='text-lg font-semibold text-center') दि. ______--- ते दि. _______ सालाचे जमेचा व खर्चाचा वार्षिक अहवाल 
+
+                        
+                        div 
+                            table 
+                                thead
+                                    - let theadClass = 'text-center font-extrabold'
+                                    tr 
+                                        th(width='40%' class=theadClass) उत्पन्नाचा तपशिल
+                                        th(width='10%' class=theadClass) रक्कम 
+                                        th(width='40%' class=theadClass) खर्चाचा तपशिल
+                                        th(width='10%' class=theadClass) रक्कम
+                            
+                                tbody 
+                                    //- row 1
+                                    tr 
+                                        th
+                                            div
+                                                p ४) ता. ______- सुरुवातीची शिल्लक :
+                                        th ____
+                                        th 
+                                            div 
+                                                p सामान्य कारभार
+                                                p १. नोकर वर्षाचे पगार 
+                                                p २. प्रवास भत्ता
+                                                    p(class='pl-4') अ) नोकर वर्गाचा मनि. निधी 
+                                                    p(class='pl-4') ब) पंचायत सदस्यांचा 
+                                                p ३. कार्यालयीन नैमित्तिक खर्च
+                                                p ४. संगणक देखभाल दुरुस्ती
+
+                                        th _____
+
+                                    //- row 2
+                                    tr 
+                                        th 
+                                            p ५) मुंबई जि. प. पा. अधिनियम १९०९ च्या कलम १९१ किंवा म. प्र. ब. वऱ्हाड  न. पं. अधिनियम १९२२ च्या कलम ८ अन्वये राज्य सरकारने वाटून दिलेली रक्कम
+
+                                        th _____
+                                        th
+                                            div 
+                                                p ५) पाणी पुरवठा
+                                                div(class='pl-4')
+                                                    p अ) नवीन 
+                                                    div ब) दुरुस्त्या
+
+                                                        div(class='pl-4')
+                                                            p १) वस्त्यांच्या 
+                                                            p २) विहिरींच्या 
+                                                            p ३) नदीवरील घाट व्यवस्थित ठेवणे व त्यांचे बांधकाम 
+
+                                        th ______
+
+                                    
+                                    //- row 3
+                                    tr 
+                                        th 
+                                            div
+                                                p ६) कलम १२४ अन्वये करा किंवा या पासून मिळालेल्या रक्कम 
+                                                div(class='px-4')
+                                                    p १) इमारती व जमिनी या वरील कर
+                                                    p २) ऑक्ट्राय
+                                                    p ३) यात्रेकरू वरील कर (दिवाकर)
+                                                    p ४) जत्रा, उत्सव, करमणूक वरील कर
+                                                    p ५) दुचाक्या व जनावराकडून ओढल्या जाणाऱ्या वाहनावरील कर
+                                                    p ६) दुकान व पाधिकाश्रय ठेवण्याचा कर 
+                                                    p ७) व्यापार व व्यवसाय (शेती खेरीज)
+                                                    p ८) गुरांच्या बाजारातील दलालीवरील कर
+                                                    p ९) आरोग्य विषयक सामान्य कर
+                                                    p १०) आरोग्य विषयक खास कर
+                                                    p ११) सामान्य पाणी पट्टी
+                                                    p १२) विशेष पाणी पट्टी
+                                                    p १३) बाजार व आठवडी बाजार यावरील बाजार  कर वसुली
+                                                    p १४) गाडी व टांगा यावरील कर
+                                                    p १५) घरघुती किंवा गुरांसाठी व्यतिरिक्त उपयोगासाठी पाणी पुरवठ्यावरील कर
+                                                    p १६) सार्वजनिक जागा तात्पुर्ती वापरण्याबाबत आरोग्य कर
+                                                    p १७) गटारे साफ करण्याबाबत फी
+                                                    p १८) ग्रामपंचायतीच्या ताब्यातील जमिनीवरील गुरांची चराई फी
+                                                    p १९) इतर करा (स्पष्टीकरणासह )
+
+
+                                        th _____
+                                        th 
+                                            //- 6 th point
+                                            div 
+                                                p ६) दळणवळण
+                                                div(class='pl-4')
+                                                    p १) रस्ते, धक्के, मुलांची दुरुस्ती
+                                                    p २) रस्ते, धक्के, पुलांचे बांधकाम
+                                                    p ३) जोड रस्त्यांचे निर्माण व दुरुस्ती
+
+                                            //- 7 th point
+                                            div(class='mt-4')
+                                                p ७) आरोग्य रक्षण व साफ सफाई
+
+                                                div(class='pl-4')
+                                                    p
+                                                        span(class='inline-block w-6') अ)
+                                                        span १) नोकर नाली सफाई
+
+                                                    p
+                                                        span(class='inline-block w-6')
+                                                        span २) नैमित्तीक खर्च नाली गाळ उचलणे
+
+                                                div(class='pl-4') 
+                                                    p
+                                                        span(class='inline-block w-6') ब)
+                                                        span १) गटारे 
+                                                    
+                                                    p
+                                                        span(class='inline-block w-6')
+                                                        span २) खताचे खड्डे घनकचरा व्यवस्थापन
+
+                                                    p
+                                                        span(class='inline-block w-6')
+                                                        span ३) संडास कचरागाडी देखभाल दुरुस्ती
+
+                                            //- 8 th point
+                                            div
+                                                p ८) दिवाबत्ती
+                                                div(class='pl-4')
+                                                    p १) नोकर वर्ग
+                                                    p २) तेल
+                                                    p ३) इतर आवश्यक गोष्टी
+
+                                            //- 9th point 
+                                            div
+                                                p जत्रा, बाजार गाडीतळ व आठवडी टांगा स्टँड बाजार देखभाल दुरुस्ती
+
+                                            //- 10th point
+                                            div 
+                                                p १०) कसाई खाने 
+                                                div(class='pl-4')
+                                                    p १) बांधकाम
+                                                    p २) दुरुस्ती
+                                            
+
+                                        th 
+                                
+                                    //- row 4
+                                    tr 
+                                        th मु. स्था. यं. अधिनियम १९६१ कलम १६३ खंड (ब) पंचायतीसाठी नेमून दिलेला धंदा व व्यापार कर व नोकरी यावरील कामे उत्पन्न
+                                        th 
+
+                                        th 
+                                            //- 11th point
+                                            div 
+                                                p ११)स्मशान भूमी व दफन भूमी
+                                                div(class='pl-4')
+                                                    p १) खरेदी 
+                                                    p २) अभिरक्षण
+
+
+                                        th 
+                                    
+                                    //- row 5
+                                    tr 
+                                        th पुढील पानावर केलेली बेरीज
+                                        th ___
+                                        th पुढील पानावर केलेली बेरीज
+                                        th ____
+
+                                    //- SECOND PAGE
+                                    //- row 6
+                                    tr 
+                                        th मागील पानावरील बेरीज 
+                                        th 
+                                        th मागील पानावरील बेरीज 
+                                        th
+
+                                    //- row 7
+                                    tr 
+                                        th 
+                                            div 
+                                                p ८) पुढील वस्तूची विक्री करून आलेले उत्पन्न
+                                                div(class='pl-4')
+                                                    p १) काडी कचरा, शेण व मृतजनावरे यापासून
+                                                    p २) ग्रामपंचायती निरुपयोगी मालमत्ता
+                                                        div(class='pl-4')
+                                                            p १) मुद्रांक अनुदान
+                                                            p २) जमीन महसूल अनुदान
+
+                                        th 
+                                        th 
+                                            div 
+                                                p १२) कोंडवाडे
+                                                div(class='pl-4')
+                                                    p अ) नोकर सुस्तिथित ठेवणे
+                                                    p ब) अन्य आवश्यक खर्च 
+                                                    p क) कोंडवाडा रक्षकाचा पगार 
+                                        th 
+
+                                    
+                                    //- row 8
+                                    tr 
+                                        th 
+                                            div 
+                                                p अंशदाने 
+
+                                                div 
+                                                    p १) अ) राज्य सरकार कडून
+                                                    p ब) जिल्हापरिषद / पंचायत समितीकडून  
+                                            div
+                                                p इतर अंशदाने
+                                                div 
+                                                    p १) दाखला फी 
+                                                    p २) फेरफार फी
+                                        th 
+                                        th 
+                                            div
+                                                p १३) पंचायतीत विहित असलेल्या सार्वजनिक इमारती सुस्तिथित ठेवणे, आठवडी बाजार वसुली परत
+                                                p १४) वैद्यकीय मदत 
+                                                p १५) प्रसूती व शिशू संगोपन महिला व बालकल्याण १०%
+                                                
+                                                
+                                        th
+
+                                    //- row 9
+                                    tr 
+                                        th १०) कलम ९० अन्वये ची फी (दंड)
+                                        th 
+                                        th 
+                                            div 
+                                                p १६) सार्वजनिक आरोग्य (ब्लिचिंग खरेदी)
+                                        th
+
+                                    //- row 10
+                                    tr 
+                                        th ११) निश्चित मालमत्तेची प्राप्ती (विवाह नोंदणी फी)
+                                        th 
+                                        th १७) शिक्षण
+                                        th
+
+                                    //- row 11
+                                    tr 
+                                        th १२) कोंडवाड्याचे उत्पन्न
+                                        th 
+                                        th १८) सार्वजनिक व  सांस्कृतिक कार्यक्रम 
+                                        th
+
+                                    //- row 12
+                                    tr 
+                                        th १३) देणगी व अंगदाने म्हणून मिळालेल्या निविदा फॉर्म विक्री
+                                        th 
+                                        th १९) ग्राम सरंक्षण निविदा जाहिरात 
+                                        th
+
+                                    //- row 13
+                                    tr 
+                                        th १४) फौजदारी खटल्या व्यतिरिक्त इतर फंड (उशिरा जन्म नोंद फी) किंवा भाडे म्हणून मिळालेल्या रकमा गाडगे बाबा अभियान
+                                        th 
+                                        th 
+                                            div 
+                                                p २०) लोक कल्याण ५% दिव्यांग 
+                                                p २१) शेती 
+                                                    div(class='pl-4')
+                                                        p १) सरपंच मानधन 
+                                                        p २) उपसरपंच मानधन 
+                                                p २२) जंगल संरक्षण पोस्टले 
+                                                //- p 
+
+                                        th
+
+                                    //- row 14
+                                    tr 
+                                        th १५) कलम १२७ खाली मिळालेला भेस व्याज
+                                        th 
+                                        th २३) गुरांची निपज व त्यांची निक्षा
+                                        th
+
+                                    //- row 15
+                                    tr 
+                                        th १६) इतर मिळालेल्या रक्कमा
+                                        th 
+                                        th २४) ग्रामोयोग | बँक चार्जेस
+                                        th
+
+                                    //- row 16
+                                    tr 
+                                        th 
+                                            div 
+                                                p १७) कर्ज अनामत आवक दिलेल्या रक्कमा जि. प. शाळा वर्ग, खोली बांधकाम 
+
+                                                div(class='pl-4')
+                                                    p अ) राज्य सरकारकडून मिळालेले कर्ज
+                                                    p ब) जि.प./ पं.स. कडून मिळालेले कर्ज 
+                                                    p क) जिल्हा ग्रामविकास निधीतून 
+                                                    p ड) कलम ४६ व ४७ खाली हस्तांतरित केलेली कामे व ४८ अन्वये/इतर कर्तव्य पार पाडण्यासाठी(जि.प /पं.स.) यांचा अंतर्भाग करून स्थानिक प्राधिकाऱ्यांचे पंचायतीच्या हवाली केलेला निधी
+                                                    p ई) कर्जाचा रक्कमा 
+
+                                                
+                                        th 
+                                        th(rowspan='4')
+                                            div 
+                                                div 
+                                                    p २५) जनकल्याणाची इतर कामे गावाचे प्रवेश मार्ग सुस्तिथित ठेवणे
+
+                                                div 
+                                                    p २६) हत्यारे व यंत्र सामग्री 
+
+                                                div 
+                                                    p २७) किरकोड (उसनवार इतर)
+                                                
+                                                div 
+                                                    p २८) कर्ज ठेवी व अग्रिम धन 
+
+                                        th
+
+                                    //- row 17
+                                    tr 
+                                        th १८) एकूण मिळालेल्या रक्कमा
+                                        th 
+                                        th 
+                                        th 
+                                    
+                                    //- row 18
+                                    tr 
+                                        th १९) सुरुवातीच्या शिल्लकेचा समावेश करून एकूण जमा 
+                                        th 
+                                        th 
+                                        th
+                                    //- row 19
+                                    tr 
+                                        th २०) लोकसंख्ये प्रमाणे दर मानसी प्राप्ती
+                                        th 
+                                        th 
+                                        th 

@@ -1,0 +1,54 @@
+
+
+.my-print
+
+
+    div(style='margin: 1rem 0;')
+        div(style='font-weight: 600; font-size: 0.85rem;')
+            p(style='text-align: center;') (सहा) प्रारंभीची शिल्लक
+
+    table(style='width: 100%;')
+
+
+        -
+            let initialBalanceHeadings = [
+                "जवाहर ग्रामसमृद्धी योजना", 
+                "ग्रामनिधी पुरवठा निधी खाते",
+                "ग्रामपंचायत निधी खाते",
+                "इतर",
+
+                "एकूण (सहा) (१ ते ४)",
+                "एकूण जमा (प्रारंभीची शिल्लकेसह) (एक + दोन + तीन + चार + पाच + सहा)",
+                "वर्षात जमा (एक + दोन + तीन + चार)",
+                "जि. ग्रा. वि. निधी आकारण्या योग्य उत्त्पन्न (एकूण) (एक) (अ + ब + क)",
+                "मागील वर्षात प्राप्त उत्त्पन्न",
+                "वाढ किंवा घट", 
+                ""
+            ]  
+
+
+        thead
+
+            tr
+                each heading, index in initialBalanceHeadings
+                    th #{heading}
+                
+            tr
+                each _, index in initialBalanceHeadings
+                    th #{index + 1}
+                
+        tbody 
+
+            tr 
+                td #{initialBalance.jawahar_gram_samruddhi_scheme}
+                td #{initialBalance.village_fund_supply_account}
+                td #{initialBalance.gram_panchayat_fund_account}
+                td #{initialBalance.other}
+                td #{initialBalance.total_6_1_to_4}
+
+                td #{initialBalance.total_with_initial_balance}
+
+                td #{initialBalance.total_in_year}
+                td #{initialBalance.eligible_income_for_gra_viv_fund}
+                td #{initialBalance.previous_year_income}
+                td #{initialBalance.increase_or_decrease}

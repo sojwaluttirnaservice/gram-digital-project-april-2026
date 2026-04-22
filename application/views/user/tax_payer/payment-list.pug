@@ -1,0 +1,155 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+
+block internal_js
+    script.
+        $('#nav-lower-container').css('display', 'none')
+        $('#nav-upper-container').addClass('border-b border-blue-200');
+
+block content
+    section(class='py-8 md:py-14 bg-gradient-to-b from-blue-50 via-gray-50 to-white')
+        .container(class='max-w-6xl mx-auto px-3')
+
+            //- ----------------------------
+            //- 🧾 Heading
+            //- ----------------------------
+            //- h2(class='text-lg sm:text-xl md:text-2xl text-center font-semibold text-gray-800 leading-snug tracking-wide mb-2 md:mb-4')
+                | ग्रामपंचायत कार्यालय 
+                span(class='text-blue-700 font-bold') #{gp.gp_name}
+                | , पं. स. 
+                span(class='text-blue-700 font-bold') #{gp.gp_taluka}
+                | , जि. 
+                span(class='text-blue-700 font-bold') #{gp.gp_dist}
+
+            h6(class='text-center font-extrabold tracking-widest text-xl md:text-3xl underline underline-offset-[1rem] decoration-sky-600 bg-gradient-to-r from-blue-600 via-sky-400 to-emerald-500 text-transparent bg-clip-text mb-10') नागरिक सुविधा व करभरणा QR द्वारे
+
+            //- Big Holder Name (Hero Title)
+            h6(class='text-center font-bold text-2xl md:text-3xl text-blue-700 mb-8')
+                | #{user.feu_ownerName}
+
+            //- ----------------------------
+            //- 💰 Payment Options – At Top
+            //- ----------------------------
+            .mt-4.mb-12
+                h3(class='text-center text-xl md:text-3xl font-bold text-gray-800 mb-8 tracking-wide')
+                    | कर भरा
+
+                .grid(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6')
+
+                    a(
+                        class="bg-gradient-to-br from-emerald-500 to-green-600 text-white font-semibold text-center py-6 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+                        href='/gp-applications'
+                    )
+                        div(class='w-full flex gap-4 justify-center items-center text-2xl tracking-widest')
+                            div 
+                                i.fa-solid.fa-file
+                            div नागरिक सुविधा अर्ज 
+
+                    a(
+                        class="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-center py-6 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+                        href=`/tax-payer/new/samanya-payment/${user.id}`
+                    )
+                        div(class='w-full flex gap-4 justify-center items-center text-2xl tracking-widest')
+                            div 
+                                i.fa-solid.fa-credit-card
+                            div सामान्य कर भरा
+
+                    a(
+                        class="bg-gradient-to-br from-cyan-500 to-sky-600 text-white font-semibold text-center py-6 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+                        href=`/tax-payer/pani-payment/${user.id}`
+                    )
+                        div(class='w-full flex gap-4 justify-center items-center text-2xl tracking-widest')
+                            div 
+                                i.fa-solid.fa-hand-holding-droplet
+                            div पाणी कर भरा
+
+            //- ----------------------------
+            //- 📄 धारकाची माहिती – Clean Responsive Card
+            //- ----------------------------
+            .card(class='bg-white shadow-md shadow-blue-100 rounded-3xl border border-blue-100/60 mb-10 p-6 md:p-8')
+                h3(class='font-bold text-gray-800 text-lg md:text-xl text-center mb-5')
+                    | धारकाची माहिती
+
+                .grid(class='grid grid-cols-1 md:grid-cols-2 gap-6')
+
+                    // Reusable Row Component (Label + Value)
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100')
+                        div(class='text-sm text-gray-600') अनु / घर क्रमांक
+                        div(class='font-semibold text-gray-800 text-lg') #{user.id}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100')
+                        div(class='text-sm text-gray-600') मालमत्ता क्र.
+                        div(class='font-semibold text-gray-800 text-lg') #{user.feu_malmattaNo}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100')
+                        div(class='text-sm text-gray-600') वार्ड नं
+                        div(class='font-semibold text-gray-800 text-lg') #{user.feu_wardNo}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100')
+                        div(class='text-sm text-gray-600') जुना घर क्रमांक
+                        div(class='font-semibold text-gray-800 text-lg') #{user.feu_homeNo}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100 md:col-span-2')
+                        div(class='text-sm text-gray-600') पेमेंट मोबाइल
+                        - const rawMobile = (user?.feu_mobileNo || '').toString().replace(/-/g, '').trim();
+                        - const sanitizedMobile = rawMobile.length === 0 ? '-' : 'xxxxxx' + rawMobile.slice(-4);
+                        div(class='font-semibold text-gray-800 text-lg') #{sanitizedMobile}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100 md:col-span-2')
+                        div(class='text-sm text-gray-600') धारकाचे नाव व पत्नीचे नाव
+                        div(class='font-semibold text-gray-800 text-lg') #{user.feu_ownerName}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100')
+                        div(class='text-sm text-gray-600') आधार क्र.
+                        - const _aad = (user?.feu_aadharNo || '').toString().replace(/-/g, '').replace(/\s+/g, '').replace(/\D/g, '');   // keep only digits
+                        - const _aadFormatted = _aad.length >= 4 ? `xxxx-xxxx-${_aad.slice(-4)}`: '-';
+                        div(class='font-semibold text-gray-800 text-lg') #{_aadFormatted}
+
+                    .info-row(class='flex flex-col bg-blue-50/40 p-4 rounded-xl border border-blue-100 md:col-span-2')
+                        div(class='text-sm text-gray-600') भोगवटदाराचे नाव
+                        div(class='font-semibold text-gray-800 text-lg') #{user.feu_secondOwnerName}
+
+
+            // ----------------------------
+            // 📸 Images Section
+            // ----------------------------
+            .grid(class='grid grid-cols-1 md:grid-cols-2 gap-6 mt-10')
+                .image-card(class='bg-white p-4 rounded-2xl shadow-md shadow-blue-100 border border-blue-100')
+                    h6(class='font-semibold text-gray-800 mb-2') घराचा फोटो
+                    img(
+                        class='rounded-xl w-full h-56 object-cover border border-blue-200'
+                        src=`/home_map_image/home_photo/${user.feu_image || `${user.feu_malmattaNo}.jpeg`}`
+                        onerror="this.src='/img/fallback/no-image-found.png'"
+                    )
+
+                //- .image-card(class='bg-white p-4 rounded-2xl shadow-md shadow-blue-100 border border-blue-100')
+                    h6(class='font-semibold text-gray-800 mb-2') नकाशाचा फोटो
+                    img(
+                        class='rounded-xl w-full h-56 object-cover border border-blue-200'
+                        src=`/home_map_image/map_photo/${user.feu_image_map || `${user.feu_malmattaNo}_map.jpeg`}`
+                        onerror="this.src='/img/fallback/no-image-found.png'"
+                    )
+
+
+
+            - let locationExists = user.home_image_latitude && user.home_image_longitude
+            if locationExists
+                .mt-8 
+                    div(class='overflow-hidden border-4 border-gray-300 rounded-md')
+                        iframe#mapIframe(src=`https://www.google.com/maps?q=${user.home_image_latitude},${user.home_image_longitude}&output=embed` width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
+
+            //- // ----------------------------
+            //- // 📍 Map Button
+            //- // ----------------------------
+            
+            .mt-8
+                
+                a(
+                    class='block w-full text-center py-3 rounded-2xl font-bold text-white transition-all shadow-sm shadow-blue-200 ' +(locationExists 
+                          ? "bg-blue-600 hover:bg-blue-700" 
+                          : "bg-gray-400 cursor-not-allowed")
+                    href=(locationExists ? `https://www.google.com/maps?q=${user.home_image_latitude},${user.home_image_longitude}` : null)
+                    disabled=!locationExists
+                )
+                    | #{ locationExists ? 'Open In Google Maps' : 'No Location Found' }

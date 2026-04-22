@@ -1,0 +1,221 @@
+doctype html
+head
+	title Unavailability Certificate
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+	style.
+
+
+
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			height: 85%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			top: 50%;
+			aspect-ratio: 1/1;
+		}
+		@media print {
+			@page { 
+				size: A4 landscape;
+
+			}
+			.select-container{
+				display: none;
+			}
+			body {
+				margin:0;
+				padding:0;
+			}
+			body {transform: scale(1);}
+
+			.my-print {
+				margin: 0;
+			}
+		}
+
+
+
+	script.
+		//- document.addEventListener('DOMContentLoaded', function() {
+		//- 	// Your code here
+		//- 	//- console.log('Document fully loaded and parsed');
+		//- 	const _data = !{JSON.stringify(birthCertificate)};
+		//- 	const _gp = !{JSON.stringify(gp)};
+
+
+		//- 	//- const qrData = JSON.stringify(_data);
+		//- 	const _dataString = `नाव : ${_data.name_m}\nName :${_data.name}\nलिंग : ${_data.gender_m}\nGender:${_data.gender}\nजन्म दिनांक : ${_data.date_of_birth_m}\nDate of Birth: ${_data._date_of_birth} \nजन्माचे ठिकाण: ${_data.place_of_birth_m} \nPlace of Birth: ${_data.place_of_birth}\nग्रामपंचायत: ${_gp.gp_name}`;
+
+
+		//- 	var qrcode = new QRCode(document.getElementById('qr-code'), {text: _dataString, width:150, height:150});
+		//- });
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var certificateTypeSelect = document.getElementById('certificate-type');
+			var watermarkSelect = document.getElementById('watermark-select');
+
+			var englishCertificate = document.getElementById('english-certificate');
+			var marathiCertificate = document.getElementById('marathi-certificate');
+			var watermark = document.getElementById('watermark');
+
+			// Function to handle certificate type change
+			function handleCertificateTypeChange() {
+				var selectedValue = certificateTypeSelect.value;
+
+				if (selectedValue === 'english') {
+					englishCertificate.style.display = 'block';
+					marathiCertificate.style.display = 'none';
+				} else if (selectedValue === 'marathi') {
+					englishCertificate.style.display = 'none';
+					marathiCertificate.style.display = 'block';
+				}
+			}
+
+			// Function to handle watermark select change
+			function handleWatermarkSelectChange() {
+				var watermarkValue = watermarkSelect.value;
+
+				if (watermarkValue === '1') {
+					watermark.style.display = 'block';
+				} else if (watermarkValue === '0') {
+					watermark.style.display = 'none';
+				}
+			}
+
+			// Attach event listeners
+			certificateTypeSelect.addEventListener('change', handleCertificateTypeChange);
+			watermarkSelect.addEventListener('change', handleWatermarkSelectChange);
+
+			// Initialize display based on default values
+			//- handleCertificateTypeChange();
+			//- handleWatermarkSelectChange();
+		});
+
+body
+	.select-container 
+		select#certificate-type(name="" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;")
+			option(value="english") English Certificate
+			option(value="marathi") Marathi Certificate
+
+		select#watermark-select(name="" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;")
+			option(value="1") Show Watermark
+			option(value="0") Hide Watermark
+	.my-print(style="height:200mm; width:298mm; border: 4px solid gray; padding: 0.4rem; position: relative;")
+
+		img.waterMark#watermark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+		div#english-certificate
+
+			h2.text-center(style="text-align:center") Form No. 10
+
+			h1(style="text-align:center") NON AVAILABILITY CERTIFICATE 
+			div(style="text-align:center; font-size: 1.2rem;") (Issued under Section 17 of the Registration of Births & Deaths Act, 1619)
+
+			p(style="text-align:center; font-size:1rem;") Certificate No: 
+				span(style="font-weight:bold;") #{unavailabilityCertificate.id}
+
+			p(style="margin-top:5rem; font-size:1.6rem; text-align:center; line-height: 2; letter-spacing: 1px;") This to certify that a search has been made on the request of 
+				span(style="font-weight: bold") #{unavailabilityCertificate.name} 
+				span(style="font-weight: bold") #{unavailabilityCertificate.relation_to_parent_or_spouse} 
+				| of 
+				span(style="font-weight: bold") #{unavailabilityCertificate.name_of_parent_or_spouse} 
+				| in the records of the year(s) 
+				span(style="font-weight: bold;") #{unavailabilityCertificate.year_range} 
+				| relating to 
+				span(style="font-weight: bold; font-size:1.2rem;") #{gp.gp_name} 
+				| of sub district 
+				span(style="font-weight: bold; font-size:1.2rem;") #{gp.gp_taluka} 
+				| of district 
+				span(style='font-weight: bold; font-size:1.2rem;') #{gp.gp_dist} 
+				| of State 
+				span(style='font-weight: bold') Maharashtra 
+				| and found that the event relating to the 
+				span #{unavailabilityCertificate.certificate_not_found_for ? unavailabilityCertificate.certificate_not_found_for.toLowerCase() : '-'} 
+				span of 
+				span(style="font-weight: bold") #{unavailabilityCertificate.name} #{unavailabilityCertificate.relation_to_parent_or_spouse} of 
+				span(style='font-weight: bold') #{unavailabilityCertificate.name_of_parent_or_spouse} 
+				| was not registered.
+
+
+			div(style='display: flex; justify-content: space-between;padding: 0 4rem; margin-top: 9rem; font-size: 1.4rem;')
+
+				div Date: 
+					span(style='font-weight: bold;') #{date}
+
+
+				div(style="display:flex; flex-direction: column;")
+					img(src='/print/gs.jpeg' width='150' height='50' style=`opacity:${gp.gramsevak_sign_display == 1 ? "100": "0"}`)
+					div Signature of Issuing Authority
+					div(style="font-weight: bold;") Register(Birth & Death)
+
+
+		div#marathi-certificate(style='display: none;')
+
+			h2.text-center(style="text-align:center") नमुना क्रमांक १० (ब )
+
+			h1(style="text-align:center") जन्म मृत्यू नोंद अनुपलब्धता प्रमाणपत्र  
+			div(style="text-align:center; font-size: 1.2rem;") (जन्म आणि मृत्यू नोंदणी अधिनियम, १९६९ च्या कलाम १७ अन्वये दिलेले)
+
+			p(style="text-align:center; font-size:1rem;") Certificate No: 
+				span(style="font-weight:bold;") #{unavailabilityCertificate.id}
+
+			p(style="margin-top:5rem; font-size:1.6rem; text-align:center; line-height: 2; letter-spacing: 1px;") प्रमाणित करण्यात  येते की 
+				span(style="font-weight: bold") #{unavailabilityCertificate.name_m}, 
+
+				span(style="font-weight: bold") #{unavailabilityCertificate.name_of_parent_or_spouse_m} 
+
+				if unavailabilityCertificate.relation_to_parent_or_spouse == "son" 
+					span ह्यांचा 
+				if unavailabilityCertificate.relation_to_parent_or_spouse == "daughter"
+					span ह्यांची  
+				if unavailabilityCertificate.relation_to_parent_or_spouse == "wife"
+					span ह्यांच्या
+				if unavailabilityCertificate.relation_to_parent_or_spouse == 'husband'
+					span ह्यांचे
+
+				span(style="font-weight: bold") #{unavailabilityCertificate.relation_to_parent_or_spouse_m} 
+
+
+				| यांच्या विनंतीवरून  
+				span(style="font-weight:bold;") #{unavailabilityCertificate.name_m} 
+				span यांचे, 
+				| (स्थानिक  क्षेत्र) 
+				span(style="font-weight: bold; ") #{gp.gp_name} 
+				| तहसिल, 
+				span(style="font-weight: bold; ") #{gp.gp_taluka} 
+				| जिल्हा 
+				span(style='font-weight: bold; ') #{gp.gp_dist} 
+
+				| राज्य 
+				span(style='font-weight: bold') महाराष्ट्र 
+				| या 
+				span(style="font-weight: bold;") #{unavailabilityCertificate.year_range_m} 
+				| वर्षाचे  नोंदणी अभिलॆखाचा शोध घेण्यात आला  आणि असे दिसून आले की, 
+
+				span(style="font-weight: bold") #{unavailabilityCertificate.name_m} 
+				| ह्यांची  
+				span(style='font-weight: bold') #{unavailabilityCertificate.certificate_not_found_for_m} 
+				|नोंद करण्यात आलेली  नाही.
+
+
+			div(style='display: flex; justify-content: space-between;padding: 0 4rem; margin-top: 9rem; font-size: 1.4rem;')
+
+				div  दिनांक : 
+					span(style='font-weight: bold;') #{date}
+
+
+				div(style="display:flex; flex-direction: column;")
+					img(src='/print/gs.jpeg' width='150' height='50' style=`opacity:${gp.gramsevak_sign_display == 1 ? "100": "0"}`)
+					div निर्गमित करणाऱ्या प्राधिकाऱ्याची सही
+					div(style="font-weight: bold;") 
+						div रेजिस्टार  (जन्म व मृत्यू)
+						//- div 
+
+

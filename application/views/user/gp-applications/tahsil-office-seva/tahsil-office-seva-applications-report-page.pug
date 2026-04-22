@@ -1,0 +1,184 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title} 
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        style.
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                table-layout: fixed;
+            }
+            td, th {
+                padding: 0.3rem;
+                border: 1px solid oklch(26.2% 0.051 172.552);
+                vertical-align: top;
+                font-size:0.8rem;
+            }
+
+            @media print {
+                @page { size: landscape; margin: 9mm; }
+                .hide-print { display: none !important; }
+                #print { height:100lvh; }
+                .my-print { position: relative; background: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+
+                thead { display: table-header-group !important; }
+                tr { page-break-inside: avoid; break-inside: avoid; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .qrcode {
+                width: 30mm;
+                height: 30mm;
+            }
+
+            .qrcode img {
+                width: 100%;
+                height: 100%;
+            }
+
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+    body
+        div(class="hide-print")
+            div(class="fixed top-[45%] right-[2%] flex flex-col items-end gap-2 z-50")
+                button(class="w-fit bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+
+                select(id='certificate-dropdown' class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+
+                    option(value="" selected= (filterCertificate == "")) सर्व दाखले
+                    each _option in subjects
+                        option(value=_option.subject_name selected=(filterCertificate == _option.subject_name)) #{_option.subject_name} दाखवा
+
+
+        if !(applications && applications.length)
+            h2(class='mt-8 text-center text-2xl font-bold text-red-500')
+                if filterCertificate === ""
+                    | सदर कालावधीसाठी कोणतेही मान्य अर्ज उपलब्ध नाहीत.
+                else
+                    | सदर विषयासाठी (#{filterCertificate}) कोणतेही मान्य अर्ज उपलब्ध नाहीत.
+
+        else
+            #print(class="tiro-devanagari-marathi-regular")
+                div(class="my-print p-2 border border-gray-900 bg-white/80 relative h-full print-bg")
+                    div(class="absolute inset-0 bg-white opacity-80")
+                    .relative.z-10.bg-white.bg-opacity-80.h-full
+                        
+                        - let totalCols = "8"
+                        table
+
+                            colgroup
+                                col(style="width:4%")
+                                col(style="width:6%")
+                                col(style="width:22%")
+
+                                col(style="width:14%")
+                                col(style="width:16%")
+                                col(style="width:14%")
+
+                                col(style="width:13%")
+                                col(style="width:11%")
+
+                            thead
+
+                                tr
+
+                                    th(colspan=totalCols)
+                                        div(class="text-center leading-tight py-1")
+                                            div(class="text-xl font-extrabold tracking-wide text-gray-900")
+                                                | ग्रामपंचायत कार्यालय #{gp.gp_name}
+                                            div(class="text-sm font-semibold mt-1 text-gray-700")
+                                                | पंचायत समिती : #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist}
+
+
+                                tr
+                                    th अ. क्र.
+                                    th अर्ज क्र.
+                                    th अर्जदाराचे नाव व पत्ता
+                                    th अर्ज प्राप्त दिनांक
+                                    th अर्जाचा विषय
+                                    th अर्ज निवारणी दिनांक
+                                    th QR Code
+                                    th नोंद / शेरा
+
+                            tbody
+                                each application, _index in applications
+                                    - const resolutionDate = application._date_of_acceptance  || '—'
+
+                                    - const remark = application.acceptance_remark || application.rejection_remark || '—'
+
+                                    tr
+                                        td #{_index + 1}
+                                        td #{application.id}
+
+                                        td(class="break-words whitespace-normal")
+                                            div
+                                                b नाव :
+                                                |  #{application.applicant_name}
+                                            if application.applicant_address
+                                                div
+                                                    b पत्ता :
+                                                    |  #{application.applicant_address}
+                                            if application.applicant_mobile
+                                                div
+                                                    b मोबाईल :
+                                                    |  #{application.applicant_mobile}
+
+                                        td #{application._createdAt}
+                                        td(class="break-words whitespace-normal") #{application.subject}
+                                        td #{resolutionDate}
+
+                                        td
+                                            div(class="flex justify-center")
+                                                - let qrId = `qrcode-${application.id}`
+                                                div.qrcode(id=qrId)
+
+                                        td(class="break-words whitespace-normal") #{remark}
+
+        script.
+            (function(){
+                let _applications = !{JSON.stringify(applications)}
+
+                if(_applications){
+                    _applications.forEach(_application =>{
+                        new QRCode(
+                            document.getElementById(`qrcode-${_application.id}`),
+                            window.location.origin + "/gp-applications/to-seva/a/" + _application.id
+                        )
+                    })
+                }
+
+
+                let certDropdown = document.getElementById('certificate-dropdown')
+
+                certDropdown.addEventListener("change", function(){
+                    const certValue = this.value;
+                    const url = new URL(window.location.href);
+                    if (certValue) {
+                        url.searchParams.set('cert', certValue);
+                    } else {
+                        url.searchParams.delete('cert');
+                    }
+                    window.location.href = url.toString();
+                })
+            })()

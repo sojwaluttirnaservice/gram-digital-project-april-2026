@@ -1,0 +1,59 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet' href='/asstest/coustom/css/login-page.css')
+
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+
+  title Master Login Page
+
+  style.
+    .back-image{
+      background-image: url("/img/background/back-cover-1.jpg");
+      background-size: 100% 100vh;
+    }
+    #arja{
+      position:absolute;
+      right:50px;
+      top:0px;
+      z-index:10000000;
+    }
+
+body.back-image
+  .container-fluid
+    button#login.btn.btn-primary(style="margin-left:60%;margin-top:5vh") Login
+    .wrapper.d-none.fadeInDown
+
+      #formContent
+        // Tabs Titles
+        // Icon
+        .fadeIn.first
+          p.pt-4.h4.text-center.font-weight-bold 
+            img#icon(src='/new-gp-page/main-page/images/login-header.jpg' alt='User Icon' width="150")
+          p.h3.text-primary.text-center.font-weight-bold ग्रामपंचायत कार्यालय #{gp.gp_name}
+
+        // Login Form
+        form(action="/master/masterLoginCheck" method="Post")
+          input.mt-3#login.fadeIn.second(type='text' name='userName' placeholder='युझर नेम',required)
+          input#password.fadeIn.third(type='password' name='password' placeholder='पासवर्ड' required)
+          input.fadeIn.fourth(type='submit' value='लोग इन')
+        // Remind Passowrd
+        #formFooter.bg-info
+          p.text-c
+    script.
+      $(function(){
+
+        $('.wrapper').removeClass('d-none')
+        $('#login').addClass('d-none')
+
+      })
+
+

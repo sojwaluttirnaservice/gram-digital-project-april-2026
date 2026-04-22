@@ -1,0 +1,58 @@
+extends ../include/index-page-master-layout.pug
+
+block content
+    section(class='py-8 md:py-16')
+        .container 
+            .job-related-container
+
+                h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                    <i class="fa-brands fa-creative-commons-nd"></i>
+                    //- span.ml-2 Jobs 
+                    span.ml-2 #{t("jobsPage.heading")}
+
+                div(class='flex justify-center mt-3')
+                    div(class='w-full text-center')
+
+                        div(class='mt-3')
+                            if jobs == null || jobs.length === 0
+                                h2(class='text-center text-red-600') 
+                                    //- | No Information Available
+                                    | #{t("jobsPage.noInfo")}
+                            else
+                                div(class='-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8')
+                                    div(class='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8')
+                                        div(class='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg')
+                                            table(class='min-w-full divide-y divide-gray-300')
+                                                thead(class='bg-gray-50')
+                                                    tr
+                                                        th(scope='col' class='w-3% py-3.5 text-center text-sm font-semibold text-gray-900') 
+                                                            //- | Sr. No.
+                                                            | #{t("jobsPage.tableRowHeaders.serialNo")}
+                                                        th(scope='col' class='w-7% px-3 py-3.5 text-center text-sm font-semibold text-gray-900') 
+                                                            //- | Link / File
+                                                            | #{t("jobsPage.tableRowHeaders.linkOrFile")}
+                                                        th(scope='col' class='w-35% px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                            //- | Title
+                                                            | #{t("jobsPage.tableRowHeaders.title")}
+                                                        th(scope='col' class='w-40% px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                            //- | Description
+                                                            | #{t("jobsPage.tableRowHeaders.description")}
+
+                                                tbody(class='bg-white divide-y divide-gray-200')
+                                                    each job, index in jobs
+                                                        tr(class=`${(index % 2 == 1) ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100`)
+                                                            td(class='whitespace-nowrap text-center py-4 px-3 text-sm text-gray-900') #{index + 1}
+                                                            td(class='whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500')
+                                                                if(job.link !== '')
+                                                                    a(href=job.link target='_blank' class='text-indigo-600 hover:text-indigo-900') 
+                                                                        //- | click here
+                                                                        | #{t("jobsPage.clickHere")}
+                                                                else 
+                                                                    - let filePath = `/new-gp-page/main-page/files/job-related-files/${job.file_name}`
+                                                                    a(href=filePath target='_blank' class='text-indigo-600 hover:text-indigo-900')
+                                                                        i(class='fa fa-file')
+                                                            td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{job.job_title}
+                                                            td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{job.job_description}
+                                                            //- td(class='whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500') #{job.expiry_date}
+
+

@@ -1,0 +1,251 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/prapatra-ee-current/namuna-3-prapatra-ee-current-page-form-handler.js' type='module' defer)
+
+    title प्रपत्र ई चालू 
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+      form(id='prapatra-ee-current-form').mt-1
+        .form.form-1
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#808000; padding:8px 18px; display:block; margin:10px auto;") नमुना ३ प्रपत्र ई चालू 
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष
+                input.form-control(name='year' id='year' placeholder="Enter Year" value=year readonly)
+
+            //- Shauchalay (Toilet Expenses)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="toilet_expenses") शौचालय
+                input.form-control(type="number" step="any" id="toilet_expenses" name="toilet_expenses" placeholder=" ")
+
+            //- Dalit Wasti Sudhar (Dalit Welfare)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="dalit_welfare") दलित वस्ती सुधार
+                input.form-control(type="number" step="any" id="dalit_welfare" name="dalit_welfare" placeholder=" ")
+
+            //- Water Supply / TCL
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_supply_tcl") पाणीपुरवठा / टी. सी. एल
+                input.form-control(type="number" step="any" id="water_supply_tcl" name="water_supply_tcl" placeholder=" ")
+
+            //- Construction Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="construction_expenses") बांधकाम
+                input.form-control(type="number" step="any" id="construction_expenses" name="construction_expenses" placeholder=" ")
+
+            //- Education Schools
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="education_schools") शिक्षण शाळा
+                input.form-control(type="number" step="any" id="education_schools" name="education_schools" placeholder=" ")
+
+            //- Honorarium Minimum Wage & Meeting Allowance
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="honorarium_min_wage_allowance") मानधन किमान वेतन व बैठक भत्ता
+                input.form-control(type="number" step="any" id="honorarium_min_wage_allowance" name="honorarium_min_wage_allowance" placeholder=" ")
+
+            //- Health Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="health_expenses") आरोग्य
+                input.form-control(type="number" step="any" id="health_expenses" name="health_expenses" placeholder=" ")
+
+            //- Other Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_expenses") इतर
+                input.form-control(type="number" step="any" id="other_expenses" name="other_expenses" placeholder=" ")
+
+            //- Total (Two) Government Grants
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_government_grants_2") एकूण (दोन) शासकीय अनुदाने
+                input.form-control(type="number" step="any" id="total_government_grants_2" name="total_government_grants_2" placeholder=" ")
+
+            //- Golden Jubilee Village Self-Employment Scheme
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="golden_jubilee_village_self_employment_scheme") स्वर्ण जयंती ग्राम स्वरोजगार योजना
+                input.form-control(type="number" step="any" id="golden_jubilee_village_self_employment_scheme" name="golden_jubilee_village_self_employment_scheme" placeholder=" ")
+
+            //- Jawahar Village Prosperity Scheme
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="jawahar_village_prosperity_scheme") जवाहर ग्राम समृद्धी योजना
+                input.form-control(type="number" step="any" id="jawahar_village_prosperity_scheme" name="jawahar_village_prosperity_scheme" placeholder=" ")
+
+            //- Other Schemes
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_schemes") इतर (Other Schemes)
+                input.form-control(type="number" step="any" id="other_schemes" name="other_schemes" placeholder=" ")
+
+            //- Total (Three) 1 to 3
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_schemes_1_to_3") एकूण (तीन) १ ते ३
+                input.form-control(type="number" step="any" id="total_schemes_1_to_3" name="total_schemes_1_to_3" placeholder=" ")
+
+
+            //- संकीर्ण खर्च ---------------------------------
+            //- Restricted Advance / Security
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="restricted_advance_security") अग्रिम / अनामत (संकीर्ण खर्च)
+                input.form-control(type="number" step="any" id="restricted_advance_security" name="restricted_advance_security" placeholder=" ")
+
+            //- Restricted Deposits
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="restricted_deposits") ठेवी (संकीर्ण खर्च)
+                input.form-control(type="number" step="any" id="restricted_deposits" name="restricted_deposits" placeholder=" ")
+
+            //- Restricted Loan Repayment and Interest Payments
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="restricted_loan_repayment_and_interest") कर्ज हफ्ता व व्याज प्रदाने (संकीर्ण खर्च)
+                input.form-control(type="number" step="any" id="restricted_loan_repayment_and_interest" name="restricted_loan_repayment_and_interest" placeholder=" ")
+
+            //- Restricted Other Loan Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="restricted_other_loan_expenses") इतर (संकीर्ण खर्च)
+                input.form-control(type="number" step="any" id="restricted_other_loan_expenses" name="restricted_other_loan_expenses" placeholder=" ")
+
+            //- Restricted Total Expenses 4
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="restricted_total_expenses_4") एकूण (चार) (संकीर्ण खर्च)
+                input.form-control(type="number" step="any" id="restricted_total_expenses_4" name="restricted_total_expenses_4" placeholder=" ")
+
+            //- ---------------------------------------------------------------------------
+
+
+            //- अखेरची शिल्लक -----------------------------
+            //- Final Balance Advance / Security
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance_advance_security") अग्रिम / अनामत (अखेरची शिल्लक)
+                input.form-control(type="number" step="any" id="final_balance_advance_security" name="final_balance_advance_security" placeholder=" ")
+
+            //- Final Balance Deposits
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance_deposits") ठेवी (अखेरची शिल्लक)
+                input.form-control(type="number" step="any" id="final_balance_deposits" name="final_balance_deposits" placeholder=" ")
+
+            //- Final Balance Loan Repayment and Interest Payments
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance_loan") कर्ज (अखेरची शिल्लक)
+                input.form-control(type="number" step="any" id="final_balance_loan" name="final_balance_loan" placeholder=" ")
+
+            //- Final Balance Other Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance_other") इतर (अखेरची शिल्लक)
+                input.form-control(type="number" step="any" id="final_balance_other" name="final_balance_other" placeholder=" ")
+
+            //- Final Balance Total Expenses 5
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="final_balance_total_expenses_5") एकूण (पाच) (अखेरची शिल्लक)
+                input.form-control(type="number" step="any" id="final_balance_total_expenses_5" name="final_balance_total_expenses_5" placeholder=" ")
+
+            //- Jawahar Village Prosperity Expenses
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="jawahar_village_prosperity_expenses") जवाहर ग्राम समृद्धी योजना 
+                input.form-control(type="number" step="any" id="jawahar_village_prosperity_expenses" name="jawahar_village_prosperity_expenses" placeholder=" ")
+
+            //- Panchayat Fund Account
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="panchayat_fund_account") पंचायत निधी खाते
+                input.form-control(type="number" step="any" id="panchayat_fund_account" name="panchayat_fund_account" placeholder=" ")
+
+            //- Village Water Supply Fund
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="village_water_supply_fund") ग्राम पाणी पुरवठा निधी 
+                input.form-control(type="number" step="any" id="village_water_supply_fund" name="village_water_supply_fund" placeholder=" ")
+
+            //- Other Funds
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_funds") इतर 
+                input.form-control(type="number" step="any" id="other_funds" name="other_funds" placeholder=" ")
+
+            //- Total (Six)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_6") एकूण (सहा)
+                input.form-control(type="number" step="any" id="total_6" name="total_6" placeholder=" ")
+
+          //- Submit Button
+          .text-center
+            button.btn.btn-primary.mt-4(type="submit" id='save-prapatra-ee-current-btn') Save

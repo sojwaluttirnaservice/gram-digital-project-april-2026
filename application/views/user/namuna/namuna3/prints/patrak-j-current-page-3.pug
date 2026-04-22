@@ -1,0 +1,130 @@
+
+
+
+.my-print 
+
+    div(style='padding: 1rem 0;')
+
+        h4.text-center पत्रक जे चालू
+
+        h5.text-center सार्वजनिक बांधकामे चालू
+
+
+    table.w-full 
+
+        thead 
+            tr 
+                th(rowspan='2' colspan='1') अनु. क्र.
+                th(rowspan='2' colspan='1') ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+
+                th(rowspan='1' colspan='3') झाडू कामगारा
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='2')
+                //- th
+
+                th(rowspan='1' colspan='2')
+                //- th
+
+                th(rowspan='1' colspan='2')
+                //- th
+
+
+            tr 
+                //- th 
+                //- th
+
+                th(rowspan='1' colspan='1') वर्षाच्या सुरुवातीस असलेली घरे
+                th(rowspan='1' colspan='1') वर्षात बांधलेल्या घरे
+                th(rowspan='1' colspan='1') वर्षात दुरुस्त केलेले घरे
+
+
+                th(rowspan='1' colspan='1')  वर्षाच्या सुरुवातीस असलेली मैदाने
+                th(rowspan='1' colspan='1') वर्षामध्ये अलग राखून ठेवलेली मैदाने
+
+                th(rowspan='1' colspan='1') वर्षाच्या सुरुवातीस असलेली कुरणे 
+                th(rowspan='1' colspan='1') वर्षात ज्या राखून ठेवलेली कुरणे
+
+                th(rowspan='1' colspan='1') वर्षाच्या सुरुवातीस असलेली
+                th(rowspan='1' colspan='1') वर्षात जादा तयार केलेली
+
+            tr 
+                each num in [41,42,43,44,45,46,47,48,49,50,51]
+                    th #{num}
+
+
+        tbody
+
+            tr 
+                td 1
+                td #{patrakJPublicInfra2.gram_panchayat_name} 
+
+                td #{patrakJPublicInfra2.existing_houses_at_year_start}
+                td #{patrakJPublicInfra2.constructed_houses_in_year}
+                td #{patrakJPublicInfra2.repaired_houses_in_year} 
+
+                td #{patrakJPublicInfra2.fields_at_year_start} 
+                td #{patrakJPublicInfra2.fields_separated_in_year} 
+
+                td #{patrakJPublicInfra2.pastures_at_year_start} 
+                td #{patrakJPublicInfra2.pastures_separated_in_year} 
+
+                td #{patrakJPublicInfra2.at_year_start} 
+                td #{patrakJPublicInfra2.additional_created_in_year}
+
+
+    div(style='padding: 1rem 0;')
+
+        div(style='display: flex; justify-content: space-between;')
+            div सार्वजनिक बांधकामे चालू
+            div शिक्षण व सांस्कृतिक कार्यक्रम
+
+
+
+    table.w-full 
+
+        thead 
+            tr 
+                th(colspan='2') वखारांची संख्या
+                //- th
+
+                th(colspan='3') इतर पत्रकामध्ये समाविष्ट केलेल्या इतर सर्वानिक कामाच्या संख्या 
+                //- th
+                //- th
+
+                th(colspan='3') प्राथमिक शाळांची संख्या
+                //- th
+                //- th
+
+
+
+
+            tr 
+                th वर्षाच्या सुरुवातीस असलेल्या वखारी
+                th वर्षात बांधलेल्या वखारी
+
+                th वर्षाच्या सुरुवातीस असलेली कामे (कामे नमूद करावी)
+                th वर्षात जादा केलेली कामे (कामे नमूद करावी)
+                th वर्षाच्या सुरुवातीस असलेल्या शाळा
+
+                th वर्षात स्थापन केलेल्या शाळा
+                th प्राथमिक शाळेत जाणाऱ्या विद्यार्थ्यांची संख्या
+                th ५८ कॉ. मधील विद्यार्थ्यांचे %
+
+            tr 
+                each num in [53,54,55,56,57,58, '58 अ', '58 ब']
+                    th #{num}
+
+        tbody 
+            tr 
+                td #{patrakJPublicInfra2.existing_barns_at_start_of_year}
+                td #{patrakJPublicInfra2.barns_constructed_during_year} 
+
+                td #{patrakJPublicInfra2.existing_works_at_start_of_year} 
+                td #{patrakJPublicInfra2.works_done_during_year} 
+                td #{patrakJPublicInfra2.existing_schools_at_start_of_year} 
+
+                td #{patrakJPublicInfra2.schools_established_during_year} 
+                td #{patrakJPublicInfra2.students_in_primary_schools} 
+                td #{patrakJPublicInfra2.student_percentage_in_58_col} 

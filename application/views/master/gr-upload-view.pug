@@ -1,0 +1,65 @@
+extends ./master-layout
+
+block internal_css
+	style.
+		td, tr{
+			border: 1px solid gray !important;
+			vertical-align: middle;
+		}
+
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/gr-upload-handler.js')
+
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center GR upload 
+
+				.text-end
+					button.btn.btn-success(id='add-new-gr-btn' type='button' data-bs-target='#add-new-gr-modal') नवीन  जोडा 
+
+			.col-12.mt-5
+				.table-responsive
+					table.table
+						thead 
+							tr 
+								th.bg-primary.text-light(width='10%') Sr No.
+								th.bg-primary.text-light(width='6%') Link
+								th.bg-primary.text-light(width='%') File Name
+								th.bg-primary.text-light(width='4%') Delete
+						tbody 
+							each file, index in filesList
+								tr 
+									td #{index + 1}
+									- let path = `/new-gp-page/main-page/files/gr-lists/${file.file_name}`
+									td 
+										a(href=path target='_blank') Link
+									td #{file.file_name}
+									td 
+										button.btn.text-danger(id='delete-gr-file-btn' type='button' data-id=file.id data-fileName=file.file_name)
+											i.fa.fa-trash
+
+
+		.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='add-new-gr-modal' )
+			.modal-dialog(style='min-width:80% !important;')
+				.modal-content.p-2
+					.modal-header.bg-warning माहिती भरा 
+						h1.modal-title.fs-5() 
+						button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+					.modal-body
+
+						form#upload-gr-form
+
+							.row.align-items-end.gap-3.justify-content-center
+								.col-12.col-md-5
+									label(for="gr-file-name") File name 
+									input.form-control(type='text' id="gr-file-name")
+
+								.col-12.col-md-5
+									label(for="gr-file") File select
+									input.form-control(type='file' id="gr-file")
+								.col-12.col-md-2
+									button.btn.btn-primary.mt-3(type='button' id="upload-gr-file") जतन करा
+
+

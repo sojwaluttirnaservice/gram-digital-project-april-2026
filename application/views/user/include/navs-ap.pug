@@ -1,0 +1,30 @@
+style.
+  body { 
+      animation: fadeInAnimation ease 2s; 
+      animation-iteration-count: 1; 
+      animation-fill-mode: forwards; 
+  } 
+  @keyframes fadeInAnimation { 
+      0% { 
+          opacity: 0; 
+      } 
+      100% { 
+          opacity: 1; 
+      } 
+  } 
+//- nav.navbar.navbar-expand-sm.navbar-light.bg-light.m-0.p-1
+//-     a.navbar-brand.font-weight-bold(href='/') 
+//-       img#icon(src="/img/header-images/mudra-nav.jpg"  width="130" height="50")
+//-       span ग्रा.पं, #{gp.gp_name}
+
+div.d-flex.justify-content-center.align-items-center.flex-column
+  div
+    a(href='/')
+      img#icon(src="/img/header-images/mudra-nav.jpg" width="130" height="50")
+  div.mt-2
+    span ग्रा.पं, #{gp.gp_name}
+
+script.
+  $(function(){
+    $('[data-toggle="tooltip"]').tooltip()
+  });

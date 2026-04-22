@@ -1,0 +1,62 @@
+
+
+
+
+
+.my-print 
+
+
+    div(style='display: flex; align-items: center; justify-content: space-evenly;')
+        div पावती पुस्तक विवरण
+        div गोषवारा
+
+    hr
+
+    div 
+        h3.text-center सन ___________ किती ________  प्रमाणके _________ संख्या
+
+    div(style='display: grid; grid-template-columns: 1fr 1fr;')
+        div
+            div(style='display: flex; flex-direction: column;')
+                div पावती पुस्तके #{recieptBookReport.reciept_books}
+                div नमुना १० #{recieptBookReport.namuna_10}
+                div नमुना ७ #{recieptBookReport.namuna_7}
+                div कोंडवाडा क्रमांक. #{recieptBookReport.kondwada_number}
+
+
+        div(style='margin-left: auto;')
+            div(style='display: flex; flex-direction: column;')
+                div ग्राम निधी #{recieptBookReport.gp_fund}
+                div ग्रा. पा. पु. निधी #{recieptBookReport.gp_water_fund}
+                div सं. ग्रा. पु. यो #{recieptBookReport.s_g_r_y}
+                div बा. वि. आ #{recieptBookReport.b_v_a}
+                div द. व. सु. यो. #{recieptBookReport.d_v_s_y}
+
+    
+    table.w-full
+        thead
+            tr 
+                th(width='5%') अनु. क्र 
+                th ग्रा. पं. सभासदाचे नाव
+                th पद
+                th प्रवर्ग 
+                th वय 
+                th शिक्षण
+                th(width='20%')
+
+
+
+
+        tbody 
+            - let dataRecieptBookReportList = (recieptBookReport != null && recieptBookReport.data_list != null) ? JSON.parse(recieptBookReport.data_list) : [JSON.stringify([{value: 'Empty'}])]
+            //- - let sumRecieptBookReport = new Array(11).fill(0)
+
+            each entryArray, entryIndex in dataRecieptBookReportList 
+                tr
+                    td #{entryIndex + 1}
+                    //- - let sumRecieptBookReportIndex = 0;
+                    each singleEntry in JSON.parse(entryArray)
+                        td #{singleEntry.value}
+                        //- - if (!isNaN(Number(singleEntry.value))) { sumRecieptBookReport[sumRecieptBookReportIndex] = (sumRecieptBookReport[sumRecieptBookReportIndex] || 0) + +singleEntry.value } else { sumRecieptBookReport[sumRecieptBookReportIndex] = sumRecieptBookReport[sumRecieptBookReportIndex] || ''; }
+                        //- td
+                        //- - sumRecieptBookReportIndex += 1

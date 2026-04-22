@@ -1,0 +1,136 @@
+extends ../../../master/master-layout
+block internal_css 
+    //- link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css")
+    style.
+        a{
+            text-decoration: none;
+        }
+        td, th{
+            vertical-align: middle !important;
+            border: 1px solid gray !important;
+        }
+
+        label.error{
+            color: red;
+            font-size: 0.8rem;
+        }
+
+        .sj-overflow-line {
+        //- 	max-width: 100%;
+        //- 	white-space: nowrap;
+        //- 	overflow:hidden;
+        //- 	text-overflow: ellipsis;
+        //- }
+        .sj-overflow-line:hover {
+            //- overflow-x: auto;
+        }
+block custom_js
+
+
+    script.
+        window.totalImagesUploaded = 0;
+        $(function() {
+            
+            $('#total-uploaded-image-count').html(window.totalImagesUploaded)
+            $(document).on('click', '.open-photo-btn', function(e){
+                e.preventDefault();
+
+                $('#open-photo-modal').modal('show')
+                let homeImgUrl = $(this).attr('data-src')
+                let malmattaNo = $(this).attr('data-malmattaNo')
+                let malmattaDharak = $(this).attr('data-malmattaDharak')
+
+                $('#modal-malmattaNo').html(malmattaNo);
+                $('#modal-malmattaDharak').html(malmattaDharak);
+                $('#modal-home-image').attr('src', homeImgUrl);
+            })
+        });
+
+    //- script(src='/asstest/coustom/js/handlers/master-panel-handlers/zoom-meetings-handler.js')
+
+block content
+    .container.mt-5(style='margin-top: 5rem !important')
+        .row.justify-content-center
+            .col-12
+                h4.text-center घराचे फोटोज
+
+
+            .modal.fade(tabindex="-1" aria-labelledby="#open-photo-modal" aria-hidden="true" id ='open-photo-modal' )
+                .modal-dialog(style='min-width:80% !important; margin-inline: auto;')
+                    .modal-content.p-2
+                        .modal-header.bg-warning मालमत्ता धारकाच्या घराचे चित्र
+                            h1.modal-title.fs-5() 
+                            button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                        .modal-body
+
+                            div
+
+                                div 
+                                    p मालमत्ता क्रमांक : 
+                                        span#modal-malmattaNo
+
+                                    p मालमत्ता धारक : 
+                                        span#modal-malmattaDharak
+
+                                div 
+                                    //- legend.text-center Online Zoom meeting form 
+                                    div(class='d-flex justify-content-center')
+                                        image(src='' id='modal-home-image' style='width:90%;height:18rem;')
+
+                                    //- div.text-center
+                                    //-     button.btn.btn-primary.mt-3(type='button' id="submitMeetingRecordBtn") जतन करा
+
+    - var totalUsers = 0;
+    - var totalImagesUploaded = 0;
+    - var imagesWithLocations = 0;
+    .row.justify-content-center
+        .col-11.col-md-10
+            .table-responsive
+                table.table.table-striped.mt-3(style='margin-bottom:9rem;')
+                    thead
+                        tr.text-center
+                            th.text-light.bg-primary Sr.No.
+                            th.text-light.bg-primary मालमत्ता क्रं
+                            th.text-light.bg-primary मालमत्ता धारक
+                            th.text-light.bg-primary घराचा फोटो
+                            th.text-light.bg-primary ठिकाण
+                            //- th.text-light.bg-primary 
+                            //- th.text-light.bg-primary Recording
+                            //- th.text-light.bg-primary Edit 
+                            //- th.text-light.bg-primary Delete
+                    tbody
+                        each f8User, i in form8Users
+                            tr.text-center
+                                td #{i + 1}
+                                td #{f8User.feu_malmattaNo} 
+
+                                td.sj-overflow-line #{f8User.feu_ownerName}
+                                - let homeImgUrl = "/home_map_image/home_photo/" + f8User.feu_image;
+                                td.sj-overflow-line
+                                    button.open-photo-btn.p-0.btn(data-src=homeImgUrl data-malmattaNo=f8User.feu_malmattaNo data-malmattaDharak=f8User.feu_ownerName)
+                                        img(src=homeImgUrl width='40' height='30' onload='window.totalImagesUploaded = (window.totalImagesUploaded || 0) + 1;' onerror='this.style.display="none"; document.getElementById("no-image-" + #{i}).style.display="inline-block";') 
+                                    span(id='no-image-' + i style='display:none; margin-left:5px; color:#888;') No Photo
+                                td 
+                                    if(f8User.home_image_latitude && f8User.home_image_longitude)
+                                        - imagesWithLocations += 1;
+                                        button(class='btn btn-primary' onclick=`window.open('https://www.google.com/maps?q=${f8User.home_image_latitude},${f8User.home_image_longitude}', '_blank')`) 
+                                            i.fa-solid.fa-location-dot.me-1
+                                            //- | Open in Maps 
+
+                                    else 
+                                        span 
+                                            i.fa-regular.fa-map.me-1 
+
+                //- div 
+                //-     div(style='position:fixed; bottom:5%;right:0%;' class='')
+                //-         p एकूण धारक : #{form8Users.length}
+                //-         p उपलब्ध घरांचे फोटो : 
+                //-             span(id='total-uploaded-image-count')
+                //-         p उपलब्ध घरांचे लोकेशन : #{imagesWithLocations}
+
+                div(style='position:fixed; bottom:5%; right:2%; background-color:rgba(255,255,255,0.95); padding:15px 20px; border:1px solid #ccc; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); font-family:Arial, sans-serif; font-size:14px; color:#333; z-index:9999;')
+                    p(style='margin:4px 0; font-weight:bold;') एकूण धारक : #{form8Users.length}
+                    p(style='margin:4px 0;font-weight:bold;') उपलब्ध घरांचे फोटो : 
+                        span(id='total-uploaded-image-count' style='font-weight:bold;') 0
+                    p(style='margin:4px 0;font-weight:bold;') उपलब्ध घरांचे लोकेशन : 
+                        span #{imagesWithLocations}

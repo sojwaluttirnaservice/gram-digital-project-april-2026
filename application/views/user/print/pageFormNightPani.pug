@@ -1,0 +1,345 @@
+doctype html
+head
+  title नमुना ९ पाणी
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+  script(src="/asstest/coustom/js/handlers/common/generate-qr-code-util-handler.js" defer)
+  style.
+
+    @page { 
+      size: landscape;
+      margin: 5mm 5mm 5mm 5mm;
+        -webkit-print-color-adjust: exact; 
+    }
+      .m-top {
+        margin: 10mm 5mm 10mm 5mm !important;
+      }
+      .m-bottom {
+        margin: 5mm 5mm 5mm 5mm !important;
+      }
+      .m-bottom-second {
+        margin: 5mm 5mm 5mm 5mm !important;
+      }
+      tr,td,th{
+        border-color:transparent !important;
+      }
+        .transperent{
+          background-color:transparent !important;
+          color:transparent !important;
+      }
+      .year-1{
+        position: absolute;
+        left:240px;
+        top:60px
+      }
+        .year-2{
+          position: absolute;
+        left:350px;
+        top:60px
+      }
+      .page-number{
+        position: absolute;
+          right:160px;
+          top:34px;
+      }
+      .td-list{
+        margin-top:200px;
+          }
+      .zp{
+        position: absolute;
+        top:0px;
+        left:517px
+    }
+      .td-list span{
+        position: absolute;
+          font-size:11px !important;
+      }
+      .td-list .td-1{
+        top:0px;
+        left:0px
+
+      }
+      .td-list .td-2{
+        top:0px;
+        left:20px;
+        width:0px
+          }
+        .td-list .td-3{
+        top:0px;
+        left: 60px;
+        width:1px !important;
+
+      }
+
+        .td-list .td-4{
+        top:-0px !important;
+        left: 90px;
+        width:220px;
+      }
+        .td-list .td-5{
+        top:0px;
+        left:100px;
+        width: 90px;
+
+      }
+        .td-list .td-6{
+        top:0px;
+        left: 360px
+      }
+        .td-list .td-7{
+        top:0px;
+        left: 415px
+      }
+        .td-list .td-8{
+        top:0px;
+        left: 465px
+      }
+        .td-list .td-9{
+        top:0px;
+        left: 515px
+      }
+        .td-list .td-10{
+        top:0px;
+        left: 557px
+      }
+        .td-list .td-11{
+        top:0px;
+        left: 603px
+      }
+        .td-list .td-12{
+        top:0px;
+        left: 659px
+      }
+        .td-list .td-13{
+        top:0px;
+        left: 710px
+      }
+        .td-list .td-14{
+        top:0px;
+        left: 760px
+      }
+        .td-list .td-15{
+        top:0px;
+        left: 820px
+      }
+      .td-list .td-16{
+        top:0px;
+          left: 863px
+      }
+      .td-list .td-17{
+        top:0px;
+        left: 923px
+      }
+      .td-list .td-18{
+        top:0px;
+        left: 980px
+      }
+
+      tr,td,th{
+        border-color:transparent !important;
+      }
+        .rotatePage{
+          transform: rotateZ(180deg);
+
+      }
+    .rotatePage img{ margin-top:0px !important;  }
+      #table2 td {
+        padding-left:0px;
+        padding-right:0px;
+      }
+    #table3 td {
+      padding-left:5 px;
+      padding-right:5px;
+      } 
+        .set-height > td.td {
+          height:90px;
+        }
+        .set-height > td.td1 {
+          height:100px;
+        }
+        .set-p-break {
+          page-break-before: always;
+        }
+        td{
+          font-size:0.8rem !important;
+          border:0px solid;
+          }
+          table{
+            width:80% !important;
+          }
+          .h6{
+            font-size:11px !important;
+
+          }
+          .h5{
+            font-size:11px !important;
+          }
+
+            .h7{
+              font-size:11px !important;
+          }
+          .d-none{
+            display:none !important
+          }
+          .transperent{
+            background-color:transparent !important;
+            color:transparent !important;
+          }
+
+          td, tr {
+            font-size: 0.9rem !important;
+          }
+
+          @media print {
+          //-  .my-print {
+          //-     margin: 0 auto;
+          //-     margin-top: 9rem;
+          //-     margin-bottom: 0rem;
+          //-  }
+          } 
+
+center
+  div(id='mentioned-qr-target-tag' style='display: none;' data-target='qr-code-container' data-targetUrl="" data-size='130')
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0;
+  - var start = 0;
+
+  while count < main_length 
+    - start = count*5;
+    - array1 = data.slice(start, (start+5));
+    - arrayLen =  5 - array1.length;
+    if(arrayLen !== 0)
+      while arrayLen > 0
+        - var singleVar = {lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0,feu_wardNo:"-",feu_malmattaNo:"-",feu_ownerName:"-",feu_secondOwnerName:"-",lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0}
+        - array1.push(singleVar)
+        - arrayLen--
+    - count++;
+    div.my-print(style="position:relative;display:block;width:410mm;height:280mm !important;  margin-bottom: 0rem;")
+      img(src="/print/3.jpg" width="100%" style='margin-top:9rem')
+      .row.set-p-break(style='position: absolute; z-index: 999; top: 9rem;')
+        .col-12.p-0.m-0 
+          table
+            thead
+              tr.p-0.m-0
+                td(colspan="6").p-1.m-0 
+                  div
+                    p.h4.text-primary.text-danger.font-weight-bold(style="margin-left:56.5rem;font-size:1.8rem; margin-top: 0.rem; width:26rem") #{zp.gp_name} 
+                  div.mt-2.mb-2
+                    p.h5.font-weight-bold  
+                      span(style="position: absolute;top:91px;left:325px;font-size:24px; background:white; width:17.5rem; text-align:center;").h4.year-1 #{y1} ते #{y2}
+                        //- span(style="position: absolute;top:95px;left:480px;font-size:24px").h4.year-2 #{y2}
+                      span.h5.float-left(style="margin-top: -1.05rem; margin-left: 4rem; font-size: 1.4rem !important;") पान क्र. #{count}
+                      span.h5.float-right(style="margin-top: -1.05rem; margin-right: -31rem; font-size: 1.4rem !important;") #{count}
+
+                        //-   span(style="position: absolute;top:91px;left:325px;font-size:24px; background:white; width:17.5rem; text-align:center;")
+                      div(style="position:absolute;top:0px;left:1424px;font-size:17px")
+                        div(style="border:1px solid black; padding:1px;").qr-code-container
+
+        .col-12.p-0.m-0
+          center
+            table(border="0" style="margin-top:18rem; left: 1.6rem; position: absolute;")#table2
+              thead
+                - var lastSpacialWaterTax= 0;
+                - var currentSpacialWaterTax= 0;
+                - var totalSpacialWaterTax= 0;
+                - var lastGenealWaterTax= 0;
+                - var currentGenealWaterTax= 0;
+                - var totalGenealWaterTax= 0;
+                - var totalWaterTax= 0;
+                each val in array1
+                  - pageCount += 1;
+                  - lastSpacialWaterTax += Math.round(val.lastSpacialWaterTax) ;
+                  - currentSpacialWaterTax += Math.round(val.currentSpacialWaterTax) ;
+                  - totalSpacialWaterTax += Math.round(val.totalSpacialWaterTax) ;
+                  - lastGenealWaterTax += Math.round(val.lastGenealWaterTax) ;
+                  - currentGenealWaterTax += Math.round(val.currentGenealWaterTax) ;
+                  - totalGenealWaterTax += Math.round(val.totalGenealWaterTax) ;
+                  - totalWaterTax += Math.round(val.totalWaterTax) ;
+
+                  tr.td-list.p-0.m-0.set-height.d-flex.align-items-center(style='position: relative; font-size: 1.8rem;')
+                    td.td.m-0.mt-4 #{pageCount}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 2.5rem;') #{val.feu_wardNo} 
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 4.5rem;') #{val.feu_malmattaNo} 
+                    td.td-4.m-0(style='position: absolute; top: 1.3rem; left: 8rem;') #{val.feu_ownerName}
+                    td.td-5.m-0(style='position: absolute; top: 0.1rem; left: 22.5rem;word-break: break-word;overflow-wrap:hyphens: auto;-ms-hyphens: auto;-moz-hyphens: auto; break-word;') #{val.feu_secondOwnerName}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 29rem;') #{Math.round(val.lastSpacialWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 33rem;') #{Math.round(val.currentSpacialWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 37.5rem;') #{Math.round(val.totalSpacialWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 41rem;') #{Math.round(val.lastGenealWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 44rem;') #{Math.round(val.currentGenealWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 47rem;') #{Math.round(val.totalGenealWaterTax)}
+                    td.m-0(style='position: absolute; top: 1.3rem; left: 50.5rem;')
+                      strong #{Math.round(val.totalWaterTax)}
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                    //- td.text-center.m-0 
+                tr.p-0.m-0.set-height
+                  td.td1(colspan="5").text-center.m-0 
+                    p.h6 
+                td.m-0(style='position: absolute; top: 36rem; left: 29rem;')
+                  strong #{lastSpacialWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 33rem;') 
+                  strong #{currentSpacialWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 37.2rem;')  
+                  strong #{totalSpacialWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 41rem;') 
+                  strong #{lastGenealWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 44rem;') 
+                  strong #{currentGenealWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 47rem;') 
+                  strong #{totalGenealWaterTax}
+                td.m-0(style='position: absolute; top: 36rem; left: 50.5rem;') 
+                  strong #{totalWaterTax}
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0
+                //-   td.text-center.m-0 
+                //-   td.text-center.m-0 
+
+script.
+    
+    //- document.getElementById('mentioned-qr-target-tag').dataset.targetUrl = window.location.origin;
+    const qrDiv = document.getElementById('mentioned-qr-target-tag');
+
+    if (qrDiv) {
+    
+        // 3️⃣ Access the dataset (data-* attributes) of the element
+        const qrData = qrDiv.dataset;
+       
+
+        // 4️⃣ Set the 'targetUrl' data attribute to the current origin of the page
+        qrData.targeturl = window.location.href;
+
+        // ✅ Now the div has data-target-url="https://your-domain.com" dynamically
+    }

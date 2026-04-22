@@ -1,0 +1,65 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+block external_css 
+    style.
+        body{
+            overflow-x: hidden;
+        }
+
+block content
+
+    -
+        const links = [
+            { title: t("navbar.top.citizenServiceApplication"), subtitle: 'नवीन अर्ज सादर करा', href: '/new-application-form', icon: 'fa-file-circle-plus' },
+            { title: t("navbar.top.citizenRegistration"), subtitle: 'नागरिक माहिती नोंद', href: '/village/nagrik-nondani-view', icon: 'fa-user-check' },
+            { title: t("navbar.top.complaintRegistration"), subtitle: 'समस्या नोंदवा', href: '/complaints/form', icon: 'fa-triangle-exclamation' },
+            { title: t("navbar.top.propertyMutationApplication"), subtitle: 'जमीन व नाव बदल प्रक्रिया', href: '/gp-applications/f8-ferfar/register', icon: 'fa-arrows-rotate' },
+            { title: t("navbar.top.constructionApplication"), subtitle: 'इमारत बांधकाम परवानगी अर्ज', href: '/gp-applications/construction/form', icon: 'fa-building' },
+            { title: t("navbar.top.jobCardApplication"), subtitle: '-', href: '/gp-applications/job-card/form', icon: 'fa-building' },
+            { title: t("navbar.top.individualGroupEmploymentDemandApplication"), subtitle: "-", href: "/gp-applications/emp-demand/form", icon: "fa-briefcase"},
+            { title: "नागरिकांना सेवा सुविधा अर्ज" || t("navbar.top.individualGroupEmploymentDemandApplication"), subtitle: "-", href: "/gp-applications/to-seva/form", icon: "fa-briefcase"},
+            //- { title: "व्यवसाय ना हरकत प्रमाणपत्र(कुक्कुट पालनासाठी)", subtitle: "(फक्त कुक्कुट पालनासाठी)", href:"/gp-applications/occupation-noc/form", icon: "fa-clipboard-check"}
+            { title: "व्यवसाय ना हरकत प्रमाणपत्र", subtitle: "(फक्त कुक्कुट पालनासाठी)", href:"/gp-applications/occupation-noc/form", icon: "fa-clipboard-check"},
+            { title: "विवाह नोंदणी अर्ज", subtitle: "", href: "/marriage/form", icon: "fa-ring"}
+        ]
+
+    section(class='relative py-12 md:py-20 bg-gradient-to-br from-gray-50  via-white to-gray-100 min-h-screen')
+        //- .bg-shape(class='overflow-hidden absolute  left-0  h-full aspect-square z-[2] top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2')
+            .shape(class='h-full overflow-hidden aspect-square my-bg-blue rotate-[45deg]')
+
+        //- .bg-shape(class='pointer-events-none absolute inset-0 overflow-hidden z-[2]')
+            .shape(class='absolute left-1/2 top-1/2 w-[110vw] h-[110vw] md:w-[75vh] md:h-[75vh] -translate-x-1/2 -translate-y-1/2 my-bg-blue rotate-45 scale-75')
+
+        .container(class='mx-auto px-4')
+
+            div(class='relative z-[100]')
+
+                div(class='max-w-6xl mx-auto text-center mb-12')
+                    h1(class='text-2xl md:text-3xl font-semibold tracking-tight text-gray-800') नागरिक सेवा अर्ज 
+                    p(class='mt-3 text-sm md:text-base text-gray-600') ग्रामपंचायत अंतर्गत उपलब्ध डिजिटल सेवा
+
+                
+
+                ul(class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6')
+
+                    each item in links
+                        li
+                            a(href=item.href class='group relative block h-full bg-white rounded-2xl border border-gray-200 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 overflow-hidden')
+
+                                div(class='absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/0 to-blue-600/0 group-hover:from-blue-600/5 group-hover:via-blue-600/10 group-hover:to-blue-600/5 transition')
+
+                                div(class='relative flex flex-col h-full')
+
+                                    div(class='w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 flex items-center justify-center mb-6 group-hover:from-blue-600 group-hover:to-blue-700 group-hover:text-white transition')
+                                        i(class=`fa-solid ${item.icon} text-xl`)
+
+                                    h2(class='text-base font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition')
+                                        = item.title
+
+                                    p(class='text-sm text-gray-500 flex-grow')
+                                        //- = item.subtitle
+
+                                    div(class='mt-6 flex items-center text-sm font-medium text-blue-700 opacity-0 group-hover:opacity-100 transition')
+                                        span पुढे जा
+                                        i(class='fa-solid fa-arrow-right ml-2 text-xs')

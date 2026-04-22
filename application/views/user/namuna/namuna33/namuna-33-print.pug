@@ -1,0 +1,136 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ३३ 
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        if !namuna33Details || namuna33Details.length == 0
+            h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना ३३ मध्ये नोंदी उपलब्ध नाही. येथे 
+                a(href='/namuna/33/create') नवीन नोंदणी करा
+
+
+
+        else
+
+            #hide-buttons 
+
+                button(type='button' onclick='window.print()') Print
+            table(style='width: 100%;')
+
+                thead
+
+                    tr 
+                        th(colspan='7')
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                    div नमुना ३३ 
+
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ७० पहा)
+
+                                //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
+
+
+                    tr 
+                        th(colspan='7')
+                            |  वृक्ष नोंदवही
+
+                    tr
+                        //- 1
+                        th जमिनीचा रस्त्याचा तपशील (आधारसामग्रीसह)
+
+                        //- 2 to 5
+                        th वृक्षाचा प्रकार
+                        th वृक्षाविषयीची अधिक माहिती
+                        th वृक्षांची संख्या
+                        th अपेक्षित वार्षिक उत्पन्न
+
+                        //- 6  to 10
+                        th प्रत्यक्ष प्राप्त उत्पन्न
+                        th वृक्ष तोडल्यास नष्ट झाल्यास त्याबाबतचा तपशिल
+
+
+                    tr 
+                        each num in [1,2,3,4,5,6,7]
+                            th #{num}
+
+                tbody
+
+                    each namuna33Entry, index in namuna33Details 
+                        //- each namuna33Entry, index in Array(20).fill(paymentnamuna33Entry).flat()
+                        tr 
+                            td #{namuna33Entry.land_or_road_details}
+
+                            td #{namuna33Entry.tree_type}
+                            td #{namuna33Entry.tree_additional_info}
+                            td #{namuna33Entry.tree_count}
+                            td #{namuna33Entry.expected_annual_income}
+
+                            td #{namuna33Entry.actual_income_received}
+
+
+                            td #{namuna33Entry.tree_cut_or_destroyed_details}
+

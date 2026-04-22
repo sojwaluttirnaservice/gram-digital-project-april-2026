@@ -1,0 +1,223 @@
+doctype html
+head
+  title नमुना ९ सामान्य
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+        @page { 
+        size: landscape;
+        margin: 5mm 5mm 5mm 5mm;
+
+          -webkit-print-color-adjust: exact; 
+     }
+     
+
+      .m-top {
+       margin: 5mm 15mm 5mm 5mm !important;
+      }
+      .m-bottom {
+        margin: 5mm 5mm 5mm 15mm !important;
+      }
+      .m-bottom-second {
+        margin: 5mm 15mm 5mm 5mm !important;
+      }
+      tr,td,th{
+        border-color:transparent !important;
+      }
+       .transperent{
+        background-color:transparent !important;
+        color:transparent !important;
+      }
+      .year-1{
+        position: absolute;
+        left:240px;
+        top:60px
+      }
+       .year-2{
+             position: absolute;
+        left:350px;
+        top:60px
+      }
+      .page-number{
+       position: absolute;
+        right:50px;
+        top:35px;
+      }
+      .td-list{
+        margin-top:220px
+      }
+      .zp{
+         position: absolute;
+         top:50px;
+         left:600px
+
+      }
+      .td-list span{
+         position: absolute;
+            font-size:12px !important;
+      }
+      .td-list .td-1{
+        top:0px;
+        left: 0px
+      }
+      .td-list .td-2{
+        top:0px;
+        left: 30px
+      }
+
+        .td-list .td-3{
+        top:0px;
+        left: 60px
+      }
+        .td-list .td-4{
+        top:0px;
+        left: 90px;
+        width:150px
+      }
+        .td-list .td-5{
+        top:0px;
+        left: 250px
+      }
+        .td-list .td-6{
+        top:0px;
+        left: 340px
+      }
+        .td-list .td-7{
+        top:0px;
+        left: 390px
+      }
+        .td-list .td-8{
+        top:0px;
+        left: 440px
+      }
+        .td-list .td-9{
+        top:0px;
+        left: 490px
+      }
+        .td-list .td-10{
+        top:0px;
+        left: 530px
+      }
+        .td-list .td-11{
+        top:0px;
+        left: 580px
+      }
+        .td-list .td-12{
+        top:0px;
+        left: 620px
+      }
+        .td-list .td-13{
+        top:0px;
+        left: 670px
+      }
+        .td-list .td-14{
+        top:0px;
+        left: 720px
+      }
+        .td-list .td-15{
+        top:0px;
+        left: 780px
+      }
+      .td-list .td-16{
+        top:0px;
+           left: 830px
+      }
+      .td-list .td-17{
+        top:0px;
+        left: 880px
+      }
+      .td-list .td-18{
+        top:0px;
+        left: 930px
+      }
+
+     }
+      tr,td,th{
+        border-color:transparent !important;
+      }
+    .rotatePage{
+              transform: rotateZ(180deg);
+      }  
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td.td {
+      height: 90px;
+    }
+    .set-height > td.td1 {
+      height: 40px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    td{
+        font-size:12px !important;
+        border:1px solid;
+      }
+      table{
+        width:100% !important;
+      }
+      .h5{
+         font-size:15px !important;
+       
+      }
+      .h6{
+        font-size:14px !important;
+      }
+
+       .h7{
+        font-size:11px !important;
+      }
+      .d-none{
+        display:none !important
+      }
+      .transperent{
+        background-color:transparent !important;
+        color:transparent !important;
+      }
+      
+body
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0
+  - var start = 0;
+    //- page-२
+    .row.set-p-break.m-bottom-second
+      .col-12(style="position:relative")
+        img(src="/print/2.jpg" width="100%")
+        div(style="position: absolute;top:0;width:100%")
+                h3.text-danger.zp #{zp.gp_name}
+                div.page-number
+                  span.float-left #{count}
+                div.mt-2.mb-2
+                  p.text-center.h6.font-weight-bold(style="display:flex")
+                    span.h4.year-1 #{y1} 
+                    span.h4.year-2 #{y2}

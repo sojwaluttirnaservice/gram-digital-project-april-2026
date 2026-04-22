@@ -1,0 +1,135 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ५ (क) प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='8' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुन ५ (क)
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१, २२(२), (३),  (४), (५) व (६), २५(१), ३२, (२), (३) व (४)(च), ३६(२) ३८(१) आणि ६६(१) पहा)
+
+
+                tr 
+                    th(colspan='8')
+                        |वर्ष #{year} दैनिक रोकडवही
+                tr
+                    //- 1
+                    th() जमा केल्याचा महीना व तारीख
+
+                    //- 2 to 5
+                    th() पावती क्रमांक
+                    th() कोणाकडून मिळाली ती
+                    th() जमा रकमे संबधीचा तपशिल
+                    th() रोख रक्कम रुपये
+
+                    //- 6 to 8
+                    th() धनादेश (चेक) (रुपये)
+                    th() धनादेश  बँकेत जमा केल्याचा दिनक  किंवा  रोख रक्कम जमा किंवा रोख रक्कम जमा केल्याचा दिनांक
+                    th() धनादेश वटविल्याचा दिनांक
+         
+
+
+
+                
+                tr 
+                    each num in [1,2,3,4,5,6,7,8 ]
+                        //- ,9,10,11,12,13,14,15,16]
+                        th #{num}
+
+            tbody
+
+
+
+                each namuna5CEntry, index in namuna5CDetails 
+                    //- each namuna5CEntry, index in Array(20).fill(paymentnamuna5CEntry).flat()
+                    tr 
+                        td #{index + 1}
+
+                        td #{gp.gp_name}
+                        td #{namuna5CEntry.name}
+                        td #{namuna5CEntry.post_name}
+                        td #{months[+(namuna5CEntry.month - 1)]}
+
+                        td #{namuna5CEntry.present_days}
+                            - let totalPay = +namuna5CEntry.state_share + +namuna5CEntry.calculated_grampanchayat_salary
+                        td #{totalPay}
+
+                        td #{namuna5CEntry.state_share}
+
+
+        div(style='margin-top: 1rem; font-weight: 600; margin: 1rem;')
+
+            p एकूण रोख रुपये (_______________) अक्षरी रुपये ___________________________________________________________________ ची  नोंदणी सर्वसाधारण
+                | रोकड वहीच्या पृष्ठक्रमांक (___________)  वर घेतली आहे
+
+
+

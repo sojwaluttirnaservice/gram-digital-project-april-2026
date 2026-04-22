@@ -1,0 +1,92 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- COMMON JS
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/coustom/js/common.js')
+    title विवाह नोंदणी अहवाल ( 18 वर्ष पेक्षा कमी )
+
+    style. 
+
+      @media print {
+        @page {
+          size: A4 landscape;
+        }
+        .my-print{
+          position: relative;
+          page-break-before: always;
+        } 
+        .waterMark{
+          position: absolute;
+          opacity: 0.3;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      th {
+        font-size: 0.7rem !important;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.3;
+        top: calc(50%);
+        left: calc(50% - 250px);
+
+        width: 500px;
+        height: 500px;
+      }
+      .my-print{
+        position: relative;
+      }
+
+      .heading-1 {
+        font-size: 1.6rem;
+      }
+
+      .heading-2 {
+        font-size: 1.4rem;
+      }
+
+  body.my-print 
+    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+    div.d-flex.flex-column.justify-content-center.align-items-center
+      p १८ वर्षाचे आतील मुलीचे झालेल्या विवाहांचे माहितिचा मासिक अहवाल माहे #{month} वर्ष #{year} ( प्रपत्र इ. एम. - १ चे जोडपत्र)
+      p.heading-2 ग्रामपंचायतीचे नाव #{gp.gp_name} प. स. #{gp.gp_name} जिल्हा #{gp.gp_dist}
+
+    div.text-center
+      p.heading-1 (18 वर्षाचे आतील मुलीचे लग्न झाले असल्यास ग्रामपंचायतीने सदर कारवायचा मासिक अहवाल )
+    table.table.table-bordered
+      thead
+        tr
+          th(scope='col') अ क्र
+          th(scope='col') 18 वर्षाचे आतील मुलीचे लग्न झालेल्या मुलीचे पूर्ण नाव व पत्ता
+          th(scope='col') मुलीचे पित्याचे / पालकाचे पूर्ण नाव व पत्ता
+          th(scope='col') मुलीची जन्म तारिक व लग्नाचे वेळी मुलीचे वय 
+          th(scope='col') मुलीचे शिक्षण 
+          th(scope='col') लग्नाचा दिनांक व स्थळ 
+          th(scope='col') वरचे व वराच्या पित्याचे / पालकाचे पूर्ण नाव व पत्ता 
+          th(scope='col') वरची जन्म तारिक व लग्नाचे वेळी वरचे वय 
+          th(scope='col') लग्न लावणारे भटजी/ भिक्शु / काजी इ. पत्ता 
+          th(scope='col') मंगलकार्यालयाचे वावस्थापाकाचे नाव व पत्ता
+          th(scope='col') लग्न पत्रिका छापणारे छापखान्याचे व मालकाचे नाव व पत्ता
+
+      tbody
+        each val, index in data
+          tr
+            th(scope='col') #{index + 1}
+            th(scope='col') #{val.name_of_under_18_married_girl}
+            th(scope='col') #{val.address_of_father_or_guardian_of_girl}
+            th(scope='col') #{val.birthdate_of_girl} 
+            th(scope='col') #{val.education_of_girl}
+            th(scope='col') #{val.date_of_marriage}, #{val.place_of_marriage}
+            th(scope='col') #{val.name_of_groom}, #{val.name_of_father_or_guardian_of_groom}, #{val.address_of_groom}
+            th(scope='col') #{val.birthdate_of_groom}
+            th(scope='col') #{val.name_of_bhataji}
+            th(scope='col') #{val.name_of_wedding_card_printing_house}, #{val.address_of_wedding_card_printing_house}
+            th(scope='col') #{val.name_of_owner_of_wedding_card_printing_house}

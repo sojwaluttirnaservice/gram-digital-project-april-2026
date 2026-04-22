@@ -1,0 +1,229 @@
+extends ../../include/internal-gp-master-layout.pug
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    // ================= MODALS =================
+    include ./emp-demand-report-modal.pug
+    include ./emp-demand-application-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        // ================= HEADER =================
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                -
+                    let background = {
+                        pending: 'oklch(86.9% 0.022 252.894)',
+                        accepted: 'oklch(90.5% 0.093 164.15)',
+                        rejected: 'oklch(88.5% 0.062 18.334)'
+                    }
+                -
+                    let statuses = {
+                        pending: 'प्रलंबित',
+                        accepted: 'मान्य',
+                        rejected: 'रद्द'
+                    }
+
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-briefcase.me-2
+                                | #{statuses[status]} रोजगार मागणी अर्ज यादी
+                            p.mb-0.text-muted.small
+                                | #{statuses[status]} वैयक्तिक / सामूहिक रोजगार मागणी अर्ज खाली दर्शविले आहेत.
+
+                        div.d-flex(style='gap:1rem;')
+                            button.btn.btn-secondary.btn-sm(
+                                data-bs-toggle="modal"
+                                data-bs-target="#print-report-modal"
+                            )
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(
+                                    href='/gp-applications/emp-demand/list'
+                                ) प्रलंबित अर्ज
+
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(
+                                    href=`/gp-applications/emp-demand/list?status=accepted&sort=${sort}`
+                                ) मान्य अर्ज
+
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(
+                                    href=`/gp-applications/emp-demand/list?status=rejected&sort=${sort}`
+                                ) रद्द अर्ज
+
+
+        // ================= TABLE =================
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                // ===== Sorting =====
+                div.mb-4
+                    div.d-flex.align-items-center(style='gap:0.75rem;')
+                        label.small.fw-bold.mb-0 क्रमवारी :
+                        select#emp-demand-sort-order.form-select.form-select-sm(style='width:160px;')
+                            option(value='desc' selected=(sort=='desc')) नवीन आधी
+                            option(value='asc' selected=(sort=='asc')) जुने आधी
+
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width='7%')  अर्ज क्र.
+                                        th(width='18%') अर्जदार
+                                        th(width='15%') जॉब कार्ड क्र.
+                                        th(width='15%') कालावधी
+                                        th(width='15%') अर्ज प्रत
+                                        th(width='15%') नोंदणी दिनांक
+                                        th(width='5%')  SMS
+                                        th(width='10%') Action
+
+                                tbody#empDemandApplications
+                                    if !empDemandApplications || empDemandApplications.length === 0
+                                        tr
+                                            td.text-center.text-danger.py-4(colspan='7')
+                                                i.fa.fa-info-circle.me-2
+                                                | #{statuses[status]} रोजगार मागणी अर्ज उपलब्ध नाहीत.
+                                    else
+                                        each demand, index in empDemandApplications
+                                            tr
+                                                // ===== ID =====
+                                                td.text-center
+                                                    span.badge.bg-secondary #{demand.id}
+
+                                                // ===== Applicant =====
+                                                td
+                                                    strong #{demand.applicant_name}
+                                                    br
+                                                    small.text-muted मोबाईल:
+                                                    span.ms-1 #{demand.applicant_mobile || '-'}
+
+                                                // ===== Job Card =====
+                                                td.text-center
+                                                    span.fw-semibold #{demand.job_card_number_fk}
+
+                                                // ===== Period =====
+                                                td.text-center
+                                                    span.small.text-muted
+                                                        | #{demand._from_date} ते #{demand._to_date}
+
+                                                td.text-center 
+                                                    a.btn.btn-sm.btn-info(href=`/gp-applications/emp-demand/application/${demand.id}` target='_blank')
+                                                        i.fa.fa-print
+
+                                                // ===== Date =====
+                                                td.text-center
+                                                    span.fw-semibold #{demand._createdAt}
+
+                                                // ===== SMS =====
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSEmpDemand(
+                                                        data-id=demand.id
+                                                        title='संदेश पाठवा'
+                                                    )
+
+                                                // ===== Actions =====
+                                                td.text-center
+                                                    div.d-flex.justify-content-center(style='gap:0.6rem;')
+
+                                                        button.btn.btn-outline-primary.btn-sm.view-emp-demand-details-btn(
+                                                            type='button'
+                                                            data-demand=JSON.stringify(demand)
+                                                        )
+                                                            i.fa.fa-eye.me-1
+                                                            | तपशील
+
+
+                                                        if status == 'accepted'
+                                                            a.btn.btn-info.btn-sm(href=`/gp-applications/emp-demand/n-5/${demand.id}`) नमुना ५
+
+                                                        if status == 'pending'
+                                                            button.btn.btn-success.btn-sm.accept-emp-demand-btn(
+                                                                type='button'
+                                                                data-id=demand.id
+                                                                data-demand=JSON.stringify(demand)
+                                                            ) Accept
+
+                                                            button.btn.btn-danger.btn-sm.reject-emp-demand-btn(
+                                                                type='button'
+                                                                data-id=demand.id
+                                                                data-demand=JSON.stringify(demand)
+                                                            ) Reject
+
+
+
+    //- ACCEPT EMPLOYMENT DEMAND MODAL
+    .modal(tabindex='-1' id='accept-emp-demand-modal')
+        .modal-dialog(class='modal-dialog-centered')
+            .modal-content(class='shadow-lg rounded-3')
+                .modal-header(class='bg-success text-white')
+                    h5.modal-title(class='mb-0')
+                        i(class='fa fa-check-circle me-2')
+                        | रोजगार मागणी अर्ज स्वीकारा
+                    button(type='button' class='btn-close btn-close-white' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                    form#accept-emp-demand-form
+                        .mb-3
+                            label(for='applicant_name' class='form-label fw-semibold') अर्जदाराचे नाव
+                            input(type='text' name='applicant_name' class='form-control' readonly)
+                        .mb-3
+                            label(for='job_card_number_fk' class='form-label fw-semibold') जॉब कार्ड नंबर
+                            input(type='text' name='job_card_number_fk' class='form-control' readonly)
+                        .mb-2
+                            label(for='acceptance_remark' class='form-label fw-semibold')
+                                i(class='fa fa-comment-dots me-1 text-muted')
+                                | शेरा
+                            textarea(name='acceptance_remark' class='form-control' placeholder='शेरा लिहा (ऐच्छिक)')
+                        input(name='id' hidden required)
+                .modal-footer(class='justify-content-between')
+                    button(type='button' class='btn btn-sm btn-outline-secondary' data-bs-dismiss='modal')
+                        i(class='fa fa-times me-1')
+                        | बंद करा
+                    button(type='submit' id='accept-emp-demand-btn' class='btn btn-sm btn-success')
+                        i(class='fa fa-check me-1')
+                        | स्वीकारा
+
+
+    //- REJECT EMPLOYMENT DEMAND MODAL
+    .modal(tabindex='-1' id='reject-emp-demand-modal')
+        .modal-dialog(class='modal-dialog-centered')
+            .modal-content(class='shadow-lg rounded-3')
+                .modal-header(class='bg-danger text-white')
+                    h5.modal-title(class='mb-0')
+                        i(class='fa fa-times-circle me-2')
+                        | रोजगार मागणी अर्ज नाकारा
+                    button(type='button' class='btn-close btn-close-white' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                    form#reject-emp-demand-form
+                        .mb-3
+                            label(for='applicant_name' class='form-label fw-semibold') अर्जदाराचे नाव
+                            input(type='text' name='applicant_name' class='form-control' readonly)
+                        .mb-2
+                            label(for='rejection_remark' class='form-label fw-semibold')
+                                i(class='fa fa-comment-dots me-1 text-muted')
+                                | नकाराचे कारण
+                            textarea(name='rejection_remark' class='form-control' placeholder='नकार देण्याचे कारण लिहा')
+                        input(name='id' hidden required)
+                .modal-footer(class='justify-content-between')
+                    button(type='button' class='btn btn-sm btn-outline-secondary' data-bs-dismiss='modal')
+                        i(class='fa fa-times me-1')
+                        | बंद करा
+                    button(type='submit' id='reject-emp-demand-btn' class='btn btn-sm btn-danger')
+                        i(class='fa fa-ban me-1')
+                        | नाकारा
+
+
+
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/emp-demand/emp-demand-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/gp-applications/emp-demand/emp-demand-list-page-sorting-handler.js')

@@ -1,0 +1,266 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        //- Bootstrap 5 CSS & JS
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        //- // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-19-employee/namuna-19-employee-page-handler.js' type='module' defer)
+
+        title नमुना १९ कामावर असलेल्या व्यक्तीचा हजेरीपट
+
+        style.
+            .heading-1 {
+                font-weight: bold !important;
+                font-size: 1.4rem;
+                text-align: center;   
+                color: #bb2525;
+                border-radius: 15px;
+                border: 2px solid #bb2525;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 8px;
+                margin: 0 auto 1.4rem; /* Automatically center horizontally */
+                width: fit-content; /* Allow width to adjust based on content */
+            }
+
+            label.error {
+                color: red;
+                font-size: 0.9rem;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 2rem;
+                font-size: 90%;
+            }
+
+            tr, td, th {
+                border: 1px solid black;
+                padding: 0.2rem;
+            }
+
+            th {
+                text-align: center;
+            }
+
+    body
+        include ../../include/navs.pug
+
+        .container
+            h2.heading-1.mt-2.mb-1 नमुना १९ कामावर असलेल्या व्यक्तीचा हजेरीपट 
+                span.text-info ( कर्मचारी यादी )
+
+            - 
+                const months = [
+                    "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+                    "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+                    "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+                ]
+
+            .modal.fade#employeePaymentPrintModal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+                .modal-dialog.modal-dialog-centered
+                    .modal-content
+                        .modal-header
+                            h1.modal-title.fs-5#staticBackdropLabel नमुना १९ प्रिंट
+                            button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                        .modal-body
+
+                            - let startingYear = 2020
+                            - let runningYear = new Date().getFullYear()
+                            .d-flex.align-items-center.justify-content-center(style='gap: 1rem;')
+
+                                div.d-flex.flex-column
+                                    //- label.form-label(for="") महिना
+                                    select.form-select(id='selected-print-month')
+                                        option(value='') --महिना निवडा--
+                                        each month, monthNum in months 
+                                            option(value=(monthNum + 1)) #{month}
+
+
+
+                                div.d-flex.flex-column
+                                    //- label.form-label(for="") वर्ष
+                                    select.form-select(id='selected-print-year')
+                                        option(value='') --वर्ष निवडा--
+                                        each year in Array.from({length: runningYear - startingYear + 1}, (v, i) => startingYear + i)
+                                            option(value=year) #{year}
+
+                        .modal-footer
+                            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                            button.btn.btn-primary(type='button' id='print-employee-payment-btn') Online Center Gov Print
+                            button.btn.btn-primary(type='button' id='print-namuna-19-attendance-payment-btn') नमुना १९ प्रिंट
+            div.d-flex.gap-4.justify-content-end.mb-4
+
+                div.d-none
+                    select.form-select(name='show-report-by')
+
+                        option(value='-1') --Select Report Type--
+
+                        option(value='1') फक्त वर्ष
+                        option(value='2') वर्ष श्रेणी
+                        option(value='3') महिना व वर्ष
+
+                - let startYear = 2020
+                - let currentYear = new Date().getFullYear()
+
+
+
+                div.d-none(id='show-report-by-div')
+                    div(data-target='1' style='display:none')
+                        div.d-flex.gap-2
+                            select.form-select(name='selected_year' id='selected-year')
+                                option(value='') -- Select --
+                                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                    option(value=year) #{year}
+
+                    div(data-target='2' style='display:none')
+                        div.d-flex.gap-2
+
+                            div
+                                select.form-select(name='selected_from_year' id='selected-from-year')
+                                    option(value='') -- Select --
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                        option(value=year) #{year}
+
+                            div 
+                                select.form-select(name='selected_to_year' id='selected-to-year')
+                                    option(value='') -- Select --
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                                        option(value=year) #{year}
+
+                    div(data-target='3' style='display:none')
+                        div.d-flex.gap-2
+                            div
+                                select.form-select(name='selected_month' id='selected-month')
+                                    option(value='-1') --Select Month --
+                                    each month, monthNum in months
+                                        option(value=(monthNum + 1))= month
+
+                            div
+                                select.form-select(name='selected_year_2' id='selected-year-2')
+                                    option(value='') -- Select Year--
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                                        option(value=year) #{year}
+
+
+
+                div
+                    .d-flex.align-items-center.justify-content-end(style='gap: 1rem;')
+
+                        button.btn.btn-secondary.btn-sm(type='button' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#employeePaymentPrintModal")  Print
+
+                        a.btn.btn-primary.btn-sm(href='/namuna/19/employees/create')
+                            .d-flex.gap-2.align-items-center
+                                <i class="fa fa-plus"></i>
+                                | नवीन कर्मचारी नोंदणी 
+
+                        a.btn.btn-primary.btn-sm(href=`/namuna/19/payment/make`)
+                            | Make Payment
+
+                        a.btn.btn-primary.btn-sm(href='/namuna/19') नमुना १९ तपशिल
+                        a.btn.btn-sm.btn-primary(href='/namuna') नमुने
+                        button.btn.btn-secondary.btn-sm(type="button" onclick="window.history.back()") मागे जा
+
+            .table-container
+
+
+                if !namuna19EmployeeDetails || namuna19EmployeeDetails.length == 0
+
+                    h3.text-center नमुना १९ यादी उपलब्ध नाही
+
+
+                else
+
+                    .row.justify-content-center 
+
+                        .col-12.col-md-11.col-lg-19 
+
+
+                            .table-responsive 
+
+                                table
+
+                                    thead
+
+                                        tr
+                                            //- For CREDIT / जमा
+
+                                            th अनु.क्र.
+
+                                            th कर्मचाऱ्याचे नाव
+                                            th कर्मचाऱ्याचे पद
+                                            th.d-none पत्ता
+
+                                            th लिंग
+                                            th मोबाईल
+                                            th Action
+                                            th Payment
+
+
+
+
+                                        tr 
+                                            //-'१७', '१८'
+                                            //- ['८' , '९', '१०', '११', '१२', '१३', '१४', '१५', '१६', '१७'] 
+                                            each marathiNumber in  ['१', '२', '३', '४', '५', '६', '७'] 
+                                                th #{marathiNumber}
+
+                                    tbody 
+
+                                        each employee, index in namuna19EmployeeDetails 
+
+                                            tr
+                                                td #{index + 1}
+                                                td #{employee.name}
+                                                td #{employee.post_name}
+                                                td.d-none #{employee.address}
+                                                td #{employee.gender === 'Male' ? 'पुरुष' : employee.gender === 'Female' ? 'महिला' : 'इतर'}
+                                                td #{employee.mobile}
+                                                td 
+
+                                                    .d-flex.gap-2.align-items-center.justify-content-center
+
+                                                        button.btn.btn-danger.btn-sm(class='delete-namuna-19-employee-entry-btn' data-namuna19EmployeeEntryId=employee.id)
+                                                            i.fa.fa-trash 
+
+                                                        a.btn.btn-success.btn-sm(href=`/namuna/19/employees/edit/${employee.id}`)
+                                                            i.fa.fa-pencil
+
+                                                td 
+                                                    .d-flex.gap-2.align-items-center.justify-content-center
+
+                                                        //- a.btn.btn-danger.btn-sm(href=`/namuna/19/payment/make/${employee.id}`)
+                                                            | Make Payment
+
+                                                        a.btn.btn-success.btn-sm(href=`/namuna/19/payment/history/${employee.id}`)
+                                                            | Payment History
+
+
+

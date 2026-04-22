@@ -1,0 +1,70 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible', content='ie=edge')
+        // common css
+        link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+        link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+        //js
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js') 
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        script(src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js")
+        
+        script(src="/asstest/plugins/xlxs/jszip.js")
+        script(src="/asstest/plugins/xlxs/xlsx.js")
+        // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/master.handler.js')
+    body
+        .container-fluid
+            .row.p-0.p-1.pt-3
+                .col-12
+                    center
+                        h3.font-weight-bold.m-3 Export Excel
+                        input#excelFile(type="file")
+                        button#sendToServer.btn.btn-success.my-2 Save Data
+                .col-12
+                    .table-responsive
+                        table#example.display(style='width:100%')
+                            thead
+                                tr
+                                    th id	
+                                    th m No	
+                                    th oblik id	
+                                    th wardNo	
+                                    th homeNo	
+                                    th aadharNo	
+                                    th owner name	
+                                    th sec Owner Name	
+                                    th m No	
+                                    th Panchayet	
+                                    th village	
+                                    th gaatNo	
+                                    th Yojna	
+                                    th Toilet	
+                                    th Height	
+                                    th Width	
+                                    th totalA
+                                    th totalASqM	
+                                    th east
+                                    th west
+                                    th north
+                                    th feu_south
+                                    th bojaShera	
+                                    th c date	
+                                    th m date
+

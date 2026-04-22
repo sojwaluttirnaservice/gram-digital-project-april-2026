@@ -1,0 +1,52 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय/महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            |  याद्वारे जाहीर 
+            span(class="font-extrabold") #{declarer}
+            |  की, माझ्याकडे स्वतःचे पक्के घर नसून मी सध्या कच्च्या / मोडकळीस आलेल्या घरात वास्तव्यास आहे.
+
+        p(class="mt-3")
+            | माझी आर्थिक परिस्थिती अत्यंत हलाखीची असून स्वतःचे घर बांधणे मला शक्य नाही.
+            |  त्यामुळे मी 
+            span(class="font-extrabold") घरकुल योजनेचा
+            |  लाभ घेण्यास पात्र आहे.
+
+        p(class="mt-3")
+            | मला हे 
+            span(class="font-extrabold") घरकुलसाठीचे स्वयंघोषणा पत्र
+            |  
+            span(class="font-extrabold")
+                | #{selfDeclaration.certificateReason || "शासकीय योजनेसाठी"}
+            |  या कारणासाठी आवश्यक आहे.
+
+        p(class="mt-3")
+            | तरी मला घरकुल योजनेअंतर्गत लाभार्थी म्हणून समाविष्ट करण्यात यावे
+            |  व त्याबाबत आवश्यक ती कार्यवाही करण्यात यावी, ही नम्र विनंती.
+
+        p(class="mt-3")
+            | यासाठी आवश्यक सर्व कागदपत्रे व स्वयंघोषणापत्र मी सोबत जोडलेले आहे.
+
+        p(class="mt-3")
+            | मी दिलेली वरील सर्व माहिती खरी व बरोबर असून,
+            |  भविष्यात ती चुकीची अथवा खोटी आढळल्यास त्याची संपूर्ण जबाबदारी माझी राहील.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद
+
+        p(class="mt-10 text-right")
+            | आपली आज्ञाधारक,

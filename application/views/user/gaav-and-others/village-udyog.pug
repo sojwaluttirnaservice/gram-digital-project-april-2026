@@ -1,0 +1,64 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+    style.
+        body {
+            background-image: url('/backgrounds/village/bg-village-business.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position:center;
+            background-repeat: no-repeat;
+        }
+
+
+block content 
+
+    .main-content-white-overlay(class='fixed top-0 left-0 w-full min-h-screen h-full bg-white bg-opacity-60 z-[10]')
+
+    section(class='relative py-8 md:py-16 z-[50] text-gray-800')
+        .container 
+            div(id='village-information-container relative')
+                h4.general-heading(class='sticky top-0 left-0 text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 my-border-blue')  
+                    <i class="fa-solid fa-shop"></i>
+                    span.ml-2(id='') #{gp.gp_name} 
+                        //- | गावातील उद्योग माहिती
+                        | #{t("villageIndustriesPage.heading")}
+
+                .udyogi-container(class='mt-8')
+                    - var udyogiList = gp ? JSON.parse(gp.gp_gramMahitiUdyogiList) : []
+
+                    if udyogiList && udyogiList.length > 0
+                        div(class='grid gap-x-4 gap-y-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4')
+
+                            each udyogi in udyogiList
+                                .individual-udyogi(class='')
+                                    div(class='flex flex-col gap-2')
+                                        .image-holder(class='border-2 border-emerald-800 rounded-md p-2 h-36 sm:h-40 md:h-52 overflow-hidden')
+                                            - let link ='/new-gp-page/main-page/images/dukan/'+udyogi.image
+                                            img(src=link class='w-full h-full rounded-md transition duration-300 hover:scale-[1.08]' alt=udyogi.inputTextBrand)
+
+                                        .udyogi-details(class='bg-white/50 p-2 rounded-md border-4 border-transparent transition duration-300 ease-in-out hover:border-gray-200 hover:bg-white/80 hover:shadow-lg hover:scale-[1.04]')
+                                            div(class='flex flex-col gap-1 items-center')
+                                                div(class='w-full flex gap-2 items-center')
+                                                    div(class='w-fit shrink-0')
+                                                        <i class="fa-solid fa-shop"></i>
+                                                    p(class='truncate ellipses flex-grow font-semibold tracking-wider uppercase') #{udyogi.inputTextBrand} 
+
+                                                div(class='w-full flex gap-2 items-center')
+                                                    div(class='w-fit shrink-0 text-xs md:text-base')
+                                                        <i class="fa-solid fa-user"></i>
+                                                    p(class='truncate ellipses flex-grow font-semibold tracking-wider capitalize') #{udyogi.inputTextName} 
+
+                                                div(class='w-full flex gap-2 items-center text-xs')
+                                                    div(class='w-fit shrink-0')
+                                                        <i class="fa-solid fa-phone"></i>
+                                                    p(class='truncate ellipses flex-grow font-semibold tracking-wider')  #{udyogi.inputTextNumber} 
+
+
+
+
+                    else 
+                        div(class='') 
+                            div(class='w-fit mx-auto md:text-xl lg:text-3xl font-extrabold tracking-widest') 
+                                //- | माहिती उपलब्ध नाही...
+                                | #{t("villageIndustriesPage.noInfo")}

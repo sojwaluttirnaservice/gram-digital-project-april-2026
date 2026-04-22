@@ -1,0 +1,192 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../include/internal-gp-master-layout.pug
+
+//- =======================================================
+//- CUSTOM CSS
+//- =======================================================
+block custom_css
+    style.
+        .badge {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-samanya {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-pani {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+//- =======================================================
+//- CONTENT
+//- =======================================================
+block content
+    .container-fluid.mt-3
+
+        .row.justify-content-center
+            .col-12.col-lg-10
+
+                // =====================================================
+                // FORM CARD
+                // =====================================================
+                .card.shadow-sm.mb-3
+                    .card-header.bg-light
+                        h5.mb-0
+                            i.fa.fa-plus.me-2
+                            | नवीन नमुना ७ कारण
+
+                    .card-body
+                        form#namuna7Form
+                            .row.g-3
+
+                                // TYPE
+                                .col-md-3
+                                    label.form-label प्रकार
+                                    select.form-select#tax_category(name="tax_category")
+                                        option(value="SAMANYA") सामान्य
+                                        option(value="PANI") पाणी
+
+                                // REASON
+                                .col-md-6
+                                    label.form-label कारण
+                                    input.form-control#reason_in_words(
+                                        type="text"
+                                        placeholder="कारण लिहा"
+                                        autocomplete="off"
+                                    )
+
+                                // BUTTON
+                                .col-md-3.d-flex.align-items-end
+                                    button.btn.btn-primary.w-100(type="submit")
+                                        i.fa.fa-save.me-1
+                                        | सेव्ह करा
+
+                // =====================================================
+                // TABLE CARD
+                // =====================================================
+                .card.shadow-sm
+                    .card-header.bg-light
+                        h5.mb-0
+                            i.fa.fa-list.me-2
+                            | नमुना ७ कारणांची यादी
+
+                    .card-body.p-0
+                        .table-responsive
+                            table.table.table-striped.table-hover.mb-0.align-middle
+
+                                thead.table-dark
+                                    tr
+                                        th(style="width:180px") प्रकार
+                                        th कारण
+
+                                tbody#reasonTableBody
+                                    each n7Reason in n7Reasons
+                                        tr(class=n7Reason.tax_category === "PANI" ? "table-primary" : "")
+                                            td
+                                                if n7Reason.tax_category === "SAMANYA"
+                                                    span.badge.badge-samanya
+                                                        i.fa.fa-home.me-1
+                                                        | सामान्य
+                                                else if n7Reason.tax_category === "PANI"
+                                                    span.badge.badge-pani
+                                                        i.fa.fa-tint.me-1
+                                                        | पाणी
+
+                                            td #{n7Reason.reason_in_words}
+
+//- =======================================================
+//- SCRIPTS
+//- =======================================================
+block custom_js
+    //- script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+
+    script.
+        // =====================================================
+        // API CALL (ASYNC AWAIT)
+        // =====================================================
+        async function handleSaveNamuna7Reason(payload = {}) {
+            try {
+                const response = await fetch("/namuna/7/reasons", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        tax_category: payload.tax_category || "SAMANYA",
+                        certificate_category: "CERTIFICATE",
+                        reason_in_words: payload.reason_in_words || ""
+                    })
+                });
+
+                const data = await response.json(); // ✅ clean async await
+
+                const { success, message } = data;
+
+                if (success) {
+                    alertjs.success({
+                        t: "Success",
+                        m: message || "Saved successfully"
+                    });
+                } else {
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message || "Something went wrong"
+                    });
+                }
+
+                return data;
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+
+                alertjs.warning({
+                    t: "Error",
+                    m: "Server error occurred"
+                });
+
+                throw error;
+            }
+        }
+
+        // =====================================================
+        // FORM SUBMIT
+        // =====================================================
+        $("#namuna7Form").on("submit", async function (e) {
+            e.preventDefault();
+
+            const payload = {
+                tax_category: $("#tax_category").val() || "SAMANYA",
+                reason_in_words: $("#reason_in_words").val().trim() || ""
+            };
+
+            if (!payload.reason_in_words) {
+                alert("कृपया कारण लिहा");
+                return;
+            }
+
+            try {
+                const res = await handleSaveNamuna7Reason(payload);
+
+                alert("✅ यशस्वीरित्या सेव्ह झाले");
+
+                // reset input
+                $("#reason_in_words").val("");
+
+                // reload list
+                location.reload();
+
+            } catch (err) {
+                alert("❌ सेव्ह करताना त्रुटी आली");
+            }
+        });

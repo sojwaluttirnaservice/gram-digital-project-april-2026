@@ -1,0 +1,230 @@
+extends ../include/index-page-master-layout.pug
+
+
+block internal_css
+    style.
+        body { 
+            animation: fadeInAnimation ease 2s; 
+            animation-iteration-count: 1; 
+            animation-fill-mode: forwards; 
+        } 
+        @keyframes fadeInAnimation { 
+            0% { 
+                opacity: 0; 
+            } 
+            100% { 
+                opacity: 1; 
+            } 
+        }
+
+
+block content
+    section(class='py-4')
+        .container
+            h3.general-heading(class='text-center text-xl md:text-3xl font-bold tracking-wider') 
+                //- | नवीन अर्जचा नमूना
+                | #{t("complaintsRegistrationPage.heading")}
+
+
+
+    section(class='py-8 md:py-16 bg-gray-100 relative overflow-hidden')
+        .bg-shape(class='absolute top-0 left-0  h-full aspect-square z-2 top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2')
+            .shape(class='h-full aspect-square my-bg-blue rotate-[45deg]')
+        .container 
+            .form-container(class='')
+                form(id='complaint-form' class=' md:w-[80%] mx-auto flex flex-col gap-4')
+
+                    //- CARD 1
+                    .form-card(class='flex flex-col gap-4 z-10')
+
+                        .form-card-heading(class='w-fit bg-white rounded-md mx-auto py-2  px-8 lg:px-20 border text-center shadow-lg font-bold text-xl md:text-2xl my-text-blue') 
+                            //- span अर्जदाराची माहिती
+                            span #{t("complaintsRegistrationPage.form.heading")}
+
+                        .form-body(class='shadow-lg border bg-white px-2 md:px-8 py-4 rounded-md')
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | अर्जदाराचे नाव
+                                            | #{t("complaintsRegistrationPage.form.inputs.applicant.label")}
+                                            //- sup *
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-user')
+                                            input#formName(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formName" placeholder=(t("complaintsRegistrationPage.form.inputs.applicant.placeholder")))
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | ई-मेल आईडी 
+                                            | #{t("complaintsRegistrationPage.form.inputs.email.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-envelope')
+                                            input#formEmail(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formEmail")
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 ')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | मोबाईल क्रमांक 
+                                            | #{t("complaintsRegistrationPage.form.inputs.mobile.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-phone')
+                                            input#formMobile(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="10" name="formMobile")
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | आधार क्रं.
+                                            | #{t("complaintsRegistrationPage.form.inputs.adhar.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-id-card')
+                                            input#formAadhar(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="12" name="formAadhar")
+
+                                .input-group(class='mb-3 px-2  md:col-span-2')
+                                    div(class='flex flex-col gap-2')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | पूर्ण पत्ता 
+                                            | #{t("complaintsRegistrationPage.form.inputs.address.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-map-marker-alt')
+                                            textarea#formAddress(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formAddress")
+
+                                .input-group(class='mb-3 px-2 md:col-span-1')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') मु. पो. 
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-map-marker-alt')
+                                            input#formGPDetails(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' readonly value="मु. पो. "+gp.gp_name+" ता. "+gp.gp_taluka+ " जि. "+gp.gp_dist)
+
+
+                                .input-group(class='mb-3 px-2 md:col-span-1')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') अर्ज दिनांक
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-map-marker-alt')
+                                            input#createdAt.datepicker(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name='createdAt')
+   
+
+                                - 
+                                    const applicationSubjects = [
+                                        { mr: "नळ कनेक्शन दुरुस्ती करण्याबाबत", hi: "नल कनेक्शन मरम्मत संबंधी", en: "Regarding water tap connection repair" },
+                                        { mr: "नळ कनेक्शन बसविण्याबाबत", hi: "नल कनेक्शन लगाने संबंधी", en: "Regarding installation of water tap connection" },
+                                        { mr: "नळ गळती (लिकेज) दुरुस्ती करण्याबाबत", hi: "नल रिसाव (लीकेज) मरम्मत संबंधी", en: "Regarding tap leakage repair" },
+                                        { mr: "पाईपलाईन गळती (लिकेज) दुरुस्ती करण्याबाबत", hi: "पाइपलाइन रिसाव (लीकेज) मरम्मत संबंधी", en: "Regarding pipeline leakage repair" },
+                                        { mr: "नाली साफसफाई करण्याबाबत", hi: "नाली सफाई संबंधी", en: "Regarding drain cleaning" },
+                                        { mr: "कीटकनाशक फवारणी करण्याबाबत", hi: "कीटनाशक छिड़काव संबंधी", en: "Regarding pesticide spraying" },
+                                        { mr: "खत व गाळ उचलण्याबाबत", hi: "खाद व गाद उठाने संबंधी", en: "Regarding manure and sludge removal" },
+                                        { mr: "नाली दुरुस्ती करण्याबाबत", hi: "नाली मरम्मत संबंधी", en: "Regarding drain repair" },
+                                        { mr: "कच्ची नाली दुरुस्ती करण्याबाबत", hi: "कच्ची नाली मरम्मत संबंधी", en: "Regarding kutcha drain repair" }
+                                    ]  
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | तक्रारीचा विषय
+                                            | #{t("complaintsRegistrationPage.form.inputs.complaintSubject.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        //- .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-file')
+                                            input#complaintSubject(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="complaintSubject")
+
+                                        - const selectSubjectLabel = { mr: "— विषय निवडा —", hi: "— विषय चुनें —", en: "— Select Subject —" }
+                                        .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                            i(class='fas fa-file')
+                                            select(id='complaintSubject' name='complaintSubject' class='py-1 px-2 outline-none bg-stone-100 flex-grow' required)
+                                                option(value='' disabled selected) #{selectSubjectLabel[language]}
+                                                each subject in applicationSubjects
+                                                    option(value=subject.mr) #{subject[language]}
+
+                                                - let other = {mr: "अन्य", hi: "अन्य ", en: "Other"}
+                                                option(value="other") #{other[language]}
+
+
+                                        // ===== OTHER SUBJECT (HIDDEN BY DEFAULT) =====
+                                        .input-group(class='mt-2 hidden' id='other-complaint-subject-wrapper')
+                                            .input-holder(class='relative w-full border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2')
+                                                i(class='fas fa-pen')
+                                                input(type='text' id="other_complaint_subject" name='other_complaint_subject' class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' placeholder='इतर विषय नमूद करा')
+
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | तक्रारीसाठी आवश्यक छायाचित्
+                                            | #{t("complaintsRegistrationPage.form.inputs.imageForComplaint.label")}
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-image')
+                                            input#imageForComplaint(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='file' name="imageForComplaint" accept='image/*')
+
+                                .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | तक्रारीसाठी आवश्यक कागदपत
+                                            | #{t("complaintsRegistrationPage.form.inputs.docForComplaint.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-file')
+                                            input#docForComplaint(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='file' name="docForComplaint")
+
+
+                                //- .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- |कचरा गाडी येते का?
+                                            | #{t("complaintsRegistrationPage.form.inputs.garbageVanPicksUpGarbage.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-trash-can')
+                                            select#garbageVanPicksUpGarbage(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="garbageVanPicksUpGarbage")
+                                                option(value="") -- Select --
+                                                for opt in ["YES", "NO"]
+                                                    option(value=opt) #{opt}
+
+
+                                //- .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- |आठवड्यात कचरा गाडी किती वेळा येते?
+                                            | #{t("complaintsRegistrationPage.form.inputs.garbageCollectionVanFrequencyByWeek.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-trash-can')
+                                            select#garbageCollectionVanFrequencyByWeek(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="garbageCollectionVanFrequencyByWeek")
+                                                option(value="") -- Select --
+                                                for _, indexAsFrequency in Array.from({length: 10 + 1})
+                                                    option(value=indexAsFrequency) #{indexAsFrequency}
+
+
+                                //- .input-group(class='mb-3 px-2')
+                                    div(class='flex flex-col gap-2 w-full')
+                                        label(class='font-bold tracking-wider') 
+                                            //- | कचरा योग्य प्रकारे टाकला जातो का?
+                                            | #{t("complaintsRegistrationPage.form.inputs.isGarbageProperlyDisposed.label")}
+                                            span(class='text-red-500 font-bold') &nbsp; *
+                                        .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                            i(class='fas fa-file')
+                                            select#isGarbageProperlyDisposed(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="isGarbageProperlyDisposed")
+                                                option(value="") -- Select --
+                                                for opt in ["YES", "NO"]
+                                                    option(value=opt) #{opt}
+ 
+
+                    .buttons-container(class='z-10')
+                        div(class='flex items-center justify-center') 
+                            button(type='button' id='registerComplaintBtn' class='px-10 py-2 rounded-md inline-flex items-center gap-2 bg-emerald-500 transition-all duration-300 ease-in-out hover:bg-emerald-700  text-white font-bold tracking-wider') 
+                                i.fa-solid.fa-floppy-disk
+                                //- span जतन करा
+                                span #{t("complaintsRegistrationPage.form.saveBtn")}
+block internal_js
+    
+    script(src='/asstest/coustom/js/handlers/complaints/complaints-form-handler.js')
+
+
+
+

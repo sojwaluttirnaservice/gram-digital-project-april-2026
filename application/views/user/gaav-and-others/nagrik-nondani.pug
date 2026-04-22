@@ -1,0 +1,330 @@
+extends ../include/index-page-master-layout.pug
+
+
+block internal_css 
+
+
+block content
+
+    section(class='relative py-8 md:py-16')
+        .container
+
+            div(class='nagrik-nondani-form-container')
+                h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                    i.fa-solid.fa-pen
+                    span.ml-2 
+                        //- | गावातील नागरिक नोंदणी
+                        | #{t("citizenRegistrationPage.heading")}
+
+                div(class='relative py-8')
+
+                    img(class='absolute top-[50%] md:top-0 left-0 -z-10 w-auto md:w-full h-auto md:h-full' src='/backgrounds/nagrik-nondani/bg-indian-village.png')
+
+                    div(class='z-100 flex gap-2 flex-col md:flex-row md:flex-row-reverse bg-white bg-opacity-90 border shadow-lg rounded-md')
+                        div(class='w-full md:w-2/5 lg:w-1/4 text-center border-b md:border-l')
+                            .village-guide-container(class='px-4 py-4 md:py-0')
+                                div(class='md:mt-16 inline-flex flex-col items-center justify-center gap-4')
+                                    p(class='font-bold text-xl my-text-blue tracking-wider') #{gp.village_guide_title ? gp.village_guide_title : 'गावातील मार्गदर्शक'}
+                                    - var villageGuideImageBaseUrl = "/new-gp-page/main-page/files/village-guide"
+                                    .img-holder(class='village-guide-image-holder w-[150px] aspect-square rounded-full p-2 my-border-blue border-4')
+                                        - var villageGuideImageBaseUrl = "/new-gp-page/main-page/files/village-guide"
+                                        img(class='w-100 h-full rounded-full' src=`${villageGuideImageBaseUrl}/${gp.village_guide_image_name}` alt=gp.village_guide_name onerror='this.src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1708168367~exp=1708168967~hmac=7fc28b6857e58074f97ca8424d3b14df1b64404b4a61d05abef6b7f562c3e91b"')
+                                    p.village-guide-title(class='w-full py-1 px-4 text-center tracking-wider font-semibold rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]') #{gp.village_guide_name ? gp.village_guide_name : '-'}
+
+
+
+                        div(class='w-full md:w-3/5 lg:w-3/4')
+                            .form-container(class='py-4 px-4 lg:px-8 ')
+                                form(id='signupForm' action="" class='flex flex-col gap-4')
+
+                                    .input-fields-container
+                                        div(class='grid grid-cols-1 lg:grid-cols-2 gap-4')
+
+                                            //- Full Name
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fName") 
+                                                        //- | Full Name
+                                                        | #{t("citizenRegistrationPage.form.inputs.fullName.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-user')
+                                                        input(id="fName" name="fName" type="text" placeholder="पूर्ण नाव" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Username" aria-describedby="basic-addon1")
+
+                                            //- Aadhar Number
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fAadhar") 
+                                                        //- | Aadhar Number
+                                                        | #{t("citizenRegistrationPage.form.inputs.adharNumber.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-id-card')
+                                                        input(id="fAadhar" name="fAadhar" type="text" placeholder="आधार क्रमांक" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Aadhar" maxlength="12")
+
+                                            //- Date of Birth
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fDob") 
+                                                        //- | Date of Birth
+                                                        | #{t("citizenRegistrationPage.form.inputs.dob.label")} 
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-calendar-alt')
+                                                        input.datepicker(id="fDob" name="fDob" type="text" placeholder="Date Of Birth e.g. 00/00/0000" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="DOB")
+                                            
+                                            //- Application Date
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="createdAt") 
+                                                        //- | Application Date
+                                                        | Application Date
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-calendar-alt')
+                                                        input.datepicker(id="createdAt" name="createdAt" type="text" placeholder="Application Date e.g. 00/00/0000" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="DOB")
+
+
+
+
+                                            //- Mobile Number
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fMobile") 
+                                                        //- | Mobile Number
+                                                        | #{t("citizenRegistrationPage.form.inputs.mobile.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-mobile-alt')
+                                                        input(id="fMobile" name="fMobile" type="text" placeholder="मोबाईल क्रमांक" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Mobile" maxlength="10")
+
+                                            //- Alternate Mobile Number
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fAltMobile") 
+                                                        //- | Alternate Mobile Number (optional)
+                                                        | #{t("citizenRegistrationPage.form.inputs.alternateMobile.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-phone-alt')
+                                                        input(id="fAltMobile" name="fAltMobile" type="text" placeholder="पर्यायी मोबाईल क्रमांक (optional)" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Alt Mobile" maxlength="10")
+
+                                            //- Occupation
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fOccupation") 
+                                                        //- | Occupation (optional)
+                                                        | #{t("citizenRegistrationPage.form.inputs.occupation.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-briefcase')
+                                                        input(id="fOccupation" name="fOccupation" type="text" placeholder="व्यवसाय (optional)" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Occupation")
+
+                                            //- Email
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fEmail") 
+                                                        //- | Email (optional)
+                                                        | #{t("citizenRegistrationPage.form.inputs.email.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-envelope')
+                                                        input(id="fEmail" name="fEmail" type="text" placeholder="ई-मेल  (optional)" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic" aria-label="Email")
+
+
+                                            //- Blood Group
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fBloodGroup") 
+                                                        //- | Blood Group
+                                                        | #{t("citizenRegistrationPage.form.inputs.bloodGroup.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-tint')
+                                                        select(id="fBloodGroup" name="fBloodGroup" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            option(value="") ---- Blood Group -----
+                                                            option(value="A+") A+
+                                                            option(value="O+") O+
+                                                            option(value="B+") B+
+                                                            option(value="AB+" selected) AB+
+                                                            option(value="A-") A-
+                                                            option(value="B-") B-
+                                                            option(value="O-") O-
+                                                            option(value="AB-") AB-
+
+                                            //- Village
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="fVillage") 
+                                                        //- | Village
+                                                        | #{t("citizenRegistrationPage.form.inputs.village.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-map-marker-alt')
+                                                        select(id="fVillage" name="fVillage" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            option(value="") ---- #{t("citizenRegistrationPage.form.inputs.village.placeholder")} -----
+                                                            option(value=gp.gp_name selected) #{gp.gp_name}
+                                            
+                                            - let yesNoOptions = [{mr: "निवडा", hi: "चुनें", en: "Select", value: ""}, {mr: "होय", hi: "हा", en: "Yes", value: "YES"}, {mr: "नाही", hi: "ना", en: "No", value: "NO"}]
+                                            - let downloadTxt = {mr: "डाउनलोड", hi: "डाउनलोड", en: "Download"}
+                                            - let downloadLinkClass = "text-blue-600 hover:text-blue-800 underline"
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="has_aabha_card") 
+                                                        //- | आभा कार्ड 
+                                                        | #{t("citizenRegistrationPage.form.inputs.abhaCardDropdown.label")}
+                                                        
+
+
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-landmark')
+                                                        select(id="has_aabha_card" name="has_aabha_card" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            each _option in yesNoOptions 
+                                                                option(value=_option.value selected = (_option.value == 'YES')) #{_option[language]}
+
+
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider') 
+                                                        //- | आभा कार्ड क्रमांक (असल्यास)
+                                                        | #{t("citizenRegistrationPage.form.inputs.abhaCard.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                                        i(class='fas fa-user')
+                                                        input(id='aabha_card_number' name='aabha_card_number' type='text' class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+
+
+
+                                            //-  OPTIONS 
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="has_ayushman_card") 
+                                                        //- | आयुष्मान कार्ड 
+                                                        | #{t("citizenRegistrationPage.form.inputs.ayushmanCardDropdown.label")}
+                                                        
+
+
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-landmark')
+                                                        select(id="has_ayushman_card" name="has_ayushman_card" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            each _option in yesNoOptions 
+                                                                option(value=_option.value selected = (_option.value == 'YES')) #{_option[language]}
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider') 
+                                                        //- | आयुष्मान कार्ड क्रमांक (असल्यास)
+                                                        | #{t("citizenRegistrationPage.form.inputs.ayushmanCard.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                                        i(class='fas fa-user')
+                                                        input(id='ayushman_card_number' name='ayushman_card_number' type='text' class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider') 
+                                                        //- | आयुष्मान भारत अंतर्गत कोणता योजनेचा लाभ घेतला असल्यास त्या योजनेचे नाव
+                                                        | #{t("citizenRegistrationPage.form.inputs.schemeUnderAyushmanBharatScheme.label")}
+                                                    div(class='relative w-full border border-stone-400 px-4 py-1 rounded-md flex flex-col gap-2')
+                                                        select#ayushman_bharat_yojana_select(name='ayushman_bharat_yojana_name' class='py-1 px-2 outline-none !bg-stone-100 flex-grow')
+                                                            -
+                                                                const schemes = [
+                                                                {
+                                                                    value: "",
+                                                                    mr: "--निवडा--",
+                                                                    en: "--Select--",
+                                                                    hi: "--चुनें--"
+                                                                },
+                                                                {
+                                                                    value: "मुख्यमंत्री सहायता निधी वैद्यकीय अनुदान",
+                                                                    mr: "मुख्यमंत्री सहायता निधी वैद्यकीय अनुदान",
+                                                                    en: "Chief Minister Relief Fund – Medical Grant",
+                                                                    hi: "मुख्यमंत्री सहायता निधि – चिकित्सीय अनुदान"
+                                                                },
+                                                                {
+                                                                    value: "प्रधानमंत्री सहायता वैद्यकीय अनुदान",
+                                                                    mr: "प्रधानमंत्री सहायता वैद्यकीय अनुदान",
+                                                                    en: "Prime Minister Relief Fund – Medical Grant",
+                                                                    hi: "प्रधानमंत्री सहायता – चिकित्सीय अनुदान"
+                                                                },
+                                                                {
+                                                                    value: "महात्मा ज्योतिबा फुले जन आरोग्य अनुदान",
+                                                                    mr: "महात्मा ज्योतिबा फुले जन आरोग्य अनुदान",
+                                                                    en: "Mahatma Jyotiba Phule Jan Arogya Grant",
+                                                                    hi: "महात्मा ज्योतिबा फुले जन स्वास्थ्य अनुदान"
+                                                                },
+                                                                {
+                                                                    value: "other",
+                                                                    mr: "इतर नाव भरा",
+                                                                    en: "Enter other name",
+                                                                    hi: "अन्य नाम दर्ज करें"
+                                                                }
+                                                                ];
+
+                                                            each scheme in schemes 
+                                                                option(value=scheme.value) #{scheme[language]}
+
+                                                        input#ayushman_bharat_yojana_other(type='text' name='ayushman_bharat_yojana_name' class='py-1 px-2 outline-none !bg-stone-100 flex-grow mt-1 hidden' placeholder=(t("citizenRegistrationPage.form.inputs.schemeUnderAyushmanBharatScheme.placeholder")))
+
+
+                                            //-  
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="has_downloaded_meri_gram_panchayat_app") 
+                                                        //- | मेरी पंचायत
+                                                        | #{t("citizenRegistrationPage.form.inputs.hasDownloadedMeriGramPanchayatApp.label")}
+                                                        | &nbsp;
+                                                        a(href="https://play.google.com/store/apps/details?id=com.meri_panchayat" target="_blank" class=downloadLinkClass) #{downloadTxt[language]} 
+
+
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-landmark')
+                                                        select(id="has_downloaded_meri_gram_panchayat_app" name="has_downloaded_meri_gram_panchayat_app" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            each _option in yesNoOptions 
+                                                                option(value=_option.value selected = (_option.value == 'YES')) #{_option[language]}
+
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="has_downloaded_panchayat_decision_app") 
+                                                        //- | पंचायत निर्णय
+                                                        | #{t("citizenRegistrationPage.form.inputs.hasDownloadedPanchayatDecisionApp.label")}
+                                                        | &nbsp;
+                                                        a(href="https://play.google.com/store/apps/details?id=com.gsnirnay.app&pli=1" target="_blank" class=downloadLinkClass) #{downloadTxt[language]} 
+
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-gavel')
+                                                        select(id="has_downloaded_panchayat_decision_app" name="has_downloaded_panchayat_decision_app" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            each _option in yesNoOptions 
+                                                                option(value=_option.value selected = (_option.value == 'YES')) #{_option[language]}
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider' for="has_downloaded_gram_samvad_app") 
+                                                        //- | ग्राम संवाद
+                                                        | #{t("citizenRegistrationPage.form.inputs.hasDownloadedGramSamvadApp.label")}
+                                                        | &nbsp;
+                                                        a(href="https://play.google.com/store/apps/details?id=com.nic.gramsamvaad" target="_blank" class=downloadLinkClass) #{downloadTxt[language]} 
+
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600  border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2')
+                                                        i(class='fas fa-comments')
+                                                        select(id="has_downloaded_gram_samvad_app" name="has_downloaded_gram_samvad_app" class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                                            each _option in yesNoOptions 
+                                                                option(value=_option.value selected = (_option.value == 'YES')) #{_option[language]}
+
+
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='flex flex-col gap-2 w-full')
+                                                    label(class='font-bold tracking-wider') 
+                                                        //- | Upload Image
+                                                        | #{t("citizenRegistrationPage.form.inputs.uploadImage.label")}
+                                                    .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-400 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
+                                                        i(class='fas fa-user')
+                                                        input(id='image' name='image' type='file' class="py-1 px-2 outline-none  !bg-stone-100 flex-grow placeholder:italic")
+                                            
+ 
+
+
+                                    .preview-container 
+                                        img#capture-image-preview(class='p-2 w-[175px] h-[210px] mx-auto border-2 border-gray-300' src="image" data-fallback="https://png.pngtree.com/png-vector/20190612/ourmid/pngtree-cameraphotographycapturephotoaperture-flat-color-icon-ve-png-image_1347002.jpg" onerror="this.src='https://png.pngtree.com/png-vector/20190612/ourmid/pngtree-cameraphotographycapturephotoaperture-flat-color-icon-ve-png-image_1347002.jpg'")
+
+
+                                    .buttons-container(class='text-center mt-6')
+                                        button(type='button' id='saveUser' class='px-10 py-2 rounded-md inline-flex items-center gap-2 bg-emerald-500 transition-all duration-300 ease-in-out hover:bg-emerald-700  text-white font-bold tracking-wider') 
+                                            <i class="fa-solid fa-floppy-disk"></i>
+                                            //- span नोंदणी करा
+                                            span #{t("citizenRegistrationPage.form.registerBtn")}
+
+block external_js
+    script(src='/asstest/coustom/js/handlers/gaav-and-others/nagrik-nondani.js' defer)
+

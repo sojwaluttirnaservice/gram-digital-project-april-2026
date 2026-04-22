@@ -1,0 +1,11 @@
+tr,
+th,
+td {
+    border: 1px solid black !important;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: black;
+}

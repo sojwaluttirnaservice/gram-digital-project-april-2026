@@ -1,0 +1,84 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        title #{title || 'सेविका / मदतनीस फॉर्म'}
+
+        //- CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+
+        //- JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src='/asstest/plugins/jquery_validation/jquery.validate.min.js')
+        script(src='/asstest/plugins/jquery_validation/additional-methods.js')
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        link(href='/asstest/coustom/css/gp/aanganwadi/aanganwadi-center-worker-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/gp/aanganwadi/aanganwadi-center-worker-form-handler.js')
+
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section
+            .container
+                // Heading - centered
+                .div.text-center.mb-3
+                    h2.heading-1 सेविका / मदतनीस फॉर्म Edit
+
+                // Button - right-aligned
+                .d-flex.justify-content-end.mb-4
+                    a.btn.btn-primary.text-light(href=`/aanganwadi`) केंद्र यादी बघा
+
+                    a.btn.btn-primary.text-light.ml-2(href=`/aanganwadi/workers/${centerId}`) सेविका यादी बघा
+
+
+                .d-flex.justify-content-center
+                    .bg-light.p-3.mb-3.border.rounded(style='max-width: 500px; width: 100%;')
+                        h5.mb-2.text-center.text-dark
+                            | अंगणवाडी केंद्राचे नाव: 
+                            span.text-success.fw-bold #{center.center_name}
+                        h6.mb-0.text-center.text-dark
+                            | गावाचे नाव: 
+                            span.text-primary #{center.village_name}
+
+
+
+
+
+                form#aanganwadi-worker-form
+                    .form
+                        input(type='hidden' name='center_id_fk' value=centerId)
+
+                        .row.g-3
+                            .col-md-6
+                                .form-group
+                                    label(for='name') कर्मचारीचे नाव
+                                    input.form-control#name(type='text' name='name' placeholder='सेविका / मदतनीस नाव' value=worker.name required)
+
+                            .col-md-6
+                                .form-group
+                                    label(for='role') भूमिका निवडा
+                                    select.form-control#role(name='role' required)
+                                        option(value='') -- निवडा --
+                                        option(value='सेविका' selected=(worker.role == 'सेविका')) सेविका
+                                        option(value='मदतनीस' selected=(worker.role == 'मदतनीस')) मदतनीस
+
+                                    input(name='id' value=worker.id hidden)
+
+                    .text-end.mt-4
+                        button.btn.btn-success#update-aanganwadi-worker-btn(type='submit') अपडेट करा

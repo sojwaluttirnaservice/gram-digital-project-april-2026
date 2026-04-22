@@ -1,0 +1,222 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २२ प्रिंट स्थावर मालमत्ता नोंदवही (रस्ते व जमिनीव्यतिरिक्त)
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+        table(style='width: 100%;')
+
+            thead
+
+                tr 
+                    th(colspan='16' )
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना २२
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६७ (१) पहा)
+
+                            //- div 
+                                if fromYear && toYear
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                else if (month && year)
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                else if year 
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+
+                tr 
+                    th(colspan='16')
+                        | स्थावर मालमत्ता नोंदवही (रस्ते व जमिनीव्यतिरिक्त)
+                tr
+                    //- 1
+                    th(rowspan='2') अनु. क्र
+
+                    //- 2 to 5
+                    th(rowspan='2') संपादनाची खरेदेची किंवा उभारणीची तारीख
+                    th(rowspan='2') ज्या अन्वये मालमत्ता संपादित केली त्या आदेशांची व पंचायत ठरावाचे क्रमांक व दिनांक
+                    th(rowspan='2') मालमत्तेचा भूमापन क्रमांक व मालमत्तेचे वर्णन
+                    th(rowspan='2') कोणत्या कारणासाठी वापर केला
+
+                    //- 6 to 6
+                    th(rowspan='2') उभारणीचा किंवा संपादनाचा खर्च
+
+                    //- Combined column of column from 7 to 11
+                    th(rowspan='1' colspan='5') दुरुस्त्यांवर किंवा फेरफारावर वर्षभरात खर्च करण्यात आलेली रक्कम
+
+
+
+                    //-  12 TO 16  
+                    th(rowspan='2') वर्ष अखेरीस घटलेली किंमत 
+                    th(rowspan='2') सरपंच व सचिव यांची आद्यक्षारी
+                    th(rowspan='2') मालमत्तेची विल्हेवाट लावण्यासाठी पंचायतीच्या ठरावाचा क्रमांक
+                    th(rowspan='2') मालमत्तेची विल्हेवाट लावण्यासाठी कलम ५५ खालील प्राधिकाऱ्याच्या आदेशाचा क्रमांक व तारीख
+                    th(rowspan='2') शेरा
+
+
+
+                tr 
+                    //- th
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+                    //- th
+
+                    th(rowspan='1' colspan='1') तारीख
+                    th(rowspan='1' colspan='1') चालू दुरुस्त्या
+                    th(rowspan='1' colspan='1') विशेष दुरुस्त्या
+                    th(rowspan='1' colspan='1') मूळ बांधकाम
+                    th(rowspan='1' colspan='1') मूळ बांधकामाचे स्वरूप
+
+
+                    //- th
+                    //- th
+
+                tr 
+                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                        th #{num}
+
+            tbody
+
+
+
+                each namuna22Entry, index in namuna22Details 
+                    //- each namuna22Entry, index in Array(20).fill(paymentnamuna22Entry).flat()
+                    tr 
+                        td #{index + 1}
+
+                        td #{namuna22Entry._acquisition_date}
+                        td #{namuna22Entry.resolution_number} व #{namuna22Entry._resolution_date}
+                        td #{namuna22Entry.survey_number}, #{namuna22Entry.property_description}
+                        td #{namuna22Entry.usage_reason}
+                        td #{namuna22Entry.construction_or_editing_expense}
+
+                        //- 7 to 11
+                        td #{namuna22Entry._repairs_expenditure_date}
+                        td #{namuna22Entry.ongoing_repairs}
+                        td #{namuna22Entry.special_repairs}
+                        td #{namuna22Entry.original_construction}
+                        td #{namuna22Entry.original_construction_type}
+
+                        //- 12 to 16
+                        td #{namuna22Entry.year_end_depreciation}
+                        //- For sign
+                        td 
+                        //- 14
+                        td #{namuna22Entry.disposal_resolution_number}
+                        td #{namuna22Entry.disposal_order_number}, #{namuna22Entry._disposal_order_date} 
+                        td #{namuna22Entry.remarks}
+
+        div(style='margin-top: 1rem; font-weight: 600; margin: 1rem;')
+
+            p टीप: मालमत्तेच्या घसार्सच्या एकूण वार्षिक रकमेचा हीशोब खालील आधारावर करण्यात
+
+            hr
+
+            div(style='display: flex; justify-content: space-between; align-items: center; margin:0.4rem 0rem;')
+
+                div मालमत्तेचा वर्ग
+                div 
+                    div दर ज्याच्या आधारे मूळ किमतीवर शेकडोवारीचा
+                    div हिशोब करावयाचा ती संख्या
+
+                div शेरा
+
+            hr
+
+
+            div 
+
+                div इमारत :
+
+                div(style='display: flex; justify-content: space-between;')
+                    div (१) वेतनश्रेणी नोंदवहीत नोंद केलेल्या मंजूर वेतनश्रेणी देयक पडताळून पहिले आहे
+                    div(style='width: 3rem;') २.५
+
+                div(style='display: flex; justify-content: space-between;')
+                    div (२) पंधरा रुपयाहून अधिक नाही इतक्या पगारावर लावलेल्या व्यक्तीचे पगार या देयकात काढले आहेत व त्या सर्व व्यक्ती या कामावर लावल्या होत्या
+                    div(style='width: 3rem;') ५.०               
+
+
+                div(style='display: flex; justify-content: space-between;')
+                    div (३) दुसऱ्या वर्गाच्या इमारतीपेक्षा कनिष्ठ परंतु निव्वळ तात्पुरता उभारणी समाविष्ठ नसलेल्या बांधकामाच्या तिसऱ्या वर्गाच्या इमारती
+                    div(style='width: 3rem;') ७.५
+
+                div(style='display: flex; justify-content: space-between;')
+                    div (४) लाकडी बांधकामासारखे निव्वळ तात्पुरते इमले.
+                    div(style='width: 3rem;') ---

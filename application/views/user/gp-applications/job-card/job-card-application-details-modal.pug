@@ -1,0 +1,159 @@
+//- JOB CARD DETAILS MODAL (VIEW ONLY)
+.modal(tabindex='-1' id='job-card-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-id-card.me-2.text-primary
+                    | जॉब कार्ड अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= FAMILY HEAD & APPLICANT =================
+                h6.fw-bold.text-primary.mb-3 कुटुंब प्रमुख व अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label कुटुंब प्रमुखाचे नाव
+                        input.form-control(readonly name='family_head_name')
+
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचे नाव
+                        input.form-control(readonly name='applicant_name')
+
+                    .col-12.col-md-6
+                        label.form-label मोबाईल नंबर
+                        input.form-control(readonly name='applicant_mobile')
+
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचा पत्ता 
+                        input.form-control(readonly name='applicant_address')
+
+                    //- .col-12
+                    //-     label.form-label पूर्ण पत्ता
+                    //-     textarea.form-control(readonly rows='2' name='applicant_address')
+
+                hr.my-3
+
+                // ================= SOCIAL INFORMATION =================
+                h6.fw-bold.text-primary.mb-3 सामाजिक माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label जात प्रवर्ग
+                        input.form-control(readonly name='caste_category')
+
+                    .col-12.col-md-6
+                        label.form-label अल्पसंख्यांक
+                        input.form-control(readonly name='minority')
+
+                    .col-12.col-md-6
+                        label.form-label अल्पभूधारक शेतकरी
+                        input.form-control(readonly name='small_farmer')
+
+                    .col-12.col-md-6
+                        label.form-label सामान्य शेतकरी
+                        input.form-control(readonly name='general_farmer')
+
+                    .col-12.col-md-6
+                        label.form-label भूसुधारक लाभार्थी
+                        input.form-control(readonly name='land_reform_beneficiary')
+
+                    .col-12.col-md-6
+                        label.form-label इंदिरा आवास लाभार्थी
+                        input.form-control(readonly name='indira_awaas_beneficiary')
+
+                    .col-12.col-md-6
+                        label.form-label आम आदमी विमा लाभार्थी
+                        input.form-control(readonly name='aab_yojana_beneficiary')
+
+                    .col-12.col-md-6
+                        label.form-label वन हक्क कायदा लाभार्थी
+                        input.form-control(readonly name='forest_rights_act_2006')
+
+                    .col-12.col-md-6
+                        label.form-label BPL कुटुंब
+                        input.form-control(readonly name='bpl_family')
+
+                    .col-12.col-md-6
+                        label.form-label राष्ट्रीय स्वास्थ्य विमा लाभार्थी
+                        input.form-control(readonly name='rashtriya_swasthya_bima_beneficiary')
+
+                    .col-12.col-md-6
+                        label.form-label राष्ट्रीय स्वास्थ्य विमा क्रमांक
+                        input.form-control(readonly name='rashtriya_swasthya_bima_no')
+
+                    .col-12.col-md-6
+                        label.form-label BPL क्रमांक
+                        input.form-control(readonly name='bpl_family_no')
+
+                hr.my-3
+
+                // ================= FAMILY MEMBERS =================
+                h6.fw-bold.text-primary.mb-3 कुटुंबातील सदस्य
+                .row.g-3.mb-4#family-members-view-container
+                    .col-12
+                        div.text-muted.small सदस्यांची माहिती उपलब्ध नाही
+
+                hr.my-3
+
+                // ================= DOCUMENTS =================
+                h6.fw-bold.text-primary.mb-3 कुटुंब माहिती व कागदपत्रे
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label कुटुंब फोटो
+                        a.btn.btn-sm.btn-outline-primary.disabled.w-100(
+                            href='#'
+                            target='_blank'
+                            name='family_photo_image_link'
+                        ) फोटो पहा
+                        div.small.text-muted(name='family_photo_status')
+
+                    .col-12.col-md-6
+                        label.form-label रेशन कार्ड
+                        a.btn.btn-sm.btn-outline-primary.disabled.w-100(
+                            href='#'
+                            target='_blank'
+                            name='family_head_ration_card_pdf_link'
+                        ) PDF पहा
+                        div.small.text-muted(name='ration_card_status')
+
+
+                hr.my-3
+
+                // ================= STATUS: ACCEPTED =================
+                .div(class=`status-section ${status === 'accepted' ? '' : 'd-none'}` data-status='ACCEPTED')
+                    hr(class='my-3')
+                    h6(class='fw-bold text-success mb-3') अर्ज स्वीकार तपशील
+                    .row(class='g-3 mb-4')
+                        .col-12.col-md-6
+                            label(class='form-label') स्वीकार दिनांक
+                            input(class='form-control' readonly name='date_of_acceptance')
+                        .col-12.col-md-6
+                            label(class='form-label') स्वीकार शेरा
+                            input(class='form-control' readonly name='acceptance_remark')
+
+                        .col-12.col-md-6
+                            label(class='form-label') जॉब कार्ड क्रमांक
+                            input(class='form-control' readonly name='job_card_number')
+
+                // ================= STATUS: REJECTED =================
+                .div(class=`status-section ${status === 'rejected' ? '' : 'd-none'}` data-status='REJECTED')
+                    hr(class='my-3')
+                    h6(class='fw-bold text-danger mb-3') अर्ज नाकारण्याचा तपशील
+                    .row(class='g-3 mb-4')
+                        .col-md-6
+                            label(class='form-label') नकार दिनांक
+                            input(class='form-control' readonly name='date_of_rejection')
+                        .col-md-6
+                            label(class='form-label') नकार शेरा
+                            input(class='form-control' readonly name='rejection_remark')
+
+                
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा

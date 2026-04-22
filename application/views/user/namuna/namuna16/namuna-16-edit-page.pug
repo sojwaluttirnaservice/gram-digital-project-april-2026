@@ -1,0 +1,158 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-16/namuna-16-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-16/namuna-16-page-handler.js' type='module' defer)
+
+    title Namuna १६ - जडवस्तू संग्रह किंवा जंगम मालमत्ता नोंदवहीचा नमुना
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem; /* Automatically center horizontally */
+        width: fit-content; /* Allow width to adjust based on content */
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+
+    include ../../include/navs.pug
+
+
+    h2.heading-1.mt-2.mb-1 Edit  नमुना १६ (जडवस्तू संग्रह किंवा जंगम मालमत्ता नोंदवहीचा नमुना)
+
+    div.d-flex.gap-4.justify-content-end.mb-4(style='margin-right:8rem; gap:1rem;')
+      a.btn.btn-sm.btn-primary(href='/namuna/16') नमुना १६
+      a.btn.btn-sm.btn-primary(href='/namuna') नमुने
+
+
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+
+    if !namuna16Entry
+      h3.text-center.mt-5 माहिती उपलब्ध नाही
+
+    else
+
+
+      form(id='namuna-16-form').mt-1
+        .form.form-1
+          //- h4.text-center.fw-bold EDIT: नमुना १६
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="item_description") वस्तूचे वर्णन
+                input.form-control(type="text" id="item_description" name="item_description" required placeholder="उदा. खुर्ची, मेज, संगणक" value=namuna16Entry.item_description)
+
+            .col-11.col-md-6.col-lg-6 
+              .form-group 
+                label.form-label(for="purchase_authority") खरेदी प्राधिकृत करणारे
+                input.form-control(type="text" id="purchase_authority" name="purchase_authority" required placeholder="उदा. ग्रामपंचायत, शाळा समिती" value=namuna16Entry.purchase_authority)
+
+            .col-11.col-md-6.col-lg-2
+              .form-group 
+                label.form-label(for="month") महिना
+                select.form-control(id="month" name="month")
+                  option(value='' selected) -- निवडा --
+                  each month, index in months
+                    option(value=(index + 1) selected=(index + 1 == namuna16Entry.month)) #{month}
+
+            .col-11.col-md-6.col-lg-2
+              .form-group 
+                label.form-label(for="year") वर्ष
+                input.form-control(type="number" id="year" name="year" required placeholder="उदा. 2024" value=namuna16Entry.year)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="quantity") संख्या
+                input.form-control(type="number" id="quantity" name="quantity" required placeholder="उदा. 10, 20, 50" value=namuna16Entry.quantity)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="cost") किंमत
+                input.form-control(type="text" id="cost" name="cost" required placeholder="उदा. 5000.00" value=namuna16Entry.cost)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="disposal-count") विल्हेवाट केलेल्या वस्तूंची संख्या
+                input.form-control(type="number" id="disposal-count" name="disposal_count" placeholder="उदा. 2, 5, 10" value=namuna16Entry.disposal_count)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="disposal_details") विल्हेवाटाची स्वरूप
+                input.form-control(type="text" id="disposal_details" name="disposal_details" placeholder="उदा. लिलाव, पुनर्विक्री" value=namuna16Entry.disposal_details)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="purchase_date") खरेदीची तारीख
+                input.form-control.datepicker(type="text" id="purchase_date" name="purchase_date" required placeholder="YYYY-MM-DD" value=namuna16Entry._purchase_date)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="treasury_date") कोषागार तारीख
+                input.form-control.datepicker(type="text" id="treasury_date" name="treasury_date" placeholder="YYYY-MM-DD" value=namuna16Entry._treasury_date)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="authorization_certificate") प्रमाणपत्र/प्राधिकृत पत्र
+                input.form-control(type="text" id="authorization_certificate" name="authorization_certificate" placeholder="प्राधिकृत पत्र प्रविष्ट करा" value=namuna16Entry.authorization_certificate)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="recovered_amount") वसूल केलेली रक्कम
+                input.form-control(type="number" step="0.01" id="recovered_amount" name="recovered_amount" placeholder="उदा. 1000.00" value=namuna16Entry.recovered_amount)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="stock_balance") साठ्यातील शिल्लक
+                input.form-control(type="number" id="stock_balance" name="stock_balance" placeholder="उदा. 25, 50, 100" value=namuna16Entry.stock_balance)
+
+            .col-11.col-md-6.col-lg-4
+              .form-group 
+                label.form-label(for="remarks") शेरा
+                input.form-control(type="text" id="remarks" name="remarks" placeholder="उदा. विशेष टिप्पणी" value=namuna16Entry.remarks)
+
+                input(type="hidden" name="id" value=namuna16Entry.id)
+
+          div(style='display: flex; gap: 1rem; justify-content: center;')
+            button.btn.btn-success(type="button" id='update-namuna-16-entry') Update
+            button.btn.btn-secondary(type='reset' id="reset") Reset
+

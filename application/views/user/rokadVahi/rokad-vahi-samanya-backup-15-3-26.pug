@@ -1,0 +1,193 @@
+extends ../master-layout/master-layout
+block custom_js
+    script(src='/asstest/coustom/js/handlers/rokadVahiManger.js')
+
+block internal_css
+    style.
+        @media print {
+            @page{
+                //- size: A4 portrait;
+                size: A4 landscape;
+            }
+        }
+
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+
+        body {
+            height: 210mm; 
+            width: 297mm;
+            //- border: 1px solid black;
+        }
+        .my-print{
+            position: relative;
+            padding: 5px !important;
+        }
+
+        .fs-7 {
+            font-size: 0.8rem !important;
+        }
+
+block content
+    include ./year-dropdown-component.pug
+
+    .my-print.m-0.p-0.d-flex.flex-column
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        div
+            div.d-flex.justify-content-between.pt-2.pb-2
+                div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                    img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                    span.fw-semibold
+                    - var currentYear = new Date().getFullYear()
+                    span.fw-semibold वर्ष- #{currentYear}
+                div.d-flex.flex-column.align-items-center.justify-content-center
+                    p.fw-semibold ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+                    p.fw-semibold(style='font-size:0.6rem;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१,२२ (२),(३),(४),(५), व (६),२५(१),३२(५),३३(२),(३),व (४)(च),३६(२)३८(१) आणि ६६(१) पहा)
+                    p.fw-bold.fs-4 दैनिक रोकड वही (सामान्य)
+
+                div.d-flex.flex-column.justify-content-center.align-items-center
+                    img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+                    p.fw-semibold पान क्र:- 
+        div
+            table.table.table-bordered
+                thead
+                    tr.text-center
+                        th.fs-7(rowspan="3") अनु.क्र.
+                        th.fs-7(rowspan="3") पावती क्रमांक
+                        th.fs-7(rowspan="3") कोणाकडून मिळाली ते
+                        th.fs-7(rowspan="3") मोबाईल न.
+
+                        th.fs-7(rowspan="1" colspan="10") जमा रकमेचा तपशील
+
+                        th.fs-7(rowspan="3") प्रमाणपत्र नाव
+                        th.fs-7(rowspan="3") रुपये
+                        th.fs-7(rowspan="3") पेमेंट मोड
+                        th.fs-7(rowspan="3") दिनांक
+                        th.fs-7(rowspan="3") शेरा
+
+                    tr
+                        //- th 
+                        //- th 
+                        //- th 
+                        //- th 
+
+                        th.fs-7(rowspan="1" colspan="5") मागील
+                        th.fs-7(rowspan="1" colspan="5") चालू 
+
+                        //- 
+
+                    tr  
+                        //- th 
+                        //- 
+                        //- 
+                        //- 
+
+                        th.fs-7(rowspan="1" colspan="1") इमारत 
+                        th.fs-7(rowspan="1" colspan="1") दंड 
+                        th.fs-7(rowspan="1" colspan="1") दिवाबत्ती 
+                        th.fs-7(rowspan="1" colspan="1") आरोग्य 
+                        th.fs-7(rowspan="1" colspan="1") एकूण 
+                        
+                        //- 
+                        th.fs-7(rowspan="1" colspan="1") इमारत
+                        th.fs-7(rowspan="1" colspan="1") दंड
+                        th.fs-7(rowspan="1" colspan="1") दिवाबत्ती
+                        th.fs-7(rowspan="1" colspan="1") आरोग्य
+                        th.fs-7(rowspan="1" colspan="1") एकूण
+
+                    - let totalCols = 19; 
+                    tr.text-center
+                        each _, _index in Array.from({length: totalCols})
+                            th #{_index + 1}
+                tbody.rokadVahiData
+                    if((!paymentDetails || paymentDetails.length == 0))
+                        tr 
+                            td.text-center.fw-bold(colspan=totalCols) माहिती उपलब्ध नाही
+                    else
+                        each paymentDetail, index in paymentDetails
+
+                            - let pramanpatra_name
+
+                            case paymentDetail.payment_for
+                                when 1
+                                    - pramanpatra_name = 'सामान्य कर पावती'
+                                    break
+                                when 2
+                                    - pramanpatra_name = 'पाणी कर पावती'
+                                    break
+                                when 3
+                                    - pramanpatra_name = 'विवाह नोंदणी प्रमाणपत्र'
+                                    break
+                                when 4
+                                    - pramanpatra_name = 'रहिवासी स्वयंघोषितपत्र'
+                                    break
+                                when 5
+                                    - pramanpatra_name = 'नमुना ८ प्रिंट'
+                                    break
+                                when 6
+                                    - pramanpatra_name = 'थकबाकी/निराधार प्रमाणपत्र'
+                                    break
+                                default
+                                    - pramanpatra_name = '-'
+                                    break
+
+                            tr 
+                                - const lb = paymentDetail.tpl_lastBuildingTax;
+                                - const lf = paymentDetail.tpl_lastTaxFine;
+                                - const ld = paymentDetail.tpl_lastDivaTax;
+                                - const la = paymentDetail.tpl_lastArogyaTax;
+
+                                - const cb = paymentDetail.tpl_currentBuildingTax;
+                                - const cd = paymentDetail.tpl_currentDivaTax;
+                                - const ca = paymentDetail.tpl_currentArogyaTax;
+
+                                - const allLastNull = [lb, lf, ld, la].every(v => v == null);
+                                - const allCurrentNull = [cb, cd, ca].every(v => v == null);
+
+                                - 
+                                    const lastSum =
+                                        (lb != null ? lb : 0) +
+                                        (lf != null ? lf : 0) +
+                                        (ld != null ? ld : 0) +
+                                        (la != null ? la : 0);
+
+                                - 
+                                    const currentSum =
+                                        (cb != null ? cb : 0) +
+                                        (cd != null ? cd : 0) +
+                                        (ca != null ? ca : 0);
+
+                                td #{index + 1} 
+                                td #{paymentDetail.id}
+                                td #{paymentDetail.recipient_name}
+                                td.text-center -
+                            
+
+                                td #{lb != null ? lb : '-'}
+                                td #{lf != null ? lf : '-'}
+                                td #{ld != null ? ld : '-'}
+                                td #{la != null ? la : '-'}
+                                td #{allLastNull ? '-' : lastSum}
+
+                                td #{cb != null ? cb : '-'}
+                                td 0
+                                td #{cd != null ? cd : '-'}
+                                td #{ca != null ? ca : '-'}
+                                td #{allCurrentNull ? '-' : currentSum}
+
+
+
+
+
+                                td.text-center #{pramanpatra_name}
+                                td.text-center #{paymentDetail.payment_amount}
+                                td #{paymentDetail.payment_mode === 1 ? 'ऑनलाईन' : 'ऑफलाईन'}
+                                - var _date = (paymentDetail.payment_date && paymentDetail.payment_date.split('-').length === 3) ? paymentDetail.payment_date.split('-').reverse().join('/') : '' 
+                                td #{_date}
+                                td -

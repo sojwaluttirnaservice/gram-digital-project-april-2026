@@ -1,0 +1,166 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+
+  script(src='/asstest/coustom/js/handlers/master.property.js')
+  
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+    @media (min-width: 576px) {
+    .modal-dialog { max-width: none; }
+      }
+      .modal-dialog {
+        width: 98%;
+        height: 92%;
+        padding: 0;
+      }
+    td, th {
+      text-align: center;
+    }
+body
+    .container-fluid
+        .row
+          .col-12 
+            .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                a.navbar-brand(href="/master") Master Panel
+          .col-12(style='margin-top: 5rem;')
+              div
+                form.row.mt-2#propertyForm(style='row-gap: 2rem;')
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary मालमत्तेचे वर्णन
+                        select.form-control#propertyDesc(name="propertyDesc")
+                          option(value='-1') ----- निवडा ------
+                          each p in propDescA
+                            option(value=p.id) #{p.pd_name}
+                    .col-12.col-sm-6.col-md-3
+                        label.text-primary बांधकामाचे विवरण
+                        input#propertySpecification.form-control(type='text' placeholder="" name="propertySpecification")
+                    
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary जमिनीचा दर
+                        input#propertyLandRate.form-control(type='number' placeholder="eg.145" name="propertyLandRate") 
+                        input#propertyID.form-control(type='hidden' placeholder="eg.145" name="propertyID") 
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary कर जोडणे
+                        select.form-control#isSkeepTax(name="isSkeepTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary दिवाबत्ती आरोग्य जोडणे
+                        select.form-control#isSkipDiwaArogya(name="isSkipDiwaArogya")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary स्वच्छता कर जोडणे
+                        select.form-control#isSkipCleaningTax(name="isSkipCleaningTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary शिक्षण कर जोडणे
+                        select.form-control#isSkipEducationTax(name="isSkipEducationTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary वृक्ष कर जोडणे
+                        select.form-control#isSkipTreeTax(name="isSkipTreeTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary अग्नी कर जोडणे
+                        select.form-control#isSkipFireblegateTax(name="isSkipFireblegateTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.col-sm-6.col-md-2
+                        label.text-primary Set All Tax
+                        select.form-control#isSkipAllTax(name="isSkipAllTax")
+                          option(value="-1") ---- निवडा ----
+                          option(value="0") हो
+                          option(value="1") नाही
+
+                    .col-12.text-center
+                        button.mt-4#btnPropertyForm.btn.btn-outline-primary जतन करा
+          .col-12
+            form#updateRateForm.mt-4.mb-4
+              .row.align-items-end.justify-content-center
+                .col-12.col-sm-2 
+                  label.text-primary(for="updatedPropertyRate") जमिनीचा दर
+                  input.form-control(type="text" id="updatedPropertyRate" name="updatedPropertyRate")
+                .col-12.col-sm-2.text-center.mt-2
+                  button.btn.btn-outline-secondary#updatePropertyRateAll जतन करा
+
+
+          .col-12
+            .table-responsive
+              table.table.table-striped
+                thead
+                  tr
+                    th(width="15%") मालमत्तेचे वर्णन
+                    th(width="8%") बांधकामाचे विवरण
+                    th(width="10%") जमिनीचा दर
+                    th(width="8%") कर जोडणे
+                    th(width="8%") दिवाबत्ती-आरोग्य
+                    th(width="8%") स्वच्छता कर
+                    th(width="8%") शिक्षण कर
+                    th(width="8%") वृक्ष कर
+                    th(width="8%") अग्नी कर 
+                    th(width="8%") Action
+
+                tbody#propertySpecificationTbody
+    script.
+        homeManager.propDesc = !{propDesc}
+        homeManager.propSpace = !{propSpace}
+                          
+
+                                
+                            

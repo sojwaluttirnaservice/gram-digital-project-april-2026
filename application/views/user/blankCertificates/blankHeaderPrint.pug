@@ -1,0 +1,31 @@
+doctype html
+head
+    title Blank header print
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    script(src="/asstest/plugins/qr_code/qrious.min.js")
+    script.
+        //- console.log(gp)
+    style.
+        @media print {
+            @page{
+                size: A4;
+            }
+            .my-print{
+                position: relative;
+                page-break-before: always;
+            }
+            table{
+                page-break-inside: avoid;
+            }
+        }
+
+body 
+    .w-100.position-relative
+        img(src="/img/header-images/blank-header-print.jpeg" class='w-100')
+        p.w-100.position-absolute.text-danger.font-weight-bold(style='font-size:2rem;font-weight:500;z-index:100;top:4.1%;left:55%') #{gp.gp_name}
+        p.w-100.position-absolute.text-primary.font-weight-bold(style='font-size:2rem;font-weight:500;z-index:100;top:8.8%;left:37%') #{gp.gp_taluka}
+        p.w-100.position-absolute.text-primary.font-weight-bold(style='font-size:2rem;font-weight:500;z-index:100;top:8.8%;left:63%') #{gp.gp_dist}

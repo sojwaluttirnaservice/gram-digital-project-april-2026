@@ -1,0 +1,175 @@
+doctype html
+head
+    title #{title} 
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+
+    style.
+
+        @media print {
+            @page { 
+                size: A4;
+
+            }
+            body {
+                margin:0;
+                padding:0;
+            }
+            body {transform: scale(1);}
+
+            .my-print {
+                margin: 3mm 2mm 3mm 2mm;
+            }
+        }
+
+        #qr-code img{
+            width: 100%;
+            height: 100%;
+        }
+
+        .text-center{
+            text-align:center;
+        }
+
+
+
+
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            const _data = !{JSON.stringify(bplCertificate)};
+            const _gp = !{JSON.stringify(gp)};
+            let website = window.location.origin
+            website += `/qr-scan/bpl-certificate?id=${_data.id}`
+            //- new QRCode(document.getElementById("qr-code"),website);
+
+            var qrcode = new QRCode(
+                'qr-code',
+
+                {
+                    text: website,
+                    width: 150, // Set width here
+                    height: 150, // Set height here
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H, // Optional: error correction level
+                }
+            );
+        });
+
+body
+
+    button(style="position:fixed; right:1rem; top:50%; background-color:#007BFF; color:white; padding:10px 20px; border:none; border-radius:5px 0 0 5px; cursor:pointer; font-family:sans-serif; z-index:1000;" onclick="window.print()") Print
+    .my-print(style="width:210mm; height:298mm; border: 2px solid gray;position: relative;")
+
+        if bplCertificate == null 
+            div(style="font-size: 4rem; text-align:center;") No certificate found 
+
+        else
+
+
+            div(style='padding: 0.4rem;')
+
+                div(style='color:black; font-weight:bold; display: grid; grid-template-columns: 1fr 3fr 1fr')
+                    div(style='display: flex; align-items:center; justify-content:center')
+                        div 
+                            img(src='/uploads/images/certificates/bpl/'+bplCertificate.certificate_holder_image_name height='150' width='120')
+                    div(style='text-align:center; font-size:0.9rem; font-weight:bold')
+                        img(src="/img/water-mark-images/Seal_of_Maharashtra.png" width='90' height='90')
+
+                        div.text-center ग्रामपंचायत कार्यालय - #{gp.gp_name}
+
+                        div.text-center तालुका : #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist}
+
+
+                        div(style='text-transform: uppercase;margin-top:0.5rem;') GRAM PANCHAYAT OFFICE #{gp.gp_name}
+
+                        div.text-center Taluka : #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist}, District : #{gp.gp_dist}
+
+
+
+                    div(style='display: flex; align-items:center; justify-content:center')
+                        div(style='text-align:center;')
+
+                            #qr-code
+
+
+            hr(style='border:2px solid gray;')
+            div(style='padding-inline: 0.4rem;')
+
+                h3(style='text-align:center; text-decoration: underline; margin-bottom:0.4rem;') दारिद्र्य रेषेखालील कुटुंबाचा दाखला
+                h3(style='text-align:center; text-decoration: underline; margin-top:0rem;') Below Poverty Line Certificate
+
+
+                div Dispatch No. / जा. क्र. : MH-BPL/2025/#{bplCertificate.id}
+
+                div(style='margin-top:1rem;font-size:0.9rem;')
+
+                div(style='margin-top: 1rem; font-size: 0.9rem')
+                    div  ग्रामसेवक / ग्राम विकास अधिकारी
+                    div Gramsevak / Village Development Officer
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div ग्रामपंचायत कार्यालय #{gp.gp_name}, तालुका - #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist}, महाराष्ट्र
+                    div Gram Panchayat Office- #{gp.gp_name}, Taluka : #{gp.gp_taluka}, District: #{gp.gp_dist}, MAHARASHTRA
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div  यांजकडून प्रमाणपत्र देण्यात येते की #{bplCertificate.name_m}
+                    div is issuing the certificate to #{bplCertificate.name}
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div रा. #{gp.gp_name}, तालुका - #{gp.gp_taluka}, जिल्हा : #{gp.gp_dist} येथील रहिवासी आहेत.
+                    div is a resident of village #{gp.gp_name}, Taluka- #{gp.gp_taluka}, District : #{gp.gp_dist}
+
+                - let currentYear = new Date().getFullYear()
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div सन #{currentYear} या वर्षातील दारिद्र्य रेषेखालील यादीतील क्रमांक - #{bplCertificate.bpl_list_number} आहे.
+                    div in the year #{currentYear}, #{bplCertificate.gender == 'Male' ? 'his' : 'her'} Below Poverty Line List No. is - #{bplCertificate.bpl_list_number}
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div सन #{currentYear} या  वर्षातील दारिद्य्र रेषेखालील यादीतील गुण : #{bplCertificate.bpl_score} 
+                    div #{bplCertificate.gender == 'Male' ? 'His' : 'Her'} Below Poverty Line Points: #{bplCertificate.bpl_score}
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div #{bplCertificate.name_m} ही त्यांची आहे.
+                    div #{bplCertificate.name} is Self
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div सदरचे प्रमाणपत्र अर्जदाराच्या मागणीनुसार व प्रतिज्ञापत्र घेऊन तसेच स्थानिक चौकशीनुसार देण्यात येत आहे. 
+                    div Ther certificate is issued on the request of applicant and affidavit given by #{bplCertificate.gender == 'Male' ? 'his' : 'her'} and local level enquiry.
+
+
+                div(style='margin-top:1rem; font-size:0.9rem;')
+                    div Place / ठिकाण :
+                        span(style='font-weight:bold;') #{gp.gp_name}
+
+
+
+
+                div(style='display: grid; grid-template-columns: 4fr 3fr; margin-top: 5.8rem;')
+                    div
+                    div
+                        div(style='display:flex; flex-direction:column; align-items:center; justify-content:center;') 
+                            img(src='/print/gs.jpeg' width='150' height='50' style=`opacity:${gp.gramsevak_sign_display == 1 ? "100": "100"}`) 
+                            div(style="margin-top: 0.4rem; text-align:center;") 
+                                div (सही व शिक्का)
+                                div (Signature with Stamp)
+
+                                div ग्रामसेवक / ग्राम विकास अधिकारी
+                                div Gramsevak / Village Development Officer
+
+
+                //- div(style='font-size: 0.9rem; text-align: center; color: darkblue; font-weight: bold;  margin-top: 2.8rem;')
+                    di "THIS IS A COMPUTER GENERATED CERTIFICATE WHICH CONTAINS FACSIMILE SIGNATURE OF THE ISSUING AUTHORITY"
+
+                    div THE GOVT. OF INDIA VIDE CIRCULAR NO. 1/12/2014-VS(CRS) DATED 27-JULY-2015 HAS
+                    div APPROVED THIS CERTIFICATE AS A VALID LEGAL DOUCMENT FOR ALL OFFICIAL PURPOSES.
+
+                    div(style='color:green;font-weight: bold;') "प्रत्येक जन्म आणि मृत्यूच्या घटनेची नोंदणी करण्याची खात्री करा" / ENSURE REGISTRATION OF EVERY BIRTH AND DEATH
+
+                    p#bar-code
+

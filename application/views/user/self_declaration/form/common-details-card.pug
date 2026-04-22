@@ -1,0 +1,89 @@
+.card.mb-4
+    .card-header.bg-warning.font-weight-bold
+        | सामान्य माहिती (सर्व प्रमाणपत्रांसाठी समान)
+
+    .card-body
+        .row.g-3
+
+            //- keep this input field hidden 
+            input(name='certificateType' value=certificateSubject.subject_code hidden)
+            //- NAME
+            .col-md-6
+                label.font-weight-bold स्वताचे पूर्ण नाव:
+                input.form-control.form-control-sm.mainText(type="text" name="applicantFullSelfNameE" placeholder="English")
+                input.form-control.form-control-sm.secText.mt-1(type="text" name="applicantFullSelfNameM" placeholder="मराठीत")
+
+            .col-md-6
+                label.font-weight-bold वडिलांचे / पालकांचे पूर्ण नाव:
+                input.form-control.form-control-sm.mainText(type="text" name="applicantFullParentNameE")
+                input.form-control.form-control-sm.secText.mt-1(type="text" name="applicantFullParentNameM")
+
+            //- AGE / AADHAAR / MOBILE
+            .col-sm-6.col-md-3
+                label.font-weight-bold वय:
+                input.form-control.form-control-sm.mainText(type="number" name="applicantAgeE" max="100")
+                input.form-control.form-control-sm.secText.mt-1(type="text" name="applicantAgeM")
+
+            .col-sm-6.col-md-5
+                label.font-weight-bold आधार क्रमांक:
+                input.form-control.form-control-sm.mainText(type="text" name="applicantAadharE" maxlength="12" placeholder="e.g.111122223333")
+                input.form-control.form-control-sm.secText.mt-1(type="text" name="applicantAadharM" maxlength='12')
+
+            .col-sm-12.col-md-4
+                label.font-weight-bold मोबाईल क्रमांक:
+                input.form-control.form-control-sm(type="text" name="mobile" maxlength="10")
+
+            //- GENDER / RESIDENCY
+            .col-sm-6.col-md-4
+                label.font-weight-bold लिंग:
+                select.form-control.form-control-sm(name="applicantGender")
+                    option(value="") ----निवडा----
+                    option(value="पुरुष") पुरुष
+                    option(value="स्त्री") स्त्री
+                    option(value="इतर") इतर
+
+            .col-sm-6.col-md-4
+                label.font-weight-bold रहिवासी:
+                select.form-control.form-control-sm(name="applicantResidency")
+                    option(value="") ----निवडा----
+                    option(value="कायम") कायम
+                    option(value="तात्पुरते") तात्पुरते
+
+            //- ADDRESS
+            .col-12
+                label.font-weight-bold पूर्ण पत्ता:
+                textarea.form-control.form-control-sm.mainText(rows="2" name="applicantAddressE")
+                textarea.form-control.form-control-sm.secText.mt-1(rows="2" name="applicantAddressM")
+
+            //- LOCATION
+            .col-sm-4
+                label.font-weight-bold गाव:
+                input.form-control.form-control-sm(type="text" name="applicantVillage",value=gp.gp_name)
+
+            .col-sm-4
+                label.font-weight-bold तालुका:
+                input.form-control.form-control-sm(type="text" name="applicantTaluka",value=gp.gp_taluka)
+
+            .col-sm-4
+                label.font-weight-bold जिल्हा:
+                input.form-control.form-control-sm(type="text" name="applicantState",value=gp.gp_dist)
+
+            //- PHOTO & SIGNATURE
+            .col-md-6
+                label.font-weight-bold अर्जदाराचा फोटो:
+                input.form-control.form-control-sm(type="file" id="image_1" accept="image/*")
+
+            .col-md-6
+                label.font-weight-bold सही / अंगठा:
+                input.form-control.form-control-sm(type="file" name="applicantSign" accept="image/*")
+
+
+            //- CAMERA
+            .col-md-6.text-center
+                img#image-1-preview.img-fluid.mt-2(style="border:1px solid #ccc;max-height:200px;")
+
+            .col-md-6
+                #camera.mt-2(style="border:1px solid #ccc;min-height:200px;")
+
+            .col-12.text-center
+                button.btn.btn-secondary.btn-sm.mt-2(id='capture-applicant-photo' type="button") फोटो काढा

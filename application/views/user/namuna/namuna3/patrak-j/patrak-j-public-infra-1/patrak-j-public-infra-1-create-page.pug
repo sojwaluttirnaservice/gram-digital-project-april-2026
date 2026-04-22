@@ -1,0 +1,215 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/patrak-j/patrak-j-p-infra-1/namuna-3-patrak-j-public-infra-1-page-form-handler.js' type='module' defer)
+
+    title प्रपत्र जे चालू (सार्वजनिक बांधकाम १)
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+      form(id='patrak-j-public-infra-1-form').mt-1
+        .form.form-1
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#7B68EE; padding:8px 18px; display:block; margin:10px auto;") नमुना ३ प्रपत्र जे चालू (सार्वजनिक बांधकाम १)
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष
+                input.form-control(type='text' name="year" id="year" placeholder="Enter Year" value=year readonly required)
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="gram_panchayat_name") ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+                input.form-control(type='text' name="gram_panchayat_name" id="gram_panchayat_name" placeholder="Enter Gram Panchayat Name" )
+
+            //- अतिक्रमणे (Encroachments)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="encroachments_start_year") वर्षारंभी अस्तित्व असलेली अतिक्रमणे
+                input.form-control(type="text" name="encroachments_start_year" id="encroachments_start_year" placeholder="Enter Encroachments at Start of Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="encroachments_detected") वर्षामध्ये दृष्टिस पडलेली अतिक्रमणे
+                input.form-control(type="text" name="encroachments_detected" id="encroachments_detected" placeholder="Enter Encroachments Detected")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="encroachments_removed") वर्षात काढून आकलेली अतिक्रमणे
+                input.form-control(type="text" name="encroachments_removed" id="encroachments_removed" placeholder="Enter Encroachments Removed")
+
+            //- रस्त्यांची लांबी (Roads)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="roads_start_year_length") वर्षारंभी सुरू असलेली रस्ते लांबी
+                input.form-control(type="text" name="roads_start_year_length" id="roads_start_year_length" placeholder="Enter Roads Start Year Length")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="roads_constructed_year_length") वर्षात बांधलेले रस्ते लांबी
+                input.form-control(type="text" name="roads_constructed_year_length" id="roads_constructed_year_length" placeholder="Enter Roads Constructed Year Length")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="roads_repaired_year_length") वर्षात दुरुस्त केलेले रस्ते लांबी
+                input.form-control(type="text" name="roads_repaired_year_length" id="roads_repaired_year_length" placeholder="Enter Roads Repaired Year Length")
+
+            //- बांधाची संख्या (Dams)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="dams_repaired_year_count") वर्षात दुरुस्त केलेले बांध संख्या
+                input.form-control(type="text" name="dams_repaired_year_count" id="dams_repaired_year_count" placeholder="Enter Dams Repaired Year Count")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="dams_new_constructed_year_count") वर्षात नवीन बांधलेले बांध संख्या
+                input.form-control(type="text" name="dams_new_constructed_year_count" id="dams_new_constructed_year_count" placeholder="Enter Dams New Constructed Year Count")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="dams_total_repaired_year_count") वर्षात दुरुस्त एकूण केलेले बांध संख्या
+                input.form-control(type="text" name="dams_total_repaired_year_count" id="dams_total_repaired_year_count" placeholder="Enter Dams Total Repaired Year Count")
+
+            //- गटारे (Sewers)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="sewers_existing_start_year_length") वर्षारंभी अस्तित्व असलेली गटारे
+                input.form-control(type="text" name="sewers_existing_start_year_length" id="sewers_existing_start_year_length" placeholder="Enter Sewers Existing Start Year Length")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="sewers_built_this_year_length") वर्षात बांधलेली गटारे
+                input.form-control(type="text" name="sewers_built_this_year_length" id="sewers_built_this_year_length" placeholder="Enter Sewers Built This Year Length")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="sewers_repaired_this_year_length") वर्षात दुरुस्त केलेली गटारे
+                input.form-control(type="text" name="sewers_repaired_this_year_length" id="sewers_repaired_this_year_length" placeholder="Enter Sewers Repaired This Year Length")
+
+            //- पूल (Bridges)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="bridge_count_existing_at_start_of_year") वर्षारंभी असलेले पूल
+                input.form-control(type="text" name="bridge_count_existing_at_start_of_year" id="bridge_count_existing_at_start_of_year" placeholder="Enter Bridges Existing at Start of Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="bridge_count_built_this_year") वर्षात बांधलेले पूल
+                input.form-control(type="text" name="bridge_count_built_this_year" id="bridge_count_built_this_year" placeholder="Enter Bridges Built This Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="bridge_count_repaired_this_year") वर्षात दुरुस्त केलेले पूल
+                input.form-control(type="text" name="bridge_count_repaired_this_year" id="bridge_count_repaired_this_year" placeholder="Enter Bridges Repaired This Year")
+
+            //- खांबांची संख्या (Poles)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="pole_count_existing_at_start_of_year") वर्षारंभी असलेले खांब
+                input.form-control(type="text" name="pole_count_existing_at_start_of_year" id="pole_count_existing_at_start_of_year" placeholder="Enter Poles Existing at Start of Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="pole_count_extra_lights_installed_this_year") वर्षात बसवलेले ज्यादा दिवे
+                input.form-control(type="text" name="pole_count_extra_lights_installed_this_year" id="pole_count_extra_lights_installed_this_year" placeholder="Enter Extra Lights Installed This Year")
+
+            //- झाडांची संख्या (Trees)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="trees_existing_at_start_of_year") वर्षारंभी असलेली झाडे
+                input.form-control(type="text" name="trees_existing_at_start_of_year" id="trees_existing_at_start_of_year" placeholder="Enter Trees Existing at Start of Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="trees_planted_and_nurtured_this_year") वर्षात लावलेली व पोसलेली झाडे
+                input.form-control(type="text" name="trees_planted_and_nurtured_this_year" id="trees_planted_and_nurtured_this_year" placeholder="Enter Trees Planted and Nurtured This Year")
+
+            //- धर्मशाळा (Religious Halls)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="existing_religious_halls_at_year_start") वर्षारंभी असलेल्या धर्मशाळा
+                input.form-control(type="text" name="existing_religious_halls_at_year_start" id="existing_religious_halls_at_year_start" placeholder="Enter Existing Religious Halls at Year Start")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="constructed_religious_halls_in_year") वर्षात बांधलेल्या धर्मशाळा
+                input.form-control(type="text" name="constructed_religious_halls_in_year" id="constructed_religious_halls_in_year" placeholder="Enter Constructed Religious Halls in Year")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="repaired_religious_halls_in_year") वर्षात दुरुस्त केलेल्या धर्मशाळा
+                input.form-control(type="text" name="repaired_religious_halls_in_year" id="repaired_religious_halls_in_year" placeholder="Enter Repaired Religious Halls in Year")
+
+            //- घाट (Ghats)
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="existing_ghats_at_year_start") वर्षारंभी असलेले घाट
+                input.form-control(type="text" name="existing_ghats_at_year_start" id="existing_ghats_at_year_start" placeholder="वर्षारंभी असलेले घाट प्रविष्ट करा")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="constructed_ghats_in_year") वर्षात बांधलेले घाट
+                input.form-control(type="text" name="constructed_ghats_in_year" id="constructed_ghats_in_year" placeholder="वर्षात बांधलेले घाट प्रविष्ट करा")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="repaired_ghats_in_year") वर्षात दुरुस्त केलेले घाट
+                input.form-control(type="text" name="repaired_ghats_in_year" id="repaired_ghats_in_year" placeholder="वर्षात दुरुस्त केलेले घाट प्रविष्ट करा")
+
+
+          .col-12.text-center
+            button.btn.btn-primary(type='submit' id='save-patrak-j-public-infra-1-btn') Save

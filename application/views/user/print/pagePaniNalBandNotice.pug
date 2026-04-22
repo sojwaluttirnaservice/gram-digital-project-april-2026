@@ -1,0 +1,124 @@
+doctype html
+head
+  title नळ बंद नोटीस
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: A4 portrait;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+        
+       
+    }
+    .text-j {
+      line-height: 1.5;
+       text-align: justify
+    }
+body
+  each val,index in data
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      .col-12(style="position:relative")
+        //- img(src="/print/6-v1.jpg" width="100%" height="75%;")
+        img(src="/print/6-v1.jpg", alt="" style="")
+        div(style="position: absolute;top:0;width:100%")
+            p(style="position:absolute;left:16.5rem;top:4.3rem") #{zp.gp_name}
+            p(style="position:absolute;left:47rem;top:4.3rem") #{zp.gp_name}
+
+            p(style="position:absolute;left:9.5rem;top:6.5rem") #{val.feu_ownerName}    
+            p(style="position:absolute;left:40.3rem;top:6.5rem") #{val.feu_ownerName} 
+
+            p(style="position:absolute;left:5.4rem;top:9rem") #{val.feu_secondOwnerName}   
+            p(style="position:absolute;left:35.7rem;top:9rem") #{val.feu_secondOwnerName}  
+
+            p(style="position:absolute;left:6.5rem;top:11rem") #{val.anu_kramank}
+            p(style="position:absolute;left:37.2rem;top:11rem") #{val.anu_kramank}
+
+            p(style="position:absolute;left:11rem;top:13.2rem") #{val.feu_malmattaNo}
+            p(style="position:absolute;left:41.5rem;top:13.2rem") #{val.feu_malmattaNo}
+
+            p(style="position:absolute;left:3.4rem;top:19rem") #{y1}
+            p(style="position:absolute;left:34rem;top:19rem") #{y1}
+
+            p(style="position:absolute;left:10rem;top:19rem") #{y2}
+            p(style="position:absolute;left:41rem;top:19rem") #{y2}
+
+            p(style="position:absolute;left:3rem;top:20.7rem") #{Math.round(val.totalWaterTax)}/-
+            p(style="position:absolute;left:33rem;top:20.7rem") #{Math.round(val.totalWaterTax)}/-
+
+            p(style="position:absolute;left:22rem;top:34rem;width:100px")
+              //- Removing signature
+              img(src="/print/sp1.jpeg", onerror="this.style.display='none'" alt="", srcset="",width="80px")
+            p(style="position:absolute;left:24.3rem;top:37.2rem;width:100px") #{zp.gp_name}
+
+            p(style="position:absolute;left:52.5rem;top:34rem;width:100px")
+              //- Removing signature
+              img(src="/print/sp1.jpeg", onerror="this.style.display='none'" alt="", srcset="",width="80px")
+            p(style="position:absolute;left:55.1rem;top:37.2rem;width:100px") #{zp.gp_name}
+
+            

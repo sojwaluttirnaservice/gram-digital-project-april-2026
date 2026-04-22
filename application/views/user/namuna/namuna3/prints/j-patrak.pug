@@ -1,0 +1,134 @@
+
+
+.my-print 
+
+
+    div(style='padding: 1rem 0;')
+
+        h3.text-center 'जे  पत्रक'
+
+
+    table.w-full 
+        thead 
+
+            tr 
+                th(rowspan='2' colspan='1') अनुं. क्र. 
+                th(rowspan='2' colspan='1') ग्रामपंचायतीचे नाव
+                th(rowspan='2' colspan='1') वर्षाचे एकूण उत्त्पन्न
+                th(rowspan='2' colspan='1') बांधकामासाठी मिळालेली अनुदान निव्वळ उत्त्पन्न सोडून
+                th(rowspan='2' colspan='1') ग्रा. पं. चे निव्वळ उत्त्पन्न बांधकाम अनुदान सोडून (३ - ४)
+                th(rowspan='2' colspan='1') निव्वळ उत्त्पान्नावर कॉ. ५ चे रकमेवर ५% आकाराचे जि. ग्रा. वि. निधी
+
+                th(rowspan='1' colspan='2') जि. ग्रा. निधीमधून घेतलेल्या कर्जांच्या हफ्त्यांची रक्कम
+                //- th 
+
+
+                th(rowspan='2' colspan='1') एकूण भरलेली रक्कम
+                th(rowspan='2' colspan='1') तारीख/ पा. न
+                th(rowspan='2' colspan='1') बकाया रक्कम
+                th(rowspan='2' colspan='1') शेरा
+
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') थकीत 
+                th(rowspan='1' colspan='1') चालू
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+        tbody 
+            tr 
+                td 
+                td #{jPatrak.gram_panchayat_name}
+                td #{jPatrak.year_total_income} 
+                td #{jPatrak.construction_grant_income} 
+                td #{jPatrak.net_income_excluding_construction_grant} 
+                td #{jPatrak.net_income_after_construction_grant} 
+
+                td #{jPatrak.outstanding_loan_installment} 
+                td #{jPatrak.current_loan_installment} 
+
+                td #{jPatrak.total_paid_amount} 
+                td #{jPatrak._date_invoice} 
+                td #{jPatrak.outstanding_amount} 
+                td #{jPatrak.remarks}
+
+
+    div(style='padding: 1rem 0;')
+        h3.text-center मासिक सभा व ग्रामसभा वार्षिक अहवाल
+
+
+    hr
+    div(style='display: flex; justify-content: space-evenly;')
+        div मासिक सभा
+        div ग्रामसभा
+    hr
+    
+    table.w-full
+
+        -
+            let masikSabhaHeadings = [
+                "अ. क्र.",
+                "ग्रामपंचायतीचे नाव",
+                "एकूण सदस्य संख्या",
+                "वर्षात किमान घ्यावयाच्या एकूण सभा",
+
+
+                "वर्षात प्रत्यक्ष घेतलेल्या मासिक सभा",
+                "कोरम अभावी तहकूब सभा",
+                "तहकूब सभा पुन्हा घेतल्या किंवा नाही",
+                "महिन्यात किमान १ सभा झाली नसल्यास कोणत्या महिन्यात नाही? न घेतल्याचे कारण",
+
+                "मतदार संख्या",
+                "पहिली ग्रामसभा घेतली असल्यास ता. हजर सदस्य",
+                "दुसरी ग्रामसभा घेतली असल्यास ता. हजर सदस्य",
+                "तिसरी ग्रामसभा घेतली असल्यास ता. हजर सदस्य",
+
+                "प्रत्येक सभेसकोरम होता ? नसल्यास पुन्हा सभा घेतली काय? ता.",
+                "शेरा"
+            ]
+
+        thead
+
+            tr 
+                each heading in masikSabhaHeadings
+                    th #{heading}
+
+            tr 
+                each _, index in masikSabhaHeadings 
+                    th #{index +  1}
+                
+
+        tbody 
+
+            tr 
+                td 1
+                td #{jPatrakMasikSabha.gram_panchayat_name} 
+                td #{jPatrakMasikSabha.total_members} 
+                td #{jPatrakMasikSabha.minimum_meetings_in_year} 
+                td #{jPatrakMasikSabha.actual_monthly_meetings} 
+                td #{jPatrakMasikSabha.postponed_due_to_quorum} 
+                td #{jPatrakMasikSabha.postponed_meetings_again} 
+
+                td #{jPatrakMasikSabha.no_meeting_month_and_reason} 
+                td #{jPatrakMasikSabha.voter_count} 
+                td #{jPatrakMasikSabha.first_gram_sabha_attendance} 
+                td #{jPatrakMasikSabha.second_gram_sabha_attendance} 
+                td #{jPatrakMasikSabha.third_gram_sabha_attendance} 
+                td #{jPatrakMasikSabha.quorum_check_and_reheld}
+                td #{jPatrakMasikSabha.remarks} 
+
+
+    div(style='margin-top: 1rem;')
+
+        div(style='margin-top: 2rem; margin-right: 2rem; text-align: right;')
+            | सही (सचिव/सरपंच)

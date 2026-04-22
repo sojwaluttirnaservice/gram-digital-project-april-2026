@@ -1,0 +1,399 @@
+doctype html
+head
+  title नमुना 8 प्रतिज्ञापत्र
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  //- common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+  //- COMMON JS
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/coustom/js/common.js')
+
+  script(src="/asstest/coustom/js/handlers/pagination.js") 
+
+  style.
+
+    @media print {
+      @page{
+        size: A4 portrait;
+      }
+      .my-print{
+        position: relative;
+        page-break-before: always;
+      }
+      table{
+        page-break-inside: avoid;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.3;
+        width: 100%;
+        height: 100%;
+      }
+      #page-count-div{
+        display: none;
+      }
+      .pagination {
+        display: none;
+      }
+
+      #print-time-table {
+        //- background: red !important;
+        //- color: green;
+        //- font-weight: 'bold' !important;
+      }
+    } 
+    
+    .dynamicValueColor{
+      color: #CA3125;
+      font-weight: 600;
+      font-size: 0.97rem;
+    }
+    .main-heading {
+      font-size: 10px;
+      font-weight: bold;
+    }
+    .heading-second{
+      font-size: 15px;
+      font-weight: bold;
+      color: #CA3125;
+    }
+    .heading-second-2{
+      font-size: 15px;
+      font-weight: bold;
+      color: #CA3125;
+    }
+    p{
+      padding-bottom:0px !important;
+      margin-bottom:1px !important;
+    }
+    table{
+      width:100% !important;
+    }
+    .h5{
+      font-size:15px !important;
+    }
+    .h6{
+      font-size:14px !important;
+    }
+    .h7{
+      font-size:13px !important;
+    }
+    .h8{
+      font-size:10px !important;
+    }
+    .qrcode{
+      width: 180px;
+      height: 180px;
+    }
+    .qrcode img{
+      width:100%;
+      height:100%;
+    }
+    .userInfoBlock{
+      border: 1px solid black;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-weight: bold;
+      padding-top: 5px;
+    }
+    .fontBold{
+      font-weight: bold;
+    }
+    .allUserInfoName{
+      font-weight: bold;
+      margin-right: 10px; 
+    }
+    .allUserInfoValues{
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .photoBlockImage{
+      display: flex; 
+      justify-content: space-evenly;
+      align-items: center;
+      margin: 5px 0;
+      height: 250px;
+    }
+    .photoBlock img {
+      padding: 5px;
+    }
+    #table1{
+      border-bottom: 1px solid black;
+    }
+    #table1 tr{
+      height: 3px;
+      font-size: 13px;
+    }
+    #table2{
+    }
+    #table2 tr{
+      height: 6px;
+      font-size: 13px;
+    }
+    td{
+      border: 1px solid black;
+    }
+    th{
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+    .waterMark{
+      position: absolute;
+      opacity: 0.3;
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      width: 500px;
+      height: 500px;
+    }
+    .my-print{
+      position: relative;
+    }
+
+    .my-print > div{
+      padding: 0 12px;
+    }
+
+    .page-numbers::-webkit-scrollbar {
+      display: none;
+    }
+  script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+
+  script.
+    let totalRecords = !{JSON.stringify(totalRecords)}
+
+body.m-0.p-0(style="width: 210mm; height: 297mm;")
+
+  div.mt-3.mx-5#page-count-div
+    ul.pagination
+      li.page-item
+        button.bg-primary.text-light.page-link.previous-button Previous
+      .d-flex.page-numbers.w-50(style="overflow-x: scroll;")
+      li.page-item
+        button.bg-success.text-light.page-link.next-button Next
+
+  each userVal,count in userData
+    div#print-time-table(style="border: 1px solid black;")
+      .row.my-print.m-0.p-0
+        img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+        .col-12
+          div.d-flex.justify-content-between.pt-2.pb-2
+            div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+              img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+              span.font-weight-bold नमुना-८
+            div.d-flex.flex-column.align-items-center.justify-content-center
+              p.main-heading.text-center महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/फाल्गुल १३ शके १९३७ नुसार नमुना ८ नियम ३२(९)
+              p.heading-second ग्रामपंचायत कार्यालय #{zp.gp_name} प. स. #{zp.gp_taluka} जि #{zp.gp_dist}(मोजणी फॉर्म )
+              p.heading-second-2 सन. #{y1} ते #{y2} इमारतीचा / जमिनीचा भांडवली मूल्यावर आधारित कर आकारणी अर्ज नमुना 
+            div.d-flex.flex-column.justify-content-center.align-items-center
+              img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+              p.font-weight-bold.h7 पान क्र:- #{indexNumberStart}
+        .col-12
+          //- div.userInfoBlock
+          //-   span.fontBold.h6 अ.क्र: 
+          //-     b.fontBold.dynamicValueColor #{indexNumberStart}
+          //-     -- indexNumberStart++
+          //-   span.fontBold.h6 जुना घर क्र: 
+          //-     b.fontBold.dynamicValueColor #{userVal.feu_homeNo}
+          //-   span.fontBold.h6 मालमत्ता क्रमांक: 
+          //-     b.fontBold.dynamicValueColor #{userVal.feu_malmattaNo}
+          //-   span.fontBold.h6 मो.क्र: 
+          //-     b.fontBold.dynamicValueColor #{userVal.feu_mobileNo}
+          //-   span.fontBold.h6 आधार.क्र: 
+          //-     b.fontBold.dynamicValueColor #{userVal.feu_aadharNo}
+          table(style='width: 100%')
+            thead(style='border: 1px solid black;')
+              tr 
+                th(width='10%') अ.क्र #{indexNumberStart} 
+                th(width='15%') जुना घर क्र #{userVal.feu_homeNo}
+                th(width='18%') मालमत्ता क्रमांक #{userVal.feu_malmattaNo}
+                th(width='27%') मो.क्र #{userVal.feu_mobileNo}
+                th(width='30%') आधार.क्र #{userVal.feu_aadharNo}  
+              -- indexNumberStart++;
+          div.photoBlock.m-0.p-0
+            if(userVal.feu_image !== "")
+              - var url = "/home_map_image/home_photo/"+userVal.feu_image;
+            else
+              - var url = "";
+            table
+              tr.text-center 
+                th घराचा फोटो
+                th QR कोड 
+                th घराचा नकाशा
+              tr 
+                td(width="33%")
+                  img(src=url, alt="" srcset="" width="80%" height="200")
+                td(width="33%" ) 
+                  .qrcode(id='qrcode'+count style="margin-left: 35px;")
+                td(width="33%")
+                  div
+
+        .col-12
+          table#table1
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName मालमत्ता धारकाचे नाव/पत्नी चे नाव : 
+              td(width="50%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_ownerName}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName भोगवटधारकाचे नाव :
+              td(width="10%")  
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_secondOwnerName}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName बोझा/शेरा: 
+              td(width="10%")  
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_bojaShera ? userVal.feu_bojaShera : "-"}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName  पूर्वेस:
+              td(width="10%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_eastLandmark}
+            tr(style="height: 30px !important;")
+              td(width="10%")  
+                p.text-center.allUserInfoName  पश्चिमेस:
+              td(width="10%")  
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_westLandmark}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName  उत्तरेस:
+              td(width="10%") 
+                p.allUserInfoValues.dynamicValueColor  #{userVal.feu_northLandmark}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName  दक्षिणेस:
+              td(width="10%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_southLandmark}
+            tr(style="height: 30px !important;")
+              td(width="20%") 
+                p.text-center.allUserInfoName  घरकूल:
+              td(width="20%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.graha_yojana}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName शौच्छालय:
+              td(width="20%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_havingToilet}
+
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName माजी सैनिक:
+              td(width="20%") 
+                p.allUserInfoValues.dynamicValueColor -
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName  गट क्र./भुमापण क्र. /नगर भामपण क्र:
+              td(width="10%") 
+                p.allUserInfoValues.dynamicValueColor #{userVal.feu_gaatNo}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName लांबी(पु)(प) X रुंदी (उ)(द): 
+              td(width="10%") 
+                span.allUserInfoValues.dynamicValueColor #{userVal.feu_areaHeight} X #{userVal.feu_areaWidth}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName  एकूण जागेचे क्षेत्रफळ:
+              td(width: "10%")
+                span.allUserInfoValues.dynamicValueColor #{userVal.feu_totalArea}
+            tr(style="height: 30px !important;")
+              td(width="10%") 
+                p.text-center.allUserInfoName एकूण जागेची चौ.मी:
+              td(width="10%")
+                span.allUserInfoValues.dynamicValueColor #{userVal.feu_totalAreaSquareMeter}
+        .col-12 
+          .row
+            .col-12
+              table#table2
+                tr.text-center(style="font-size: 14px;")
+                  th(style="font-size: 13px;") अनु क्र 
+                  th(style="font-size: 13px;" width='58%') इमारतीचा प्रकार (A - आर सी सी पद्धतीची इमारत / B - दगड विटांची व चुना किंवा सिमेंट वापरून उभारलेली इमारत / C - दगड किंवा विटा वापरलेली मातीची इमारत / D - झोपडी किंवा मातीचे इमारत)
+                  //- th(style="font-size: 13px;") इमारतीचा वापर  
+                  th(style="font-size: 13px;" width='8%') इमारतीचे बांधकाम वर्ष 
+                  th(style="font-size: 13px;" width='12%') लांबी चौ फूट X रुंदी चौ फूट
+                  th(style="font-size: 13px;" width='20%') एकूण चौ.फूट. क्षेत्रफळ 
+
+                - let _totalTaxSample = totalTaxSample.filter(el=>el.user_id == userVal.id);
+                each tax, ind in _totalTaxSample
+                  tr(style="min-height: 28px !important;")
+                    td(style="width: 5% !important;").text-center #{ind+1}
+                    //- td(style="width: 220px !important;")
+                    td(style="width: 50px !important;").text-center.dynamicValueColor #{tax.fet_bahandkam_prakar_text ? tax.fet_bahandkam_prakar_text :  '-'} 
+                    td(style="width: 50px !important;").text-center.dynamicValueColor #{tax.fet_year_two}
+                    td(style="width: 75px !important;").text-center.dynamicValueColor #{tax.fet_height} X #{tax.fet_width}
+                    td(style="width: 60px !important;").text-center.dynamicValueColor #{tax.fet_sq_area}
+
+                //- tr(style=`height: calc(175px - ${28 * _totalTaxSample.length}px) !important;`)
+                tr(style=`height: calc(287px - ${28 * _totalTaxSample.length}px) !important;`)
+                    td(style="width: 5% !important;").text-center 
+                    //- td(style="width: 220px !important;")
+                    td(style="width: 50px !important;").text-center.dynamicValueColor 
+                    td(style="width: 50px !important;").text-center.dynamicValueColor 
+                    td(style="width: 75px !important;").text-center.dynamicValueColor  
+                    td(style="width: 60px !important;").text-center.dynamicValueColor 
+        
+        .col-12
+          div(style="border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 10px 15px;")
+            h6.text-center.dynamicValueColor सत्यपत्र सर्वेक्षण समतीस प्रतिज्ञालेख
+            p.text-justify(style="font-size: 12.5px;") &nbsp; &nbsp; &nbsp;&nbsp; मी श्री./श्रीमती. #{userVal.feu_ownerName} भोगवटदाराचे नाव : #{userVal.feu_secondOwnerName}  राहणार #{userVal.feu_gramPanchayet} मालमत्ता क्र #{userVal.feu_malmattaNo}  खालील सही करणार प्रतिज्ञालेख लिहून देतो की,मालमत्ते बाबत पंचायतीणे गठित समितीस/ यांनी विहित केलेल्या मालमत्ता सर्वेक्षण फॉर्म मध्ये (नमुन्यामध्ये )माझ्या व्दारे दिलेली,घोषित केलेल्या माहितीप्रमाणे वरील मालमत्तेची (घरांची व खुल्याजागेची)सर्वेक्षण व्दारे (मोजणी व्दारे) घेण्यात आलेली मोजणी स्थळ मोजणी, माझ्या समक्ष घेण्यात आली व माझ्या माहितीप्रमाणे वरील नमुन्यात भरलेली संपूर्ण माहिती पूर्णतः सत्य व अचूक आहे.त्या करिता वरीलप्रमाणे नमूद केलेली मालमत्तेची मोजणी संपूर्ण खरी आहे.सदर हि माहिती खोटी व चुकीची आढळल्यास किंवा याबबातीस मी दिशाभूल केल्यास या मध्ये ग्राम पंचायतने गठीत समिती तसेच व सर्वेक्षण संस्था जबाबदार रहाणार नाही. तसेच यामध्ये काही चुकीचे आढळल्यास शासन अधिनियमात असलेल्या तरतुदीचे अधिन राहून ग्राम पंचायत पंचायत समिती दुरुस्ती करण्याबाबत अर्ज दाखल करण्याची जबाबदारी माझी राहील.वरील प्रतिज्ञालेख हा माझ्या वारसास लागू राहील.
+            h6.text-start.dynamicValueColor सत्यापन
+            div
+              .row 
+                .col-7 
+                  p.text-justify(style="font-size: 12.5px;") &nbsp; &nbsp; &nbsp;&nbsp; मी वर नमुद केलेली सर्व माहिती खरी व सत्य असून ती खोटी व असत्य आढळल्यास मी.भा.वि.चे कलम ११९,१९३(२),२०० नुसार गुन्ह्यास पात्र राहील याची माला जविण आहे करिता मी,सत्य प्रतिज्ञेवर लिहून देत आहे. 
+                .col-5
+                  p(style="font-size: 10px; color: red;") प्रतिज्ञालेख अंगठा व सही 
+                  p(style="font-size: 10px;") नाव : #{userVal.feu_ownerName}
+
+
+        .col-12
+          table.table.mt-5.table-borderless(style="background-color: transperent;")
+            thead
+              tr
+                td 
+                  div
+                    p.text-center.font-weight-bold(style="font-size: 10px;") कार्यालयीन 
+                    p.text-center.font-weight-bold(style="font-size: 10px;") शिक्का
+                td 
+                  div.position-relative
+                    img(src='/print/gs.jpeg' class=`${zp.gramsevak_sign_display === 1 ? null : 'd-none'}` alt='gramsevak sign' onerror="this.style.display='none'" style='width: 6rem !important; height: 2.4rem !important; position: absolute; top: -1.5rem; left: 50%; transform: translate(-50%, -50%)')
+                    p.h7.text-center.font-weight-bold सचिव/ग्रा.वि. अधिकारी
+                    p.h7.text-center.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name}
+
+                td 
+                  div.position-relative
+                    //- Removing signature
+                    img(src='/print/sp.jpeg' class=`${zp.srapanch_sign_display === 1 ? null : 'd-none'}` alt='sarpanch sign' onerror="this.style.display='none'" style='width: 7rem; height: 2.4rem; position: absolute; top: -1.5rem; left: 50%; transform: translate(-50%, -50%)')
+                    p.h7.text-center.font-weight-bold सरपंच / उपसरपंच/ शाखा किंवा कनिष्ठ अभि.जि.प.(बांधकाम)/विस्तार अधिकारी 
+                td 
+                  div 
+                    p.h7.text-center संस्था (कंपनी) सर्वेक्षण अधिकारी शिक्का 
+                    div
+                      img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="70" height="25")
+                      img(src="/img/header-images/mudra-nav.jpg" width="75" height="25")
+
+  script.
+    $(function() {
+      var data = !{userDataString};
+      console.log(data)
+      data.forEach(function(userData,index){
+        console.log(userData)
+        generateQRCode(index,userData, userData.id)
+      })
+      function generateQRCode(index,userData, form8UserId='') {
+        let website = 'https://g-seva.com'
+        let homeNo = userData.feu_homeNo;
+        let wardNo = userData.feu_wardNo;
+        let malmattaNo = userData.feu_malmattaNo;
+        let _userData = !{JSON.stringify(userData)};
+        website +=`/pay/!{zp.pg_registration_no}/${form8UserId}?r=${encodeURIComponent(window.location.origin)}`;
+        new QRCode(document.getElementById("qrcode"+index),website);
+      }   
+    });
+
+

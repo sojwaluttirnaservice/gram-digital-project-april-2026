@@ -1,0 +1,14 @@
+.modal#checkTaxPaidModal(role="dialog" tabindex="-1" )
+    .modal-dialog(role="document")
+        .modal-content 
+            .modal-header 
+                h5.modal-title Payment Done? 
+                button.btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    i.fa.fa-close
+            .modal-body
+                label.mx-1(for='malmatta-no') शिल्लक कर (पाणी)
+                input.pending-tax-pani.mx-2(type='text' readonly)
+                label.mx-1(for='malmatta-no') शिल्लक कर (सामान्य)
+                input.pending-tax-samanya.mx-2(type='text' readonly)
+
+                button.btn.btn-primary.pay-pending-tax-btn.mx-2(type='button') कर भरा

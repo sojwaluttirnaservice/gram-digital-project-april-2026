@@ -1,0 +1,155 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना १९ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+    body
+
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+        div
+            #print-container 
+                table(style='width: 100%;')
+
+                    thead
+
+                        tr 
+                            th(colspan='43' )
+                                div
+                                    div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                        div नमुना १९
+
+                                        div ग्रामपंचायत कार्यालय 
+                                            span #{gp.gp_name}
+                                        div
+                                            img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                    div
+                                        div.text-center(style='font-size:10px;') (नियम २४ (२) (ग) व ५५ (१) पहा) कामावर असलेल्या व्यातीचा हजेरी पट 
+                                    div 
+                                        if fromYear && toYear
+                                            div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                        else if (month && year)
+                                            div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                                        else if year 
+                                            div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+                        tr 
+                            th अनु. क्र.
+
+                            th संपूर्ण नाव
+                            th पत्ता 
+                            th पदनाम
+                            th स्त्री / पुरुष
+
+                            - let marathiNumbers = Array.from({ length: 31 }, (_, i) => (i + 1).toString().replace(/\d/g, d => '०१२३४५६७८९'[d]))
+
+                            for marathiNum in marathiNumbers 
+                                th #{marathiNum}
+                            th एकूण
+
+
+                            th दर
+                            th रक्कम
+                            th दंड
+                            th देय शिल्लक
+                            th रक्कम घेणाऱ्याची सही किंवा अंगठ्याचा ठसा
+                            th रक्कम देतेवेळी येते येणाऱ्या अधिकाऱ्याची अद्याक्षारी
+
+
+                    tbody
+
+                        each record, index in paymentRecord
+                            //- each record, index in Array(20).fill(paymentRecord).flat()
+                            tr 
+                                td #{index + 1}
+                                td #{record.name}
+                                td #{record.address}
+                                td #{record.post_name}
+                                td #{record.gender === 'Male' ? 'पुरुष' : record.gender === 'Female' ? 'स्त्री' : 'इतर'}
+
+
+
+                                - let presentDays = record.present_days
+                                each _, ind in marathiNumbers
+                                    - let currentDay = ind + 1;
+                                    - let checkIfSunday = (currentDay, month, year) => new Date(year, month - 1, currentDay).getDay() === 0;
+                                    - let isSunday = checkIfSunday(currentDay, month, year)
+                                    td
+                                        if isSunday
+                                            | H 
+                                        else if presentDays > 0
+                                            | P
+                                            - presentDays -= 1
+                                        else 
+                                            | -
+                                td #{record.present_days}
+                                - let totalPay = +record.state_share + +record.grampanchayat_share
+                                - let daysInThisMonth = new Date(year, month, 0).getDate()
+
+                                - let perDayRate = (totalPay / daysInThisMonth).toFixed(2)
+                                td #{perDayRate}
+
+                                td #{(perDayRate * record.present_days).toFixed(2)}
+
+
+
+                                td #{0}
+
+                                td #{(perDayRate * record.present_days).toFixed(2)}
+                                td
+                                td 

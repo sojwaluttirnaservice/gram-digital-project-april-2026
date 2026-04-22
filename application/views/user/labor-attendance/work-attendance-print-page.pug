@@ -1,0 +1,365 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title}
+        //- Tailwind custom + fonts
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        //- PDF / QR libs (optional)
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+        //- Client JS
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+                // PDF download if you want
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    if(!element) return;
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'form8-receipt.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) {
+                    downloadPdfBtn.addEventListener('click', downloadPdf);
+                }
+                
+
+                //-
+
+                function convertNumberToMarathi(englishNumber) {
+                    // Replace this with your actual API endpoint and logic
+                    return fetch(`/currency/toWords`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ data: englishNumber }),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            // If the response status is not OK, throw an error
+                            throw new Error(`Error fetching Marathi number: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.words) {
+                            console.log(data.words , '-----')
+                            return data.words; // Assuming the API returns a "marathiNumber" key
+                        } else {
+                            throw new Error('Marathi number not found in the API response.');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);  // Log detailed error
+                        return 'Error';  // You can return a fallback value or message for UI display
+                    });
+                }
+
+                (async()=>{
+                    document.getElementById('to-marathi-amount-in-words').textContent = await convertNumberToMarathi(Number(document.getElementById('to-marathi-amount-in-words').getAttribute('data-englishAmount')));
+                })()
+
+
+                // Signature show/hide logic
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (String(val)) {
+                        case '1': // Show Sarpanch sign only
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '-1': // Hide Sarpanch sign only
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '2': // Show Gram Adhikari sign only
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-2': // Hide Gram Adhikari sign only
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '3': // Show both signatures
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-3': // Hide both signatures
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        default:
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                    }
+                }
+
+                // Attach change listener to the select (if exists)
+                const sel = document.querySelector('.form-select');
+                if (sel) {
+                    sel.addEventListener('change', function() {
+                        showHideSignatures(this.value);
+                    });
+                    // run initially to match select's default
+                    showHideSignatures(sel.value);
+                }
+            });
+
+        //- Styles (merge with your existing styles if needed)
+        style.
+            table { border-collapse: collapse; width: 100%; }
+            td, th {
+                //- padding: 0.1rem;
+                border: 1px solid oklch(26.2% 0.051 172.552);
+                vertical-align: middle;
+                text-align:center;
+            }
+
+            /* Print-specific rules */
+            @media print {
+                //- @page { size: A4 landscape; }
+                .hide-print { display: none !important; }
+                #print { height:100lvh; }
+                .my-print { position: relative; background: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                .print-bg { background-image: url('/img/background/bg-tricolor.png'); background-size: cover; background-repeat: no-repeat; background-position: top center; }
+                .tiro-devanagari-marathi-regular { font-size: 12pt; }
+                .grid div { font-size: 11pt; }
+                .sarpanch-sign-box { height: 60px; }
+            }
+
+            /* Font helpers */
+            .tiro-devanagari-marathi-regular { font-family: "Tiro Devanagari Marathi", serif; font-weight: 400; }
+            .tiro-devanagari-marathi-regular-italic { font-family: "Tiro Devanagari Marathi", serif; font-weight: 400; font-style: italic; }
+
+            /* Grid cards */
+            /* Signature visuals & transition (toggle with inline style or class) */
+            .sarpanch-sign, .gram-adhikari-sign {
+                opacity: 1;
+                transition: opacity 180ms ease-in-out;
+                height: 56px;
+                display: block;
+            }
+            .sarpanch-sign-box {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+            }
+
+    body
+        - // Server-side helper function (Pug/Node rendering time)
+        - function daysBetweenInclusive(fromDate, toDate) {
+        -   // fromDate and toDate expected in 'DD-MM-YYYY'
+        -   function parseDate(str) {
+        -     if(!str) return null;
+        -     const parts = String(str).split('-').map(Number);
+        -     if(parts.length !== 3) return null;
+        -     const [dd, mm, yyyy] = parts;
+        -     return new Date(yyyy, mm - 1, dd);
+        -   }
+        -   const s = parseDate(fromDate);
+        -   const e = parseDate(toDate);
+        -   if(!s || !e) return 0;
+        -   const diffMs = e - s;
+        -   const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+        -   return diffDays + 1;
+        - }
+
+        - let year = ''
+
+        //- Floating controls (hidden on print)
+        div(class='hide-print')
+            div(class='fixed top-[45%] right-[2%] flex flex-col gap-2 z-50')
+                button(class='bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md' onclick='window.print()') Print
+                button.hidden(class='bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow-md' id='download-pdf-btn') Download PDF
+                select(class='form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700')
+                    //- Values correspond to logic in showHideSignatures
+                    option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp && gp.gram_adhikari_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp && gp.gram_adhikari_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp && gp.srapanch_sign_display == 1 && gp && gp.gram_adhikari_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp && gp.srapanch_sign_display == 0 && gp && gp.gram_adhikari_sign_display == 0)) दोन्ही सही लपवा
+
+        if !work
+            h2(class='mt-8 text-center text-4xl font-bold text-red-500') सदर कामाची कोणतेही नोंद नाही मिळाली.
+        else
+            //- MAIN PRINT AREA
+            #print(class='tiro-devanagari-marathi-regular')
+                div(class='my-print p-3 border border-gray-900 bg-white/80 relative h-full print-bg')
+                    .absolute.inset-0.z-0.bg-cover.bg-no-repeat.bg-top(style="background-image: url('/img/background/bg-tricolor.png');")
+                        div(class='absolute inset-0 bg-white opacity-80')
+                    .relative.z-10.bg-white.bg-opacity-80.h-full
+                        //- Header
+                        div
+                            h4(class='text-3xl font-semibold mb-1 text-center') ग्रामपंचायत कार्यालय #{gp && gp.gp_name} पं. स. #{gp && gp.gp_taluka} जि. #{gp && gp.gp_dist}
+                            h5(class='text-xl mb-2 text-center') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४ (२)(ग)(५) व (५५)(१) पहा)
+                            div(class='grid grid-cols-[2fr_4fr_3fr]')
+                                div दिनांक #{work._start_date} ते #{work._end_date} ला 
+                                div(class='text-3xl text-center') कामावर असलेल्या व्यक्तीचा हजेरीपट
+                                div
+                                    p
+                                        span(class='font-bold') कामाचे नाव :
+                                        span &nbsp; #{work.name || ''}
+                                    p
+                                        span(class='font-bold') कामाचे स्थळ :
+                                        span &nbsp; #{work.location || ''}
+
+
+                            p(class='mb-3') खालील कामासाठी लावलेल्या इ - सेवा हजेरी पट
+
+
+                        - let totalFinalAmountToPayToWorkers = 0;
+
+                        //- Table of workers and attendance
+                        div(class='border border-gray-600 overflow-auto')
+                            if !workers || workers.length <= 0
+                                p(class='p-3') कोणतेही मजुर नोंदलेले नाहीत.
+                            else
+                                table(class='w-full')
+                                    thead
+                                        tr
+                                            th(style="width:5%") अ. क्र.
+                                            th(style="width:13%") नाव
+                                            - const firstRec = (workers && workers.length) ? (typeof workers[0].attendanceRecord === 'string' ? JSON.parse(workers[0].attendanceRecord || '[]') : (workers[0].attendanceRecord || [])) : []
+                                            each attendanceEntry in firstRec
+                                                th(style="width:6%") 
+                                                    div(class='text-sm') #{attendanceEntry._date}
+                                            th(style="width:7%") एकूण दिवस
+                                            th(style="width:7%") दर
+                                            th(style="width:10%") रक्कम
+                                            th(style="width:7%") दंड
+                                            th(style="width:10%") देणे असलेली रक्कम
+                                            th(style="width:10%") रक्कम घेणाऱ्याची सही व अंगठा
+                                            th(style="width:10%") रक्कम देणाऱ्याची सही
+
+                                    tbody
+                                        each worker, ind in workers
+                                            if worker != null
+                                                - // compute totals server-side (Pug)
+                                                - let totalDays = daysBetweenInclusive(work._start_date, work._end_date)
+                                                - let totalPresentDays = 0
+                                                - let fine = (worker.fine || 0)
+                                                - let totalGrossAmountToPay = 0
+                                                - let attendanceRecord = (typeof worker.attendanceRecord === 'string') ? JSON.parse(worker.attendanceRecord || '[]') : (worker.attendanceRecord || [])
+                                                tr
+                                                    td #{ind + 1}
+                                                    td(class='text-start') #{worker.worker_name || ''}
+                                                    each attendance in attendanceRecord
+                                                        - let isPresent = ['full', 'present', 'half'].includes(String(attendance.present_type).toLowerCase())
+                                                        - if (isPresent) { totalPresentDays += 1; }
+                                                        td 
+                                                            if isPresent 
+                                                                | P
+                                                            else
+                                                                div.flex.justify-center.items-center
+                                                                    - let size= 18;
+                                                                    svg(width=size height=size xmlns="http://www.w3.org/2000/svg", viewBox="0 0 640 640")
+                                                                        path(d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z")
+                                                    
+                                                    td #{totalPresentDays}
+                                                    td #{worker.daily_rate}
+                                                    - totalGrossAmountToPay = totalPresentDays * (worker.daily_rate || 0)
+                                                    td #{totalGrossAmountToPay}
+                                                    td #{fine}
+                                                    - let totalNetAmountToPay = totalGrossAmountToPay - fine
+                                                    - totalFinalAmountToPayToWorkers += totalNetAmountToPay
+                                                    td #{totalNetAmountToPay}
+                                                    td
+                                                        //- Receiver signature placeholder (visible/hidden toggled by JS)
+                                                        div(class='sarpanch-sign-box sarpanch-sign' aria-hidden='true')
+                                                            //- you can render <img src="..."> here if you have a scanned sign
+                                                            |  
+                                                    td
+                                                        //- Payer signature placeholder
+                                                        div(class='gram-adhikari-sign' aria-hidden='true')
+                                                            |  
+
+                        //- Bottom 4-column grid: REPLACED & IMPROVED
+                        div(class='mt-4')
+                            div(class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mt-3 text-sm print:grid-cols-4')
+                                //- 1 — प्रति / For record
+                                div(class='p-3 border border-black-80 rounded-md min-h-130 flex flex-col justify-between')
+                                    div
+                                        p(class='font-semibold mb-1') प्रति
+                                        p(class='mb-1') सचिव
+                                    div
+                                        p(style='line-height:1.15') वरील नमूद कामासाठी मी स्वतः माझ्या लक्षाने मजुरांनी केलेले काम तपासले आहे. झालेले काम आणि दर्शविलेले दिवस येणाऱ्या सभेत सादर करून, या खर्चाला मंजुरी दिल्यानंतर त्यांची झालेली रक्कम देण्यात यावी, असे नम्र विनंती आहे.
+                                    div(class='flex flex-col items-end mt-3')
+                                        img.sarpanch-sign(src='/print/sp.jpeg' class=(gp.srapanch_sign_display == 1 ? '' : 'opacity-0') alt='sarpanch sign' onerror="this.style.opacity='0'" style='width:6rem !important; height:2.4rem !important;')
+                                        p(class='font-semibold') सरपंच
+                                        p(class='text-xs') ग्रामपंचायत #{gp && gp.gp_name}
+
+                                //- 2 — Payment acknowledgment + Sarpanch signature area
+                                div(class='p-3 border border-black-80 rounded-md min-h-130 flex flex-col justify-between')
+                                    div
+                                        p(class='mb-1') सदर रक्कम माझे समक्ष मजुरांना देण्यात आली.
+                                    //- signature box
+                                    div(class='flex flex-col items-end mt-3')
+                                        //- div(class='w-36 h-16 border border-dashed sarpanch-sign-box sarpanch-sign flex items-center justify-center' aria-hidden='true')
+                                            | (सही)
+                                        
+                                        img.sarpanch-sign(src='/print/sp.jpeg' class=(gp.srapanch_sign_display == 1 ? '' : 'opacity-0') alt='sarpanch sign' onerror="this.style.opacity='0'" style='width:6rem !important; height:2.4rem !important;')
+                                        
+                                        p(class='text-right mt-1 font-semibold') सरपंच
+                                        p(class='text-xs') ग्रामपंचायत #{gp && gp.gp_name}
+
+                                //- 3 — Amount in words / cheque details
+                                div(class='p-3 border border-black-80 rounded-md min-h-130 flex flex-col justify-between')
+                                    div
+                                        p(class='font-semibold mb-1') रक्कम अक्षरी
+                                        p(class='mb-2') रुपये: #{totalFinalAmountToPayToWorkers}
+                                        p(class='mb-1') अक्षरी:
+                                            span(class='font-bold' data-englishAmount = totalFinalAmountToPayToWorkers id='to-marathi-amount-in-words')
+                                    div
+                                        p(class='mb-1') चेक क्रमांक: 
+                                            span.opacity-0 ________________________   
+                                            span दिनांक: 
+                                            span.opacity-0 00/00/0000
+                                    div(class='flex flex-col items-end mt-3')
+                                        img.sarpanch-sign(src='/print/sp.jpeg' class=(gp.srapanch_sign_display == 1 ? '' : 'opacity-0') alt='sarpanch sign' onerror="this.style.opacity='0'" style='width:6rem !important; height:2.4rem !important;')
+                                        p(class='font-semibold') सरपंच
+                                        p(class='text-xs') ग्रामपंचायत #{gp && gp.gp_name}
+
+                                //- 4 — शेरा / Remarks (designed properly for print)
+                                div(class='p-3 border border-black-80 rounded-md min-h-130 flex flex-col justify-between')
+                                    div
+                                        p(class='font-semibold text-center mb-1') शेरा 
+                                    //- div(class='text-right mt-2')
+                                        p(class='text-xs') Prepared by: ______________________
+                                        p(class='text-xs mt-1') Checked by: ______________________
+
+                    //- End of .relative
+                    //- End of #print
+
+
+                        //- print footer
+                        //- div
+                        //- div
+                            div.text-center
+                                div(class='flex items-center justify-center gap-4')
+                                    img.gramsevak-sign(src='/print/gs.jpeg' class=(gp.gramsevak_sign_display === 1 ? '' : 'opacity-0') alt='gramsevak sign' onerror="this.style.opacity='0'" style='width: 6rem !important; height: 2.4rem !important;')
+                                    //- img.sarpanch-sign(src='/print/sp.jpeg' class=(gp.srapanch_sign_display == 1 ? '' : 'opacity-0') alt='sarpanch sign' onerror="this.style.opacity='0'" style='width:6rem !important; height:2.4rem !important;')
+
+                                p ग्रामपंचायत अधिकारी तथा सचिव
+                                p ग्रामपंचायत कार्यालय, #{gp.gp_name}
+        script.
+            document.addEventListener('DOMContentLoaded', function() {
+
+            });

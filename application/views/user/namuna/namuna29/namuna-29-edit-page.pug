@@ -1,0 +1,174 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-29/namuna-29-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-29/namuna-29-create-entry-page-handler.js' type='module' defer)
+
+
+    title Edit नमुना २९  कर्जाची नोंदवही
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../include/navs.pug
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+    .container
+      h2.heading-1.mt-2.mb-1 Edit नमुना २९ कर्जाची नोंदवही
+
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/29') यादी
+
+      if namuna29Entry
+
+        form(id='namuna-29-form').mt-1
+          .form.form-1
+            //- h4.text-center.fw-bold नमुना १८ नोंदणी
+            h4(style="text-align:center; font-weight:bold; color:white; background-color:#2E8B57; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना २९ - कर्ज नोंदवही नोंदणी 
+
+
+            .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="month") महिना
+                  select.form-select(id="month" name="month" required)
+                    option(value='') --निवडा--
+                    each month, monthIndex in months 
+                      option(value=(monthIndex + 1) selected = (((monthIndex + 1) == namuna29Entry.month) ? true: false))=month
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="year") वर्ष
+                  select.form-select(id="year" name="year" required)
+                    option(value='') --निवडा--
+                    - let currentYear = new Date().getFullYear()
+                    - let startYear = currentYear - 25
+                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                      option(value=year selected = ((year == namuna29Entry.year) ? true: false)) #{year}
+
+
+              .col-11.col-md-6.col-lg-4
+                .form-group
+                  label.form-label(for="borrower_name") कर्ज घेणाऱ्याचे नाव 
+                  input.form-control(type="text" id="borrower_name" name="borrower_name" required placeholder=" " value=namuna29Entry.borrower_name)
+
+              //- Doubtness
+              .col-11.col-md-6.col-lg-4
+                .form-group
+                  label.form-label(for="loan_sources") कर्ज उभारणेची साधने
+                  input.form-control(type="text" id="loan_sources" name="loan_sources" required placeholder=" " value=namuna29Entry.loan_sources)
+
+              .col-11.col-md-12.col-lg-4
+                .form-group
+                  label.form-label(for="loan_approval_order_number") कर्ज मंजूरी आदेश क्रमांक
+                  input.form-control(id="loan_approval_order_number" name="loan_approval_order_number" required placeholder="" value=namuna29Entry.loan_approval_order_number)
+
+              .col-11.col-md-12.col-lg-4
+                .form-group
+                  label.form-label(for="loan_approval_order_date") कर्ज मंजूरी आदेश दिनांक
+                  input.form-control.datepicker(id="loan_approval_order_date" name="loan_approval_order_date" required placeholder="" value=namuna29Entry._loan_approval_order_date)
+
+              //- 
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="loan_purpose") कर्जाचे प्रयोजन
+                  input.form-control(type="text" id="loan_purpose" name="loan_purpose" required placeholder="" value=namuna29Entry.loan_purpose)
+
+              .col-11.col-md-12.col-lg-3
+                .form-group
+                  label.form-label(for="loan_amount") कर्जाची रक्कम
+                  input.form-control(type="number" id="loan_amount" name="loan_amount" placeholder="" value=namuna29Entry.loan_amount)
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="interest_rate") व्याज दर
+                  input.form-control(type="number" id="interest_rate" name="interest_rate" required placeholder="" value=namuna29Entry.interest_rate)
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="loan_received_date") कर्ज मिळाल्याची तारीख
+                  input.form-control.datepicker(type="text" id="loan_received_date" name="loan_received_date" required placeholder="" value=namuna29Entry._loan_received_date)
+
+
+
+              //- 
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="number_of_installments") हफ्त्यांची संख्या
+                  input.form-control(type="number" id="number_of_installments" name="number_of_installments" required placeholder="" value=namuna29Entry.number_of_installments)
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="installment_start_date") हफ्ता सुरू होण्याची तारीख 
+                  input.form-control.datepicker(type="text" id="installment_start_date" name="installment_start_date" required placeholder="" value=namuna29Entry._installment_start_date)
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="installment_amount") हफ्त्याची रक्कम 
+                  input.form-control(type="number" id="installment_amount" name="installment_amount" required placeholder="" value=namuna29Entry.installment_amount)
+
+              .col-11.col-md-6.col-lg-3
+                .form-group
+                  label.form-label(for="installment_interest") हफ्त्याची व्याज रक्कम 
+                  input.form-control(type="number" id="installment_interest" name="installment_interest" required placeholder="" value=namuna29Entry.installment_interest)
+
+
+                  input(name='id' value=namuna29Entry.id hidden)
+
+
+            .d-flex.gap-4.justify-content-center
+              button.btn.btn-success(type='button' id="update-namuna-29-entry") Update
+              button.btn.btn-secondary(type='reset' id='reset') Reset             
+      else 
+        h4.fw-bold.text-center संबंधित नोंद उपलब्ध नाही
+

@@ -1,0 +1,86 @@
+doctype html
+head
+  title नमुना ८ मालमत्ता धारक यादी
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+  style.
+    @media print {
+      @page{
+        size: A4 portrait;
+      }
+      .my-print{
+        position: relative;
+        page-break-before: always;
+      }
+      table{
+        page-break-inside: always;
+      }
+      .waterMark{
+        position: absolute;
+        opacity: 0.5;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    table, th, td{
+      border: 1px solid black;
+      padding: 3px; 
+      text-align:center;
+    }
+    .body-f-size {
+      font-size: 0.75rem !important;
+    }
+    .head-f-size {
+      font-size: 15px;
+      text: bold;
+      text-align: center;
+    }
+    .center{
+      text-align: center;
+    }
+    .my-print {
+      position: relative;
+    }
+    .waterMark{
+      position: absolute;
+      opacity: 0.3;
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      width: 500px;
+      height: 500px;
+    }
+body
+
+  - let numbers = 0;
+  //- each val, index in data
+
+  .my-print
+    include ../include/form-8-header.pug
+    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+    table(style="width:100% !important;")
+      thead
+        tr.head-f-size
+          th(width='3%') अनु.क्र. 
+          th(width='3%') मा.क्र.
+          th(width='3%') जुना मा.क्र.
+          th(width='15%') मालमत्ता धारकाचे नाव 
+          th(width='8%') भोगवटदाराचे नाव 
+          th(width='4%') मो 
+          th(width='5%') आधार क्र 
+     
+
+      tbody
+        each val, index in data
+          tr.body-f-size
+            th #{index + 1}
+            th #{val.feu_malmattaNo}
+            th #{val.feu_homeNo}
+            th #{val.feu_ownerName} 
+            th #{val.feu_secondOwnerName}
+            th #{(val.feu_mobileNo).split('-').join('') !== '' ? (val.feu_mobileNo).split('-').join(''): '-'} 
+            th #{(val.feu_aadharNo).split('-').join('') !== '' ? (val.feu_aadharNo).split('-').join('') : '-'} 

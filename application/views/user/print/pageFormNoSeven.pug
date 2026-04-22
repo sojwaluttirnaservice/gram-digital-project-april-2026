@@ -1,0 +1,210 @@
+doctype html
+head
+  title Sample
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      .hide-button{
+        display:none
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+        
+       
+    }
+    .h7{
+      font-size: 20px !important;
+    }
+    .h8{
+        font-size: 16px !important;
+    }
+    .text-j {
+      line-height: 2;
+       text-align: justify
+    }
+body
+  div()
+    div.row.mt-1
+      .col-12
+        - var link = `/print/form-8?id=${id}&y1=${y1}&y2=${y2}`
+        - var linkImage = `/print/form-8-image?id=${id}&y1=${y1}&y2=${y2}`
+        - var linkPlain = `/print/form-8-w/o-image?id=${id}&y1=${y1}&y2=${y2}`
+        a(href=link).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट करा
+        a(href=linkImage).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट फोटो करा
+        a(href=linkPlain).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट ( No image )
+
+        table(border="1")#table2
+          thead
+            tr.p-0.m-0
+              td(colspan="3" )
+                h3.ml-2.h8.font-weight-bold.mb-3.text-center
+                  | ग्राम पंचायत कार्यालय , #{zp.gp_name}.
+                p.ml-2.h8.font-weight-bold.mb-3.text-center
+                  | महा.प्रा.पं.लेखा सहिता २०११ (नियम ११(९),२२(४),(क),आणि ४ (ब),३५,३६ (२) आणि ३७(२),पहा)
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="3")
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h4.p-0.m-0.ml-2.font-weight-bold.text-center
+                        span  सामान्य पावती
+            tr.pt-1.m-0
+              td.p-0.m-0(colspan="3")
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h4.p-0.m-0.ml-2.font-weight-bold.text-center
+                    .col-12.p-0.m-0
+                      p.h7.ml-3 
+                        span  दिनांक :-
+                        - var date = new Date();
+                        - date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+                        strong  #{date}
+                        span  ,  पुस्तक क्र 
+                        strong _______________________
+                        span  ,पावती क्र 
+                        strong _______________________
+                      p.h7.ml-3
+                        span  श्री /श्रीमती :-
+                        strong  #{pavti}
+                        span  याच कडून 
+                        strong नमुना-८ मागणी
+                        span  बद्दल अक्षरी 
+                        strong (___________________________)
+                        span  एवढी रक्कम मिळाली.
+                      p.h7.ml-3   
+                        span  रुपये   
+                        strong  #{r}/-
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="3" width="30%")
+                .row.p-0.m-0
+                    .col-8.p-0.m-0
+                      p.h7.ml-3.mt-2 
+                        span  शिक्का 
+                    .col-4.p-0.m-0
+                      p.h7.ml-3.mt-2 
+                        span  वसूली करता सही 
+  div.mt-4
+    div.row.mt-1
+      .col-12
+        - var link = `/print/form-8?id=${id}&y1=${y1}&y2=${y2}`
+        - var linkImage = `/print/form-8-image?id=${id}&y1=${y1}&y2=${y2}`
+        - var linkPlain = `/print/form-8-w/o-image?id=${id}&y1=${y1}&y2=${y2}`
+        a(href=link).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट करा
+        a(href=linkImage).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट फोटो करा
+        a(href=linkPlain).mr-5.float-right.btn.btn-primary.hide-button नमुना ८ प्रिंट ( No image )
+        table(border="1")#table2
+          thead
+            tr.p-0.m-0
+              td(colspan="3" )
+                h3.ml-2.h8.font-weight-bold.mb-3.text-center
+                  | ग्राम पंचायत कार्यालय , #{zp.gp_name}.
+                p.ml-2.h8.font-weight-bold.mb-3.text-center
+                  | महा.प्रा.पं.लेखा सहिता २०११ (नियम ११(९),२२(४),(क),आणि ४ (ब),३५,३६ (२) आणि ३७(२),पहा)
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="3")
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h4.p-0.m-0.ml-2.font-weight-bold.text-center
+                        span  सामान्य पावती
+            tr.pt-1.m-0
+              td.p-0.m-0(colspan="3")
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h4.p-0.m-0.ml-2.font-weight-bold.text-center
+                    .col-12.p-0.m-0
+                      p.h7.ml-3 
+                        span  दिनांक :-
+                        - var date = new Date();
+                        - date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+                        strong  #{date}
+                        span  ,  पुस्तक क्र 
+                        strong _______________________
+                        span  ,पावती क्र 
+                        strong _______________________
+                      p.h7.ml-3
+                        span  श्री /श्रीमती :-
+                        strong  #{pavti}
+                        span  याच कडून 
+                        strong नमुना-८ मागणी
+                        span  बद्दल अक्षरी 
+                        strong (___________________________)
+                        span  एवढी रक्कम मिळाली.
+                      p.h7.ml-3   
+                        span  रुपये   
+                        strong  #{r}/-
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="3" width="30%")
+                .row.p-0.m-0
+                    .col-8.p-0.m-0.mt-1
+                      p.h7.ml-3
+                        span  शिक्का 
+                    .col-4.p-0.m-0.mt-
+                      p.h7.ml-3
+                        span  वसूली करता सही 
+                    
+           
+
+

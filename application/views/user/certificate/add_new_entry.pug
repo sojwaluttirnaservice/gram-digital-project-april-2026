@@ -1,0 +1,137 @@
+doctype html
+head
+	meta(charset='UTF-8')
+meta(name='viewport' content='width=device-width, initial-scale=1.0')
+meta(http-equiv='X-UA-Compatible' content='ie=edge')
+// common css
+link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+title प्रमाणपत्र नोंदणी
+
+script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+script(src='/asstest/plugins/popper/popper.min.js')
+script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+script(defer src='/asstest/plugins/date/jquery-ui.js')
+script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+script(src='/asstest/plugins/notify/notify.js')
+script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+//mask plugin jquery    
+script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+//toggle
+script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+// extras
+
+// common js setups
+script(src='/asstest/coustom/js/base.converter.js')
+script(defer src='/asstest/coustom/js/common.js')
+//- script(defer src='/asstest/coustom/js/handlers/home-manager.js')
+script(defer src='/asstest/coustom/js/handlers/certificate.js')
+style.
+	.error {
+		color:red !important;
+		font-style:italic !important;
+		font-weight:700 !important;
+	}
+	.bg-warning {
+		background-color:#f0d688 !important;
+	}
+	body {
+		
+		height:100vh;
+	}
+	@media (min-width: 576px) {
+		.modal-dialog { 
+			max-width: none; 
+		}
+	}
+	.modal-dialog {
+		width: 98%;
+		height: 92%;
+		padding: 0;
+	} 
+body
+	include ../include/navs.pug
+	.modal#marriageModel(tabindex='-1' role='dialog')
+		.modal-dialog(role='document' style="width:60% !important;")
+			.modal-content
+				.modal-header
+					h5.modal-title
+					button.close(type='button' data-dismiss='modal' aria-label='Close')
+						span(aria-hidden='true') ×
+				.modal-body 
+					.row
+						.col-3
+						.col-3
+							.form-group.mb-2
+								input#printPlace.form-control(placeholder="---- ठिकाण ----")
+						.col-1
+							.form-group.mt-2.text-center
+								span.font-weight-bold आणि
+						.col-3
+							.form-group.mb-2
+								input#date31.form-control(placeholder="--- दिनांक ---")
+								input#idData.form-control( type="hidden" placeholder="--- दिनांक ---")
+								input#p_type.form-control( type="hidden" placeholder="--- दिनांक ---")
+						.col-12
+							center
+								button#btnPrintCertificate.btn.btn-primary.mb-2( type='submit') प्रिंट करा
+	.container-fluid
+		.row.justify-content-center.mt-3
+			.col-12
+				center
+					h5.font-weight-bold.m-3 नवीन प्रमाणपत्र नोंदणी
+						a(href="/certificate").float-right.btn.btn-primary.btn-sm.mr-2 यादी बघा
+
+			.col-11.col-md-8
+				form#newCertificateForm
+					.row(style='row-gap: 1rem;')
+						.col-12.col-sm-6
+							.card
+								.card-header.bg-warning.font-weight-bold माहिती
+								.card-body.row
+									.form-group.col-12
+										label.font-weight-bold(for='my-input') नाव:
+										input.form-control-sm.form-control.mainText( type='text' placeholder="English" style='margin-bottom:0.1rem;' name="certificateHolderNameE" value=oldData ? oldData.certificateHolderNameE : '')
+										input.form-control-sm.form-control.secText( type='text' placeholder="मराठीत" name="certificateHolderNameM" value=oldData  ? oldData.certificateHolderNameM : '')
+									.form-group.col-12
+										label.font-weight-bold(for='my-input') आधारकाडा क्र.: 
+										input.form-control-sm.form-control.mainText( type='text' placeholder="English" style='margin-bottom:0.1rem;' name="certificateAadharE" class='certificateAadharE' value=oldData ? oldData.certificateAadharE : '' maxlength=12)
+										input.form-control-sm.form-control.secText( type='text' placeholder="मराठीत" name="certificateAadharM" class='certificateAadharM' value=oldData ? oldData.certificateAadharM : '' maxlength=12)
+						.col-12.col-sm-6
+							.card
+								.card-header.bg-warning.font-weight-bold पत्ता
+								.card-body.row
+									.form-group.col-12.col-sm-6
+										label.font-weight-bold(for='my-input') गाव:
+										input.form-control-sm.form-control.mainText( type='text' placeholder="English" style='margin-bottom:0.1rem;' name="certificateVillageE" value=oldData ? oldData.certificateVillageE : '')
+										input.form-control-sm.form-control.secText( type='text' placeholder="मराठीत" name="certificateVillageM" value=oldData ? oldData.certificateVillageM : '')
+									.form-group.col-12.col-sm-6
+										label.font-weight-bold(for='my-input') तालुका:
+										input.form-control-sm.form-control.mainText( type='text' placeholder="English" style='margin-bottom:0.1rem;' name="certificateTalukaE" value=oldData ? oldData.certificateTalukaE : '')
+										input.form-control-sm.form-control.secText( type='text' placeholder="मराठीत" name="certificateTalukaM"  value=oldData ? oldData.certificateTalukaM : '')
+									.form-group.col-12
+										label.font-weight-bold(for='my-input') जिल्हा:
+										input.form-control-sm.form-control.mainText( type='text' placeholder="English" style='margin-bottom:0.1rem;' name="certificateDistE" value=oldData ? oldData.certificateDistE : '')
+										input.form-control-sm.form-control.secText( type='text' placeholder="मराठीत" name="certificateDistM" value=oldData ? oldData.certificateDistM : '')
+						.col-12
+							if edit 
+								button#editCertificate.btn.btn-success.float-right.mt-2(type='button' data-id=oldData.id) प्रमाणपत्र एडीट करा
+							else
+								.d-flex.justify-content-center.mt-2(style='gap:1rem;')
+									button#saveCertificate.btn.btn-success(type='button') प्रमाणपत्र जतन करा
+									button#authorityToBypassBtn.btn.btn-primary Authority
+		//- CHECK TAX PAID MODAL
+		include ../include/check-tax-paid-modal.pug
+
+		//- CERTIFICATE PRINT MODAL
+		include ../include/payment-type-modal.pug
+
+		include ../include/check-tax-paid-modal-2.pug
+
+			//- button.col-3.btn.btn-primary.search-pending-tax-btn.mx-2(type='button') शोधाdsds

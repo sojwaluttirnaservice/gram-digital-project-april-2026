@@ -1,0 +1,99 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+
+block content
+    section(class='py-8 md:py-16 bg-gray-50')
+        .container
+            // 🧾 Section Heading
+
+            h2(class='text-lg sm:text-xl md:text-2xl text-center font-semibold text-gray-800 leading-snug tracking-wide mb-2 md:mb-4')
+                | #{t("gp.gpName")}
+                | #{gp && gp.gp_name ? gp.gp_name : '-'} 
+                //- | ता. 
+                | #{t("gp.talukaAbb")}. 
+                | #{gp && gp.gp_taluka ? gp.gp_taluka : '-'}, 
+                //- | जि. 
+                | #{t("gp.distAbb")}. 
+                | #{gp && gp.gp_dist ? gp.gp_dist : '-'}
+
+            h4(class='flex justify-center items-center gap-2 text-xl sm:text-2xl md:text-3xl font-bold my-text-blue-dark tracking-wider mt-4 md:mt-6 mb-8 md:mb-12 pb-2 border-b-2 border-blue-600 w-fit mx-auto')
+                i(class='fa-solid fa-wheelchair text-blue-600 text-lg sm:text-xl md:text-2xl')
+                span(class='text-gray-800') 
+                    //- | दिव्यांग प्रमाणपत्र धारकांची यादी
+                    | #{t("disabledPeoplePage.heading")}
+
+            //- Table Wrapper (Responsive + Bordered)
+            div(class='flex flex-col mt-8')
+                div(class='overflow-x-auto sm:-mx-6 lg:-mx-8 px-2 sm:px-4 md:px-6')
+                    div(class='inline-block min-w-full py-2 align-middle')
+                        div(class='overflow-hidden shadow-lg ring-1 ring-gray-300 md:rounded-lg bg-white')
+                            table(class='min-w-full border border-gray-500 divide-y divide-gray-400 whitespace-nowrap')
+                                thead(class='bg-blue-600')
+                                    tr
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='5%') 
+                                            //- | अनुक्रमांक
+                                            | #{t("disabledPeoplePage.tableHeaderSection.serialNo")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='20%') 
+                                            //- | अर्जदाराचे नाव
+                                            | #{t("disabledPeoplePage.tableHeaderSection.applicantName")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
+                                            //- | वय
+                                            | #{t("disabledPeoplePage.tableHeaderSection.age")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='15%') 
+                                            //- | आधार क्रमांक
+                                            | #{t("disabledPeoplePage.tableHeaderSection.aadharNumber")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
+                                            //- | दूरध्वनी 
+                                            | #{t("disabledPeoplePage.tableHeaderSection.mobileNumber")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
+                                            //- | प्रमाणपत्र
+                                            | #{t("disabledPeoplePage.tableHeaderSection.certificate")}
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
+                                            //- | अपंगत्वाची टक्केवारी
+                                            | #{t("disabledPeoplePage.tableHeaderSection.disabilityPercentage")}
+
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='15%') 
+                                            //- | अर्ज क्रमांक
+                                            | #{t("disabledPeoplePage.tableHeaderSection.applicationNumber")}
+
+                                tbody(class='bg-white divide-y divide-gray-300')
+                                    if approvedApplications && approvedApplications.length
+                                        each applicant, index in approvedApplications
+                                            tr(class=`${(index % 2 == 1) ? 'bg-gray-50 hover:bg-blue-50 transition' : 'bg-white hover:bg-blue-50 transition'}`)
+                                                //- // 🔢 Serial Number
+                                                td(class='text-center py-3 px-4 text-sm font-medium text-gray-700 border border-gray-400') #{index + 1}
+
+                                                //- // 👤 Applicant Image + Name
+                                                td(class='px-3 py-3 text-sm text-gray-700 flex items-center justify-start gap-2 min-w-[180px] border border-gray-400')
+                                                    - let path = `/${applicant.user_image_pathurl.split('/').slice(2).join('/')}`
+                                                    img(class='rounded-full shadow-sm border border-gray-400 flex-shrink-0' src=path alt='User Photo' width='40' height='40' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
+                                                    span(class='truncate max-w-[140px]') #{applicant.full_name}
+
+                                                //- // 🎂 Age
+                                                td(class='text-center py-3 px-4 text-sm text-gray-600 border border-gray-400') #{applicant.age}
+
+                                                //- // 🔒 Masked Aadhaar
+                                                - const maskedAadhar = applicant.aadhar_number.replace(/\d{4}-\d{4}/, 'xxxx-xxxx');
+                                                td(class='text-center py-3 px-4 text-sm text-gray-600 min-w-[120px] border border-gray-400') #{maskedAadhar}
+
+                                                //- // ☎️ Mobile
+                                                td(class='text-center py-3 px-4 text-sm font-medium text-gray-700 border border-gray-400') #{applicant.mobile}
+
+                                                //- // 📄 Certificate Link
+                                                td(class='text-center py-3 px-4 border border-gray-400')
+                                                    a(class='inline-flex items-center justify-center p-2 rounded-md hover:bg-blue-100 transition' href=`/upload/divyanga-certificates/${applicant.certificate_file_name}` target='_blank' title='View Certificate')
+                                                        i(class='fa fa-file text-blue-600 text-lg')
+
+                                                //- // ♿ Disability Percentage
+                                                td(class='text-center py-3 px-4 text-sm font-medium text-gray-700 border border-gray-400') #{applicant.percentage_of_disability}
+
+                                                //- // 🧾 Application Number
+                                                td(class='text-center py-3 px-4 text-sm text-gray-600 min-w-[120px] border border-gray-400') #{applicant.application_number}
+
+                                    else
+                                        tr
+                                            td(class='text-center py-6 text-gray-500 text-sm font-medium border border-gray-400' colspan='8')
+                                                i(class='fa-solid fa-circle-info text-blue-500 mr-2')
+                                                //- | कोणतेही प्रमाणपत्र उपलब्ध नाही.
+                                                | #{t("disabledPeoplePage.tableMessagesSection.noCertificatesFound")}

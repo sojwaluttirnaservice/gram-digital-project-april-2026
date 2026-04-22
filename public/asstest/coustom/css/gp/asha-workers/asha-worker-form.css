@@ -1,0 +1,10 @@
+form#asha-worker-form {
+    width: 70%;
+    margin: 2rem auto;
+}
+
+@media screen and (max-width: 576px) {
+    form#asha-worker-form {
+        width: 90%;
+    }
+}

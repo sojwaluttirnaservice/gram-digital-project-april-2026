@@ -1,0 +1,110 @@
+extends ../../include/internal-gp-master-layout.pug
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    div.container-fluid.mt-4
+
+        // ================= HEADER =================
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                div.card.shadow-sm
+                    div.card-body
+                        h4.mb-1
+                            i.fa.fa-file-text.me-2
+                            | नमुना ५ – रोजगार मागणी पोच नोंद
+                        p.mb-0.text-muted.small
+                            | निवडलेल्या रोजगार मागणी अर्जासाठी तयार झालेले नमुना ५ अर्ज खाली दर्शविले आहेत.
+
+        // ================= INSERT FORM =================
+        div.row.justify-content-center.mb-4
+            div.col-12.col-xl-11
+                div.card.border-primary
+                    div.card-body
+                        h6.mb-3.text-primary
+                            i.fa.fa-plus-circle.me-1
+                            | नवीन नमुना ५ नोंद जोडा
+
+                        form(id='emp-demand-n5-form')
+                            input(type='hidden' name='ps_individual_group_employment_demand_application_id_fk' value=empDemandId)
+
+                            div.row.g-3
+                                div.col-md-3
+                                    label(class='form-label small fw-bold') पासून तारीख
+                                    input.datepicker(type='text' name='n5_from_date' class='form-control form-control-sm' required)
+
+                                div.col-md-3
+                                    label(class='form-label small fw-bold') पर्यंत तारीख
+                                    input.datepicker(type='text' name='n5_to_date' class='form-control form-control-sm' required)
+
+                                div.col-md-3
+                                    label(class='form-label small fw-bold') एकूण दिवस
+                                    input(type='number' name='total_days' class='form-control form-control-sm' min='1' required)
+
+                                div.col-md-3.d-flex.align-items-end
+                                    button(type='button' id='submit-emp-demand-n5-form-btn' class='btn btn-success btn-sm w-100')
+                                        i(class='fa fa-save me-1')
+                                        | जतन करा
+
+        // ================= TABLE =================
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table(class='table table-bordered table-hover align-middle mb-0')
+                                thead
+                                    tr(class='bg-primary text-white text-center')
+                                        th(width='8%') रोजगार अर्ज क्र.
+                                        th(width='8%') नमुना ५ क्रमांक
+                                        th(width='18%') अर्जदार
+                                        th(width='15%') जॉब कार्ड क्र.
+                                        th(width='20%') कालावधी
+                                        th(width='15%') नोंदणी दिनांक
+                                        th(width='8%') Action
+
+                                tbody#namuna5EmpDemandList
+                                    if !namuna5EmpDemandList || namuna5EmpDemandList.length === 0
+                                        tr
+                                            td(class='text-center text-danger py-4' colspan='7')
+                                                i(class='fa fa-info-circle me-2')
+                                                | नमुना ५ नोंदी उपलब्ध नाहीत.
+                                    else
+                                        each n5Demand in namuna5EmpDemandList
+                                            tr
+                                                td(class='text-center')
+                                                    span(class='badge bg-secondary') #{n5Demand.ps_individual_group_employment_demand_application_id_fk}
+
+                                                td(class='text-center')
+                                                    span(class='fw-semibold') #{n5Demand.id}
+
+                                                td
+                                                    strong #{n5Demand.applicant_name}
+                                                    br
+                                                    small(class='text-muted') मोबाईल:
+                                                    span(class='ms-1') #{n5Demand.applicant_mobile || '-'}
+
+                                                td(class='text-center')
+                                                    span(class='fw-semibold') #{n5Demand.job_card_number_fk || '-'}
+
+                                                td(class='text-center')
+                                                    span(class='small text-muted') #{n5Demand._n5_from_date} ते #{n5Demand._n5_to_date}
+                                                    br
+                                                    small(class='text-muted') (#{n5Demand.total_days} दिवस)
+
+                                                td(class='text-center')
+                                                    span(class='fw-semibold') #{n5Demand._createdAt}
+
+                                                td(class='text-center')
+                                                    a(href=`/gp-applications/emp-demand/n-5/print/${n5Demand.id}` target='_blank' title='नमुना ५ प्रिंट करा' class='btn btn-outline-secondary btn-sm')
+                                                        i(class='fa fa-print me-1')
+                                                        | प्रिंट
+
+block custom_js
+    //- ❌ JS handlers intentionally disabled
+
+    //- ❌ JS handlers intentionally disabled
+    script(src='/asstest/coustom/js/handlers/gp-applications/emp-demand/emp-demand-n-5-list-page-handler.js')
+    //- script(src='/asstest/coustom/js/handlers/gp-applications/emp-demand/emp-demand-list-page-sorting-handler.js')

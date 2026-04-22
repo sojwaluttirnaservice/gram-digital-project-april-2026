@@ -1,0 +1,87 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+
+        .gallery-container {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .gallery {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            border: 5px solid #d6d1d1;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            transition: all 200ms ease-in-out;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 992px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    script.
+        //- $(function(){
+        //- 	$(document).on('click', '.show-gallery-btn', function(e){
+        //- 		e.preventDefault();
+        //- 		let id = $(this).attr('data-id');
+        //- 		let instituteName = $(this).attr('data-instituteName')
+        //- 		window.location.href = `/education/school-college-gallery-view?id=${id}&instituteName=${instituteName}`
+        //- 	})
+        //- 	$(document).on('click', '.show-institute-btn', function(e){
+        //- 		e.preventDefault();
+        //- 		window.location.href = `/education/institute-details-view?id=${id}&instituteName=${instituteName}`
+        //- 	})
+        //- })
+
+block content
+    section(class='py-6')
+        .container 
+
+            h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                <i class="fa-solid fa-images"></i>
+                span.ml-2  #{instituteDetails.institute_name} Gallery
+
+            div(class='flex justify-end')
+                a(class='text-white font-bold px-4 py-1 bg-blue-500 rounded-md flex items-center gap-2 w-fit' href='#' onclick='window.history.length > 1 ? window.history.back() : window.close()') 
+                    <i class="fa-solid fa-circle-chevron-left"></i>
+                    span Back
+
+
+            div.gallery-container(class='mt-8')
+                if galleryPhotos == null || galleryPhotos.length == 0
+                    div.text-center
+                        - let noPhotos = { mr: 'फोटो उपलब्ध नाहीत.', hi: 'फोटो उपलब्ध नहीं हैं।', en: 'No photos available.' };
+                        h3.text-center.text-3xl.font-bold #{noPhotos[language]}
+                else
+                    .gallery
+                        each photo in galleryPhotos
+
+                            -let galleryImagePath = `/new-gp-page/main-page/files/education-institute-gallery/${photo.gallery_image_name}`
+                            a(href=galleryImagePath, data-lightbox="models" data-title="")
+                                img(src=galleryImagePath, style='height: 14rem')

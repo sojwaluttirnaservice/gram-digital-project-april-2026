@@ -1,0 +1,278 @@
+doctype html
+head
+    title Bank Qr Code मागणी बील इ.दि.आ.स्व.कर
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+    // COMMON CSS
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- COMMON JS
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="/asstest/coustom/js/handlers/pagination.js")
+    style.
+
+        @media print {
+            @page { 
+                size: auto;
+                    margin: 7mm 7mm 4mm 10mm;
+                }
+                body {
+                    margin:0;
+                    padding:0;
+                }
+                body {
+                    transform: scale(1);
+                }
+                img {
+                    page-break-inside: avoid;
+                }
+                .p-hide{
+                    display:none
+                }
+                .pagination {
+                    display: none;
+                }
+            }  
+
+            .main-heading {
+                margin-left:10%
+            }
+
+            .heading-second{
+                margin-left:30%
+            }
+
+            .heading-second-2{
+                margin-left:30%
+            }
+
+            .set-p-break {
+                page-break-before: always;
+            }
+
+            .c-0 {
+                page-break-before: always;
+            }
+
+            .img{
+                width:65px;
+                height:70px;
+            }
+
+            .img1{
+                margin-top:-10px;
+                width:70px;
+                height:90px;
+            }
+
+            p{
+                font-size:15px !important;
+            }
+
+            .qrcode img{
+                width:100%;
+                height:100%;
+            }
+    script. 
+        let totalRecords = !{JSON.stringify(totalRecords)}
+
+
+body
+    - var pageCount = billStart;
+
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="bg-primary text-light page-link previous-button">Previous</button>
+        </li>
+        <div class='d-flex page-numbers'> 
+        </div> 
+        <li class="page-item">
+            <button class="bg-success text-light page-link next-button">Next</button>
+        </li>
+    </ul>
+
+    each val,index in data
+        - pageCount += 1;
+        - var  className = 'row m-0 mb-5 c-'+ (index%2); 
+        div(class=className)
+            div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
+                img(src="/print/print-magni-bill-other.jpg" alt="" style="width:100%;height:100%;")
+                div(style="position: absolute;top:0;width:100%")
+                    - var url = `${bankQrCodePath}/${bankQrCodeName}`
+
+
+                    //- later
+                    img(src=url alt="" style="position:absolute;left:23rem;top:7.6rem;width:150px;height:115px")
+                    img(src=url alt="" style="position:absolute;left:58.5rem;top:7.6rem;width:150px;height:115px")
+
+
+                    - var id = 'qrcode'+pageCount
+                    - var id2 = 'qrcode_'+pageCount
+
+
+
+                    //- later
+                    div.qrcode(id=id style="position:absolute;left:23rem;top:39.8rem;width:155px;height:115px")
+                    div.qrcode(id=id2 style="position:absolute;left:58.5rem;top:39.8rem;width:155px;height:115px")
+
+
+                    small(style="position:absolute;left:16rem;top:3.8rem") #{zp.gp_name}
+                    small(style="position:absolute;left:51rem;top:3.8rem") #{zp.gp_name}
+                    small(style="position:absolute;left:8.5rem;top:5.5rem;width:350px") #{val.feu_ownerName}
+                    small(style="position:absolute;left:43rem;top:5.5rem") #{val.feu_ownerName}
+
+                    small(style="position:absolute;left:8.5rem;top:7.6rem") #{val.feu_secondOwnerName}
+                    small(style="position:absolute;left:43rem;top:7.6rem") #{val.feu_secondOwnerName}
+
+                    small(style="position:absolute;left:5.2rem;top:13.5rem") #{val.feu_malmattaNo}
+                    small(style="position:absolute;left:40rem;top:13.5rem") #{val.feu_malmattaNo}
+
+                    small(style="position:absolute;left:4rem;top:9.2rem") #{val.feu_mobileNo}
+                    small(style="position:absolute;left:40rem;top:9.2rem") #{val.feu_mobileNo}
+
+                    small(style="position:absolute;left:9rem;top:11.2rem") #{val.feu_totalArea} /  #{val.feu_totalAreaSquareMeter}
+                    small(style="position:absolute;left:45rem;top:11.2rem") #{val.feu_totalArea} /  #{val.feu_totalAreaSquareMeter}
+
+                    small(style="position:absolute;left:12.5rem;top:13.5rem") #{pageCount}
+                    small(style="position:absolute;left:18.5rem;top:13.5rem") #{date}
+                    small(style="position:absolute;left:47rem;top:13.5rem") #{pageCount}
+                    small(style="position:absolute;left:53rem;top:13.5rem") #{date}
+
+                    small(style="position:absolute;left:14rem;top:17rem") #{year1}
+                    small(style="position:absolute;left:20rem;top:17rem") #{year2}
+                    small(style="position:absolute;left:47.5rem;top:17rem") #{year1}
+                    small(style="position:absolute;left:54rem;top:17rem") #{year2}
+
+                    p(style="position:absolute;left:13rem;top:18.3rem") #{Math.round(val.lastBuildingTax)}
+                    p(style="position:absolute;left:19.4rem;top:18.3rem") #{Math.round(val.currentBuildingTax)}
+                    - let _totalBuildingTax = Math.round(val.lastBuildingTax + val.currentBuildingTax)
+                    p(style="position:absolute;left:25.7rem;top:18.3rem") #{_totalBuildingTax}
+
+                    p(style="position:absolute;left:47.5rem;top:18.3rem") #{Math.round(val.lastBuildingTax)}
+                    p(style="position:absolute;left:54rem;top:18.3rem") #{Math.round(val.currentBuildingTax)}
+                    p(style="position:absolute;left:60.4rem;top:18.3rem") #{_totalBuildingTax}
+
+
+                    p(style="position:absolute;left:13rem;top:19.9rem;") #{Math.round(val.lastDivaTax)}
+                    p(style="position:absolute;left:19.4rem;top:19.9rem;") #{Math.round(val.currentDivaTax)}
+                    - let _totalDivaTax = Math.round(val.lastDivaTax + val.currentDivaTax)
+                    p(style="position:absolute;left:25.7rem;top:19.9rem;") #{_totalDivaTax}
+
+                    p(style="position:absolute;left:47.5rem;top:19.9rem;") #{Math.round(val.lastDivaTax)}
+                    p(style="position:absolute;left:54rem;top:19.9rem;") #{Math.round(val.currentDivaTax)}
+                    p(style="position:absolute;left:60.4rem;top:19.9rem;") #{_totalDivaTax}
+
+                    p(style="position:absolute;left:13rem;top:21.4rem") #{Math.round(val.lastArogyaTax)}
+                    p(style="position:absolute;left:19.4rem;top:21.4rem") #{Math.round(val.currentArogyaTax)}
+                    - let _totalArogyaTax = Math.round(val.lastArogyaTax + val.currentArogyaTax)
+                    p(style="position:absolute;left:25.7rem;top:21.4rem") #{_totalArogyaTax}
+
+                    p(style="position:absolute;left:47.5rem;top:21.4rem") #{Math.round(val.lastArogyaTax)}
+                    p(style="position:absolute;left:54rem;top:21.4rem") #{Math.round(val.currentArogyaTax)}
+                    p(style="position:absolute;left:60.4rem;top:21.4rem") #{_totalArogyaTax}
+
+
+                    p(style="position:absolute;left:13rem;top:22.9rem;") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+                    p(style="position:absolute;left:19.4rem;top:22.9rem;") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+                    - _totalWaterTax = Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)
+                    p(style="position:absolute;left:25.7rem;top:22.9rem;") #{_totalWaterTax}
+
+                    p(style="position:absolute;left:47.5rem;top:22.9rem;") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+                    p(style="position:absolute;left:54rem;top:22.9rem;") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+                    p(style="position:absolute;left:60.4rem;top:22.9rem;") #{_totalWaterTax}
+                    - var val111 = Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)
+                    - val111 = isNaN(val111)? 0:val111
+
+
+
+                    p(style="position:absolute;left:13rem;top:24.3rem") #{val111}
+                    p(style="position:absolute;left:19.4rem;top:24.3rem") #{Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:25.7rem;top:24.3rem") #{Math.round(val.totalTax)}
+
+                    p(style="position:absolute;left:47.5rem;top:24.3rem") #{isNaN(val111)? 0:val111}
+                    p(style="position:absolute;left:54rem;top:24.3rem") #{Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:60.4rem;top:24.3rem") #{Math.round(val.totalTax)}
+
+                    //-Copy here
+
+                    p(style="position:absolute;left:13rem;top:25.8rem;") #{Math.round(val.lastCleaningTax)}
+                    p(style="position:absolute;left:19.4rem;top:25.8rem;") #{Math.round(val.currentCleaningTax)}
+                    - let _totalCleaningTax = Math.round(val.lastCleaningTax + val.currentCleaningTax)
+                    p(style="position:absolute;left:25.7rem;top:25.8rem;") #{_totalCleaningTax}
+
+                    p(style="position:absolute;left:47.5rem;top:25.8rem;") #{Math.round(val.lastCleaningTax)}
+                    p(style="position:absolute;left:54rem;top:25.8rem;") #{Math.round(val.currentCleaningTax)}
+                    p(style="position:absolute;left:60.4rem;top:25.8rem;") #{_totalCleaningTax}
+
+                    p(style="position:absolute;left:13rem;top:27.3rem") #{Math.round(val.lastFireblegateTax)}
+                    p(style="position:absolute;left:19.4rem;top:27.3rem") #{Math.round(val.currentFireblegateTax)}
+                    - let _totalFireblegateTax =  Math.round(val.lastFireblegateTax + val.currentFireblegateTax)
+                    p(style="position:absolute;left:25.7rem;top:27.5rem") #{_totalFireblegateTax}
+
+                    p(style="position:absolute;left:47.5rem;top:27.3rem") #{Math.round(val.lastFireblegateTax)}
+                    p(style="position:absolute;left:54rem;top:27.3rem") #{Math.round(val.currentFireblegateTax)}
+                    p(style="position:absolute;left:60.4rem;top:27.3rem") #{_totalFireblegateTax}
+
+                    p(style="position:absolute;left:13rem;top:28.7rem") #{Math.round(val.lastTreeTax)}
+                    p(style="position:absolute;left:19.4rem;top:28.7rem") #{Math.round(val.currentTreeTax)}
+                    - let _totalTreeTax = Math.round(val.lastTreeTax + val.currentTreeTax)
+                    p(style="position:absolute;left:25.7rem;top:28.7rem") #{_totalTreeTax}
+
+                    p(style="position:absolute;left:47.5rem;top:28.7rem") #{Math.round(val.lastTreeTax)}
+                    p(style="position:absolute;left:54rem;top:28.7rem") #{Math.round(val.currentTreeTax)}
+                    p(style="position:absolute;left:60.4rem;top:28.7rem") #{_totalTreeTax}
+
+                    p(style="position:absolute;left:13rem;top:30.2rem;") #{Math.round(val.lastEducationTax)}
+                    p(style="position:absolute;left:19.4rem;top:30.2rem;") #{Math.round(val.currentEducationTax)}
+                    - let _totalEducationTax = Math.round(val.lastEducationTax + val.currentEducationTax)
+                    p(style="position:absolute;left:25.7rem;top:30.2rem;") #{_totalEducationTax}
+
+                    p(style="position:absolute;left:47.5rem;top:30.2rem;") #{Math.round(val.lastEducationTax)}
+                    p(style="position:absolute;left:54rem;top:30.2rem;") #{Math.round(val.currentEducationTax)}
+                    p(style="position:absolute;left:60.4rem;top:30.2rem;") #{_totalEducationTax}
+
+                    //-end
+
+                    p(style="position:absolute;left:13rem;top:31.7rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111) + Math.round(val.lastCleaningTax) + Math.round(val.lastFireblegateTax) + Math.round(val.lastTreeTax) + Math.round(val.lastEducationTax)}
+                    p(style="position:absolute;left:19.4rem;top:31.7rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)  + Math.round(val.currentCleaningTax) + Math.round(val.currentFireblegateTax) + Math.round(val.currentTreeTax) + Math.round(val.currentEducationTax)}
+                    p(style="position:absolute;left:25.7rem;top:31.7rem") #{_totalBuildingTax + _totalDivaTax + _totalArogyaTax + _totalWaterTax + Math.round(val.totalTax) + _totalCleaningTax + _totalFireblegateTax + _totalTreeTax + _totalEducationTax}
+
+                    p(style="position:absolute;left:47.5rem;top:31.7rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111) + Math.round(val.lastCleaningTax) + Math.round(val.lastFireblegateTax) + Math.round(val.lastTreeTax) + Math.round(val.lastEducationTax)}
+                    p(style="position:absolute;left:54rem;top:31.7rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)  + Math.round(val.currentCleaningTax) + Math.round(val.currentFireblegateTax) + Math.round(val.currentTreeTax) + Math.round(val.currentEducationTax)}
+                    p(style="position:absolute;left:60.4rem;top:31.7rem") #{_totalBuildingTax + _totalDivaTax + _totalArogyaTax + _totalWaterTax + Math.round(val.totalTax) + _totalCleaningTax + _totalFireblegateTax + _totalTreeTax + _totalEducationTax}
+
+                    small(style="position:absolute;left:24.5rem;top:35.5rem")
+                        //- Removing signature
+                        img(src="/print/sp.jpeg" alt="" onerror="this.style.display='none'" srcset="" width="80")
+                    small(style="position:absolute;left:24rem;top:38rem") #{zp.gp_name}
+
+
+                    small(style="position:absolute;left:38.5rem;top:36.5rem")
+                        img(src="/print/d.jpeg" alt="" srcset="" width="50")
+                    small(style="position:absolute;left:58.5rem;top:35.5rem")
+                        //- Removing signature
+                        img(src="/print/sp.jpeg" alt="" srcset="" onerror="this.style.display='none'" width="80")
+                    small(style="position:absolute;left:59rem;top:38rem") #{zp.gp_name}
+
+    script.
+        (function() {
+            var data = !{dataString};
+            console.log(data)
+            var start = #{billStart}
+            data.forEach(function(userData,index){
+                generateQRCode(++start,userData)
+            })
+            function generateQRCode(id,userData) {
+                let website = 'http://g-seva.com/pay'
+                let homeNo = userData.feu_homeNo;
+                let wardNo = userData.feu_wardNo;
+                let malmattaNo = userData.feu_malmattaNo;
+                website +=`/!{zp.pg_registration_no}/${userData.anu_kramank}`;
+                new QRCode(document.getElementById("qrcode"+id),website);
+                new QRCode(document.getElementById("qrcode_"+id),website);
+            }   
+        })();

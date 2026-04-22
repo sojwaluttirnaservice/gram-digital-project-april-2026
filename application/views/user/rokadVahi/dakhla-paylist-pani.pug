@@ -1,0 +1,528 @@
+extends ../master-layout/master-layout
+
+block internal_css
+    style.
+        @media print {
+            .hide-print { display: none !important; }
+            @page{
+                size: A4 landscape;
+            }
+        }
+
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+
+        body {
+            //- width: 210mm; 
+            //- height: 297mm;
+            width:297mm;
+            height:297mm;
+            //- border: 1px solid black;
+        }
+        .my-print{
+            position: relative;
+            padding: 5px !important;
+        }
+
+        .page-break{
+            break-after: page;
+            page-break-after: always;
+        }
+
+        .fs-7 {
+            font-size: 0.8rem !important;
+        }
+block content
+
+    - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+    .hide-print
+        div(class="position-fixed top-50 end-0 translate-middle-y d-flex flex-column align-items-end gap-2 me-3 z-50" style="z-index:1000;")
+            button(class="btn btn-primary fw-semibold shadow" onclick="window.print()") Print
+            
+            //- select(class="form-select w-auto shadow-sm")
+                option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+            
+            //- select(id='certificate-dropdown' class="form-select shadow-sm")
+                option(value="" selected=(paymentFor == -1)) सर्व दाखले
+                - const certificates = [{ id: 1, value: "सामान्य कर भरणा" }, { id: 2, value: "पाणी कर भरणा" }, { id: 3, value: "विवाह नोंदणी प्रमाणपत्र" }, { id: 4, value: "रहिवासी स्वयंघोषितपत्र" }, { id: 5, value: "नमुना ८ प्रिंट" }, { id: 6, value: "थकबाकी/निराधार प्रमाणपत्र" }];
+                each _option in certificates
+                    option(value=_option.id selected=(paymentFor == _option.id)) #{_option.value} दाखवा
+
+
+                //- month and year wise
+
+                //- financial year wise
+
+                //- if month and year wise, you select , show correspoding intputs and inquery if month and year append e.g. ?month=4&year=2023 
+                //- if financial year wise, you select , show correspoding intputs and inquery if financial year append e.g. ?fromYear=2023&toYear=2024
+            div(class='d-flex flex-column gap-2')
+
+                select#report-type(class='form-select shadow-sm')
+                    - let isMonthYearTypeReport = (month && year) ? true : false;
+                    - let isFinancialYearTypeReport = ( fromYear && toYear) ? true : false;
+
+                    option(value='' selected = (!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                    option(value='monthYear' selected=(isMonthYearTypeReport)) महिना व वर्षानुसार
+                    option(value='financialYear' selected=(isFinancialYearTypeReport)) आर्थिक वर्षानुसार
+
+                // Month Year Inputs
+                div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};` class='gap-2')
+                    select#report-month(class='form-select')
+                        - for(let i=1;i<=12;i++)
+                            option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                    input#report-year(type='number' class='form-control' value=(year) placeholder='Year')
+
+                // Financial Year Inpu/s
+                div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};` class=' gap-2')
+                    input#from-year(type='number' class='form-control' value=(fromYear) placeholder='From Year')
+                    input#to-year(type='number' class='form-control' value=(toYear) placeholder='To Year')
+
+                button#generate-report(class='btn btn-primary shadow-sm') रिपोर्ट तयार करा
+
+    - let finalCount = 0;
+
+                        
+    - let finalNalConnectionFeeTotal = 0;
+    - let finalFerfarFeeTotal = 0;
+    - let finalNividaFeeTotal = 0;
+    - let finalBayanaTotal = 0;
+    - let finalAnudanTotal = 0;
+    - let finalOtherTotal = 0;
+
+
+    
+    //- - 
+    //-     let sumForMonths = 
+            
+
+    - let monthNalConnectionFeeTotal = 0;
+    - let monthNividaFeeTotal = 0;
+    - let monthFerfarFeeTotal = 0;
+    - let monthBayanaTotal = 0;
+    - let monthAnudanTotal = 0;
+    - let monthOtherTotal = 0;
+
+
+    if !paymentDetails || paymentDetails.length === 0
+        div.d-flex.justify-content-center.align-items-center(style='height: 100vh;')
+            h3.text-muted माहिती उपलब्ध नाही
+
+    else
+        each _group, _groupIndex in paymentDetails 
+
+            - let entries = _group.entries;
+            - let groupDate = _group.payment_date;
+            .my-print.m-0.p-0.d-flex.flex-column
+                //- img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+                div
+                    div.d-flex.justify-content-between.pt-2.pb-2
+                        div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                            img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                            span.fw-semibold 
+                            if isMonthYearTypeReport 
+                                span माहे #{getMonthName(month)} वर्ष : #{year}
+                            else if isFinancialYearTypeReport
+                                span वित्तीय वर्ष : #{fromYear} - #{toYear}
+                             
+                            //- span.fw-semibold वर्ष 
+                        div.d-flex.flex-column.align-items-center.justify-content-center
+                            p.fw-semibold ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+                            p.fw-semibold(style='font-size:0.6rem;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१,२२ (२),(३),(४),(५), व (६),२५(१),३२(५),३३(२),(३),व (४)(च),३६(२)३८(१) आणि ६६(१) पहा)
+                            p.fw-bold.fs-4 दैनिक रोकड वही (दाखले)
+
+                        div.d-flex.flex-column.justify-content-center.align-items-center
+                            img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+                            p.fw-semibold पान क्र:- 
+                div
+                    table.table.table-bordered
+                        thead 
+                            tr.text-center
+                                th(rowspan="2" colspan="1").fs-7 अनु.क्र.
+                                th(rowspan="2" colspan="1").fs-7 पावती क्रमांक 
+                                th(rowspan="2" colspan="1").fs-7 कोणाकडून मिळाली ते
+                                th(rowspan="2" colspan="1").fs-7 मोबाईल न.
+
+                                th(rowspan="2" colspan="1").fs-7 प्रमाणपत्र नाव
+
+                                th(rowspan="1" colspan="6").fs-7 नमुना ७ (पाणी फंड)
+
+                                
+                                //- th(rowspan="2" colspan="1").fs-7 रुपये
+                                th(rowspan="2" colspan="1").fs-7 पेमेंट मोड
+                                th(rowspan="2" colspan="1").fs-7 व्यवहार संदर्भ क्रमांक
+                                th(rowspan="2" colspan="1").fs-7 दिनांक
+                                th(rowspan="2" colspan="1").fs-7 शेरा
+                            
+                            tr.text-center 
+                                //- th
+                                //- th
+                                //- th
+                                //- th
+
+                                //- 5th column
+                                th(rowspan="1" colspan="1") नळ कनेक्शन फी
+                                th(rowspan="1" colspan="1") निविदा फी
+                                th(rowspan="1" colspan="1") फेरफार फी
+                                th(rowspan="1" colspan="1") बायाना रक्कम
+                                th(rowspan="1" colspan="1") अनुदान पावती
+                                th(rowspan="1" colspan="1") इतर
+
+
+                            //- tr.text-center
+                                each _, _ind in Array.from({length: 9})
+                                    th #{_ind + 1}
+
+
+                        - let currentDateNalConnectionFeeTotal = 0;
+                        - let currentDateNividaFeeTotal = 0;
+                        - let currentDateFerfarFeeTotal = 0;
+                        - let currentDateBayanaTotal = 0;
+                        - let currentDateAnudanTotal = 0;
+                        - let currentDateOtherTotal = 0;
+
+                        tbody.rokadVahiData
+                            if((!entries || entries.length == 0))
+                                tr 
+                                    td.text-center.fw-bold(colspan='9') माहिती उपलब्ध नाही
+                            else
+
+                            
+                                each detail, index in entries
+
+
+
+                                    - finalCount += 1;
+
+                                    //- - let pramanpatra_name
+
+                                    //- case detail.payment_for
+                                        when 1
+                                            - pramanpatra_name = 'सामान्य कर भरणा'
+                                            break
+                                        when 2
+                                            - pramanpatra_name = 'पाणी कर भरणा'
+                                            break
+                                        when 3
+                                            - pramanpatra_name = 'विवाह नोंदणी प्रमाणपत्र'
+                                            break
+                                        when 4
+                                            - pramanpatra_name = 'रहिवासी स्वयंघोषितपत्र'
+                                            break
+                                        when 5
+                                            - pramanpatra_name = 'नमुना ८ प्रिंट'
+                                            break
+                                        when 6
+                                            - pramanpatra_name = 'थकबाकी/निराधार प्रमाणपत्र'
+                                            break
+                                        default
+                                            - pramanpatra_name = '-'
+                                            break
+                                    tr 
+                                        th #{index + 1} 
+                                        th #{detail.id}
+                                        th #{detail.recipient_name}
+                                        th -
+
+                                        th #{detail.payment_for == -1 ? `${paymentTypesMap[detail.payment_for]}-${detail.reason_in_words}` : detail.payment_for_desc}
+
+                
+                                        //- नळ कनेक्शन फी
+                                        th 
+                                            - let nalConnectionFeeAmount = [16].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[11].includes(detail.payment_for) ? detail.payment_amount : "0"}
+                                            | #{nalConnectionFeeAmount}
+                                            - currentDateNalConnectionFeeTotal += nalConnectionFeeAmount
+                                        
+                                        //- निविदा फी (सामान्य)
+                                        th
+                                            - let nividaAmount = [11].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[11].includes(detail.payment_for) ? detail.payment_amount : "0"}
+                                            | #{nividaAmount}
+                                            - currentDateNividaFeeTotal += nividaAmount
+                                        
+                                        //- फेरफार फी
+                                        th 
+                                            - let ferfarAmount = [10].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[10].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{ferfarAmount}
+                                            - currentDateFerfarFeeTotal += ferfarAmount
+
+                                        //- बायाना रक्कम (अमामत) (सामान्य)
+                                        th 
+                                            - let bayanaAmount = [12].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            | #{bayanaAmount}
+                                            - currentDateBayanaTotal += bayanaAmount
+
+                                        //- अनुदान रक्कम (सामान्य)
+                                        th
+                                            - let anudanAmount = [13].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            | #{anudanAmount}
+                                            - currentDateAnudanTotal += anudanAmount
+
+                                        //- other amount
+                                        th 
+                                            - let otherAmount = ['-'].includes(detail.payment_for) ? detail.payment_amount : 0
+                                            //- | #{[19].includes(detail.payment_for) ? detail.payment_amount : 0}
+                                            | #{otherAmount}
+                                            - currentDateOtherTotal += otherAmount
+
+                                        
+                                        //- th #{detail.payment_amount}
+                                        th #{detail.payment_mode === 1 ? 'ऑनलाईन' : 'ऑफलाईन'}
+                                        th 
+                                            if detail.payment_mode == 0
+                                                | -
+                                            else
+                                                if detail.payment_medium === 'CHEQUE'
+                                                    | चेक क्र. : #{detail.check_no}
+                                                else if detail.payment_medium === 'DEMAND_DRAFT'
+                                                    | डिमांड ड्राफ्ट क्र. : #{detail.demand_draft_no}
+                                                else if detail.payment_medium === 'RTGS'
+                                                    | RTGS क्र. :  #{detail.rtgs_no}
+                                                else if detail.payment_medium === 'UPI' || detail.payment_medium == null
+                                                    | UPI व्यवहार आयडी : #{detail.transaction_number}
+
+                                        th #{detail.payment_date.split('-')[2]}-#{detail.payment_date.split('-')[1]}-#{detail.payment_date.split('-')[0]}
+                                        th -    
+
+
+
+                        - monthNalConnectionFeeTotal += currentDateNalConnectionFeeTotal
+                        - monthNividaFeeTotal += currentDateNividaFeeTotal
+                        - monthFerfarFeeTotal += currentDateFerfarFeeTotal
+                        - monthBayanaTotal += currentDateBayanaTotal
+                        - monthAnudanTotal += currentDateAnudanTotal
+                        - monthOtherTotal += currentDateOtherTotal
+
+                        tfoot 
+                            tr 
+                                th(colspan="5") #{groupDate.split('-').reverse().join('-')} रोजीची एकूण रक्कम
+
+                                th #{currentDateNalConnectionFeeTotal}
+                                th #{currentDateNividaFeeTotal}
+                                th #{currentDateFerfarFeeTotal}
+                                th #{currentDateBayanaTotal}
+                                th #{currentDateAnudanTotal}
+                                th #{currentDateOtherTotal}
+
+                                th(colspan="4")
+
+                            - let currentMonth = Number(_group.payment_date.split('-')[1])
+                            - let nextMonth = paymentDetails[_groupIndex + 1] ? Number(paymentDetails[_groupIndex + 1].payment_date.split('-')[1]) : null
+
+
+                            if currentMonth !== nextMonth
+                                tr 
+                                    th(colspan="5") #{getMonthName(currentMonth)} (#{currentMonth}) महिन्याची एकूण रक्कम
+
+                                    th #{monthNalConnectionFeeTotal}
+                                    th #{monthNividaFeeTotal}
+                                    th #{monthFerfarFeeTotal}
+                                    th #{monthBayanaTotal}
+                                    th #{monthAnudanTotal}
+                                    th #{monthOtherTotal}
+
+                                    th(colspan="4")
+
+                            - monthNalConnectionFeeTotal = 0
+                            - monthNividaFeeTotal = 0
+                            - monthFerfarFeeTotal = 0
+                            - monthBayanaTotal = 0
+                            - monthAnudanTotal = 0
+                            - monthOtherTotal = 0
+
+                                
+
+                                //- - finalCount += monthCount;
+
+                            
+
+
+
+
+
+                        - finalNalConnectionFeeTotal += currentDateNalConnectionFeeTotal;
+                        - finalNividaFeeTotal += currentDateNividaFeeTotal;
+                        - finalFerfarFeeTotal += currentDateFerfarFeeTotal;
+                        - finalBayanaTotal += currentDateBayanaTotal;
+                        - finalAnudanTotal += currentDateAnudanTotal;
+                        - finalOtherTotal += currentDateOtherTotal;
+
+
+            if groupIndex !== paymentDetails.length - 1
+                div.page-break
+
+            //- div.hide-print एकूण : #{finalCount}
+
+        .my-print.m-0.p-0.d-flex.flex-column
+            //- img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+            div
+                div.d-flex.justify-content-between.pt-2.pb-2
+                    div.d-flex.flex-column.justify-content-center.align-items-center.text-align-center
+                        img(src="/img/header-images/mudra-nav.jpg" width="95" height="40")
+                        if isMonthYearTypeReport 
+                            span माहे #{getMonthName(month)} वर्ष : #{year}
+                        else if isFinancialYearTypeReport
+                            span वित्तीय वर्ष : #{fromYear} - #{toYear}
+
+                    div.d-flex.flex-column.align-items-center.justify-content-center
+                        p.fw-semibold ग्रामपंचायत कार्यालय #{gp.gp_name} प. स. #{gp.gp_dist} 
+                        p.fw-semibold(style='font-size:0.6rem;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २१,२२ (२),(३),(४),(५), व (६),२५(१),३२(५),३३(२),(३),व (४)(च),३६(२)३८(१) आणि ६६(१) पहा)
+                        p.fw-bold.fs-4 दैनिक रोकड वही (दाखले)
+
+                    div.d-flex.flex-column.justify-content-center.align-items-center
+                        img.float-right(src="/img/header-images/g-sevalogo-new.jpeg" width="115" height="40")
+                        p.fw-semibold पान क्र:- 
+            div
+                table.table.table-bordered
+                    thead 
+                        tr.text-center
+                            th(rowspan="2" colspan="1").fs-7 अनु.क्र.
+                            th(rowspan="2" colspan="1").fs-7 पावती क्रमांक 
+                            th(rowspan="2" colspan="1").fs-7 कोणाकडून मिळाली ते
+                            th(rowspan="2" colspan="1").fs-7 मोबाईल न.
+
+                            th(rowspan="2" colspan="1").fs-7 प्रमाणपत्र नाव
+
+                            th(rowspan="1" colspan="6").fs-7 नमुना ७ (सामान्य फंड)
+
+                            
+                            //- th(rowspan="2" colspan="1").fs-7 रुपये
+                            th(rowspan="2" colspan="1").fs-7 पेमेंट मोड
+                            th(rowspan="2" colspan="1").fs-7 व्यवहार संदर्भ क्रमांक
+                            th(rowspan="2" colspan="1").fs-7 दिनांक
+                            th(rowspan="2" colspan="1").fs-7 शेरा
+                        
+                        tr.text-center 
+                            //- th
+                            //- th
+                            //- th
+                            //- th
+
+                            //- 5th column
+                            th(rowspan="1" colspan="1") नळ कनेक्शन फी
+                            th(rowspan="1" colspan="1") निविदा फी
+                            th(rowspan="1" colspan="1") फेरफार फी
+                            th(rowspan="1" colspan="1") बायाना रक्कम
+                            th(rowspan="1" colspan="1") अनुदान पावती
+                            th(rowspan="1" colspan="1") इतर
+
+
+                    tfoot 
+                        tr 
+                            th(colspan="5") एकूण रक्कम 
+
+                            th #{finalNalConnectionFeeTotal}
+                            th #{finalNividaFeeTotal}
+                            th #{finalFerfarFeeTotal}
+                            th #{finalBayanaTotal}
+                            th #{finalAnudanTotal}
+                            th #{finalOtherTotal}
+
+                            th(colspan="4") #{finalNalConnectionFeeTotal + finalNividaFeeTotal + finalFerfarFeeTotal + finalBayanaTotal + finalAnudanTotal + finalOtherTotal}
+
+        
+        
+        
+    script.
+        //- let certDropdown = document.getElementById('certificate-dropdown')
+
+        //- certDropdown.addEventListener("change", function(){
+        //-     let certSelectedDropdownValue = this.value;
+        //-     window.open(`/दैनिक रोकड वही (दाखले)-pay-list?pFor=${encodeURIComponent(certSelectedDropdownValue)}`, '_self')
+        //- })
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+            
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

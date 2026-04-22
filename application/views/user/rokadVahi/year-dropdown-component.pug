@@ -1,0 +1,72 @@
+//- Pug Template
+style.
+    @media print {
+        .hide-print {
+            display: none;
+        }
+    }
+    .my-print-btn {
+        background: oklch(70.7% 0.165 254.624);
+        color: white;
+        border: none;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+div.hide-print(style="position:fixed; top:45%; right:1%; z-index: 100;")
+    div(style="display:flex; align-items:center; gap:0.2rem; flex-wrap: wrap;")
+        input#from-year-input(type="number" placeholder="वर्षापासून e.g. 2024" value=fromYear)
+        input#to-year-input(type="number" placeholder="वर्षापर्यंत e.g. 2025" value=toYear)
+
+    div(style='margin-top:0.2rem; text-align:center; display:flex; gap:0.4rem; justify-content:center;')    
+        button.my-print-btn#print-selected-btn Show Selected Years
+        button.my-print-btn#print-all-btn Show All Records
+
+    div(style="margin-top:0.5rem; text-align:center;")
+        button.my-print-btn(onclick="window.print()") प्रिंट
+
+script.
+    const printSelectedBtn = document.getElementById("print-selected-btn");
+    const printAllBtn = document.getElementById("print-all-btn");
+
+    // Print using the year inputs
+    if(printSelectedBtn){
+        printSelectedBtn.addEventListener('click', function(e){
+            e.preventDefault();
+
+            const fromYearInput = document.getElementById("from-year-input");
+            const toYearInput = document.getElementById("to-year-input");
+
+            const fromYear = parseInt(fromYearInput.value);
+            const toYear = parseInt(toYearInput.value);
+
+            // validation
+            if(!fromYear || !toYear){
+                alert("कृपया योग्य वर्ष प्रविष्ट करा!");
+                return;
+            }
+
+            if(fromYear > toYear){
+                alert("वर्षापासून हे वर्ष वर्षापर्यंत पेक्षा जास्त असू शकत नाही!");
+                return;
+            }
+
+            // build URL with years
+            let url = window.location.href.split('?')[0]; // remove old query params
+            url += `?fromYear=${fromYear}&toYear=${toYear}`;
+
+            window.open(url, '_self');
+        });
+    }
+
+    // Print everything (ignore the year inputs)
+    if(printAllBtn){
+        printAllBtn.addEventListener('click', function(e){
+            e.preventDefault();
+
+            // Open page without any query parameters
+            let url = window.location.href.split('?')[0]; // remove old query params
+            window.open(url, '_self');
+        });
+    }

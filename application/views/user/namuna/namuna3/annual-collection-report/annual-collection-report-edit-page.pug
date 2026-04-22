@@ -1,0 +1,194 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/annual-collection-report/namuna-3-annual-collection-report-page-form-handler.js' type='module' defer)
+
+    title जमेचा अहवाल  
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    script.
+      let _annualCollectionReport = !{JSON.stringify(annualCollectionReport)}
+  body
+    include ../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+
+      form(id='annual-collection-report-form').mt-1
+        .form.form-1
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#8C92AC; padding:8px 18px; display:block; margin:10px auto;") Edit नमुना ३ जमेचा अहवाल
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष
+                input.form-control(type='text' name="year" id="year" placeholder="Enter Year" value=year readonly)
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="start_balance_date") सुरुवातीची शिल्लक दिनांक
+                input.form-control.datepicker(type="text" name="start_balance_date" id="start_balance_date" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="grant_received_year_2") वर्षात प्राप्त अनुदान २
+                input.form-control(type="text" name="grant_received_year_2" id="grant_received_year_2" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="interest_received_year_3") वर्षात प्राप्त व्याज ३
+                input.form-control(type="text" name="interest_received_year_3" id="interest_received_year_3" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="donation_4") देणगी ४
+                input.form-control(type="text" name="donation_4" id="donation_4" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="fund_disbursed_gp_service_5") ग्रामसेवा निधीतून वळती केलेली रक्कम ५
+                input.form-control(type="text" name="fund_disbursed_gp_service_5" id="fund_disbursed_gp_service_5" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="fund_disbursed_village_fund_6") ग्रामनिधीतून वळती केलेली रक्कम ६
+                input.form-control(type="text" name="fund_disbursed_village_fund_6" id="fund_disbursed_village_fund_6" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="loan_from_village_fund_7") उसनवार ग्रामनिधीतून ७
+                input.form-control(type="text" name="loan_from_village_fund_7" id="loan_from_village_fund_7" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="loan_from_private_8") उसनवार खाजगी ८
+                input.form-control(type="text" name="loan_from_private_8" id="loan_from_private_8" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_loan_repaid_7_8") एकूण उसनवार रक्कम (७ + ८)
+                input.form-control(type="text" name="total_loan_repaid_7_8" id="total_loan_repaid_7_8" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="misc_income_9") किरकोळ प्राप्ती ९
+                input.form-control(type="text" name="misc_income_9" id="misc_income_9" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_income_year_10") वर्षात एकूण जमा (५ + ६ + ७ + ८ + ९)
+                input.form-control(type="text" name="total_income_year_10" id="total_income_year_10" placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="start_balance_with_total_income_11") सुरुवातीची शिल्लकी सह एकूण जमा (४ + १०)
+                input.form-control(type="text" name="start_balance_with_total_income_11" id="start_balance_with_total_income_11" placeholder="")
+
+                input.form-control(name='id' value=annualCollectionReport.id hidden)
+
+        //- Submit Button
+        div 
+          div.d-flex.align-items-center.justify-content-center.gap-2
+            button.btn.btn-secondary.mt-4(type="submit" id='add-row-btn') Add row
+            button.btn.btn-secondary.mt-4(type='submit' id='update-row-btn') Update Row
+            button.btn.btn-success.mt-4(type="submit" id='update-annual-collection-report-btn') Update Form
+
+
+      .table-responsive      
+        table.mb-5 
+          thead#annual-collection-report-table-heading
+
+            tr 
+              th(rowspan='2' colspan='1')  सुरुवातीची शिल्लक दिनांक ________
+              th(rowspan='2' colspan='1') वर्षात प्राप्त अनुदान
+              th(rowspan='2' colspan='1') वर्षात प्राप्त व्याज
+              th(rowspan='2' colspan='1') देणगी
+              th(rowspan='2' colspan='1') ग्रामसेवा निधीतून वळती केलेली रक्कम
+              th(rowspan='2' colspan='1') ग्रामनिधीतून वळती केलेली रक्कम
+
+              th(rowspan='1' colspan='2') उसनवार
+
+              th(rowspan='2' colspan='1') एकूण उसनवार रक्कम (7 + 8)
+              th(rowspan='2' colspan='1') किरकोळ प्राप्ती
+              th(rowspan='2' colspan='1') वर्षात एकूण जमा (2 + 3 + 4 + 5 + 6 + 9 + 10)
+              th(rowspan='2' colspan='1') सुरुवातीची शिल्लकी सह एकूण जमा (1 + 11)
+              th(rowspan='2' colspan='1') Action
+
+            tr 
+              //- th 
+              //- th
+              //- th
+              //- th
+              //- th
+              //- th
+
+              th(rowspan='1' colspan='1') ग्रामनिधीतून
+              th(rowspan='1' colspan='1') खाजगी
+
+              //- th
+              //- th
+              //- th
+              //- th
+
+            tr 
+              each num in [1,2,3,4,5,6,7,8,9,10,11,12, 13]
+                th #{num} 
+
+
+
+          tbody#annual-collection-report-table-body

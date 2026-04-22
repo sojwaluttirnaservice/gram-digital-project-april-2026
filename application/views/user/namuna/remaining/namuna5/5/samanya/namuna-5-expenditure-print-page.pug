@@ -1,0 +1,296 @@
+extends ../../../../../include/print-page-tailwind-layout.pug
+
+
+block custom_css 
+    style.
+        @media print {
+            @page {
+                size: landscape;
+                //- margin:
+            }
+        }
+
+        table { border-collapse: collapse; width: 100%; }
+        td, th {
+            padding: 0.3rem;
+            border: 1px solid oklch(26.2% 0.051 172.552);
+            vertical-align: top;
+            font-size:0.8rem;
+        }
+
+
+block content 
+    body.tiro-devanagari-marathi-regular
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+        div.hide-print
+
+            div(class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col items-end gap-2 mr-3 z-50")
+
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-bold shadow px-4 py-2 rounded" data-bs-toggle="modal" data-bs-target="#taxPayModal") कर भरणा करा 
+
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded" onclick="window.print()") Print
+
+                //- select(class="w-auto shadow border border-gray-300 rounded px-3 py-2 bg-white")
+                    option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+                //- select(id='certificate-dropdown' class="shadow border border-gray-300 rounded px-3 py-2 bg-white")
+                    option(value="" selected=(paymentFor == -1)) सर्व दाखले
+                    - const certificates = [{ id: 1, value: "सामान्य कर भरणा" }, { id: 2, value: "पाणी कर भरणा" }, { id: 3, value: "विवाह नोंदणी प्रमाणपत्र" }, { id: 4, value: "रहिवासी स्वयंघोषितपत्र" }, { id: 5, value: "नमुना ८ प्रिंट" }, { id: 6, value: "थकबाकी/निराधार प्रमाणपत्र" }];
+                    each _option in certificates
+                        option(value=_option.id selected=(paymentFor == _option.id)) #{_option.value} दाखवा
+
+
+                //- month and year wise
+
+                //- financial year wise
+
+                //- if month and year wise, you select , show correspoding intputs and inquery if month and year append e.g. ?month=4&year=2023 
+                //- if financial year wise, you select , show correspoding intputs and inquery if financial year append e.g. ?fromYear=2023&toYear=2024
+
+                div(class="flex flex-col gap-2 w-56")
+
+                    select#report-type(class="shadow border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500")
+                        - let isMonthYearTypeReport = (month && year) ? true : false;
+                        - let isFinancialYearTypeReport = ( fromYear && toYear) ? true : false;
+
+                        option(value='' selected = (!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                        option(value='monthYear' selected=(isMonthYearTypeReport)) महिना व वर्षानुसार
+                        option(value='financialYear' selected=(isFinancialYearTypeReport)) आर्थिक वर्षानुसार
+
+                    // Month Year Inputs
+                    div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                        select#report-month(class="shadow border border-gray-300 rounded px-2 py-2 bg-white")
+                            - for(let i=1;i<=12;i++)
+                                option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                        input#report-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(year) placeholder='Year')
+
+                    // Financial Year Inputs
+                    div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                        input#from-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(fromYear) placeholder='From Year')
+                        input#to-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(toYear) placeholder='To Year')
+
+                    button#generate-report(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded") रिपोर्ट तयार करा
+
+        div
+
+            .my-print
+
+                table 
+
+                    thead
+                        tr
+                            th(colspan="21")
+                                div
+                                    .text-center.font-bold.text-lg.text-blue-800 नमुना ५
+                                    .text-center.text-sm.text-gray-700 
+                                        | नियम १९ (७),२२(२),(३),(६),(७),(१०),२३,२४(ख),व २५(२) पाहा
+                                    .text-center.font-semibold.text-base.text-gray-900
+                                        | ग्रामपंचायत कार्यालय #{gp.gp_name}, ता. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+                                    .text-center.font-bold.text-lg.text-gray-800.mt-1
+                                        | सामान्य रोकड वही
+                                    // Divider
+                                    .border-t.border-gray-400
+                                    // Section Row
+                                    div(class='grid grid-cols-3 items-center text-sm font-semibold')
+                                        .text-center.text-blue-700.bg-blue-50.rounded
+                                            | जमा बाजू 
+                                        .text-center.text-gray-800
+
+                                            if month && year 
+                                                | माहे #{getMonthName(month)} वर्ष #{year}
+                                            else if fromYear && toYear
+                                                | सन: #{fromYear} ते #{toYear}
+                                        .text-center.text-red-700.bg-red-50.rounded
+                                            | खर्च बाजू
+
+                        // First Header Row
+                        tr
+                            th(rowspan="3" colspan="1" width="7%") महिना व रक्कम जमा केल्याची तारीख
+                            th(rowspan="3" colspan="1" width="3%") अ.क्र.
+
+                            th(rowspan="1" colspan="8" width="32%") जमा रकमांचा तपशील
+
+                            th(rowspan="3" colspan="1" width="6%") लेखाशीर्ष
+                            th(rowspan="3" colspan="1" width="4%") रक्कम
+                            th(rowspan="3" colspan="1" width="6%") प्रारंभिक शिल्लकसह रोजची एकूण रक्कम
+
+                            // Expenditure Side
+                            th(rowspan="3" colspan="1" width="6%") रक्कम दिल्याची तारीख व पावती क्रमांक
+                            th(rowspan="3" colspan="1" width="6%") धनादेश क्रमांक
+                            th(rowspan="3" colspan="1" width="6%") प्रमाणक Voucher क्र
+                            th(rowspan="1" colspan="2" width="10%") खर्च रकमा दिल्याचा तपशील
+                            th(rowspan="3" colspan="1" width="6%") लेखाशीर्ष
+                            th(rowspan="3" colspan="1" width="4%") रक्कम
+                            th(rowspan="3" colspan="1" width="6%") अखेरच्या शिल्लकेस ही रोजची एकूण रक्कम
+                            th(rowspan="3" colspan="1" width="4%") स्वाक्षरी
+
+                        // Second Header Row
+                        tr
+                            th(rowspan="2" colspan="1" width="4%") कोणाकडून मिळाली ती
+                            th(rowspan="1" colspan="7" width="28%") कशाबद्दल मिळाली ती
+                            th(rowspan="2" colspan="1" width="6%") कोणास दिली ती
+                            th(rowspan="2" colspan="1" width="6%") कोणत्या कारणासाठी दिली ते
+
+                        // Third Header Row (Sub-columns)
+                        tr
+                            //- th(rowspan="1" colspan="1" width="4%") सामान्य कर
+
+                            th(rowspan="1" colspan="1" width="4%") नमुना ७ पावती 
+
+                            th(rowspan="1" colspan="1" width="4%") इमारत कर
+                            th(rowspan="1" colspan="1" width="4%") दिवाबत्ती कर
+                            th(rowspan="1" colspan="1" width="4%") आरोग्य कर
+                            th(rowspan="1" colspan="1" width="4%") स्वच्छता कर
+                            th(rowspan="1" colspan="1" width="4%") दंड कर
+                            th(rowspan="1" colspan="1" width="4%") एकूण
+
+
+                    tbody 
+
+
+                        each paymentData, _index in finalData
+                            tr
+                                td #{paymentData._payment_date}
+                                td #{_index + 1}
+
+                                //- td #{paymentData.personName}
+
+                                //- 7 detail
+                                //- td #{'--'}
+
+                                //- td #{paymentData.payment_for_desc},पावती क्र: #{paymentData.collection_id_pk}
+                                td पावती क्र: #{paymentData.collection_ids}
+
+                                    //- if paymentData.from_id == paymentData.to_id
+                                    //-     | #{paymentData.from_id}
+                                    //- else 
+                                    //-     | #{paymentData.from_id} ते #{paymentData.to_id}
+
+                                - let n7Fee =  (paymentData.payment_for != null && ![1].includes(+paymentData.payment_for)) ? Number(paymentData.payment_amount) : 0
+                                - let buildingTax = (Number(paymentData.tpl_lastBuildingTax || 0) + Number(paymentData.tpl_currentBuildingTax || 0))
+                                - let divaTax = (Number(paymentData.tpl_lastDivaTax || 0) + Number(paymentData.tpl_currentDivaTax || 0))
+                                - let arogyaTax = (Number(paymentData.tpl_lastArogyaTax || 0) + Number(paymentData.tpl_currentArogyaTax || 0))
+                                - let cleaningTax = (Number(paymentData.tpl_lastCleaningTax) || 0 + Number(paymentData.tpl_currentCleaningTax || 0))
+                                - let taxFine = (Number(paymentData.tpl_lastTaxFine || 0) - Number(paymentData.tpl_lastTaxRelief || 0))
+
+                                - let total = (n7Fee + buildingTax + divaTax + arogyaTax + cleaningTax + taxFine)
+
+                                td #{n7Fee}
+                                td #{buildingTax}
+                                td #{divaTax}
+                                td #{arogyaTax}
+                                td #{cleaningTax}
+                                td #{taxFine}
+                                td #{total}
+                                td #{'-'}
+
+                                //- each _ in Array.from({length: 11})
+                                    td -
+
+
+                                td #{'----'}
+                                td #{'-----'}
+                                td #{'-----'}
+
+                                td #{paymentData.check_no || '-'}
+                                td #{paymentData.voucher_number || '-'}
+
+                                td #{paymentData.payment_reciever || '-'}
+                                td #{paymentData.reason_of_expenditure || '-'}
+
+                                td #{paymentData.ledger_title || '-'}
+                                td #{paymentData.amount_spent || '-'}
+
+                                td 
+                                td
+
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else if(reportType.value == "date") {
+                    //- params.set("date", )
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

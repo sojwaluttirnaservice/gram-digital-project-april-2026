@@ -1,0 +1,289 @@
+//- doctype html
+//- head
+//-   title मागणी लेख - #{zp.gp_name}
+//-   meta(charset='UTF-8')
+//-   meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+//-   meta(http-equiv='X-UA-Compatible' content='ie=edge')
+//-   // common css
+//-   link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+//-   style.
+//-     @media print {
+//-       @page { 
+//-         size: A4 portrait;
+//-         margin: 4mm 7mm 4mm 10mm;
+//-       }
+//-       body {
+//-         margin:0;
+//-         padding:0;
+//-       }
+//-       body {transform: scale(1);}
+//-       table {page-break-inside: avoid;}
+
+//-       } 
+//-     .main-heading {
+//-       margin-left:10%
+//-       }
+//-     .heading-second{
+//-       margin-left:30%
+//-     }
+//-     .heading-second-2{
+//-       margin-left:30%
+//-     }
+//-     #table2 {
+//-       width:100% !important;
+//-     }
+//-     #table2 td {
+//-       padding-left:1px;
+//-       padding-right:1px;
+//-       }
+//- #table3 td {
+//-   padding-left:3px;
+//-   padding-right:3px;
+//-       } 
+//-     .set-height > td {
+//-       height: 150px;
+//-     }
+//-     .set-p-break {
+//-       page-break-before: always;
+//-     }
+//-     .c-0 {
+//-       page-break-before: always;
+//-     }
+//-     td {
+//-       border-top: 2px solid gray;
+//-       border-right: 2px solid gray;
+//-       padding: 0px !important; 
+//-       }
+//-     .img{
+//-       width:65px;
+//-       height:70px;
+//-     }
+//-     .img1{
+//-       margin-top:-10px;
+//-       width:70px;
+//-       height:90px;
+//-     }
+//-     p{
+//-       font-size:15px !important;
+//-     }
+//-     .span-box{
+//-       padding:3px 5px;
+//-       margin: 5px 5px;
+//-       margin-top: 10px !important; 
+//-       border:1px solid black;
+
+
+//-     }
+//-     .text-j {
+//-       line-height: 2;
+//-         text-align: justify
+//-     }
+//- body
+//-   - var pageCount = 0;
+//-   each val,index in data
+//-     - pageCount += 1;
+//-     - var  className = 'row ml-5 mt-5 c-'+(index%2); 
+//-     div(class=className)
+//-       div.col-12.mt-1
+//-         div(style="position:relative")
+//-           img(src="/print/5.jpg" alt="" style="")
+//-           div(style="position: absolute;top:0;width:100%")
+//-             p(style="position:absolute;left:16.5rem;top:4.2rem") #{zp.gp_name}
+//-             p(style="position:absolute;left:47.2rem;top:4.2rem") #{zp.gp_name}
+
+//-             p(style="position:absolute;left:11.5rem;top:6.5rem") #{val.feu_ownerName}    
+//-             p(style="position:absolute;left:42.2rem;top:6.5rem") #{val.feu_ownerName} 
+
+//-             p(style="position:absolute;left:9.5rem;top:8.7rem") #{val.feu_secondOwnerName}   
+//-             p(style="position:absolute;left:40.2rem;top:8.7rem") #{val.feu_secondOwnerName}  
+
+//-             p(style="position:absolute;left:7rem;top:11rem") #{val.feu_malmattaNo}
+//-             p(style="position:absolute;left:37rem;top:11rem") #{val.feu_malmattaNo}
+
+//-             p(style="position:absolute;left:12rem;top:11rem") #{pageCount}
+//-             p(style="position:absolute;left:42.5rem;top:11rem") #{pageCount}
+
+//-             p(style="position:absolute;left:21.5rem;top:11rem;width:100px") #{val.feu_villageName}
+//-             p(style="position:absolute;left:54.5rem;top:11rem;width:100px") #{val.feu_villageName}
+
+//-             p(style="position:absolute;left:12rem;top:15.3rem") #{val.feu_ownerName}
+//-             p(style="position:absolute;left:42.5rem;top:15.3rem") #{val.feu_ownerName}
+
+//-             p(style="position:absolute;left:10rem;top:17.5rem") #{val.feu_secondOwnerName}
+//-             p(style="position:absolute;left:40.5rem;top:17.5rem") #{val.feu_secondOwnerName}
+
+//-             p(style="position:absolute;left:24rem;top:19.8rem") #{y1}
+//-             p(style="position:absolute;left:55rem;top:19.8rem") #{y1}
+
+//-             p(style="position:absolute;left:17rem;top:21.7rem") #{y2}
+//-             p(style="position:absolute;left:48rem;top:21.7rem") #{y2}
+
+//-             p(style="position:absolute;left:20rem;top:23.4rem") #{val.total_tax}
+//-             p(style="position:absolute;left:50.5rem;top:23.4rem") #{val.total_tax}
+
+//-             p(style="position:absolute;left:9.5rem;top:28.8rem") #{Math.round((val.total_tax * 2) /100 )}
+//-             p(style="position:absolute;left:40rem;top:28.8rem") #{Math.round((val.total_tax * 2) /100 )}
+
+//-             p(style="position:absolute;left:21.5rem;top:33.5rem;width:100px")
+//-               //- Removing signature
+//-               img(src="/print/sp1.jpeg" alt="" srcset="" onerror="this.style.display='none'" style="width: 100%;")
+
+//-             p(style="position:absolute;left:4.5rem;top:36.1rem;width:100px") #{printDate}
+//-             //- Replaced below line by above line
+//-             //- p(style="position:absolute;left:4.5rem;top:36.1rem;width:100px") #{val.c_date}
+
+//-             p(style="position:absolute;left:35.3rem;top:36.1rem;width:100px") #{printDate}
+//-             //- Replaced below line by above line
+//-             //- p(style="position:absolute;left:35.3rem;top:36.1rem;width:100px") #{val.c_date}
+
+
+//-             p(style="position:absolute;left:23.5rem;top:37.3rem;width:100px") #{zp.gp_name}
+//-             p(style="position:absolute;left:52.3rem;top:33.5rem;width:100px")
+//-               //- Removing signature
+//-               img(src="/print/sp1.jpeg" alt="" onerror="this.style.display='none'" srcset="" style="width: 100%;")
+//-             p(style="position:absolute;left:54rem;top:37.3rem;width:100px") #{zp.gp_name}
+
+
+
+
+
+
+
+
+doctype html
+html
+  head
+    title मागणी लेख - #{zp.gp_name}
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    style.
+      @media print {
+        @page { 
+          size: A4 portrait;
+          margin: 4mm 7mm 4mm 10mm;
+        }
+        body {
+          margin: 0;
+          padding: 0;
+          transform: scale(1);
+        }
+        table {
+          page-break-inside: avoid;
+        }
+      }
+      .main-heading {
+        margin-left: 10%;
+      }
+      .heading-second,
+      .heading-second-2 {
+        margin-left: 30%;
+      }
+      #table2 {
+        width: 100% !important;
+      }
+      #table2 td {
+        padding-left: 1px;
+        padding-right: 1px;
+      }
+      #table3 td {
+        padding-left: 3px;
+        padding-right: 3px;
+      }
+      .set-height > td {
+        height: 150px;
+      }
+      .set-p-break,
+      .c-0 {
+        page-break-before: always;
+      }
+      td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important;
+      }
+      .img {
+        width: 65px;
+        height: 70px;
+      }
+      .img1 {
+        margin-top: -10px;
+        width: 70px;
+        height: 90px;
+      }
+      p {
+        font-size: 15px !important;
+      }
+      .span-box {
+        padding: 3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important;
+        border: 1px solid black;
+      }
+      .text-j {
+        line-height: 2;
+        text-align: justify;
+      }
+
+  body
+    - var pageCount = 0;
+    each val, index in data
+      - pageCount += 1;
+      - var className = 'row ml-5 mt-5 c-' + (index % 2);
+      div(class=className)
+        div.col-12.mt-1
+          div(style="position:relative")
+            img(src="/print/5.jpg" alt="")
+            div(style="position: absolute; top:0; width:100%")
+              p(style="position:absolute; left:16.5rem; top:4.2rem") #{zp.gp_name}
+              p(style="position:absolute; left:47.2rem; top:4.2rem") #{zp.gp_name}
+
+              p(style="position:absolute; left:11.5rem; top:5.5rem; width: 270px;") #{val.feu_ownerName}
+              p(style="position:absolute; left:42.2rem; top:5.5rem; width: 270px;") #{val.feu_ownerName}
+
+              p(style="position:absolute; left:9.5rem; top:8.7rem") #{val.feu_secondOwnerName}
+              p(style="position:absolute; left:40.2rem; top:8.7rem") #{val.feu_secondOwnerName}
+
+              p(style="position:absolute; left:7rem; top:11rem") #{val.feu_malmattaNo}
+              p(style="position:absolute; left:37rem; top:11rem") #{val.feu_malmattaNo}
+
+              p(style="position:absolute; left:12rem; top:11rem") #{pageCount}
+              p(style="position:absolute; left:42.5rem; top:11rem") #{pageCount}
+
+              p(style="position:absolute; left:21.5rem; top:11rem; width:100px") #{val.feu_villageName}
+              p(style="position:absolute; left:54.5rem; top:11rem; width:100px") #{val.feu_villageName}
+
+              p(style="position:absolute; left:12rem; top:14.6rem; width: 270px;") #{val.feu_ownerName}
+              p(style="position:absolute; left:42.5rem; top:14.6rem; width: 270px;") #{val.feu_ownerName}
+
+              p(style="position:absolute; left:10rem; top:17.5rem") #{val.feu_secondOwnerName}
+              p(style="position:absolute; left:40.5rem; top:17.5rem") #{val.feu_secondOwnerName}
+
+              p(style="position:absolute; left:22rem; top:19.8rem") #{y1}
+              p(style="position:absolute; left:53rem; top:19.8rem") #{y1}
+
+              p(style="position:absolute; left:15rem; top:21.7rem") #{y2}
+              p(style="position:absolute; left:45.6rem; top:21.7rem") #{y2}
+
+              p(style="position:absolute; left:20rem; top:23.4rem") #{val.total_tax}
+              p(style="position:absolute; left:50.5rem; top:23.4rem") #{val.total_tax}
+
+              p(style="position:absolute; left:9.5rem; top:28.8rem") #{Math.round((val.total_tax * 2) / 100)}
+              p(style="position:absolute; left:40rem; top:28.8rem") #{Math.round((val.total_tax * 2) / 100)}
+
+              p(style="position:absolute; left:21.5rem; top:33.5rem; width:100px")
+                img(src="/print/sp1.jpeg" alt="" onerror="this.style.display='none'" style="width: 100%;")
+
+              p(style="position:absolute; left:4.5rem; top:36.1rem; width:100px") #{printDate}
+              p(style="position:absolute; left:35.3rem; top:36.1rem; width:100px") #{printDate}
+
+              p(style="position:absolute; left:23.5rem; top:37.3rem; width:100px") #{zp.gp_name}
+              p(style="position:absolute; left:52.3rem; top:33.5rem; width:100px")
+                img(src="/print/sp.jpeg" alt="" onerror="this.style.display='none'" style="width: 100%;")
+
+              p(style="position:absolute; left:54rem; top:37.3rem; width:100px;") #{zp.gp_name}
+
+              p(style="position:absolute; left:21.5rem; top:33.5rem; width:100px;")
+                img(src="/print/sp.jpeg" alt="" onerror="this.style.display='none'" style="width: 100%;")

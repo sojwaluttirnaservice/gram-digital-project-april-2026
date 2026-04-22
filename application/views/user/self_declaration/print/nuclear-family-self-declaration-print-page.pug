@@ -1,0 +1,40 @@
+extends ./self-declaration-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही 
+            span(class="font-extrabold") #{doer}
+            |  
+            span(class="font-extrabold") #{prefix}.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantFullSelfNameM || selfDeclaration.sd_applicantFullSelfNameE}
+            | , रा.
+            span(class="font-extrabold")
+                | #{selfDeclaration.sd_applicantAddressM || selfDeclaration.sd_applicantAddressE}
+            |  आपल्या ग्रामपंचायत हद्दीत वास्तव्यास आहे.
+
+        p(class="mt-3")
+            | माझे कुटुंब दिनांक 
+            span(class="font-extrabold")
+                | #{selfDeclaration._familySeparationDate || "____-____-20____"}
+            |  पासून संयुक्त कुटुंबापासून विभक्त असून स्वतंत्रपणे राहात आहे.
+
+        p(class="mt-3")
+            | शासकीय / शैक्षणिक / प्रशासकीय कारणासाठी मला 
+            span(class="font-extrabold") विभक्त कुटुंबाचा प्रमाणपत्र
+            |  आवश्यक आहे.
+
+        p(class="mt-3")
+            | तरी सदर प्रमाणपत्र देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        p(class="mt-3")
+            | सोबत आवश्यक कागदपत्रे जोडली आहेत.
+
+        p(class="mt-6 text-right font-extrabold")
+            | धन्यवाद

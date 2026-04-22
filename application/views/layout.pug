@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(http-equiv='Cache-control', content='no-cache')
+    meta(http-equiv='Expires', content='-1')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0')
+    title ग्रामसेवा प्रयोग
+
+    block test_css_link
+
+    block inline_css
+    style(type='text/css').
+      /* *{
+        user-select: none;
+        -khtml-user-select: none;
+        -o-user-select: none;
+        -moz-user-select: -moz-none;
+        -webkit-user-select: none;
+      }
+      ::selection { background: transparent;color: inherit;}
+      ::-moz-selection { background: transparent;color: inherit;}*/
+
+  
+    script(type="text/javascript").
+      /* window.oncontextmenu = function () {
+            return false;
+          }
+      document.addEventListener("keypress", function(event){
+          if(event.which != 122){
+            event.preventDefault();
+          }
+                    
+          });
+        document.addEventListener("keydown", function(event){
+        if(event.which != 122){
+            event.preventDefault();
+            }
+        });
+        document.addEventListener("keyup", function(event){
+            if(event.which != 122){ 
+            event.preventDefault();
+        }
+        });*/
+     
+    block inline_js
+
+    
+
+    block js_link
+
+  body.welcome(oncontextmenu="return false;", ondragstart='return false;', ondrop='return false;')
+    block content
+    

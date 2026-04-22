@@ -1,0 +1,120 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    style.
+        .image-preview-wrapper { position: relative; display: inline-block; margin-right: 15px; margin-bottom: 15px; }
+        .image-preview { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid #e0e0e0; cursor: pointer; transition: 0.3s ease; }
+        .image-preview:hover { border-color: #dc3545; opacity: 0.8; }
+        .delete-badge { position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: 0.2s; }
+        .delete-badge:hover { transform: scale(1.1); background: #c82333; }
+        .removed { opacity: 0.3; filter: grayscale(100%); pointer-events: none; }
+        
+block content
+
+    .container-fluid.mt-4
+        .row
+            .col-12
+                h4.heading-1.text-center Edit Slide
+
+    .container.mt-4
+        .row.justify-content-center.mb-3
+            .col-12.col-xl-9
+                .card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    .card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-edit.me-2
+                                | स्लाईड संपादित करा
+                            p.mb-0.text-muted.small या फॉर्मद्वारे अस्तित्वात असलेली स्लाईड बदला.
+                        div.d-flex(style='gap:1rem;')
+                            a.btn.btn-outline-secondary.btn-sm(href=`/ppt/slides/list/page/${slide.ppt_id_fk}`)
+                                i.fa.fa-arrow-left.me-1
+                                | मागे (Back)
+        .card.shadow-sm
+            .card-header.bg-warning.text-center.font-weight-bold स्लाईड माहिती बदला
+            .card-body
+                form#ppt-slide-form(enctype="multipart/form-data")
+                    .row.justify-content-center
+                        // Hidden inputs
+                        input(type="hidden" name="id" value=slide.id)
+                        input(type="hidden" name="ppt_id_fk" value=slide.ppt_id_fk)
+
+                        // Arrays to hold IDs of logically deleted images
+                        input#removed_before_ids(type="hidden" name="removed_before_ids" value="[]")
+                        input#removed_after_ids(type="hidden" name="removed_after_ids" value="[]")
+
+                        // Row 1: Slide Order & Type (1/2 width each on md+)
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_order") स्लाईड क्रमांक (Order)
+                                input.form-control(type="number" name="slide_order" value=slide.slide_order required)
+
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_type") स्लाईड प्रकार (Type)
+                                select.form-control(name="slide_type" required)
+                                    option(value="content" selected=slide.slide_type === 'content') Content (माहिती)
+                                    option(value="image" selected=slide.slide_type === 'image') Image (इमेज)
+                                    option(value="mixed" selected=slide.slide_type === 'mixed') Mixed (मिश्रित)
+
+                        // Row 2: Title & Subtitle (1/2 width each on md+)
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_title") स्लाईडचे Title
+                                input.form-control(type="text" name="slide_title" value=slide.slide_title placeholder="Title टाका")
+
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_subtitle") स्लाईडचे Subtitle
+                                input.form-control(type="text" name="slide_subtitle" value=slide.slide_subtitle placeholder="Subtitle टाका")
+
+                        // Row 3: Description (Full Width)
+                        .col-12.mb-3
+                            .form-group
+                                label.font-weight-bold(for="slide_description") स्लाईडचे वर्णन
+                                textarea.form-control(name="slide_description" rows="2" placeholder="वर्णन टाका")= slide.slide_description
+
+                        hr.w-100.my-4
+
+                        // Existing Before Images
+                        if slide.parsed_before_images && slide.parsed_before_images.length > 0
+                            .col-12.mb-3
+                                label.font-weight-bold अस्तित्वात असलेले Before Images (क्लिक करून हटवा)
+                                div#existing-before-container
+                                    each img in slide.parsed_before_images
+                                        .image-preview-wrapper(id=`before-wrap-${img.id}`)
+                                            img.image-preview(src=`/uploads/images/ppt/slides/before/${img.image_name}`)
+                                            .delete-badge(onclick=`removeExistingImage('${img.id}', 'before')`) ✖
+
+                        // New Before Images Upload
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold नवीन Before Images (पूर्वीचे फोटो)
+                                input.form-control(type="file" name="new_before_images" accept="image/*" multiple)
+                                small.text-muted जास्तीत जास्त 2 फोटो (अधिकचे फोटो वगळले जातील)
+
+                        hr.w-100.my-4
+
+                        // Existing After Images
+                        if slide.parsed_after_images && slide.parsed_after_images.length > 0
+                            .col-12.mb-3
+                                label.font-weight-bold अस्तित्वात असलेले After Images (क्लिक करून हटवा)
+                                div#existing-after-container
+                                    each img in slide.parsed_after_images
+                                        .image-preview-wrapper(id=`after-wrap-${img.id}`)
+                                            img.image-preview(src=`/uploads/images/ppt/slides/after/${img.image_name}`)
+                                            .delete-badge(onclick=`removeExistingImage('${img.id}', 'after')`) ✖
+
+                        // New After Images Upload
+                        .col-12.col-md-6.mb-3
+                            .form-group
+                                label.font-weight-bold नवीन After Images (नंतरचे फोटो)
+                                input.form-control(type="file" name="new_after_images" accept="image/*" multiple)
+                                small.text-muted जास्तीत जास्त 2 फोटो (अधिकचे फोटो वगळले जातील)
+
+                        // Submit Button
+                        .col-12.text-center.mt-4
+                            button#update-ppt-slide-btn.btn.btn-success.px-5.py-2(type="submit") Update (जतन करा)
+
+block custom_js 
+    script(src="/asstest/coustom/js/handlers/ppt/ppt-slide-form-handler.js")

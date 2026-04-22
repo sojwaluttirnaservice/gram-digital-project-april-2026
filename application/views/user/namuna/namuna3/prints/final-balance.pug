@@ -1,0 +1,99 @@
+    
+//- प्रपत्र ई चालू
+div(style="padding: 1rem 0; font-weight: bold;")
+    
+
+
+table(style='width: 100%;')
+
+    thead
+
+        tr 
+            th(colspan='5') (चार) संकीर्ण खर्च
+            //- th 
+            //- th 
+            //- th
+            //- th
+
+            th(colspan='5') अखेरची शिल्लक
+            //- th
+            //- th 
+            //- th
+            //- th
+
+            th(colspan='5') (सहा) अखेरची शिल्लक
+            //- th
+            //- th
+            //- th
+            //- th
+            
+
+
+        tr
+            th अग्रीम / अनामत
+            th ठेवी
+            th कर्ज हफ्ता व व्याज प्रदाने
+            th इतर 
+            th एकूण (चार)
+            
+            th अग्रीम / अनामत
+            th ठेवी
+            th कर्ज हफ्ता व व्याज प्रदाने
+            th इतर 
+            th एकूण(पाच)
+
+            th जवाहर ग्राम समृद्धी योजना
+            th पंचायत निधी खाते
+            th ग्राम पाणी पुरवठा निधी
+            th इतर
+            th एकूण(सहा)
+        tr 
+            each num in [1, 2, 3, 4, '1 ते 4 = 5']
+                th #{num}
+
+            each num in [1, 2, 3, 4, '1 ते 4 = 5']
+                th #{num}
+
+            each num in [1, 2, 3, 4, '1 ते 4 = 5']
+                th #{num}
+
+    tbody 
+
+        tr 
+            td #{prapatraEECurrent.restricted_advance_security}
+            td #{prapatraEECurrent.restricted_deposits} 
+            td #{prapatraEECurrent.restricted_loan_repayment_and_interest} 
+            td #{prapatraEECurrent.restricted_other_loan_expenses} 
+            td #{prapatraEECurrent.restricted_total_expenses_4} 
+
+            td #{prapatraEECurrent.final_balance_advance_security}
+            td #{prapatraEECurrent.final_balance_deposits} 
+            td #{prapatraEECurrent.final_balance_loan} 
+            td #{prapatraEECurrent.final_balance_other} 
+            td #{prapatraEECurrent.final_balance_total_expenses_5}
+
+            td #{prapatraEECurrent.jawahar_village_prosperity_expenses}  
+            td #{prapatraEECurrent.panchayat_fund_account} 
+            td #{prapatraEECurrent.village_water_supply_fund}
+            td #{prapatraEECurrent.other_funds} 
+            td #{prapatraEECurrent.total_6} 
+
+
+    
+div(style='padding: 1rem 0;')
+table(style='width: 100%;')
+    thead 
+        tr 
+            th एकूण (एक + दोन + तीन +चार + पाच + सहा)
+            th वर्षात एकूण प्रत्यक्ष खर्च (एक  + दोन + तीन + चार)
+            th मागील वर्षात खर्च रक्कम
+            th वाढ किंवा घट
+
+
+    tbody 
+        tr 
+            td -
+            td 
+
+            td 
+            td

@@ -1,0 +1,80 @@
+//- EMPLOYMENT DEMAND DETAILS MODAL (VIEW ONLY)
+.modal(tabindex='-1' id='emp-demand-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-briefcase.me-2.text-primary
+                    | रोजगार मागणी अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= BASIC INFO =================
+                h6.fw-bold.text-primary.mb-3 कुटुंब प्रमुख व अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label कुटुंब प्रमुखाचे नाव
+                        input.form-control(readonly name='family_head_name')
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचे नाव
+                        input.form-control(readonly name='applicant_name')
+                    .col-12.col-md-6
+                        label.form-label मोबाईल नंबर
+                        input.form-control(readonly name='applicant_mobile')
+                    .col-12.col-md-6
+                        label.form-label जॉब कार्ड क्रमांक
+                        input.form-control(readonly name='job_card_number')
+
+                hr.my-3
+
+                // ================= PERIOD =================
+                h6.fw-bold.text-primary.mb-3 अर्ज कालावधी
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label पासून
+                        input.form-control(readonly name='from_date')
+                    .col-12.col-md-6
+                        label.form-label पर्यंत
+                        input.form-control(readonly name='to_date')
+
+                hr.my-3
+
+                // ================= FAMILY MEMBERS =================
+                h6.fw-bold.text-primary.mb-3 कुटुंबातील सदस्य
+                .row.g-3.mb-4#family-members-view-container
+                    .col-12
+                        div.text-muted.small सदस्यांची माहिती उपलब्ध नाही
+
+                hr.my-3
+
+                // ================= STATUS =================
+                .div(class='status-section d-none' data-status='ACCEPTED')
+                    hr.my-3
+                    h6.fw-bold.text-success.mb-3 अर्ज स्वीकार तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label स्वीकार दिनांक
+                            input.form-control(readonly name='date_of_acceptance')
+                        .col-12.col-md-6
+                            label.form-label स्वीकार शेरा
+                            input.form-control(readonly name='acceptance_remark')
+                .div(class='status-section d-none' data-status='REJECTED')
+                    hr.my-3
+                    h6.fw-bold.text-danger.mb-3 अर्ज नाकारण्याचा तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label नकार दिनांक
+                            input.form-control(readonly name='date_of_rejection')
+                        .col-12.col-md-6
+                            label.form-label नकार शेरा
+                            input.form-control(readonly name='rejection_remark')
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा

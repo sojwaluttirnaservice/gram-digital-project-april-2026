@@ -1,0 +1,72 @@
+#paymentModeModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(class=`${qrCodes ? 'modal-lg' : ''}`)
+        .modal-content.mx-auto
+            .modal-header
+                h1#exampleModalLabel.modal-title.fs-5 पेमेंट
+                button.btn.btn-close(type='button' data-dismiss='modal' aria-label='Close') X
+
+            .modal-body
+                form#payCheckoutForm
+
+                    div(style='display:flex; justify-content:space-between; gap:1rem;')
+                        div.pay-details-div
+                            .row
+                                .col-6.col-sm-3
+                                    label(for='pay-amount') Amount (Rs) 
+                                    input.form-control(id='pay-amount' type='text' readonly) 
+                                .col-6.col-sm-4       
+                                    label(for='pay-malmatta-no') Malmatta No 
+                                    input.form-control(id='pay-malmatta-no' type='text' readonly)
+                                .col-12.col-sm-5  
+                                    label(for='pay-mobile-no') Mobile No 
+                                    input.form-control(id='pay-mobile-no' type='text' maxlength='10' required)
+
+                                .col-12 
+                                    label(for='pay-person-name') Name
+                                    input.form-control(id='pay-person-name' type='text' readonly)
+
+                                .col-7
+                                    label(for='transaction_number') Transaction No.
+                                    input(class='form-control' id='transaction_number' maxlength='50')
+                                    p(style='font-size:0.8rem;color:red;') Online QR code ने पेमेंट करत असल्यास TRANSACTION NUMBER भरणे अनिवार्य आहे.
+
+                                .col-5
+                                    label(for='paymentScreenshot') पेमेंट स्क्रीनशॉट
+                                    input.form-control(id='paymentScreenshot' type='file' accept=".jpg,.jpeg,.png,.webp,.heic")
+                                    p(style='font-size:0.8rem;color:red;') Supported formats: JPG, JPEG, PNG, WEBP, HEIC only.
+
+
+                        if(qrCodes)
+                            div.pay-details-div
+                                div.samanya-qr-holder(style='display:none;')
+                                    div(style='display:flex; flex-direction:column; gap:0.5rem; align-items:center;justify-content:center; ')
+                                        div(style='border: 1px solid gray; width:120px; height:120px;')
+                                            img(src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_image_name onerror="this.src='/img/fallback/no-image-found.png'" style='width:100%; height:100%;')
+
+                                        p.text-center सामान्य QR
+
+                                div.water-qr-holder(style='display:none;')
+                                    div(style='display:flex; flex-direction:column; gap:0.5rem; align-items:center;justify-content:center; ')
+                                        div(style='border: 1px solid gray; width:120px; height:120px;')
+                                            img(src="/new-gp-page/main-page/files/qr-codes/"  + qrCodes.bank_qr_code_water_image_name onerror="this.src='/img/fallback/no-image-found.png'" style='width:100%; height:100%;')
+
+                                        p.text-center पाणी QR
+
+
+
+                    .row.print-certificate-div.d-none
+                        .col-5 
+                            button.btn.btn-primary.w-100.text-center.m-2.print-payment-recipt-btn(type='button') पेमेंट पावती प्रिंट
+                        .col-5
+                            button#btnPrintEightNoImage.btn.btn-success.w-100.text-center.m-2.d-none(type='button')
+                                span.fa.fa-floppy-o &nbsp; नमुना ८ (No Image)
+                        .col-5
+                            button#btnPrintEightQr.btn.btn-success.w-100.text-center.m-2.d-none(type='button')
+                                span.fa.fa-floppy-o &nbsp; नमुना ८ ( QR )
+                        .col-5
+                            button#btnPrintEightQrImage.btn.btn-success.w-100.text-center.m-2.d-none(type='button')
+                                span.fa.fa-floppy-o &nbsp; नमुना ८ (QR & Image)
+
+                    .d-flex.gap-2.mt-3.payment-mode-buttons-div
+                        button.btn.btn-secondary.button-offline-pay.mr-2(type='button') Offline
+                        button.btn.btn-primary.button-online-pay(type='button') Online

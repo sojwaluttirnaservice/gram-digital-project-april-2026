@@ -1,0 +1,122 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/meter-manager.js')
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+        }
+
+        form{
+            width: 70%;
+            margin: 2rem auto;
+        }
+        .form {
+            box-shadow:
+                rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+                rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+            background: white;
+
+            padding: 2rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media screen and (max-width: 576px){
+            form {
+                width: 95%;
+            }
+        }
+
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row.p-0.p-1.pt-3
+            .col-12
+                center
+                    a(href="/meter/meter-list").float-right.btn.btn-primary.btn-sm.mr-2 मीटर यादी बघा
+                    a(href="/meter").float-right.btn.btn-primary.btn-sm.mr-2 मीटर मेन्यूू
+                    h5.font-weight-bold.m-3 नवीन मीटर जोडणी
+            .col-12
+                form#formNewMeterUserDetails
+                    .form
+                        .row
+                            .col-12.col-md-6.col-lg-2
+                                .form-group
+                                    label.font-weight-bold(for='my-input') नळ क्र.: 
+                                    input.mb_nal_connection_no.form-control-sm.form-control(value=update.mb_nal_connection_no type='number' placeholder="" autocomplete="off" name="nal_connection_no")
+                                    if(id !== 0)
+                                        input.form-control-sm.form-control(value=id type='hidden' placeholder="" autocomplete="off" name="id")
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') विभाग / वार्ड / झोन क्र  
+                                    input.form-control-sm.form-control.mb_zone_number(type='number' placeholder="" autocomplete="off" name="mb_zone_number" value=update.mb_zone_number )
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मीटर धारकाचा क्रमांक:
+                                    input.form-control-sm.form-control.meter_owner_number(type='text' placeholder="" autocomplete="off" name="owner_number" value=update.mb_owner_number maxlength='10')
+                            .col-12.col-md-6.col-lg-4
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मीटर धारकाचे पूर्ण नाव:
+                                    input.form-control-sm.form-control(type='text' placeholder="" autocomplete="off" name="owner_name" value=update.mb_owner_name )
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मीटर धारकाचा फोन क्र.:
+                                    input.form-control-sm.form-control(type='text' placeholder="" autocomplete="off" name="owner_mobile" value=update.mb_owner_mobile maxlength='10')
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') पत्ता
+                                    if(id==0)
+                                        textarea.form-control-sm.form-control(rows="1" type='text' placeholder="" autocomplete="off" name="owner_address") #{gp.gp_name}
+                                    else
+                                        textarea.form-control-sm.form-control(rows="1" type='text' placeholder="" autocomplete="off" name="owner_address")  #{update.mb_owner_address}
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मीटर क्र.:
+                                    input.form-control-sm.form-control.meter_connection_no(type='number' placeholder="" autocomplete="off" name="meter_connection_no" value=update.mb_meter_connection_no)
+                            .col-12.col-md-6.col-lg-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') व्हाल क्र.: 
+                                    input.form-control-sm.form-control.wall_number(type='number' placeholder="" autocomplete="off" name="wall_number" value=update.mb_wall_number)
+                            .col-12.text-center
+                                button#saveNewMeterUser.btn.btn-success जतन करा
+                                
+
+

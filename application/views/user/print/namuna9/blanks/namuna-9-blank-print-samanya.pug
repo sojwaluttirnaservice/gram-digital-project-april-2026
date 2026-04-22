@@ -1,0 +1,81 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title नमुना ९ सामान्य
+    style.
+      /* Print page size: A4 landscape */
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      /* Each .page is a single printed sheet (297mm x 210mm = A4 landscape) */
+      .page {
+        width: 297mm;
+        height: 210mm;
+        position: relative;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact; /* try to preserve background images/colors when printing */
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        /* ensure every page prints separately */
+        page-break-after: always;
+        break-after: page;
+      }
+
+      /* last page doesn't need a forced break */
+      .page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      /* overlay container for text */
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none; /* prevents selection interfering with print layout */
+      }
+
+      /* example text styles you can place anywhere with inline style.left/top */
+      .text {
+        position: absolute;
+        pointer-events: auto;
+        white-space: nowrap;
+      }
+
+      .font-1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: red;
+      }
+
+      .font-small { font-size: 0.8rem; font-weight: 700; color: blue; }
+      .year-font { font-size: 0.8rem; font-weight: bold; color: red; position: relative; z-index: 1; }
+
+  body
+    //- Page 1
+    .page(style=`background-image: url('${page1ImgUrl}')`)
+      .overlay
+        //- place text using absolute coordinates (use percentages or mm for accuracy)
+        .text.font-1(style='top:5.5%; left:54.2%; font-size:1.2rem;') #{gp.gp_name}, पं.स. #{gp.gp_taluka}
+        //- Other overlay items
+        //- .text.font-small(style='top:10%; left:10%;') Taluka: #{gp.gp_taluka}
+        //- .text.font-small(style='top:10%; left:70%;') District: #{gp.gp_dist}
+
+    //- Page 2
+    .page(style=`background-image: url('${page2ImgUrl}')`)
+      .overlay
+        .text.font-1(style='top:5.5%; left:58.2%; font-size:1.2rem;') #{gp.gp_name}, पं.स. #{gp.gp_taluka}
+        //- .text.font-small(style='top:12%; left:10%;') Some extra text

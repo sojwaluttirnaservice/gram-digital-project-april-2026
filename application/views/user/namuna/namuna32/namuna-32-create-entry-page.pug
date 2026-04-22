@@ -1,0 +1,139 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        // Bootstrap 5 CSS & JS
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.32.16/jquery.mask.min.js")
+
+        link(href='/asstest/coustom/css/namuna/namuna-32/namuna-32-page.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/namuna/namuna-32/namuna-32-create-entry-page-handler.js' type='module' defer)
+
+
+        title नमुना ३२ 
+
+
+    body
+        include ../../include/navs.pug
+
+        .container
+            h2.heading-1.mt-2.mb-1 नमुना ३२ रकमेच्या परताव्यासाठीचा आदेश नोंद
+            div
+                .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+                    a.btn.btn-primary(href='/namuna/32') यादी
+            form(id='namuna-32-form').mt-1
+                .form.form-1
+                    //- h4.text-center.fw-bold नमुना १८ नोंदणी
+
+                    .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                        .col-11.col-md-6.col-lg-3
+                            .form-group
+                                label.form-label(for="month") महिना
+                                select.form-select(id="month" name="month" required)
+                                    option(value='') --निवडा--
+                                    option(value="1") ०१ (जानेवारी)
+                                    option(value="2") ०२ (फेब्रुवारी)
+                                    option(value="3") ०३ (मार्च)
+                                    option(value="4") ०४ (एप्रिल)
+                                    option(value="5") ०५ (मे)
+                                    option(value="6") ०६ (जून)
+                                    option(value="7") ०७ (जुलै)
+                                    option(value="8") ०८ (ऑगस्ट)
+                                    option(value="9") ०९ (सप्टेंबर)
+                                    option(value="10") १० (ऑक्टोबर)
+                                    option(value="11") ११ (नोव्हेंबर)
+                                    option(value="12") १२ (डिसेंबर)
+
+                        .col-11.col-md-6.col-lg-3
+                            .form-group
+                                label.form-label(for="year") वर्ष
+                                select.form-select(id="year" name="year" required)
+                                    option(value='') --निवडा--
+                                    - let currentYear = new Date().getFullYear()
+                                    - let startYear = currentYear - 25
+                                    each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i).reverse()
+                                        option(value=year) #{year}
+
+                        .col-11.col-md-6.col-lg-3
+                            .form-group
+                                label.form-label(for="amount_refund_order") रकमेच्या परताव्यासाठीचा आदेश
+                                input.form-control(type="text" id="amount_refund_order" name="amount_refund_order" required placeholder=" ")
+
+                        .col-11.col-md-6.col-lg-3
+                            .form-group
+                                label.form-label(for="certificate_number") प्रमाणक क्रमांक
+                                input.form-control(type="text" id="certificate_number" name="certificate_number" required placeholder=" ")
+
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group
+                                label.form-label(for="receipt_number") पावती क्रमांक
+                                input.form-control(type="text" id="receipt_number" name="receipt_number" required placeholder=" ")
+
+                        .col-11.col-md-12.col-lg-4
+                            .form-group
+                                label.form-label(for="given_original_amount_date") दिलेल्या मूळ रक्कम दिनांक
+                                input.form-control.datepicker(id="given_original_amount_date" name="given_original_amount_date" required placeholder="")
+
+                        .col-11.col-md-12.col-lg-4
+                            .form-group
+                                label.form-label(for="amount") रक्कम
+                                input.form-control(type='number' id="amount" name="amount" required placeholder="")
+
+                        //- 
+                        .col-11.col-md-6.col-lg-4
+                            .form-group
+                                label.form-label(for="amount_to_return") परत करावयाची रक्कम
+                                input.form-control(type="number" id="amount_to_return" name="amount_to_return" required placeholder="")
+
+                        .col-11.col-md-12.col-lg-4
+                            .form-group
+                                label.form-label(for="depositor_name") ठेविदाराचे नाव
+                                input.form-control(type="text" id="depositor_name" name="depositor_name" placeholder="")
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group
+                                label.form-label(for="refund_person_name") परतावा करणाऱ्या करणाऱ्याचे नाव
+                                input.form-control(type="text" id="refund_person_name" name="refund_person_name" required placeholder="")
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group
+                                label.form-label(for="location") ठिकाण
+                                input.form-control(type="text" id="location" name="location" required placeholder="")
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group
+                                label.form-label(for="date_of_receipt") दिनांक
+                                input.form-control.datepicker(type="text" id="date_of_receipt" name="date_of_receipt" required placeholder="")
+
+                        .col-11.col-md-12.col-lg-4
+                            .form-group
+                                label.form-label(for="remarks") शेरा
+                                input.form-control(id="remarks" name="remarks" placeholder="शेरा")
+
+                    .d-flex.gap-4.justify-content-center
+                        button.btn.btn-primary(type='button' id="submit-namuna-32-entry") Save
+                        button.btn.btn-secondary(type='reset' id='reset') Reset

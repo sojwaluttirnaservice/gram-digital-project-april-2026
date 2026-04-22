@@ -1,0 +1,18 @@
+.row.justify-content-center
+    .col-12.col-md-10
+        .row.mt-2.justify-content-between(style='row-gap: 0.5rem;') 
+            .col-12.col-md-9.col-lg-10
+                input#inputGramMahitiThree.form-control(type='text' placeholder="ग्रामपंचायत कार्ये")
+            .col-12.col-md-3.col-lg-2.text-center
+                button#btnGramMahitiThree.btn.btn-outline-primary जतन करा
+        .row.mt-4 
+            .col-12
+                table.table.table-border
+                    tbody#gramMahitiThreeList
+                        -let gpInfoWork = JSON.parse(gp.gp_info_three)
+                        each element, index in gpInfoWork
+                            tr
+                                td(width="90%") #{element.info}
+                                td(width="10%")
+                                    span.hand.fa.fa-edit.text-primary.changeInfoThree(data-id=index)
+                                    span.hand.ml-2.fa.fa-trash.text-danger.removeInfoOThree(data-id=index)

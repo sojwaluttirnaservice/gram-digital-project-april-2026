@@ -1,0 +1,30 @@
+extends ../master-layout/master-layout
+block internal_css
+
+
+block custom_js
+	script(src='/asstest/coustom/js/handlers/rokadVahiManger.js' defer)
+
+block content
+	body.back-image
+		include ../include/navs.pug
+
+		.container
+			.row.justify-content-center.mt-4
+				.col-6
+					h5.heading-1 दैनंदिन रोकड वही
+
+			- 
+				let yadiButtons = [
+					{value:  "नमुना-५-क", link: `/namuna5K`}, 
+					{value: "नमुना 7" , link: `/dakhle-pay-list`}
+				]
+
+			.row.justify-content-center.justify-content-md-start
+				each val, key in yadiButtons
+					.col-6.col-md-2
+						a.box.box--white(href=val.link style='text-decoration: none; margin:0')
+							.commonModalFrom(data-id=val.value )
+								p.box__title(class="d-flex justify-content-center align-items-center" style='gap:0.2rem')
+									i.fa.fa-print.fa-2x.text-success
+									span.ml-2.pt-2 #{val.value} 

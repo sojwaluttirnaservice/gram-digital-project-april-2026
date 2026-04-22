@@ -1,0 +1,150 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+
+    style.
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-samanya {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+        }
+
+        .badge-pani {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #1565c0;
+        }
+
+        .badge-post {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ef6c00;
+        }
+
+block content 
+
+    div.container-fluid.mt-4 
+
+        //- ===================================================
+        //- HEADER (same structure as Namuna 7)
+        //- ===================================================
+        .row.justify-content-center
+            div.col-12.col-xl-11
+
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+                            h4.mb-1
+                                i.fa.fa-university.me-2
+                                | बँक तपशील यादी 
+                                span(style="font-size: 0.9rem;")
+                                    | (एकूण: #{banks ? banks.length : 0})
+
+                        div.d-flex(style='gap:1rem;')
+
+                            //- a.btn.btn-secondary(href='/bank/list') सर्व यादी
+                            //- a.btn.btn-secondary(href='/bank/list?status=VERIFIED') Verified
+                            //- a.btn.btn-secondary(href='/bank/list?status=PENDING') Pending
+                            a.btn.btn-primary.btn-sm(href="/bank/form")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+
+
+            //- ===================================================
+            //- TABLE (same Namuna 7 style)
+            //- ===================================================
+            .col-11.mt-4
+
+                .table-responsive
+                    table.table.table-bordered.table-striped
+
+                        thead
+                            tr
+                                th अ. क्र.
+                                th खातेदाराचे नाव
+                                th बँक
+                                th Bank Balance
+                                th Offline जमा(बँकेत न भरेल)
+                                th वर्गीकरण
+                                th खाते क्रमांक
+                                th IFSC
+                                th मोबाईल
+                                th प्रकार
+                                th KYC स्थिती
+                                //- th कृती
+
+                        tbody
+                            each bank, index in banks
+                                tr
+
+                                    td #{index + 1}
+
+                                    td
+                                        | #{bank.account_holder_name}
+
+                                    td
+                                        | #{bank.bank_name}
+                                        br
+                                        small.text-muted #{bank.branch_name || '-'}
+                                    
+                                    td #{bank.account_balance}
+                                    td #{bank.account_offline_amount}
+
+                                    td
+                                        if bank.category === "SAMANYA"
+                                            span.badge.badge-samanya
+                                                i.fa.fa-home.me-1
+                                                | सामान्य
+                                        else if bank.category === "PANI"
+                                            span.badge.badge-pani
+                                                i.fa.fa-tint.me-1
+                                                | पाणी
+                                        else if bank.category === "POST_OFFICE"
+                                            span.badge.badge-post
+                                                i.fa.fa-envelope.me-1
+                                                | पोस्ट ऑफिस
+                                        else
+                                            span.text-muted -
+
+                                    td
+                                        //- | ****#{bank.account_number ? bank.account_number.slice(-4) : ''}
+                                        | #{bank.account_number}
+
+                                    td #{bank.ifsc_code || '-'}
+
+                                    td #{bank.mobile_number || '-'}
+
+                                    td
+                                        if bank.account_type === "SAVING"
+                                            span.text-success बचत
+                                        else
+                                            span.text-primary चालू
+
+                                    td
+                                        if bank.verification_status === "VERIFIED"
+                                            span.text-success Verified
+                                        else if bank.verification_status === "PENDING"
+                                            span.text-warning Pending
+                                        else
+                                            span.text-danger Rejected
+
+                                    //- td
+                                        a.btn.btn-sm.btn-secondary(href=`/bank/view/${bank.id}`)
+                                            i.fa.fa-eye
+                                            |  View
+

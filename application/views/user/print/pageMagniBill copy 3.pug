@@ -1,0 +1,388 @@
+doctype html
+head
+  title मागणी बील 
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: auto;
+      margin: 7mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      img {page-break-inside: avoid;}
+      .p-hide{
+        display:none
+      }
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+body
+  - var nLink = `/print/magni-bill?p=${Number(year.p) + 1}&tp=${year.tp}&y1=${year.y1}&y2=${year.y2}&date=${year.date}`
+  - var bLink = `/print/magni-bill?p=${Number(year.p) - 1}&tp=${year.tp}&y1=${year.y1}&y2=${year.y2}&date=${year.date}`
+  - var pageCount = billStart;
+  a.p-hide.mr-4(href=bLink) Back Page
+  a.p-hide(href=nLink) Next Page
+  each val,index in data
+    - pageCount += 1;
+    - var  className = 'row  c-'+(index%2); 
+    div(class=className)
+      center.mt-2.mb-2
+        div(style="position:relative")
+          img(src="/print/4.jpg", alt="" style="width:95%;height:98vh")
+          div(style="position: absolute;top:0;width:100%")
+            small(style="position:absolute;left:17rem;top:3rem") #{zp.gp_name}
+            small(style="position:absolute;left:51rem;top:3rem") #{zp.gp_name}
+            small(style="position:absolute;left:9.5rem;top:4.7rem") #{val.feu_ownerName}
+            small(style="position:absolute;left:43rem;top:4.7rem") #{val.feu_ownerName}
+            small(style="position:absolute;left:9.5rem;top:6.7rem") #{val.feu_secondOwnerName}
+            small(style="position:absolute;left:43rem;top:6.7rem") #{val.feu_secondOwnerName}
+            small(style="position:absolute;left:6.5rem;top:12.8rem") #{val.feu_malmattaNo}
+            small(style="position:absolute;left:12.5rem;top:12.8rem") #{pageCount}
+            small(style="position:absolute;left:18.5rem;top:12.8rem") #{date1}
+            small(style="position:absolute;left:40.5rem;top:12.8rem") #{val.feu_malmattaNo}
+            small(style="position:absolute;left:46.5rem;top:12.8rem") #{pageCount}
+            small(style="position:absolute;left:52.5rem;top:12.8rem") #{date1}
+            small(style="position:absolute;left:14.5rem;top:16.5rem") #{y1}
+            small(style="position:absolute;left:20.5rem;top:16.5rem") #{y2}
+            small(style="position:absolute;left:48.5rem;top:16.5rem") #{y1}
+            small(style="position:absolute;left:54.5rem;top:16.5rem") #{y2}
+            p(style="position:absolute;left:14.5rem;top:18.5rem") #{Math.round(val.lastBuildingTax)}
+            p(style="position:absolute;left:20.5rem;top:18.5rem") #{Math.round(val.currentBuildingTax)}
+            p(style="position:absolute;left:26.5rem;top:18.5rem") #{Math.round(val.totalBuildingTax)}
+
+            p(style="position:absolute;left:48.5rem;top:18.5rem") #{Math.round(val.lastBuildingTax)}
+            p(style="position:absolute;left:54.5rem;top:18.5rem") #{Math.round(val.currentBuildingTax)}
+            p(style="position:absolute;left:60.5rem;top:18.5rem") #{Math.round(val.totalBuildingTax)}
+
+            p(style="position:absolute;left:14.5rem;top:21rem") #{Math.round(val.lastDivaTax)}
+            p(style="position:absolute;left:20.5rem;top:21rem") #{Math.round(val.currentDivaTax)}
+            p(style="position:absolute;left:26.5rem;top:21rem") #{Math.round(val.totalDivaTax)}
+
+            p(style="position:absolute;left:48.5rem;top:21rem") #{Math.round(val.lastDivaTax)}
+            p(style="position:absolute;left:54.5rem;top:21rem") #{Math.round(val.currentDivaTax)}
+            p(style="position:absolute;left:60.5rem;top:21rem") #{Math.round(val.totalDivaTax)}
+            
+            p(style="position:absolute;left:14.5rem;top:23.5rem") #{Math.round(val.lastArogyaTax)}
+            p(style="position:absolute;left:20.5rem;top:23.5rem") #{Math.round(val.currentArogyaTax)}
+            p(style="position:absolute;left:26.5rem;top:23.5rem") #{Math.round(val.totalArogyaTax)}
+
+            p(style="position:absolute;left:48.5rem;top:23.5rem") #{Math.round(val.lastArogyaTax)}
+            p(style="position:absolute;left:54.5rem;top:23.5rem") #{Math.round(val.currentArogyaTax)}
+            p(style="position:absolute;left:60.5rem;top:23.5rem") #{Math.round(val.totalArogyaTax)}
+
+            p(style="position:absolute;left:14.5rem;top:26rem") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+            p(style="position:absolute;left:20.5rem;top:26rem") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+            p(style="position:absolute;left:26.5rem;top:26rem") #{Math.round(val.totalWaterTax)}
+
+            p(style="position:absolute;left:48.5rem;top:26rem") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+            p(style="position:absolute;left:54.5rem;top:26rem") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+            p(style="position:absolute;left:60.5rem;top:26rem") #{Math.round(val.totalWaterTax)}
+            - var val111 = Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)
+            - val111 = isNaN(val111)? 0:val111
+
+            p(style="position:absolute;left:14.5rem;top:28.5rem") #{val111}
+            p(style="position:absolute;left:20.5rem;top:28.5rem") #{Math.round(val.lastTaxRelief)}
+            p(style="position:absolute;left:26.5rem;top:28.5rem") #{Math.round(val.totalTax)}
+
+            p(style="position:absolute;left:48.5rem;top:28.5rem") #{isNaN(val111)? 0:val111}
+            p(style="position:absolute;left:54.5rem;top:28.5rem") #{Math.round(val.lastTaxRelief)}
+            p(style="position:absolute;left:60.5rem;top:28.5rem") #{Math.round(val.totalTax)}
+
+            p(style="position:absolute;left:14.5rem;top:31rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111)}
+            p(style="position:absolute;left:20.5rem;top:31rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+            p(style="position:absolute;left:26.5rem;top:31rem") #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+
+            p(style="position:absolute;left:48.5rem;top:31rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111)}
+            p(style="position:absolute;left:54.5rem;top:31rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+            p(style="position:absolute;left:60.5rem;top:31rem") #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+
+            small(style="position:absolute;left:24.5rem;top:35.5rem")
+              //- Removing signature
+              img(src="/print/sp.jpeg", alt="", onerror="this.style.display='none'" srcset="" width="80")
+            small(style="position:absolute;left:24.5rem;top:37.2rem") #{zp.gp_name}
+
+            small(style="position:absolute;left:38.5rem;top:36.5rem")
+              img(src="/print/d.jpeg", alt="", srcset="" width="50")
+            small(style="position:absolute;left:58.5rem;top:35.5rem")
+              //- Removing signature
+              img(src="/print/sp.jpeg", alt="", onerror="this.style.display='none'" srcset="" width="80")
+            small(style="position:absolute;left:58.5rem;top:37.2rem") #{zp.gp_name}
+
+
+
+
+      //-   table(border="2")#table2
+
+      //-     thead
+      //-       tr.p-0.m-0
+      //-         td.p-1.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-2.p-0.m-0
+      //-                 img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+      //-               .col-8.text-center.p-0.m-0
+      //-                 span.h6.font-weight-bold मुंबई ग्रा.पं. कायदा क्र. १२९-२ प्रमाणे कर
+      //-                 small.d-block.font-weight-bold नमुना ९(क) (नियम ३२(५) पहा) 
+      //-                 small.d-block.font-weight-bold  कर वसुली मागणी बिल
+      //-               .col-2.p-0.m-0
+      //-                 img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 center
+      //-                   h5.p-0.m-0.h5.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव:&nbsp;#{val.feu_ownerName}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटधारकाचे नाव:&nbsp;#{val.feu_secondOwnerName}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-4.p-0.m-0
+      //-                 p.ml-2.pt-1.pb-1.h6.font-weight-bold मालमत्ता क्र.:&nbsp;#{val.feu_malmattaNo}
+      //-               .col-4.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.font-weight-bold क्र.:&nbsp;#{pageCount}
+      //-               .col-4.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.font-weight-bold दिनांक:&nbsp;#{date1}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(rowspan="2" width="30%")
+      //-           p.ml-2.h5.font-weight-bold करांची नावे
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.pt-2.h6 मागील कर सन
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h6 चालू कर सन
+      //-         td.p-0.m-0.text-center(rowspan="2" width="30%")
+      //-           p.h5.font-weight-bold एकूण कर
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0.text-center #{y1}
+      //-         td.p-1.m-0.text-center  #{y2} 
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(width="30%")
+      //-           p.pt-1.pb-1.ml-2.h5.font-weight-bold इमारत कर
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastBuildingTax)}
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentBuildingTax)}
+      //-         td.p-0.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalBuildingTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0(width="30%")
+      //-           p.ml-2.h5.font-weight-bold दिवाबत्ती कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastDivaTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentDivaTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.totalDivaTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0( width="30%")
+      //-           p.ml-2.h5.font-weight-bold आरोग्य कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastArogyaTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentArogyaTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalArogyaTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0( width="30%")
+      //-           p.d-block.ml-2.h6.font-weight-bold विशेष/सामान्य पाणी कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalWaterTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0( width="30%")
+      //-           p.d-block.ml-2.font-weight-bold इतर/मागील घर पट्टीवर दंड कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.lastTaxFine)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.lastTaxRelief)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.totalTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0( width="30%")
+      //-           p.ml-2.h5.font-weight-bold एकूण कर
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val.lastTaxFine)}
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+      //-         td.p-0.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+      //-           .row.p-0.m-0.mb-2
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.ml-2.h6 
+      //-                   | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      //-                   | वरील दर्शविलेली रक्कमेची सूचना मिळाल्या पासून १५ दिवसांच्या आत ग्रामपंचायत
+      //-                   | कार्यालयात कर भरणा करावा. आपण ती रक्कम न भरल्यास त्या रक्कमेची अन्यथा
+      //-                   | ग्रामपंचायत अधिनियमाच्या कलम क्र.१२९(२) अन्वये आपल्यावर मागणी लेख बजावण्यात येईल.
+      //-               .col-6.p-0.m-0
+      //-                 p.ml-2.h5.font-weight-bold घेणाऱ्याची सही
+      //-               .col-6.p-0.m-0
+      //-                   p.h6.font-weight-bold 
+      //-                     span.mr-2.float-right.d-block.float-right सचिव/वसुली लीपिलीकाची अद्याक्षरी
+      //-                     br
+      //-                     span.float-right.d-block.mr-5.pr-5  ग्रा.पं
+      //- .col-6
+      //-   table(border="2")#table2
+      //-     thead
+      //-       tr.p-0.m-0
+      //-         td.p-1.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-2.p-0.m-0
+      //-                 img.img(src="/img/header-images/sant-gadge-baba.png", alt="")
+      //-               .col-8.text-center.p-0.m-0
+      //-                 span.h6.font-weight-bold मुंबई ग्रा.पं. कायदा क्र. १२९-२ प्रमाणे कर
+      //-                 small.d-block.font-weight-bold नमुना ९(क) (नियम ३२(५) पहा) 
+      //-                 small.d-block.font-weight-bold  कर वसुली मागणी बिल
+      //-               .col-2.p-0.m-0
+      //-                 img.img1(src="/img/header-images/sant-gadge-baba1.png", alt="").float-right
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 center
+      //-                   h5.p-0.m-0.font-weight-bold ग्रामपंचायत कार्यालय, #{zp.gp_name} 
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold मालमत्ता धारकाचे नाव:&nbsp;#{val.feu_ownerName}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.ml-2.h6.font-weight-bold भोगवटधारकाचे नाव:&nbsp;#{val.feu_secondOwnerName}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(colspan="4") 
+      //-             .row.p-0.m-0
+      //-               .col-4.p-0.m-0
+      //-                 p.ml-2.pt-1.pb-1.h6.font-weight-bold मालमत्ता क्र.:&nbsp;#{val.feu_malmattaNo}
+      //-               .col-4.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.font-weight-bold क्र.:&nbsp;#{pageCount}
+      //-               .col-4.p-0.m-0
+      //-                 p.pt-1.pb-1.m-0.h6.font-weight-bold दिनांक:&nbsp;#{date1}
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(rowspan="2" width="30%")
+      //-           p.ml-2.h5.font-weight-bold करांची नावे
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.pt-2.h6 मागील कर सन
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h6 चालू कर सन
+      //-         td.p-0.m-0.text-center(rowspan="2" width="30%")
+      //-           p.h5.font-weight-bold एकूण कर
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0.text-center #{y1}
+      //-         td.p-1.m-0.text-center  #{y2} 
+      //-       tr.p-0.m-0
+      //-         td.p-0.m-0(width="30%")
+      //-           p.pt-1.pb-1.ml-2.h5.font-weight-bold इमारत कर
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastBuildingTax)}
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentBuildingTax)}
+      //-         td.p-0.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalBuildingTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0(width="30%")
+      //-           p.ml-2.h5.font-weight-bold दिवाबत्ती कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastDivaTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentDivaTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.totalDivaTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0( width="30%")
+      //-           p.ml-2.h5.font-weight-bold आरोग्य कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastArogyaTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentArogyaTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalArogyaTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-1.pb-1.p-1.m-0( width="30%")
+      //-           p.d-block.ml-2.h6.font-weight-bold विशेष/सामान्य पाणी कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalWaterTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0( width="30%")
+      //-           p.d-block.ml-2.font-weight-bold इतर/ मागील घर पट्टीवर दंड कर
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.lastTaxFine)}
+      //-         td.p-1.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.lastTaxRelief)}
+      //-         td.p-1.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold  #{Math.round(val.totalTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0( width="30%")
+      //-           p.ml-2.h5.font-weight-bold एकूण कर
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val.lastTaxFine)}
+      //-         td.p-0.m-0.text-center(width="20%")
+      //-           p.h5.font-weight-bold #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+      //-         td.p-0.m-0.text-center(width="30%")
+      //-           p.h5.font-weight-bold #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+      //-       tr.p-0.m-0
+      //-         td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+      //-           .row.p-0.m-0.mb-2
+      //-               .col-12.p-0.m-0
+      //-                 p.pt-1.pb-1.ml-2.h6 
+      //-                   | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      //-                   | वरील दर्शविलेली रक्कमेची सूचना मिळाल्या पासून १५ दिवसांच्या आत ग्रामपंचायत
+      //-                   | कार्यालयात कर भरणा करावा. आपण ती रक्कम न भरल्यास त्या रक्कमेची अन्यथा
+      //-                   | ग्रामपंचायत अधिनियमाच्या कलम क्र.१२९(२) अन्वये आपल्यावर मागणी लेख बजावण्यात येईल.
+      //-               .col-6.p-0.m-0
+      //-                 p.ml-2.h5.font-weight-bold देणाऱ्याची सही
+      //-               .col-6.p-0.m-0
+      //-                   p.h6.font-weight-bold 
+      //-                     span.mr-2.float-right.d-block.float-right सचिव/वसुली लीपिलीकाची अद्याक्षरी
+      //-                     br
+      //-                     span.float-right.d-block.mr-5.pr-5  ग्रा.पं
+      

@@ -1,0 +1,74 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+  script(src='/asstest/plugins/select/js/select2.full.min.js')
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#88f0ce !important;
+    }
+  
+body
+  include ../include/navs.pug
+  .container-fluid
+    .row.p-0
+      .col-12.p-0
+        .card-group
+          .card.bg-light-gray
+            .card-body.p-0.p-1
+              .col-8.offset-2
+                center
+                  h4.font-weight-bold.text-success नवीन सभा जोडणी
+              .col-12
+                form#newForm8
+                  .row
+                    .col-4
+                      .card
+                        .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                        .card-body.row
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') अनु क्रमांक
+                              input.form-control-sm.form-control(type='text')
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') घर क्रमांक
+                              input.form-control-sm.form-control(type='text')
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                              input#newMalmattaNo.form-control-sm.form-control(type='text',)
+                          .form-group.col-6
+                              label.font-weight-bold(for='my-input') वार्ड नं
+                              input#newWardNo.form-control-sm.form-control(type='text' )
+                          .form-group.col-12
+                              label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                              input#oldHomeNo.form-control-sm.form-control(type='text' )
+                    

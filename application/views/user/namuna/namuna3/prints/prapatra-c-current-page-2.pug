@@ -1,0 +1,87 @@
+
+
+.my-print 
+
+
+    div(style='margin: 1rem 0;')
+        div(style='font-weight: 600; font-size: 0.95rem;')
+            p(style='text-align: center;') प्रपत्र 'क' चालू
+            
+            p(style='text-align: center;') ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist} वर्ष _______
+          
+
+    table(style='width: 100%;')
+
+        thead
+
+            tr 
+
+                th(rowspan='1' colspan='4') (तीन) केंद्र शासन अनुदाने जमा
+                //- th
+                //- th
+                //- th
+
+
+                th(rowspan='1' colspan='4') (चार) संकीर्ण जमा
+                //- th
+                //- th 
+                //- th
+
+                th(rowspan='1' colspan='1') 
+
+                th(rowspan='1' colspan='4') (पाच) प्रारंभीची शिल्लक
+                //- th
+                //- th
+                //- th
+                //- th
+
+            tr 
+                th स्वर्ण जयंती ग्राम स्वरोजगार योजना
+                th जवाहर ग्रामसमृद्धी योजना
+                th इतर
+                th एकूण (तीन) (१ ते ३)
+
+                th अनामत प्रतीभूर्ती
+                th ठेवी
+                th कर्जे
+                th इतर
+                th एकूण (चार) (१ ते ४)
+
+                th अनामत / प्रतीभूर्ती
+                th ठेवी
+                th कर्ज
+                th इतर
+                th एकूण (पाच) (१ ते ४)
+
+            tr
+
+                each num in [1,2,3,4]
+                    th #{num}
+
+                each num in [1,2,3,4,5]
+                    th #{num}
+
+                each num in [1,2,3,4,5]
+                    th #{num}
+
+
+        tbody
+
+            tr 
+                
+                td #{centralAuxiliaryGrants.golden_jubilee_self_employment_scheme}
+                td #{centralAuxiliaryGrants.jawahar_gram_samruddhi_scheme} 
+                td #{centralAuxiliaryGrants.other_central_grants} 
+                td #{centralAuxiliaryGrants.total_central_grants_1_to_3} 
+
+                td #{centralAuxiliaryGrants.deposit_security} 
+                td #{centralAuxiliaryGrants.deposit} 
+                td #{centralAuxiliaryGrants.loans} 
+                td #{centralAuxiliaryGrants.other_narrow_grants}
+                td #{centralAuxiliaryGrants.total_narrow_grants_1_to_4}
+
+                td #{centralAuxiliaryGrants.deposit_security_5} 
+                td #{centralAuxiliaryGrants.deposit_5}
+                td #{centralAuxiliaryGrants.loans_5} 
+                td #{centralAuxiliaryGrants.other_initial_balance} 
+                td #{centralAuxiliaryGrants.total_initial_balance_1_to_4}        

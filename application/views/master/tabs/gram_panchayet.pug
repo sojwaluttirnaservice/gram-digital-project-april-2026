@@ -1,0 +1,284 @@
+
+
+form.row.justify-content-center#basicGramInfoForm
+
+	.col-11.col-md-10(style='padding: initial 1rem;') 
+
+
+		div(style=!isMasterView ? 'height: 0px; overflow:hidden' : '')
+			.row.mt-4 
+				.col-12.col-sm-6
+					label User Name
+					input.form-control(type='text' placeholder="ग्राम पांचायेत नाव" name="gpUserName" value=gp.user_name)
+				.col-12.col-sm-6
+					label Password
+					input.form-control(type='text' placeholder="तालुका" name="gpPassword" value=gp.password)
+			.row.mt-4
+				.col-12.col-sm-6
+					label ग्राम पांचायेत नाव
+					input.form-control(type='text' placeholder="ग्राम पांचायेत नाव" name="gpName" value=gp.gp_name)
+				.col-12.col-sm-6
+					label तालुका
+					input.form-control(type='text' placeholder="तालुका" name="gpTaluka" value=gp.gp_taluka)
+			.row.mt-4 
+				.col-12.col-sm-6
+					label जिल्हा
+					input.form-control(type='text' placeholder="जिल्हा" name="gpDist" value=gp.gp_dist)
+				.col-12.col-sm-6
+					label पिनकोड
+					input.form-control(type='text' placeholder="पिनकोड" name="gpPinCode" value=gp.gp_pincode)
+			.row.mt-4 
+				.col-12.col-md-6
+					label E-mail
+					input.form-control(type='text' placeholder=" E-mail" name="gpEmail" value=gp.gp_email)
+				.col-12.col-md-6
+					label फोन 
+					input.form-control(type='text' placeholder="फोन" name="gpPhone" value=gp.gp_contact)
+			.row.mt-4 
+				.col-12.col-sm-6
+					label वार्ड संख्या
+					input.form-control(type='text' placeholder="वार्ड संख्या" name="gpWard" value=gp.gp_ward)
+				.col-12.col-sm-6
+					label पद संख्या 
+					input.form-control(type='text' placeholder="पद संख्या " name="gpPadSankhya" value=gp.gp_sadasya)
+			.row.mt-4 
+				.col-12.col-sm-6
+					label ह्ये गाव आहे का ?
+					select#gpGav(name="gpGav" style="width:100px")
+						if(gp.gp_is_live == 1)
+							option(value="1" selected) नाही
+							option(value="0") होय
+						else
+							option(value="1") नाही
+							option(value="0" selected) होय 
+					input.form-control#gpGavLink(type='text' autocomplete="on" placeholder="ग्रामपंचयत वेबसाईट लिंक टाका" name="gpLink" value=gp.pg_registration_no)
+
+
+
+
+
+
+		//- SHOULD BE VISIBLE IRRESPECTIVE OF M PANEL
+
+		.row.mt-4 
+
+			.col-12.col-sm-6
+				label ग्रामपंचायतीचा चार्ज घेतल्याचा दिनांक
+				input.form-control(type='text' placeholder="ग्रामपंचायतीचा चार्ज घेतल्याचा दिनांक" name="charge_taken_date" value=gp.charge_taken_date)
+			.col-12.col-sm-6
+				label सरपंच निवडणूक दिनांक
+				input.form-control(type='text' placeholder="सरपंच निवडणूक दिनांक" name="sarpanch_election_date" value=gp.sarpanch_election_date)
+
+
+		.row.mt-4 
+			.col-12.col-sm-6
+				label मुदत संपण्याची दिनांक
+				input.form-control(type='text' placeholder="e.g.05/10/2024" name="term_end_date" value=gp.term_end_date)
+			.col-12.col-sm-6
+				label वार्षिक अहवाल दिनांक
+				input.form-control(type='text' placeholder="e.g. 04/09/2024" name="annual_report_date" value=gp.annual_report_date)
+
+		.row.mt-4 
+			.col-12.col-sm-6
+				label अंदाजपत्रक सन
+				input.form-control(type='text' placeholder="e.g 2024-2025" name="budget_year" value=gp.budget_year)
+			.col-12.col-sm-6
+				label हिशेच तपासणी वर्ष
+				input.form-control(type='text' placeholder="e.g. 2024-2024" name="audit_year" value=gp.audit_year)
+
+
+		.row.mt-4 
+
+			.col-12.col-sm-6
+
+				label जन्म व मृत्यु ग्रा.प.ID
+				input.form-control(type='text' placeholder='e.g. 27-07642' name="birth_death_gp_id")
+				//- label गावाचा मौजे नकाशा
+				//- input#gpVillageMapTwo(type="file")	
+
+		//- div(style=!isMasterView ? 'height: 0px; overflow:hidden' : '')
+		div
+			.row.mt-4.pb-4(style='row-gap: 4rem;')
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-gav-map-btn' type='button') गावाचा मौजे नकाशा
+						div.mt-4(style='height: 10rem; width: 10rem; border: 1px solid black;')
+							input.d-none(type='file' id='gpVillageMapTwo' name='gavMap')
+							img(id='gavMapPreview' src='/home_nakasha_image/nakasha.jpeg' alt='Please Select File' style='width: 10rem; height: 10rem;')
+							button.btn.text-danger.d-none(id='remove-gav-map-btn' type='button')
+								i.fa.fa-trash
+
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-gramsevak-sign-btn' type='button') ग्रामपंचायत अधिकारी सही अपलोड
+						div.d-flex.align-items-center.mb-2
+							label.mr-3.mb-0(for='gramsevakSignDisplay') ग्रामपंचायत अधिकारी सही दाखवणे 
+							input(type='checkbox' name='gramsevakSignDisplay' id='gramsevakSignDisplay')
+						div(style='height: 10rem; width: 10rem; border: 1px solid black;')
+							input.d-none(type='file' name='gramsevakSign' id='gramsevak-sign')
+							img(id='gramsevakSignPreview' src='/print/gs.jpeg' alt='Please Select File' style='width: 10rem; height: 10rem;')
+							button.btn.text-danger.d-none(id='remove-gramsevak-sign-btn' type='button')
+								i.fa.fa-trash
+
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-gramsevak-stamp-btn' type='button') ग्रामपंचायत अधिकारी Stamp अपलोड
+						div.d-flex.align-items-center.mb-2
+							label.mr-3.mb-0(for='gramsevakStampDisplay') ग्रामपंचायत अधिकारी Stamp दाखवणे 
+							input(type='checkbox' name='gramsevakStampDisplay' id='gramsevakStampDisplay')
+						div(style='height: 10rem; width: 10rem; border: 1px solid black; overflow:hidden;')
+							input.d-none(type='file' name='gramsevakStamp' id='gramsevak-stamp')
+							img(id='gramsevakStampPreview' src='/uploads/images/gp/stamps/' + gp.gramsevak_stamp_image_name alt='Please Select File' style='width: 10rem; height: 10rem;' onerror="this.src='/img/fallback/no-image-found.png'")
+							button.btn.text-danger.d-none(id='remove-gramsevak-stamp-btn' type='button')
+								i.fa.fa-trash
+
+
+
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-sarpanch-sign-btn' type='button') सरपंच सही अपलोड
+						div.d-flex.align-items-center.mb-2
+							label.mr-3.mb-0(for='sarpanchDisplay') सरपंच सही दाखवणे 
+							input(type='checkbox' name='sarpanchSignDisplay' id='sarpanchSignDisplay')
+						div(style='height: 10rem; width: 10rem; border: 1px solid black;')
+							input.d-none(type='file' name='sarpanchSign' id='sarpanch-sign')
+							img(id='sarpanchSignPreview' src='/print/sp.jpeg' alt='Please Select File' style='width: 10rem; height: 10rem;')
+							button.btn.text-danger.d-none(id='remove-sarpanch-sign-btn' type='button')
+								i.fa.fa-trash
+
+
+
+
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-sarpanch-stamp-btn' type='button') सरपंच Stamp अपलोड
+						div.d-flex.align-items-center.mb-2
+							label.mr-3.mb-0(for='sarpanchStampDisplay') सरपंच Stamp दाखवणे 
+							input(type='checkbox' name='sarpanchStampDisplay' id='sarpanchStampDisplay')
+						div(style='height: 10rem; width: 10rem; border: 1px solid black; overflow:hidden;')
+							input.d-none(type='file' name='sarpanchStamp' id='sarpanch-stamp')
+							img(id='sarpanchStampPreview' src='/uploads/images/gp/stamps/' + gp.sarpanch_stamp_image_name alt='Please Select File' style='width: 10rem; height: 10rem;' onerror="this.src='/img/fallback/no-image-found.png'")
+							button.btn.text-danger.d-none(id='remove-sarpanch-stamp-btn' type='button')
+								i.fa.fa-trash
+
+
+
+
+
+				.col-md-4
+					.d-flex.flex-column.align-items-center
+						div
+							button.btn.btn-primary.w-100.mb-2(id='select-gp-office-stamp-btn' type='button') ग्रामपंचायत Stamp अपलोड
+						div.d-flex.align-items-center.mb-2
+							label.mr-3.mb-0(for='gpOfficeStampDisplay') ग्रामपंचायत Stamp दाखवणे 
+							input(type='checkbox' name='gpOfficeStampDisplay' id='gpOfficeStampDisplay')
+						div(style='height: 10rem; width: 10rem; border: 1px solid black; overflow:hidden;')
+							input.d-none(type='file' name='gpOfficeStamp' id='gp-office-stamp')
+							img(id='gpOfficeStampPreview' src='/uploads/images/gp/stamps/' + gp.gp_office_stamp_image_name alt='Please Select File' style='width: 10rem; height: 10rem;' onerror="this.src='/img/fallback/no-image-found.png'")
+							button.btn.text-danger.d-none(id='remove-gp-office-stamp-btn' type='button')
+								i.fa.fa-trash
+
+
+
+		div(style=!isMasterView ? 'height: 0px; overflow:hidden' : '')
+			.row.mt-4 
+				.col-12
+					label गावाचा नकाशा 
+					input#gpVillageMap.form-control(type='text' placeholder="नकाशा " name="gpVillageMap" value=gp.gp_map)
+					div#mapData.d-none(style="width:100%;height:200px;overflow:auto") 
+
+
+		.col-12
+			button#basicGramInfoBtn.float-right.mt-2.btn.btn-outline-primary जतन करा     
+
+		div(style=!isMasterView ? 'height: 0px; overflow:hidden' : '')
+			.row
+				.col-12.col-md-4 
+					.d-flex.flex-column.align-items-center(style='gap: 1rem;') 
+						.d-flex(style='gap:0.2rem')
+							button.btn.btn-primary(type='button' id='addVillageGuideBtn') गावातील मार्गदर्शक
+							//- button.btn.btn-info(id='editVillageGuideBtn' data-id=village_guide.id)
+							//-     i.fa.fa-edit
+						.text-center शिर्षक: 
+							span(style='font-weight: bold;') #{gp.village_guide_title !== null ? gp.village_guide_title : '-'}
+						.text-center नाव: 
+							span(style='font-weight: bold;') #{gp.village_guide_name !== null ? gp.village_guide_name : '-'}
+						div(style='width: 10rem; height: 11rem; border:1px solid gray;' )
+							img.w-100.h-100(src=`/new-gp-page/main-page/files/village-guide/${gp.village_guide_image_name}` onerror="this.src='/img/fallback/no-image-found.png'" style='width:100%; height:100%;')
+
+
+
+//- .modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id='addVillageGuideModal')
+.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='addVillageGuideModal')
+	.modal-dialog(style='min-width:50% !important; background: white !important')
+		.modal-content.p-2(style='')
+			.modal-header.bg-warning माहिती भरा 
+				h1.modal-title.fs-5() 
+				button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close") 
+			.modal-body
+
+				form( id ='addVillageGuideForm') 
+					.card.mb-3
+
+						.card-body
+							.row.gy-3
+								.col-12.col-md-6
+									.form-group
+										label(for="village-guide-name") मार्गदर्शकाचे नाव 
+										input.form-control(type='text' id="village-guide-name" name='village_guide_name' value=gp.village_guide_name)
+								.col-12.col-md-6
+									.form-group
+										label(for="village-guide-title") मार्गदर्शकाचे शिर्षक 
+										input.form-control(type='text' id="village-guide-title" name='village_guide_title' value=gp.village_guide_title)
+								.col-12
+									.form-group
+										label(for="village-guide-photo") फोटो	
+										input.form-control(type='file' id="village-guide-photo" name='village_guide_photo')
+								.col-12
+									img(id='village-guide-image-preview' style='display: block; margin: 0 auto;width: 9rem; height: 9.5rem;' src = `/new-gp-page/main-page/files/village-guide/${gp.village_guide_image_name}`)
+						div.d-flex.justify-content-center
+							button.mt-2.mb-2.btn.btn-primary(type='submit' id='saveVillageGuideBtn' data-id= gp.id data-oldFileName = gp.village_guide_image_name) जतन करा						   
+
+
+	script.
+		console.log('script loaded1')
+		let gp = !{JSON.stringify(gp)}
+		console.log(gp,'gp')
+		console.log(gp.gramsevak_sign_display === 1)
+
+		if (gp.gramsevak_sign_display === 1) {
+			$('#gramsevakSignDisplay').prop('checked', true)
+		} else {
+			$('#gramsevakSignDisplay').prop('checked', false)
+		}
+
+		if (gp.srapanch_sign_display == 1) {
+			$('#sarpanchSignDisplay').prop('checked', true)
+		} else {
+			$('#sarpanchSignDisplay').prop('checked', false)
+		}
+
+		//- this is for stamps
+		if (gp.sarpanch_stamp_display == 1) {
+			$('#gramsevakStampDisplay').prop('checked', true)
+		} else {
+			$('#gramsevakStampDisplay').prop('checked', false)
+		}
+
+		if (gp.gramsevak_stamp_display == 1) {
+			$('#sarpanchStampDisplay').prop('checked', true)
+		} else {
+			$('#sarpanchStampDisplay').prop('checked', false)
+		}
+
+		if (gp.gp_office_stamp_display === 1) {
+			$('#gpOfficeStampDisplay').prop('checked', true)
+		} else {
+			$('#gpOfficeStampDisplay').prop('checked', false)
+		}
+

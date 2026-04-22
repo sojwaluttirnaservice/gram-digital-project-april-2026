@@ -1,0 +1,735 @@
+doctype html
+head
+  title नमुना ९ सामान्य
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+        @page { 
+        size: landscape;
+        margin: 5mm 5mm 5mm 5mm;
+     }
+         
+      .m-top {
+       margin: 5mm 15mm 5mm 5mm !important;
+      }
+      .m-bottom {
+        margin: 5mm 5mm 5mm 15mm !important;
+      }
+      .m-bottom-second {
+        margin: 5mm 15mm 5mm 5mm !important;
+      }
+      tr,td,th{
+        border-color:red !important;
+      }
+     }
+      tr,td,th{
+        border-color:red !important;
+      }
+    .rotatePage{
+              transform: rotateZ(180deg);
+      }  
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:20%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td.td {
+      height: 90px;
+    }
+    .set-height > td.td1 {
+      height: 40px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    td{
+        font-size:12px !important;
+        border:1px solid;
+      }
+      table{
+        width:100% !important;
+      }
+      .h5{
+         font-size:15px !important;
+      }
+      .h6{
+        font-size:14px !important;
+      }
+
+       .h7{
+        font-size:11px !important;
+      }
+body
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0
+  - var start = 0;
+    //- page-२
+    .row.set-p-break.m-bottom-second.rotatePage
+      .col-12
+        table.table.table-borderless
+          thead
+            tr.p-0.m-0
+              td(colspan="6").p-1.m-0 
+                div
+                  span.float-left पान क्र  #{count}
+                  p.h4.text-center.font-weight-bold ग्रामपंचायत कार्यालय #{zp.gp_name} 
+                div.mt-2.mb-2
+                  span.float-left.h6 नमुना-९
+                  p.h5.text-center.font-weight-bold.mr-4  नियम २२ (९),३२(४), ५(६) व ७ पहा
+                  p.text-center.h6.font-weight-bold सन #{y1} ते #{y2} या वर्षाची आकारणी केलेल्या करांच्या मागणी नोंदणी पुस्तक वही
+      .col-12.p-0.m-0
+        center
+          table(border="1")#table2
+            thead
+              tr.p-0.m-0
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block बुक नं
+                  span.d-block /पावती 
+                  span.d-block क्र.
+                td(width="4%" rowspan="2").text-center.m-0 दिनांक
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+                td(width="4%" colspan="5").text-center.m-0 
+                  span.d-block सुट 
+                td(width="4%" colspan="5").text-center.m-0 
+                  span.d-block जमा व शिल्लक रक्कम 
+                td(width="10%"  rowspan="2").text-center.m-0 
+                  span.d-block सूट मंजूर करणाऱ्या आदेशाचा उल्लेख व शेरा
+              
+              tr.p-0.m-0
+                
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block घर पट्टी 
+                  span.d-block कर
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block घर पट्टी 
+                  span.d-block कर 
+                td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block घर पट्टी
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block आरोग्य 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील घर
+                  span.d-block पट्टीवर दंड
+                  span.d-block कर(5%)
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block सूट 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block इतर 
+                
+                td(width="2%").text-center.m-0
+                  span.d-block घर
+                  span.d-block पट्टी
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block आरो
+                  span.d-block ग्य 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block इत
+                  span.d-block र
+                  span.d-block कर 
+                td(width="2%").text-center.m-0
+                  span.d-block एकू
+                  span.d-block ण
+                  span.d-block कर
+
+                td(width="4%").text-center.m-0
+                  span.d-block घर पट्टी 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0
+                  span.d-block आरोग्य 
+                  span.d-block कर
+                td(width="4%").text-center.m-0
+                  span.d-block इतर
+                  span.d-block कर 
+                td(width="4%").text-center.m-0
+                  span.d-block एकूण
+                  span.d-block कर 
+
+
+                //- td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+              
+              tr.p-0.m-0
+                td.text-center.m-0 19
+                td.text-center.m-0 20
+                td.text-center.m-0 21
+                td.text-center.m-0 22
+                td.text-center.m-0 23
+                td.text-center.m-0 24
+                td.text-center.m-0 25
+                td.text-center.m-0 26
+                td.text-center.m-0 27
+                td.text-center.m-0 28
+                td.text-center.m-0 29
+                td.text-center.m-0 30
+                td.text-center.m-0 31
+                td.text-center.m-0 32
+                td.text-center.m-0 33
+                td.text-center.m-0 34
+                td.text-center.m-0 35
+                td.text-center.m-0 36
+                td.text-center.m-0 37
+                td.text-center.m-0 38
+                td.text-center.m-0 39
+                td.text-center.m-0 40
+                td.text-center.m-0 41
+                td.text-center.m-0 42
+                td.text-center.m-0 43
+                td.text-center.m-0 44
+              each val in [1,2,3,4,5]
+                tr.p-0.m-0.set-height
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0
+              tr.p-0.m-0.set-height
+                  td.td1(colspan="5").text-center.m-0 
+                    p.h6 पान क्रमांक नुसार एकूण सामान्य कर 
+                  td.td1.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0  
+                  td.text-center.m-0
+                  td.text-center.m-0             
+                  
+  while count <  main_length
+    - start = count*5;
+    - array1 = data.slice(start, (start+5));
+    - arrayLen =  5 - array1.length;
+    if(arrayLen !== 0)
+      while arrayLen > 0
+          - var singleVar = {lastBuildingTax: 0,currentBuildingTax: 0,totalBuildingTax: 0,lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, totalSampurnaTax: 0, lastTaxFine: 0, feu_homeN: '-',feu_homeNo:'-',feu_malmattaNo:'-', feu_malmattaNo: '-', feu_ownerName: '-', feu_secondOwnerName: '-', lastBuildingTax: 0, currentBuildingTax: 0, totalBuildingTax: 0, lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, lastTaxFine: 0, lastTaxFine: 0, totalSampurnaTax: 0}
+          - array1.push(singleVar)
+          - arrayLen--
+    - count++;
+    .row.set-p-break.m-top
+      .col-12
+        table.table.table-borderless
+          thead
+            tr.p-0.m-0
+              td(colspan="6").p-1.m-0 
+                div
+                  p.h4.text-center.font-weight-bold ग्रामपंचायत कार्यालय #{zp.gp_name} 
+                  span.float-right पान क्र  #{count}
+                div.mt-2.mb-2
+                  span.float-left.h6 नमुना-९
+                  p.h5.text-center.font-weight-bold.mr-4  नियम २२ (९),३२(४), ५(६) व ७ पहा
+                  p.text-center.h6.font-weight-bold 
+                    | सन #{y1} ते #{y2}  या वर्षाची आकारणी केलेल्या करांच्या मागणी नोंदणी पुस्तक वही
+      .col-12.p-0.m-0
+        center
+          table(border="1")#table2
+            thead
+              tr.p-0.m-0
+                td(width="2%" rowspan="2").text-center.m-0 
+                  span.d-block अ 
+                  span.d-block नु 
+                  span.d-block क्र.
+                td(width="2%" rowspan="2").text-center.m-0 
+                  span.d-block जुना
+                  span.d-block घर
+                  span.d-block नं
+                td(width="2%" rowspan="2").text-center.m-0 
+                  span.d-block घर 
+                  span.d-block क्र
+                  span.d-block माल
+                  span.d-block मत्ता
+                  span.d-block क्र
+                td(width="16%" rowspan="2").text-center.m-0 
+                  span.d-block मालमत्ता धारकाच्ये नाव
+                  span.d-block (ज्या व्यक्तीकडून कर येणे असेल त्या व्यक्तीचे नाव)
+                td(width="8%" rowspan="2").text-center.m-0 
+                  span.d-block भोगवटधाराचे 
+                  span.d-block नाव
+                td(width="5%" colspan="3").text-center.m-0 
+                  span.d-block मागणी 
+                td(width="5%" colspan="3").text-center.m-0 
+                  span.d-block मागणी 
+                td(width="5%" colspan="3").text-center.m-0 
+                  span.d-block मागणी 
+                td(width="5%" colspan="3").text-center.m-0 
+                  span.d-block मागणी 
+                td(width="5%"  rowspan="2").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+              
+              tr.p-0.m-0
+                
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block घर पट्टी 
+                  span.d-block कर
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block घर पट्टी 
+                  span.d-block कर 
+                td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block घर पट्टी
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block आरोग्य 
+                  span.d-block कर 
+                td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील घर
+                  span.d-block पट्टीवर दंड 
+                  span.d-block कर(5%)
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block सुट 
+                  span.d-block कर 
+                td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block कर
+
+
+                //- td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+              
+              tr.p-0.m-0
+                td.text-center.m-0 1
+                td.text-center.m-0 2
+                td.text-center.m-0 3
+                td.text-center.m-0 4
+                td.text-center.m-0 5
+                td.text-center.m-0 6
+                td.text-center.m-0 7
+                td.text-center.m-0 8
+                td.text-center.m-0 9
+                td.text-center.m-0 10
+                td.text-center.m-0 11
+                td.text-center.m-0 12
+                td.text-center.m-0 13
+                td.text-center.m-0 14
+                td.text-center.m-0 15
+                td.text-center.m-0 16
+                td.text-center.m-0 17
+                td.text-center.m-0 18
+          
+              - var lastBuildingTax = 0;
+              - var currentBuildingTax = 0;
+              - var totalBuildingTax = 0;
+              - var lastDivaTax = 0;
+              - var currentDivaTax = 0;
+              - var totalDivaTax = 0;
+              - var lastArogyaTax = 0;
+              - var currentArogyaTax = 0;
+              - var totalArogyaTax = 0;
+              - var totalSampurnaTax = 0;
+              - var lastTaxFine = 0;
+              each val in array1
+                - pageCount += 1;
+                - lastBuildingTax += Math.round(val.lastBuildingTax);
+                - currentBuildingTax += Math.round(val.currentBuildingTax);
+                - totalBuildingTax += Math.round(val.totalBuildingTax);
+                - lastDivaTax += Math.round(val.lastDivaTax);
+                - currentDivaTax += Math.round(val.currentDivaTax);
+                - totalDivaTax += Math.round(val.totalDivaTax);
+                - lastArogyaTax += Math.round(val.lastArogyaTax);
+                - currentArogyaTax += Math.round(val.currentArogyaTax);
+                - totalArogyaTax += Math.round(val.totalArogyaTax);
+                - totalSampurnaTax += Math.round(val.totalSampurnaTax);
+                - lastTaxFine += (Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine));
+                tr.p-0.m-0.set-height 
+                  td.td.text-center.m-0 #{pageCount}
+                  td.td.text-center.m-0 #{val.feu_homeNo}
+                  td.td.text-center.m-0 #{val.feu_malmattaNo}
+                  td.td.text-center.m-0 #{val.feu_ownerName}
+                  td.td.text-center.m-0 #{val.feu_secondOwnerName} 
+                  td.td.text-center.m-0 #{Math.round(val.lastBuildingTax)}
+                  td.td.text-center.m-0 #{Math.round(val.currentBuildingTax)} 
+                  td.td.text-center.m-0  #{Math.round(val.totalBuildingTax)}
+                  
+                  td.td.text-center.m-0  #{Math.round(val.lastDivaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.currentDivaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.totalDivaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.lastArogyaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.currentArogyaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.totalArogyaTax)}
+                  td.td.text-center.m-0  #{Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)}
+                  td.td.text-center.m-0  -
+                  td.td.text-center.m-0  #{Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)}
+                  td.td.text-center.m-0  #{Math.round(val.totalSampurnaTax)}
+              tr.p-0.m-0.set-height
+                  td.td1(colspan="5").text-center.m-0 
+                    h6 पान क्रमांक नुसार एकूण सामान्य कर 
+                  td.td1.text-center.m-0 #{lastBuildingTax}
+                  td.text-center.m-0 #{currentBuildingTax}
+                  td.text-center.m-0 #{totalBuildingTax}
+                  td.text-center.m-0 #{lastDivaTax}
+                  td.text-center.m-0 #{currentDivaTax}
+                  td.text-center.m-0 #{totalDivaTax}
+                  td.text-center.m-0 #{lastArogyaTax}
+                  td.text-center.m-0 #{currentArogyaTax}
+                  td.text-center.m-0 #{totalArogyaTax}
+                  td.text-center.m-0 #{lastTaxFine}
+                  td.text-center.m-0 -
+                  td.text-center.m-0 #{lastTaxFine}
+                  td.text-center.m-0 #{totalSampurnaTax}
+
+    
+    //- page-२
+    .row.set-p-break.m-bottom-second.rotatePage
+      .col-12
+        table.table.table-borderless
+          thead
+            tr.p-0.m-0
+              td(colspan="6").p-1.m-0 
+                div
+                  p.h4.text-center.font-weight-bold ग्रामपंचायत कार्यालय #{zp.gp_name} 
+                  span.float-right 
+                div.mt-2.mb-2
+                  span.float-left.h6 नमुना-९
+                  p.h5.text-center.font-weight-bold.mr-4  नियम २२ (९),३२(४), ५(६) व ७ पहा
+                  p.text-center.h6.font-weight-bold सन #{y1} ते #{y2} या वर्षाची आकारणी केलेल्या करांच्या मागणी नोंदणी पुस्तक वही
+      .col-12.p-0.m-0
+        center
+          table(border="1")#table2
+            thead
+              tr.p-0.m-0
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block बुक नं
+                  span.d-block /पावती 
+                  span.d-block क्र.
+                td(width="4%" rowspan="2").text-center.m-0 दिनांक
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" colspan="3").text-center.m-0 
+                  span.d-block वसुली 
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+                td(width="4%" colspan="5").text-center.m-0 
+                  span.d-block सुट 
+                td(width="4%" colspan="5").text-center.m-0 
+                  span.d-block जमा व शिल्लक रक्कम 
+                td(width="10%"  rowspan="2").text-center.m-0 
+                  span.d-block सूट मंजूर करणाऱ्या आदेशाचा उल्लेख व शेरा
+              
+              tr.p-0.m-0
+                
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block घर पट्टी 
+                  span.d-block कर
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block घर पट्टी 
+                  span.d-block कर 
+                td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block घर पट्टी
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block दिवाबत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block आरोग्य 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block आरोग्य 
+                  span.d-block कर
+
+                td(width="4%").text-center.m-0 
+                  span.d-block मागील घर
+                  span.d-block पट्टीवर दंड
+                  span.d-block कर(5%)
+                td(width="4%").text-center.m-0 
+                  span.d-block चालू 
+                  span.d-block सूट 
+                  span.d-block कर 
+                td(width="4%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block इतर 
+                
+                td(width="2%").text-center.m-0
+                  span.d-block घर
+                  span.d-block पट्टी
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block आरो
+                  span.d-block ग्य 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block इत
+                  span.d-block र
+                  span.d-block कर 
+                td(width="2%").text-center.m-0
+                  span.d-block एकू
+                  span.d-block ण
+                  span.d-block कर
+
+                td(width="4%").text-center.m-0
+                  span.d-block घर पट्टी 
+                  span.d-block कर
+                td(width="2%").text-center.m-0
+                  span.d-block दिवा
+                  span.d-block बत्ती 
+                  span.d-block कर
+                td(width="4%").text-center.m-0
+                  span.d-block आरोग्य 
+                  span.d-block कर
+                td(width="4%").text-center.m-0
+                  span.d-block इतर
+                  span.d-block कर 
+                td(width="4%").text-center.m-0
+                  span.d-block एकूण
+                  span.d-block कर 
+
+
+                //- td(width="5%").text-center.m-0 
+                  span.d-block एकूण 
+                  span.d-block संपूर्ण 
+                  span.d-block कर
+              
+              tr.p-0.m-0
+                td.text-center.m-0 19
+                td.text-center.m-0 20
+                td.text-center.m-0 21
+                td.text-center.m-0 22
+                td.text-center.m-0 23
+                td.text-center.m-0 24
+                td.text-center.m-0 25
+                td.text-center.m-0 26
+                td.text-center.m-0 27
+                td.text-center.m-0 28
+                td.text-center.m-0 29
+                td.text-center.m-0 30
+                td.text-center.m-0 31
+                td.text-center.m-0 32
+                td.text-center.m-0 33
+                td.text-center.m-0 34
+                td.text-center.m-0 35
+                td.text-center.m-0 36
+                td.text-center.m-0 37
+                td.text-center.m-0 38
+                td.text-center.m-0 39
+                td.text-center.m-0 40
+                td.text-center.m-0 41
+                td.text-center.m-0 42
+                td.text-center.m-0 43
+                td.text-center.m-0 44
+              each val in array1
+                tr.p-0.m-0.set-height
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0 
+                  td.td.text-center.m-0
+              tr.p-0.m-0.set-height
+                  td.td1.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0
+                  td.text-center.m-0  
+                  td.text-center.m-0
+                  td.text-center.m-0             
+                  

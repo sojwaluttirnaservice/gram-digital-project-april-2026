@@ -1,0 +1,187 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना ३ प्रिंट
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+        style.
+
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            .text-center{
+                text-align: center;
+            }
+
+            .w-full {
+                width: 100%;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+                tr {
+                    break-inside: avoid; /* Prevents table rows from breaking across pages */
+                    page-break-inside: avoid; /* For compatibility with older browsers */
+                }
+
+                .my-print{
+                    page-break-before: always;
+                }
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+
+
+        //- प्रपत्र - 'ब'
+        include ./prints/prapatra-b.pug
+
+
+        //- प्रपत्र - 'फ'
+        include ./prints/prapatra-f.pug
+
+
+        //- प्रपत्र - 'ग' सामान्य निधी
+        include ./prints/prapatra-g.pug
+
+
+        //- महिला बाल कल्याण १० टक्के खर्च केल्याचा वार्षिक अहवाल
+        include ./prints/women-children-10-percent.pug
+
+        //- मागासवर्गीयासाठी १५ टक्के खर्च केल्याचा वार्षिक अहवाल
+        include ./prints/backwards-15-percent-expenditure.pug
+
+        //- प्रपत्र क
+        include ./prints/prapatra-c.pug 
+
+        //- एक (ब) करेत्तर उत्त्पन्न
+        include ./prints/other-income.pug
+
+        //- प्रपत्र क चालू
+        include ./prints/prapatra-c-current.pug
+
+
+        //- दोन (अ) राज्य शासन सहाय्यक अनुदाने जमा
+        include ./prints/auxiliary-grants.pug
+
+
+        //- प्रपत्र क चालू
+        include ./prints/prapatra-c-current-page-2.pug
+
+
+        //- प्रारंभिक शिल्लक
+        include ./prints/initial-balance.pug
+
+
+        //- प्रपत्र - इ - चालू
+        include ./prints/prapatra-e-current.pug
+
+        //- -------------------------------------------------------
+
+        //- प्रपत्र - इ - चालू
+        include ./prints/prapatra-e-current-page-2.pug 
+
+        //- अखेरची शिल्लक
+        include ./prints/final-balance.pug 
+
+        //- पत्रक - जे चालू
+        include ./prints/patrak-j-current.pug  
+
+
+        //-  पत्रक - जे चालू
+        include ./prints/patrak-j-current-page-2.pug  
+
+        //- पत्रक - जे चालू
+        include ./prints/patrak-j-current-page-3.pug 
+
+        //- पत्रक - जे चालू
+        include ./prints/patrak-j-current-page-4.pug 
+
+        //- वार्षिक अहवाल पुरवणी 
+        include ./prints/annual-report-addendum.pug
+
+
+        //- जे पत्रक
+        include ./prints/j-patrak.pug 
+
+        //- -------------------------------------------------------
+
+
+        //-  जमेचा अहवाल
+        include ./prints/collection-report.pug 
+
+        //- वर्षातील वर्षातील खर्चाचा अहवाल सन ________
+        include ./prints/annual-expenditure-report.pug
+
+
+        //-  ग्राम पाणी पुरवठा निधी
+        include ./prints/village-water-supply-fund.pug
+
+        //- पत्रक ग (ग्राम पाणी पुरवठा निधी)
+        include ./prints/patrak-g-village-water-supply-fund.pug
+
+        //- ग्रामपंचायत फेर आकारणी बाबत
+        include ./prints/gp-cost-revaluation.pug
+
+        //- ग्रामपंचायत फेर आकारणी बाबत
+        include ./prints/reciept-book-details.pug
+
+        //- सन ____ या वर्षाचा जमा व खर्च ग्रामपंचायत
+        include ./prints/n-3-gp-collection-expenditure-page-1.pug
+
+        //- सन ____ या वर्षाचा जमा व खर्च ग्रामपंचायत
+        include ./prints/n-3-gp-collection-expenditure-page-2.pug
+
+        //- सन ____ या वर्षाचा जमा व खर्च ग्रामपंचायत
+        include ./prints/n-3-gp-collection-expenditure-page-3.pug
+
+        //- सन ____ या वर्षाचा जमा व खर्च ग्रामपंचायत
+        include ./prints/n-3-financial-allowances.pug

@@ -1,0 +1,138 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+  script(src='/asstest/plugins/select/js/select2.full.min.js')
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src='/asstest/coustom/js/handlers/new-form-8.js')
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+  
+body
+  include ./include/navs.pug
+  .container-fluid
+    .row.p-0
+      .col-12.p-0
+        .card-group
+          .card.bg-light-gray
+            .card-body.p-0.p-1.pt-3
+              .col-8.offset-2
+                center
+                  span.font-weight-bold
+                    | महाराष्ट्र शासन राजपत्र असाधारण भाग चार-ब मार्च ३, २०१६/ फाल्गुन १३ शके १९३७ नुसार नमूना ८ नियम ३२(९)
+                  h4.font-weight-bold.m-3 नवीन मालधारकाची माहिती
+                form#newForm8
+                  hr
+                  .form-group.row
+                    .col-2
+                      label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                      input#newMalmattaNo.form-control-sm.form-control(type='text', name='newMalmattaNo')
+                    .col-2
+                      label.font-weight-bold(for='my-input') वार्ड नं
+                      input#newWardNo.form-control-sm.form-control(type='text', name='newWardNo')
+                    .col-2
+                      label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                      input#oldHomeNo.form-control-sm.form-control(type='text', name='oldHomeNo')
+                    .col-6
+                      label.font-weight-bold(for='my-input') आधार क्रं.
+                      input#newAadharNo.form-control-sm.form-control(type='text', name='newAadharNo')
+                  hr
+                  .form-group.row
+                    .col-6
+                      label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                      input#newOwnerName.form-control-sm.form-control(type='text', name='newOwnerName')
+                    .col-6
+                      label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                      input#newSecondOwnerName.form-control-sm.form-control(type='text', name='newSecondOwnerName')
+                  .form-group.row
+                    .col-4
+                      label.font-weight-bold(for='my-input') मोबाइल नों.
+                      input#newMobileNo.form-control-sm.form-control(type='text', name='newMobileNo')
+                    .col-4
+                      label.font-weight-bold(for='my-input') ग्रामपंचायत
+                      input#newGramPanchayet.form-control-sm.form-control(type='text', name='newGramPanchayet')
+                    .col-4
+                      label.font-weight-bold(for='my-input') गावाचे नाव
+                      input#newVillageName.form-control-sm.form-control(type='text', name='newVillageName')
+                  hr
+                  .form-group.row
+                    .col-4
+                      label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                      input#newGaatNo.form-control-sm.form-control(type='text', name='newGaatNo')
+                    .col-4
+                      label.font-weight-bold(for='my-input') घरकुल असल्यास
+                      select#gharkulYojna.form-control(type='text', name='gharkulYojna')
+                        each value,index in gharkulYojanaList
+                          option(value=value.id) #{value.text}
+                    .col-4
+                      label.font-weight-bold(for='my-input') शौचालय असल्यास
+                      select#havingToilet.form-control(type='text', name='havingToilet')
+                        each value,index in ["होय","नाही"]
+                          option(value=value) #{value}
+                  .form-group.row
+                    .col-3
+                      label.font-weight-bold(for='my-input') एकूण जागेची लांबी
+                      input#newAreaHeight.isNaN.form-control-sm.form-control(type='text', name='newAreaHeight')
+                    .col-3
+                      label.font-weight-bold(for='my-input') एकूण जागेची रुंदी
+                      input#newAreaWidth.isNaN.form-control-sm.form-control(type='text', name='newAreaWidth')
+                    .col-3
+                      label.font-weight-bold(for='my-input') एकूण जागेची क्षेत्रफळ
+                      input#newTotalArea.form-control-sm.form-control(type='text', name='newTotalArea' readonly=true)
+                    .col-3
+                      label.font-weight-bold(for='my-input') एकूण जागेची चौ.मी.
+                      input#newTotalAreaSquareMeter.form-control-sm.form-control(type='text', name='newTotalAreaSquareMeter' readonly=true)
+                  .form-group.row
+                    .col-3
+                      label.font-weight-bold(for='my-input') पूर्वेस
+                      input#newEastLandmark.form-control-sm.form-control(type='text', name='newEastLandmark')
+                    .col-3
+                      label.font-weight-bold(for='my-input') पश्चिमेस
+                      input#newWestLandmark.form-control-sm.form-control(type='text', name='newWestLandmark')
+                    .col-3
+                      label.font-weight-bold(for='my-input') उत्तरेस
+                      input#newNorthLandmark.form-control-sm.form-control(type='text', name='newNorthLandmark')
+                    .col-3
+                      label.font-weight-bold(for='my-input') दक्षिणेस
+                      input#newSouthLandmark.form-control-sm.form-control(type='text', name='newSouthLandmark')
+                  .form-group.row
+                    .col-12
+                      button#saveNewUserForm.btn.btn-success.float-right 
+                        span.fa.fa-floppy-o.mr-2
+                        | जतन करा
+
+  script.
+    $(document).ready(function() {
+       $('#gharkulYojna').select2().val("").trigger('change');
+       $('#havingToilet').select2().val("").trigger('change');
+    });
+
+               

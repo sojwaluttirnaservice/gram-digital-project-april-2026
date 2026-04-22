@@ -1,0 +1,184 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/prapatra-b/namuna-3-prapatra-b-form-handler.js' type='module' defer)
+
+
+    title नमुना ३ - प्रपत्र ब 
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+      form(id='prapatra-b-form').mt-1
+        .form.form-1
+
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#00695C; padding:8px 18px; display:block; margin:10px auto;")  Edit : नमुना ३ प्रपत्र ब
+
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.p-4
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष (वर्षाच्या डेटासेटची निवड करा)
+                input.form-control(name='year' id='year' value=year readonly)
+
+            .col-11.col-md-6.col-lg-6
+              .form-group 
+                label.form-label(for="gp_groups") ग्रामपंचायतीचे गट व गावाचे नाव
+                input.form-control(type="text" id="gp_groups" name="gp_groups" value=prapatraB.gp_groups placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="sq_meter_area") क्षेत्रफळ चौरस मीटर
+                input.form-control(type="text" id="sq_meter_area" name="sq_meter_area" value=prapatraB.sq_meter_area placeholder=" ")
+
+            .col-11.col-md-12.col-lg-6
+              .form-group
+                label.form-label(for="population_at_201") २०१ च्या खाने सुमारास लोकसंख्या
+                input.form-control(id="population_at_201" name="population_at_201" value=prapatraB.population_at_201 placeholder="")
+
+            .col-11.col-md-12.col-lg-6
+              .form-group
+                label.form-label(for="establishment_date") स्थापना तारीख (स्थापना केल्याची तारीख)
+                input.form-control.datepicker(id="establishment_date" name="establishment_date" value=prapatraB._establishment_date placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="last_election_date") मागील सार्वत्रिक निवडणूक तारीख 
+                input.form-control.datepicker(id="last_election_date" name="last_election_date" value=prapatraB._last_election_date placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="regular_term_expiry_date") नेहमीची मुदत संपण्याची तारीख
+                input.form-control.datepicker(id="regular_term_expiry_date" name="regular_term_expiry_date" value=prapatraB._regular_term_expiry_date placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="not_reserved_posts_count") राखीव नसलेल्या पदांची संख्या
+                input.form-control(type="number" id="not_reserved_posts_count" name="not_reserved_posts_count" value=prapatraB.not_reserved_posts_count placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="reserved_seats_female") राखीव जागांतील महिला सदस्यांची संख्या
+                input.form-control(type="number" id="reserved_seats_female" name="reserved_seats_female" value=prapatraB.reserved_seats_female placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="reserved_seats_scheduled_caste") राखीव जागांतील अनुसूचित जातीतील सदस्यांची संख्या 
+                input.form-control(type="number" id="reserved_seats_scheduled_caste" name="reserved_seats_scheduled_caste" value=prapatraB.reserved_seats_scheduled_caste placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="reserved_seats_scheduled_tribe") राखीव जागांतील अनुसूचित जमातीतील सदस्यांची संख्या
+                input.form-control(type="number" id="reserved_seats_scheduled_tribe" name="reserved_seats_scheduled_tribe" value=prapatraB.reserved_seats_scheduled_tribe placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="reserved_seats_other_backward_classes") राखीव जागांतील इतर मागासवर्गीय सदस्यांची संख्या 
+                input.form-control(type="number" id="reserved_seats_other_backward_classes" name="reserved_seats_other_backward_classes" value=prapatraB.reserved_seats_other_backward_classes placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="elected_grampanchayat_members_count") निवडणूक झालेल्या ग्रा.पं. सदस्यांची संख्या 
+                input.form-control(type="number" id="elected_grampanchayat_members_count" name="elected_grampanchayat_members_count" value=prapatraB.elected_grampanchayat_members_count placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="by_election_grampanchayat_members_count") पोट निवडणूक झालेल्या ग्रा.पं. सदस्यांची संख्या
+                input.form-control(type="number" id="by_election_grampanchayat_members_count" name="by_election_grampanchayat_members_count" value=prapatraB.by_election_grampanchayat_members_count placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="elected_female_members_count") निवडून आलेल्या स्त्री सदस्या 
+                input.form-control(type="number" id="elected_female_members_count" name="elected_female_members_count" value=prapatraB.elected_female_members_count placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="elected_male_members_count") निवडून आलेल्या पुरुष सदस्यांची संख्या 
+                input.form-control(type="number" id="elected_male_members_count" name="elected_male_members_count" value=prapatraB.elected_male_members_count placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="scheduled_tribe_members_elected_female") अनुसूचित जमातीतील निवडून आलेल्या महिला सदस्यांची संख्या 
+                input.form-control(type="number" id="scheduled_tribe_members_elected_female" name="scheduled_tribe_members_elected_female" value=prapatraB.scheduled_tribe_members_elected_female placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="scheduled_tribe_members_elected_male") अनुसूचित जमातीतील निवडून आलेल्या पुरुष सदस्यांची संख्या
+                input.form-control(type="number" id="scheduled_tribe_members_elected_male" name="scheduled_tribe_members_elected_male" value=prapatraB.scheduled_tribe_members_elected_male placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="scheduled_caste_members_elected_female") अनुसूचित जातीतील निवडून आलेल्या महिला सदस्यांची संख्या
+                input.form-control(type="number" id="scheduled_caste_members_elected_female" name="scheduled_caste_members_elected_female" value=prapatraB.scheduled_caste_members_elected_female placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="scheduled_caste_members_elected_male") अनुसूचित जातीतील निवडून आलेल्या पुरुष सदस्यांची संख्या 
+                input.form-control(type="number" id="scheduled_caste_members_elected_male" name="scheduled_caste_members_elected_male" value=prapatraB.scheduled_caste_members_elected_male placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_backward_classes_members_elected_female") इतर मागासवर्गीयातील निवडून आलेल्या महिला सदस्यांची संख्या 
+                input.form-control(type="number" id="other_backward_classes_members_elected_female" name="other_backward_classes_members_elected_female" value=prapatraB.other_backward_classes_members_elected_female placeholder="")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_backward_classes_members_elected_male") इतर मागासवर्गीयातील निवडून आलेल्या पुरुष सदस्यांची संख्या 
+                input.form-control(type="number" id="other_backward_classes_members_elected_male" name="other_backward_classes_members_elected_male" value=prapatraB.other_backward_classes_members_elected_male placeholder="")
+
+                input.form-control(name='id' value=prapatraB.id hidden) 
+
+        .text-center
+          button.btn.btn-success.mt-4(type="submit" id='update-prapatra-b-btn') Update

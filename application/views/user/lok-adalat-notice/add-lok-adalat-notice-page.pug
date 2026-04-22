@@ -1,0 +1,109 @@
+doctype html
+html(lang='en')
+    head
+
+        title लोक अदालत सभा नोटीस फॉर्म
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        //- Common CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        //- Scripts
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src='/asstest/plugins/jquery_validation/jquery.validate.min.js')
+        script(src='/asstest/plugins/jquery_validation/additional-methods.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js')
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js')
+        link(href='/asstest/coustom/css/lok-adalat-notices/lok-adalat-notice-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/lok-adalat-notices/lok-adalat-notice-form-handler.js')
+
+
+    body.w-100
+        include ../include/navs.pug
+
+        section
+            .container
+                h2.heading-1.text-center लोक अदालत सभा नोटीस फॉर्म
+                .text-end
+                    a.btn.btn-primary.text-light(href='/lok-adalat-notices/list') यादी बघा
+
+                form(id='lok-adalat-notice-form')
+                    .form.form-1
+                        .row.justify-content-center.gx-4.gy-2
+
+                            // Applicant Name
+                            .col-12.col-md-6
+                                label.form-label अर्जदाराचे पूर्ण नाव
+                                input.form-control(type='text' name='applicant_name' placeholder='अर्जदाराचे पूर्ण नाव', required)
+
+                            // Amount
+                            .col-12.col-md-6
+                                label.form-label नोटिसेतील रक्कम (संख्यात्मक स्वरूपात)
+                                input.form-control(type='text' name='amount' placeholder='उदा. 5000', required)
+
+                            // Amount in Words
+                            .col-12.col-md-6
+                                label.form-label नोटिसेतील रक्कम शब्दात
+                                input.form-control(type='text' name='amount_in_words' placeholder='उदा. पाच हजार रुपये', required)
+
+                            // Court Date
+                            .col-12.col-md-6
+                                label.form-label कोर्टाची तारीख
+                                input.form-control.datepicker(type='text' name='court_date' placeholder='उदा. 25/05/2025')
+
+                            // Court Time
+                            .col-12.col-md-6
+                                label.form-label कोर्टाचा वेळ
+                                input.form-control(type='text' name='court_time' placeholder='उदा. सकाळी 11:00 वा.')
+
+                            // Court Address
+                            .col-12.col-md-6
+                                label.form-label कोर्टाचा पत्ता
+                                textarea.form-control(name='court_address' rows='2' placeholder='कोर्टाचा पत्ता')
+
+                            // Settlement Acceptance Date
+                            .col-12.col-md-6
+                                label.form-label तडजोड स्वीकारण्याची तारीख
+                                input.form-control.datepicker(type='text' name='date_of_settlement_acceptance')
+
+                            // Place
+                            .col-12.col-md-6
+                                label.form-label नोटिसेचा ठिकाण
+                                input.form-control(type='text' name='place' placeholder='ठिकाण')
+
+                            // Print Date
+                            .col-12.col-md-6
+                                label.form-label नोटिसेची मुद्रण तारीख
+                                input.form-control.datepicker(type='text' name='print_date')
+
+                            // Month
+                            .col-12.col-md-3
+                                label.form-label महिना (1 ते 12)
+                                input.form-control(type='number' name='month' min='1' max='12' required)
+
+                            // Year
+                            .col-12.col-md-3
+                                label.form-label वर्ष
+                                input.form-control(type='number' name='year' min='2020' max='2099' required)
+
+                            // Submit Button
+                            .col-12.text-center.mt-4
+                                button.btn.btn-success#add-lok-adalat-notice-btn(type='submit') जतन करा

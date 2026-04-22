@@ -1,0 +1,49 @@
+doctype html
+head
+  title मागणी बील blank प्रिंट 
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+  // COMMON CSS
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+  //- COMMON JS
+  script(src='/asstest/coustom/js/common.js')
+
+  style.
+    @media print {
+      @page { 
+        size: auto;
+          margin: 7mm 7mm 4mm 10mm;
+        }
+        body {
+          margin:0;
+          padding:0;
+        }
+        body {
+          transform: scale(1);
+        }
+        img {
+          page-break-inside: avoid;
+        }
+        .p-hide{
+          display:none
+        }
+        .pagination {
+          display: none;
+        }
+      }  
+
+
+      .img{
+        width:65px;
+        height:70px;
+      }
+
+body
+  each _ in [1,2]
+    div(class='mb-5')
+      div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
+        img(src="/print/4.jpg" alt="" style="width:100%;height:100%;")
+

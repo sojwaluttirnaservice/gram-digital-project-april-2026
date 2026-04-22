@@ -1,0 +1,229 @@
+doctype html
+head
+    title Bank Qr Code सामान्य कर मागणी बिल
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+    // COMMON CSS
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    //- COMMON JS
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="/asstest/coustom/js/handlers/pagination.js")
+    style.
+
+        @media print {
+            @page { 
+                size: auto;
+                    margin: 7mm 7mm 4mm 10mm;
+                }
+                body {
+                    margin:0;
+                    padding:0;
+                }
+                body {
+                    transform: scale(1);
+                }
+                img {
+                    page-break-inside: avoid;
+                }
+                .p-hide{
+                    display:none
+                }
+                .pagination {
+                    display: none;
+                }
+            }  
+
+            .main-heading {
+                margin-left:10%
+            }
+
+            .heading-second{
+                margin-left:30%
+            }
+
+            .heading-second-2{
+                margin-left:30%
+            }
+
+            .set-p-break {
+                page-break-before: always;
+            }
+
+            .c-0 {
+                page-break-before: always;
+            }
+
+            .img{
+                width:65px;
+                height:70px;
+            }
+
+            .img1{
+                margin-top:-10px;
+                width:70px;
+                height:90px;
+            }
+
+            p{
+                font-size:15px !important;
+            }
+
+            .qrcode img{
+                width:100%;
+                height:100%;
+            }
+    script.
+        let totalRecords = !{JSON.stringify(totalRecords)}
+
+
+body
+    - var pageCount = billStart;
+
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="bg-primary text-light page-link previous-button">Previous</button>
+        </li>
+        <div class='d-flex page-numbers'> 
+        </div> 
+        <li class="page-item">
+            <button class="bg-success text-light page-link next-button">Next</button>
+        </li>
+    </ul>
+
+    each val,index in data
+        - pageCount += 1;
+        - var  className = 'row m-0 mb-5 c-'+ (index%2); 
+        div(class=className)
+            div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
+                img(src="/print/4.jpg" alt="" style="width:100%;height:100%;")
+                div(style="position: absolute;top:0;width:100%")
+                    - var url1 = `${bankQrCodePath}/${bankQrCodeName}`
+                    - var url2 = `${bankQrCodePath}/${bankQrCodeNameWater}`
+
+                    //-later
+                    img(src=url1 alt="" style="position:absolute;left:23rem;top:7.6rem;width:150px;height:115px")
+                    img(src=url1 alt="" style="position:absolute;left:58.5rem;top:7.6rem;width:150px;height:115px")
+
+                    - var id = 'qrcode'+pageCount
+                    - var id2 = 'qrcode_'+pageCount
+
+                    //-later 
+
+                    //- This is not visible, just kept here, dont uncomment it unnecessarily or make display visible
+                    div.d-none.qrcode( id=id style="display:none;position:absolute;left:23rem;top:39.8rem;width:155px;height:115px")
+                    div.d-none.qrcode( id=id2 style="display:none;position:absolute;left:58.5rem;top:39.8rem;width:155px;height:115px")
+
+
+                    img(src=url2 style="position:absolute;left:23rem;top:39.8rem;width:155px;height:115px")
+                    img(src=url2 style="position:absolute;left:58.5rem;top:39.8rem;width:155px;height:115px")
+
+
+                    small(style="position:absolute;left:16rem;top:3rem") #{zp.gp_name}
+                    small(style="position:absolute;left:51rem;top:3rem") #{zp.gp_name}
+                    small(style="position:absolute;left:7.5rem;top:4.9rem;width:350px") #{val.feu_ownerName}
+                    small(style="position:absolute;left:43rem;top:4.9rem") #{val.feu_ownerName}
+                    small(style="position:absolute;left:7.5rem;top:6.9rem") #{val.feu_secondOwnerName}
+                    small(style="position:absolute;left:43rem;top:6.9rem") #{val.feu_secondOwnerName}
+                    small(style="position:absolute;left:4.5rem;top:13.5rem") #{val.feu_malmattaNo}
+                    small(style="position:absolute;left:4rem;top:9.2rem") #{val.feu_mobileNo}
+                    small(style="position:absolute;left:40rem;top:9.2rem") #{val.feu_mobileNo}
+
+                    small(style="position:absolute;left:9rem;top:11.2rem") #{val.feu_totalArea} /  #{val.feu_totalAreaSquareMeter}
+                    small(style="position:absolute;left:45rem;top:11.2rem") #{val.feu_totalArea} /  #{val.feu_totalAreaSquareMeter}
+
+                    small(style="position:absolute;left:12.5rem;top:13.5rem") #{pageCount}
+                    small(style="position:absolute;left:18.5rem;top:13.5rem") #{date}
+                    small(style="position:absolute;left:40rem;top:13.5rem") #{val.feu_malmattaNo}
+                    small(style="position:absolute;left:47rem;top:13.5rem") #{pageCount}
+                    small(style="position:absolute;left:53rem;top:13.5rem") #{date}
+
+                    small(style="position:absolute;left:14rem;top:17rem") #{year1}
+                    small(style="position:absolute;left:20rem;top:17rem") #{year2}
+                    small(style="position:absolute;left:48.5rem;top:17rem") #{year1}
+                    small(style="position:absolute;left:54.5rem;top:17rem") #{year2}
+
+                    p(style="position:absolute;left:14.5rem;top:18.5rem") #{Math.round(val.lastBuildingTax)}
+                    p(style="position:absolute;left:20.5rem;top:18.5rem") #{Math.round(val.currentBuildingTax)}
+                    p(style="position:absolute;left:26.5rem;top:18.5rem") #{Math.round(val.totalBuildingTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:18.5rem") #{Math.round(val.lastBuildingTax)}
+                    p(style="position:absolute;left:54.5rem;top:18.5rem") #{Math.round(val.currentBuildingTax)}
+                    p(style="position:absolute;left:61.5rem;top:18.5rem") #{Math.round(val.totalBuildingTax)}
+
+                    p(style="position:absolute;left:14.5rem;top:21rem") #{Math.round(val.lastDivaTax)}
+                    p(style="position:absolute;left:20.5rem;top:21rem") #{Math.round(val.currentDivaTax)}
+                    p(style="position:absolute;left:26.5rem;top:21rem") #{Math.round(val.totalDivaTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:21rem") #{Math.round(val.lastDivaTax)}
+                    p(style="position:absolute;left:54.5rem;top:21rem") #{Math.round(val.currentDivaTax)}
+                    p(style="position:absolute;left:61.5rem;top:21rem") #{Math.round(val.totalDivaTax)}
+
+                    p(style="position:absolute;left:14.5rem;top:23.5rem") #{Math.round(val.lastArogyaTax)}
+                    p(style="position:absolute;left:20.5rem;top:23.5rem") #{Math.round(val.currentArogyaTax)}
+                    p(style="position:absolute;left:26.5rem;top:23.5rem") #{Math.round(val.totalArogyaTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:23.5rem") #{Math.round(val.lastArogyaTax)}
+                    p(style="position:absolute;left:54.5rem;top:23.5rem") #{Math.round(val.currentArogyaTax)}
+                    p(style="position:absolute;left:61.5rem;top:23.5rem") #{Math.round(val.totalArogyaTax)}
+
+                    p(style="position:absolute;left:14.5rem;top:26rem") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+                    p(style="position:absolute;left:20.5rem;top:26rem") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+                    p(style="position:absolute;left:26.5rem;top:26rem") #{Math.round(val.totalWaterTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:26rem") #{Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax)}
+                    p(style="position:absolute;left:54.5rem;top:26rem") #{Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax)}
+                    p(style="position:absolute;left:61.5rem;top:26rem") #{Math.round(val.totalWaterTax)}
+                    - var val111 = Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)
+                    - val111 = isNaN(val111)? 0:val111
+
+                    p(style="position:absolute;left:14.5rem;top:28.5rem") #{val111}
+                    p(style="position:absolute;left:20.5rem;top:28.5rem") #{Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:26.5rem;top:28.5rem") #{Math.round(val.totalTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:28.5rem") #{isNaN(val111)? 0:val111}
+                    p(style="position:absolute;left:54.5rem;top:28.5rem") #{Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:61.5rem;top:28.5rem") #{Math.round(val.totalTax)}
+
+                    p(style="position:absolute;left:14.5rem;top:31rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111)}
+                    p(style="position:absolute;left:20.5rem;top:31rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:26.5rem;top:31rem") #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+
+                    p(style="position:absolute;left:48.5rem;top:31rem") #{Math.round(val.lastBuildingTax) + Math.round(val.lastDivaTax) + Math.round(val.lastArogyaTax) + Math.round(val.lastSpacialWaterTax) + Math.round(val.lastGenealWaterTax) + Math.round(val111)}
+                    p(style="position:absolute;left:54.5rem;top:31rem") #{Math.round(val.currentBuildingTax) + Math.round(val.currentDivaTax) + Math.round(val.currentArogyaTax) + Math.round(val.currentSpacialWaterTax) + Math.round(val.currentGenealWaterTax) + Math.round(val.lastTaxRelief)}
+                    p(style="position:absolute;left:61.5rem;top:31rem") #{Math.round(val.totalBuildingTax) + Math.round(val.totalDivaTax) + Math.round(val.totalArogyaTax) + Math.round(val.totalWaterTax) + Math.round(val.totalTax)}
+
+                    small(style="position:absolute;left:24.5rem;top:35.5rem")
+                        //- Removing signature
+                        img(src="/print/sp.jpeg" alt="" onerror="this.style.display='none'" srcset="" width="80")
+                    small(style="position:absolute;left:24rem;top:38rem") #{zp.gp_name}
+
+                    small(style="position:absolute;left:38.5rem;top:36.5rem")
+                        img(src="/print/d.jpeg" alt="" srcset="" width="50")
+                    small(style="position:absolute;left:58.5rem;top:35.5rem")
+                        //- Removing signature
+                        img(src="/print/sp.jpeg" alt="" srcset="" onerror="this.style.display='none'" width="80")
+                    small(style="position:absolute;left:59rem;top:38rem") #{zp.gp_name}
+
+    script.
+        (function() {
+            var data = !{dataString};
+            console.log(data)
+            var start = #{billStart}
+            data.forEach(function(userData,index){
+                generateQRCode(++start,userData)
+            })
+            function generateQRCode(id,userData) {
+                let website = 'http://g-seva.com/pay'
+                let homeNo = userData.feu_homeNo;
+                let wardNo = userData.feu_wardNo;
+                let malmattaNo = userData.feu_malmattaNo;
+                website +=`/!{zp.pg_registration_no}/${userData.anu_kramank}`;
+                new QRCode(document.getElementById("qrcode"+id),website);
+                new QRCode(document.getElementById("qrcode_"+id),website);
+            }   
+        })();

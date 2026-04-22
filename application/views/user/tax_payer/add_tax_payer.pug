@@ -1,0 +1,347 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/bs-5.3.2/css/bootstrap.min.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+
+
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    script(src='/asstest/bs-5.3.2/js/bootstrap.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    style.
+        .error {
+            background-color:yellow;
+            padding:2px;
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        #tableRow div{
+            //- background: #c4c8b4;
+            background: #E3E1D9;
+            padding: 0.6rem 1rem;
+            border: 1px solid white;
+        }
+
+        @media (max-width: 768px){
+            #tableRow div{
+                font-size: 0.9rem;
+            }
+        }
+    script.
+        let malNo = !{JSON.stringify(user.feu_malmattaNo)}
+
+        let userId = !{JSON.stringify(user.id)}
+
+        $(() => {
+            $('.isNaN').on("input", function(e){
+                let val = $(this).val();
+                if(isNaN(val)){
+                    $(this).val("")
+                }else{
+                    $(this).val(+val);
+                }
+            })
+        })
+
+body
+    include ../include/navs.pug
+    .container-fluid.bg-light-gray(style='padding-block: 1rem;')
+        .row.justify-content-center(style='gap: 1rem !important;')
+
+            .col-12.text-center.mt-4
+                input#homeId-type(type="hidden")
+                h4.font-weight-bold नमुना ९ सामान्य करासंदर्भात वसुली फॉर्म (Desktop)
+
+            .col-12.col-md-8
+                .card
+                    .card-header.font-weight-bold.text-center(style='background: oklch(84.1% 0.238 128.85);') धारकाची माहिती
+                    .card-body
+
+                        .row
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') अनु / घर क्रमांक
+                                    input.form-control-sm.form-control(type='text' disabled value=user.id)
+
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input')  मालमत्ता क्र.
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_malmattaNo)
+
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') वार्ड नं
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_wardNo)
+
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_homeNo)
+
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मोबाइल नों.
+                                    input.form-control-sm.form-control#feu_mobile_no(type='text' disabled value=user.feu_mobileNo maxlength="10")
+
+                            .col-6.col-md-3
+                                .form-group
+                                    label.font-weight-bold(for='my-input') आधार क्रं.
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_aadharNo maxlength="12")
+
+                            .col-12.col-md-6
+                                .form-group
+                                    label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                                    input.form-control-sm.form-control.pay-owner-name(type='text' disabled value=user.feu_ownerName)
+
+                            .col-12.col-md-6
+                                .form-group
+                                    label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_secondOwnerName)
+
+                            .col-12.col-md-6
+                                .form-group
+                                    label.font-weight-bold(for='my-input') गट क्र./भुमापण क्र. /नगर भामपण क्र
+                                    input.form-control-sm.form-control(type='text' disabled value=user.feu_gaatNo)
+
+
+            .col-12.col-md-11
+                .row(style='row-gap: 1rem;')
+                    //- left column
+                    .col-12.col-md-6
+                        .row#tableRow
+                            .col-12.text-center.font-weight-bold(style='background: oklch(84.1% 0.238 128.85);') सामान्य कर 
+
+                            //- मागील कर
+                            .col-6 
+                                span.fw-bold मागील इमारत कर:
+                                //- input(type="checkbox" id='resetTaxToZeroSamanyaCheckbox').ml-2
+                                //- input(id='previewDataLastBuildingTaxClone' type='hidden' value=formNineSavedDetails.lastBuildingTax)
+                                input#previewDataLastBuildingTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastBuildingTax )
+
+                            .col-6 
+                                span.font-weight-bold चालू इमारत कर:
+                                input#previewDataCurrentBuildingTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentBuildingTax)
+
+                            .col-6 
+                                span.font-weight-bold मागील दंड कर (५%):
+                                //- input(id='previewDataLastTaxFineClone' type='hidden' value=formNineSavedDetails.lastTaxFine)
+                                input#previewDataLastTaxFine.form-control(disabled type="text" value=formNineSavedDetails.lastTaxFine)
+                            .col-6 
+                                span.font-weight-bold चालू कारवार सूट:
+                                input#previewDataLastTaxRelief.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastTaxRelief)
+
+                            .col-6 
+                                span.font-weight-bold मागील दिवा कर:
+                                //- input(id='previewDataLastDivaTaxClone' type='hidden' value=formNineSavedDetails.lastDivaTax)
+                                input#previewDataLastDivaTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastDivaTax )
+                            .col-6 
+                                span.font-weight-bold चालू दिवा कर:
+                                input#previewDataCurrentDivaTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentDivaTax )
+
+                            .col-6 
+                                span.font-weight-bold मागील आरोग्य कर:
+                                //- input(id='previewDataLastArogyaTaxClone' type='hidden' value=formNineSavedDetails.lastArogyaTax)
+                                input#previewDataLastArogyaTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastArogyaTax)
+                            .col-6 
+                                span.font-weight-bold चालू आरोग्य कर:
+                                input#previewDataCurrentArogyaTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentArogyaTax )
+
+
+                            .col-6 
+                                span.font-weight-bold मागील स्वच्छता कर:
+                                //- input(id='previewDataLastCleaningTaxClone' type='hidden' value=formNineSavedDetails.lastCleaningTax)
+                                input#previewDataLastCleaningTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastCleaningTax)
+                            .col-6 
+                                span.font-weight-bold चालू स्वच्छता कर:
+                                input#previewDataCurrentCleaningTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentCleaningTax )
+
+
+                            .col-6 
+                                span.font-weight-bold मागील अग्नी कर:
+                                //- input(id='previewDataLastFireblegateTaxClone' type='hidden' value=formNineSavedDetails.lastFireblegateTax)
+                                input#previewDataLastFireblegateTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastFireblegateTax)
+                            .col-6 
+                                span.font-weight-bold चालू अग्नी कर:
+                                input#previewDataCurrentFireblegateTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentFireblegateTax )
+
+
+                            .col-6 
+                                span.font-weight-bold मागील वृक्ष कर:
+                                //- input(id='previewDataLastTreeTaxClone' type='hidden' value=formNineSavedDetails.lastTreeTax)
+                                input#previewDataLastTreeTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastTreeTax)
+                            .col-6 
+                                span.font-weight-bold चालू वृक्ष कर:
+                                input#previewDataCurrentTreeTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentTreeTax )
+
+                            .col-6 
+                                span.font-weight-bold मागील शिक्षण कर:
+                                //- input(id='previewDataLastEducationTaxClone' type='hidden' value=formNineSavedDetails.lastEducationTax)
+                                input#previewDataLastEducationTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.lastEducationTax)
+                            .col-6 
+                                span.font-weight-bold चालू शिक्षण कर:
+                                input#previewDataCurrentEducationTax.isNaN.form-control(disabled type="text" value=formNineSavedDetails.currentEducationTax )
+
+
+                            //- total calculation
+                            .col-6(style='background-color:wheat;')
+
+                                - let totalLastSamanyaTax = formNineSavedDetails.lastBuildingTax + formNineSavedDetails.lastTaxFine + formNineSavedDetails.lastDivaTax + formNineSavedDetails.lastArogyaTax + formNineSavedDetails.lastCleaningTax + formNineSavedDetails.lastFireblegateTax + formNineSavedDetails.lastTreeTax + formNineSavedDetails.lastEducationTax
+                                span.font-weight-bold मागील एकूण सामान्य कर:
+                                input.amountText#lastTotalSamanyaTax.isNaN.form-control(readonly type="text" value= totalLastSamanyaTax)
+
+                            .col-6(style='background-color:wheat;')
+
+                                - let totalCurrentSamanyaTax = formNineSavedDetails.currentBuildingTax + formNineSavedDetails.lastTaxRelief + formNineSavedDetails.currentDivaTax + formNineSavedDetails.currentArogyaTax + formNineSavedDetails.currentCleaningTax + formNineSavedDetails.currentFireblegateTax + formNineSavedDetails.currentTreeTax + formNineSavedDetails.currentEducationTax
+                                span.font-weight-bold चालू एकूण सामान्य कर:
+                                input.amountText#currentTotalSamanyaTax.isNaN.form-control(readonly type="text" value=totalCurrentSamanyaTax)
+
+
+
+
+                            .col-6 
+                                span.font-weight-bold भरणा दिनांक:
+                                input.form-control(disabled type="text" placeholder="dd-mm-yyyy" autocomplete="off")
+                            .col-6 
+                                span.font-weight-bold चेक नं 
+                                input.form-control(disabled type="text" placeholder="चेक नं" value=(formNineSavedDetails.checkNo ? formNineSavedDetails.checkNo : ""))
+                            .col-12
+                                span.font-weight-bold अक्षरी भरणा :
+                                input.form-control(disabled type="text" value="" )
+                            .col-12
+                                span.font-weight-bold एकूण सामान्य कर:
+                                - let totalSampurnaTax = totalLastSamanyaTax + totalCurrentSamanyaTax
+                                input.form-control(disabled type="text" value=totalSampurnaTax)
+
+                        p#tax-notice.text-danger.fw-bold.d-flex.d-none मागील करभरणा बाकी असल्यास चालू करभरणा करता येणार नाही.   
+
+
+                    //- right column
+                    .col-12.col-md-6
+                        table.table.table-bordered.bg-table-on-gray
+                            .row#tableRow
+                                .col-12.text-center.font-weight-bold(colspan="5" style='background: oklch(84.1% 0.238 128.85);') वसुली कर भरा
+                                .col-6 
+                                    span.font-weight-bold मागील इमारत कर:
+                                    //- input(type="checkbox" id='resetTaxToZeroVasuliCheckbox').ml-2
+                                    input#lastBuildingTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastBuildingTax data-i="1")
+                                    input#formNineId.form-control(type="hidden" value=formNineSavedDetails.id)
+                                    input#userId.form-control(type="hidden" value=formNineSavedDetails.user_id)
+
+                                .col-6 
+                                    span.font-weight-bold चालू इमारत कर:
+                                    input.amountText#currentBuildingTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentBuildingTax)
+
+                                .col-6 
+                                    span.font-weight-bold मागील दंड कर (५%):
+                                    input.amountText#lastTaxFine.isNaN.form-control(type="text" value=formNineSavedDetails.lastTaxFine)
+                                .col-6 
+                                    span.font-weight-bold चालू कारवार सूट:
+                                    input.amountText#lastTaxRelief.isNaN.form-control(type="text" value=formNineSavedDetails.lastTaxRelief )
+
+
+                                .col-6
+                                    span.font-weight-bold मागील दिवा कर:
+                                    input.amountText#lastDivaTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastDivaTax )
+                                .col-6 
+                                    span.font-weight-bold चालू दिवा कर:
+                                    input.amountText#currentDivaTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentDivaTax)
+
+                                .col-6 
+                                    span.font-weight-bold मागील आरोग्य कर:
+                                    input.amountText#lastArogyaTax.isNaN.form-control(type="text" value=formNineSavedDetails.lastArogyaTax )
+                                .col-6 
+                                    span.font-weight-bold चालू आरोग्य कर:
+                                    input.amountText#currentArogyaTax.isNaN.form-control(type="text" value=formNineSavedDetails.currentArogyaTax)
+
+
+                                .col-6 
+                                    span.font-weight-bold मागील स्वच्छता कर:
+                                    input.amountText#lastCleaningTax.isNaN.form-control( type="text" value=formNineSavedDetails.lastCleaningTax)
+                                .col-6 
+                                    span.font-weight-bold चालू स्वच्छता कर:
+                                    input.amountText#currentCleaningTax.isNaN.form-control( type="text" value=formNineSavedDetails.currentCleaningTax )
+
+                                .col-6 
+                                    span.font-weight-bold मागील अग्नी  कर:
+                                    input.amountText#lastFireblegateTax.isNaN.form-control( type="text" value=formNineSavedDetails.lastFireblegateTax)
+                                .col-6 
+                                    span.font-weight-bold चालू अग्नी कर:
+                                    input.amountText#currentFireblegateTax.isNaN.form-control( type="text" value=formNineSavedDetails.currentFireblegateTax )
+
+                                .col-6 
+                                    span.font-weight-bold मागील वृक्ष कर:
+                                    input.amountText#lastTreeTax.isNaN.form-control( type="text" value=formNineSavedDetails.lastTreeTax)
+                                .col-6 
+                                    span.font-weight-bold चालू वृक्ष कर:
+                                    input.amountText#currentTreeTax.isNaN.form-control( type="text" value=formNineSavedDetails.currentTreeTax )
+
+                                .col-6 
+                                    span.font-weight-bold मागील शिक्षण कर:
+                                    input.amountText#lastEducationTax.isNaN.form-control( type="text" value=formNineSavedDetails.lastEducationTax)
+
+                                .col-6
+                                    span.font-weight-bold चालू शिक्षण कर:
+                                    input.amountText#currentEducationTax.isNaN.form-control( type="text" value=formNineSavedDetails.currentEducationTax )
+
+
+                                //- total calculation
+                                .col-6(style='background-color:wheat;')
+                                    span.font-weight-bold मागील एकूण वसुली कर:
+                                    input.amountText#lastTotalVasuliTax.isNaN.form-control(readonly type="text")
+
+                                .col-6(style='background-color:wheat;')
+                                    span.font-weight-bold चालू एकूण वसुली कर:
+                                    input.amountText#currentTotalVasuliTax.isNaN.form-control(readonly type="text" )
+
+
+                                .col-6 
+                                    span.font-weight-bold भरणा दिनांक:
+                                    input#bharnaDate.form-control(type="text" placeholder="DD/MM/YYYY" autocomplete="off")
+                                .col-6 
+                                    span.font-weight-bold चेक नं 
+                                    input#checkNo.form-control(type="text" placeholder="चेक नं")
+                                .col-12(colspan="5")
+                                    span.font-weight-bold अक्षरी भरणा :
+                                    input#amountInWords.form-control(type="text" value="" )
+                                .col-12
+                                    span.font-weight-bold एकूण वसुली कर:
+                                    input#totalSampurnaTax.form-control(type="text" value="0" readonly name="totalSampurnaTax")
+                        div
+                            button#saveVasuliDetails.btn.btn-success.float-right वसुली जतन करा
+
+
+    include ../include/payment-type-modal.pug
+
+    script.
+        var details = !{taxDetails}[0];
+    script.
+        $(function(){
+            $('#bharnaDate').datepicker({
+                dateFormat: 'dd/mm/yy'
+                })
+        })
+    script(src='/asstest/coustom/js/handlers/tax-payer-manager.js' defer)  

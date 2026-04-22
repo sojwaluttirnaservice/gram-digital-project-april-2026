@@ -1,0 +1,139 @@
+doctype html
+html(lang='mr')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        title नागरिकांना सेवा सुविधा अर्ज
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+        link(rel='preconnect' href='https://fonts.googleapis.com')
+        link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+        link(href='https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap' rel='stylesheet')
+
+        style.
+            body { margin:0; background:#e5e7eb; }
+            .print-font { font-family:"Tiro Devanagari Marathi", serif; color:#111827; }
+            .screen-wrapper { display:flex; justify-content:center; padding:18px; }
+
+            .page {
+                width:210mm;
+                background:#ffffff;
+                position: relative;
+                box-sizing: border-box;
+            }
+
+            .avoid-break { page-break-inside: avoid; }
+
+            @page {
+                size: A4;
+                margin: 10mm;
+                height:297mm;
+            }
+
+            @media print {
+                body { background:#ffffff; }
+                .screen-wrapper { padding:0; }
+                @page { border:2px solid #111827; }
+            }
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+    script(src="/asstest/coustom/js/handlers/common/generate-qr-code-util-handler.js" defer)
+
+    body(class="print-font")
+        div(id='mentioned-qr-target-tag' style='display: none;' data-target='qr-code-container' data-targetUrl=`/gp-applications/to-seva/a/${application.id}` data-size='150')
+        div(class="screen-wrapper")
+            div(class="page p-6")
+
+                // WATERMARK
+                div(class="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none")
+                    img(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="w-[55%]")
+
+                // CONTENT
+                div(class="relative min-h-full z-10 text-[14px] leading-relaxed")
+
+                    // HEADER
+                    div(class="text-center border-b-2 border-gray-900 pb-3 mb-6 avoid-break")
+                        h1(class="text-[24px] font-extrabold tracking-wide") नागरिकांना सेवा सुविधा अर्ज
+                        p(class="font-semibold mt-1 text-[14px]")
+                            | ग्रामपंचायत #{gp.gp_name || '—'}, पंचायत समिती #{gp.gp_taluka || '—'}, जिल्हा #{gp.gp_dist || '—'}
+
+                    // META
+                    div(class="grid grid-cols-2 gap-x-8 gap-y-2 mb-6 avoid-break")
+                        div(class="flex")
+                            span(class="font-bold") अर्ज क्रमांक :
+                            span(class="ml-2") #{application.id || '—'}
+
+                        div(class="flex")
+                            span(class="font-bold") अर्जाची सद्यस्थिती :
+                            span(class="ml-2") #{application.registration_status || '—'}
+
+                        div(class="flex")
+                            span(class="font-bold") अर्ज सादर दिनांक :
+                            span(class="ml-2") #{application.createdAt ? new Date(application.createdAt).toLocaleDateString('mr-IN') : '—'}
+
+                        div(class="flex")
+                            span(class="font-bold") शेवटचा अद्ययावत दिनांक :
+                            span(class="ml-2") #{application.updatedAt ? new Date(application.updatedAt).toLocaleDateString('mr-IN') : '—'}
+
+                    // APPLICANT
+                    div(class="mb-6 avoid-break")
+                        div(class="text-[16px] font-extrabold border-b border-gray-800 pb-1 mb-3") अर्जदाराची माहिती
+
+                        div(class="mb-2 flex flex-wrap")
+                            span(class="font-bold") अर्जदाराचे पूर्ण नाव :
+                            span(class="ml-2 break-all") #{application.applicant_name || '—'}
+
+                        div(class="grid grid-cols-2 gap-x-8 gap-y-2")
+                            div(class="flex")
+                                span(class="font-bold") मोबाईल क्रमांक :
+                                span(class="ml-2") #{application.applicant_mobile || '—'}
+
+                            div(class="flex")
+                                span(class="font-bold") आधार क्रमांक :
+                                span(class="ml-2") #{application.applicant_aadhaar || '—'}
+
+                        div(class="mt-2 flex flex-wrap")
+                            span(class="font-bold") संपूर्ण पत्ता :
+                            span(class="ml-2 break-all") #{application.applicant_address || '—'}
+
+                    // SERVICE
+                    div(class="mb-6 avoid-break")
+                        div(class="text-[16px] font-extrabold border-b border-gray-800 pb-1 mb-3") सेवा विषय माहिती
+
+                        div(class="mb-2 flex flex-wrap")
+                            span(class="font-bold") सेवा विषय :
+                            span(class="ml-2 break-all") #{application.subject || '—'}
+
+                        div(class="flex flex-wrap")
+                            span(class="font-bold") सेवा विषय ID :
+                            span(class="ml-2 break-all") #{application.subject_id || '—'}
+
+                    // DOCUMENTS
+                    div(class="mb-8 avoid-break")
+                        div(class="text-[16px] font-extrabold border-b border-gray-800 pb-1 mb-3") सादर केलेली कागदपत्रे
+                        - const documents = application.uploaded_documents_list ? JSON.parse(application.uploaded_documents_list) : []
+
+                        if documents && documents.length
+                            each doc, i in documents
+                                div(class="mb-1 flex flex-wrap")
+                                    span(class="font-bold") #{i + 1}.
+                                    a(class=`ml-2` href=`${doc.document_saved_path ? `/uploads/docs/tahsil-office-seva/${doc.document_saved_path}` : '#'}` target='_blank') #{doc.document_name || '—'} — 
+                                        span(class=`${doc.document_saved_path ? "text-blue-600" : ""}`) #{doc.document_saved_path ? 'जोडलेले' : 'नाही'}
+                        else
+                            p(class="italic text-gray-600") कोणतीही कागदपत्रे सादर केलेली नाहीत.
+                    
+                    div(class="flex justify-end mb-6 avoid-break")
+                        div(class="text-center")
+                            p(class="text-[12px] font-semibold mb-1") वैधता तपासा
+                            div(id="qr-code-container")
+
+                    // SIGNATURE
+                    div(class="mt-12 pt-6 border-t-2 border-gray-900 flex justify-between avoid-break font-bold")
+                        div
+                            p दिनांक :
+                            p(class="mt-8") कार्यालयाची सही :
+
+                        div(class="text-right")
+                            p अर्जदाराची सही :
+                            p(class="mt-8") अर्जदाराचे नाव :

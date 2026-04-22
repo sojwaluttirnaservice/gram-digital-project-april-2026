@@ -1,0 +1,311 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+    link(href='/asstest/coustom/css/namuna/namuna-22/namuna-22-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-22/namuna-22-page-handler.js' type='module' defer)
+
+    title नमुना २२ - स्थावर मालमत्ता नोंदवही (रस्ते व जमिनीव्यतिरिक्त)
+
+    style.
+
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        font-size: 90%;
+      }
+
+      tr, td, th {
+        border: 1px solid black;
+        padding: 0.2rem;
+      }
+
+      th {
+        text-align: center;
+      }
+
+  body
+    include ../../include/navs.pug
+
+
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+
+    .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="monthYearModalLabel" aria-hidden="true")
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h1.modal-title.fs-5#monthYearModalLabel महिना व वर्ष निवडा
+            button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body
+
+            form(id='month-year-form') 
+
+              .d-flex.align-items-center.justify-content-center.gap-4 
+                select.form-select(name='month')
+                  option(value='' ) -- महिना निवडा--
+                  each month, monthIndex in months 
+                    option(value=(monthIndex + 1)) #{month}
+
+
+                select.form-select(name='year')
+                  option(value='') -- वर्ष निवडा --
+
+                  - let currYear  = new Date().getFullYear()
+                  - let startYr = currYear  - 25
+                  each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                    option(value=year) #{year}
+
+
+
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            button.btn.btn-primary(type="button" id='print-namuna-22-btn') Print
+
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना २२ - स्थावर मालमत्ता नोंदवही (रस्ते व जमिनीव्यतिरिक्त)
+
+
+
+
+      div.py-2
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          button(type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#monthYearModal") Print
+          a.btn.btn-sm.btn-primary(href='/namuna') नमुने
+
+          a.btn.btn-primary.btn-sm(href='/namuna/22/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+      div.d-flex.gap-4.justify-content-center.mb-4.d-none
+
+        div 
+          select.form-select(name='show-report-by')
+
+            option(value='-1') --Select Report Type--
+
+            option(value='1') फक्त वर्ष
+            option(value='2') वर्ष श्रेणी
+            option(value='3') महिना व वर्ष
+
+        - let startYear =22 
+        - let currentYear = new Date().getFullYear()
+
+        div(id='show-report-by-div')
+          div(data-target='1' style='display:none')
+            div.d-flex.gap-2
+              select.form-select(name='selected_year' id='selected-year')
+                option(value='') -- Select --
+                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                  option(value=year) #{year}
+
+          div(data-target='2' style='display:none')
+            div.d-flex.gap-2
+
+              div
+                select.form-select(name='selected_from_year' id='selected-from-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+              div 
+                select.form-select(name='selected_to_year' id='selected-to-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                    option(value=year) #{year}
+
+          div(data-target='3' style='display:none')
+            div.d-flex.gap-2
+              div
+                select.form-select(name='selected_month' id='selected-month')
+                  option(value='-1') --Select Month --
+                  each month, monthNum in months
+                    option(value=(monthNum + 1))= month
+
+              div
+                select.form-select(name='selected_year_2' id='selected-year-2')
+                  option(value='') -- Select Year--
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+        div
+          button.btn.btn-secondary.btn-sm(id='show-namuna-22-report-btn')
+            | Report
+        div
+          a.btn.btn-primary.btn-sm(href='/namuna/22/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+
+
+      .table-container 
+
+        .table-responsive 
+
+          table(style='width: 100%;')
+
+            thead
+
+              //- tr 
+                th(colspan='16' )
+                  div
+                    div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                      div नमुना २२
+
+                      div ग्रामपंचायत कार्यालय 
+                        span #{gp.gp_name}
+                      div
+                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                    div 
+                      div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६७ (१) पहा)
+
+                    //- div 
+                      if fromYear && toYear
+                        div.text-center(style='font-size: 22px; margin-top:0.2rem;') सन #{fromYear} - #{toYear} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                      else if (month && year)
+                        div.text-center(style='font-size: 22px; margin-top:0.2rem;') #{month} सन #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+                      else if year 
+                        div.text-center(style='font-size: 22px; margin-top:0.2rem;') सन #{year - 1} - #{year} कर्मचारी वर्गाची सूची व वेतनश्रेणी नोंदवही
+
+
+              tr 
+                th(colspan='16')
+                  | स्थावर मालमत्ता नोंदवही (रस्ते व जमिनीव्यतिरिक्त)
+              tr
+                //- 1
+                th(rowspan='2') अनु. क्र
+
+                //- 2 to 5
+                th(rowspan='2') संपादनाची खरेदेची किंवा उभारणीची तारीख
+                th(rowspan='2') ज्या अन्वये मालमत्ता संपादित केली त्या आदेशांची व पंचायत ठरावाचे क्रमांक व दिनांक
+                th(rowspan='2') मालमत्तेचा भूमापन क्रमांक व मालमत्तेचे वर्णन
+                th(rowspan='2') कोणत्या कारणासाठी वापर केला
+
+                //- 6 to 6
+                th(rowspan='2') उभारणीचा किंवा संपादनाचा खर्च
+
+                //- Combined column of column from 7 to 11
+                th(rowspan='1' colspan='5') दुरुस्त्यांवर किंवा फेरफारावर वर्षभरात खर्च करण्यात आलेली रक्कम
+
+
+
+                //-  12 TO 16  
+                th(rowspan='2') वर्ष अखेरीस घटलेली किंमत 
+                //- th(rowspan='2') सरपंच व सचिव यांची आद्यक्षारी
+                th(rowspan='2') मालमत्तेची विल्हेवाट लावण्यासाठी पंचायतीच्या ठरावाचा क्रमांक
+                th(rowspan='2') मालमत्तेची विल्हेवाट लावण्यासाठी कलम ५५ खालील प्राधिकाऱ्याच्या आदेशाचा क्रमांक व तारीख
+                th(rowspan='2') शेरा
+                th(rowspan='2') Action
+
+
+
+              tr 
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') तारीख
+                th(rowspan='1' colspan='1') चालू दुरुस्त्या
+                th(rowspan='1' colspan='1') विशेष दुरुस्त्या
+                th(rowspan='1' colspan='1') मूळ बांधकाम
+                th(rowspan='1' colspan='1') मूळ बांधकामाचे स्वरूप
+
+
+                //- th
+                //- th
+
+              tr 
+                each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                  th #{num}
+
+            tbody
+
+
+
+              each namuna22Entry, index in namuna22Details 
+                //- each namuna22Entry, index in Array(22).fill(paymentnamuna22Entry).flat()
+                tr 
+                  td #{index + 1}
+
+                  td #{namuna22Entry._acquisition_date}
+                  td #{namuna22Entry.resolution_number} व #{namuna22Entry._resolution_date}
+                  td #{namuna22Entry.survey_number}, #{namuna22Entry.property_description}
+                  td #{namuna22Entry.usage_reason}
+                  td #{namuna22Entry.construction_or_editing_expense}
+
+                  //- 7 to 11
+                  td #{namuna22Entry._repairs_expenditure_date}
+                  td #{namuna22Entry.ongoing_repairs}
+                  td #{namuna22Entry.special_repairs}
+                  td #{namuna22Entry.original_construction}
+                  td #{namuna22Entry.original_construction_type}
+
+                  //- 12 to 16
+                  td #{namuna22Entry.year_end_depreciation}
+                  //- For sign
+                  //- td 
+                  //- 14
+                  td #{namuna22Entry.disposal_resolution_number}
+                  td #{namuna22Entry.disposal_order_number}, #{namuna22Entry._disposal_order_date} 
+                  td #{namuna22Entry.remarks}
+
+
+                  td
+                    .d-flex.align-items-center.justify-content-center.gap-1
+                      a.btn.btn-success.btn-sm(href=`/namuna/22/edit/${namuna22Entry.id}`)
+                        i.fa.fa-pencil
+
+                      button.btn.btn-danger.btn-sm(class='delete-namuna-22-entry-btn' data-namuna22Entry=namuna22Entry.id)
+                        i.fa.fa-trash

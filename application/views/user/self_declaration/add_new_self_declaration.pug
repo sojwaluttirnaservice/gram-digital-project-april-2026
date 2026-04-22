@@ -1,0 +1,184 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    title नवीन रहिवासी स्वयंघोषितपत्र
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+
+    //--mask plugin jquery    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    //- script(src='/asstest/coustom/js/handlers/webcam.handler.self.declaration.js')
+    script(src='/asstest/coustom/js/handlers/self-declaration-manager.js')
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+            
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+        .modal-dialog { max-width: none; }
+            }
+            .modal-dialog {
+                width: 98%;
+                height: 92%;
+                padding: 0;
+            }
+body
+    include ../include/navs.pug
+    .container
+        .row.justify-content-center
+            .col-12
+                h5.text-center.font-weight-bold.m-3 नवीन रहिवासी स्वयंघोषितपत्र
+            .col-12.mb-2(style='text-align: end;')
+                a(href="/self-declaration").btn.btn-primary यादी बघा
+            .col-12.col-md-9
+                .card 
+                    .card-header.bg-warning.font-weight-bold माहिती
+                    .card-body 
+                        form#newSelfDeclerationForm
+                            .row.justify-content-center
+                                .col-12.col-sm-6.col-lg-5
+                                    .form-group
+                                        label.font-weight-bold(for='applicantFullSelfNameE') स्वताचे पूर्ण नाव:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="applicantFullSelfNameE")
+                                        input#applicantFullSelfNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantFullSelfNameM")
+                                    
+                                .col-12.col-sm-6.col-lg-5
+                                    .form-group
+                                        label.font-weight-bold(for='applicantFullParentNameE') वडिलांचे/मोठ्या व्यक्तीचे पूर्ण नाव:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="applicantFullParentNameE")
+                                        input#applicantFullParentNameM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantFullParentNameM")
+
+                                .col-5.col-lg-2
+                                    .form-group
+                                        label.font-weight-bold(for='applicantAge') वय:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="applicantAgeE")
+                                        input#applicantAgeM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantAgeM")
+                                
+                                .col-7.col-lg-6  
+                                    .form-group
+                                        label.font-weight-bold(for='applicantAadharE') आधारकाडा क्र.: 
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="English" name="applicantAadharE" id='applicantAadharE')
+                                        input#applicantAadharM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantAadharM" )
+                                
+                                .col-12.col-sm-6  
+                                    .form-group
+                                        label.font-weight-bold(for='applicantOccupation') व्यवसाय:
+                                        input.mainText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantOccupationE")
+                                        input.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantOccupationM")
+                                .col-4   
+                                    .form-group
+                                        label.font-weight-bold(for='applicantRelation') तुमच नात
+                                        select.form-control.form-control-sm(type='text' placeholder="मराठीत" name="applicantRelation")
+                                            option(value="मुलगा") मुलगा
+                                            option(value="मुलगी") मुलगी
+                                            option(value="पती") पती
+                                            option(value="पत्नी") पत्नी
+                                            option(value="वडील") वडील
+                                            option(value="आई") आई
+
+                                .col-4
+                                    .form-group
+                                        label.font-weight-bold(for='applicantGender') लिंग:
+                                        select.form-control.form-control-sm(name="applicantGender")
+                                            option(value="") ----निवडा----
+                                            option(value="स्त्री") स्त्री
+                                            option(value="पुरुष") पुरुष
+                                            option(value="इतर") इतर
+                                    
+                                .col-4  
+                                    .form-group
+                                        label.font-weight-bold(for='applicantResidency') रहिवासी:
+                                        select.form-control.form-control-sm(name="applicantResidency")
+                                            option(value="") ----निवडा----
+                                            option(value="कायम") कायम
+                                            option(value="तात्पुरते") तात्पुरते
+                                
+                                .col-12 
+                                    .form-group
+                                        label.font-weight-bold(for='applicantAddressE') राहणार(पूर्ण पत्ता):
+                                        textarea.mainText.form-control-sm.form-control(type='text' placeholder="English" name="applicantAddressE")
+                                        textarea#applicantAddressM.secText.form-control-sm.form-control(type='text' placeholder="मराठीत" name="applicantAddressM"  )
+                                
+                                .col-12.col-md-4
+                                    .form-group
+                                        label.font-weight-bold(for='applicantVillage') गाव:
+                                        input.form-control-sm.form-control(value=gp.gp_name type='text' placeholder="मराठीत" name="applicantVillage")
+
+                                .col-12.col-md-4 
+                                    .form-group
+                                        label.font-weight-bold(for='applicantTaluka') तालुका:
+                                        input.form-control-sm.form-control(value=gp.gp_taluka type='text' placeholder="मराठीत" name="applicantTaluka")
+                                .col-12.col-md-4
+                                    .form-group
+                                        label.font-weight-bold(for='applicantState') जिल्हा:
+                                        input.form-control-sm.form-control(value=gp.gp_dist type='text' placeholder="मराठीत" name="applicantState")
+                                    
+                                .col-12.col-md-8   
+                                    .form-group
+                                        .custom-file
+                                            input#image_1.custom-file-input(type='file')
+                                            label.custom-file-label(for='customFile') Choose file
+                                    
+                                .col-12.col-md-4#webcam-preview-btn
+                                    .form-group
+                                        input(type="button" value="Take a Snap" id="btPic" onclick="takeSnapShot()")         
+                                    
+                                .col-12.col-md-6   
+                                    .form-group
+                                        img#image-1-preview(width="220" height="200" src="image" style='display: block; margin-inline: auto;')
+                                    
+                                .col-12.col-md-6#webcam-preview-div
+                                    .form-group
+                                        #camera(style="height:auto;width:auto; border: 1px solid gray;")
+                                    
+                                .col-12.text-center
+                                    .form-group
+                                        button#saveSelfDecleration.btn.btn-success.mt-2 जतन करा
+
+                                //-
+                        //- .col-12.col-md-4
+                        //-     .card
+                        //-         .card-header.bg-warning.font-weight-bold फोटो
+                        //-         .card-body.row
+    //-- CHECK TAX PAID MODAL
+    //-- Removing this as per now
+    //--include ../include/check-tax-paid-modal.pug
+
+    //-- CERTIFICATE PRINT MODAL
+    include ../include/payment-type-modal.pug
+
+
+    include ../include/check-tax-paid-modal-2.pug

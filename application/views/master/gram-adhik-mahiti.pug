@@ -1,0 +1,243 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+        link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+        //js
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js') 
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/master.main.handler.js')
+        script(src='/asstest/coustom/js/handlers/master-panel-handlers/master.gram-adhik-info.handler.js' defer)
+        style.
+            .modal {
+                padding: 0 !important; // override inline padding-right added from js
+            }
+            .modal .modal-dialog {
+                width: 100%;
+                max-width: none;
+                height: 100%;
+                margin: 0;
+            }
+            .modal .modal-content {
+                height: 100%;
+                border: 0;
+                border-radius: 0;
+            }
+            .modal .modal-body {
+                overflow-y: auto;
+            }
+            .modalGramMahitiTwoImage{
+                height:30vh;
+            }
+            .modalGramMahitiThreeImage > img{
+                height:30vh;
+            }
+            .show-text{
+                width:55vw;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow: ellipsis;
+            }
+            .show-text:hover{
+                overflow:visible;
+                white-space:pre-line;
+            }
+    body
+        //  Modal 
+        .modal.fade#modalGramMahitiOne(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5.modal-title#modalGramMahitiOneLabel(contentEditable="true") 
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        div#modalGramMahitiOneData(contentEditable="true") 
+                    .modal-footer
+                        button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                        button.btn.btn-primary(type="button")#saveGramMahiti Save changes
+
+        .modal.fade#modalGramMahitiTwo(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5.modal-title(contentEditable="true") समित्या यादी
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .row
+                            .col-6.col-md-3
+                                input#modalGramMahitiTwoTextInput.form-control(type="input" placeholder="Enter Name")
+                            .col-6.col-md-3
+                                input#modalGramMahitiTwoInput.form-control(type="file")
+                            .col-12.col-md-3.text-center.mt-1
+                                button#modalGramMahitiTwoSaveBtn.btn.btn-success.btn-sm Upload
+
+                            .col-12
+                                hr
+                                .row.mt-3#modalGramMahitiTwoImageList(style='row-gap:1rem;')
+        .modal.fade#modalGramMahitiThree(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5.modal-title गावातील उद्योग माहिती
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .row(style='row-gap: 0.4rem;')
+                            .col-6.col-md-4.col-lg-2
+                                input#modalGramMahitiThreeTextInputBrand.form-control(type="input" placeholder="Enter Shop Name")
+                            .col-6.col-md-4.col-lg-2
+                                input#modalGramMahitiThreeTextInputName.form-control(type="input" placeholder="Enter Owner Name")
+                            .col-6.col-md-4.col-lg-2
+                                input#modalGramMahitiThreeTextInputNumber.form-control(type="input" placeholder="Enter Mobile No" maxlength='10')
+                            .col-6.col-md-4.col-lg-3
+                                input#modalGramMahitiThreeInput.form-control(type="file")
+                            .col-12.col-md-4.col-lg-3.text-center
+                                button#modalGramMahitiThreeSaveBtn.btn.btn-success.btn-sm Upload
+
+                            .col-12
+                                hr
+                                .row.mt-3#modalGramMahitiThreeImageList
+        .modal.fade#modalGramMahitiFour(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5.modal-title गावातील बातम्या
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .row
+                            .col-8.col-md-4
+                                input#modalGramMahitiFourInput.form-control(type="file")
+                            .col-4.col-md-3
+                                button#modalGramMahitiFourSaveBtn.btn.btn-success.btn-sm Upload
+
+                            .col-12
+                                hr
+                                .row.mt-3#modalGramMahitiFourImageList
+        .modal.fade#modalGramMahitiFive(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        .row.justify-content-center(style='row-gap:0.4rem;')
+                            h5.col-12.modal-title आरोग्य केंद्र माहिती
+                            .col-12
+                                input#modalGramMahitiFiveInputOne(type="file" style='')
+                            .col-12.col-md-5.text-center
+                                button#modalGramMahitiFiveSaveBtnOne.btn.btn-success.btn-sm आरोग्य केंद्र जतन करा
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .row(style='row-gap:0.4rem;')
+                            .col-12
+                                strong.fw-bold अधिकारी माहिती
+
+                            .col-6.col-md-3
+                                input#modalGramMahitiFiveInputTwoAdhikariName.form-control(type="text" placeholder="अधिकारी नाव")
+                            .col-6.col-md-3
+                                input#modalGramMahitiFiveInputTwoAdhikariPost.form-control(type="text" placeholder="अधिकारी पद")
+                            .col-6.col-md-3
+                                input#modalGramMahitiFiveInputTwoAdhikariImage.form-control(type="file")
+                            .col-6.col-md-3
+                                button#modalGramMahitiFiveSaveBtnTwo.btn.btn-success.btn-sm अधिकारी जतन करा
+                        hr
+                        .row
+                            .col-3
+                                .row#modalGramMahitiFiveImageListOne
+                            .col-9
+                                .row#modalGramMahitiFiveImageListTwo
+        .modal.fade#modalGramMahitiSix(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+            .modal-dialog(role="document")
+                .modal-content
+                    .modal-header
+                        h5.modal-title 
+                            span.mr-3 शासकीय योजना
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    .modal-body
+                        .row(style='row-gap: 0.5rem;')
+                            .col-12.col-md-3
+                                .row.align-items-center(style='row-gap: 0.1rem;')
+                                    .col-12.col-sm-6
+                                        input#modalGramMahitiSixInputName.form-control(type="text" placeholder="योजनेच्ये नाव")
+                                    .col-12.col-sm-6
+                                        input#modalGramMahitiSixInputFile.form-control(type="file")
+                            .col-12.col-md-9.col-lg-8
+                                textarea#modalGramMahitiSixInputDesc.form-control(rows="3" placeholder="यौजानेची माहिती")
+                            .col-12.col-md-12.col-lg-1.text-center
+                                button#modalGramMahitiSixSaveBtn.btn.btn-success.btn-sm जतन करा
+                        hr
+                        .row
+                            .col-12
+                                .table-responsive
+                                    table.table.table-bordered
+                                        thead
+                                            tr
+                                                th(width="5%") Sr. No.
+                                                th(width="20%") योजनेच नाव
+                                                th(width="50%") माहिती
+                                                th(width="10%") PDF File
+                                                th(width="5%") Action
+                                        tbody#modalGramMahitiSixImageList
+        .container-fluid
+            //- if we dont send the key isMasterPanel from backend, then it might be master panel view, if sent check if its true, if not then go in else
+            if (typeof isMasterPanel == 'undefined' || isMasterPanel)
+                .row
+                    .col-12 
+                        .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                            a.navbar-brand(href="/master") Master Panel
+            else
+                include ../user/include/navs.pug
+            //- .row
+                .col-12 
+                    .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                        a.navbar-brand(href="/master") Master Panel
+            .row.mt-5.justify-content-center
+                .col-12.col-md-10.mt-5
+                    .row(style='gap: 0.2rem; row-gap: 1rem;').justify-content-center.justify-content-md-between.justify-content-lg-start
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiOne") 
+                                i.fa.fa-users.fa-2x.text-success
+                                |  &nbsp;गाव विषयी माहिती
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiTwo") 
+                                i.fa.fa-home.fa-2x.text-primary(aria-hidden='true')
+                                |  &nbsp;समित्या यादी
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiThree") 
+                                i.fa.fa-home.fa-2x.text-primary(aria-hidden='true')
+                                |  &nbsp;गावातील उद्योग माहिती
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiFour") 
+                                i.fa.fa-home.fa-2x.text-primary(aria-hidden='true')
+                                |  &nbsp;गावातील बातम्या
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiFive") 
+                                i.fa.fa-home.fa-2x.text-primary(aria-hidden='true')
+                                |  &nbsp;आरोग्य केंद्र माहिती
+                        .col-5.col-md-3.col-lg-2.box.box--white.m-0
+                            p.box__title(data-toggle="modal" data-target="#modalGramMahitiSix") 
+                                i.fa.fa-home.fa-2x.text-primary(aria-hidden='true')
+                                |  &nbsp;शासकीय योजना 
+
+        script.
+            let _gp = !{JSON.stringify(gp)};

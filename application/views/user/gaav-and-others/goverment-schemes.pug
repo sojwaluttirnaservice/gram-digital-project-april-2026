@@ -1,0 +1,48 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+
+block content 
+
+
+    section(class='py-8 md:py-16')
+        .container
+            div
+                //- img(class='h-16 block mx-auto w-fit' src="/new-gp-page/main-page/images/shasan-pdf/shasan-ypjana-pdf.jpg" alt="")
+                h1(class='text-4xl fw-bold text-center text-blue-700')
+                    //- | शासकीय योजनांची माहिती
+                    | #{t("governmentSchemesPage.heading")}
+
+
+            div(class='mt-8 flex flex-col')
+                div(class='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8')
+                    div(class='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8')
+                        div(class='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg')
+                            table(class='min-w-full divide-y divide-gray-300')
+                                thead(class='bg-gray-50')
+                                    tr
+                                        th(scope='col' colspan='5%' class='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6') 
+                                            //- | Sr. No.
+                                            | #{t("governmentSchemesPage.tableRowHeadings.serialNo")}
+                                        th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900')
+                                            //- | File Name
+                                            | #{t("governmentSchemesPage.tableRowHeadings.fileName")}
+                                        th(scope='col' class='relative py-3.5 pl-3 pr-4 sm:pr-6')
+                                            span(class='sr-only') Download
+                                            //- span Action
+                                            span #{t("governmentSchemesPage.tableRowHeadings.action")}
+
+                                tbody(class='bg-white')
+
+                                    if govYojnaFileList
+                                        each gov_yojna, index in govYojnaFileList
+                                            tr(class=`${(index % 2 == 1) ? 'bg-gray-50' : 'bg-white'}`)
+                                                td(colspan='5%' class='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6') #{index + 1}
+                                                td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{`${gov_yojna.file_name}`}
+                                                td(class='relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6')
+                                                    a(href=`/new-gp-page/main-page/files/gov-yojna-lists/${gov_yojna.file_name}` class='text-indigo-600 text hover:text-indigo-900' target='_blank')
+                                                        span(class='sr-only') 
+                                                        i.fa-solid.fa-cloud-arrow-down
+
+
+

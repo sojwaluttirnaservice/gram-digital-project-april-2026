@@ -1,0 +1,369 @@
+doctype html
+head
+    title नमुना ८ कर वसुली अवहाल #{zp.gp_name} 
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+    style.
+        @media print {
+            @page {
+                size: A4 landscape;
+            }
+            .my-print{
+                margin-top:1cm;
+                position: relative;
+                page-break-before: always;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+            body{
+                margin:0px;
+            } 
+        } 
+        .main-heading {
+            margin-left:10%
+        }
+        .heading-second{
+            margin-left:30%
+        }
+        .heading-second-2{
+            margin-left:30%
+        }
+        #table2 td {
+            padding-left:1px;
+            padding-right:1px;
+        }
+        #table3 td {
+            padding-left:3px;
+            padding-right:3px;
+        } 
+        p {
+            padding-bottom:0px !important;
+            margin-bottom:1px !important;
+        }
+        td {
+            font-size:12px !important;
+            border:2px solid;
+        }
+        table {
+            width:100% !important;
+        }
+        .h5 {
+            font-size:15px !important;
+        }
+        .h6 {
+            font-size:14px !important;
+        }
+        .h7{
+            font-size:11px !important;
+        }
+        .h8{
+            font-size:10px !important;
+        }
+        #tbody-data td{
+            padding-top:20px;
+            padding-bottom:20px
+        }
+        .waterMark{
+            position: absolute;
+            opacity: 0.3;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+        }
+        .my-print{
+            position: relative;
+        }
+body(style='position: relative;')
+    img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+    .row.my-print
+        .col-12
+            table(border="2")
+                thead
+                    tr.p-0.m-0
+                        td(colspan="6").p-1.m-0 
+                            center
+                                h4 ग्राम पंचायत कार्यालय 
+                                    strong  #{zp.gp_name} 
+                                    |  पंचायत समिती 
+                                    strong  #{zp.gp_taluka}
+                                    |  जिल्हा 
+                                    strong  #{zp.gp_dist}
+                                - var date = new Date();
+                                - var _month = date.getMonth() + 1;
+                                - var _year = date.getFullYear();
+
+                                if (_month < 4)
+                                    - var year_one = _year - 1;
+                                    - var year_two = _year;
+                                else 
+                                    - var year_one = _year;
+                                    - var year_two = _year + 1;
+
+                                p.h6.font-weight-bold.text-center ग्रामपंचायतीचे नाव #{zp.gp_name} कराची मागणी वसूली अहवाल माहे #{lastVasuliSamanya.month} वर्ष #{year_one}-#{year_two}             
+    .row
+        .col-12 
+            div
+                center 
+                    table(border="1")#table3
+                        thead
+                            tr.p-0.m-0
+                                td(width="" rowspan="2").text-center.m-0.font-weight-bold अनू क्र
+                                td(width="" rowspan="2").text-center.m-0.font-weight-bold करांचे नाव
+                                td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण मागणी
+                                td(width="" colspan="3").text-center.m-0.font-weight-bold मागील महिन्या पर्यंतची वसूली
+                                td(width="" colspan="3").text-center.m-0.font-weight-bold चालू महिन्यातील वसूली
+                                td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण वसूली
+                                td(width="" colspan="3").text-center.m-0.font-weight-bold बाकी
+                                td(width="" rowspan="2").text-center.m-0.font-weight-bold वसूली टक्के वारी
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 मागील
+                                td(width="").text-center.m-0 चालू
+                                td(width="").text-center.m-0 एकूण
+                                td(width="").text-center.m-0 मागील
+                                td(width="").text-center.m-0 चालू
+                                td(width="").text-center.m-0 एकूण
+                                td(width="").text-center.m-0 मागील
+                                td(width="").text-center.m-0 चालू
+                                td(width="").text-center.m-0 एकूण
+                                td(width="").text-center.m-0 मागील
+                                td(width="").text-center.m-0 चालू
+                                td(width="").text-center.m-0 एकूण
+                                td(width="").text-center.m-0 मागील
+                                td(width="").text-center.m-0 चालू
+                                td(width="").text-center.m-0 एकूण
+                        tbody#tbody-data
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 १)
+                                td(width="").text-center.m-0 इमारत कर
+                                td(width="").text-center.m-0 #{formNineDetails.lastBuildingTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentBuildingTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalBuildingTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_lastBuildingTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_currentBuildingTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_totalBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastBuildingTax+ currentVasuliSamanya.tpl_lastBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentBuildingTax+currentVasuliSamanya.tpl_currentBuildingTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalBuildingTax+currentVasuliSamanya.tpl_totalBuildingTax}
+                                td(width="").text-center.m-0 #{formNineDetails.lastBuildingTax - lastVasuliSamanya.tpl_lastBuildingTax+ currentVasuliSamanya.tpl_lastBuildingTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentBuildingTax - lastVasuliSamanya.tpl_currentBuildingTax+currentVasuliSamanya.tpl_currentBuildingTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalBuildingTax - lastVasuliSamanya.tpl_totalBuildingTax+currentVasuliSamanya.tpl_totalBuildingTax}
+
+                                - var val = (lastVasuliSamanya.tpl_totalBuildingTax+currentVasuliSamanya.tpl_totalBuildingTax)/formNineDetails.totalBuildingTax;
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 २)
+                                td(width="").text-center.m-0 दिवाबत्ती कर
+                                td(width="").text-center.m-0 #{formNineDetails.lastDivaTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentDivaTax	}
+                                td(width="").text-center.m-0 #{formNineDetails.totalDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalDivaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_lastDivaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_currentDivaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_totalDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastDivaTax+ currentVasuliSamanya.tpl_lastDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentDivaTax+currentVasuliSamanya.tpl_currentDivaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalDivaTax+currentVasuliSamanya.tpl_totalDivaTax}
+
+                                td(width="").text-center.m-0 #{formNineDetails.lastDivaTax - lastVasuliSamanya.tpl_lastDivaTax+ currentVasuliSamanya.tpl_lastDivaTax} 
+                                td(width="").text-center.m-0 #{formNineDetails.currentDivaTax - lastVasuliSamanya.tpl_currentDivaTax+currentVasuliSamanya.tpl_currentDivaTax} 
+                                td(width="").text-center.m-0 #{formNineDetails.totalDivaTax - lastVasuliSamanya.tpl_totalDivaTax+currentVasuliSamanya.tpl_totalDivaTax} 
+
+                                - var val = (lastVasuliSamanya.tpl_totalDivaTax+currentVasuliSamanya.tpl_totalDivaTax)/formNineDetails.totalDivaTax;
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 ३) 
+                                td(width="").text-center.m-0 आरोग्य कर 
+                                td(width="").text-center.m-0 #{formNineDetails.lastArogyaTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentArogyaTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalArogyaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastArogyaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentArogyaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalArogyaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_lastArogyaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_currentArogyaTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_totalArogyaTax} 
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastArogyaTax+ currentVasuliSamanya.tpl_lastArogyaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_currentArogyaTax+currentVasuliSamanya.tpl_currentArogyaTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalArogyaTax+currentVasuliSamanya.tpl_totalArogyaTax}
+
+                                td(width="").text-center.m-0 #{formNineDetails.lastArogyaTax - lastVasuliSamanya.tpl_lastArogyaTax+ currentVasuliSamanya.tpl_lastArogyaTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentArogyaTax - lastVasuliSamanya.tpl_currentArogyaTax+currentVasuliSamanya.tpl_currentArogyaTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalArogyaTax - lastVasuliSamanya.tpl_totalArogyaTax+currentVasuliSamanya.tpl_totalArogyaTax}
+
+                                - var val = (lastVasuliSamanya.tpl_totalArogyaTax+currentVasuliSamanya.tpl_totalArogyaTax.tpl_totalTax)/formNineDetails.totalArogyaTax;
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 ४)
+                                td(width="").text-center.m-0 मागील इमा दंड कर 
+                                td(width="").text-center.m-0 #{formNineDetails.lastTaxFine}
+                                td(width="").text-center.m-0 #{formNineDetails.lastTaxRelief}
+                                td(width="").text-center.m-0 #{formNineDetails.totalTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastTaxFine}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastTaxRelief}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalTax}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_lastTaxFine}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_lastTaxRelief}
+                                td(width="").text-center.m-0 #{currentVasuliSamanya.tpl_totalTax}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastTaxFine+ currentVasuliSamanya.tpl_lastTaxFine}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_lastTaxRelief+currentVasuliSamanya.tpl_lastTaxRelief}
+                                td(width="").text-center.m-0 #{lastVasuliSamanya.tpl_totalTax+currentVasuliSamanya.tpl_totalTax}
+
+                                td(width="").text-center.m-0 #{formNineDetails.lastTaxFine - lastVasuliSamanya.tpl_lastTaxFine+ currentVasuliSamanya.tpl_lastTaxFine}
+                                td(width="").text-center.m-0 #{formNineDetails.lastTaxRelief - lastVasuliSamanya.tpl_lastTaxRelief+currentVasuliSamanya.tpl_lastTaxRelief}
+                                td(width="").text-center.m-0 #{formNineDetails.totalTax - lastVasuliSamanya.tpl_totalTax+currentVasuliSamanya.tpl_totalTax}
+                                - var val = (lastVasuliSamanya.tpl_totalTax+currentVasuliSamanya.tpl_totalTax)/formNineDetails.totalTax;
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0.font-weight-bold
+                                td(width="").text-center.m-0 अ)
+                                td(width="").text-center.m-0 एकूण कर
+                                - var aNineTotalLast = formNineDetails.lastBuildingTax + formNineDetails.lastDivaTax + formNineDetails.lastArogyaTax + formNineDetails.lastTaxFine;
+                                - var aNineTotalCurrent = formNineDetails.currentBuildingTax + formNineDetails.currentDivaTax + formNineDetails.currentArogyaTax + formNineDetails.lastTaxRelief;
+                                - var aNineTotalTotal = formNineDetails.totalBuildingTax + formNineDetails.totalDivaTax + formNineDetails.totalArogyaTax + formNineDetails.totalTax
+                                - var aVasuliLastSamanyaLast  = lastVasuliSamanya.tpl_lastBuildingTax + lastVasuliSamanya.tpl_lastDivaTax + lastVasuliSamanya.tpl_lastArogyaTax + lastVasuliSamanya.tpl_lastTaxFine
+                                - var aVasuliLastSamanyaCurrent = lastVasuliSamanya.tpl_currentBuildingTax+ lastVasuliSamanya.tpl_currentDivaTax + lastVasuliSamanya.tpl_currentArogyaTax + lastVasuliSamanya.tpl_lastTaxRelief
+                                - var aVasuliLastSamanyaTotal = lastVasuliSamanya.tpl_totalBuildingTax+ lastVasuliSamanya.tpl_totalDivaTax + lastVasuliSamanya.tpl_totalArogyaTax + lastVasuliSamanya.tpl_totalTax        
+
+                                - var aVasuliCurrentSamanyaLast  = currentVasuliSamanya.tpl_lastBuildingTax + currentVasuliSamanya.tpl_lastDivaTax + currentVasuliSamanya.tpl_lastArogyaTax + currentVasuliSamanya.tpl_lastTaxFine
+                                - var aVasuliCurrentSamanyaCurrent = currentVasuliSamanya.tpl_currentBuildingTax+ currentVasuliSamanya.tpl_currentDivaTax + currentVasuliSamanya.tpl_currentArogyaTax + currentVasuliSamanya.tpl_lastTaxRelief
+                                - var aVasuliCurrentSamanyaTotal = currentVasuliSamanya.tpl_totalBuildingTax+ currentVasuliSamanya.tpl_totalDivaTax + currentVasuliSamanya.tpl_totalArogyaTax + currentVasuliSamanya.tpl_totalTax        
+
+
+                                td(width="").text-center.m-0 #{aNineTotalLast}
+                                td(width="").text-center.m-0 #{aNineTotalCurrent}
+                                td(width="").text-center.m-0 #{aNineTotalTotal} 2
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaLast}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaCurrent}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaTotal} 2
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaLast}
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaCurrent}
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaTotal} 2
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaLast + aVasuliCurrentSamanyaLast}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaCurrent + aVasuliCurrentSamanyaCurrent}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaTotal + aVasuliCurrentSamanyaTotal}
+
+                                td(width="").text-center.m-0 #{aNineTotalLast - aVasuliLastSamanyaLast + aVasuliCurrentSamanyaLast} 
+                                td(width="").text-center.m-0 #{aNineTotalCurrent - aVasuliLastSamanyaCurrent + aVasuliCurrentSamanyaCurrent} 
+                                td(width="").text-center.m-0 #{aNineTotalTotal - aVasuliLastSamanyaTotal + aVasuliCurrentSamanyaTotal} 
+                                - var val = (aVasuliLastSamanyaTotal+ aVasuliCurrentSamanyaTotal)/aNineTotalTotal
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 १)
+                                td(width="").text-center.m-0 सामान्य पाणी कर
+                                td(width="").text-center.m-0 #{formNineDetails.lastGenealWaterTax }
+                                td(width="").text-center.m-0 #{formNineDetails.currentGenealWaterTax }
+                                td(width="").text-center.m-0 #{formNineDetails.totalGenealWaterTax }
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_lastGenealWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_currentGenealWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_totalGenealWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_lastGenealWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_currentGenealWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_totalGenealWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_lastGenealWaterTax+currentVasuliPani.tpl_lastGenealWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_totalGenealWaterTax+currentVasuliPani.tpl_totalGenealWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_currentGenealWaterTax+currentVasuliPani.tpl_currentGenealWaterTax}
+
+                                td(width="").text-center.m-0 #{formNineDetails.lastGenealWaterTax  - lastVasuliPani.tpl_lastGenealWaterTax+currentVasuliPani.tpl_lastGenealWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentGenealWaterTax  - lastVasuliPani.tpl_currentGenealWaterTax+currentVasuliPani.tpl_currentGenealWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalGenealWaterTax  - lastVasuliPani.tpl_totalGenealWaterTax+currentVasuliPani.tpl_totalGenealWaterTax}
+                                - var val = (lastVasuliPani.tpl_totalGenealWaterTax+currentVasuliPani.tpl_totalGenealWaterTax)/formNineDetails.totalGenealWaterTax;
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0
+                                td(width="").text-center.m-0 २)
+                                td(width="").text-center.m-0 विशेष पाणी कर
+                                td(width="").text-center.m-0 #{formNineDetails.lastSpacialWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentSpacialWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalSpacialWaterTax }
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_lastSpacialWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_currentSpacialWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_totalSpacialWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_lastSpacialWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_currentSpacialWaterTax}
+                                td(width="").text-center.m-0 #{currentVasuliPani.tpl_totalSpacialWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_lastSpacialWaterTax+currentVasuliPani.tpl_lastSpacialWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_currentSpacialWaterTax+currentVasuliPani.tpl_currentSpacialWaterTax}
+                                td(width="").text-center.m-0 #{lastVasuliPani.tpl_totalSpacialWaterTax+currentVasuliPani.tpl_totalSpacialWaterTax}
+
+                                td(width="").text-center.m-0 #{formNineDetails.lastSpacialWaterTax - lastVasuliPani.tpl_lastSpacialWaterTax+currentVasuliPani.tpl_lastSpacialWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.currentSpacialWaterTax - lastVasuliPani.tpl_currentSpacialWaterTax+currentVasuliPani.tpl_currentSpacialWaterTax}
+                                td(width="").text-center.m-0 #{formNineDetails.totalSpacialWaterTax - lastVasuliPani.tpl_totalSpacialWaterTax+currentVasuliPani.tpl_totalSpacialWaterTax}
+                                - var val = (lastVasuliPani.tpl_totalSpacialWaterTax+currentVasuliPani.tpl_totalSpacialWaterTax)/formNineDetails.totalSpacialWaterTax
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+                            tr.p-0.m-0.font-weight-bold
+                                td(width="").text-center.m-0 ब)
+                                td(width="").text-center.m-0 एकूण पाणी कर
+                                - var bNineTotalLast = formNineDetails.lastGenealWaterTax + formNineDetails.lastSpacialWaterTax
+                                - var bNineTotalCurrent = formNineDetails.currentGenealWaterTax + formNineDetails.currentSpacialWaterTax
+                                - var bNineTotalTotal = formNineDetails.totalGenealWaterTax + formNineDetails.totalSpacialWaterTax
+
+                                - var bNineLastPaniLast = lastVasuliPani.tpl_lastGenealWaterTax + lastVasuliPani.tpl_lastSpacialWaterTax
+                                - var bNineLastPaniCurrent = lastVasuliPani.tpl_currentGenealWaterTax + lastVasuliPani.tpl_currentSpacialWaterTax
+                                - var bNineLastPaniTotal = lastVasuliPani.tpl_totalGenealWaterTax + lastVasuliPani.tpl_totalSpacialWaterTax
+
+                                - var bNineCurrentPaniLast = currentVasuliPani.tpl_lastGenealWaterTax + currentVasuliPani.tpl_lastSpacialWaterTax
+                                - var bNineCurrentPaniCurrent = currentVasuliPani.tpl_currentGenealWaterTax + currentVasuliPani.tpl_currentSpacialWaterTax
+                                - var bNineCurrentPaniTotal = currentVasuliPani.tpl_totalGenealWaterTax + currentVasuliPani.tpl_totalSpacialWaterTax
+
+
+
+                                td(width="").text-center.m-0 #{bNineTotalLast}
+                                td(width="").text-center.m-0 #{bNineTotalCurrent}
+                                td(width="").text-center.m-0 #{bNineTotalTotal}
+                                td(width="").text-center.m-0 #{bNineLastPaniLast}
+                                td(width="").text-center.m-0 #{bNineLastPaniCurrent}
+                                td(width="").text-center.m-0 #{bNineLastPaniTotal}
+                                td(width="").text-center.m-0 #{bNineCurrentPaniLast}
+                                td(width="").text-center.m-0 #{bNineCurrentPaniCurrent}
+                                td(width="").text-center.m-0 #{bNineCurrentPaniTotal}
+                                td(width="").text-center.m-0 #{bNineLastPaniLast+ bNineCurrentPaniLast}
+                                td(width="").text-center.m-0 #{bNineLastPaniCurrent+ bNineCurrentPaniCurrent}
+                                td(width="").text-center.m-0 #{bNineLastPaniTotal+ bNineCurrentPaniTotal}
+
+                                td(width="").text-center.m-0 #{bNineTotalLast - bNineLastPaniLast+ bNineCurrentPaniLast}
+                                td(width="").text-center.m-0 #{bNineTotalCurrent - bNineLastPaniCurrent+ bNineCurrentPaniCurrent}
+                                td(width="").text-center.m-0 #{bNineTotalTotal - bNineLastPaniTotal+ bNineCurrentPaniTotal}
+                                - var val = (bNineLastPaniTotal+ bNineCurrentPaniTotal)/bNineTotalTotal
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+
+                            tr.p-0.m-0.font-weight-bold
+                                td(width="").text-center.m-0 
+                                td(width="").text-center.m-0 एकूण (अ+ब )बेरीज
+                                td(width="").text-center.m-0 #{aNineTotalLast + bNineTotalLast}
+                                td(width="").text-center.m-0 #{aNineTotalCurrent + bNineTotalCurrent}
+                                td(width="").text-center.m-0 #{aNineTotalTotal + bNineTotalTotal}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaLast + bNineLastPaniLast}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaCurrent + bNineLastPaniCurrent}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaTotal + bNineLastPaniTotal}
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaLast + bNineCurrentPaniLast}
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaCurrent + bNineCurrentPaniCurrent}
+                                td(width="").text-center.m-0 #{aVasuliCurrentSamanyaTotal + bNineCurrentPaniTotal}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaLast + aVasuliCurrentSamanyaLast + bNineLastPaniLast+ bNineCurrentPaniLast}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaCurrent + aVasuliCurrentSamanyaCurrent+bNineLastPaniCurrent+ bNineCurrentPaniCurrent}
+                                td(width="").text-center.m-0 #{aVasuliLastSamanyaTotal + aVasuliCurrentSamanyaTotal+bNineLastPaniTotal+ bNineCurrentPaniTotal}
+                                td(width="").text-center.m-0 #{(aNineTotalLast + bNineTotalLast) - (aVasuliLastSamanyaLast + aVasuliCurrentSamanyaLast + bNineLastPaniLast+ bNineCurrentPaniLast)}
+                                td(width="").text-center.m-0 #{(aNineTotalCurrent + bNineTotalCurrent) - (aVasuliLastSamanyaCurrent + aVasuliCurrentSamanyaCurrent+bNineLastPaniCurrent+ bNineCurrentPaniCurrent)}
+                                td(width="").text-center.m-0 #{(aNineTotalTotal + bNineTotalTotal) - (aVasuliLastSamanyaTotal + aVasuliCurrentSamanyaTotal+bNineLastPaniTotal+ bNineCurrentPaniTotal)}
+                                - var val = (aVasuliLastSamanyaTotal + aVasuliCurrentSamanyaTotal+bNineLastPaniTotal+ bNineCurrentPaniTotal)/(aNineTotalTotal + bNineTotalTotal)
+                                - val = isNaN(val) ? 0:val ;
+                                td(width="").text-center.m-0 #{(val*100).toFixed(2)} %
+
+

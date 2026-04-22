@@ -1,0 +1,303 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    //- Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    //- // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+
+    link(href='/asstest/coustom/css/namuna/namuna-23/namuna-23-page.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-23/namuna-23-page-handler.js' type='module' defer)
+
+    title नमुना २३ - ताब्यातील रस्त्यांची नोंदवही
+
+    style.
+
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        font-size: 90%;
+      }
+
+
+  body
+    include ../../include/navs.pug
+
+
+    - 
+      const months = [
+        "०१ (जानेवारी)", "०२ (फेब्रुवारी)", "०३ (मार्च)", "०४ (एप्रिल)", 
+        "०५ (मे)", "०६ (जून)", "०७ (जुलै)", "०८ (ऑगस्ट)", 
+        "०९ (सप्टेंबर)", "१० (ऑक्टोबर)", "११ (नोव्हेंबर)", "१२ (डिसेंबर)"
+      ]
+
+    .modal.fade#monthYearModal(tabindex="-1" aria-labelledby="monthYearModalLabel" aria-hidden="true")
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h1.modal-title.fs-5#monthYearModalLabel महिना व वर्ष निवडा
+            button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body
+
+            form(id='month-year-form') 
+
+              .d-flex.align-items-center.justify-content-center.gap-4 
+                select.form-select(name='month')
+                  option(value='' ) -- महिना निवडा--
+                  each month, monthIndex in months 
+                    option(value=(monthIndex + 1)) #{month}
+
+
+                select.form-select(name='year')
+                  option(value='') -- वर्ष निवडा --
+
+                  - let currYear  = new Date().getFullYear()
+                  - let startYr = currYear  - 25
+                  each year in Array.from({length: currYear  - startYr + 1}, (v, i) => startYr + i).reverse()
+                    option(value=year) #{year}
+
+
+
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            button.btn.btn-primary(type="button" id='print-namuna-23-btn') Print
+
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना २३ - ताब्यातील रस्त्यांची नोंदवही
+
+
+
+
+      div.py-2
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          button(type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#monthYearModal") Print
+          a.btn.btn-primary.btn-sm(href='/namuna') नमुने
+
+
+          a.btn.btn-primary.btn-sm(href='/namuna/23/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+      div.d-flex.gap-4.justify-content-center.mb-4.d-none
+
+        div 
+          select.form-select(name='show-report-by')
+
+            option(value='-1') --Select Report Type--
+
+            option(value='1') फक्त वर्ष
+            option(value='2') वर्ष श्रेणी
+            option(value='3') महिना व वर्ष
+
+        - let currentYear = new Date().getFullYear()
+        - let startYear = currentYear - 25
+
+        div(id='show-report-by-div')
+          div(data-target='1' style='display:none')
+            div.d-flex.gap-2
+              select.form-select(name='selected_year' id='selected-year')
+                option(value='') -- Select --
+                each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                  option(value=year) #{year}
+
+          div(data-target='2' style='display:none')
+            div.d-flex.gap-2
+
+              div
+                select.form-select(name='selected_from_year' id='selected-from-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+              div 
+                select.form-select(name='selected_to_year' id='selected-to-year')
+                  option(value='') -- Select --
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i + 1)
+                    option(value=year) #{year}
+
+          div(data-target='3' style='display:none')
+            div.d-flex.gap-2
+              div
+                select.form-select(name='selected_month' id='selected-month')
+                  option(value='-1') --Select Month --
+                  each month, monthNum in months
+                    option(value=(monthNum + 1))= month
+
+              div
+                select.form-select(name='selected_year_2' id='selected-year-2')
+                  option(value='') -- Select Year--
+                  each year in Array.from({length: currentYear - startYear + 1}, (v, i) => startYear + i)
+                    option(value=year) #{year}
+
+        div
+          button.btn.btn-secondary.btn-sm(id='show-namuna-23-report-btn')
+            | Report
+        div
+          a.btn.btn-primary.btn-sm(href='/namuna/23/create')
+            .d-flex.gap-2.align-items-center
+              <i class="fa fa-plus"></i>
+              | नवीन नोंदणी 
+
+
+
+      .table-container 
+
+        .table-responsive 
+
+
+          table(style='width: 100%;')
+
+            thead
+
+
+              tr 
+                th(colspan='17')
+                  | ताब्यातील रस्त्यांची नोंदवही
+              tr
+                //- 1 to 2
+                th(rowspan='3') अनु. क्र
+                th(rowspan='3') रस्त्याचे नाव
+
+
+                //- column 3 and 4
+                th(rowspan='1' colspan='2') गाव
+
+
+                //- 5 to 9
+                th(rowspan='3') लांबी (किमी)
+                th(rowspan='3') रुंदी (किमी)
+                th(rowspan='3') रस्त्याचा प्रकार (खडीचा, बिनखडीचा डांबरी किंवा सिमेंटचा)
+                th(rowspan='3') पूर्ण केल्याची तारीख
+                th(rowspan='3') प्रति किलोमीटर  रस्ता तयार करण्यात आलेला खर्च
+
+
+                //- 10, 11, 12, 13, 14, 15
+                //- १० (क) ते (च)
+                th(rowspan='1' colspan='6') दुरुस्त्या
+
+
+                //-  16, 17 or ११, १२
+                th(rowspan='3') शेरा
+                th(rowspan='3') Action
+
+              tr 
+                //- th
+                //- th
+                th(rowspan='2' colspan='1') पासून
+                th(rowspan='2' colspan='1') पर्यंत
+
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='2') चालू
+                th(rowspan='1' colspan='2') विशेष
+                th(rowspan='1' colspan='2') मूळ बांधकाम
+
+                //- th
+                //- th
+
+              tr 
+                //- th 
+                //- th 
+
+                //- th 
+                //- th
+
+
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') खर्च
+                th(rowspan='1' colspan='1') स्वरूप
+                th(rowspan='1' colspan='1') खर्च
+                th(rowspan='1' colspan='1') स्वरूप
+                th(rowspan='1' colspan='1') खर्च 
+                th(rowspan='1' colspan='1') स्वरूप
+
+                //- th
+                //- th
+
+              tr 
+                each num in ['१', '२', '३', '४', '५', '६', '७', '८', '९', '१०(क)', '१०(ख)', '१०(ग)', '१०(घ)', '१०(ड)', '१०(च)', '११', '१२']
+                  th #{num}
+
+            tbody
+
+              each namuna23Entry, index in namuna23Details 
+                //- each namuna23Entry, index in Array(20).fill(paymentnamuna23Entry).flat()
+                tr 
+                  td #{index + 1}
+                  td #{namuna23Entry.road_name}
+
+                  td #{namuna23Entry.start_village}
+                  td #{namuna23Entry.end_village}
+
+
+                  td #{namuna23Entry.length_km}
+                  td #{namuna23Entry.width_km}
+
+                  td #{namuna23Entry.road_type}
+
+                  td #{namuna23Entry._completion_date}
+
+                  td #{namuna23Entry.cost_per_km}
+
+                  //- Repairs
+
+                  td #{namuna23Entry.ongoing_repairs_cost}
+                  td #{namuna23Entry.ongoing_repairs_form}
+
+                  td #{namuna23Entry.special_repairs_cost}
+                  td #{namuna23Entry.special_repairs_form}
+
+                  td #{namuna23Entry.original_construction_cost}
+                  td #{namuna23Entry.original_construction_form}
+
+                  td #{namuna23Entry.remarks}
+
+                  td 
+
+                    .d-flex.align-items-center.justify-content-center.gap-1
+                      a.btn.btn-success.btn-sm(href=`/namuna/23/edit/${namuna23Entry.id}`)
+                        i.fa.fa-pencil
+
+                      button.btn.btn-danger.btn-sm(class='delete-namuna-23-entry-btn' data-namuna23Entry=namuna23Entry.id)
+                        i.fa.fa-trash

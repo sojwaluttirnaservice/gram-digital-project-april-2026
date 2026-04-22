@@ -1,0 +1,123 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title} 
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        style.
+            table { border-collapse: collapse; width: 100%; }
+            td, th {
+                padding: 0.3rem;
+                border: 1px solid oklch(26.2% 0.051 172.552);
+                vertical-align: top;
+                font-size:0.8rem;
+            }
+
+            @media print {
+                @page { size:  portrait; margin: 9mm; }
+                .hide-print { display: none !important; }
+                //- #print { height:100lvh; }
+                .my-print { position: relative; background: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+
+                /* keep header repeating */
+                thead { display: table-header-group !important; }
+                //- tfoot { display: table-footer-group !important; }
+                tr    { page-break-inside: avoid; break-inside: avoid; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .qrcode {
+                width: 50.8mm;
+                height: 50.8mm;
+            }
+
+            .qrcode img {
+                width: 100%;
+                height: 100%;
+            }
+
+
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+    body
+        - let year = ''
+
+        div(class="hide-print")
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+                select(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+
+        if !(n5Demand)
+            h2(class='mt-8 text-center text-2xl font-bold text-red-500') माहीती  नमुद नाही .
+        else
+            #print(class="tiro-devanagari-marathi-regular" style='width:210mm; height:297mm;')
+                div(class="my-print p-2 border border-gray-900 bg-white/80 relative h-full print-bg")
+                    div(class="absolute inset-0 bg-white opacity-80")
+
+                    .relative.z-10.bg-white.bg-opacity-80.h-full.flex.flex-col.justify-between.px-3.py-2
+
+                        // Header section
+                        div(class='text-center space-y-0.5')
+                            h3(class='text-3xl font-bold tracking-wide')
+                                | महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजना महाराष्ट्र अंतर्गत 
+
+                            div(class='text-2xl font-semibold')
+                                | रोजगार मागणीचा अर्ज प्राप्त झाल्याची पोच 
+
+                            div(class='text-2xl font-bold mt-0.5')
+                                | नमुना ५
+
+                            div(class='text-base italic leading-tight text-gray-700')
+                                | ( Under Section (3) (i) & Para 9 of Schedule II Of Central Act )
+
+                        // Application number
+                        div(class='text-end text-xl font-semibold mt-1')
+                            | अर्ज क्रमांक : #{n5Demand.id}
+
+                        // Body content
+                        div(class='mt-2 text-2xl leading-snug text-justify')
+                            p
+                                | अर्जदार 
+                                span(class='font-bold') #{n5Demand.applicant_name}
+                                |  यांच्या कडून दि. 
+                                span(class='font-bold') #{n5Demand._n5_from_date}
+                                |  पासून दिनांक 
+                                span(class='font-bold') #{n5Demand._n5_to_date}
+                                |  पर्यंत एकूण दिवस रोजगार अर्ज प्राप्त झाला. दिवसाचे आत असल रोजगार पुरवण्यात येईल. उपरोक्त प्रमाणे रोजगार पुरविणे अशक्य ठरल्यास आपणास कायद्यानुसार बेरोजगार भत्ता देण्यात येईल.
+
+                        // Footer / signature section
+                        div(class='mt-4 grid grid-cols-2 gap-2 text-xl')
+
+                            div(class='flex flex-col gap-1')
+                                p(class='font-semibold') ठिकाण :
+                                p(class='font-semibold') दिनांक :
+
+                            div(class='flex items-end justify-end')
+                                p(class='text-right font-semibold')
+                                    | अधिकाऱ्याचे नाव, सही व शिक्का

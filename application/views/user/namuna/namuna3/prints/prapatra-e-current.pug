@@ -1,0 +1,159 @@
+
+
+
+.my-print 
+
+    h4(style='text-align: center;') प्रपत्र इ चालू
+ 
+
+    div(style='margin-bottom: 1rem;') ग्रामपंचायत #{gp.gp_name} पंचायत समिती #{gp.gp_taluka} जिल्हा #{gp.gp_dist} वर्ष __________
+
+
+    table(style='width: 100%;')
+        thead 
+
+            tr 
+                th(rowspan='1' colspan='4') (एक) ग्रामनिधीतून खर्च
+                //- th
+                //- th
+                //- th
+
+
+                th(rowspan='1' colspan='5') कारभार विषयक खर्च
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='6') शिक्षण व आरोग्य विषयक खर्च
+                //- th
+                //- th
+                //- th 
+                //- th
+                //- th
+                //- th
+
+            tr 
+                th(rowspan='2' colspan='1') सरपंच मानधन
+                th(rowspan='2' colspan='1') सदस्य बैठक भत्ता
+                th(rowspan='2' colspan='1') सदस्य/सरपंच प्रवास भत्ता
+                th(rowspan='2' colspan='1') कार्माचारी
+
+                th(rowspan='2' colspan='1') कर्मचारी प्रवास भत्ता
+                th(rowspan='2' colspan='1') कार्यालयीन खर्च
+                th(rowspan='2' colspan='1') दुरुस्ती व देखभाल
+                th(rowspan='2' colspan='1') स्वच्छता
+                th(rowspan='2' colspan='1') पाणीपुरवठा
+
+                th(rowsspan='1' colspan='2') विद्युत देयके
+                //- th
+
+                th(rowspan='2' colspan='1') एकूण (अ + ब) (१० + ११)
+                th(rowspan='2' colspan='1') साहित्य व इतर
+                th(rowspan='2' colspan='1') शिक्षण
+                th(rowspan='2' colspan='1') आरोग्य
+
+
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='1') (अ) (पाणीपुरवठा)
+                th(rowspan='1' colspan='1') रस्त्यावरील दिवाबत्ती
+
+                //- th 
+                //- th 
+                //- th 
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,'10(अ)', '10(ब)', '' , 11,12,13]
+                    th #{num}
+
+        tbody
+            tr 
+                td #{prapatraECurrent.sarpanch_honorarium}
+                td #{prapatraECurrent.member_meeting_allowance} 
+                td #{prapatraECurrent.member_sarpanch_travel_allowance} 
+
+                td #{prapatraECurrent.employee_salary} 
+                td #{prapatraECurrent.employee_travel_allowance} 
+                td #{prapatraECurrent.office_expenses} 
+
+                td #{prapatraECurrent.repair_and_maintenance} 
+                td #{prapatraECurrent.cleanliness_expenses} 
+                td #{prapatraECurrent.water_supply_expenses} 
+
+                td #{prapatraECurrent.electricity_water_supply_bill} 
+                td #{prapatraECurrent.road_lighting_expenses} 
+
+                td #{prapatraECurrent.total_expenses_a_b} 
+
+                td #{prapatraECurrent.literature_and_miscellaneous} 
+                td #{prapatraECurrent.education_expenses}
+                td #{prapatraECurrent.healthcare_expenses}
+
+                td #{prapatraECurrent.total_expenses_c_d}
+
+
+
+    div(style="padding: 1rem 0; font-weight: bold;")
+        div(style="display: flex; align-items: center; justify-content: space-evenly;")
+            div ग्रामनिधीतून खर्च
+            div (लोककल्याण विषयक कामावरील खर्च)
+
+
+    table(style='width: 100%;')
+
+        thead
+
+
+            tr
+                th रस्ते व गटार
+                th अन्य बांधकाम
+                th वाचनालय
+                th जलशुद्धीकरण टीसी एल
+                th बाग व मैदान
+                th समाज कल्याण/आदिवासी व मागासवर्ग
+                th डी.व्ही.सी. एक वर्गणी
+
+                th महिला व बाल कल्य्ना
+                th सामाजिक व सांस्कृतिक कार्यक्रम
+                th कोंडवाडा
+                th साहित्य व खरेदी
+                th शेती
+                th इतर
+                th एकूण (एक) (ग्रामनिधी खर्च)
+            tr 
+                each num in [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+                    th #{num}
+
+        tbody 
+
+            tr 
+                td #{prapatraECurrent.road_and_drainage_construction}
+                td #{prapatraECurrent.other_construction} 
+                td #{prapatraECurrent.reading_room} 
+                td #{prapatraECurrent.water_purification_tcl} 
+                td #{prapatraECurrent.gardens_and_playgrounds} 
+                td #{prapatraECurrent.social_welfare_tribal_welfare} 
+                td #{prapatraECurrent.dvdf_contribution} 
+
+                td #{prapatraECurrent.women_and_child_welfare} 
+                td #{prapatraECurrent.social_cultural_programs} 
+                td #{prapatraECurrent.kondwada} 
+                td #{prapatraECurrent.literature_and_purchases} 
+                td #{prapatraECurrent.agriculture_expenses} 
+                td #{prapatraECurrent.other_expenses} 
+                td #{prapatraECurrent.total_gram_nidhi_expenses}
+              
+
+
+        

@@ -1,0 +1,356 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title प्रिंट - नमुना १८ - किरकोळ रोकडवही
+
+        style.
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            /* Basic styles for the body */
+            body {
+                //- font-family: Arial, sans-serif;
+                margin: 0;
+                //- padding: 20px;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            /* Styles for the table */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            /* Print styles */
+            @media print {
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #hide-buttons {
+                    display: none;
+                }
+
+                table {
+                    page-break-inside: avoid;
+                }
+
+                tr {
+                    page-break-inside: avoid;
+                    page-break-after: avoid;
+                }
+
+                th, td {
+                    border: 1px solid black !important;
+                    font-size: 12px;
+                    page-break-inside: avoid;
+                    page-break-after: avoid;
+                }
+
+
+                //- .my-print {
+                //-         height: 210mm;
+                //-         width: 298mm;
+
+                //- }
+
+                @page {
+                    size: A4 landscape;
+                    margin: 4mm ;
+                    //- padding: 1mm;
+                }
+            }
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+    body
+
+        #hide-buttons
+
+            button(onclick='window.print();' type='print' style='position: fixed; top: 49%; left: 1rem; background: blue; color: white; border: none; padding:0.5rem 1rem; border-radius: 0.5rem;') Print
+
+
+        table
+
+            thead
+
+                tr
+                    td(colspan='17')
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                h4 नमुना १८
+
+                                h4 ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                h6.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४ (क), ४२ (४) (थ) व ६५ पहा)
+
+                            div 
+                                if fromYear && toYear
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear}, नमुना १८- किरकोळ रोकडवही  
+                                else if (month && year)
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year}, नमुना १८- किरकोळ रोकडवही  
+                                else if year 
+                                    div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year}, नमुना १८- किरकोळ रोकडवही  
+
+                            //- div#hide-buttons
+                                button(onclick='window.print()') Print
+
+
+                tr
+                    th 
+                    th(colspan='8') जमा
+                    th(colspan='8') खर्च
+
+                tr
+                    //- For CREDIT / जमा
+
+                    th अनु.क्र.
+
+                    th दिनांक
+                    th धनादेश क्रमांक
+                    th कोणाकडून प्राप्त झाली
+                    th तपशील
+
+                    th रक्कम
+                    th अग्रीम
+                    th एकूण
+                    th अद्याक्षरी
+
+                    //- For CREDIT / खर्च
+
+                    th दिनांक
+                    th प्रमाणपत्र क्रमांक
+                    th कोणास रक्कम दिली
+                    th तपशील
+
+                    th रक्कम
+                    th अग्रीमातून खर्च
+                    th एकूण
+                    th अद्याक्षरी
+
+                tr 
+                    //-'१७', '१८'
+                    each marathiNumber in  ['१', '२', '३', '४', '५', '६', '७', '८', '९', '१०', '११', '१२', '१३', '१४', '१५', '१६', '१७'] 
+                        th #{marathiNumber}
+
+
+            tbody
+
+                each namuna18Entry, index in namuna18Details 
+
+                    tr 
+
+                        td #{index + 1}
+
+                        td #{namuna18Entry._recieved_date}
+                        td #{namuna18Entry.cheque_number}
+                        td #{namuna18Entry.received_from}
+                        td #{namuna18Entry.recieved_details}
+                        td #{namuna18Entry.recieved_amount}
+                        td #{namuna18Entry.recieved_advance_amount}
+                        td #{namuna18Entry.total_recieved_amount}
+
+                        //- Sign
+                        td 
+
+                        td #{namuna18Entry._spending_date}
+                        td #{namuna18Entry.certificate_number}
+                        td #{namuna18Entry.given_to}
+                        td #{namuna18Entry.expense_details}
+                        td #{namuna18Entry.expense_amount}
+                        td #{namuna18Entry.expense_from_advance}
+                        td #{namuna18Entry.total_expense_amount}
+                        td  
+
+
+
+        //- .records 
+
+            //- each monthYearGroup in JSON.parse(namuna18Details)
+
+                .my-print
+
+                    h4 Month: #{monthYearGroup.month}, Year: #{monthYearGroup.year}
+
+                    table
+
+                        thead
+
+                            tr
+                                td(colspan='17')
+                                    div
+                                        div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                            h4 नमुना १८
+
+                                            h4 ग्रामपंचायत कार्यालय 
+                                                span #{gp.gp_name}
+                                            div
+                                                img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                        div 
+                                            h6.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४ (क), ४२ (४) (थ) व ६५ पहा)
+
+                                        div 
+                                            if fromYear && toYear
+                                                div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{fromYear} - #{toYear}, नमुना १८- किरकोळ रोकडवही  
+                                            else if (month && year)
+                                                div.text-center(style='font-size: 20px; margin-top:0.2rem;') #{month} सन #{year}, नमुना १८- किरकोळ रोकडवही  
+                                            else if year 
+                                                div.text-center(style='font-size: 20px; margin-top:0.2rem;') सन #{year - 1} - #{year}, नमुना १८- किरकोळ रोकडवही  
+
+                                        //- div#hide-buttons
+                                            button(onclick='window.print()') Print
+
+
+                            tr
+                                th 
+                                th(colspan='8') जमा
+                                th(colspan='8') खर्च
+
+                            tr
+                                //- For CREDIT / जमा
+
+                                th अनु.क्र.
+
+                                th दिनांक
+                                th धनादेश क्रमांक
+                                th कोणाकडून प्राप्त झाली
+                                th तपशील
+
+                                th रक्कम
+                                th अग्रीम
+                                th एकूण
+                                th अद्याक्षरी
+
+                                //- For CREDIT / खर्च
+
+                                th दिनांक
+                                th प्रमाणपत्र क्रमांक
+                                th कोणास रक्कम दिली
+                                th तपशील
+
+                                th रक्कम
+                                th अग्रीमातून खर्च
+                                th एकूण
+                                th अद्याक्षरी
+
+                            tr 
+                                //-'१७', '१८'
+                                each marathiNumber in  ['१', '२', '३', '४', '५', '६', '७', '८', '९', '१०', '११', '१२', '१३', '१४', '१५', '१६', '१७'] 
+                                    th #{marathiNumber}
+
+
+                        tbody 
+
+
+
+
+
+
+
+
+
+
+
+
+                        tbody
+
+                            - let correspondingEntries =  monthYearGroup.corresponding_entries || []
+                            - let creditEntries = correspondingEntries.filter(entry => entry.transaction_type == 'CREDIT')
+                            - let debitEntries = correspondingEntries.filter(entry => entry.transaction_type == 'DEBIT')
+
+                            - let maxRows = Math.max(creditEntries.length || 0,  debitEntries.length || 0)
+
+                            - for(let i = 0; i < maxRows; ++i)
+
+                                - let entry = null
+                                tr
+
+                                    - entry = creditEntries[i]
+
+                                    if entry
+
+                                        //- जमा / क्रेडीट
+                                        td #{i + 1}
+
+                                        td #{entry._date}
+                                        td #{entry.reference_number}
+                                        td #{entry.sender_receiver_details}
+                                        td #{entry.details}
+
+                                        td #{entry.amount}
+                                        td #{entry.advance_transactions}
+                                        td #{entry.total_amount}
+                                        td 
+                                    else
+                                        td #{i + 1}
+                                        each _ in Array.from({ length: 8 }, (_, i) => i + 1)
+                                            td
+
+                                    //- खर्च / अद्याक्षरी
+                                    - entry = debitEntries[i]
+
+                                    if entry
+
+                                        //- जमा / क्रेडीट
+
+                                        td #{entry._date}
+                                        td #{entry.reference_number}
+                                        td #{entry.sender_receiver_details}
+                                        td #{entry.details}
+
+                                        td #{entry.amount}
+                                        td #{entry.advance_transactions}
+                                        td #{entry.total_amount}
+                                        td 
+                                    else
+                                        each _ in Array.from({ length: 8 }, (_, i) => i + 1)
+                                            td
+
+
+
+                            //- else 
+                                tr
+
+                                    //- जमा / क्रेडीट
+
+                                    each _ in Array.from({ length: 8 }, (_, i) => i + 1)
+                                        td.d-none
+
+                                    //- खर्च / अद्याक्षरी
+
+
+                                    td #{entry._date}
+                                    td #{entry.reference_number}
+                                    td #{entry.sender_receiver_details}
+                                    td #{entry.details}
+
+                                    td #{entry.amount}
+                                    td #{entry.advance_transactions}
+                                    td #{entry.total_amount}
+                                    td 
+
+

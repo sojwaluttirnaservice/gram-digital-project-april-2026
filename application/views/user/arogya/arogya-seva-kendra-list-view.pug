@@ -1,0 +1,55 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+
+
+block content
+
+    section(class='py-6 relative')
+
+
+        .container 
+
+            div(class='')
+                h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                    <i class="fa-solid fa-list"></i>
+                    //- span.ml-2 आरोग्य सेवा केंद्र यादी
+                    span.ml-2 #{t("healthServiceInfoPage.heading")}
+
+    section(class='relative')
+        .dots-container(class='absolute top-0 bottom-0 w-full h-full max-h-screen')
+            //- .dot(class='my-bg-blue size-10 rounded-full bg-opacity-80 ')
+
+        .container
+            .gallery-container(class='mt-8 relative')
+
+                if arogyaSevaKendraList && arogyaSevaKendraList.length > 0
+                    div(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-y-8 gap-x-10 justify-content-between')
+
+                        each arogyaSevaKendra in arogyaSevaKendraList
+                            .gallery-card(class='flex flex-col gap-2 ')
+                                div(class='relative w-full rounded-xl overflow-hidden border')
+                                    .image-holder(class='w-full overflow-hidden h-40')
+                                        - let path = `/new-gp-page/main-page/files/arogya-seva-kendra-information/${arogyaSevaKendra.arogya_seva_kendra_image_name}`
+                                        img(src=path class='w-full h-full' onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                    .buttons-container(class='w-full absolute bottom-0 left-0')
+                                        div(class='bg-white py-1 flex items-center justify-center gap-6 bg-opacity-60')
+                                            a(class='bg-emerald-500 text-white size-6 flex items-center justify-center p-1 rounded-md' href=`/arogya/arogya-seva-kendra-gallery-view?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}` target='_blank')
+                                                <i class="fa-solid fa-image"></i>
+                                            a(class='bg-blue-500 text-white size-6 flex items-center justify-center p-1 rounded-md' href=`/arogya/arogya-seva-kendra-details-view?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}` target='_blank')
+                                                <i class="fa-solid fa-info"></i>
+                                div(class='relative bg-white group rounded-md' style='box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;') 
+                                    div(class='text-center font-semibold tracking-wider px-2 py-1 w-full tracking-wider truncate ellipses') #{arogyaSevaKendra.arogya_seva_kendra_name} 
+                                    div(class='absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-max px-2 py-1 bg-gray-600 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity')
+                                        | #{arogyaSevaKendra.arogya_seva_kendra_name}
+                                        //- Tooltip arrow
+                                        div(class='absolute left-1/2 transform -translate-x-1/2 -top-2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-600')
+
+                else 
+                    div(class='mt-8 text-center text-3xl font-bold tracking-wider italic') 
+                        //- | यादी उपलब्ध नाही...
+                        | #{t("healthServiceInfoPage.noList")}
+
+        script.
+            //- const arogyaSevaKendraList = !{JSON.stringify(arogyaSevaKendraList)}

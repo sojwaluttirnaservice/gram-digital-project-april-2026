@@ -1,0 +1,86 @@
+//- TAHSIL OFFICE SEVA DETAILS MODAL (VIEW ONLY)
+.modal(tabindex='-1' id='tahsil-office-seva-application-details-modal')
+    .modal-dialog.modal-dialog-centered.modal-xl
+        .modal-content.shadow-lg.rounded-4
+
+            // ================= HEADER =================
+            .modal-header.bg-light.border-bottom
+                h5.modal-title.fw-semibold.mb-0
+                    i.fa.fa-file-alt.me-2.text-primary
+                    | नागरिकांना सेवा सुविधा अर्ज तपशील
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+            // ================= BODY =================
+            .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+
+                // ================= APPLICANT DETAILS =================
+                h6.fw-bold.text-primary.mb-3 अर्जदाराची माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचे नाव
+                        input.form-control(readonly name='applicant_name')
+
+                    .col-12.col-md-6
+                        label.form-label मोबाईल क्रमांक
+                        input.form-control(readonly name='applicant_mobile')
+
+                    .col-12.col-md-6
+                        label.form-label आधार क्रमांक
+                        input.form-control(readonly name='applicant_aadhaar')
+
+                    .col-12.col-md-6
+                        label.form-label अर्जदाराचा पत्ता
+                        input.form-control(readonly name='applicant_address')
+
+                hr.my-3
+
+                // ================= SERVICE DETAILS =================
+                h6.fw-bold.text-primary.mb-3 सेवा माहिती
+                .row.g-3.mb-4
+                    .col-12.col-md-6
+                        label.form-label सेवा विषय
+                        input.form-control(readonly name='subject')
+
+                    .col-12.col-md-6
+                        label.form-label अर्ज क्रमांक
+                        input.form-control(readonly name='id')
+
+                hr.my-3
+
+                // ================= DOCUMENTS =================
+                h6.fw-bold.text-primary.mb-3 जोडलेली कागदपत्रे
+                .row.g-3.mb-4#tahsil-documents-view-container
+                    .col-12
+                        div.text-muted.small कागदपत्रांची माहिती उपलब्ध नाही
+
+                                
+                // ================= STATUS: ACCEPTED =================
+                hr.my-3.status-hr.d-none
+                .div(class='status-section d-none' data-status='ACCEPTED')
+                    h6.fw-bold.text-success.mb-3 अर्ज स्वीकार तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label स्वीकार दिनांक
+                            input.form-control(readonly name='date_of_acceptance')
+                        .col-12.col-md-6
+                            label.form-label स्वीकार शेरा
+                            input.form-control(readonly name='acceptance_remark')
+
+                // ================= STATUS: REJECTED =================
+                hr.my-3.status-hr.d-none
+                .div(class='status-section d-none' data-status='REJECTED')
+                    h6.fw-bold.text-danger.mb-3 अर्ज नाकारण्याचा तपशील
+                    .row.g-3.mb-4
+                        .col-12.col-md-6
+                            label.form-label नकार दिनांक
+                            input.form-control(readonly name='date_of_rejection')
+                        .col-12.col-md-6
+                            label.form-label नकार शेरा
+                            input.form-control(readonly name='rejection_remark')
+
+
+            // ================= FOOTER =================
+            .modal-footer.border-top.justify-content-between
+                button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                    i.fa.fa-times.me-1
+                    | बंद करा

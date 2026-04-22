@@ -1,0 +1,249 @@
+doctype html
+head
+	title नमुना ८ करनिहाय यादी
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+	style.
+		@media print {
+
+			#download-excel {
+				display: none !important;
+			}
+			@page{
+				size: A4 landscape;
+			}
+			.my-print{
+				position: relative;
+				page-break-before: always;
+			}
+			table{
+				page-break-inside: always;
+			}
+			.waterMark{
+				position: absolute;
+				opacity: 0.5;
+				width: 100%;
+				height: 100%;
+			}
+		}
+		table, th, td{
+			border: 1px solid black;
+			padding: 3px; 
+			text-align:center;
+		}
+		.body-f-size {
+			font-size: 0.75rem !important;
+		}
+		.head-f-size {
+			font-size: 15px;
+			text: bold;
+			text-align: center;
+		}
+		.center{
+			text-align: center;
+		}
+		.my-print {
+			position: relative;
+		}
+		.waterMark{
+			position: absolute;
+			opacity: 0.3;
+			top: calc(50% - 250px);
+			left: calc(50% - 250px);
+			width: 500px;
+			height: 500px;
+		}
+
+	<script src="https://cdn.jsdelivr.net/npm/table2excel@1.0.4/dist/table2excel.min.js"></script>
+
+	script.
+		document.addEventListener('DOMContentLoaded', function(e){
+			e.preventDefault();
+
+			function downloadExcel(){
+				const formattedDate = new Date().toLocaleString('en-GB', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit',
+					second: '2-digit',
+					hour12: false
+				}).replace(/[\/,: ]/g, '-'); // Replace slashes, commas, and spaces with dashes
+				var table2excel = new Table2Excel({
+					defaultFileName: `कर-निहाय-यादी-${formattedDate}`
+				});
+				var tables = document.querySelectorAll("table");
+
+				tables.forEach(function (table) {
+					// Convert number cells to text
+					Array.from(table.querySelectorAll("td")).forEach(function (cell) {
+						var cellValue = cell.innerText || cell.textContent;
+
+						// Apply this logic to numbers that should not be converted to scientific notation
+						if (/^\d+$/.test(cellValue)) {
+							// If the cell is a number (digits only), add a leading apostrophe (') to make it text
+							cell.innerText = "" + cellValue; // This will force Excel to treat it as text
+						}
+					});
+				});
+
+				// Export the modified tables
+				table2excel.export(tables);
+			}
+
+		document.getElementById('download-excel-btn').addEventListener('click', downloadExcel)
+		})
+body
+
+	#download-excel(style='position: fixed; top: 1rem; right: 2rem; z-index: 20;')
+		button(id='download-excel-btn' style='background: rgba(44, 138, 175, 0.48); font-weight:bold; color: black; padding:0.5rem 1rem; border:0px;') Download Excel
+
+	- let numbers = 0;
+	//- each val, index in data
+
+	.my-print
+		include ../include/form-8-header.pug
+		img.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png")
+
+		table(style="width:100% !important;")
+			thead
+				tr.head-f-size
+					th(width='3%') अनु.क्र.
+					th(width='3%') मा.क्र.
+					th(width='3%') जुना मा.क्र.
+					th(width='15%') मालमत्ता धारकाचे नाव 
+					th(width='1%') भोगवटदाराचे नाव 
+					th(width='7%') मो 
+					th(width='10%') आधार क्र 
+					th(width='1%') शौचालय असल्यास किंवा नाही 
+					th(width='1%') घरकुल असल्यास किंवा नाही 
+					th(width='1%') पाणी कनेक्शन असल्यास किंवा नाही
+					th(width='1%') एकूण बांधकाम
+					th(width='1%') एकूण खुली जागा
+					th(width='5%') एकूण जागेचे क्षेत्रफळ
+					th(width='5%') एकूण जगाचे चौ मी
+					th(width='5%') एकूण चालू इमारत कर
+					th(width='5%') एकूण खुली जागा कर
+					th(width="5%") एकूण चालू इतर व वाणिज्य कर 
+
+					th(width='5%') पाणी कर
+					th(width='5%') चालू दिवा कर 
+					th(width='5%') चालू आरोग्य कर
+					th(width='5%') स्वच्छता कर
+
+
+
+
+					th(width='5%') संपुर्ण एकूण कर 
+
+				tr 
+					-for(let col = 1; col <= 22; col++)
+						th #{col}
+
+			- 
+				//- for vertical sums of the columns
+				let totalCurrentBuildingTax = 0;
+				let totalOpenAreaTax = 0;
+				let totalOtherTax = 0;
+
+				let totalWaterTax = 0;
+				let totalCurrentDivaTax = 0;
+				let totalCurrentArogyaTax = 0;
+
+				let totalCleaningTax = 0;
+				//- let totalEducationTax = 0;
+				//- let totalFireblegateTax = 0;
+				//- let totalTreeTax = 0;
+
+
+				let totalTotalTax = 0;
+
+
+
+
+			tbody
+				each val, index in data
+					tr.body-f-size
+						th #{index + 1}
+						th #{val.feu_malmattaNo}
+						th #{val.feu_homeNo}
+						th #{val.feu_ownerName} 
+						th #{val.feu_secondOwnerName}
+
+						th #{(val.feu_mobileNo).split('-').join('') !== '' ? (val.feu_mobileNo).split('-').join(''): '-'} 
+						th #{(val.feu_aadharNo).split('-').join('') !== '' ? (val.feu_aadharNo).split('-').join('') : '-'} 
+
+						th #{val.feu_havingToilet} 
+						th #{val.gy_name} 
+
+						th #{val.feu_water_tax ? val.feu_water_tax : "-"}
+						th #{val.total_building_work.toFixed(2)}
+						th #{val.total_open_plot.toFixed(2)}
+						th #{val.feu_totalArea} 
+						th #{val.feu_totalAreaSquareMeter}
+
+
+						- totalCurrentBuildingTax += Number.isInteger(val.building_tax) ? val.building_tax : Number(val.building_tax.toFixed(2))
+						th #{Number.isInteger(val.building_tax) ? val.building_tax : val.building_tax.toFixed(2)}
+
+						- totalOpenAreaTax += isNaN(Number(val.open_area_tax)) ? 0 : Number(val.open_area_tax)
+						th #{val.open_area_tax}
+
+						- totalOtherTax += isNaN(Number(val.other_tex)) ? 0 : Number(val.other_tex)
+						th #{val.other_tex} 
+
+						//- th #{val.feu_water_tax === "सामान्य पाणीकर" ? 150 : val.feu_water_tax === "विशेष पाणीकर" ? 1200 : 0 }
+
+						- totalWaterTax += 0
+						th 0
+
+						- totalCurrentDivaTax += isNaN(Number(val.dava_kar)) ? 0 : Number(val.dava_kar)
+						th #{val.dava_kar} 
+
+						- totalCurrentArogyaTax += isNaN(val.arogya_kar) ? 0 : val.arogya_kar
+						th #{val.arogya_kar} 
+
+						- totalCleaningTax += isNaN(val.cleaning_tax) ? 0 : val.cleaning_tax
+						th #{val.cleaning_tax} 
+
+						- let totalTax = Number(( (Number(val.building_tax) || 0) + (Number(val.open_area_tax) || 0) + (Number(val.dava_kar) || 0) + (Number(val.arogya_kar) || 0) + (Number(val.cleaning_tax) || 0) + (Number(val.other_tex) || 0) ).toFixed(2))
+						- totalTotalTax += totalTax
+						th #{totalTax} 
+				- numbers++;
+
+
+				//- tfoot
+
+
+				tr(style='color:red;')
+					//- index
+					th(colspan='4') एकूण अनुक्रमांक
+					th(colspan='2') #{data ? data.length : 0}
+
+					th(colspan='4') एकूण मालमत्ता धारक
+					th(colspan='2') #{distinct_malmatta_count}
+					th(colspan='2') Total
+
+					//- building tax
+					th #{totalCurrentBuildingTax}
+					//- open area tax
+					th #{totalOpenAreaTax}
+					//- totalOtherTax
+					th #{totalOtherTax}
+					//- totalWaterTAx
+					th #{totalWaterTax}
+
+					//- current diva tax
+					th #{totalCurrentDivaTax}
+					//- arogya tax
+					th #{totalCurrentArogyaTax}
+					//- cleaning tax
+					th #{totalCleaningTax}
+
+					//- totalTotalTax
+					th #{totalTotalTax}

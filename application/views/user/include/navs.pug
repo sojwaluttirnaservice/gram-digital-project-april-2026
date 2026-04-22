@@ -1,0 +1,244 @@
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-common-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-form-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-buttons-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-bg-text-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-table-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-card-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-boxes-dec-2025.css' rel='stylesheet')
+link(href='/asstest/coustom/css/override-dec-2025/ui-override-modals-dec-2025.css' rel='stylesheet')
+
+style.
+
+    .navigation-bar{
+        background-color: rgba(224, 242, 254, 0.85); /* Sky-50 with transparency */
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 0.8rem 0; /* Improved spacing */
+        backdrop-filter: blur(16px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        //- border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        border-bottom: 2px solid gray;
+        
+    }
+
+    .nav-items-container{
+        padding: 0; /* Clear padding as parent has vertical padding now */
+    }
+
+    .nav-items {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .gp-name {
+        font-weight: 700;
+        color: #1e293b; /* Slate-800 */
+        font-size: 1.25rem;
+        text-align: center;
+        letter-spacing: -0.01em;
+        background: linear-gradient(135deg, #0284c7 0%, #6714a2ff 100%); /* Sky-600 to Blue-800 */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .buttons-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .buttons {
+        padding: 0.6rem 1.4rem;
+        border: none;
+        border-radius: 8px; /* Slightly rounded corners */
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); /* Sky Blue Gradient */
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
+    }
+
+    .buttons:hover {
+        color: #fff;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(14, 165, 233, 0.4);
+    }
+
+    .buttons:active {
+        color: #fff;
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+    }
+
+
+
+//- style.
+//-   .header-image1 {
+//-     height: 3.9rem;
+//-     width: auto; 
+//-   }
+//-   .banner-header {
+//-     margin: 0px;
+//-     padding: 0px; 
+//-     position: relative;
+//-     border-bottom-style: double !important;
+//-     border-bottom: 5px solid black;
+//-     background: #ddd6f3;  /* fallback for old browsers */
+//-     background: -webkit-linear-gradient(132deg, #faaca8, #ddd6f3);  /* Chrome 10-25, Safari 5.1-6 */
+//-     background: linear-gradient(132deg, #faaca8, #ddd6f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+//-   }
+//-   .gp-name {
+//-     font-size: 1.3rem;
+//-     font-weight: bold;
+//-     color: #bb2525;
+//-     display: inline-block !important;
+//-     text-align: center;
+//-   }
+//-   p {
+//-     margin-bottom: 0;
+//-     //- margin-right: 5.5rem;
+//-   }
+//-   .font {
+//-     font-size: 1.2rem;
+//-     }
+//-   .red {
+//-     color: red;
+//-   }
+//-   .buttons{
+//-     margin-top: 5px;
+//-     margin-bottom: 4px;
+//-     display: inline-block;
+//-     border: 1px solid red;
+//-     border-radius: 15px;
+//-     padding: 8px;
+//-     background-color: #DC3545;
+//-     color: white;
+//-   }
+//-   .nav-buttons {
+//-     position: absolute;
+//-     bottom: -50px;
+//-     display: grid;
+//-     grid-template-columns: 1fr 1fr;
+//-     justify-content: center; 
+//-     align-items: center; 
+//-   }
+//-   .nav-buttonsD {
+//-     position: absolute;
+//-     bottom: -80px;
+//-     display: grid;
+//-     grid-template-columns: 1fr 1fr;
+//-     justify-content: center; 
+//-     align-items: center; 
+//-   }
+//-   .border-bottom {
+//-     border-bottom: 2px solid black;
+//-   }
+
+//-   @media (max-width: 640px) {
+//-     .header-image1 {
+//-       height: 3rem;
+//-     }
+//-     .gp-name {
+//-       font-size: 1rem;
+//-       font-weight: bold;
+//-       color: #bb2525;
+//-       display: inline-block !important;
+//-       text-align: center;
+//-     }
+
+//-   }
+
+//- .banner-header.justify-content-between.align-items-center.row.pt-2.d-none.d-md-flex
+    .col-md-2.d-flex.justify-content-between
+        img.header-image1(src="/new-gp-page/main-page/images/header-images/sant-gadge-baba-11.png")
+        //- img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new.jpeg")
+        img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png")
+    .col-md-6.d-flex.justify-content-center.align-items-center.flex-column
+        //- img.header-image1(src="/new-gp-page/main-page/images/header-images/hardikSwagat.jpg")
+        img.header-image1(src="/new-gp-page/main-page/images/header-images/hardikSwagat-2.png")
+        p.gp-name ग्रामपंचायत कार्यालाय #{gp.gp_name}, पंचायत समिती #{gp.gp_taluka}, जिल्हा #{gp.gp_dist}
+    .col-md-3.d-flex.justify-content-between.mr-2.flex-column
+        div
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/2.png")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/grampanchyat_20171021256.png")
+            //- img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav.jpg")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/sant-gadge-baba-1.png")
+        div.d-flex.justify-content-md-end
+            a.buttons.mr-2(href='/') 
+                i.fa.fa-home.font
+                span.ml-2 होम       
+            a.buttons.mr-2(href='/logout') 
+                i.fa.fa-power-off.font  
+                span.ml-2 बाहेर पडा
+    .border-bottom
+
+//- .banner-header.d-flex.justify-content-between.align-items-center.flex-column.pt-2.d-md-none
+    .row.m-0.p-0
+        .col-12.d-flex.justify-content-center.mb-2
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/sant-gadge-baba-11.png")
+            //- img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new.jpeg")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/sant-gadge-baba-1.png")
+        .col-12.d-flex.justify-content-center
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/grampanchyat_20171021256.png")
+            //- img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav.jpg")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/2.png")
+        .col-12.m-0.p-0
+            //- img.header-image1(src="/new-gp-page/main-page/images/header-images/hardikSwagat.jpg" style="width: 100vw")
+            img.header-image1(src="/new-gp-page/main-page/images/header-images/hardikSwagat-2.png" style="width: 100%")
+            p.mt-2.gp-name(style="min-width: 100%") ग्रामपंचायत कार्यालाय, #{gp.gp_name} पंचायत समिती #{gp.gp_dist}, जिल्हा #{gp.gp_taluka}
+        div.d-flex.justify-content-between.col-12
+            a.buttons(href='/') /
+                i.fa.fa-home.font 
+                span.ml-2 होम       
+            a.buttons(href='/logout')
+                i.fa.fa-power-off.font
+                span.ml-2 बाहेर पडा
+
+
+
+
+nav.navigation-bar
+
+    .container
+
+        .nav-items-container
+
+            .nav-items
+                div
+                    a(href='/')
+                        img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png" style='height:2.5rem;')
+
+                div.gp-name.d-none.d-sm-block ग्रामपंचायत कार्यालय 
+                    span.fs-italic(style='font-weight: bolder;') #{gp.gp_name}, 
+                    span पं. स. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+
+                div.buttons-container 
+                    a.buttons(href='/') होम 
+                    button.buttons(id='finalLogoutBtn' style='background: #e95968ff !important;') बाहेर पडा
+
+            div.gp-name.d-sm-none ग्रा.पं 
+                span.fs-italic(style='font-weight: bolder;') #{gp.gp_name}, 
+                span पं. स.#{gp.gp_dist}, जि. #{gp.gp_taluka}
+
+//- div.div(style='height: 2.9rem; width: 100%;')
+
+
+
+script.
+    $(function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    });

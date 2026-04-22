@@ -1,0 +1,151 @@
+
+
+.my-print 
+
+    h4.text-center ग्राम पाणी पुरवठा निधी
+
+    h4.text-center ग्रामपंचायत #{gp.gp_name} पं. स. #{gp.gp_taluka} जिल्हा #{gp.gp_dist}
+
+
+    table.w-full
+
+        thead 
+
+            tr 
+                th दिनांक ______ सन __________ निधीत सुरुवातीची शिल्लक 
+                th सामान्य पाणीकर
+                th विशेष पणीकर
+                th नळ कनेक्शन अर्ज फी
+
+                th देणगी
+                th अनामत
+                th  नळ फिटिंग खर्चा बाबत
+                th  राजस्व अनुदानाची ३५ % रक्कम
+
+                th वीज बिलाचे ५०% अनुदान
+                th पाणीपुरवठा कामा करीता अनुदान
+                th उसनवार
+                th इतर
+                th एकूण जमा (वर्षात) 2 ते 12
+
+            tr 
+                each num in [1,2,3,4,5,6,7,8,9,10,11,12,13]
+                    th #{num}
+
+        tbody 
+            tr 
+                td #{gpWaterSupplyFund.initial_balance} 
+                td #{gpWaterSupplyFund.general_water_tax}  
+                td #{gpWaterSupplyFund.special_water_tax}  
+                td #{gpWaterSupplyFund.tap_connection_application_fee}  
+                
+                td #{gpWaterSupplyFund.donation}  
+                td #{gpWaterSupplyFund.deposit}  
+                td #{gpWaterSupplyFund.tap_fitting_expenses}  
+                td #{gpWaterSupplyFund.revenue_grant_35_percent}  
+                td #{gpWaterSupplyFund.electricity_bill_50_percent_grant}  
+
+                td #{gpWaterSupplyFund.water_supply_grant}  
+                td #{gpWaterSupplyFund.loan}  
+                td #{gpWaterSupplyFund.others}  
+                td #{gpWaterSupplyFund.total_income_year}  '-'
+
+
+
+    br
+    
+    table.w-full 
+        thead
+            tr 
+                th(rowspan='2' colspan='1') सुरुवातीची शिल्लकेसह एकूण जमा १ + १३
+                th(rowspan='2' colspan='1') नोकर पगार
+                th(rowspan='2' colspan='1') नोकर प्रवास भत्ता 
+                th(rowspan='2' colspan='1') गणवेश
+                th(rowspan='2' colspan='1') अग्रीम
+
+                th(rowspan='2' colspan='1') बोनस
+                th(rowspan='2' colspan='1') एकूण 15 + 19
+                th(rowspan='2' colspan='1') कार्यालयीन स्टेशनरी 
+                th(rowspan='2' colspan='1') वीज खर्च
+
+
+                th(rowspan='1' colspan='2') पाणी पुरवठा
+
+                th(rowspan='1' colspan='2') दुरुस्ती कामे
+
+                th(rowspan='2' colspan='1') एकूण 23 + 26
+                th(rowspan='2' colspan='1') पाणी पुरवठा नवीन कामे पाईप लाईन / विहिरी
+
+
+            tr 
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+                //- th
+                //- th
+                //- th
+                //- th
+
+
+                th(rowspan='1' colspan='1') विहिरी
+                th(rowspan='1' colspan='1') हातपंप पावर पंप
+
+
+                th(rowspan='1' colspan='1') स्टँड पोस्ट पाईप लाईन 
+                th(rowspan='1' colspan='1') इतर
+
+
+                //- th
+                //- th
+
+            tr 
+                each num in [14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
+                    th #{num}
+
+        tbody 
+
+            tr 
+                td #{gpWaterSupplyFund.total_income_with_initial_balance}  '-'
+                td #{gpWaterSupplyFund.employee_salary}  
+                td #{gpWaterSupplyFund.employee_travel_allowance}  
+                td #{gpWaterSupplyFund.uniform}  
+                td #{gpWaterSupplyFund.advance}  
+                
+
+                td #{gpWaterSupplyFund.bonus}  
+                td #{gpWaterSupplyFund.total_salary_and_benefits}  
+                td #{gpWaterSupplyFund.office_stationery}  
+                td #{gpWaterSupplyFund.electricity_expenses}  
+
+                td #{gpWaterSupplyFund.water_supply_well}  
+                td #{gpWaterSupplyFund.water_supply_handpump_powerpump}  
+
+                td #{gpWaterSupplyFund.repair_work_stand_post_pipeline}  
+                td #{gpWaterSupplyFund.repair_work_others}  
+
+                td #{gpWaterSupplyFund.total_repair_works}  
+                td #{gpWaterSupplyFund.new_water_supply_works_pipeline_well}  
+
+    br
+    
+    table.w-full 
+        thead
+            tr 
+                th पाणी निर्जतूकरण 
+                th इतर
+                th एकूण खर्च (20+21+22+23+24+25+26+27+28+29+30)
+                th अखेर शिल्लक (14-31)
+
+            tr 
+                each num in [29,30,31,32]
+                    th #{num}
+
+        tbody 
+            tr 
+                td #{gpWaterSupplyFund.water_purification}  
+                td #{gpWaterSupplyFund.other_expenses}  
+                td #{gpWaterSupplyFund.total_expenses}  
+                td #{gpWaterSupplyFund.final_balance}  '-'

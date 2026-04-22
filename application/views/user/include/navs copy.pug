@@ -1,0 +1,45 @@
+style.
+  body { 
+      animation: fadeInAnimation ease 2s; 
+      animation-iteration-count: 1; 
+      animation-fill-mode: forwards; 
+  } 
+  .top-banner img {
+        width: 60px;
+        height: 60px;
+      }
+  .top-banner  p {
+        vertical-align: middle;
+      }
+
+  @keyframes fadeInAnimation { 
+      0% { 
+          opacity: 0; 
+      } 
+      100% { 
+          opacity: 1; 
+      } 
+  } 
+.alert.alert-warning.mb-0.pt-1.pb-1(role='alert ')
+  .row.top-banner
+    .col-2.text-left
+      img(src="/img/header-images/sant-gadge-baba-1.png", alt="", style="width: 70px;")
+      a.ml-2.text-success(href='/') 
+        i.fa.fa-home
+        |  HOME
+    .col-8.text-center
+      span.h5 ग्रा.पं, 
+        u
+          a(href = "/") #{gp.gp_name}
+        |  ग्राम विकास सुविधा केंद्र मध्ये आपले
+      img(src="/img/header-images/main-welcome.png" alt="" style="width: 200px;")
+      span.h5 आहे.
+    .col-2.text-right
+      a.mr-2(href='/logout') 
+        i.fa.fa-power-off
+        |  बाहेर पडा
+      img(src="/img/header-images/sant-gadge-baba-11.png", alt="" style="width: 70px;")
+script.
+  $(function(){
+    $('[data-toggle="tooltip"]').tooltip()
+  });

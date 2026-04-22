@@ -1,0 +1,119 @@
+extends ../../include/index-page-master-layout.pug
+
+block content
+    if !ferfarApplication
+        div(class='bg-amber-50 border-l-4 border-amber-500 rounded-lg p-5 text-center mx-auto max-w-md mt-10 shadow')
+            h3(class='text-amber-700 font-bold text-lg mb-2') अर्ज उपलब्ध नाही
+            p(class='text-gray-700')
+                | दिलेल्या फेरफार अर्जाची माहिती उपलब्ध नाही.
+
+    else
+        div(class='container mx-auto max-w-3xl p-4')
+
+            // ================= HEADER =================
+            div(class='flex justify-between items-center mb-4')
+                h2(class='text-2xl font-bold text-gray-800') फेरफार / नामांतर अर्ज
+                span(class=`px-3 py-1 rounded-full text-white text-sm font-semibold ${
+                    ferfarApplication.application_status === 'RESOLVED' ? 'bg-green-600' :
+                    ferfarApplication.application_status === 'ACCEPTED' ? 'bg-blue-600' :
+                    ferfarApplication.application_status === 'REJECTED' ? 'bg-red-600' :
+                    'bg-yellow-500'
+                }`)
+                    | #{ferfarApplication.application_status}
+
+            // ================= APPLICANT DETAILS =================
+            div(class='bg-white rounded shadow p-4 mb-4')
+                h3(class='font-semibold text-lg mb-3 text-gray-700') अर्जदार माहिती
+                div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                    div
+                        p(class='text-sm text-gray-500') नाव
+                        p(class='font-semibold') #{ferfarApplication.applicant_name}
+                    div
+                        p(class='text-sm text-gray-500') मोबाईल
+                        p(class='font-semibold') #{ferfarApplication.applicant_mobile}
+                    div
+                        p(class='text-sm text-gray-500') आधार क्रमांक
+                        p(class='font-semibold') #{ferfarApplication.applicant_adhar}
+                    div
+                        p(class='text-sm text-gray-500') गाव
+                        p(class='font-semibold') #{ferfarApplication.applicant_village}
+                    div(class='md:col-span-2')
+                        p(class='text-sm text-gray-500') पत्ता
+                        p(class='font-semibold') #{ferfarApplication.applicant_address}
+
+            // ================= PROPERTY DETAILS =================
+            div(class='bg-white rounded shadow p-4 mb-4')
+                h3(class='font-semibold text-lg mb-3 text-gray-700') मालमत्ता माहिती
+                div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                    div
+                        p(class='text-sm text-gray-500') मालमत्ता क्रमांक
+                        p(class='font-semibold') #{ferfarApplication.malmatta_no}
+                    div
+                        p(class='text-sm text-gray-500') मूळ मालकाचे नाव
+                        p(class='font-semibold') #{ferfarApplication.original_owner_name}
+
+            // ================= DOCUMENT =================
+            div(class='bg-white rounded shadow p-4 mb-4')
+                h3(class='font-semibold text-lg mb-3 text-gray-700') फेरफार दस्तऐवज
+                if ferfarApplication.ferfar_document_saved_name
+                    a(
+                        class='text-blue-600 underline'
+                        href=`/uploads/docs/ferfar-applications/${ferfarApplication.ferfar_document_saved_name}`
+                        target='_blank'
+                    ) दस्तऐवज पहा
+                else
+                    span(class='text-gray-500') दस्तऐवज उपलब्ध नाही
+
+            // ================= CHATUSIMA =================
+            div(class='bg-white rounded shadow p-4 mb-4')
+                h3(class='font-semibold text-lg mb-3 text-gray-700') चतुसीमा
+                div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                    div
+                        p(class='text-sm text-gray-500') पूर्व
+                        p(class='font-semibold') #{ferfarApplication.east_landmark || '-'}
+                    div
+                        p(class='text-sm text-gray-500') पश्चिम
+                        p(class='font-semibold') #{ferfarApplication.west_landmark || '-'}
+                    div
+                        p(class='text-sm text-gray-500') उत्तर
+                        p(class='font-semibold') #{ferfarApplication.north_landmark || '-'}
+                    div
+                        p(class='text-sm text-gray-500') दक्षिण
+                        p(class='font-semibold') #{ferfarApplication.south_landmark || '-'}
+
+            // ================= STATUS DETAILS =================
+            if ferfarApplication.application_status === 'ACCEPTED'
+                div(class='bg-blue-50 border-l-4 border-blue-500 rounded p-4 mb-4')
+                    h3(class='font-semibold text-blue-700 mb-2') अर्ज मंजूर
+                    p(class='text-sm') दिनांक: 
+                        span(class='font-semibold') #{ferfarApplication._date_of_acceptance || '-'}
+
+            if ferfarApplication.application_status === 'REJECTED'
+                div(class='bg-red-50 border-l-4 border-red-500 rounded p-4 mb-4')
+                    h3(class='font-semibold text-red-700 mb-2') अर्ज नाकारला
+                    p(class='text-sm') कारण:
+                        span(class='font-semibold') #{ferfarApplication.rejection_remark || '-'}
+
+            if ferfarApplication.application_status === 'RESOLVED'
+                div(class='bg-green-50 border-l-4 border-green-600 rounded p-4 mb-4')
+                    h3(class='font-semibold text-green-700 mb-3') फेरफार पूर्ण
+                    div(class='grid grid-cols-1 md:grid-cols-2 gap-4')
+                        div
+                            p(class='text-sm text-gray-600') मासिक सभा दिनांक
+                            p(class='font-semibold') #{ferfarApplication._masik_sabha_date || '-'}
+                        div
+                            p(class='text-sm text-gray-600') ठराव क्रमांक
+                            p(class='font-semibold') #{ferfarApplication.masik_tharav_number || '-'}
+                        div
+                            p(class='text-sm text-gray-600') निवारण मालमत्ता क्रमांक / नवीन मालमत्ता क्रमांक
+                            p(class='font-semibold') #{ferfarApplication.resolution_malmatta_number || '-'}
+                        div
+                            p(class='text-sm text-gray-600') शेरा
+                            p(class='font-semibold') #{ferfarApplication.resolution_remark || '-'}
+
+            // ================= FOOTER =================
+            //- div(class='text-center mt-6')
+                a(
+                    class='inline-block bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded'
+                    href='/ferfarApplications/list'
+                ) यादीकडे परत जा

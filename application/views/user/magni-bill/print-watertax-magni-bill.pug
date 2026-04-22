@@ -1,0 +1,214 @@
+doctype html
+head
+  title पाणी कर मागणी बिल 
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  script(src="/asstest/plugins/qrcodejs/qrcode.min.js")
+  // COMMON CSS
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+
+  //- COMMON JS
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src="/asstest/coustom/js/handlers/pagination.js")
+  style.
+
+    @media print {
+      @page { 
+        size: auto;
+          margin: 7mm 7mm 4mm 10mm;
+        }
+        body {
+          margin:0;
+          padding:0;
+        }
+        body {
+          transform: scale(1);
+        }
+        img {
+          page-break-inside: avoid;
+        }
+        .p-hide{
+          display:none
+        }
+        .pagination {
+          display: none;
+        }
+      }  
+
+      .main-heading {
+        margin-left:10%
+      }
+
+      .heading-second{
+        margin-left:30%
+      }
+
+      .heading-second-2{
+        margin-left:30%
+      }
+
+      .set-p-break {
+        page-break-before: always;
+      }
+
+      .c-0 {
+        page-break-before: always;
+      }
+
+      .img{
+        width:65px;
+        height:70px;
+      }
+
+      .img1{
+        margin-top:-10px;
+        width:70px;
+        height:90px;
+      }
+
+      p{
+        font-size:15px !important;
+      }
+
+      .qrcode img{
+        width:100%;
+        height:100%;
+      }
+  script. 
+    let totalRecords = !{JSON.stringify(totalRecords)}
+
+
+body
+  - var pageCount = billStart;
+
+  <ul class="pagination">
+    <li class="page-item">
+      <button class="bg-primary text-light page-link previous-button">Previous</button>
+    </li>
+    <div class='d-flex page-numbers'> 
+    </div> 
+    <li class="page-item">
+      <button class="bg-success text-light page-link next-button">Next</button>
+    </li>
+  </ul>
+
+  each val,index in data
+    - pageCount += 1;
+    - var  className = 'row m-0 mb-5 c-'+ (index%2); 
+    div(class=className)
+      div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
+        img(src="/print/watertax/print-watertax-magni-bill.jpg" alt="" style="width:100%;height:100%;")
+        div(style="position: absolute;top:0;width:100%")
+
+          //- - var url = '/home_map_image/home_photo/'+val.feu_image
+          //- img(src=url alt="" style="position:absolute;left:23rem;top:39.8rem;width:155px;height:115px")
+          //- img(src=url alt="" style="position:absolute;left:58.5rem;top:39.8rem;width:155px;height:115px")
+          
+          - var id = 'qrcode'+pageCount
+          - var id2 = 'qrcode_'+pageCount
+          div.qrcode(id=id style="position:absolute;left:26.5rem;top:8.2rem;width:150px;height:118px")
+          div.qrcode(id=id2 style="position:absolute;left:57.6rem;top:8.2rem;width:150px;height:118px")
+
+          small(style="position:absolute;left:21rem;top:4.7rem") #{zp.gp_name}
+          small(style="position:absolute;left:53rem;top:4.7rem") #{zp.gp_name}
+
+          small(style="position:absolute;left:14rem;top:6.5rem;") #{val.name}
+          small(style="position:absolute;left:45rem;top:6.5rem") #{val.name}
+
+          small(style="position:absolute;left:14rem;top:8.5rem") #{'स्वतः'}
+          small(style="position:absolute;left:45rem;top:8.5rem") #{'स्वतः'}
+
+          small(style="position:absolute;left:4.5rem;top:13.5rem") #{val.feu_malmattaNo}
+          small(style="position:absolute;left:40rem;top:13.5rem") #{val.feu_malmattaNo}
+
+          small(style="position:absolute;left:11rem;top:10.1rem") #{val.mobile}
+          small(style="position:absolute;left:42rem;top:10.1rem") #{val.mobile}
+
+
+
+          //- small(style="position:absolute;left:12.5rem;top:13.5rem") #{pageCount}
+          //- small(style="position:absolute;left:47rem;top:13.5rem") #{pageCount}
+
+          small(style="position:absolute;left:11rem;top:14rem") #{val.tap_connection_id}
+          small(style="position:absolute;left:42rem;top:14rem") #{val.tap_connection_id}
+
+          small(style="position:absolute;left:22rem;top:14rem") #{date}
+          small(style="position:absolute;left:53rem;top:14rem") #{date}
+
+          small(style="position:absolute;left:20rem;top:17.3rem") #{year1}
+          small(style="position:absolute;left:49rem;top:17.3rem") #{year1}
+
+          small(style="position:absolute;left:26rem;top:17.3rem") #{year2}
+          small(style="position:absolute;left:55rem;top:17.3rem") #{year2}
+
+
+          p(style="position:absolute;left:18rem;top:18.5rem") #{Math.round(val.last_special_water_tax)}
+          p(style="position:absolute;left:24rem;top:18.5rem") #{Math.round(val.current_special_water_tax)}
+          p(style="position:absolute;left:30rem;top:18.5rem") #{Math.round(val.last_special_water_tax + val.current_special_water_tax)}
+
+          p(style="position:absolute;left:48.9rem;top:18.5rem") #{Math.round(val.last_special_water_tax)}
+          p(style="position:absolute;left:54.9rem;top:18.5rem") #{Math.round(val.current_special_water_tax)}
+          p(style="position:absolute;left:61.9rem;top:18.5rem") #{Math.round(val.last_special_water_tax + val.current_special_water_tax)}
+
+          p(style="position:absolute;left:18rem;top:22rem") #{Math.round(val.last_general_water_tax)}
+          p(style="position:absolute;left:24rem;top:22rem") #{Math.round(val.current_general_water_tax)}
+          p(style="position:absolute;left:30rem;top:22rem") #{Math.round(val.last_general_water_tax + val.current_general_water_tax)}
+
+          p(style="position:absolute;left:48.9rem;top:22rem") #{Math.round(val.last_general_water_tax)}
+          p(style="position:absolute;left:54.9rem;top:22rem") #{Math.round(val.current_general_water_tax)}
+          p(style="position:absolute;left:61.9rem;top:22rem") #{Math.round(val.last_general_water_tax + val.current_general_water_tax)}
+
+
+
+          p(style="position:absolute;left:18rem;top:25rem") 0 
+          p(style="position:absolute;left:24rem;top:25rem") 0 
+          p(style="position:absolute;left:30rem;top:25rem") 0 
+
+          p(style="position:absolute;left:48.9rem;top:25rem") 0 
+          p(style="position:absolute;left:54.9rem;top:25rem") 0 
+          p(style="position:absolute;left:61.9rem;top:25rem") 0 
+
+
+
+
+          p(style="position:absolute;left:18rem;top:30.5rem") #{Math.round(val.last_special_water_tax) + Math.round(val.last_general_water_tax)}
+          p(style="position:absolute;left:24rem;top:30.5rem") #{Math.round(val.current_special_water_tax) + Math.round(val.current_general_water_tax)}
+          p(style="position:absolute;left:30rem;top:30.5rem") #{Math.round(val.last_special_water_tax) + Math.round(val.last_general_water_tax) + Math.round(val.current_special_water_tax) + Math.round(val.current_general_water_tax)}
+
+          p(style="position:absolute;left:48.9rem;top:30.5rem") #{Math.round(val.last_special_water_tax) +  Math.round(val.last_general_water_tax)}
+          p(style="position:absolute;left:54.9rem;top:30.5rem") #{Math.round(val.current_special_water_tax) + Math.round(val.current_general_water_tax)}
+          p(style="position:absolute;left:61.9rem;top:30.5rem") #{Math.round(val.last_special_water_tax) + Math.round(val.last_general_water_tax) + Math.round(val.current_special_water_tax) + Math.round(val.current_general_water_tax)}
+
+          //- small(style="position:absolute;left:24.5rem;top:35.5rem")
+          //-   //- Removing signature
+          //-   img(src="/print/sp.jpeg" alt="" onerror="this.style.display='none'" srcset="" width="80")
+          //- small(style="position:absolute;left:24rem;top:38rem") #{zp.gp_name}
+
+          //- small(style="position:absolute;left:38.5rem;top:36.5rem")
+          //-   img(src="/print/d.jpeg" alt="" srcset="" width="50")
+          //- small(style="position:absolute;left:58.5rem;top:35.5rem")
+          //-   //- Removing signature
+          //-   img(src="/print/sp.jpeg" alt="" srcset="" onerror="this.style.display='none'" width="80")
+          //- small(style="position:absolute;left:59rem;top:38rem") #{zp.gp_name}
+
+  script.
+    (function() {
+      var data = !{dataString};
+      console.log(data)
+      var start = #{billStart}
+      data.forEach(function(userData,index){
+        generateQRCode(++start,userData)
+      })
+      function generateQRCode(id,userData) {
+        let website = 'http://g-seva.com/pay'
+        let homeNo = userData.feu_homeNo;
+        let wardNo = userData.feu_wardNo;
+        let malmattaNo = userData.feu_malmattaNo;
+        website +=`/!{zp.pg_registration_no}/${userData.anu_kramank}`;
+        new QRCode(document.getElementById("qrcode"+id),website);
+        new QRCode(document.getElementById("qrcode_"+id),website);
+      }   
+    })();

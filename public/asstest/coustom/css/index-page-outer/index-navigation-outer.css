@@ -1,0 +1,197 @@
+/* coustom/css/index-page-outer/index-navigation-outer.css */
+
+:root {
+  --t-white: #fff;
+  /* --t-blue: #1e3a8a; */
+  --t-blue: #234a7d;
+
+  --t-blue-dark: #20406a;
+}
+
+
+.my-bg-blue {
+  background-color: var(--t-blue);
+}
+
+.my-bg-blue-dark {
+  background-color: var(--t-blue-dark);
+}
+
+
+
+
+/*  */
+
+.my-text-blue {
+  color: var(--t-blue);
+}
+
+.my-text-blue-dark {
+  color: var(--t-blue-dark);
+}
+
+
+.my-border-blue-dark {
+  border-color: var(--t-blue-dark);
+}
+
+.my-border-blue {
+  border-color: var(--t-blue);
+}
+
+body {
+  color:#57534e;
+  background: rgb(253, 253, 253);
+}
+
+.wrapper {
+  position: relative;
+}
+
+/* Base styles for all containers */
+.container,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl,
+.container-fluid {
+  width: 100% !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+
+/* Specific sizes for each container at different breakpoints */
+
+/* .container */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px !important;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px !important;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-sm */
+@media (min-width: 576px) {
+  .container-sm {
+    max-width: 540px !important;
+  }
+}
+@media (min-width: 768px) {
+  .container-sm {
+    max-width: 720px !important;
+  }
+}
+@media (min-width: 992px) {
+  .container-sm {
+    max-width: 960px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container-sm {
+    max-width: 1140px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container-sm {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-md */
+@media (min-width: 768px) {
+  .container-md {
+    max-width: 720px !important;
+  }
+}
+@media (min-width: 992px) {
+  .container-md {
+    max-width: 960px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container-md {
+    max-width: 1140px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container-md {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-lg */
+@media (min-width: 992px) {
+  .container-lg {
+    max-width: 960px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container-lg {
+    max-width: 1140px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container-lg {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-xl */
+@media (min-width: 1200px) {
+  .container-xl {
+    max-width: 1140px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container-xl {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-xxl */
+@media (min-width: 1400px) {
+  .container-xxl {
+    max-width: 1320px !important;
+  }
+}
+
+/* .container-fluid */
+.container-fluid {
+  max-width: 100% !important;
+}
+
+/* .container-fluid */
+.container-fluid {
+  max-width: 100%;
+}
+
+/* Main CSS */
+
+/* #loginNavigation {
+  background: linear-gradient(90deg, #7391ba, #234a7d);
+  outline: none;
+  border: 0;
+} */
+

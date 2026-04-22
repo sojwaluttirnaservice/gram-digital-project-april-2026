@@ -1,0 +1,108 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css 
+    //- style.
+    //- 	tr,td, th {
+    //- 		border: 1px solid gray !important;
+    //- 		vertical-align: middle;
+    //- 	}
+
+    //- 	.sj-overflow-line {
+    //- 		//- max-width: 100% !important;
+    //- 		//- white-space: nowrap;
+    //- 		//- overflow:hidden;
+    //- 		//- text-overflow: ellipsis;
+    //- 	}
+
+    //- 	.sj-overflow-line:hover {
+    //- 		//- overflow-x: scroll;
+    //- 		//- cursor: pointer;
+    //- 		//- //- background: red !important;
+    //- 	}
+
+block content
+
+    section(class='py-8 md:py-16')
+        .container
+
+            .online-guidance-container 
+
+
+                h4.general-heading(class='sticky text-center text-xl md:text-2xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2')  
+                    <i class="fa-solid fa-video"></i>
+                    span.ml-2 
+                        //- | Zoom Meetings	
+                        | #{t("onlineGuidancePage.heading")}
+
+
+                div(class='mt-6')
+                    div(class='text-center text-gray-600 text-xl font-bold tracking-wider') 
+                        //- span आजचे मार्गदर्शक
+                        span  #{t("onlineGuidancePage.todaysGuide")}
+                    div(class='mt-8 mx-auto px-4 flex justify-center items-center gap-8 pb-2 border-b w-fit')
+                        if meetings.length > 0
+
+                            .left(class='flex flex-col items-center gap-2')
+                                .image-holder(class=' w-8 md:w-10 border border-gray-500 aspect-square rounded-full overflow-hidden p-1')
+                                    img(class='object-cover' 
+                                        src=`/new-gp-page/main-page/files/zoom-meeting-guide/${meetings[0].online_guide_image_name}`
+                                        onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"'
+                                        alt=meetings[0].online_guide_name)
+                            p(class='text-sm md:text-lg font-medium text-gray-900 italic tracking-wider') #{meetings[0].online_guide_name}
+
+
+                            .right
+                                div.italic(class='') 
+                                    //- span जॉईन करा  
+                                    span | #{t("onlineGuidancePage.join")}
+                                    span &nbsp;
+                                    a(class='text-indigo-600 hover:text-indigo-900' href=meetings[0].meeting_link target="_blank") 
+                                        i.fa.fa-video-camera
+
+
+                div(class='mt-8 flex flex-col')
+                    div(class='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8')
+                        div(class='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8')
+                            div(class='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg')
+                                table(class='min-w-full divide-y divide-gray-300')
+                                    thead(class='bg-gray-50')
+                                        tr
+                                            th(scope='col' class='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6') 
+                                                //- | क्र.
+                                                | #{t("onlineGuidancePage.tableHeaders.serialNo")}
+                                            th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                //- | शिर्षक
+                                                | #{t("onlineGuidancePage.tableHeaders.title")}
+                                            th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                //- | मार्गदर्शक
+                                                | #{t("onlineGuidancePage.tableHeaders.guide")}
+                                            th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                //- | दिनांक
+                                                | #{t("onlineGuidancePage.tableHeaders.date")}
+                                            th(scope='col' class='px-3 py-3.5 text-left text-sm font-semibold text-gray-900') 
+                                                //- | वेळ
+                                                | #{t("onlineGuidancePage.tableHeaders.time")}
+                                            th(scope='col' class='px-3 py-3.5 text-center text-sm font-semibold text-gray-900') 
+                                                //- | रेकॉर्डिंग
+                                                | #{t("onlineGuidancePage.tableHeaders.recording")}
+
+                                    tbody(class='bg-white')
+                                        each meeting, index in meetings
+                                            tr(class=`${(index % 2 == 1) ? 'bg-gray-50' : 'bg-white'} border-b hover:bg-gray-100`)
+                                                td(class='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6') #{index + 1}.
+                                                td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{meeting.meeting_title}
+                                                td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500 ')
+                                                    div(class='flex items-center justify-start gap-2')
+                                                        -let path = `/new-gp-page/main-page/files/zoom-meeting-guide/${meeting.online_guide_image_name}` 
+                                                        img(src=path, class='size-[27px] aspect-square rounded-full' alt="" onerror='this.src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=740&t=st=1708168367~exp=1708168967~hmac=7fc28b6857e58074f97ca8424d3b14df1b64404b4a61d05abef6b7f562c3e91b"')
+                                                        span(class='font-bold tracking-wide') #{meeting.online_guide_name}
+                                                td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{meeting.meeting_date}
+                                                td(class='whitespace-nowrap px-3 py-4 text-sm text-gray-500') #{meeting.meeting_time}
+                                                td(class='whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500')
+                                                    div(class='flex justify-center')
+                                                        if meeting.recording_link.trim() === ''
+                                                            button.btn.text-danger(style='pointer-events: none')
+                                                                i.fa.fa-ban
+                                                        else 
+                                                            a(href=meeting.recording_link class='text-indigo-600 hover:text-indigo-900')
+                                                                i.fa.fa-video-camera

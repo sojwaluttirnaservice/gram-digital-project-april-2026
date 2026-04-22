@@ -1,0 +1,65 @@
+extends ../master-layout/master-layout.pug
+
+block internal_css
+	style. 
+
+block internal_js
+	script. 
+		let sabhasadList = !{JSON.stringify(sadasyaList)}
+		let attendanceYears = !{JSON.stringify(attendanceYears)}
+
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/sabha-attendance-manager.js' defer)
+block content 
+	include ../include/navs.pug
+
+	.container
+		.row.mb-3
+			.col-12.d-flex.justify-content-center.mt-3
+				h5.heading-1 हजेरी पत्रक 
+
+		.row.justify-content-center.mb-3
+			.col-12.mb-3
+				.d-flex.gap-3.justify-content-center 
+					button.btn.btn-primary#print-attendance-form(type='button') हजेरी पत्रक प्रिंट
+					button.btn.btn-success#fill-attendance-form(type='button') हजेरी पत्रक भरणा 
+			.col-3.sabha-print-option.d-none
+				.d-flex.flex-column
+
+					div.d-flex.gap-3.mb-3
+						select#sabha-year-print-dropdown.form-control
+							option(value='-1') -- Select Year -- 
+						button.btn.btn-primary(id='print-sabha-attendance') प्रिंट
+
+					table.table 
+						thead 
+							tr 
+								th महिना
+								th एडिट करा
+								th डिलिट करा
+						tbody.sabha-details-list
+					
+	.container
+		.row 
+			div.attendance-month 	
+
+		form#sabha-attendance-form
+			table.table 
+				thead 	
+					tr.text-center 
+						th अनु क्र 
+						th सभासद नाव
+						th सभासद पोस्ट 
+						th हजेरी/भत्ता
+				tbody.sabasad-list-body
+				
+			.row.align-items-end
+				.col-3
+					label(for='sabha-month' class='form-label') महिना
+					select#sabha-month(name="" class='form-control') 
+				.col-3
+					label(for='sabha-year' class='form-label') वर्ष
+					input#sabha-year(type='text' class='form-control')
+				.col-3 
+					button.btn.btn-primary(type='button' id='submit-sabha-attendance-form') जतन करा 
+			

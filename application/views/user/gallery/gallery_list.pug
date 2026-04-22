@@ -1,0 +1,186 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/asstest/lightbox/dist/css/lightbox.css')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    script(src="/asstest/lightbox/dist/js2/lightbox.js")
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/gallery.js')
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#f0d688 !important;
+        }
+        body{
+
+            height:100vh;
+        }
+        @media (min-width: 576px) {
+            .modal-dialog { 
+                max-width: none; 
+            }
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        .gallery-container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 50px 8%;
+        }
+
+        .gallery {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            border: 5px solid #d6d1d1;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            transition: all 200ms ease-in-out;
+        }
+
+        .removeImage {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 992px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+        }
+
+        @media (max-width: 576px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .removeImage  {
+                font-size: 0.8rem;
+            }
+
+            .gallery img {
+                height: 7rem;
+            }
+        }
+
+body
+    include ../include/navs.pug
+    .modal#marriageModel(tabindex='-1' role='dialog')
+        .modal-dialog(role='document' style="width:70% !important;")
+            .modal-content
+                .modal-header
+                    h5.modal-title
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                .modal-body 
+                    .row
+                        .col-3
+                        .col-6
+                            form(id='gallery-form')
+                                div(class='d-flex flex-column' style='gap:1rem;')
+                                    input(name='imageFile')#image_1.form-control(type="file")
+
+                                    input.form-control(name='g_image_title' placeholder='शीर्षक')
+
+                                    input.form-control(name='g_image_desc' placeholder='वर्णन')
+
+                                div
+                                    .text-center.mt-2
+                                        button.btn.btn-primary(id='submit-gallery-img-btn') Submit
+                        .col-12.mt-1
+                            center
+                                img#image-1-preview(width=600 height=300)
+                                div#progress 
+                                    progress#progress-bar(max="100" value="0")
+
+    .container-fluid
+        .row
+            .col-12.mt-3
+                h6.ml-5.text-center
+                    span.text-primary.fa.fa-file-image-o.fa-2x
+                        |  &nbsp;छायाचित्रे
+                    if(!btn)
+                        button.galleryAddModel.float-right.btn.btn-primary.btn-sm.mr-2
+                            span.fa.fa-image
+                            |  नवीन छायाचित्रे जोडा 
+            .col-10.offset-1.mt-3
+                if(btn)
+                    center 
+                        h5.text-danger तुम्ही फक्त 12 छायाचित्रे जुडू शकता ... नवीन जोडणीन साठी काही छायाचीत्र काढा !
+
+            .gallery-container(style='background: ')
+                .gallery
+                    each image in gallery
+                        .card 
+                            .card-body
+                                div
+                                    -let galleryImagePath = link+image.g_image_name
+                                    a(href=galleryImagePath, data-lightbox="models" data-title=image.g_image_desc)
+                                        img.gallery-image(src=galleryImagePath)
+                                    div 
+                                        div.text-center.fw-bold #{image.g_image_title}
+                                        div.text-center #{image.g_image_desc}
+                            .card-footer
+                                .text-center(style='border:none')
+                                    button.btn.bg-danger.removeImage(style='font-size: 1rem;cursor: pointer;' data-id=image.id data-image=image.g_image_name)
+                                        i.fa.fa-trash.text-light 
+                                        span Delete

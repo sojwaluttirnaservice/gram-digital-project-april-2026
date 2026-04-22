@@ -1,0 +1,243 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- Optional future CSS hook
+
+block content
+
+
+    include ./complaints-report-print-modal.pug
+    include ./complaints-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        //- Header
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-users.me-2
+                                | तक्रार नोंदणी यादी
+                            p.mb-0.text-muted.small तक्रार नोंदणी खाली दर्शविली आहे.
+                        div.d-flex(style='gap:1rem;')
+                            button.btn.btn-secondary.btn-sm(data-bs-toggle="modal" data-bs-target="#print-report-modal")
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+                            a.btn.btn-success.btn-sm(href=`/complaints/list?status=accepted&sort=${sort}`) मान्य तक्रार
+                            a.btn.btn-danger.btn-sm(href=`/complaints/list?status=rejected&sort=${sort}`) रद्द तक्रार
+                            a.btn.btn-success.btn-sm(style='background: oklch(60% 0.118 184.704);' href=`/complaints/list?status=resolved&sort=${sort}`) पूर्त तक्रार
+
+
+
+        //- Table
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                div.mb-4
+                    div(class="d-flex align-items-center" style="gap:0.75rem;")
+
+                        label(class="small fw-bold mb-0") क्रमवारी :
+
+                        select(id="complaint-sort-order" class="form-select form-select-sm" style="width:160px;")
+                            option(value="desc" selected=(sort=="desc")) नवीन आधी
+                            option(value="asc" selected=(sort=="asc")) जुने आधी
+
+                div.card.shadow-sm
+
+
+                    div.card-body
+
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width="3%") अ. क्रं.
+                                        th(width="8%") तक्रार क्र.
+                                        th(width="14%") अर्जदार
+                                        th(width="12%") संपर्क
+                                        th(width="26%") तक्रार तपशील
+                                        th(width="7%") अर्ज प्रत
+                                        th(width="20%") तक्रार माहिती 
+                                        th(width="5%") संदेश
+                                        th(width="5%") Action
+
+                                    
+
+                                tbody#complaints
+                                    if !complaints || complaints.length == 0
+                                        tr
+                                            td(colspan="8" class="text-center text-danger py-4")
+                                                i.fa.fa-info-circle.me-2
+                                                | नवीन तक्रार नोंदणी यादी रिकामी आहे
+                                    else
+                                        each complaint, _index in complaints
+                                            tr
+                                                //- Index
+                                                td.text-center #{_index + 1}
+
+                                                //- ID
+                                                td.text-center
+                                                    span.badge.bg-secondary #{complaint.id}
+
+                                                //- Applicant
+                                                td.text-start
+                                                    strong #{complaint.formName}
+                                                    br
+                                                    small.text-muted आधार:
+                                                    span.ms-1 #{complaint.formAadhar}
+
+                                                //- Contact
+                                                td.text-center
+                                                    div(class="d-flex justify-content-start align-items-center gap-2")
+                                                        i(class="fa fa-phone text-muted")
+                                                        span #{complaint.formMobile}
+
+                                                    div(class="d-flex justify-content-start align-items-center gap-2 small text-muted mt-1")
+                                                        i(class="fa fa-envelope")
+                                                        span #{complaint.formEmail}
+
+                                                //- Complaint Details                                                
+                                                td.text-center
+                                                    button.btn.btn-sm.btn-outline-primary.view-complaint-details-btn(type="button" data-complaint=JSON.stringify(complaint))
+                                                        i.fa.fa-eye.me-1
+                                                        | तपशील बघा
+
+                                                td.text-center 
+                                                    a.btn.btn-sm.btn-info(href=`/complaints/print/${complaint.id}` target='_blank')
+                                                        i.fa.fa-print
+
+                                                td.text-center
+                                                    div.d-flex.flex-column.align-items-center.gap-1
+                                                        span.small.text-muted तक्रार दिनांक
+                                                        span.fw-semibold #{complaint._createdAt}
+                                                        span.badge.bg-light.text-dark
+                                                            | #{daysAgo(complaint.createdAt)} दिवसापूर्वी नोंदवली
+
+
+                                                //- SMS
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSNewApplication(
+                                                        data-id=index
+                                                        title="संदेश पाठवा"
+                                                    )
+
+                                                //- Actions
+                                                td
+                                                    div.d-flex.justify-content-center.align-items-center(style="gap:0.6rem;")
+                                                        button.btn.btn-success.btn-sm.accept-complaint-btn(
+                                                            type="button"
+                                                            data-complaint=JSON.stringify(complaint)
+                                                            data-complaintId=complaint.id
+                                                        )
+                                                            //- i.fa.fa-check-circle.me-1
+                                                            | Accept
+
+                                                        button.btn.btn-danger.btn-sm.reject-complaint-btn(
+                                                            type="button"
+                                                            data-complaint=JSON.stringify(complaint)
+                                                            data-complaintId=complaint.id
+                                                        )
+                                                            //- i.fa.fa-times-circle.me-1
+                                                            | Reject
+
+
+    //- ACCEPTANCE MODAL
+    .modal(tabindex="-1" id="accept-complaint-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-success text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-check-circle me-2")
+                        | तक्रार स्वीकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#accept-complaint-form
+                        .mb-3
+                            label(for="formName" class="form-label fw-semibold") तक्रार नोंदवणारा
+                            input(type='text' name='formName' class='form-control' readonly) 
+                        
+                        .mb-3
+                            label(for="complaintResolutionDate" class="form-label fw-semibold")
+                                i(class="fa fa-calendar-alt me-1 text-muted")
+                                | तक्रार निवारण दिनांक
+                            input(type="text" name="complaintResolutionDate" class="form-control datepicker" placeholder="दिनांक निवडा" autocomplete="off")
+
+                        .mb-2
+                            label(for="complaintResolutionRemark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | शेरा
+                            textarea(type="text" name="complaintResolutionRemark" class="form-control" placeholder="शेरा लिहा (ऐच्छिक)")
+
+                        
+                        .mb-2
+                            //- label(for="complaintResolutionImageUrl" class="form-label fw-semibold")
+                            //-     i(class="fa fa-comment-dots me-1 text-muted")
+                            //-     | तक्रार निवारणीचा फोटो
+                            //- input(type="file" name="complaintImage" class="form-control")
+
+                            input(name='id' hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='accept-complaint-btn' class="btn btn-sm btn-success")
+                        i(class="fa fa-check me-1")
+                        | स्वीकारा
+
+
+    //- REJECTION MODAL
+    .modal(tabindex="-1" id="reject-complaint-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-danger text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-times-circle me-2")
+                        | तक्रार नाकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#reject-complaint-form
+                        .mb-3
+                            label(for="formName" class="form-label fw-semibold") तक्रार नोंदवणारा
+                            input(type='text' name='formName' class='form-control' readonly) 
+                        
+                        .mb-3
+                            label(for="complaintRejectionDate" class="form-label fw-semibold")
+                                i(class="fa fa-calendar-alt me-1 text-muted")
+                                | तक्रार नाकारण्याची दिनांक
+                            input(type="text" name="complaintRejectionDate" class="form-control datepicker" placeholder="दिनांक निवडा" autocomplete="off")
+
+                        .mb-2
+                            label(for="rejectionReason" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | नकाराचे कारण
+                            textarea(name="rejectionReason" class="form-control" placeholder="नकार देण्याचे कारण लिहा")
+
+                            input(name="id" hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='reject-complaint-btn' class="btn btn-sm btn-danger")
+                        i(class="fa fa-ban me-1")
+                        | नाकारा
+
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/complaints/complaints-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/complaints/complaints-sorting-handler.js')

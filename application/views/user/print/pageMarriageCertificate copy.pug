@@ -1,0 +1,180 @@
+doctype html
+head
+  title Sample
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+    }
+    .h7{
+       font-size:20px !important;
+    }
+    
+    .text-j {
+      line-height: 2;
+       text-align: justify
+    }
+   /* .bg-image {
+      background-image: url("/img/header-images/maha-mudra.jpeg");
+      background-repeat: no-repeat;
+      position:absolute;
+    }*/
+body
+  each val,index in userInfo
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      .col-12
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-0.m-0
+                p.text-center.p-0.m-0
+                  - image_h = "/upload/"+ val.image_h;
+                  img.m-1(src=image_h, alt="", width="80", height="110")
+                
+              td.p-0.m-0 
+                p.text-center.p-0.m-0
+                  img.m-1(src="/img/header-images/ashok-stamp.jpg", alt="", width="80", height="110")
+              td.p-0.m-0
+                p.text-center.p-0.m-0
+                  - image_w = "/upload/"+ val.image_w;
+                  img.m-1(src=image_w, alt="", width="80", height="110")
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="3") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.h6.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold.text-center महाराष्ट्र शासन
+                      p.h7.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold.text-center.mt-2 (भाग चार- ब ) महाराष्ट्र शासन राजपत्र मे 20, 1999,/ वैशाख 30, शके 1921
+                      p.h7.pt-1.pb-1.m-0.h6.ml-2.font-weight-bold.text-center नमुना “ई” form no. E
+                      p.h7.pt-1.pb-1.m-0.ml-2.font-weight-bold.text-center.mt-2
+                        u विवाह नोंदणीचे प्रमाणपत्र CERTIFICATE OF REGISTRATION OF MARRIAGE
+                      p.mb-3.h8.pt-1.pb-1.m-0.ml-2.text-center 
+                        u [पहा कलम ६(१) आणि नियम ५] (see section 6[1][e] and rule 5]
+                      p.h7.ml-3.mt-5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        span प्रमाणित करण्यात येते की, Certified that the marriage between
+                      p.h7.ml-3 
+                        span  पतीचे नाव:- #{val.marriageHusbandNameE} 
+                        span  &nbsp;&nbsp;&nbsp;आधार कार्ड क्र. :- #{val.marriageHusbandAadharM}
+                      p.h7.ml-3
+                        span  Husband Name::- #{val.marriageHusbandNameM}
+                        span  &nbsp;&nbsp;&nbsp;Aadhar Card Number. :- #{val.marriageHusbandAadharE}
+                      p.h7.ml-3
+                        span  राहणार: #{val.marriageHusbandAddressM}  आणि
+                      p.h7.ml-3 
+                        span  पत्नीचे नाव:- #{val.marriageWifedNameE}
+                        span  &nbsp;&nbsp;&nbsp;आधार कार्ड क्र. :- #{val.marriageWifedAadharE}
+                      p.h7.ml-3
+                        span  Wife Name::- #{val.marriageWifeNameM}
+                        span  &nbsp;&nbsp;&nbsp;Aadhar Card Number. :- #{val.marriageWifeAadharM}
+                      p.h7.ml-3
+                        span  राहणार: #{val.marriageWifeAddressM}  
+                      p.h7.ml-3 
+                        span  यांचा विवाह दिनांक: #{val.marriageDate} रोजी #{val.marriagePlaceE}  येथे(ठिकाणी)
+                      p.h7.ml-3 
+                        span  Solemnized on  #{val.marriageDate} at  #{val.marriagePlaceM}
+                      p.h7.ml-3 
+                        span  विधी संपन्न झाला. त्याची महाराष्ट्र विवाह मंडाळाचे विनियमन आणि विवाह नोंदणी विधेयक,१९९८ 
+                      p.h7.ml-3 
+                        span  Register of marriage maintained under the Maharashtra regulation of marriage bureaus and registration of marriages Act 1998.
+                      p.h7.ml-3 
+                        span  अन्वये ठेवण्यात आलेल्या नोंदवहिच्या खंड क्रंमाक #{val.marriageVolume} च्या अनुक्रमांक #{val.marriageAnuKramank}  वर 
+                      p.h7.ml-3 
+                        span  of volume #{val.marriageVolume} serial No.#{val.marriageAnuKramank}
+                      p.h7.ml-3 
+                        span  दिनांक: #{val.created_date} रोजी माझ्याकडुन नोंदणी करण्यात आली आहे.
+                      p.h7.ml-3 
+                        span  On #{val.created_date} registered by me
+                      p.h7.ml-3 
+                        span  ठिकाण/Place : #{place}
+                      p.h7.ml-3 
+                        span  दिनांक/Date :#{data}
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="3" width="30%")
+                .row.p-0.m-0.mt-5
+                    .col-3.p-0.m-0
+                      p.ml-2.h6.font-weight-bold 
+                        span ग्रामपंचायत #{zp.gp_name}
+                        br
+                        span Grampanchayat #{zp.gp_name}
+                    .col-2.p-0.m-0
+                      p.ml-2.h6.font-weight-bold.text-center 
+                        span सही व शिक्का 
+                      p.ml-2.h6.font-weight-bold.text-center Signature with stamp
+                    .col-3.p-0.m-0
+                      p.ml-2.h6.font-weight-bold.text-right 
+                        span निबंधक विवाह नोंदणी 
+                        br
+                        span Registrar of Marriage
+                    .col-1
+                    .col-3.p-0.m-0
+                        p.h6.font-weight-bold.text-left 
+                          span ग्रामपंचायत अधिकारी/ग्रामविकास अधिकारी
+                          br
+                          span Gramsevak /Village Development Officer

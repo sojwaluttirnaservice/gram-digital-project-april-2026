@@ -1,0 +1,255 @@
+extends ../../include/internal-gp-master-layout.pug
+
+block content
+
+    //- MODALS 
+    include ./tahsil-office-seva-report-modal.pug
+    include ./tahsil-office-seva-application-details-modal.pug
+    
+    div.container-fluid.mt-4
+        // ================= HEADER =================
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                -
+                    let background = {
+                        pending: 'oklch(86.9% 0.022 252.894)',
+                        accepted: 'oklch(90.5% 0.093 164.15)',
+                        rejected: 'oklch(88.5% 0.062 18.334)',
+                        resolved: 'oklch(70.4% 0.14 184.704)'
+                    }
+                -
+                    let statuses = {
+                        pending: 'प्रलंबित',
+                        accepted: 'मान्य',
+                        rejected: 'रद्द',
+                        resolved: 'पूर्त'
+                    }
+
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-id-card.me-2
+                                | #{statuses[status]} नागरिकांना सेवा सुविधा अर्ज यादी
+                            p.mb-0.text-muted.small #{statuses[status]} अर्ज खाली दर्शविले आहेत.
+
+                        div.d-flex.flex-wrap(style='gap:0.5rem;')
+                            button.btn.btn-secondary.btn-sm(
+                                data-bs-toggle="modal"
+                                data-bs-target="#print-report-modal"
+                            )
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(href=`/gp-applications/to-seva/list?status=pending&sort=${sort}&subject=${selectedSubject}`) #{statuses['pending']} अर्ज
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(href=`/gp-applications/to-seva/list?status=accepted&sort=${sort}&subject=${selectedSubject}`) #{statuses['accepted']} अर्ज
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(href=`/gp-applications/to-seva/list?status=rejected&sort=${sort}&subject=${selectedSubject}`) #{statuses['rejected']} अर्ज
+                            //- if status != 'resolved'
+                                a.btn.btn-success.btn-sm(style='background: oklch(60% 0.118 184.704);' href=`/gp-applications/tahsil-office-seva/list?status=resolved&sort=${sort}`) #{statuses['resolved']} अर्ज
+
+                // ===== Sorting + Subject Filter Row =====
+                div.mt-3.d-flex.flex-wrap.align-items-center.justify-content-start.gap-4
+                    // Sort dropdown
+                    div.d-flex.align-items-center.gap-2
+                        label.small.fw-bold.mb-0.flex-shrink-0 क्रमवारी :
+                        select#job-card-sort-order.form-select.form-select-sm(style='width:160px;')
+                            option(value='desc' selected=(sort=='desc')) नवीन आधी
+                            option(value='asc' selected=(sort=='asc')) जुने आधी
+
+                    // Subject filter dropdown
+                    div.d-flex.align-items-center.gap-2
+                        label.small.fw-bold.mb-0.flex-shrink-0(for='subject-filter-select') विषयानुसार फिल्टर :
+                        select#subject-filter-select.form-select.form-select-sm
+                            option(value='') निवडा
+                            each subjectObj in subjects
+                                option(value=subjectObj.subject_name selected = (subjectObj.subject_name == selectedSubject)) #{subjectObj.subject_name}
+
+                    if selectedSubject != ''
+                        a.btn.btn-sm.btn-outline-primary.ms-2(href=websiteToShow target='_blank' rel='noopener noreferrer')
+                            i.fa.fa-external-link.me-1
+                            | वेबसाइटवर जा
+
+                if !selectedSubject
+                    p(class='mt-1 px-2 py-2 text-light' style='font-size:0.9rem; background: oklch(70.4% 0.191 22.216); width:fit-content;') कृपया अर्जाचा विषय निवडा
+
+        // ===== APPLICATIONS TABLE =====
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width='6%') अर्ज क्र.
+                                        th(width='18%') अर्जदाराचे नाव
+                                        th(width='14%') संपर्क
+                                        th(width='20%') सेवा विषय
+                                        th(width='18%') नोंदणी दिनांक
+                                        //- th(width='20%') दस्तऐवज
+                                        th(width='14%') तपशील
+                                        th(width='16%') अर्ज प्रत
+                                        th(width='5%') क्रिया
+                                
+                            
+
+                                tbody#tahsilApplications
+                                    if !applications || applications.length === 0
+                                        tr
+                                            td.text-center.text-danger.py-4(colspan='7')
+                                                i.fa.fa-info-circle.me-2
+                                                | अर्ज यादी रिक्त आहे.
+                                    else
+                                        each application, index in applications
+                                            tr
+                                                // ===== Application ID =====
+                                                td.text-center #{application.id}
+
+                                                // ===== Applicant Name =====
+                                                td #{application.applicant_name}
+
+                                                // ===== Mobile =====
+                                                td.text-center #{application.applicant_mobile || '-'}
+
+                                                // ===== Subject =====
+                                                td.text-center #{application.subject || '-'}
+
+                                                // ===== Registration Date =====
+                                                //- td.text-center #{application.createdAt ? new Date(application.createdAt).toLocaleDateString('mr-IN') : '-'}
+                                                td.text-center #{application._createdAt}
+
+                                                // ===== Documents =====
+                                                //- td.text-center
+                                                    if application.uploaded_documents_list
+                                                        - const docs = JSON.parse(application.uploaded_documents_list)
+                                                        each doc in docs
+                                                            if doc.document_saved_path
+                                                                a(
+                                                                    href=`/uploads/docs/tahsil-office-seva/${doc.document_saved_path}`
+                                                                    target='_blank'
+                                                                    class='d-block text-truncate'
+                                                                    title=doc.document_original_name
+                                                                ) #{doc.document_name}
+                                                            else
+                                                                span.text-muted #{doc.document_name || '-'}
+                                                    else
+                                                        span.text-muted दस्तऐवज उपलब्ध नाही
+
+                                                td
+                                                    button.btn.btn-primary.btn-sm.view-tahsil-application-details-btn(
+                                                            type='button'
+                                                            data-application=JSON.stringify(application)
+                                                        )
+                                                            i.fa.fa-eye.me-1
+                                                            | तपशील
+
+
+                                                td.text-center
+                                                    a.btn.btn-sm.btn-info(href=`/gp-applications/to-seva/application/${application.id}` target="_blank")
+                                                        i.fa.fa-print
+                                                
+                                                // ===== Actions =====
+                                                td
+                                                    div.d-flex.justify-content-center(style='gap:0.6rem;')
+
+                                                        //- button.btn.btn-primary.btn-sm.view-tahsil-application-details-btn(
+                                                                type='button'
+                                                                data-application=JSON.stringify(application)
+                                                            )
+                                                            i.fa.fa-eye.me-1
+                                                            | View
+
+                                                        if status == 'pending'
+                                                            button.btn.btn-success.btn-sm.accept-tahsil-application-btn(
+                                                                type='button'
+                                                                data-application=JSON.stringify(application)
+                                                                data-applicationId=application.id
+                                                            ) Accept
+
+                                                            button.btn.btn-danger.btn-sm.reject-tahsil-application-btn(
+                                                                type='button'
+                                                                data-application=JSON.stringify(application)
+                                                                data-applicationId=application.id
+                                                            ) Reject
+    
+    
+    
+    //- ACCEPT APPLICATION MODAL
+    .modal(tabindex='-1' id='accept-tahsil-application-modal')
+        .modal-dialog.modal-dialog-centered
+            .modal-content.shadow-lg.rounded-3
+                .modal-header.bg-success.text-white
+                    h5.modal-title.mb-0
+                        i.fa.fa-check-circle.me-2
+                        | नागरिकांना सेवा सुविधा अर्ज स्वीकारा
+                    button.btn-close.btn-close-white(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+                .modal-body
+                    form#accept-tahsil-application-form
+                        .mb-3
+                            label.form-label.fw-semibold अर्जदाराचे नाव
+                            input.form-control(type='text' name='applicant_name' readonly)
+
+                        .mb-3
+                            label.form-label.fw-semibold सेवा विषय
+                            input.form-control(type='text' name='subject' readonly)
+
+                        .mb-2
+                            label.form-label.fw-semibold
+                                i.fa.fa-comment-dots.me-1.text-muted
+                                | शेरा
+                            textarea.form-control(name='acceptance_remark' placeholder='शेरा लिहा (ऐच्छिक)')
+
+                        input(type='hidden' name='id' required)
+
+                .modal-footer.justify-content-between
+                    button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                        i.fa.fa-times.me-1
+                        | बंद करा
+                    button.btn.btn-sm.btn-success(type='submit' id='accept-tahsil-application-btn')
+                        i.fa.fa-check.me-1
+                        | स्वीकारा
+
+    //- REJECT APPLICATION MODAL
+    .modal(tabindex='-1' id='reject-tahsil-application-modal')
+        .modal-dialog.modal-dialog-centered
+            .modal-content.shadow-lg.rounded-3
+                .modal-header.bg-danger.text-white
+                    h5.modal-title.mb-0
+                        i.fa.fa-times-circle.me-2
+                        | नागरिकांना सेवा सुविधा अर्ज नाकारा
+                    button.btn-close.btn-close-white(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+                .modal-body
+                    form#reject-tahsil-application-form
+                        .mb-3
+                            label.form-label.fw-semibold अर्जदाराचे नाव
+                            input.form-control(type='text' name='applicant_name' readonly)
+
+                        .mb-3
+                            label.form-label.fw-semibold सेवा विषय
+                            input.form-control(type='text' name='subject' readonly)
+
+                        .mb-2
+                            label.form-label.fw-semibold
+                                i.fa.fa-comment-dots.me-1.text-muted
+                                | नकाराचे कारण
+                            textarea.form-control(name='rejection_remark' placeholder='नकार देण्याचे कारण लिहा')
+
+                        input(type='hidden' name='id' required)
+
+                .modal-footer.justify-content-between
+                    button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal')
+                        i.fa.fa-times.me-1
+                        | बंद करा
+                    button.btn.btn-sm.btn-danger(type='submit' id='reject-tahsil-application-btn')
+                        i.fa.fa-ban.me-1
+                        | नाकारा
+
+
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/tahsil-office-seva/tahsil-office-seva-applications-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/gp-applications/tahsil-office-seva/tahsil-office-seva-applications-list-page-sorting-handler.js')

@@ -1,0 +1,161 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        //- common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')  
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        //-mask plugin jquery
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+        //-toggle
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        //- extras
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        //- common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+        link(href='/asstest/coustom/css/certificates/birth-certificate/birth-certificate-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+        script(src='/asstest/coustom/js/handlers/certificates/birth-certificate/birth-certificate-form-handler.js')
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section 
+            .container
+                div
+                    h2.heading-1.text-center जन्म प्रमाणपत्र फॉर्म
+                .text-end
+                    a.btn.btn-primary.text-light(href='/birth-certificate') यादी बघा
+
+                form(id='birth-certificate-form')
+                    .form.form-1.form-success
+                        .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name') नाव 
+                                    input.form-control.to-marathi(type='text' name='name' placeholder='Name / नाव' required).mb-3
+                                    input.form-control(type='text' name='name_m' placeholder='नाव (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='gender') लिंग
+                                    select.form-select.to-marathi(type='text' name='gender' placeholder='Gender / लिंग' required).mb-3
+                                        option(value='' selected disabled) -- Select --
+                                        each _gender in ['Male', 'Female', "Others"]
+                                            option(value=_gender) #{_gender}
+                                    input.form-control(type='text' name='gender_m' placeholder='लिंग (मराठीत)' required readonly)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_birth') जन्म दिनांक 
+                                    input.form-control.to-marathi(type='text' maxLength='10' class='datepicker' name='date_of_birth' placeholder='Date of Birth / जन्म दिनांक' required).mb-3
+                                    input.form-control(type='text' name='date_of_birth_m' maxLength='10' placeholder='जन्म दिनांक (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='place_of_birth') जन्म ठिकाण 
+                                    input.form-control.to-marathi(type='text' name='place_of_birth' placeholder='Place of Birth / जन्म ठिकाण' required).mb-3
+                                    input.form-control(type='text' name='place_of_birth_m' placeholder='जन्म ठिकाण (मराठीत)' required)
+
+                            .col-11.col-md-11.col-lg-12
+                                .form-group
+                                    label.form-label(for='date_of_birth_in_words') जन्म दिनांक शब्दात 
+                                    input.form-control(type='text' name='date_of_birth_in_words' placeholder='Date of Birth in Words / जन्म दिनांक शब्दात' required)
+
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_mother') आईचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_mother' placeholder='Name of Mother / आईचे नाव').mb-3
+                                    input.form-control(type='text' name='name_of_mother_m' placeholder='आईचे नाव (मराठीत)')
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='aadhar_number_of_mother') आईचा आधार क्रमांक
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='12' name='aadhar_number_of_mother' placeholder='Aadhaar No. of Mother / आईचा आधार क्रमांक').mb-3
+                                    input.form-control(type='text' name='aadhar_number_of_mother_m' maxLength='12' placeholder='आईचा आधार क्रमांक (मराठीत)')
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='name_of_father') वडिलांचे नाव 
+                                    input.form-control.to-marathi(type='text' name='name_of_father' placeholder='Name of Father / वडिलांचे नाव').mb-3
+                                    input.form-control(type='text' name='name_of_father_m' placeholder='वडिलांचे नाव (मराठीत)')
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='aadhar_number_of_father') वडिलांचा आधार क्रमांक
+                                    input.form-control.is-number.to-marathi(type='text' maxLength='12' name='aadhar_number_of_father' placeholder='Aadhaar No. of Father / वडिलांचा आधार क्रमांक').mb-3
+                                    input.form-control(type='text' name='aadhar_number_of_father_m' maxLength='12' placeholder='वडिलांचा आधार क्रमांक (मराठीत)')
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='address_of_parents_at_birth_time_of_baby') बाळाच्या जन्माच्या वेळी पालकांचा पत्ता
+                                    input.form-control.to-marathi(type='text' name='address_of_parents_at_birth_time_of_baby' placeholder='Address of Parents at Birth Time / जन्मावेळी पालकांचा पत्ता' required).mb-3
+                                    input.form-control(type='text' name='address_of_parents_at_birth_time_of_baby_m' placeholder='जन्मावेळी पालकांचा पत्ता (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='permanent_address_of_parents') पालकांचा कायमचा पत्ता 
+                                    input.form-control.to-marathi(type='text' name='permanent_address_of_parents' placeholder='Permanent Address of Parents / पालकांचा कायमचा पत्ता' required).mb-3
+                                    input.form-control(type='text' name='permanent_address_of_parents_m' placeholder='पालकांचा कायमचा पत्ता (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_registration') नोंदणी दिनांक 
+                                    input.form-control.to-marathi(name='date_of_registration' maxLength='10' class='datepicker' placeholder='Date of Registration / नोंदणी दिनांक' required).mb-3
+                                    input.form-control(type='text' name='date_of_registration_m' maxLength='10' placeholder='नोंदणी दिनांक (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='remark') शेरा 
+                                    input.form-control.to-marathi(type='text' name='remarks' placeholder='Remark / टीप' ).mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='ps_registration_number') ग्रामपंचायत नोंदणी क्रमांक
+                                    input.form-control.to-marathi(type='text' name='gp_registration_number' placeholder='ग्रामपंचायत नोंदणी क्रमांक' ).mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_issue') प्रमाणपत्र दिनांक 
+                                    input.form-control(type='text' class='datepicker' maxLength='10' name='date_of_issue' placeholder='Date of Issue / प्रमाणपत्र दिनांक').mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_issue') बाळांतपणाच्या वेळी उपस्थित अधिकाऱ्याचे नाव
+                                    input.form-control.to-marathi(type='text' class='' name='official_present_at_birth' placeholder='बाळांतपणाच्या वेळी उपस्थित अधिकाऱ्याचे नाव').mb-3
+                                    input.form-control(type='text' name='official_present_at_birth_m' placeholder='बाळांतपणाच्या वेळी उपस्थित अधिकाऱ्याचे नाव (मराठीत)' required)
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group
+                                    label.form-label(for='date_of_issue') बाळाचे वजन
+                                    input.form-control.to-marathi(type='text' class='' name='weight_of_baby' placeholder='बाळाचे वजन').mb-3
+
+                            .col-11.col-md-6.col-lg-6
+                                .form-group 
+                                    label.form-label(for='') ग्रामपंचायत नोंदणी जन्म अहवाल
+                                    input.form-control(type='file' accept='image/*' name='gpRegistrationBirthReportFile')                            
+
+                    .button-container
+                        button.btn.btn-primary(type='submit' id='save-birth-certificate-btn') Submit

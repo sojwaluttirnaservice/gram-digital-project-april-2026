@@ -1,0 +1,25 @@
+.examEditMode
+  #modalCandidateManager.modal.p-0.m-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+    .modal-dialog.p-0.m-0(role='document')
+      .modal-content.p-0.m-0
+        .modal-header
+          h5.modalTitle.modal-tilte Student Managment
+          .d-inline-block#navModalTab.navModalTab.nav.align-content-center(role='tablist')
+            button#candidateAddTab.btn.mr-2.btn-sm.btn-primary.active(data-toggle='tab', href='#candidateAddAction', role='tab', aria-controls='candidateAddAction', aria-selected='true')
+              | Add Candidates
+            button.closeModal.btn.btn-danger.btn-sm(data-mname="#modalCandidateManager") Exit
+        .modal-body#loadMathjsx
+          #nav-tabContentModal.tab-content
+            #candidateAddAction.tab-pane.fade.active.show(role='tabpanel', aria-labelledby='candidateAddTab')
+              .row
+                .col-12
+                  .text-center
+                    .custom-file.col-4.input-group-sm
+                      input(type="file" class="custom-file-input " id="candidateListFile")
+                      label(class="custom-file-label" for="candidateListFile").text-left Select File
+                    center.mt-2.progressBar.d-none
+                      progress.setProgessBar.d-block(max="0" value="0" style="width: 500px;height: 20px;") 
+                      span.setProgressCount 0/0
+                .col-12.mt-3
+                  .row.setSelector
+                   

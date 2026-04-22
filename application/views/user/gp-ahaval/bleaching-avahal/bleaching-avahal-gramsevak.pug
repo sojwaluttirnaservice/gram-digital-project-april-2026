@@ -1,0 +1,276 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        //- COMMON CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+        //- CUSTOM CSS
+        link(href='/asstest/coustom/css/bleaching-avahal-gramsevak.css' rel='stylesheet')
+
+        //- JS FILES
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+
+        //- TOGGLE
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+
+        //- COMMON JS
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/bleaching-avahal-manager.js')
+
+        title ब्लिचिंग अवहाल ग्रामपंचायत अधिकारी 
+        style.
+            td {
+                padding: 0;
+            }
+
+
+            td textarea {
+                margin: 0;
+            }
+
+            label.error {
+                font-size: 0.8rem;
+                color: red;
+            }
+body
+
+    include ../../include/navs.pug
+
+    .back-image 
+        .container
+            form#bleachingAvahalForm
+                div.text-center
+                    div.date-box.mb-4.pt-3
+                        input#month-year.form-control.date-input(placeholder='Select Month Year' class='date-input' name='month_year' value= isEdit ? `${String(data.month).padStart(2, '0')}/${data.year}` : '')
+
+                        h3 दिनांक 
+                        input.form-control.date-input(type='text' name='date_from' id='date_from' placeholder='DD/MM/YYYY' minlength='10' maxlength='10' value=isEdit ?data._date_from : '' readonly)
+                        h3 ते
+                        input.form-control.date-input(type='text' name='date_to' id='date_to' placeholder='DD/MM/YYYY' minlength='10' maxlength='10' value=isEdit ?data._date_to : '' readonly) 
+                        h3 पर्यंत
+
+                h2.subheading नमुना नं १ विहिरी निर्जंतुक केल्याचा अवहाल 
+
+                if isEdit
+                    table 
+                        thead 
+                            tr 
+                                th(width='5%') अ.क्र.
+                                th ग्रामपंचायत नाव 
+                                th गावाचे नाव
+                                th गावातील एकून सार्वजनिक विहिरींची संख्या  
+                                th निर्जंतुक केलेल्या विहिरींची संख्या 
+                                th विहिरी निर्जंतुक करण्याचा दिवस 
+                                th निर्जंतुक करणाराचे नाव 
+                                th हुद्द 
+                                th शेरा 
+                        tbody 
+                            tr 
+                                th १
+                                th २
+                                th ३
+                                th ४
+                                th ५
+                                th ६
+                                th ७
+                                th ८
+                                th ९
+                            tr 
+                                td १
+                                td 
+                                    textarea.form-control.gp-name1(type='text' rows='4' cols='20' name='gp_name') #{previousMonthData ? previousMonthData.gp_name : ''} 
+                                        |#{isEdit ? data.gp_name: ''}
+                                td 
+                                    textarea.form-control.village-name(type='text' rows='4' cols='20' name='village_name') #{previousMonthData ? previousMonthData.village_name : ''}
+                                        |#{isEdit ? data.village_name: ''}
+                                td
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='total_public_well_count') #{previousMonthData ? previousMonthData.total_public_well_count : ''} 
+                                        |#{isEdit ? data.total_public_well_count: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='cleaned_well_count')
+                                        |#{isEdit ? data.cleaned_well_count: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaning_day')
+                                        |#{isEdit ? data.well_cleaning_day: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaner_name')
+                                        |#{isEdit ? data.well_cleaner_name: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='hudda')
+                                        |#{isEdit ? data.hudda: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaning_shera')
+                                        |#{isEdit ? data.well_cleaning_shera: ''}
+
+                    h2.subheading नमुना नं २ ब्लिचिंग पवारच्या साठ्यबाबतची माहिती
+                    table 
+                        thead 
+                            tr 
+                                th(width='5%') अ.क्र.
+                                th ग्रामपंचायत नाव 
+                                th गावाचे नाव
+                                th महिन्याचा सुरुवातीस साठ कि ग्राम 
+                                th महिन्यात विकत घेतेलेला साठ कि ग्राम 
+                                th चालू महिन्यात खर्च झालेला साठ कि ग्राम 
+                                th महिना अखेर शिक्काक साठ कि ग्राम 
+                                th शेरा 
+                        tbody 
+                            tr 
+                                th १
+                                th २
+                                th ३
+                                th ४
+                                th ५
+                                th ६
+                                th ७
+                                th ८
+                            tr 
+                                td १
+                                td 
+                                    textarea.form-control.gp-name2(type='text' rows='4' cols='20' name='gp_name' disabled)
+                                        |#{isEdit ? data.gp_name: ''}
+                                td 
+                                    textarea.form-control.village-name2(type='text' rows='4' cols='20' name='village_name' disabled)
+                                        |#{isEdit ? data.village_name: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_start_quantity') #{previousMonthData ? previousMonthData.month_last_remaining_quantity : ''}
+                                        |#{isEdit ? data.month_start_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_purchased_quantity')
+                                        |#{isEdit ? data.month_purchased_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='current_month_used_quantity')
+                                        |#{isEdit ? data.current_month_used_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_last_remaining_quantity')
+                                        |#{isEdit ? data.month_last_remaining_quantity: ''}
+                                td
+                                    textarea.form-control(type='text' rows='4' cols='20' name='bleaching_storage_shera')
+                                        |#{isEdit ? data.bleaching_storage_shera: ''}
+
+                    div.text-center.pb-5
+
+                        button.btn.btn-success#updateBleachingAvahalBtn(type='button' data-id=data.id data-month=data.month data-year=data.year) 
+                            i.fa.fa-save 
+                            | &nbsp; अपडेट करा 
+
+                else
+                    table 
+                        thead 
+                            tr 
+                                th(width='5%') अ.क्र.
+                                th ग्रामपंचायत नाव 
+                                th गावाचे नाव
+                                th गावातील एकून सार्वजनिक विहिरींची संख्या  
+                                th निर्जंतुक केलेल्या विहिरींची संख्या 
+                                th विहिरी निर्जंतुक करण्याचा दिवस 
+                                th निर्जंतुक करणाराचे नाव 
+                                th हुद्द
+                                th शेरा 
+                        tbody 
+                            tr 
+                                th १
+                                th २
+                                th ३
+                                th ४
+                                th ५
+                                th ६
+                                th ७
+                                th ८
+                                th ९
+                            tr 
+                                td १
+                                td 
+                                    textarea.form-control.gp-name(type='text' rows='4' cols='20' name='gp_name') #{previousMonthData ? previousMonthData.gp_name : gp.gp_name} 
+                                        |#{previousData ? previousData.gp_name: ''}
+                                td 
+                                    textarea.form-control.village-name(type='text' rows='4' cols='20' name='village_name') #{previousMonthData ? previousMonthData.village_name : gp.gp_name}
+                                        |#{previousData ? previousData.village_name: ''}
+                                td
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='total_public_well_count') #{previousMonthData ? previousMonthData.total_public_well_count : ''} 
+                                        |#{previousData ? previousData.total_public_well_count: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='cleaned_well_count')
+                                        |#{previousData ? previousData.cleaned_well_count: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaning_day')
+                                        |#{previousData ? previousData.well_cleaning_day: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaner_name')
+                                        |#{previousData ? previousData.well_cleaner_name: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='hudda')
+                                        |#{previousData ? previousData.hudda: ''}
+                                td 
+                                    textarea.form-control(type='text' rows='4' cols='20' name='well_cleaning_shera')
+                                        |#{previousData ? previousData.well_cleaning_shera: ''}
+
+                    h2.subheading नमुना नं २ ब्लिचिंग पवारच्या साठ्यबाबतची माहिती
+                    table 
+                        thead 
+                            tr 
+                                th(width='5%') अ.क्र.
+                                th ग्रामपंचायत नाव 
+                                th गावाचे नाव
+                                th महिन्याचा सुरुवातीस साठ कि ग्राम 
+                                th महिन्यात विकत घेतेलेला साठ कि ग्राम 
+                                th चालू महिन्यात खर्च झालेला साठ कि ग्राम 
+                                th महिना अखेर शिक्काक साठ कि ग्राम 
+                                th शेरा 
+                        tbody 
+                            tr 
+                                th १
+                                th २
+                                th ३
+                                th ४
+                                th ५
+                                th ६
+                                th ७
+                                th ८
+                            tr 
+                                td १
+                                td 
+                                    textarea.form-control.gp-name2(type='text' rows='4' cols='20' name='gp_name2'  disabled)
+                                        |#{previousData ? previousData.gp_name: gp.gp_name}
+                                td 
+                                    textarea.form-control.village-name2(type='text' rows='4' cols='20' name='village_name2' disabled)
+                                        |#{previousData ? previousData.village_name: gp.gp_name}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_start_quantity') #{previousMonthData ? previousMonthData.month_last_remaining_quantity : ''}
+                                        |#{previousData ? previousData.month_start_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_purchased_quantity')
+                                        |#{previousData ? previousData.month_purchased_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='current_month_used_quantity')
+                                        |#{previousData ? previousData.current_month_used_quantity: ''}
+                                td 
+                                    textarea.form-control.is-number(type='text' rows='4' cols='20' name='month_last_remaining_quantity')
+                                        |#{previousData ? previousData.month_last_remaining_quantity: ''}
+                                td
+                                    textarea.form-control(type='text' rows='4' cols='20' name='bleaching_storage_shera')
+                                        |#{previousData ? previousData.bleaching_storage_shera: ''}
+
+                    div.text-center.pb-5
+
+                        button.btn.btn-primary#saveBleachingAvahalBtn(type='button') 
+                            i.fa.fa-save 
+                            | &nbsp; जतन करा

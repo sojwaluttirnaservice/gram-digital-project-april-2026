@@ -1,0 +1,257 @@
+doctype html
+head
+  title नमुना ९ पाणी
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+      @page {
+        size: landscape;
+        margin: 5mm 5mm 5mm 5mm;
+      }
+      .m-top{
+        margin: 10mm 5mm 5mm 5mm;
+      }
+      .m-bottom{
+        margin: 5mm 5mm 10mm 5mm;
+      }
+    }
+    .main-heading {
+      margin-left:10%
+    }
+    .heading-second{
+      margin-left:30%
+    }
+    .heading-second-2{
+      margin-left:30%
+    }
+    #table2 td {
+      padding-left:1px;
+      padding-right:1px;
+    }
+    #table3 td {
+      padding-left:3px;
+      padding-right:3px;
+      } 
+        .set-height > td.td {
+          height: 80px;
+        }
+        .set-height > td.td1 {
+          height: 40px;
+        }
+        .set-p-break {
+          page-break-before: always;
+        }
+        td{
+          font-size:12px !important;
+          border:1px solid red !important;
+          }
+          table{
+            width:100% !important;
+          }
+          .h5{
+            font-size:15px !important;
+          }
+          .h6{
+            font-size:14px !important;
+          }
+
+            .h7{
+              font-size:11px !important;
+          }
+body
+  -const monthsArrayMarathi = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"]
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0
+  - var start = 0;
+  while count < main_length
+
+    - start = count*5;
+    - array1 = data.slice(start, (start+5));
+    - arrayLen =  5 - array1.length;
+    if(arrayLen !== 0)
+      while arrayLen > 0
+        - var singleVar = {lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0,feu_wardNo:"-",feu_malmattaNo:"-",feu_ownerName:"-",feu_secondOwnerName:"-",lastSpacialWaterTax:0,currentSpacialWaterTax:0,totalSpacialWaterTax:0,lastGenealWaterTax:0,currentGenealWaterTax:0,totalGenealWaterTax:0,totalWaterTax:0}
+        - array1.push(singleVar)
+        - arrayLen--
+    - count++;
+    .row.set-p-break.m-top
+      .col-12.p-0.m-0 
+        table.table.table-borderless
+          thead
+            tr.p-0.m-0
+              td(colspan="6").p-1.m-0 
+                div
+                  span.float-left पान क्र  #{count}
+                  p.h4.text-center.text-warning.font-weight-bold ग्रामपंचायत कार्यालय #{zp.gp_name} 
+                div.mt-2.mb-2
+                  span.h6.float-left नमुना-९
+                  p.h6.text-center.font-weight-bold.mr-4  नियम २२ (९),३२(४), ५(६) व ७ पहा
+                  p.text-center.h5.font-weight-bold.text-primary देयकाचा कालावधी  #{from} ते #{to} या कालावधी करिता आकारणी केलेल्या पाणीपट्टी कराचे मागणी नोंदणी पुस्तक वही.
+      .col-12.p-0.m-0
+        center
+          table(border="1")#table2
+            thead
+              tr.p-0.m-0
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block अ 
+                  span.d-block नु 
+                  span.d-block क्र.
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block व्हा 
+                  span.d-block ल
+                  span.d-block क्र.
+                td(width="3%" rowspan="3").text-center.m-0 
+                  span.d-block नळ
+                  span.d-block नं 
+                td(width="12%" rowspan="3").text-center.m-0 
+                  span.d-bloc नळ कनेक्शन धारकाच्ये नाव
+                  small.d-block (ज्या वेक्तीकडून कर येणे असेल त्या वेक्तीचे नाव)
+
+                td(width="5%" rowspan="3").text-center.m-0 
+                  span.d-block नळाचा 
+                  span.d-block वापर व दर
+                //-----------------------------------------------
+                td(width='12%' rowspan='3').text-center.m-0
+                  span वापरण्याचा कालावधी 
+                td(width='4%' rowspan='3').text-center.m-0
+                  span मीटर रिडींग सुरुवात
+                //---------------------
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block मीटर
+                  span.d-block रीडिंग
+                  span.d-block समाप्ती 
+
+                td(width='4%' rowspan='3').text-center.m-0
+                  span एकूण युनिट
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block मागील थकबाकी
+                  span.d-block पाणी 
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block चालू 
+                  span.d-block पाणी
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block एकूण 
+                  span.d-block पाणी
+                  span.d-block कर
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block मुदतीच्या 
+                  span.d-block नंतर  
+                  span.d-block भरवायची   
+                  span.d-block रक्कम
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block दिनांक
+                td(width="4%" rowspan="3").text-center.m-0
+                  span.d-block पावती क्रमांक 
+
+
+              tr.p-0.m-0
+                td(colspan="2").text-center.m-0 
+                  span.d-block पाणी कर वसुली
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block पाणी
+                  span.d-block कर वसुली 
+                td( colspan="2").text-center.m-0 
+                  span.d-block अखेर पाणी कर शिल्लक
+                td(width="4%" rowspan="2").text-center.m-0 
+                  span.d-block एकूण
+                  span.d-block पाणी अखेर
+                  span.d-block शिल्लक
+
+              tr.p-0.m-0
+                td(width="6%").text-center.m-0 
+                  span.d-block मागील
+                td(width="6%").text-center.m-0 
+                  span.d-block चालू 
+                td(width="5%").text-center.m-0 
+                  span.d-block मागील 
+                td(width="5%").text-center.m-0 
+                  span.d-block चालू 
+              
+            tbody
+              tr.p-0.m-0
+                each _, _index in Array.from({ length: 21 }, (_, i) => i + 1)
+                  td.text-center.m-0 #{_index + 1}
+
+
+              - var lastSpacialWaterTax= 0;
+              - var currentSpacialWaterTax= 0;
+              - var totalSpacialWaterTax= 0;
+              - var lastGenealWaterTax= 0;
+              - var currentGenealWaterTax= 0;
+              - var totalGenealWaterTax= 0;
+              - var totalWaterTax= 0;
+              each val in array1
+
+                - pageCount += 1;
+                - lastSpacialWaterTax += val.mbl_meter_reading_end == undefined ? 0 : Math.round(Number(val.mbl_meter_reading_end)) ;
+                - currentSpacialWaterTax += val.mbl_last_backlock == undefined ? 0 : Math.round(Number(val.mbl_last_backlock)) ;
+                - totalSpacialWaterTax += val.mbl_water_amt == undefined ? 0 : Math.round(Number(val.mbl_water_amt)) ;
+                - lastGenealWaterTax += val.mbl_final_total_amt == undefined ? 0 : Math.round(Number(val.mbl_final_total_amt)) ;
+                - currentGenealWaterTax +=val.mbl_after_date_amt_to_fill == undefined ? 0 :  Math.round(Number(val.mbl_after_date_amt_to_fill)) ;
+
+                tr.p-0.m-0.set-height
+                  td.td.text-center.m-0 #{pageCount}
+                  td.text-center.m-0 #{val.mbl_valve_number}
+                  td.text-center.m-0 #{val.mbl_nal_number}
+                  td.text-center.m-0 #{val.mbl_user_name}
+                  td.text-center.m-0 #{val.mbl_nal_usage_type} | #{val.mbl_rate} 
+                  - let [year1, month1, day1] = val._mbl_water_usage_from_full ? val._mbl_water_usage_from_full.split('-') : ''
+                  - let [year2, month2, day2] = val._mbl_water_usage_to_full ? val._mbl_water_usage_to_full.split('-') : ''
+                  //- - let [year2, month2, day2] = val._mbl_water_usage_to_full.split('-')
+                  td.text-center.m-0  #{day1} #{monthsArrayMarathi[+month1 - 1]} #{year1} ते #{day2} #{monthsArrayMarathi[+month2 - 1]} #{year2}
+
+                  //- ----------------
+                  td.text-center.m-0 #{val.mbl_meter_reading_start} 
+                  //- ----------------
+
+                  td.text-center.m-0 #{val.mbl_meter_reading_end}
+                  td.text-cenetr.m-0 #{val.mbl_total_unit}
+                  td.text-center.m-0 #{val.mbl_last_backlock}
+                  td.text-center.m-0 #{val.mbl_water_amt}
+                  td.text-center.m-0 #{val.mbl_final_total_amt}
+                  td.text-center.m-0 #{val.mbl_after_date_amt_to_fill}
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+                  td.text-center.m-0 
+
+
+              tr.p-0.m-0.set-height
+                td.td1(colspan="8").text-center.m-0 
+                  p.h6 पान क्रमांक नुसार एकूण पाणी कर 
+                td.text-center.m-0 -
+                td.text-center.m-0 #{currentSpacialWaterTax}
+                td.text-center.m-0 #{totalSpacialWaterTax}
+                td.text-center.m-0 #{lastGenealWaterTax}
+                td.text-center.m-0 #{currentGenealWaterTax}
+                //- td.text-center.m-0
+                //- td.text-center.m-0
+                //- td.text-center.m-0 
+                //- td.text-center.m-0
+                //- td.text-center.m-0 
+                //- td.text-center.m-0 
+                //- td.text-center.m-0 
+                //- td.text-center.m-0 
+

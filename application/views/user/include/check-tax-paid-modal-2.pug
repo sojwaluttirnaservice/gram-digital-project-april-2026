@@ -1,0 +1,14 @@
+.modal.check-tax-paid-modal(role="dialog" tabindex="-1" )
+    .modal-dialog(role="document")
+        .modal-content 
+            .modal-header 
+                h5.modal-title Check Tax Paid 
+                button.btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    i.fa.fa-close
+            .modal-body
+                .d-flex.justify-content-center.gap-2.align-items-center
+                    label.form-label.mx-1(for='malmatta-no') मालमत्ता नं
+                    input#malmatta-no.malmatta-no.mx-2.form-control(type='text')
+
+                    button.btn.btn-primary.search-pending-tax-btn.mx-2(type='button') शोधा 
+

@@ -1,0 +1,360 @@
+extends ../../include/internal-gp-master-layout.pug 
+
+block custom_css 
+    //- Optional future CSS hook
+
+block content
+
+
+    include ./construction-report-modal.pug
+    include ./construction-application-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        //- Header
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                - let background = {pending: 'oklch(86.9% 0.022 252.894)', accepted: "oklch(90.5% 0.093 164.15)", rejected : "oklch(88.5% 0.062 18.334)", resolved : 'oklch(70.4% 0.14 182.503)'}
+                - let statuses = {pending: 'प्रलंबित', accepted: "मान्य", rejected : "रद्द", resolved : 'पूर्त'}
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-users.me-2
+                                | #{statuses[status]} बांधकाम परवानगी अर्ज यादी
+                            p.mb-0.text-muted.small #{statuses[status]} बांधकाम परवानगी खाली दर्शविली आहे.
+                        div.d-flex(style='gap:1rem;')
+                            button.btn.btn-secondary.btn-sm(data-bs-toggle="modal" data-bs-target="#print-report-modal")
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+                            
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(href='/gp-applications/construction/list') प्रलंबित बांधकाम परवानगी अर्ज 
+                            
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(href=`/gp-applications/construction/list?status=accepted&sort=${sort}`) मान्य बांधकाम परवानगी अर्ज 
+                                
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(href=`/gp-applications/construction/list?status=rejected&sort=${sort}`) रद्द बांधकाम परवानगी अर्ज 
+
+                            if status != 'resolved' 
+                                a.btn.btn-success.btn-sm(style='background: oklch(60% 0.118 184.704);' href=`/gp-applications/construction/list?status=resolved&sort=${sort}`) पूर्त बांधकाम परवानगी अर्ज 
+
+
+
+        //- Table
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                div.mb-4
+                    div(class="d-flex align-items-center" style="gap:0.75rem;")
+
+                        label(class="small fw-bold mb-0") क्रमवारी :
+
+                        select(id="complaint-sort-order" class="form-select form-select-sm" style="width:160px;")
+                            option(value="desc" selected=(sort=="desc")) नवीन आधी
+                            option(value="asc" selected=(sort=="asc")) जुने आधी
+
+                div.card.shadow-sm
+
+
+                    div.card-body
+
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width="8%") परवानगी क्र.
+                                        th(width="14%") मालमत्ता धारक
+                                        th(width="12%") संपर्क
+                                        th(width="28%") फेरफार तपशील
+                                        th अर्ज प्रत
+                                        th(width="23%") परवानगी क्र.
+                                        th(width="5%") संदेश
+
+                                        
+                                        th(width="7%") Action
+
+                                tbody#constructionApplications
+                                    if !constructionApplications || constructionApplications.length == 0
+                                        tr
+                                            td(colspan="8" class="text-center text-danger py-4")
+                                                i.fa.fa-info-circle.me-2
+                                                | #{statuses[status]} बांधकाम परवानगी अर्ज यादी रिक्त आहे. 
+                                    else
+                                        each constructionApplication, _index in constructionApplications
+                                            tr
+                                                //- Index
+                                                //- td.text-center #{_index + 1}
+
+                                                //- ID
+                                                td.text-center
+                                                    span.badge.bg-secondary #{constructionApplication.id}
+
+                                                //- Applicant
+                                                td.text-start
+                                                    strong #{constructionApplication.malmatta_dharak_name}
+                                                    br
+                                                    small.text-muted आधार:
+                                                    span.ms-1 #{constructionApplication.applicant_adhar}
+
+                                                //- Contact
+                                                td.text-center
+                                                    div(class="d-flex justify-content-start align-items-center gap-2")
+                                                        i(class="fa fa-phone text-muted")
+                                                        span #{constructionApplication.applicant_mobile}
+
+                                                    //- div(class="d-flex justify-content-start align-items-center gap-2 small text-muted mt-1")
+                                                        i(class="fa fa-envelope")
+                                                        span #{f8Ferfar.formEmail}
+
+                                                //- Complaint Details                                                
+                                                td.text-center
+                                                    button.btn.btn-sm.btn-outline-primary.view-construction-application-details-btn(type="button" data-constructionApplication=JSON.stringify(constructionApplication))
+                                                        i.fa.fa-eye.me-1
+                                                        | तपशील बघा
+                                                
+                                                td.text-center
+                                                    a.btn.btn-sm.btn-info(href=`/gp-applications/construction/print/${constructionApplication.id}`)
+                                                        i.fa.fa-print
+
+                                                td.text-center
+                                                    div.d-flex.flex-column.align-items-center.gap-1
+                                                        span.small.text-muted नोंदणी दिनांक
+                                                        span.fw-semibold #{constructionApplication._application_date}
+                                                        //- span.badge.bg-light.text-dark
+                                                            | #{daysAgo(complaint._application_date)} दिवसापूर्वी नोंदवली
+
+
+                                                //- SMS
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSNewApplication(
+                                                        data-id=index
+                                                        title="संदेश पाठवा"
+                                                    )
+
+                                                //- Actions
+                                                if status != 'resolved'
+                                                    td
+                                                        div.d-flex.justify-content-center.align-items-center(style="gap:0.6rem;")
+
+                                                            if status == 'pending'
+                                                                button.btn.btn-success.btn-sm.accept-construction-application-btn(
+                                                                    type="button"
+                                                                    data-constructionApplication=JSON.stringify(constructionApplication)
+                                                                    data-constructionApplicationId=constructionApplication.id
+                                                                )
+                                                                    | Accept
+
+                                                                button.btn.btn-danger.btn-sm.reject-construction-application-btn(
+                                                                    type="button"
+                                                                    data-constructionApplication=JSON.stringify(constructionApplication)
+                                                                    data-constructionApplicationId=constructionApplication.id
+                                                                )
+                                                                    | Reject
+
+                                                            else if status == 'accepted'
+                                                                button.btn.btn-success.btn-sm.resolve-construction-application-btn(
+                                                                    type="button"
+                                                                    data-constructionApplication=JSON.stringify(constructionApplication)
+                                                                    data-constructionApplicationId=constructionApplication.id
+                                                                )
+                                                                    | Resolve                                                            
+                                                            
+                                                            if (status == 'accepted' || status == 'rejected')
+                                                                button.btn.btn-secondary.btn-sm.revoke-construction-application-btn(
+                                                                    type="button"
+                                                                    data-constructionApplication=JSON.stringify(constructionApplication)
+                                                                    data-constructionApplicationId=constructionApplication.id
+                                                                )
+                                                                    | Revoke
+
+                                                else  
+                                                    td
+                                                    
+                                                        a.btn.btn-sm.btn-info(href=`/gp-applications/construction/cert/${constructionApplication.id}` target='_blank')
+                                                            i.fa.fa-print
+
+
+
+    //- ACCEPTANCE MODAL
+    .modal(tabindex="-1" id="accept-construction-application-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-success text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-check-circle me-2")
+                        | बांधकाम परवानगी अर्ज स्वीकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#accept-construction-application-form
+                        .mb-3
+                            label(for="malmatta_dharak_name" class="form-label fw-semibold") मालमत्ता धारकाचे नाव
+                            input(type='text' name='malmatta_dharak_name' class='form-control' readonly) 
+                        
+
+                        .mb-2
+                            label(for="acceptance_remark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | शेरा
+                            textarea(type="text" name="acceptance_remark" class="form-control" placeholder="शेरा लिहा (ऐच्छिक)")
+
+
+                            input(name='id' hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='accept-construction-application-btn' class="btn btn-sm btn-success")
+                        i(class="fa fa-check me-1")
+                        | स्वीकारा
+
+
+    //- REJECTION MODAL
+    .modal(tabindex="-1" id="reject-construction-application-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-danger text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-times-circle me-2")
+                        | बांधकाम परवानगी अर्ज नाकारा
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body
+                    form#reject-construction-application-form
+                        .mb-3
+                            label(for="malmatta_dharak_name" class="form-label fw-semibold") मालमत्ता धारकाचे नाव
+                            input(type='text' name='malmatta_dharak_name' class='form-control' readonly) 
+
+                        .mb-2
+                            label(for="rejection_remark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | नकाराचे कारण
+                            textarea(name="rejection_remark" class="form-control" placeholder="नकार देण्याचे कारण लिहा")
+
+                            input(name="id" hidden required)
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='reject-construction-application-btn' class="btn btn-sm btn-danger")
+                        i(class="fa fa-ban me-1")
+                        | नाकारा
+
+
+    //- REsolve MODAL
+    .modal(tabindex="-1" id="resolve-construction-application-modal")
+        .modal-dialog(class="modal-dialog-centered")
+            .modal-content(class="shadow-lg rounded-3")
+
+                // ================= HEADER =================
+                .modal-header(class="bg-success text-white")
+                    h5.modal-title(class="mb-0")
+                        i(class="fa fa-times-circle me-2")
+                        | बांधकाम परवानगी अर्ज पूर्तता
+                    button(type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close")
+
+                // ================= BODY =================
+                .modal-body.p-4(style='max-height:70vh; overflow-y:auto;')
+                    form#resolve-construction-application-form
+                        .mb-3
+                            label(for="malmatta_dharak_name" class="form-label fw-semibold") मालमत्ता धारकाचे नाव
+                                span(class='text-danger') *
+                            input(type='text' name='malmatta_dharak_name' class='form-control' readonly) 
+
+                        .mb-3
+                            label(for="masik_sabha_date" class="form-label fw-semibold") मासिक सभा दिनांक
+                                span(class='text-danger') *
+                            input.datepicker(type='text' name='masik_sabha_date' class='form-control' required) 
+
+
+                        .mb-3
+                            label(for="masik_tharav_number" class="form-label fw-semibold") मासिक ठराव क्रमांक
+                                span(class='text-danger') *
+                            input(type='text' name='masik_tharav_number' class='form-control' required) 
+
+                        .mb-3
+                            label(for="resolution_malmatta_number" class="form-label fw-semibold") निवारण मालमत्ता क्रमांक
+                                span(class='text-danger') *
+                            input(type='text' name='resolution_malmatta_number' class='form-control') 
+
+                        .mb-2
+                            label(for="resolution_remark" class="form-label fw-semibold")
+                                i(class="fa fa-comment-dots me-1 text-muted")
+                                | पूर्तता झाल्याचा शेरा
+                            textarea(name="resolution_remark" class="form-control" placeholder="पूर्तता झाल्याचा शेरा" required)
+
+                        .mb-3
+                            label(for="construction_certificate_date" class="form-label fw-semibold") बांधकाम प्रमाणपत्र दिल्याचा दिनांक
+                                span(class='text-danger') *
+                            input.datepicker(type='text' name='construction_certificate_date' class='form-control' required) 
+
+
+
+                        // ===== NEW PROPERTY DETAILS =====
+
+                        .mb-3
+                            label(for="survey_no" class="form-label fw-semibold") सर्व्हे नंबर (स.न.)
+                            input(type='text' name='survey_no' class='form-control')
+
+                        .mb-3
+                            label(for="group_no" class="form-label fw-semibold") गट नंबर
+                            input(type='text' name='group_no' class='form-control')
+
+                        .mb-3
+                            label(for="plot_no" class="form-label fw-semibold") प्लॉट नंबर
+                            input(type='text' name='plot_no' class='form-control')
+
+                        // ===== AREA DETAILS =====
+                        .mb-3
+                            label(for="total_area_sq_m" class="form-label fw-semibold") एकूण क्षेत्रफळ (चौ. मी.)
+                            input(type='number' step='0.01' name='total_area_sq_m' class='form-control')
+
+                        .mb-3
+                            label(for="total_area_sq_ft" class="form-label fw-semibold") एकूण क्षेत्रफळ (चौ. फूट)
+                            input(type='number' step='0.01' name='total_area_sq_ft' class='form-control')
+
+                        .mb-3
+                            label(for="upper_floor_area_sq_m" class="form-label fw-semibold") वरच्या मजल्याचे क्षेत्रफळ (चौ. मी.)
+                            input(type='number' step='0.01' name='upper_floor_area_sq_m' class='form-control')
+
+                        .mb-3
+                            label(for="approved_construction_area_sq_m" class="form-label fw-semibold") मंजूर / विचाराधीन बांधकाम क्षेत्रफळ (चौ. मी.)
+                            input(type='number' step='0.01' name='approved_construction_area_sq_m' class='form-control')
+
+
+                            input(name="id" hidden required)
+
+                        //- .mb-3
+                            label(for="constructionCertificate" class="form-label fw-semibold") बांधकाम प्रमाणपत्र 
+                                span(class='text-danger') *
+                            input(type='file' name='constructionCertificate' class='form-control' required) 
+
+
+                // ================= FOOTER =================
+                .modal-footer(class="justify-content-between")
+                    button(type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal")
+                        i(class="fa fa-times me-1")
+                        | बंद करा
+
+                    button(type="submit" id='resolve-construction-application-btn' class="btn btn-sm btn-success")
+                        i(class="fa fa-ban me-1")
+                        | पूर्तता झाली
+
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/gp-applications/construction/construction-applications-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/gp-applications/construction/construction-applications-list-page-sorting-handler.js')

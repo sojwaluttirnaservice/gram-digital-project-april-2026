@@ -1,0 +1,94 @@
+doctype html
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        // common css
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+        link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+        link(href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel='stylesheet')
+        //js
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js') 
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+        // common js setups
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='/asstest/coustom/js/handlers/master.main.handler.js' defer)
+    body
+        .container-fluid
+            - let isMasterView = (typeof isMasterPanel == 'undefined' || isMasterPanel) 
+            if isMasterView
+                .row
+                    .col-12 
+                        .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                            a.navbar-brand(href="/master") Master Panel
+            else
+                include ../user/include/navs.pug
+            .row.justify-content-center.mt-5
+                .col-12.col-md-11.mt-5#main-tag
+                    nav
+                        #nav-tab.nav.nav-tabs.nav-fill(role='tablist')
+                            //- if isMasterView
+                            a#nav-gp-basic-info-tab.nav-item.nav-link(class='active' data-toggle='tab' href='#nav-gp-basic-info' role='tab' aria-controls='nav-gp-basic-info' aria-selected='true') ग्रामपंचायत 
+                            a#nav-gp-info-tab.nav-item.nav-link( data-toggle='tab' href='#nav-gp-info' role='tab' aria-controls='nav-gp-info' aria-selected='false') ग्राम माहिती
+                            //- if isMasterView
+                            a#nav-villages-tab.nav-item.nav-link(data-toggle='tab' href='#nav-villages' role='tab' aria-controls='nav-villages' aria-selected='false') ग्रामपंचायत गावे
+                            a#nav-gp-work-tab.nav-item.nav-link(data-toggle='tab' href='#nav-gp-work' role='tab' aria-controls='nav-gp-work' aria-selected='false') ग्रामपंचायत कार्ये
+                            a#nav-video-gallery-tab.nav-item.nav-link(data-toggle='tab' href='#nav-video-gallery' role='tab' aria-controls='nav-gp-work' aria-selected='false') ग्रामपंचायत विडीयो गॅलरी
+                        #nav-tabContent.tab-content.py-3.px-3.px-sm-0
+
+                            #nav-gp-basic-info.tab-pane.fade.show(class='active' role='tabpanel' aria-labelledby='nav-gp-basic-info-tab')
+                                include ./tabs/gram_panchayet.pug
+                            #nav-gp-info.tab-pane.fade(role='tabpanel' aria-labelledby='nav-gp-info-tab')
+                                //- class= !isMasterView ? 'active' : ''
+                                include ./tabs/gram_mahiti.pug
+                            //- if isMasterView
+                            #nav-villages.tab-pane.fade(role='tabpanel' aria-labelledby='nav-villages-tab')
+                                include ./tabs/gram_villages.pug
+                            #nav-gp-work.tab-pane.fade(role='tabpanel' aria-labelledby='nav-gp-work-tab')
+                                include ./tabs/gram_mahiti_three.pug
+                            #nav-video-gallery.tab-pane.fade(role='tabpanel' aria-labelledby='nav-gp-work-tab')
+                                include ./tabs/gram_video_gallery.pug
+    script.
+        $(function(){
+            homeManager.gpInfo = !{gp.gp_info_one};
+            homeManager.gramWork = !{gp.gp_info_three};
+
+
+
+            const linkRadio = document.getElementById('video-type-link');
+            const fileRadio = document.getElementById('video-type-file');
+            const linkGroup = document.getElementById('video-link-group');
+            const fileGroup = document.getElementById('video-file-group');
+
+            function toggleVideoInput() {
+                if (linkRadio.checked) {
+                    linkGroup.style.display = 'block';
+                    fileGroup.style.display = 'none';
+                } else if (fileRadio.checked) {
+                    linkGroup.style.display = 'none';
+                    fileGroup.style.display = 'block';
+                }
+            }
+
+
+
+            if(linkRadio)
+                linkRadio.addEventListener('change', toggleVideoInput);
+            if(fileRadio)
+                fileRadio.addEventListener('change', toggleVideoInput);
+
+            // Initialize state on page load
+            toggleVideoInput();
+        })

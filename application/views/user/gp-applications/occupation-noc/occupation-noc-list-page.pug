@@ -1,0 +1,275 @@
+extends ../../include/internal-gp-master-layout.pug 
+
+block custom_css
+    //- Optional future CSS hook
+
+block content
+
+    // ================= MODALS =================
+    include ./occupation-noc-report-modal.pug
+    include ./occupation-noc-application-details-modal.pug
+
+
+    div.container-fluid.mt-4
+        // ================= HEADER =================
+        div.row.justify-content-center.mb-3
+            div.col-12.col-xl-11
+                -
+                    let background = {
+                        pending: 'oklch(86.9% 0.022 252.894)',
+                        accepted: 'oklch(90.5% 0.093 164.15)',
+                        rejected: 'oklch(88.5% 0.062 18.334)',
+                        resolved: 'oklch(70.4% 0.14 182.503)'
+                    }
+                -
+                    let statuses = {
+                        pending: 'प्रलंबित',
+                        accepted: 'मान्य',
+                        rejected: 'रद्द',
+                        resolved: 'पूर्त'
+                    }
+
+                div.card.shadow-sm(style=`background: ${background[status]};`)
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-certificate.me-2
+                                | #{statuses[status]} व्यवसाय ना हरकत अर्ज यादी
+                            p.mb-0.text-muted.small #{statuses[status]} व्यवसाय ना हरकत अर्ज खाली दर्शविले आहेत.
+
+                        div.d-flex(style='gap:1rem;')
+                            button.btn.btn-secondary.btn-sm(
+                                data-bs-toggle="modal"
+                                data-bs-target="#print-report-modal"
+                            )
+                                i.fa.fa-print.me-1
+                                | रिपोर्ट
+
+                            if status != 'pending'
+                                a.btn.btn-secondary.btn-sm(href=`/gp-applications/occupation-noc/list${subject ? `?subject=${subject}`: ''}`) #{statuses['pending']} अर्ज
+
+                            if status != 'accepted'
+                                a.btn.btn-success.btn-sm(
+                                    href=`/gp-applications/occupation-noc/list?status=accepted&sort=${sort}${subject ? `&subject=${subject}`: ''}`
+                                ) #{statuses['accepted']} अर्ज
+
+                            if status != 'rejected'
+                                a.btn.btn-danger.btn-sm(
+                                    href=`/gp-applications/occupation-noc/list?status=rejected&sort=${sort}${subject ? `&subject=${subject}`: ''}`
+                                ) #{statuses['rejected']} अर्ज
+
+                            //- if status != 'resolved'
+                                a.btn.btn-success.btn-sm(
+                                    style='background: oklch(60% 0.118 184.704);'
+                                    href=`/gp-applications/occupation-noc/list?status=resolved&sort=${sort}`
+                                ) #{statuses[resolved]} अर्ज
+
+
+        // ================= TABLE =================
+        div.row.justify-content-center
+            div.col-12.col-xl-11
+
+                // ===== Sorting =====
+                div.mb-4
+                    div.d-flex.align-items-center(style='gap:0.75rem;')
+                        label.small.fw-bold.mb-0 क्रमवारी :
+
+                        select#occupation-noc-sort-order.form-select.form-select-sm(style='width:160px;')
+                            option(value='desc' selected=(sort=='desc')) नवीन आधी
+                            option(value='asc' selected=(sort=='asc')) जुने आधी
+
+                        select#occupation-noc-subject-dropdown.form-select.form-select-sm(style="width:fit-content;")
+                            option(value="" selected = (subject == "")) सर्व
+                            each occupationNocSubject in occupationNocSubjects 
+                                option(value=occupationNocSubject.subject_code selected = (subject == occupationNocSubject.subject_code)) #{occupationNocSubject.subject_code ? occupationNocSubject.subject_code.split("_").join(" ") : ""}
+
+                div.card.shadow-sm
+                    div.card-body
+                        div.table-responsive
+                            table.table.table-bordered.table-hover.align-middle.mb-0
+                                thead
+                                    tr.bg-primary.text-white.text-center
+                                        th(width='8%')  अर्ज क्र.
+                                        th(width='22%') अर्जदार
+                                        th(width='14%') संपर्क
+                                        th(width='18%') अर्ज तपशील
+                                        th(width='15%') विषय
+                                        th(width='6%')  अर्ज प्रत
+                                        th(width='15%') नोंदणी दिनांक
+                                        th(width='5%')  SMS
+
+                                        if status != 'resolved'
+                                            th(width='12%') Action
+
+
+                                tbody#occupationNocApplications
+                                    if !occupationNocApplications || occupationNocApplications.length === 0
+                                        tr
+                                            td.text-center.text-danger.py-4(colspan='8')
+                                                i.fa.fa-info-circle.me-2
+                                                | #{statuses[status]} व्यवसाय ना हरकत अर्ज यादी रिक्त आहे.
+                                    else
+                                        each application, index in occupationNocApplications
+                                            tr
+                                                // ===== ID =====
+                                                td.text-center
+                                                    span.badge.bg-secondary #{application.id}
+
+                                                // ===== Applicant =====
+                                                td
+                                                    strong #{application.applicant_name}
+                                                    br
+                                                    small.text-muted #{application.applicant_village}, #{application.applicant_taluka}
+
+                                                // ===== Contact =====
+                                                td.text-center
+                                                    i.fa.fa-phone.text-muted.me-1
+                                                    | #{application.applicant_mobile || '-'}
+
+                                                // ===== Details =====
+                                                td.text-center
+                                                    button.btn.btn-sm.btn-outline-primary.view-occupation-noc-details-btn(
+                                                        type='button'
+                                                        data-occupationNoc=JSON.stringify(application)
+                                                    )
+                                                        i.fa.fa-eye.me-1
+                                                        | तपशील बघा
+
+                                                td.text-center #{application.subject_code ? application.subject_code.split("_").join(" ") : "-"}
+                                                
+                                                td.text-center
+                                                    a.btn.btn-sm.btn-info(href=`/gp-applications/occupation-noc/application/${application.id}` target="_blank")
+                                                        i.fa.fa-print
+
+                                                // ===== Date =====
+                                                td.text-center
+                                                    //- span.small.text-muted नोंदणी दिनांक
+                                                    //- br
+                                                    span.fw-semibold #{application._createdAt}
+
+                                                // ===== SMS =====
+                                                td.text-center
+                                                    i.fa.fa-envelope.text-primary.hand.sendSMSOccupationNoc(
+                                                        data-id=application.id
+                                                        title='संदेश पाठवा'
+                                                    )
+
+                                                // ===== Actions =====
+                                                if status != 'resolved'
+                                                    td.text-center
+                                                        div.d-flex.justify-content-center(style='gap:0.6rem;')
+
+                                                            if status == 'pending'
+                                                                button.btn.btn-success.btn-sm.accept-occupation-noc-btn(
+                                                                    type='button'
+                                                                    data-occupationNoc=JSON.stringify(application)
+                                                                    data-occupationNocId=application.id
+                                                                ) Accept
+
+                                                                button.btn.btn-danger.btn-sm.reject-occupation-noc-btn(
+                                                                    type='button'
+                                                                    data-occupationNoc=JSON.stringify(application)
+                                                                    data-occupationNocId=application.id
+                                                                ) Reject
+
+                                                            if status == 'accepted'
+                                                                a.btn.btn-sm.btn-info(
+                                                                    href=`/gp-applications/occupation-noc/card/${application.id}`
+                                                                    style='display: flex; align-items:center; gap:0.4rem;'
+                                                                    target="_blank"
+                                                                ) 
+                                                                    i.fa.fa-print
+                                                                    span प्रमाणपत्र
+
+                                                            if status == 'rejected'
+                                                                //- a.btn.btn-success.btn-sm(
+                                                                //-     href=`/gp-applications/occupation-noc/edit/${application.id}`
+                                                                //- ) Edit                                                                
+
+                                                            if (status == 'accepted' || status == 'rejected')
+                                                                button.btn.btn-secondary.btn-sm.revoke-occupation-noc-btn(
+                                                                    type='button'
+                                                                    data-occupationNoc=JSON.stringify(application)
+                                                                    data-occupationNocId=application.id
+                                                                ) Revoke
+
+    //- ================= ACCEPT MODAL =================
+    .modal(tabindex='-1' id='accept-occupation-noc-modal')
+        .modal-dialog(class='modal-dialog-centered')
+            .modal-content(class='shadow-lg rounded-3')
+
+                // ================= HEADER =================
+                .modal-header(class='bg-success text-white')
+                    h5.modal-title(class='mb-0')
+                        i(class='fa fa-check-circle me-2')
+                        | व्यवसाय ना हरकत अर्ज स्वीकारा
+                    button(type='button' class='btn-close btn-close-white' data-bs-dismiss='modal')
+
+                // ================= BODY =================
+                .modal-body
+                    form(id='accept-occupation-noc-form')
+
+                        .mb-3
+                            label(class='form-label fw-semibold') अर्जदाराचे नाव
+                            input(type='text' name='applicant_name' class='form-control' readonly)
+
+                        .mb-3
+                            label(class='form-label fw-semibold') ग्रामपंचायत सभा दिनांक
+                            input.datepicker(type='text' name='sabha_date' class='form-control' placeholder='सभा दिनांक निवडा' autocomplete="off")
+
+                        .mb-3
+                            label(class='form-label fw-semibold') सभा ठराव क्रमांक
+                            input(type='text' name='resolution_no' class='form-control' placeholder='ठराव क्रमांक' autocomplete="off")
+
+                        .mb-3
+                            label(class='form-label fw-semibold') मिळकत / मालमत्ता क्रमांक
+                            input(type='text' name='malmatta_no' class='form-control' placeholder='मालमत्ता क्रमांक' autocomplete="off")
+
+                        .mb-3
+                            label(class='form-label fw-semibold') गट क्रमांक / सर्वे नंबर
+                            input(type='text' name='survey_no' class='form-control' placeholder='मालमत्ता क्रमांक' autocomplete="off")
+
+                        .mb-2
+                            label(class='form-label fw-semibold')
+                                i(class='fa fa-comment-dots me-1 text-muted')
+                                | शेरा
+                            textarea(name='acceptance_remark' class='form-control' rows='2' placeholder='शेरा (ऐच्छिक)' autocomplete="off")
+
+                        input(type='hidden' name='id' required)
+
+                // ================= FOOTER =================
+                .modal-footer(class='justify-content-between')
+                    button(type='button' class='btn btn-sm btn-outline-secondary' data-bs-dismiss='modal') बंद करा
+                    button(type='submit' id='accept-occupation-noc-btn' class='btn btn-sm btn-success') स्वीकारा
+
+
+
+
+    //- // ================= REJECT MODAL =================
+    .modal(tabindex='-1' id='reject-occupation-noc-modal')
+        .modal-dialog.modal-dialog-centered
+            .modal-content.shadow-lg.rounded-3
+                .modal-header.bg-danger.text-white
+                    h5.modal-title.mb-0
+                        i.fa.fa-times-circle.me-2
+                        | व्यवसाय ना हरकत अर्ज नाकारा
+                    button.btn-close.btn-close-white(type='button' data-bs-dismiss='modal')
+                .modal-body
+                    form#reject-occupation-noc-form
+                        .mb-3
+                            label.form-label.fw-semibold अर्जदाराचे नाव
+                            input.form-control(type='text' name='applicant_name' readonly)
+                        .mb-2
+                            label.form-label.fw-semibold
+                                i.fa.fa-comment-dots.me-1.text-muted
+                                | नकाराचे कारण
+                            textarea.form-control(name='rejection_remark' placeholder='नकाराचे कारण लिहा')
+                        input(name='id' hidden required)
+                .modal-footer.justify-content-between
+                    button.btn.btn-sm.btn-outline-secondary(type='button' data-bs-dismiss='modal') बंद करा
+                    button#reject-occupation-noc-btn.btn.btn-sm.btn-danger(type='submit') नाकारा
+
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/gp-applications/occupation-noc/occupation-noc-applications-list-page-handler.js')
+    script(src='/asstest/coustom/js/handlers/gp-applications/occupation-noc/occupation-noc-applications-list-page-sorting-handler.js')

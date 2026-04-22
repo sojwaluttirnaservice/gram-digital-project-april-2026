@@ -1,0 +1,352 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना २६ (ख)- प्रिंट
+
+        script(src="/asstest/coustom/css/tailwind.js")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+
+        script.
+            document.addEventListener('DOMContentLoaded', function(){
+                const downloadPdf = () => {
+                    const element = document.querySelector('#print');
+                    const options = {
+                        margin: [0.1, 0.1, 0.1, 0.1],
+                        filename: 'namuna2-print.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+                    };
+                    html2pdf().set(options).from(element).save();
+                }
+
+                const downloadPdfBtn = document.getElementById('download-pdf-btn');
+                if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPdf);
+
+                function showHideSignatures(val) {
+                    const sarpanchSigns = document.querySelectorAll('.sarpanch-sign');
+                    const gramAdhikariSigns = document.querySelectorAll('.gram-adhikari-sign');
+
+                    switch (val) {
+                        case '1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '-1':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-2':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                        case '3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '1');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '1');
+                            break;
+                        case '-3':
+                            sarpanchSigns.forEach(el => el.style.opacity = '0');
+                            gramAdhikariSigns.forEach(el => el.style.opacity = '0');
+                            break;
+                    }
+                }
+
+                document.querySelector('.form-select').addEventListener('change', function() {
+                    showHideSignatures(this.value);
+                });
+            })
+
+        style.
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                padding: 0.2rem;
+                border: 1px solid black;
+            }
+
+            /* 🔥 FIX: Force full border printing */
+            table, th, td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse !important;
+            }
+
+            @media print {
+                @page {
+                    size: landscape;
+                }
+
+                .hide-print {
+                    display: none !important;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                /* 🔥 FIX: Prevent border loss on page breaks */
+                table { page-break-inside: auto !important; }
+                tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+                td, th { border: 1px solid #000 !important; }
+            }
+
+            .data-row td {
+                padding: 1rem 0.2rem;
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+            }
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+        - let isMonthYearTypeReport = (month && year) ? true : false;
+        - let isFinancialYearTypeReport = (fromYear && toYear) ? true : false;
+
+        .hide-print
+
+            div(style='position:fixed; top:5%; right:0; transform:translateY(-50%); display:flex; flex-direction:column; align-items:flex-end; gap:8px; margin-right:12px; z-index:1000;')
+
+
+                button(style='padding:8px 14px; border:none; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.2); background:#0d6efd; color:#fff;' onclick='window.print()') Print
+
+                div(style='display:flex; flex-direction:column; gap:8px;')
+
+                    select#report-type(style='padding:6px 8px; border:1px solid #ccc; border-radius:5px; outline:none;')
+                        option(value='' selected=(!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                        //- option(value='monthYear' selected=isMonthYearTypeReport) महिना व वर्षानुसार
+                        option(value='financialYear' selected=isFinancialYearTypeReport) आर्थिक वर्षानुसार
+
+                    // Month Year Inputs
+                    div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'}; gap:8px;`)
+                        select#report-month(style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;')
+                            - for(let i=1;i<=12;i++)
+                                option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                        input#report-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=year placeholder='Year')
+
+                    // Financial Year Inputs
+                    div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'}; gap:8px;`)
+                        input#from-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=fromYear placeholder='From Year')
+                        input#to-year(type='number' style='padding:6px 8px; border:1px solid #ccc; border-radius:5px;' value=toYear placeholder='To Year')
+
+                    button#generate-report(style='padding:8px 14px; border:none; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.2); background:#0d6efd; color:#fff;') रिपोर्ट तयार करा
+
+
+
+
+
+        #print(class="tiro-devanagari-marathi-regular print:h-[100lvh]")
+
+
+            div(class="my-print p-2 bg-white/60 relative h-full print-bg")
+
+                .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                    div
+                        div
+
+                            table.table-auto.w-full.text-xs.border.border-black.bg-white
+                                thead.bg-pink-100.text-pink-800
+
+                                    tr 
+                                        th(colspan='10')
+                                            div
+                                                div
+                                                    div(class='text-base') नमुना क्रमांक २६ (ख)
+                                                    div(class='text-[0.75rem] flex items-center justify-center gap-64') 
+                                                        div (नियम २५(६) पहा)
+                                                        div (महाराष्ट्र ग्रामपंचायत लेखा संहिता २०११ नुसार)
+                                                div(class='flex justify-center items-center')
+                                                    div(class='text-lg')
+                                                        span ग्रामपंचायत 
+                                                        span.text-pink-800.font-bold #{gp.gp_name}
+                                                        span , तालुका 
+                                                        span.font-bold.text-pink-700 #{gp.gp_taluka}, 
+                                                        span जिल्हा 
+                                                        span.font-bold.text-pink-700 #{gp.gp_dist}
+
+                                                div
+                                                    div(class='text-base') सन #{fromYear || "____"} ते #{toYear || "_____"} या वर्षाचे मासिक खर्चाचे विवरण
+                                    tr 
+                                        //- left side
+                                        //- // 1
+                                        th.p-0.text-center(rowspan="2" colspan="1" width='8%') तारीख
+                                        //- // 2
+                                        th.p-1.text-center(rowspan="2" colspan="1" width='8%') प्रारंभिक शिल्लक
+                                        //- // 3
+                                        th.p-1.text-center(rowspan="2" colspan="1" width='12%') रक्कम जमा ( महिन्याच्या)
+                                        //- // 4,5,6
+                                        th.p-1.text-center(rowspan="1" colspan="3" width='10%') महिना अखेरची शिल्लक
+                                        
+                                        //- // 7
+                                        th.p-0.text-center(rowspan="2" colspan="1" width='10%') अल्पबचत प्रमाणपत्रात गुंतवलेली रक्कम
+                                        //- // 8
+                                        th.p-0.text-center(rowspan="2" colspan="1" width='10%') बँकेत मुदत ठेवीत गुंतवलेली रक्कम
+                                        //- // 9
+                                        th.p-1.text-center(rowspan="2" colspan="1" width='8%') एकूण (५ ते ९)
+                                        //- // 10
+                                        th.p-1.text-center(rowspan="2" colspan="1" width='12%') शेरा(नियमापेक्षा जास्त रक्कम अधिक कालावधीसाठी हाती शिल्लक ठेवली असेल तर त्या बाबतची कारणे)
+
+                                    tr 
+                                        th.p-1.text-center(rowspan="1" colspan="1" width='10%') सचिवाकडे हातची शिल्लक
+                                        //- // 5
+                                        th.p-1.text-center(rowspan="1" colspan="1" width='12%') बॅंकेतील शिल्लक
+
+                                        //- right side
+                                        //- // 6
+                                        th.p-1.text-center(rowspan="1" colspan="1" width='10%') पोष्टातील शिल्लक
+
+                                    tr
+                                        each _, index in Array.from({length: 10})
+                                            th.p-1.text-center #{index + 1}
+
+                                tbody
+
+                                    - let initialRemaining = 0; //-प्रारंभिक शिल्लक(column number 2)
+                                    //- - namuna26khEntries
+                                    each namuna5OnlineCollectionRecord, _index in namuna5ReceiptDataMonthWise
+                                        tr.data-row
+                                            //- 1
+                                            td.text-center माहे #{namuna5OnlineCollectionRecord.mn} सन #{namuna5OnlineCollectionRecord.yr}
+
+                                            //- 2 प्रारंभिक शिल्लक
+                                            td.text-center #{_index == 0 ? samanyaBankAccount.last_outstanding_amount : initialRemaining}
+
+                                            //- 3 रक्कम जमा ( महिन्याच्या)
+                                            td.text-center #{+namuna5OnlineCollectionRecord.total_online_amount + +namuna5OfflineCollectionObj[namuna5OnlineCollectionRecord.ym].total_deposited}
+
+                                            //- 4 सचिवाकडे हातची शिल्लक
+                                            td.text-center #{lastRemainingObj[namuna5OnlineCollectionRecord.ym].amount_not_paid}
+
+                                            //- 5 बॅंकेतील शिल्लक
+                                            - let remainingInBankAmount = +lastBankAccountBalanceForEachMonthObj[namuna5OnlineCollectionRecord.ym].after_amount
+                                            td.text-center #{remainingInBankAmount}
+
+                                            //- 6 पोष्टातील शिल्लक
+                                            - let postOfficeRemainingAmount = +postOfficeBankAccount.last_outstanding_amount
+                                            td.text-center #{postOfficeRemainingAmount}
+
+                                            //- 7 अल्पबचत प्रमाणपत्रात गुंतवलेली रक्कम
+                                            - let smallSavingsInvestmentAmount = 0;
+                                            td.text-center #{smallSavingsInvestmentAmount}
+
+                                            //- 8 बँकेत मुदत ठेवीत गुंतवलेली रक्कम
+                                            - let bankFixedDepositAmount = samanyaBankAccount.fd_amount
+                                            td.text-center #{bankFixedDepositAmount}
+
+                                            //- 9 एकूण (५ ते ९)
+                                            - let col5To9Total = remainingInBankAmount + postOfficeRemainingAmount + smallSavingsInvestmentAmount + bankFixedDepositAmount;
+                                            td.text-center #{col5To9Total}
+                                            - initialRemaining = col5To9Total
+
+                                            //- 10 शेरा(नियमापेक्षा जास्त रक्कम अधिक कालावधीसाठी हाती शिल्लक ठेवली असेल तर त्या बाबतची कारणे)
+                                            td.text-center #{''}
+
+                                    //- each _ in Array.from({length: 24})
+                                    //-     tr
+                                    //-         each _ in Array.from({length: 10})
+                                    //-             td.text-center.p-1 
+                                    //-                 span(class='opacity-0') -
+
+
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else if(reportType.value == "date") {
+                    //- params.set("date", )
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

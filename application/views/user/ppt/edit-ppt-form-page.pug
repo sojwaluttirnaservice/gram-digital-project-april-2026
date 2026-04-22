@@ -1,0 +1,97 @@
+extends ../include/internal-gp-master-layout.pug 
+
+block custom_css
+    style.
+        .img-mini-preview {
+            width:100px;
+            height:80px;
+            object-fit:cover;
+            border-radius:4px;
+            border:1px solid #ddd;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .img-mini-preview:hover {
+            transform:scale(1.08);
+            box-shadow:0 2px 6px rgba(0,0,0,.2);
+        }
+
+        .preview-container {
+            margin-top:6px;
+        }
+
+block content
+
+    .container-fluid.mt-4
+        .row
+            .col-12
+                h4.heading-1.text-center Edit PPT
+
+    .container.mt-4
+        .card.shadow-sm
+            .card-header.bg-warning.text-center.font-weight-bold माहिती
+
+            .card-body
+                form#ppt-form(enctype="multipart/form-data")
+                    input(type="hidden" name="id" value=ppt.id)
+
+                    .row.justify-content-center
+
+                        // TITLE
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold PPT चे Title *
+                                input.form-control(type="text" name="title" value=ppt.title required)
+
+                        // DESCRIPTION
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold PPT चे वर्णन *
+                                input.form-control(type="text" name="description" value=ppt.description)
+
+                        // COVER IMAGE
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold Cover Image
+                                input.form-control(type="file" name="cover_image" accept="image/*")
+
+                                if ppt.cover_image
+                                    .preview-container
+                                        div.font-weight-bold आधीचा फोटो
+                                        a(href=`/uploads/images/ppt/cover-images/${ppt.cover_image}` target="_blank")
+                                            img.img-mini-preview(src=`/uploads/images/ppt/cover-images/${ppt.cover_image}`)
+
+                        // PAGE BANNER IMAGES
+                        each page in [1,2,3]
+
+                            .col-12.col-sm-6.col-lg-5
+                                .form-group
+                                    label.font-weight-bold Page #{page} Banner Image
+                                    input.form-control(type="file" name=`page_${page}_image` accept="image/*")
+
+                                    if ppt[`page_${page}_image`]
+                                        .preview-container
+                                            div आधीचा फोटो
+                                            a(href=`/uploads/images/ppt/pages-images/${ppt[`page_${page}_image`]}` target="_blank")
+                                                img.img-mini-preview(src=`/uploads/images/ppt/pages-images/${ppt[`page_${page}_image`]}`)
+
+                        // REMAINING BACKGROUND
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group
+                                label.font-weight-bold Other Page Background Image
+                                input.form-control(type="file" name="remaining_pages_header_image" accept="image/*")
+
+                                if ppt.remaining_pages_header_image
+                                    .preview-container
+                                        a(href=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` target="_blank")
+                                            img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}`)
+
+                        // UPDATE BUTTON
+                        .col-12.mt-3.d-flex.justify-content-center
+                            button#save-ppt-main-details-btn.btn.btn-primary.px-4(type="button")
+                                i.fa.fa-edit.me-2
+                                | Update
+
+block custom_js
+    script(src="/asstest/coustom/js/handlers/ppt/ppt-form-handler.js")

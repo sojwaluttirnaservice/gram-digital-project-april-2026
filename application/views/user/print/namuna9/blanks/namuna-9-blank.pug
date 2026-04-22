@@ -1,0 +1,96 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")   
+
+    //google fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+    link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+    title #{title}
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    //- script(src='/asstest/coustom/js/handlers/home-manager.js')
+
+    script.
+        let _gp = !{JSON.stringify(gp)}
+
+    style.
+        .error {
+            color:red !important;
+            font-style:italic !important;
+            font-weight:700 !important;
+        }
+        .bg-warning{
+            background-color:#fffd70 !important;
+        }
+        .bg-warning{
+            background-color:#fffd70 !important;
+        }
+        .hand:hover{
+            background-color:#ecc6db
+        }
+        .modal-dialog {
+            width: 98%;
+            height: 92%;
+            padding: 0;
+        }
+        
+        @media (min-width: 576px) {
+            .modal-dialog { max-width: none; }
+        }
+
+body.back-image
+    include ../../../include/navs.pug
+
+    .container-fluid
+
+        .row.d-flex.justify-content-center
+            .col-6
+                h5.heading-1 नमुना ९ Blank प्रिंट 
+        - 
+            let form8BlankPrintTabs = 
+                [
+                    {id: -1, tabLabel: "नमुना ९ Blank (सामान्य)", link: "/form-9/blanks/samanya"},
+                    {id: -1, tabLabel: "नमुना ९ Blank (पाणी)", link: "/form-9/blanks/pani"}
+                ]
+
+        .row.justify-content-center
+            each form8Tab, key in form8BlankPrintTabs
+                .col-4.col-md-2.p-2.box.box--white
+                    //- if it's supposed to be a link, let it behave as a  link
+                    if form8Tab.link 
+                        a.commonModalFrom(href=form8Tab.link target="_blank" style="color: inherit; text-decoration: none;" class="d-flex justify-content-center align-items-center") 
+                            p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
+                                i.fa.fa-print.fa-2x
+                                small #{form8Tab.tabLabel}
+                    else
+                        .commonModalFrom(data-id=form8Tab.id class="d-flex justify-content-center align-items-center") 
+                            p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
+                                i.fa.fa-print.fa-2x
+                                small #{form8Tab.tabLabel}

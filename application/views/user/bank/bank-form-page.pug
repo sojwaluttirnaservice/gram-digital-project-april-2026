@@ -1,0 +1,164 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+
+block content   
+
+    .container-fluid.mt-4
+
+        div
+            h4.heading-1 बँक तपशील नोंदणी
+            div.text-end
+                a.btn.btn-secondary.float-right(href='/bank') यादी
+
+        .row.justify-content-center
+            .col-11.col-md-8
+
+                .card
+
+                    .card-header.bg-primary.text-white.font-weight-bold
+                        i.fa.fa-university.me-2
+                        | बँक माहिती
+
+                    .card-body
+
+                        form#bank-form
+
+                            .row
+
+                                // =========================
+                                // ACCOUNT HOLDER
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='account_holder_name') खातेदाराचे नाव
+                                        input.form-control.form-control-sm(type='text' name='account_holder_name' id='account_holder_name')
+
+                                // =========================
+                                // MOBILE
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='mobile_number') मोबाईल नंबर
+                                        input.form-control.form-control-sm(type='text' name='mobile_number' id='mobile_number' maxlength="10")
+
+                                // =========================
+                                // EMAIL
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='email') ईमेल
+                                        input.form-control.form-control-sm(type='email' name='email' id='email')
+
+                                // =========================
+                                // BANK NAME
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='bank_name') बँकेचे नाव
+                                        input.form-control.form-control-sm(type='text' name='bank_name' id='bank_name')
+
+                                // =========================
+                                // BRANCH
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='branch_name') शाखा
+                                        input.form-control.form-control-sm(type='text' name='branch_name' id='branch_name')
+
+                                // =========================
+                                // ACCOUNT NUMBER
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='account_number') खाते क्रमांक
+                                        input.form-control.form-control-sm(type='text' name='account_number' id='account_number')
+
+                                // =========================
+                                // IFSC
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='ifsc_code') IFSC कोड
+                                        input.form-control.form-control-sm(type='text' name='ifsc_code' id='ifsc_code')
+                                
+                                // =========================
+                                // CATEGORY (SAMANYA / PANI)
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='category') वर्गीकरण
+                                        select.form-control.form-control-sm(name='category' id='category')
+                                            option(value='') ----निवडा----
+                                            //- sending bakcend object, static dropdown, not from a database 
+                                            each _option in bankTypes 
+                                                option(value=_option.value) #{_option.label}
+
+
+
+                                // =========================
+                                // INITIAL BALANCE
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='account_balance') बँकेचा Balance
+                                        input.form-control.form-control-sm(type='number' name='account_balance' id='account_balance' min="0" value=0)
+
+
+                                //- last_outstanding_amount
+
+                                .col-12.col-md-6 
+                                    .form-group
+                                        label.font-weight-bold(for="last_outstanding_amount") थकबाकी रक्कम
+                                        input.form-control.form-control-sm(type='number' name="last_oustanding_amount" id="last_oustanding_amount" min="0" value=0)
+
+
+                                //- fd_amount
+                                .col-12.col-md-6 
+                                    .form-group
+                                        label.font-weight-bold(for="fd_amount") मुदत ठेवीत गुंतवलेली रक्कम(Fixed Deposit)
+                                        input.form-control.form-control-sm(type='number' name="fd_amount" id="fd_amount" min="0" value=0)
+                                
+
+                                // =========================
+                                // ACCOUNT TYPE
+                                // =========================
+                                .col-12.col-md-6
+                                    .form-group
+                                        label.font-weight-bold(for='account_type') खाते प्रकार
+                                        select.form-control.form-control-sm(name='account_type' id='account_type')
+                                            option(value='') ----निवडा----
+                                            option(value='SAVING') बचत खाते
+                                            option(value='CURRENT') चालू खाते
+
+                                // =========================
+                                // ADDRESS
+                                // =========================
+                                .col-12
+                                    .form-group
+                                        label.font-weight-bold(for='address') पत्ता
+                                        textarea.form-control.form-control-sm(name='address' id='address')
+
+                                // =========================
+                                // KYC STATUS (DEFAULT PENDING)
+                                // =========================
+                                .col-12.col-md-6(style='display:none;')
+                                    .form-group
+                                        label.font-weight-bold(for='verification_status') KYC स्थिती
+                                        select.form-control.form-control-sm(name='verification_status' id='verification_status')
+                                            option(value='PENDING') Pending
+                                            option(value='VERIFIED' selected) Verified
+                                            option(value='REJECTED') Rejected
+
+                                // =========================
+                                // SUBMIT BUTTON
+                                // =========================
+                                .col-12.text-center
+                                    button#bank-save-btn.btn.btn-success.mt-3(type='submit')
+                                        i.fa.fa-save.me-1
+                                        | जतन करा
+
+
+block custom_js
+    script(src="/asstest/coustom/js/handlers/bank/bank-form-handler.js")

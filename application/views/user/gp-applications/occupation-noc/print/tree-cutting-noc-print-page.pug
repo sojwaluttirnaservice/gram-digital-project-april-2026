@@ -1,0 +1,49 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार श्री./श्रीमती 
+            span(class="font-extrabold") #{occupationNoc.applicant_name}
+            |  राहणार : 
+            span(class="font-extrabold") #{occupationNoc.applicant_address}
+            |  मोबाईल नं. : 
+            span(class="font-extrabold") #{occupationNoc.applicant_mobile}
+            |  माझ्या 
+            span(class="font-extrabold")
+                | #{occupationNoc.land_ownership == 'Owner' ? 'मालकीच्या' : 'भाडेपट्ट्याच्या'}
+            |  जागेत खाली नमूद केलेले वृक्ष आहेत.
+
+        p(class="mt-3")
+            | सदर वृक्ष 
+            | (घर बांधकाम / रस्ता / धोका निर्माण होणे / वादळामुळे झुकलेला / विकासकाम / इतर कारण)
+            |  यामुळे तोडणे अत्यावश्यक झाले आहे.
+
+        p(class="mt-3")
+            | वृक्षाची माहिती खालीलप्रमाणे आहे :
+            |  वृक्षाचा प्रकार : 
+            span(class="font-extrabold") #{occupationNoc.tree_type || '__________'}
+            |  , वृक्षांची संख्या : 
+            span(class="font-extrabold") #{occupationNoc.tree_count || '____'}
+            |  , ठिकाण : गट नं. 
+            span(class="font-extrabold") #{occupationNoc.survey_no || '______'}
+            |  मौजे 
+            span(class="font-extrabold") #{occupationNoc.applicant_village}
+            |  तालुका 
+            span(class="font-extrabold") #{occupationNoc.applicant_taluka}
+
+        p(class="mt-3")
+            | मी खात्रीपूर्वक नमूद करतो की, शासनाच्या नियमांनुसार आवश्यक ती परवानगी घेऊनच
+            |  वृक्ष तोडणी करण्यात येईल तसेच आवश्यक असल्यास पर्यायी वृक्ष लागवड करण्यात येईल.
+
+        p(class="mt-3")
+            | तरी मला वरील नमूद वृक्ष तोडणीसाठी ना हरकत दाखला (NOC) देण्यात यावा,
+            |  ही नम्र विनंती.
+
+        div(class="mt-8 text-right")
+            p धन्यवाद.
+            p आपला विश्वासू,

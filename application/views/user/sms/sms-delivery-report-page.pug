@@ -1,0 +1,136 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")   
+
+    //google fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+    link(href='https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap' rel='stylesheet')
+
+    //- 5.3 version bootstrap css
+    link(rel="stylesheet" href="/asstest/plugins/bootstrap-5.3.2/css/bootstrap.min.css")
+
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    // extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src='/asstest/coustom/js/handlers/sms/sms-report-page-handler.js')
+
+    //- 5.3 version bootstrap script
+    script(src="/asstest/plugins/bootstrap-5.3.2/js/bootstrap.min.js")
+
+
+    title SMS Report Status
+    style.
+        //- table {
+        //-     border: 1px solid black;
+        //- }
+
+        tr, td, th {
+            border: 1px solid black !important;
+            padding: 0.4rem 0.2rem;
+        }
+
+        th {
+            vertical-align: top !important;
+        }
+
+
+
+
+body
+
+    include ../include/navs.pug
+    .wrapper 
+        section 
+            .container
+
+                .text-center.mt-4
+                    .heading-1 Delivery Status
+
+                if !msgInfo
+                    div(style='font-weight:bold; text-align:center; margin-top:1rem; font-size:2rem;') मेसेजची माहिती उपलब्ध नाही. 
+                else 
+
+                    div
+
+                        .form-group 
+                            label.form-label.fw-bold Message:
+                            div #{msgInfo.message}
+
+
+                        div
+                            .row 
+
+                                .col-4
+
+                                    .form-group 
+
+                                        label.form-label.fw-bold Total Count:
+                                        div #{msgInfo.total_mobile_numbers_count}
+
+                                .col-4
+
+                                    .form-group 
+
+                                        label.form-label.fw-bold Delivered Count:
+                                        div #{msgInfo.delivered_mobile_numbers_count}
+
+
+                                .col-4
+
+                                    .form-group 
+
+                                        label.form-label.fw-bold Not Delivered Count:
+                                        div #{msgInfo.not_delivered_mobile_numbers_count}
+
+
+
+                if msgInfo
+                    .table-container
+                        .table-responsive
+
+                            table(class='w-100')
+                                thead 
+                                    tr 
+                                        th Sr.No 
+                                        th Mobile Number 
+                                        th Delivery Status 
+                                        th Created At 
+                                        //- th Updated At 
+
+                                tbody 
+                                    each singleRecord, index in deliveryReport
+                                        tr 
+                                            td #{index + 1} 
+                                            td #{`+${singleRecord.mobile_number}`} 
+                                            td
+                                                //- span(style=`color:${singleRecord.sms_delivery_status && singleRecord.sms_delivery_status.toLowerCase().includes('deli') ? '#2f855a' : '#9b2c2c'}`) #{singleRecord.sms_delivery_status}
+                                                span(style=`background:${singleRecord.sms_delivery_status && singleRecord.sms_delivery_status.toLowerCase().includes('deli') ? '#2f855a' : '#9b2c2c'};color:#fff;padding:4px 10px;border-radius:12px;display:inline-block`) #{singleRecord.sms_delivery_status}
+
+ 
+                                            td #{singleRecord._createdAt}
+                            

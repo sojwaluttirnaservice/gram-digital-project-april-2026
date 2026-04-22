@@ -1,0 +1,83 @@
+doctype html
+head
+    title नमुना ९ सामन्य  हेडर  
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    style.
+        @media print {
+            @page{
+                size: A4 portrait;
+                margin: 0px;
+            }
+        }
+        .year-font {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: red;
+            position: relative;
+            z-index: 1;
+        }
+
+        .year-font::before {
+            content: '';
+            position: absolute;
+            height: 1.1rem;
+            width: 3.9rem;
+            background: #fff;
+            z-index: -1;
+
+        }
+        .year-font.y2::before {
+            width: 4.7rem !important;
+        }
+
+        .font-1{
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 100;
+            color: red;
+        }
+        .font-small{
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 100;
+            color: blue;
+        }
+        .font-small-2{
+            font-size: 0.67rem;
+            font-weight: 800;
+            z-index: 100;
+            color: blue;
+        }
+        .font-small-3{
+            font-size: 0.67rem;
+            font-weight: 700;
+            z-index: 100;
+            color: blue;
+        }
+        .bg-small{
+            background: white;
+            width: 90px;
+        }
+        .bg-small-2{
+            background: white;
+            width: 180px;
+        }
+        div {
+            z-index: 100;
+        }
+//- body(style="width:210mm; height:297mm;")
+body.position-relative(style="width:297mm; height:210mm;")
+
+    img.position-absolute.w-100.h-100(src="/print/gpNotice/gp-atikraman-notice.jpg" style='height: 100%')
+
+    //- gpNames
+    .position-absolute.font-1(style='top: 42.7%; left: 43.1%') #{y1}
+    .position-absolute.font-1(style='top: 42.7%; left: 53%') #{y2}
+
+    .position-absolute.font-1(style='top: 57.2%; left: 46%') #{gp.gp_name}
+    .position-absolute.font-1(style='top: 63.2%; left: 27%;') #{gp.gp_taluka}
+    .position-absolute.font-1(style='top: 63.2%; left: 60.1%;') #{gp.gp_dist}

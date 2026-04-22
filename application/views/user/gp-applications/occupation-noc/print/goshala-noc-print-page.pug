@@ -1,0 +1,43 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार श्री./श्रीमती 
+            span(class="font-extrabold") #{occupationNoc.applicant_name}
+            |  राहणार : 
+            span(class="font-extrabold") #{occupationNoc.applicant_address}
+            |  मोबाईल नं. : 
+            span(class="font-extrabold") #{occupationNoc.applicant_mobile}
+            |  माझ्या 
+            span(class="font-extrabold")
+                | #{occupationNoc.land_ownership == 'Owner' ? 'मालकीच्या' : 'भाड्याच्या'}
+            |  जागेवर गोशाळा (गोवंश आश्रय / गाय–म्हैस संगोपन केंद्र) सुरू करण्याचा मानस आहे.
+
+        p(class="mt-3")
+            | सदर जागेचा तपशील खालीलप्रमाणे आहे –
+            | मालमत्ता क्रमांक : 
+            span(class="font-extrabold")
+                | #{occupationNoc.malmatta_no || '________'}
+            |  मौजे / परिसर : 
+            span(class="font-extrabold") #{occupationNoc.applicant_village}
+            |  तालुका : 
+            span(class="font-extrabold") #{occupationNoc.applicant_taluka}
+            |  जिल्हा : 
+            span(class="font-extrabold") #{occupationNoc.applicant_district}
+
+        p(class="mt-3")
+            | सदर गोशाळा ही सेवाभावी / खाजगी स्वरूपाची असून परिसरातील नागरिकांना कोणताही त्रास होणार नाही.
+            |  स्वच्छता, कचरा व्यवस्थापन, दुर्गंधी नियंत्रण तसेच पाणीपुरवठा याबाबत शासन व स्थानिक स्वराज्य संस्थेचे सर्व नियम पाळले जातील.
+
+        p(class="mt-3")
+            | तरी मला गोशाळा सुरू करण्यासाठी ग्रामपंचायतीकडून ना हरकत प्रमाणपत्र (NOC) देण्यात यावे,
+            |  ही नम्र विनंती.
+
+        div(class="mt-8 text-right")
+            p धन्यवाद.
+            p आपला विश्वासू,

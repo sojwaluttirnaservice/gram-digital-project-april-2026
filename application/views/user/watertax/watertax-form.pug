@@ -1,0 +1,131 @@
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    //-- common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')  
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+    //-mask plugin jquery
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
+
+    //-toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+    //- extras
+    script(src='/asstest/plugins/select/js/select2.full.min.js')
+    //- common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
+
+    link(href='/asstest/coustom/css/watertax/watertax-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/watertax/watertax-form.js')
+
+
+body.w-100
+    include ../include/navs.pug
+
+
+    section 
+        .container 
+            h2.heading-1.text-center  पाणी कर भरणा
+
+            .search-container 
+                input(type='text' id='tap-connection-id' placeholder='नळ क्रमांक भरा')
+                button(type='button' id='search-btn' class='btn btn-primary') 
+                    //- i.fa-solid.fa-magnifying-glass
+                    span Search
+            form(id='watertax-form')
+
+                .form.form-1
+                    h4.text-center.fw-bold धारकाची माहिती
+
+                    .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                        .col-11.col-md-6.col-lg-3 
+                            .form-group
+                                input(name='id' id='watertax-id' hidden) 
+                                label.form-label(for="") नळ क्र 
+                                input.form-control(type='text' name='tap_connection_id'  readonly required)
+
+                        .col-11.col-md-6.col-lg-3
+                            .form-group 
+                                label.form-label(for="") मालमत्ता क्र.
+                                input.form-control(type='text' id='malmatta-no')
+                                
+                        .col-11.col-md-6.col-lg-6 
+                            .form-group 
+                                label.form-label(for="") नळ धारकाचे नाव
+                                input.form-control(type='text' id='name')
+
+
+                        .col-11.col-md-6.col-lg-4 
+                            .form-group 
+                                label.form-label(for="") मोबाइल  क्र 
+                                input.form-control(type='text' id='mobile')
+                        .col-11.col-md-6.col-lg-4 
+                            .form-group 
+                                label.form-label(for="") नळ धारकाचा क्रमांक:.
+                                input.form-control(type='text' id='tap-owner-number')
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") पत्ता 
+                                input.form-control(type='text' id='address')
+
+                .form.form-2
+                    h4.text-center.fw-bold  करासंदर्भात माहिती
+
+                    .row.justify-content-center.justify-content-md-between.gx-4.gy-2
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") मागील विशेष पाणी कर:
+                                input.form-control.is-number(type='text' name='last_special_water_tax'   required)
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") चालू विशेष पाणी कर:
+                                input.form-control.is-number(type='text' name='current_special_water_tax' required)
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") एकूण विशेष पाणी कर:
+                                input.form-control.is-number(type='text' name='total_special_water_tax' readonly required)
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") मागील सामान्य पाणी कर:
+                                input.form-control.is-number(type='text' name='last_general_water_tax'   required)
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") चालू सामान्य पाणी कर:
+                                input.form-control.is-number(type='text' name='current_general_water_tax' required)
+
+                        .col-11.col-md-6.col-lg-4
+                            .form-group 
+                                label.form-label(for="") एकूण सामान्य पाणी कर:
+                                input.form-control.is-number(type='text' name='total_general_water_tax' readonly required)
+
+                        .col-11.col-md-12
+                            .form-group
+                                label.form-label(for="" style='min-width: 100px;')  एकूण पाणी कर 
+                                input.form-control(type='text' id='total-water-tax' style='flex: 1; background: #F0F8FF !important;' readonly)
+
+
+                .button-container 
+                    button.btn.btn-primary(type='button' id='save-watertax-btn') Save
+                    button.btn.btn-success(type='button' id='update-watertax-btn') Update

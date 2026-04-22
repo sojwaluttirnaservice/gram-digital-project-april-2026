@@ -1,0 +1,169 @@
+extends ./master-layout
+
+block custom_css 
+	style.
+		//- input:required {
+		//- 	border: 1px solid red; /* This is just an example; adjust styling as needed */
+		//- }
+
+		//- input:required:invalid {
+		//- 	background-color: #ffdddd; /* This is just an example; adjust styling as needed */
+		//- }
+
+		label[for]:required::after {
+			content: "*";
+			color: red; /* This is just an example; adjust styling as needed */
+		}
+
+	
+		a{
+			text-decoration: none;
+		}
+
+		.gallery-container {
+			width: 100%;
+			//- min-height: 100vh;
+			padding: 50px 8%;
+		}
+
+		.gallery {
+			width: 100%;
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			gap: 1rem;
+		}
+
+		.gallery img {
+			width: 100%;
+			height: 100%;
+			border: 5px solid #d6d1d1;
+			box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+			object-fit: cover;
+			transition: all 200ms ease-in-out;
+		}
+
+		.gallery img:hover {
+			transform: scale(1.03);
+		}
+
+		@media (max-width: 992px) {
+			.gallery {
+				grid-template-columns: 1fr 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.gallery {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 576px) {
+			.gallery {
+				grid-template-columns: 1fr;
+			}
+		}
+
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/arogya-seva-information-handler.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row
+			.col-md-12
+				h4.text-center आरोग्य सेवा माहिती
+
+			.col-md-12 
+				.d-flex.gap-3.mb-3.justify-content-end
+					button.btn.btn-primary#upload-arogya-sevak-information-btn(type='button') आरोग्य सेवक माहिती अपलोड
+					button.btn.btn-primary#upload-arogya-camp-photos(type='button') आरोग्य कॅम्प फोटो अपलोड 
+
+			//- upload arogya sevak information form
+			.col-md-12.arogya-sevak-information-container
+
+				.text-end 
+					button.btn.btn-success(id='add-new-arogya-sevak-btn') Add New
+
+				.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='add-new-arogya-sevak-modal' )
+					.modal-dialog(style='min-width:50% !important;')
+						.modal-content.p-2
+							.modal-header.bg-warning माहिती भरा 
+								h1.modal-title.fs-5() 
+								button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+							.modal-body
+								form#upload-arogya-sevak-information
+									.row.g-3
+										div.col-md-6
+											label(for="arogya-person-name") Name 
+											input.form-control(type='text' id="arogya-person-name" name="arogya_person_name")
+										div.col-md-6
+											label(for="arogya-person-mobile-no") Mobile No 
+											input.form-control(type='text' id="arogya-person-mobile-no" name="arogya_person_mobile_no" maxlength='10')
+										div.col-md-6.col-lg-2
+											label(for="arogya-person-time-from") Time From 
+											input.form-control(type='text' id="arogya-person-time-from" name="arogya_person_time_from" placeholder='00:00 (24hr)')
+										div.col-md-6.col-lg-2
+											label(for="arogya-person-time-to") Time To
+											input.form-control(type="text" id="arogya-person-time-to" name="arogya_person_time_to" placeholder='00:00 (24hr)')
+										div.col-md-12.col-lg-8
+											label(for="arogya-person-photo") Photo 
+											input.form-control(type="file" id="arogya-person-photo" name="arogya_person_photo")
+											input.form-control(hidden name='arogya_seva_kendra_id' value=arogya_seva_kendra_id)
+										div.text-center
+											button.btn.btn-primary.mt-3(type='button' id="submit-arogya-sevak-information-btn") जतन करा
+
+				
+				.row.gy-5.gx-25.mt-2.justify-content-center.justify-content-md-start
+					if arogya_sevak_information.length > 0
+						each sevak in arogya_sevak_information
+							.col-11.col-sm-6.col-md-4.col-lg-3
+								.card(style='border: 3px solid gray;')
+									- let path = `/new-gp-page/main-page/files/arogya-sevak-information/${sevak.arogya_person_photo}`
+									img.card-img-top(src=path style='height: 9rem' alt="...")
+									.card-body
+										h6.card-title.text-center #{sevak.arogya_person_name}
+
+									.card-footer
+										.d-flex.justify-content-center.align-items-center 
+											//- button.btn.text-success(class='' type='button' data-id=sevak.id data-sevakImage=sevak.arogya_seva_kendra_image_name)
+												i.fa.fa-edit
+
+											button.btn.text-danger(class='delete-arogya_seva_person_info_btn' type='button' data-id=sevak.id data-sevakImage=sevak.arogya_person_photo)
+												i.fa.fa-trash 
+
+			//- camp photo upload
+			.col-md-12.arogya-camp-photo-upload-container.d-none
+
+				.text-end 
+					button.btn.btn-success(id='add-new-arogya-camp-photo-btn') + Add new Photo
+
+				.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='add-new-camp-photo-modal' )
+					.modal-dialog(style='min-width:50% !important;')
+						.modal-content.p-2
+							.modal-header.bg-warning माहिती भरा 
+								h1.modal-title.fs-5() 
+								button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+							.modal-body
+								form#upload-arogya-camp-photo-form
+									.row
+										.col-12
+											label(for="camp-photo-file-name") File name 
+											input.form-control(type='text' id="camp-photo-file-name")
+
+										.col-12
+											label(for="camp-photo-file") File select
+											input.form-control(type='file' id="camp-photo-file")
+										.col-12.text-center
+											button.btn.btn-primary.mt-3(type='button' id="upload-camp-photo") जतन करा
+					
+
+	.gallery-container.arogya-camp-photo-upload-container.d-none
+		.gallery
+			each campPhoto in arogya_camp_photos
+				.card 
+					.card-body
+						- let path = `/new-gp-page/main-page/files/arogya-seva-camp-photos/${campPhoto.file_name_for_storage}`
+						a(href=path, data-lightbox="models", data-title=campPhoto.file_name)
+							img(src=path, style='height: 14rem')
+					.card-footer.text-center(style='border:none')
+						button.btn.text-danger(class='delete-arogya-camp-photos-btn' type='button' style='font-size: 1rem' data-id=campPhoto.id data-fileName=campPhoto.file_name_for_storage)
+							i.fa.fa-trash.text-danger &nbsp; Delete

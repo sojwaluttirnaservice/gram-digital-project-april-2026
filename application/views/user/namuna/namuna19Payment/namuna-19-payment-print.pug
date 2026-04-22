@@ -1,0 +1,136 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना १९ प्रिंट
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.1rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                @page {
+                    size:A4 landscape; /* Forces horizontal orientation */
+                }
+                body {
+                    margin: 0; /* Removes default margin for printing */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+        div
+            #print-container 
+                table(style='width: 100%;')
+
+                    thead
+
+                        tr 
+                            th(colspan='11')
+                                | Register of Pay Bill for the Employees of the Village Panchayat for the month of #{months[month - 1]} #{year}
+
+                        tr 
+                            th(rowspan='2') Sr. No.
+
+                            th(rowspan='2') Grampanchayat Name
+                            th(rowspan='2') Employee Name 
+                            th(rowspan='2') Designation 
+                            th(rowspan='2') Month
+
+                            th(rowspan='2') No. of Present Days 
+                            th(rowspan='2') Total pays = col(9 + 12)
+
+
+                            th(rowspan='1' colspan='3') State Share
+                            th(rowspan='2') Grampanchayat share
+                            //- th(rowspan='2') Total Final Pay
+
+
+
+                        tr 
+                            //- th
+
+                            //- th
+                            //- th
+                            //- th
+                            //- th
+
+                            //- th
+                            //- th
+                            //- th
+                            th(rowspan='2') State share (as per collection of tax percentage)(10 + 11)
+                            th(rowspan='1' colspan='1') GPF = (col 9 * 8.33)
+                            th(rowspan='1' colspan='1') Actual Pay 
+
+
+                            //- th
+
+                    tr 
+                        each num in [1,2,3,4,5,6,7,8,9,10,11]
+                            th #{num}
+
+                    tbody
+
+
+
+                        each record, index in paymentRecord
+                            //- each record, index in Array(20).fill(paymentRecord).flat()
+                            tr 
+                                td #{index + 1}
+
+                                td #{gp.gp_name}
+                                td #{record.name}
+                                td #{record.post_name}
+                                td #{months[+(record.month - 1)]}
+
+                                td #{record.present_days}
+                                    - let totalPay = +record.state_share + +record.calculated_grampanchayat_salary
+                                td #{isNaN(totalPay) ? totalPay : totalPay.toFixed(2)}
+
+                                td #{record.state_share}
+
+                                - let GPF = (+record.state_share * + record.pf_cutting_percentage / 100).toFixed(2)
+
+                                td #{GPF}
+
+                                td #{record.calculated_state_salary}
+                                td #{record.calculated_grampanchayat_salary}

@@ -1,0 +1,660 @@
+
+/* =====================================
+   BUTTONS :: PRIMARY — 3D PREMIUM REFINED
+   ===================================== */
+.btn-primary {
+    position: relative;
+
+    /* Shape */
+    border-radius: 3px;
+    /* reduced from 14px */
+    padding: 6px 18px;
+    /* reduced vertical padding */
+    min-height: 36px;
+    /* adjusted for smaller padding */
+    margin-bottom: 8px;
+
+    /* Text */
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+
+    /* Top surface gradient */
+    background: linear-gradient(to bottom, #38bdf8 0%, #0ea5e9 70%, #0284c7 100%);
+
+    /* Border illusion */
+    border: 0.8px solid transparent;
+    background-clip: padding-box;
+
+    /* Slight depth */
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.08),
+        0 2px 0 #0369a1,
+        0 4px 8px rgba(14, 165, 233, 0.25);
+
+    /* Motion */
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s ease;
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, #7dd3fc, #0284c7);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 0 #0369a1,
+        0 6px 10px rgba(14, 165, 233, 0.3);
+}
+
+.btn-primary:active,
+.btn-primary.active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 1px 0 #0369a1,
+        0 2px 4px rgba(14, 165, 233, 0.22);
+}
+
+.btn-primary:focus,
+.btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.28), 0 3px 0 #0369a1;
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    background: linear-gradient(to bottom, #7dd3fc, #38bdf8);
+    box-shadow: none;
+    color: #e0f2fe;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =====================================
+   BUTTONS :: SUCCESS — REFINED
+   ===================================== */
+.btn-success {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+
+    background: linear-gradient(to bottom, #34d399 0%, #22c55e 70%, #16a34a 100%);
+    border: 0.8px solid transparent;
+    background-clip: padding-box;
+
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.08),
+        0 2px 0 #15803d,
+        0 4px 8px rgba(34, 197, 94, 0.25);
+
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s ease;
+}
+
+.btn-success::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, #6ee7b7, #16a34a);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.btn-success:hover {
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 0 #15803d,
+        0 6px 10px rgba(34, 197, 94, 0.25);
+}
+
+.btn-success:active,
+.btn-success.active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 1px 0 #15803d,
+        0 2px 4px rgba(34, 197, 94, 0.22);
+}
+
+.btn-success:focus,
+.btn-success:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.28), 0 3px 0 #15803d;
+}
+
+.btn-success:disabled,
+.btn-success.disabled {
+    background: linear-gradient(to bottom, #86efac, #4ade80);
+    box-shadow: none;
+    color: #dcfce7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =====================================
+   BUTTONS :: DANGER — REFINED
+   ===================================== */
+.btn-danger {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+
+    background: linear-gradient(to bottom, #f87171 0%, #ef4444 70%, #dc2626 100%);
+    border: 0.8px solid transparent;
+    background-clip: padding-box;
+
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.08),
+        0 2px 0 #b91c1c,
+        0 4px 8px rgba(239, 68, 68, 0.25);
+
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s ease;
+}
+
+.btn-danger::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, #fca5a5, #dc2626);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.btn-danger:hover {
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 0 #b91c1c,
+        0 6px 10px rgba(239, 68, 68, 0.25);
+}
+
+.btn-danger:active,
+.btn-danger.active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 1px 0 #b91c1c,
+        0 2px 4px rgba(239, 68, 68, 0.22);
+}
+
+.btn-danger:focus,
+.btn-danger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.28), 0 3px 0 #b91c1c;
+}
+
+.btn-danger:disabled,
+.btn-danger.disabled {
+    background: linear-gradient(to bottom, #fca5a5, #f87171);
+    box-shadow: none;
+    color: #fee2e2;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =====================================
+   BUTTONS :: SECONDARY — REFINED
+   ===================================== */
+.btn-secondary {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+
+    background: linear-gradient(to bottom, #94a3b8 0%, #64748b 70%, #475569 100%);
+    border: 0.8px solid transparent;
+    background-clip: padding-box;
+
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.08),
+        0 2px 0 #334155,
+        0 4px 8px rgba(100, 116, 139, 0.25);
+
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s ease;
+}
+
+.btn-secondary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, #cbd5e1, #475569);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.btn-secondary:hover {
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 0 #334155,
+        0 6px 10px rgba(100, 116, 139, 0.25);
+}
+
+.btn-secondary:active,
+.btn-secondary.active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 1px 0 #334155,
+        0 2px 4px rgba(100, 116, 139, 0.22);
+}
+
+.btn-secondary:focus,
+.btn-secondary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.28), 0 3px 0 #334155;
+}
+
+.btn-secondary:disabled,
+.btn-secondary.disabled {
+    background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
+    box-shadow: none;
+    color: #f1f5f9;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+
+/* =====================================
+   BUTTONS :: OUTLINE PRIMARY
+   ===================================== */
+.btn-outline-primary {
+    position: relative;
+
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: #0ea5e9;
+    background-color: transparent;
+    border: 1.2px solid #38bdf8;
+
+    box-shadow: 0 1px 2px rgba(14, 165, 233, 0.15);
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.12s ease,
+        transform 0.12s ease;
+}
+
+.btn-outline-primary:hover {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #38bdf8, #0ea5e9);
+    box-shadow:
+        0 2px 0 #0369a1,
+        0 6px 10px rgba(14, 165, 233, 0.25);
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    transform: translateY(2px);
+    box-shadow:
+        0 1px 0 #0369a1,
+        0 3px 6px rgba(14, 165, 233, 0.25);
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.28);
+}
+
+.btn-outline-primary:disabled,
+.btn-outline-primary.disabled {
+    color: #7dd3fc;
+    border-color: #bae6fd;
+    background: transparent;
+    box-shadow: none;
+}
+
+
+/* =====================================
+   BUTTONS :: OUTLINE PRIMARY
+   ===================================== */
+.btn-outline-primary {
+    position: relative;
+
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: #0ea5e9;
+    background-color: transparent;
+    border: 1.2px solid #38bdf8;
+
+    box-shadow: 0 1px 2px rgba(14, 165, 233, 0.15);
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.12s ease,
+        transform 0.12s ease;
+}
+
+.btn-outline-primary:hover {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #38bdf8, #0ea5e9);
+    box-shadow:
+        0 2px 0 #0369a1,
+        0 6px 10px rgba(14, 165, 233, 0.25);
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    transform: translateY(2px);
+    box-shadow:
+        0 1px 0 #0369a1,
+        0 3px 6px rgba(14, 165, 233, 0.25);
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.28);
+}
+
+.btn-outline-primary:disabled,
+.btn-outline-primary.disabled {
+    color: #7dd3fc;
+    border-color: #bae6fd;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* =====================================
+   BUTTONS :: OUTLINE DANGER
+   ===================================== */
+.btn-outline-danger {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: #ef4444;
+    background-color: transparent;
+    border: 1.2px solid #f87171;
+
+    box-shadow: 0 1px 2px rgba(239, 68, 68, 0.15);
+
+    transition: all 0.18s ease;
+}
+
+.btn-outline-danger:hover {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #f87171, #ef4444);
+    box-shadow:
+        0 2px 0 #b91c1c,
+        0 6px 10px rgba(239, 68, 68, 0.25);
+}
+
+.btn-outline-danger:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 1px 0 #b91c1c,
+        0 3px 6px rgba(239, 68, 68, 0.25);
+}
+
+.btn-outline-danger:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.28);
+}
+
+.btn-outline-danger:disabled {
+    color: #fca5a5;
+    border-color: #fecaca;
+    box-shadow: none;
+}
+
+/* =====================================
+   BUTTONS :: OUTLINE SECONDARY
+   ===================================== */
+.btn-outline-secondary {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: #475569;
+    background-color: transparent;
+    border: 1.2px solid #94a3b8;
+
+    box-shadow: 0 1px 2px rgba(100, 116, 139, 0.15);
+
+    transition: all 0.18s ease;
+}
+
+.btn-outline-secondary:hover {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #94a3b8, #64748b);
+    box-shadow:
+        0 2px 0 #334155,
+        0 6px 10px rgba(100, 116, 139, 0.25);
+}
+
+.btn-outline-secondary:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 1px 0 #334155,
+        0 3px 6px rgba(100, 116, 139, 0.25);
+}
+
+.btn-outline-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.28);
+}
+
+.btn-outline-secondary:disabled {
+    color: #cbd5e1;
+    border-color: #e2e8f0;
+    box-shadow: none;
+}
+
+/* =====================================
+   BUTTONS :: OUTLINE SUCCESS
+   ===================================== */
+.btn-outline-success {
+    position: relative;
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: #16a34a;
+    background-color: transparent;
+    border: 1.2px solid #4ade80;
+
+    box-shadow: 0 1px 2px rgba(34, 197, 94, 0.15);
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.12s ease,
+        transform 0.12s ease;
+}
+
+.btn-outline-success:hover {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #4ade80, #22c55e);
+    box-shadow:
+        0 2px 0 #15803d,
+        0 6px 10px rgba(34, 197, 94, 0.25);
+}
+
+.btn-outline-success:active,
+.btn-outline-success.active {
+    transform: translateY(2px);
+    box-shadow:
+        0 1px 0 #15803d,
+        0 3px 6px rgba(34, 197, 94, 0.25);
+}
+
+.btn-outline-success:focus,
+.btn-outline-success:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.28);
+}
+
+.btn-outline-success:disabled,
+.btn-outline-success.disabled {
+    color: #86efac;
+    border-color: #bbf7d0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* =====================================
+   BUTTONS :: INFO — 3D PREMIUM REFINED
+   ===================================== */
+.btn-info {
+    position: relative;
+
+    /* Shape */
+    border-radius: 3px;
+    padding: 6px 18px;
+    min-height: 36px;
+    margin-bottom: 8px;
+
+    /* Text */
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+
+    /* Info gradient */
+    background: linear-gradient(to bottom, #22d3ee 0%, #06b6d4 70%, #0891b2 100%);
+
+    /* Border illusion */
+    border: 0.8px solid transparent;
+    background-clip: padding-box;
+
+    /* Depth */
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.08),
+        0 2px 0 #0e7490,
+        0 4px 8px rgba(6, 182, 212, 0.25);
+
+    /* Motion */
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s ease;
+}
+
+.btn-info::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, #67e8f9, #0891b2);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.btn-info:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 0.8px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -0.8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 0 #0e7490,
+        0 6px 10px rgba(6, 182, 212, 0.3);
+}
+
+.btn-info:active,
+.btn-info.active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 1px 0 #0e7490,
+        0 2px 4px rgba(6, 182, 212, 0.22);
+}
+
+.btn-info:focus,
+.btn-info:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.28), 0 3px 0 #0e7490;
+}
+
+.btn-info:disabled,
+.btn-info.disabled {
+    background: linear-gradient(to bottom, #67e8f9, #22d3ee);
+    box-shadow: none;
+    color: #cffafe;
+    cursor: not-allowed;
+    transform: none;
+}

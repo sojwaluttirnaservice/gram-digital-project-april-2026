@@ -1,0 +1,283 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src='/asstest/coustom/js/handlers/kar-wasuli-ahawal-manager.js')
+
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+    @media (min-width: 576px) {
+    .modal-dialog { max-width: none; }
+      }
+      .modal-dialog {
+        width: 98%;
+        height: 92%;
+        padding: 0;
+      }
+body
+    include ../include/navs.pug
+    .container-fluid
+        .row.p-0.p-1.pt-3
+            .col-12
+                center
+                    a(href="/meter").float-right.btn.btn-primary.btn-sm.mr-2 यादी बघा
+                    h5.font-weight-bold.m-3 नवीन कर वसुली अहवाल
+            .col-12
+                form#formNewMeterUserDetails
+                    .row
+                        .col-12(style="overflow-x:scroll")
+                                    table(border="1" style="width:200vw")
+                                        thead
+                                            tr.p-0.m-0
+                                                td(width="" rowspan="2").text-center.m-0.font-weight-bold अनू क्र
+                                                td(width="" rowspan="2").text-center.m-0.font-weight-bold करांचे नाव
+                                                td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण मागणी
+                                                td(width="" colspan="3").text-center.m-0.font-weight-bold मागील महिन्या पर्यंतची वसूली
+                                                td(width="" colspan="3").text-center.m-0.font-weight-bold चालू महिन्यातील वसूली
+                                                td(width="" colspan="3").text-center.m-0.font-weight-bold एकूण वसूली
+                                                td(width="" colspan="3").text-center.m-0.font-weight-bold बाकी
+                                                td(width="" rowspan="2").text-center.m-0.font-weight-bold वसूली टक्के वारी
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 मागील
+                                                td(width="").text-center.m-0 चालू
+                                                td(width="").text-center.m-0 एकूण
+                                                td(width="").text-center.m-0 मागील
+                                                td(width="").text-center.m-0 चालू
+                                                td(width="").text-center.m-0 एकूण
+                                                td(width="").text-center.m-0 मागील
+                                                td(width="").text-center.m-0 चालू
+                                                td(width="").text-center.m-0 एकूण
+                                                td(width="").text-center.m-0 मागील
+                                                td(width="").text-center.m-0 चालू
+                                                td(width="").text-center.m-0 एकूण
+                                                td(width="").text-center.m-0 मागील
+                                                td(width="").text-center.m-0 चालू
+                                                td(width="").text-center.m-0 एकूण
+                                        tbody#tbody-data
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 १)
+                                                td(width="").text-center.m-0 इमारत कर
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                                td(width="").text-center.m-0 
+                                                    input.form-control(type="text" )
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 २)
+                                                td(width="").text-center.m-0 दिवाबत्ती कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 ३)
+                                                td(width="").text-center.m-0 आरोग्य कर 
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                                td(width="").text-center.m-0 0
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 ४)
+                                                td(width="").text-center.m-0 इतर कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 0
+                                            tr.p-0.m-0.font-weight-bold
+                                                td(width="").text-center.m-0 अ)
+                                                td(width="").text-center.m-0 एकूण कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 0
+                                        
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 १)
+                                                td(width="").text-center.m-0 सामान्य पाणी कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 0
+                                            tr.p-0.m-0
+                                                td(width="").text-center.m-0 २)
+                                                td(width="").text-center.m-0 विशेष पाणी कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 0
+                                            tr.p-0.m-0.font-weight-bold
+                                                td(width="").text-center.m-0 ब)
+                                                td(width="").text-center.m-0 एकूण पाणी कर
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+
+                                            tr.p-0.m-0.font-weight-bold
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 एकूण (अ+ब )बेरीज
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0 
+                                                td(width="").text-center.m-0

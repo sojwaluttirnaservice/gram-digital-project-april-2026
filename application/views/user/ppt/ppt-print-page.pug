@@ -1,0 +1,217 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title= ppt.title
+        link(href="/asstest/bootstrap/css/bootstrap.min.css" rel="stylesheet")
+
+        //- YATRA ONE
+        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+        //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+
+        style.
+            /* ── Page Setup ─────────────────────────────── */
+            @page {
+                size: 1280px 720px;
+                margin: 0;
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #fff;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                color: #2d2d2d;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                width: 1280px;
+            }
+
+            .yatra-one-regular {
+                font-family: "Yatra One", system-ui;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .dekko-regular {
+                font-family: "Dekko", cursive;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .poppins-marathi-font {
+                font-family:"Poppins", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            /* ── EXACT 1280x720 SLIDE ──────── */
+            .page {
+                width: 1280px;
+                height: 720px;
+                overflow: hidden;
+                page-break-after: always;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
+            }
+            .page:last-child { page-break-after: auto; }
+
+            /* Header Image Area */
+            .slide-header-img-container {
+                width: 1280px;
+                height: 130px;
+                overflow: hidden;
+                flex-shrink: 0;
+                opacity:0;
+            }
+            .slide-header-img {
+                width: 1280px;
+                height: 120px;
+                //- display: block;
+                object-fit: fill;
+            }
+
+            /* Title Area */
+            .slide-title-area {
+                width: 1280px;
+                //- height: 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 0 20px;
+                flex-shrink: 0;
+            }
+            .slide-title {
+                font-size: 28px;
+            }
+            .slide-subtitle {
+                font-size: 20px;
+            }
+
+            /* Image Area Wrapper */
+            .slide-image-area {
+                width: 1280px;
+                height: 500px;
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                flex-shrink: 0;
+            }
+
+            /* Column Panels */
+            .img-col {
+                width: 500px;
+                height: 560px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 20px;
+            }
+            .img-col.before-col {
+                border-right: 1px solid #eee;
+                padding-right: 20px;
+            }
+            .img-col.after-col {
+                padding-left: 20px;
+            }
+
+            .col-title {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .img-stack {
+                width: 100%;
+                height: 500px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding-bottom: 2px;
+                overflow: hidden;
+            }
+
+            .img-stack img {
+                width: 100%;
+                border-radius: 2rem;
+                max-height: 500px;
+                flex: 1;
+                min-height: 0;
+                object-fit: contain;
+                background: #1a1a2e;
+                border: 1px solid #ddd;
+            }
+
+            .no-img-text {
+                color: #9aa5b4;
+                font-size: 0.9rem;
+                margin: auto;
+            }
+            
+            .bg-image{
+                background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
+                background-size: 100% auto;
+                background-position: top;
+                background-repeat: no-repeat;
+            }
+
+    body.yatra-one-regular
+        //- ─── INTRO PAGE IMAGES ──────────────────────────────────────
+        if ppt.page_1_image
+            div.page
+                img(src=`/uploads/images/ppt/pages-images/${ppt.page_1_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+        
+        if ppt.page_2_image
+            div.page
+                img(src=`/uploads/images/ppt/pages-images/${ppt.page_2_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+                
+        if ppt.page_3_image
+            div.page
+                img(src=`/uploads/images/ppt/pages-images/${ppt.page_3_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+
+        //- ─── SLIDE PAGES ──────────────────────────────────────────────
+        if slides && slides.length > 0
+            each slide, index in slides
+                - var beforeImgs = slide.parsed_before_images || []
+                - var afterImgs  = slide.parsed_after_images  || []
+                - var hasImages = beforeImgs.length > 0 || afterImgs.length > 0
+
+                div.page.bg-image
+                    div.slide-header-img-container
+                        if ppt.remaining_pages_header_image
+                            img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
+
+                    div.slide-title-area
+                        if slide.slide_title
+                            h3.text-danger.fw-bold.mb-0.slide-title(style="font-size:20px;")= slide.slide_title
+                        if slide.slide_subtitle
+                            h5.text-primary.mt-1.mb-0.slide-subtitle(style="font-size:14px;")= slide.slide_subtitle
+
+                    if hasImages
+                        div.slide-image-area
+                            //- Before Column
+                            div.img-col.before-col
+                                div.img-stack
+                                    if beforeImgs.length > 0
+                                        each img in beforeImgs
+                                            if img.image_name
+                                                img(src=`/uploads/images/ppt/slides/before/${img.image_name}` onerror="this.src='/img/fallback/no-image-found.png'")
+                                    else
+                                        span.no-img-text No Before Images
+
+                            //- After Column
+                            div.img-col.after-col
+                                div.img-stack
+                                    if afterImgs.length > 0
+                                        each img in afterImgs
+                                            if img.image_name
+                                                img(src=`/uploads/images/ppt/slides/after/${img.image_name}` onerror="this.src='/img/fallback/no-image-found.png'")
+                                    else
+                                        span.no-img-text No After Images
+                    else
+                        div(style="width:100%; height:560px; display:flex; align-items:center; justify-content:center; color:#9aa5b4;")
+                            | No images for this slide.

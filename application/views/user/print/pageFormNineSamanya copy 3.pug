@@ -1,0 +1,335 @@
+doctype html
+head
+  title नमुना ९ सामान्य
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+    @media print {
+        @page { 
+        size: landscape;
+        margin: 5mm 5mm 5mm 5mm;
+          -webkit-print-color-adjust: exact; 
+     }
+      .m-top {
+       margin: 10mm 15mm 10mm 10mm !important;
+      }
+      .m-bottom {
+        margin: 5mm 5mm 5mm 15mm !important;
+      }
+      .m-bottom-second {
+        margin: 5mm 15mm 5mm 5mm !important;
+      }
+      tr,td,th{
+        border-color:transparent !important;
+      }
+       .transperent{
+        background-color:transparent !important;
+        color:transparent !important;
+      }
+      .year-1{
+        position: absolute;
+        left:240px;
+        top:60px
+      }
+       .year-2{
+             position: absolute;
+        left:350px;
+        top:60px
+      }
+      .page-number{
+       position: absolute;
+        right:160px;
+        top:34px;
+      }
+      .td-list{
+        margin-top:220px
+          }
+      .zp{
+         position: absolute;
+         top:0px;
+         left:517px
+     }
+      .td-list span{
+         position: absolute;
+            font-size:11px !important;
+      }
+      .td-list .td-1{
+        top:0px;
+        left:0px
+      }
+      .td-list .td-2{
+        top:0px;
+        left:20px;
+        width:0px
+           }
+        .td-list .td-3{
+        top:0px;
+        left: 60px;
+        width:1px !important;
+       
+      }
+        .td-list .td-4{
+        top:0px;
+        left: 90px;
+        width:150px
+      }
+        .td-list .td-5{
+        top:0px;
+        left:267px;
+        width:50px
+ 
+      }
+        .td-list .td-6{
+        top:0px;
+        left: 360px
+      }
+        .td-list .td-7{
+        top:0px;
+        left: 415px
+      }
+        .td-list .td-8{
+        top:0px;
+        left: 465px
+      }
+        .td-list .td-9{
+        top:0px;
+        left: 515px
+      }
+        .td-list .td-10{
+        top:0px;
+        left: 557px
+      }
+        .td-list .td-11{
+        top:0px;
+        left: 603px
+      }
+        .td-list .td-12{
+        top:0px;
+        left: 659px
+      }
+        .td-list .td-13{
+        top:0px;
+        left: 710px
+      }
+        .td-list .td-14{
+        top:0px;
+        left: 760px
+      }
+        .td-list .td-15{
+        top:0px;
+        left: 820px
+      }
+      .td-list .td-16{
+        top:0px;
+           left: 863px
+      }
+      .td-list .td-17{
+        top:0px;
+        left: 923px
+      }
+      .td-list .td-18{
+        top:0px;
+        left: 980px
+      }
+     }
+      tr,td,th{
+        border-color:transparent !important;
+      }
+    .rotatePage{
+              transform: rotateZ(180deg);
+             
+      }
+     .rotatePage img{ margin-top:0px !important;  }
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:10%
+    }
+    #table2 td {
+        padding-left:0px;
+        padding-right:0px;
+      }
+     #table3 td {
+        padding-left:5 px;
+        padding-right:5px;
+      } 
+    .set-height > td.td {
+      height:100px;
+    }
+    .set-height > td.td1 {
+      height:100px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    td{
+        font-size:11px !important;
+        border:0px solid;
+      }
+      table{
+        width:80% !important;
+      }
+      .h6{
+         font-size:11px !important;
+       
+      }
+      .h5{
+        font-size:11px !important;
+      }
+
+       .h7{
+        font-size:11px !important;
+      }
+      .d-none{
+        display:none !important
+      }
+      .transperent{
+        background-color:transparent !important;
+        color:transparent !important;
+      }
+      
+body
+  - var pageCount = 0;
+  - var lastBuildingTax = 0;
+  - var currentBuildingTax = 0;
+  - var totalBuildingTax = 0;
+  - var lastDivaTax = 0;
+  - var currentDivaTax = 0;
+  - var totalDivaTax = 0;
+  - var lastArogyaTax = 0;
+  - var currentArogyaTax = 0;
+  - var totalArogyaTax = 0;
+  - var totalSampurnaTax = 0;
+  - var main_length = Math.ceil(data.length/5);
+  - var count = 0
+  - var start = 0;
+    //- page-२
+    .row.set-p-break.m-bottom-second.rotatePage
+      .col-12(style="position:relative")
+        img(src="/print/2.jpg" width="100%")
+        div(style="position: absolute;top:0;width:110%")
+                h4.text-primary.zp #{zp.gp_name}
+                div.page-number
+                  span.float-left #{count}
+                div.mt-1.mb-2
+                  p.text-center.h6.font-weight-bold(style="display:flex")
+                    span.h4.year-1 #{y1} 
+                    span.h4.year-2 #{y2}
+  while count <  main_length
+    - start = count*5;
+    - array1 = data.slice(start, (start+5));
+    - arrayLen =  5 - array1.length;
+    if(arrayLen !== 0)
+      while arrayLen > 0
+          - var singleVar = {lastBuildingTax: 0,currentBuildingTax: 0,totalBuildingTax: 0,lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, totalSampurnaTax: 0, lastTaxFine: 0, feu_homeN: '-',feu_homeNo:'-',feu_malmattaNo:'-', feu_malmattaNo: '-', feu_ownerName: '-', feu_secondOwnerName: '-', lastBuildingTax: 0, currentBuildingTax: 0, totalBuildingTax: 0, lastDivaTax: 0, currentDivaTax: 0, totalDivaTax: 0, lastArogyaTax: 0, currentArogyaTax: 0, totalArogyaTax: 0, lastTaxFine: 0, lastTaxFine: 0, totalSampurnaTax: 0}
+          - array1.push(singleVar)
+          - arrayLen--
+    - count++;                    
+    .row.set-p-break.m-top
+      - var lastBuildingTax = 0;
+      - var currentBuildingTax = 0;
+      - var totalBuildingTax = 0;
+      - var lastDivaTax = 0;
+      - var currentDivaTax = 0;
+      - var totalDivaTax = 0;
+      - var lastArogyaTax = 0;
+      - var currentArogyaTax = 0;
+      - var totalArogyaTax = 0;
+      - var totalSampurnaTax = 0;
+      - var lastTaxFine = 0;
+      .col-12(style="position:relative")
+        img(src="/print/1.jpg" width="100%")
+        div(style="position: absolute;top:0;width:110%")
+          h4.text-primary.zp #{zp.gp_name}
+          div.page-number
+            span.float-left #{count}
+          div.mt-2.mb-2
+            p.text-center.h5.font-weight-bold(style="display:flex")
+              span.h4.year-1 #{y1} 
+              span.h4.year-2 #{y2}
+          div.td-list(style="position:relative")
+            each val,index in array1
+              - pageCount += 1;
+              - lastBuildingTax += Math.round(val.lastBuildingTax);
+              - currentBuildingTax += Math.round(val.currentBuildingTax);
+              - totalBuildingTax += Math.round(val.totalBuildingTax);
+              - lastDivaTax += Math.round(val.lastDivaTax);
+              - currentDivaTax += Math.round(val.currentDivaTax);
+              - totalDivaTax += Math.round(val.totalDivaTax);
+              - lastArogyaTax += Math.round(val.lastArogyaTax);
+              - currentArogyaTax += Math.round(val.currentArogyaTax);
+              - totalArogyaTax += Math.round(val.totalArogyaTax);
+              - totalSampurnaTax += Math.round(val.totalSampurnaTax);
+              - lastTaxFine += (Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine));
+              - style = `position: absolute;top:${index*87}px;width:100%`
+                div(style=style)
+                  span.td-1 #{pageCount}
+                  span.td-2 #{val.feu_homeNo}
+                  span.td-3 #{val.feu_malmattaNo}
+                  span.td-4 #{val.feu_ownerName}
+                  span.td-5 #{val.feu_secondOwnerName} 
+                  span.td-6 #{Math.round(val.lastBuildingTax)}
+                  span.td-7 #{Math.round(val.currentBuildingTax)} 
+                  span.td-8 #{Math.round(val.totalBuildingTax)}
+                  span.td-9 #{Math.round(val.lastDivaTax)}
+                  span.td-10 #{Math.round(val.currentDivaTax)}
+                  span.td-11 #{Math.round(val.totalDivaTax)}
+                  span.td-12 #{Math.round(val.lastArogyaTax)}
+                  span.td-13 #{Math.round(val.currentArogyaTax)}
+                  span.td-14 #{Math.round(val.totalArogyaTax)}
+                  - val111 = Math.round(val.lastTaxFine) + Math.round(val.lastYearTaxFine)
+                  span.td-15  #{isNaN(val111)? 0:val111}
+                  span.td-16 -
+                  span.td-17  #{isNaN(val111)? 0:val111}
+                  span.td-18 
+                    strong #{Math.round(val.totalSampurnaTax)}
+                - style = `position: absolute;top:${index*100}px;width:100%`
+            div(style='position: absolute;top:440px;width:100%')
+              span.td-1 
+              span.td-2 
+              span.td-3 
+              span.td-4 
+              span.td-5 
+              span.td-6
+                strong #{lastBuildingTax}
+              span.td-7
+                strong #{currentBuildingTax}
+              span.td-8
+                strong #{totalBuildingTax}
+              span.td-9
+                strong #{lastDivaTax}
+              span.td-10
+                strong #{currentDivaTax}
+              span.td-11
+                strong #{totalDivaTax}
+              span.td-12
+                strong #{lastArogyaTax}
+              span.td-13
+                strong #{currentArogyaTax}
+              span.td-14
+                strong #{totalArogyaTax}
+              span.td-15
+                strong #{isNaN(lastTaxFine)? 0:lastTaxFine}
+              span.td-16 -
+              span.td-17
+                strong #{isNaN(lastTaxFine)? 0:lastTaxFine}
+              span.td-18
+                strong #{totalSampurnaTax}
+    .row.set-p-break.m-bottom-second.rotatePage
+      .col-12(style="position:relative")
+        img(src="/print/2.jpg" width="100%")
+        div(style="position: absolute;top:0;width:110%")
+                h4.text-primary.zp #{zp.gp_name}
+                div.page-number
+                  span.float-left #{count}
+                div.mt-0.mb-2
+                  p.text-center.h6.font-weight-bold(style="display:flex")
+                    span.h4.year-1 #{y1} 
+                    span.h4.year-2 #{y2}

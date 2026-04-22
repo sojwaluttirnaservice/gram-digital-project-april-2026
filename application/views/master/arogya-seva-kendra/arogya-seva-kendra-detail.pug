@@ -1,0 +1,77 @@
+extends ../master-layout
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/education-details-upload-handler.js')
+block custom_css 
+	style.
+		a{
+			text-decoration: none;
+		}
+
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center शिक्षण 
+
+			.col-12 
+				.text-end.mb-2
+					button.btn.btn-success(id='createNewInstituteBtn43434') नवीन  जोडा 
+
+			.col-12.mt-2
+				.row.gy-5.gx-5
+					if educationInstituteList.length > 0
+						each institute in educationInstituteList
+							.col-3
+								a.card(style='border: 3px solid gray;' href=`/master/master-institute-details-view?id=${institute.id}&instituteName=${institute.institute_name}`)
+									- let path = `/new-gp-page/main-page/files/education-institute-files/${institute.institute_image}`
+									img.card-img-top(src=path style='height: 11rem', alt="...")
+									.card-body
+										h6.card-title.text-center #{institute.institute_name}
+
+									.card-footer
+										.d-flex.justify-content-center.align-items-center 
+											button.btn.text-success(class='edit-institute-btn' type='button' data-id=institute.id)
+												i.fa.fa-edit
+											button.btn.text-danger(class='delete-institute-btn' type='button' data-id=institute.id data-instituteImage=institute.institute_image)
+												i.fa.fa-trash
+
+											span #{institute.institute_type === 1 ? 'अंगणवाडी' : institute.institute_type === 2 ? 'शाळा': 'कॉलेज' }
+											
+
+		
+		.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='upload-education-institute-details-modal' )
+			.modal-dialog(style='min-width:50% !important;')
+				.modal-content.p-2
+					.modal-header.bg-warning माहिती भरा 
+						h1.modal-title.fs-5() 
+						button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+					.modal-body
+
+						form#upload-education-institute-details(action="") 
+								.card.mb-3
+									
+									.card-body
+										.row.gy-3
+											.col-12
+												.form-group
+													label(for="institute-name") School/College Name 
+													input.form-control(type='text', id="institute-name")
+											.col-12
+												.form-group
+													label(for="institute-photo") School/College Photo		
+													input.form-control(type='file', id="institute-photo")
+											.col-12
+												.form-group
+													label(for="institute-photo") Type 
+													select.form-control#institute-type
+														option(value='-1') -- Type --
+														option(value='1') अंगणवाडी
+														option(value='2') शाळा
+														option(value='3') कॉलेज
+
+									div.d-flex.justify-content-center
+										button#upload-institute-details-btn.mt-2.mb-2.btn.btn-primary(type='submit') जतन करा						   
+
+
+	script.
+		//- const educationInstituteList = !{JSON.stringify(educationInstituteList)}

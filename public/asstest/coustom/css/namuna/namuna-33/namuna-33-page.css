@@ -1,0 +1,16 @@
+form#namuna-33-form {
+    width: 80%;
+    margin: 2rem auto;
+}
+
+th {
+    background: teal !important;
+    border: 1px solid white !important;
+    color: white !important;
+}
+
+@media screen and (max-width: 576px) {
+    form#namuna-33-form {
+        width: 90%;
+    }
+}

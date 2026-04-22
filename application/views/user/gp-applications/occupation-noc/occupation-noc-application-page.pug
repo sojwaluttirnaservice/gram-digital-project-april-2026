@@ -1,0 +1,178 @@
+doctype html
+html(lang='mr')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        title व्यवसायासाठी ना हरकत प्रमाणपत्र अर्ज
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+        link(rel='preconnect' href='https://fonts.googleapis.com')
+        link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+        link(href='https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap' rel='stylesheet')
+
+        style.
+            body {
+                margin: 0;
+                background: #e5e7eb;
+                font-family: "Tiro Devanagari Marathi", serif;
+                color: #000;
+            }
+
+            .screen-wrapper {
+                display: flex;
+                justify-content: center;
+                padding: 16px;
+            }
+
+            /* REAL A4 PAGE */
+            .a4-page {
+                width: 210mm;
+                height: 100%;      /* FORCE EXACT A4 HEIGHT */
+                background: #ffffff;
+                position: relative;
+                box-sizing: border-box;
+                padding: 10mm 10mm;
+                overflow: hidden;      /* PREVENT SECOND PAGE */
+            }
+
+            .avoid-break {
+                page-break-inside: avoid;
+            }
+
+            @media print {
+                body { background: #fff; }
+                .screen-wrapper { padding: 0; }
+
+                @page {
+                    size: A4 portrait;
+                    margin: 10mm;
+                    border: 2px solid #000;   /* GOV STYLE BORDER */
+                }
+
+                .a4-page {
+                    box-shadow: none;
+                    margin: 0;
+                }
+            }
+
+    body
+        .screen-wrapper
+            .a4-page
+
+                // WATERMARK
+                div(class="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none")
+                    img(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="w-[60%]")
+
+                // CONTENT
+                div(class="relative z-10 text-[15px] leading-[1.9] h-full")
+
+                    // HEADER
+                    div(class="text-center border-b-2 border-black pb-3 mb-6 avoid-break")
+                        h1(class="text-[26px] font-bold tracking-wide") व्यवसायासाठी ना हरकत प्रमाणपत्र अर्ज
+                        p(class="text-[15px] font-semibold mt-1")
+                            | ग्रामपंचायत #{gp.gp_name || '—'}, पंचायत समिती #{gp.gp_taluka || '—'}, जिल्हा #{gp.gp_dist || '—'}
+
+                    // META
+                    div(class="grid grid-cols-2 gap-x-12 gap-y-3 mb-6 avoid-break")
+                        div
+                            span(class="font-bold") अर्ज क्रमांक :
+                            span(class="ml-2") #{occupationNoc.id || '—'}
+
+                        //- div
+                            span(class="font-bold") अर्जाची सद्यस्थिती :
+                            span(class="ml-2") #{occupationNoc.application_status || '—'}
+
+                        div
+                            span(class="font-bold") अर्ज सादर दिनांक :
+                            span(class="ml-2") #{occupationNoc.createdAt ? new Date(occupationNoc.createdAt).toLocaleDateString('mr-IN') : '—'}
+
+                        //- div
+                            span(class="font-bold") शेवटचा अद्ययावत दिनांक :
+                            span(class="ml-2") #{occupationNoc.updatedAt ? new Date(occupationNoc.updatedAt).toLocaleDateString('mr-IN') : '—'}
+
+                    // APPLICANT
+                    div(class="mb-7 avoid-break")
+                        div(class="text-[17px] font-bold border-b border-black pb-1 mb-3") अर्जदाराची माहिती
+
+                        p
+                            span(class="font-bold") अर्जदाराचे पूर्ण नाव :
+                            span(class="ml-2") #{occupationNoc.applicant_name || '—'}
+
+                        div(class="grid grid-cols-2 gap-x-12 gap-y-2 mt-2")
+                            div
+                                span(class="font-bold") मोबाईल क्रमांक :
+                                span(class="ml-2") #{occupationNoc.applicant_mobile || '—'}
+
+                            div
+                                span(class="font-bold") ई-मेल :
+                                span(class="ml-2") #{occupationNoc.applicant_email || '—'}
+
+                            div
+                                span(class="font-bold") आधार क्रमांक :
+                                span(class="ml-2") #{occupationNoc.applicant_aadhaar || '—'}
+
+                        p(class="mt-2")
+                            span(class="font-bold") संपूर्ण पत्ता :
+                            span(class="ml-2") #{occupationNoc.applicant_address || '—'}
+
+                        div(class="grid grid-cols-3 gap-x-12 mt-2")
+                            div
+                                span(class="font-bold") गाव :
+                                span(class="ml-2") #{occupationNoc.applicant_village || '—'}
+
+                            div
+                                span(class="font-bold") तालुका :
+                                span(class="ml-2") #{occupationNoc.applicant_taluka || '—'}
+
+                            div
+                                span(class="font-bold") जिल्हा :
+                                span(class="ml-2") #{occupationNoc.applicant_district || '—'}
+
+                    // SABHA
+                    div(class="mb-7 avoid-break")
+                        div(class="text-[17px] font-bold border-b border-black pb-1 mb-3") सभा व मालमत्ता माहिती
+
+                        div(class="grid grid-cols-3 gap-x-12 gap-y-2")
+                            div
+                                span(class="font-bold") सभा दिनांक :
+                                span(class="ml-2") #{occupationNoc._sabha_date || '—'}
+
+                            div
+                                span(class="font-bold") ठराव क्रमांक :
+                                span(class="ml-2") #{occupationNoc.resolution_no || '—'}
+
+                            div
+                                span(class="font-bold") मिळकत / मालमत्ता क्र. :
+                                span(class="ml-2") #{occupationNoc.malmatta_no || '—'}
+
+                    // STATUS
+                    //- div(class="mb-8 avoid-break")
+                        div(class="text-[17px] font-bold border-b border-black pb-1 mb-3") अर्ज स्थिती
+
+                        p
+                            span(class="font-bold") सद्यस्थिती :
+                            span(class="ml-2") #{occupationNoc.application_status || '—'}
+
+                        if occupationNoc.application_status === 'ACCEPTED'
+                            p(class="mt-2")
+                                span(class="font-bold") मंजुरी शेरा :
+                                span(class="ml-2") #{occupationNoc.acceptance_remark || '—'}
+
+                        if occupationNoc.application_status === 'REJECTED'
+                            p(class="mt-2")
+                                span(class="font-bold") नकार कारण :
+                                span(class="ml-2") #{occupationNoc.rejection_remark || '—'}
+
+                    
+
+                    // SIGNATURE
+                    div(class="mt-auto pt-6 border-t-2 border-black flex justify-between avoid-break font-bold")
+
+                        div
+                            p दिनांक :
+                            p(class="mt-10") कार्यालयाची सही :
+
+                        div(class="text-right")
+                            p अर्जदाराची सही :
+                            p(class="mt-10") अर्जदाराचे नाव :

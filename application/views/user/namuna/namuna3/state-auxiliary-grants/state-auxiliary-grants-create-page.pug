@@ -1,0 +1,130 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+    // Bootstrap 5 CSS & JS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+    link(href='/asstest/coustom/css/namuna/namuna-3/namuna-3-form.css' rel='stylesheet')
+    script(src='/asstest/coustom/js/handlers/namuna/namuna-3/state-auxiliary-grants/namuna-3-state-auxiliary-grants-form-handler.js' type='module' defer)
+
+    title राज्य शासन सहाय्यक अनुदाने जमा
+
+    style.
+      .heading-1 {
+        font-weight: bold !important;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #bb2525;
+        border-radius: 15px;
+        border: 2px solid #bb2525;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin: 0 auto 1.4rem;
+        width: fit-content;
+      }
+
+      label.error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+  body
+    include ../../../include/navs.pug
+    .container
+      h2.heading-1.mt-2.mb-1 नमुना ३: ग्राम पंचायत जमा व खर्च तक्ता (वार्षिक अहवाल)
+      div
+        .d-flex.align-items-center.justify-content-end(style="gap: 1rem;")
+          a.btn.btn-primary(href='/namuna/3') नमुना ३
+      form(id='state-auxiliary-grants-form').mt-1
+        .form.form-1
+          h4(style="text-align:center; font-weight:bold; color:white; background-color:#FF6F61; padding:8px 18px; display:block; margin:10px auto;") नमुना ३ राज्य शासन सहाय्यक अनुदाने जमा
+
+          .row.justify-content-center.justify-content-md-between.gx-4.gy-2.px-3
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="year") वर्ष
+                input.form-control(name='year' id='year' value=year readonly)
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="toilet_fund") शौचालय
+                input.form-control(type="text" id="toilet_fund" name="toilet_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="dalit_vasti_improvement_fund") दलित वस्ती सुधार
+                input.form-control(type="text" id="dalit_vasti_improvement_fund" name="dalit_vasti_improvement_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="water_supply_tcl_fund") पाणी पुरवठा टी.सी. एल
+                input.form-control(type="text" id="water_supply_tcl_fund" name="water_supply_tcl_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="construction_fund") बांधकाम
+                input.form-control(type="text" id="construction_fund" name="construction_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="education_school_fund") शिक्षण शाळा
+                input.form-control(type="text" id="education_school_fund" name="education_school_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="minimum_wage_and_meeting_allowance_fund") मानधन किमान वेतन व बैठक भत्ता
+                input.form-control(type="text" id="minimum_wage_and_meeting_allowance_fund" name="minimum_wage_and_meeting_allowance_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="health_fund") आरोग्य
+                input.form-control(type="text" id="health_fund" name="health_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="other_fund") इतर
+                input.form-control(type="text" id="other_fund" name="other_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_2a_1_to_8") एकूण (दोन)(अ) (१ ते ८)
+                input.form-control(type="text" id="total_2a_1_to_8" name="total_2a_1_to_8" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="received_fund") आलेला निधी
+                input.form-control(type="text" id="received_fund" name="received_fund" placeholder=" ")
+
+            .col-11.col-md-6.col-lg-6
+              .form-group
+                label.form-label(for="total_2_ab") एकूण (दोन) (अ + ब)
+                input.form-control(type="text" id="total_2_ab" name="total_2_ab" placeholder=" ")
+
+          .text-center
+            button.btn.btn-primary.mt-4(type="submit" id='save-state-auxiliary-grants-btn') Save

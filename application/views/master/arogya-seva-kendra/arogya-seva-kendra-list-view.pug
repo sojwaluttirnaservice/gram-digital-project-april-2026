@@ -1,0 +1,99 @@
+extends ../master-layout
+block internal_css 
+	style.
+		a{
+			text-decoration: none;
+		}
+block custom_js 
+	script.
+		let arogyaSevaKendraList = !{JSON.stringify(arogyaSevaKendraList)};
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/arogya-seva-information-handler.js')
+
+block content
+	- let isMasterView = (typeof isMasterPanel == 'undefined' || isMasterPanel) 
+
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center आरोग्य सेवा केंद्र  
+
+			.col-12.mt-2
+				.row.gy-5.gx-2.justify-content-center.justify-content-md-start
+					.text-end
+						button.btn.btn-success(id='createNewArogyaSevaKendraBtn' type='button' data-bs-target='#arogyaSevaKendraModal') नवीन  जोडा 
+					if arogyaSevaKendraList.length > 0
+						each arogyaSevaKendra in arogyaSevaKendraList
+							.col-11.col-sm-6.col-md-4.col-lg-3
+								.card(style='border: 3px solid gray;')
+									- let path = `/new-gp-page/main-page/files/arogya-seva-kendra-information/${arogyaSevaKendra.arogya_seva_kendra_image_name}`
+									img.card-img-top(src=path style='height: 9rem' alt="...")
+									.card-body
+										h6.card-title.text-center #{arogyaSevaKendra.arogya_seva_kendra_name}
+
+									.card-footer
+										.d-flex.justify-content-center.align-items-center 
+											button.btn.text-success(class='edit-arogya-seva-kendra-btn' type='button' data-id=arogyaSevaKendra.id data-arogyaSevaKendraImage=arogyaSevaKendra.arogya_seva_kendra_image_name)
+												i.fa.fa-edit
+											button.btn.text-danger(class='delete-arogya-seva-kendra-btn' type='button' data-id=arogyaSevaKendra.id data-arogyaSevaKendraImage=arogyaSevaKendra.arogya_seva_kendra_image_name)
+												i.fa.fa-trash
+
+											a.btn.text-success(style='cursor:pointer;' href= isMasterView ? `/master/arogya-seva-kendra-gallery-view?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}` : `/arogya/gp-arogya-seva-kendra-gallery-view?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}`   data-id=arogyaSevaKendra.id data-arogyaSevaKendraName=arogyaSevaKendra.arogya_seva_kendra_name)
+												i.fa.fa-image
+											a.btn.text-primary(style='cursor:pointer;' href= isMasterView ? `/master/arogya-seva-information?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}` : `/arogya/gp-arogya-seva-information?id=${arogyaSevaKendra.id}&arogyaSevaKendraName=${arogyaSevaKendra.arogya_seva_kendra_name}`  data-id=arogyaSevaKendra.id data-arogyaSevaKendraName=arogyaSevaKendra.arogya_seva_kendra_name) 
+												i.fa.fa-users 
+
+
+		.modal.fade(tabindex="-1" aria-labelledby="" aria-hidden="true" id ='arogyaSevaKendraModal' )
+			.modal-dialog(style='min-width:80% !important;')
+				.modal-content.p-2
+					.modal-header.bg-warning माहिती भरा 
+						h1.modal-title.fs-5() 
+						button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+					.modal-body
+
+						form(id='arogyaSevaKendraForm')
+							fieldset 
+								legend.text-center आरोग्य सेवा केंद्र फॉर्म 
+								.row.g-3
+									.col-md-8
+										label(for="arogya-seva-kendra-name") Name 
+										input.form-control(type='text' id="arogya-seva-kendra-name" name="arogya_seva_kendra_name")
+
+									.col-md-2
+										label(for="arogya-seva-kendra-time-from") Time From 
+										input.form-control(type='text' id="arogya-seva-kendra-time-from" name="arogya_seva_kendra_time_from" placeholder='00:00 (24hr)')
+
+									.col-md-2
+										label(for="arogya-seva-kendra-time-to") Time To
+										input.form-control(type="text" id="arogya-seva-kendra-time-to" name="arogya_seva_kendra_time_to" placeholder='00:00 (24hr)')
+
+									.col-md-6
+										label(for="arogya-seva-kendra-description") Description
+										textarea.form-control(type='text' id="arogya-seva-kendra-description" name="arogya_seva_kendra_description" rows="3")
+
+									.col-md-6
+										label(for="arogya-seva-kendra-address") Address
+										textarea.form-control(type='text' id="arogya-seva-kendra-address" name="arogya_seva_kendra_address" rows="3")
+
+									.col-md-5
+										label(for="arogya-seva-kendra-adhikari-name") Health Service Officer(अधिकारी) Name 
+										input.form-control(type='text' id="arogya-seva-kendra-adhikari-name" name="arogya_seva_kendra_adhikari_name")
+
+									.col-md-3
+										label(for="arogya-seva-kendra-mobile") Mobile No 
+										input.form-control(type='text' id="arogya-seva-kendra-mobile" name="arogya_seva_kendra_mobile" maxlength='10')
+
+									.col-md-4
+										label(for="arogya-seva-kendra-email") Email 
+										input.form-control(type='email' id="arogya-seva-kendra-email" name="arogya_seva_kendra_email")
+
+									.col-md-6
+										label(for="arogya-seva-kendra-photo") Photo 
+										input.form-control(type="file" id="arogya-seva-kendra-photo" name="arogya_seva_kendra_photo")
+
+								div.text-center
+									button.btn.btn-primary.mt-3(type='button' id="submitArogyaSevaKendraInfoBtn") जतन करा
+
+
+	script.
+		//- const arogyaSevaKendraList = !{JSON.stringify(arogyaSevaKendraList)}

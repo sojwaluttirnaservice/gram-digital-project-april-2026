@@ -1,0 +1,289 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title नमुना १२ 
+
+        style.
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table{
+                border-collapse:  collapse;
+            }
+
+            tr, th, td{
+                border: 1px solid gray;
+            }
+
+            th, td {
+                padding: 0.4rem 0.4rem;
+                text-align: center;
+            }
+
+            #hide-buttons{
+                button{
+                    position: fixed;
+                    top: 48%;
+                    left: 1rem;
+                    background: blue;
+                    padding: 0.2rem 0.4rem;
+                    color: white;
+                }
+            }
+
+
+            /* Print-specific styles */
+            @media print {
+                /* Set the page to A4 portrait */
+                @page {
+                    size: A4 portrait;
+                }
+
+                .my-print {
+                    page-break-before: always;
+                    margin: 0; /* Ensure there is no margin around each print block */
+                    padding: 0; /* Ensure no padding */
+                    height: 100vh; /* Set height to take up the full viewport height of the page */
+                    display: flex;
+                    flex-direction: column; /* Allow inner elements to stack vertically */
+                }
+
+                .my-print > div {
+                    flex: 1; /* Take up available space */
+                    border: 1px solid black;
+                    padding: 0.8rem;
+                    box-sizing: border-box; /* Include padding in the height calculation */
+                }
+
+                #hide-buttons {
+                    display:none;
+                }
+            }
+
+        link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
+
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script.
+            $(() => {
+                // Assuming you have an API that converts the English number to Marathi
+                function convertNumberToMarathi(englishNumber) {
+                    // Replace this with your actual API endpoint and logic
+                    return fetch(`/currency/toWords`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ data: englishNumber }),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            // If the response status is not OK, throw an error
+                            throw new Error(`Error fetching Marathi number: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.words) {
+                            return data.words; // Assuming the API returns a "marathiNumber" key
+                        } else {
+                            throw new Error('Marathi number not found in the API response.');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);  // Log detailed error
+                        return 'Error';  // You can return a fallback value or message for UI display
+                    });
+                }
+
+                // Function to update the spans
+                function updateMarathiNumbers() {
+                    // Get all spans that contain English numbers
+                    $('[data-englishNumId]').each(function() {
+                        const englishNumber = $(this).attr('data-englishNumber');
+                        const wordId = $(this).attr('data-englishNumId');
+
+                        // Get the corresponding span to insert the Marathi number
+                        const $marathiWordSpan = $(`[data-englishWordId='${wordId}']`);
+
+                        // Call the API to get the Marathi equivalent of the number
+                        convertNumberToMarathi(englishNumber).then(function(marathiNumber) {
+                            // Insert the Marathi number into the appropriate span
+                            if ($marathiWordSpan.length) {
+                                $marathiWordSpan.text(marathiNumber);
+                            }
+                        });
+                    });
+                }
+
+                // Call the update function after the page has loaded
+                updateMarathiNumbers();
+            });
+
+
+
+    body
+        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #hide-buttons 
+
+            button(type='button' onclick='window.print()') Print
+
+
+        if !namuna12Details || !namuna12Details.length
+            div 
+                h3(style='margin-top: 2rem; text-align: center; color: gray; font-size: 2rem;') नोंद उपलब्ध नाही
+
+
+        else
+            each namuna12Entry in namuna12Details
+
+                .my-print(style='')
+
+                    div(style='border:1px solid black; padding: 0.8rem; height: 100%')
+
+                        //- Top part
+                        div
+                            div(style='display: flex; align-items: center; justify-content: space-between;')
+
+                                div नमुना १२
+
+                                div ग्रामपंचायत कार्यालय 
+                                    span #{gp.gp_name}
+                                div
+                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                            div 
+                                div(style='font-size:10px; text-align: center;')
+                                    |  महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४ (ग) (४), (५) व (६), ४४ (१) व (४) (आ) पहा)
+
+
+                            div(style='display:flex; align-items:center; justify-content:center')
+                                div(style='padding: 0.2rem 1rem; background-color: black; color: white; border-radius: 0.8rem; margin: 0.2rem 0;    ')
+                                    | आकस्मिक खर्चाचे प्रमाणक
+
+                            div(style='text-align:center')
+                                | घेतलेल्या वस्तू व त्यासाठी केलेले प्रदान यांची नोंदवही
+
+                            div(style='margin-top: 1rem; display:flex; flex-direction: column; gap: 0.4rem;')
+                                div ग्रामपंचायत #{gp.gp_name} पं. स . #{gp.gp_taluka}
+                                div(style='display:flex; justify-content: space-between; gap: 0.4rem;')
+                                    div देयक  क्रमांक : #{namuna12Entry.bill_number}
+                                    div(style='margin-right: 8rem;') दिनांक : 
+
+                                div देयक स्विकारणाऱ्याचे नाव: #{namuna12Entry.name_of_person_accepting_bill}
+
+                        - let previousExpenses = 0
+                        //- table Part
+                        div(style="margin-top: 10px;")
+                            //- Big table
+                            table(style='width: 100%; margin-top: 10px;')
+                                thead 
+                                    tr 
+                                        th मागविलेल्या वस्तूचे / मालाचे नाव पंचायतीचा मंजूर क्रमांक व दिनांक
+                                        th नग किंवा  वजन  
+                                        th दर
+                                        th युनिट/प्रती
+                                        th रक्कम (रू. पै.)
+
+                                tbody 
+                                    each spendingEntry in namuna12Entry.spendingData
+                                        tr
+                                            td #{spendingEntry.item_name_or_goods_name}, #{spendingEntry.approval_number}, #{spendingEntry._approval_date}
+                                            td #{spendingEntry.quantity_or_weight}
+                                            td #{spendingEntry.rate}
+                                            td #{spendingEntry.unit}
+                                            td #{spendingEntry.total_amount}
+
+                                            - previousExpenses += spendingEntry.total_amount_previous_expense
+
+                            //- Small table
+
+                            div(style='margin-top: 1rem;display: grid; grid-template-columns: 1fr 1fr')
+
+                                //- Left part
+                                div
+                                    table(style='width: 100%;')
+                                        tbody 
+
+                                            tr
+                                                td(width='50%') वाटणीची रक्कम
+                                                td(width='50%') #{namuna12Entry.total_spending}
+
+                                            tr
+                                                td
+                                                td 
+                                                    span(style='opacity: 0;') :
+
+                                            tr
+                                                td पूर्वीचा खर्च
+                                                td #{previousExpenses}
+
+                                            tr
+                                                td
+                                                td 
+                                                    span(style='opacity: 0;') :
+
+                                            tr
+                                                td देयकात दर्शवलेली खर्च
+                                                td #{(+namuna12Entry.total_spending - +previousExpenses)}
+
+                                            tr
+                                                td
+                                                td 
+                                                    span(style='opacity: 0;') :
+
+
+                                //- Right part
+                                div(style='padding: 0.4rem;')
+
+                                    div(style='border: 1px solid black; width: 100%; padding: 0.4rem 1rem;')
+                                        | असे प्रमाणित करण्यात  येते की, या देयकात दर्शवलीले दर व रात्री योग्य आहेत आणि या वस्तू मी स्वीकारल्या आहेत 
+
+
+                                    div 
+                                        div(style='height: 0.5px; background-color: black; margin-top: 3rem;') 
+
+                                        div(style='text-align: center; font-size: 14px;') ज्या व्यक्तीने वस्तू स्वीकारल्या त्या व्यक्तीची सही
+
+
+                        - let approvalDate = namuna12Entry.spendingData && namuna12Entry.spendingData.length ? namuna12Entry.spendingData[0]._approval_date : '-'
+                        - let approvalNumber = namuna12Entry.spendingData && namuna12Entry.spendingData.length ? namuna12Entry.spendingData[0].approval_number : '-'
+                        div(style='font-size: 14px; margin-top: 0.2rem;')
+                            div दिनांक: #{approvalDate}
+
+                            div(style='text-align:center;') मंजुरीसाठी ग्रामपंचायतीचा सादर मी मागणीची चौकशी केली असून ती सर्व बाबतीत योग्यअसल्याचे मत आढळून आले आहे.
+
+                            div(style='margin-top: 1rem;')
+                                div(style='margin-left: auto; width: fit-content; display: flex; flex-direction: column; align-items: center; justify-content: center; ')
+                                    div ___________________________________
+                                    div सचिव सही
+
+                            div ठराव क्रमांक : #{approvalNumber} 
+
+                        div(style='margin-top: 0.2rem; display: flex;  flex-direction: column; gap: 0.4rem;')
+                            div देयकामध्ये दर्शवलेली रक्कम रुपये अक्षरी 
+                                span(data-englishNumId = namuna12Entry.id  data-englishNumber = namuna12Entry.total_spending) #{namuna12Entry.total_spending} 
+                                span (रुपये) 
+                                span(data-englishWordId = namuna12Entry.id)
+
+                            div(style='display: flex; align-items: center; justify-content: space-between;gap: 1rem;')
+                                div मंजूर करण्यात येत आहे. 
+
+
+                                div दिनांक:  #{approvalDate} 
+
+                                div सरपंच सही:_____________________
+
+                            div दिनांक: #{approvalDate}
+
+                            div मागणी प्रतीचा पूर्ण रुपये(_________________)  (अक्षरात ______________________________________________________________________________________)
+
+                            div रक्कम मिळाली.
+
+                            div 
+                                div(style='text-align:center') सचिव सही: _______________________________

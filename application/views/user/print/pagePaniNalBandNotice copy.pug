@@ -1,0 +1,237 @@
+doctype html
+head
+  title नळ बंद नोटीस
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width.p-1.m-0=device-width.p-1.m-0, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  style.
+   
+    @media print {
+      @page { 
+     size: auto;
+      margin: 4mm 7mm 4mm 10mm;
+      }
+      body {
+          margin:0;
+          padding:0;
+      }
+      body {transform: scale(1);}
+      table {page-break-inside: avoid;}
+     
+      } 
+    .main-heading {
+        margin-left:10%
+      }
+    .heading-second{
+        margin-left:30%
+    }
+    .heading-second-2{
+         margin-left:30%
+    }
+    #table2 {
+      width:100% !important;
+    }
+    #table2 td {
+        padding-left:1px;
+        padding-right:1px;
+      }
+     #table3 td {
+        padding-left:3px;
+        padding-right:3px;
+      } 
+    .set-height > td {
+      height: 150px;
+    }
+    .set-p-break {
+      page-break-before: always;
+    }
+    .c-0 {
+      page-break-before: always;
+    }
+    td {
+        border-top: 2px solid gray;
+        border-right: 2px solid gray;
+        padding: 0px !important; 
+      }
+    .img{
+      width:65px;
+      height:70px;
+    }
+    .img1{
+      margin-top:-10px;
+      width:70px;
+      height:90px;
+    }
+    p{
+      font-size:15px !important;
+    }
+    .span-box{
+        padding:3px 5px;
+        margin: 5px 5px;
+        margin-top: 10px !important; 
+        border:1px solid black;
+        
+       
+    }
+    .text-j {
+      line-height: 1.5;
+       text-align: justify
+    }
+body
+  each val,index in data
+    - var  className = 'row mt-4 c-'+(index%2); 
+    div(class=className)
+      .col-6
+        table(border="2")#table2 
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-6.p-0.m-0
+                      h4.float-right.h3.pt-2.font-weight-bold नोटीस   
+                    .col-6.text-center.p-0.m-0
+                      p.float-right.text-left
+                        small.d-block.h8.font-weight-bold क्रमांक पा.पु. / 
+                        small.d-block.p-0.m-0.h8.font-weight-bold ग्राम पंचायत कार्यालय #{zp.gp_name}
+                        small.d-block.h8.font-weight-bold दिनांक : #{date1} 
+                   
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                     col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span नळ धारकाचे नाव श्री/श्रीमती:&nbsp;
+                        u #{val.feu_ownerName}
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span  राहणार :-&nbsp;
+                        u #{val.feu_villageName}
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span  अनु क्रमांक:&nbsp;
+                        u #{val.anu_kramank}
+                        span  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;नळ कनेक्शन क्रमांक:&nbsp;
+                        u #{val.feu_malmattaNo}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h5.pt-4.pb-3.m-0.ml-2.h6.font-weight-bold.text-center 
+                        u विषय :- नळ कनेक्शन बंद करणे बाबत
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.mr-2.pt-2.pb-1.h6.text-j 
+                        span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        span आपणास या नोटीस व्दारे कळविण्यात येते की नळ कनेक्शनची सन 
+                        u &nbsp;#{y1}
+                        span &nbsp;ते&nbsp; 
+                        u &nbsp;#{y2}
+                        span &nbsp;करिता विशेष पाणीपट्टी कराची रक्कम रू :- 
+                        u &nbsp;#{Math.round(val.totalWaterTax)}/-
+                        span.ml-1 &nbsp;भरणा करण्याबाबत मागणी बील देवून तीस 
+                        strong (30)
+                        span  दिवस पूर्ण झाले आहे. 
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.mr-2.pt-2.pb-1.h6.text-j
+                        span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        span या नोटिस द्वारे आपणास सात 
+                        strong (7)
+                        span  दिवसाची अंतीम मुदत देण्यात येत आहे. 
+                        span दिलेल्या मुदतीत पाणीपट्टी करांची संपूर्ण रक्कम भरणा न केल्यास नळ कनेक्शन बंद 
+                        span करण्यात येईल याची नोंद घ्यावी.
+                      p.h6.pb-3.font-weight-bold.text-j.text-center
+                        span मुंबई ग्रा.पं. अधिनियम १९५८ चे कलम १२९ भाग १२ अंतर्गत विशेष पाणी पट्टी कर व नियम १०० प्रमाणे 
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mt-5.pt-4.pb-2
+                    .col-4.p-0.m-0
+                      p.ml-2.h5.font-weight-bold नोटीस घेण्या-याची सही
+                    .col-4.p-0.m-0
+                      p.ml-2.h5.font-weight-bold.text-center कार्यालयीन शिक्का
+                    .col-4.m-0
+                        p.h6.font-weight-bold.text-center 
+                          span.mr-2.float-right.d-block.float-right सरपंच सही
+                          br
+                          span.mr-2.float-right.d-block.float-right ग्रा. पं कार्यालय #{zp.gp_name}
+      .col-6
+        table(border="2")#table2
+          thead
+            tr.p-0.m-0
+              td.p-1.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-6.p-0.m-0
+                      h4.float-right.h3.pt-2.font-weight-bold नोटीस   
+                    .col-6.text-center.p-0.m-0
+                      p.float-right.text-left
+                        small.d-block.h8.font-weight-bold क्रमांक पा.पु. / 
+                        small.d-block.p-0.m-0.h8.font-weight-bold ग्राम पंचायत कार्यालय #{zp.gp_name}
+                        small.d-block.h8.font-weight-bold दिनांक : #{date1}
+                   
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                     col-12.p-0.m-0
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span नळ धारकाचे नाव श्री/श्रीमती:&nbsp;
+                        u #{val.feu_ownerName}
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span  राहणार :-&nbsp;
+                        u #{val.feu_villageName}
+                      p.pt-1.pb-1.m-0.h6.ml-3.mr-2.font-weight-bold.text-j 
+                        span  अनु क्रमांक:&nbsp;
+                        u #{val.anu_kramank}
+                        span  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;नळ कनेक्शन क्रमांक:&nbsp;
+                        u #{val.feu_malmattaNo}
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      h5.pt-4.pb-3.m-0.ml-2.h6.font-weight-bold.text-center 
+                        u विषय :- नळ कनेक्शन बंद करणे बाबत
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.mr-2.pt-2.pb-1.h6.text-j 
+                        span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        span आपणास या नोटीस व्दारे कळविण्यात येते की नळ कनेक्शनची सन 
+                        u &nbsp;#{y1}
+                        span &nbsp;ते&nbsp; 
+                        u &nbsp;#{y2}
+                        span &nbsp;करिता विशेष पाणीपट्टी कराची रक्कम रू :- 
+                        u &nbsp;#{Math.round(val.totalWaterTax)}/-
+                        span.ml-1 &nbsp;भरणा करण्याबाबत मागणी बील देवून तीस 
+                        strong (30)
+                        span  दिवस पूर्ण झाले आहे. 
+            tr.p-0.m-0
+              td.p-0.m-0(colspan="4") 
+                  .row.p-0.m-0
+                    .col-12.p-0.m-0
+                      p.ml-2.mr-2.pt-2.pb-1.h6.text-j
+                        span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        span या नोटिस द्वारे आपणास सात 
+                        strong (7)
+                        span  दिवसाची अंतीम मुदत देण्यात येत आहे. 
+                        span दिलेल्या मुदतीत पाणीपट्टी करांची संपूर्ण रक्कम भरणा न केल्यास नळ कनेक्शन बंद 
+                        span करण्यात येईल याची नोंद घ्यावी.
+                      p.h6.pb-3.font-weight-bold.text-j.text-center
+                        span मुंबई ग्रा.पं. अधिनियम १९५८ चे कलम १२९ भाग १२ अंतर्गत विशेष पाणी पट्टी कर व नियम १०० प्रमाणे 
+            tr.p-0.m-0
+              td.pt-0.pb-0.p-0.m-0(colspan="4" width="30%")
+                .row.p-0.m-0.mt-5.pt-4.pb-2
+                    .col-4.p-0.m-0
+                      p.ml-2.h5.font-weight-bold नोटीस देणा-याची सही
+                    .col-4.p-0.m-0
+                      p.ml-2.h5.font-weight-bold.text-center कार्यालयीन शिक्का
+                    .col-4.m-0
+                        p.h6.font-weight-bold.text-center 
+                          span.mr-2.float-right.d-block.float-right सरपंच सही
+                          br
+                          span.mr-2.float-right.d-block.float-right ग्रा. पं कार्यालय #{zp.gp_name}

@@ -1,0 +1,19 @@
+.modal#select-year-modal
+    .modal-dialog.modal-dialog-centered(style='max-width:500px;')
+        .modal-content
+            .modal-header
+                h5.modal-title वर्ष निवडा
+                button.btn.close-modal-cross-btn(type='button' data-dismiss='select-year-modal')
+                    span(aria-hidden='true') X
+            .modal-body
+                .row.justify-content-center
+                    .col-4
+                        input.form-group#from-date.form-control(placeholder="---- पासून वर्ष ----")
+                    .col-1
+                        .form-group.mt-2.text-center
+                            span.font-weight-bold ते
+                    .col-4
+                        input.form-group#to-date.form-control(placeholder="---- पासून वर्ष ----")
+                    .col-12
+                        .text-center.mt-4
+                            button#print-with-years-btn.btn.btn-success.mb-2(type='button') प्रिंट क्रमांक

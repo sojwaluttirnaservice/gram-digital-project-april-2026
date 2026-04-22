@@ -1,0 +1,197 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible', content='ie=edge')
+  // common css
+  link(rel='stylesheet', href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet', href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet', href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet', href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet', href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css', rel='stylesheet')
+  
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+  
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+  script(src='/asstest/coustom/js/handlers/nal-band-notice.js')
+  style.
+    .error {
+      color:red !important;
+      font-style:italic !important;
+      font-weight:700 !important;
+    }
+    .bg-warning{
+      background-color:#f0d688 !important;
+    }
+    body{
+      
+      height:100vh;
+    }
+    @media (max-width: 768px){
+      td, tr, th {
+        font-size: 0.8rem;
+      }
+    }
+    @media (min-width: 576px) {
+    .modal-dialog { max-width: none; }
+      }
+      .modal-dialog {
+        width: 98%;
+        height: 92%;
+        padding: 0;
+      }
+body
+  include ./include/navs.pug
+  .modal#masterModal(tabindex='-1', role='dialog')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title नवीन पाणी कर नोटीस नोंदणी
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body 
+              .row
+                .col-6.offset-4.mb-3
+                  form.form-inline
+                    .form-group.mx-sm-3.mb-2
+                      select#selectSearch-1.form-control
+                          option(value="1") नाव
+                          option(value="2") मामत्ता क्र
+                          option(value="3" selected) अनु/घर क्रमांक टाका
+                    .form-group.mx-sm-3.mb-2
+                      input#homeId-type.form-control(type='text', placeholder='विकल्प निवडा',value="")
+                      input#homeId.form-control(type='hidden', placeholder='विकल्प निवडा')
+                    button#btnGetUserDetails.btn.btn-primary.mb-2(type='submit') माहित पहा
+              
+              form.row#divUserDetails.d-none
+                .col-12.col-md-3.col-lg-4
+                  .card
+                    .card-header.bg-warning.font-weight-bold मालमत्ता माहिती
+                    .card-body
+                      .row
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') अनु क्रमांक
+                              input.myMainId.form-control-sm.form-control(type='text', value="" readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') घर क्रमांक
+                              input.myMainId.form-control-sm.form-control(type='text', value="" readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') मालमत्ता क्र.
+                              input#newMalmattaNo.form-control-sm.form-control(type='text', name='newMalmattaNo' readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') वार्ड नं
+                              input#newWardNo.form-control-sm.form-control(type='text', name='newWardNo' readonly)
+                        .col-12
+                          .form-group
+                              label.font-weight-bold(for='my-input') जुना घर क्रमांक
+                              input#oldHomeNo.form-control-sm.form-control(type='text', name='oldHomeNo' readonly)
+                  
+                .col-12.col-md-6.col-lg-5
+                  .card
+                    .card-header.bg-warning.font-weight-bold मालकाची माहिती
+                    .card-body
+                      .row
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') मालमत्ता धारकाचे नाव व पत्नीचे नाव
+                              input#newOwnerName.form-control-sm.form-control(type='text', name='newOwnerName' readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') भोगवटदाराचे नाव
+                              input#newSecondOwnerName.form-control-sm.form-control(type='text', name='newSecondOwnerName' readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') मोबाईल क्रमांक 
+                              input#newMobileNo.form-control-sm.form-control(type='text', name='newMobileNo' readonly maxlength="10")
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') आधार क्रं.
+                              input#newAadharNo.form-control-sm.form-control(type='text', name='newAadharNo' readonly maxlength="12")
+                        .col-12.col-sm-6
+                          .form-group    
+                              label.font-weight-bold(for='my-input') ग्रामपंचायत
+                              input#newGramPanchayet.form-control-sm.form-control(type='text', name='newGramPanchayet' readonly)
+                        .col-12.col-sm-6
+                          .form-group
+                              label.font-weight-bold(for='my-input') गावाचे नाव
+                              input#newVillageName.form-control-sm.form-control(type='text', name='newVillageName' readonly)
+                  
+                .col-12.col-md-3
+                  .card
+                    .card-header.bg-warning.font-weight-bold.text-center कर माहिती
+                    .card-body
+                      .row
+                        .col-12
+                          .form-group
+                              label.font-weight-bold(for='my-input') एकूण पाणी कर
+                              input#totalWaterKar.form-control-sm.form-control(type='text', name='' readonly)
+                        .col-12
+                          .form-group
+                            button.pull-right.btn.btn-danger#btnAddNalBandNext(type='button').ml-2 NEXT
+                            button.pull-right.btn.btn-primary#btnAddNalBand(type='button') जतन करा
+                        
+          .modal-footer.d-none
+            button.btn.btn-primary(type='button') Save changes
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+
+  .container-fluid
+    .rows
+      .col-12.mt-3
+        h4.ml-5.text-center नळ बंद नोटीस यादी
+      .col-12
+          button.btn.btn-primary.btm-sm.getForm8Tax.d-block.ml-auto.mb-3(type='button') नवीन नोंदणी करा 
+      .col-12
+        .table-responsive
+          table.table.table-bordered.text-center
+            thead
+              tr
+                th(width="10%") अनु/घर क्रमांक
+                th(width="10%") मालमत्ता क्रमांक
+                th(width="25%") घर मालकाच्ये नाव
+                th(width="15%") भोगवटदाराच्ये नाव
+                th(width="10%") एकूण पाणी कर
+                th(width="5%") काढा
+                th(width="5%") प्रिंट
+            tbody#magniLekhList
+              if(users.length == 0)
+                tr
+                  td.text-center.text-danger(colspan="10") यादी रिकामी आहे
+              else
+                each value,index in users
+                  tr
+                    td #{value.id}
+                    td #{value.feu_malmattaNo}
+                    td #{value.feu_ownerName}
+                    td #{value.feu_secondOwnerName}
+                    td #{value.totalWaterTax}
+                    td 
+                      span.removeNalBand.fa.fa-trash.text-danger.hand(data-id = value.tax_id)
+                    td
+                      span.fa.fa-print.text-primary.hand
+script.
+  $(function(){
+     loadModel(#{p_query})
+  })
+ 
+
+                              
+                          

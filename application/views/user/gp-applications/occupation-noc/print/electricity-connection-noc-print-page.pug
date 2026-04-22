@@ -1,0 +1,33 @@
+extends ./occupation-noc-print-layout.pug
+
+block declaration_body
+
+    div(class="text-lg leading-loose text-justify mt-6")
+
+        p महोदय / महोदया,
+
+        p(class="mt-4")
+            | मी खाली सही करणारा अर्जदार नाव : 
+            span(class="font-extrabold") #{occupationNoc.applicant_name}
+            |  रा. 
+            span(class="font-extrabold") #{occupationNoc.applicant_address}
+            |  माझे ग्रामपंचायत हद्दीतील घर नं. / दुकान नं. 
+            span(class="font-extrabold") #{occupationNoc.malmatta_no || '____'}
+            |  गट नं. / सर्व्हे नं. 
+            span(class="font-extrabold") #{occupationNoc.survey_no || '_____'}
+            |  या ठिकाणी घर / दुकान आहे.
+
+        p(class="mt-3")
+            | सदर ठिकाणी नवीन वीज कनेक्शन घेण्यासाठी महावितरण (MSEDCL) कडे अर्ज करावयाचा आहे.
+
+        p(class="mt-3")
+            | तरी सदर घर / दुकानासाठी वीज कनेक्शन घेण्यास ग्रामपंचायत कडून कोणतीही हरकत नसल्याचे
+            |  ना हरकत प्रमाणपत्र (NOC) मिळावे, ही नम्र विनंती.
+
+        p(class="mt-3")
+            | मी वीज वापरासंदर्भातील सर्व नियम व अटी पाळीन, याची हमी देत आहे.
+            |  कृपया माझा अर्ज विचारात घेऊन मला ना हरकत प्रमाणपत्र देण्यात यावे.
+
+        div(class="mt-8 text-right")
+            p धन्यवाद.
+            p आपला नम्र,

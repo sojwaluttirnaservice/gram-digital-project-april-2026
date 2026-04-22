@@ -1,0 +1,38 @@
+extends ./master-layout
+block custom_js 
+	script(src='/asstest/coustom/js/handlers/master-panel-handlers/empty-plot-list-upload-handler.js')
+block content
+	.container.mt-5(style='margin-top: 5rem !important')
+		.row.justify-content-center
+			.col-12
+				h4.text-center कच्चे व खुल्या जागा घराची यादी
+				form#upload-empty-plot-list
+
+					.row.align-items-end.gap-3.justify-content-center
+						.col-11.col-sm-5.col-md-5
+							label(for="empty-plot-list-file-name") File name 
+							input.form-control(type='text', id="empty-plot-list-file-name")
+
+						.col-11.col-sm-5.col-md-4
+							label(for="empty-plot-list-file") File select
+							input.form-control(type='file', id="empty-plot-list-file")
+						.col-12.col-md-2.text-center.text-md-end
+							button.btn.btn-primary.mt-3(type='button' id="upload-empty-plot-list-file") जतन करा
+			.col-12.col-md-8.mt-5
+				table.table
+					thead 
+						tr 
+							th SR NO
+							th File Name
+							th Delete
+					tbody 
+						each file, index in filesList
+							tr 
+								td #{index + 1}
+								td #{file.file_name}
+								td 
+									button.btn.text-danger(id='delete-empty-plot-list-file-btn' type='button' data-id=file.id data-fileName=file.file_name)
+										i.fa.fa-trash
+
+
+

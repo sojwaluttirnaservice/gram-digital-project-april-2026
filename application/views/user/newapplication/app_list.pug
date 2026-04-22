@@ -1,0 +1,204 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        title #{title}
+
+        // common css (kept)
+        link(rel="stylesheet" href="/asstest/plugins/bs4/css/bootstrap.css")
+        link(rel="stylesheet" href="/asstest/plugins/font-awesome470/css/font-awesome.css")
+        link(rel="stylesheet" href="/asstest/plugins/date/jquery-ui.css")
+        link(rel="stylesheet" href="/asstest/coustom/css/main.css")
+        link(rel="stylesheet" href="/asstest/plugins/select/css/select2.min.css")
+        link(rel="stylesheet" href="/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css")
+
+        // common js (kept)
+        script(src="/asstest/plugins/jquery/jquery-3.3.1.min.js")
+        script(src="/asstest/plugins/popper/popper.min.js")
+        script(src="/asstest/plugins/bs4/js/bootstrap.min.js")
+        script(src="/asstest/plugins/date/jquery-ui.js")
+        script(src="/asstest/plugins/sweetalert/sweetalert.min.js")
+        script(src="/asstest/plugins/notify/notify.js")
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js")
+
+        // common js setups (kept)
+        script(src="/asstest/coustom/js/base.converter.js")
+        script(src="/asstest/coustom/js/common.js")
+        script(src="/asstest/coustom/js/handlers/new-application-manager.js")
+
+        style.
+            .error { color: red !important; font-style: italic !important; font-weight: 700 !important; }
+            .bg-warning { background-color: #f0d688 !important; }
+            body { background-color: #fff3e9 !important; min-height: 100vh; }
+            @media (min-width: 576px) { .modal-dialog { max-width: none; } }
+            .modal-dialog { width: 60%; height: 92%; padding: 0; max-width: 900px; }
+            .hand { cursor: pointer; }
+            .card-file-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px; display: inline-block; vertical-align: middle; }
+
+    body
+        include ../include/navs.pug
+
+        //- Master SMS Modal (cleaner layout but same IDs / inputs)
+        div(class="modal fade" id="masterSMSModal" tabindex="-1" role="dialog" aria-hidden="true")
+            div(class="modal-dialog modal-dialog-centered" role="document")
+                div(class="modal-content")
+                    div(class="modal-header")
+                        h5(class="modal-title") क्ष title
+                        button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") ×
+                    div(class="modal-body")
+                        form
+                            .row.g-3
+                                .col-12
+                                    label(class="form-label") दाखला:
+                                    .d-flex.align-items-center.gap-3
+                                        .form-check.mr-3
+                                            input#docAllow.form-check-input(type="radio" name="optradio" value="1")
+                                            label.form-check-label.text-success(for="docAllow") दाखला मान्य
+                                        .form-check
+                                            input#docDisAllow.form-check-input(type="radio" name="optradio" value="0")
+                                            label.form-check-label.text-danger(for="docDisAllow") दाखला अमान्य
+                                .col-12
+                                    label(class="form-label") संदेश:
+                                    textarea#docSMS.form-control(rows="5" placeholder="संदेश मजकूर इथे लिहा")
+                                    - var a = 'ग्रा.पं, ' + gp.gp_name;
+                                    input#gpName(type="hidden" value=a)
+                                .col-12.text-right
+                                    button#btnSendSMS.btn.btn-primary(type="submit") संदेश पाठवा
+
+        //- Main content container
+        div(class="container-fluid mt-4")
+            //- Top header card
+            div(class="row justify-content-center mb-3")
+                div(class="col-12 col-xl-10")
+                    div(class="card shadow-sm")
+                        div(class="card-body d-flex flex-column flex-md-row align-items-center justify-content-between gap-3")
+                            div
+                                h4.mb-0
+                                    span(class="fa fa-users mr-2")
+                                    | नवीन अर्ज नोंदणी यादी
+                                p(class="mb-0 text-muted small") नवीन अर्जांची संपूर्ण यादी खाली दर्शविली आहे.
+                            div(class="d-flex" style='gap:1rem;')
+                                div प्रलंबित अर्ज: #{list ? list.length : 0}
+                                a(href='/application/report' class="btn btn-secondary btn-sm") रिपोर्ट
+                                a(href="/application/rejected" class="btn btn-danger btn-sm") रद्द यादी
+                                a(href="/application/accepted" class="btn btn-success btn-sm") मान्य यादी
+
+            //- Table card
+            div(class="row justify-content-center")
+                div(class="col-12 col-xl-10")
+                    div(class="card")
+                        div(class="card-body")
+                            div(class="table-responsive")
+                                table(class="table table-bordered table-hover text-center mb-0")
+                                    thead
+                                        tr(class="bg-primary text-white")
+                                            th(width="3%") अनु. क्र.
+                                            th(width="8%") अर्ज क्रमांक
+                                            th(width="12%") नाव
+                                            th(width="12%") मो. क्रमांक
+                                            th(width="13%") ई-मेल
+                                            th(width="10%") आधार क्रमांक
+                                            th(width="25%") दाखले मागणी
+                                            th(width="10%") अर्ज प्रत
+                                            th(width="5%") संदेश
+                                            th(width="5%") Action
+
+                                    tbody(id="marriageList")
+
+                                        if !list || list.length == 0
+                                            tr
+                                                td(colspan="10" class="text-center text-danger py-4") नवीन अर्ज नोंदणी यादी रिकामी आहे
+
+                                        else
+                                            each newApplicationItem, index in list
+                                                tr
+                                                    td #{index + 1}
+                                                    td #{newApplicationItem.id}
+                                                    td.text-start #{newApplicationItem.formName}
+                                                    td #{newApplicationItem.formMobile}
+                                                    td.text-start #{newApplicationItem.formEmail}
+                                                    td #{newApplicationItem.formAadhar}
+                                                    td.align-top
+                                                        - const parsedDocs = (function(){ try { return JSON.parse(newApplicationItem.docDetails || '[]'); } catch(e) { return []; } })()
+                                                        if parsedDocs.length > 0
+                                                            ol(class="pl-3 text-left mb-0")
+                                                                each docItem in parsedDocs
+                                                                    - var docTitle = docItem.docTitle
+                                                                    case docTitle
+                                                                        when "जन्म नोंद दाखला"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                div.small.text-muted
+                                                                                    | नाव: #{docItem.docCol1}    जन्मदिनांक: #{docItem.docCol2}
+                                                                        when "मृत्यू नोंद दाखला"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                div.small.text-muted
+                                                                                    | नाव: #{docItem.docCol1}    मृत्यूदिनांक: #{docItem.docCol2}
+                                                                        when "विवाह नोंदणी दाखला"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                div.small.text-muted
+                                                                                    | विवाहाचा दिनांक: #{docItem.docCol1}
+                                                                                    
+
+                                                                        when "दारिद्र्यरेषेखालचा दाखला"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                
+
+                                                                        when "इतर काम लिहावे कोणते असल्यास"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                div.small.text-muted
+                                                                                    | कामाचा तपशील: #{docItem.docCol1}
+                                                                        when "गावातील तक्रारी नोद येथे लिहावी"
+                                                                            li
+                                                                                div.font-weight-bold #{docItem.docTitle}
+                                                                                div.small.text-muted
+                                                                                    | तक्रार: #{docItem.docCol1}
+                                                                        //- this and above case is same
+                                                                        when "गावातील तक्रारी नोद येथे लिहावी गावातील"
+                                                                            li
+                                                                                div.font-weight-bold गावातील तक्रारी नोद येथे लिहावी
+                                                                                div.small.text-muted
+                                                                                    | तक्रार: #{docItem.docCol1}
+                                                                        default
+                                                                            li
+                                                                                div #{docItem.docTitle}
+                                                        else if value
+                                                            | #{value.docDetails}
+                                                    
+                                                    td.text-center 
+                                                        a.btn.btn-sm.btn-info(href=`/print-application/${newApplicationItem.id}` target='_blank')
+                                                            i.fa.fa-print
+
+                                                    td
+                                                        span(class="fa fa-envelope text-primary hand sendSMSNewApplication" data-id=index title="संदेश पाठवा")
+                                                    
+                                                    td 
+                                                        div(class='d-flex justify-content-center align-items-center' style="gap:1rem;")
+                                                            a.btn.btn-success.text-white(href=`/application/edit/${newApplicationItem.id}`) 
+                                                                i.fa.fa-edit
+                                                            button.btn.btn-success.btn-sm.accept-application-btn(type="button" data-applicationId=newApplicationItem.id)
+                                                                div(class='d-flex align-items-center' style='gap:0.4rem')
+                                                                    i.fa.fa-check-circle.me-1
+                                                                    | Accept
+
+                                                            button.btn.btn-danger.btn-sm.reject-application-btn(type="button" data-applicationId=newApplicationItem.id)
+                                                                div(class='d-flex align-items-center' style='gap:0.4rem')
+                                                                    i.fa.fa-times-circle.me-1
+                                                                    | Reject
+
+
+        //- Inline script initialization (kept exactly as originally)
+        script.
+            $(function(){
+                newApplicationList = !{json_list};
+                //- console.log(newApplicationList);
+            })

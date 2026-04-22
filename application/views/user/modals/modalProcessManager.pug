@@ -1,0 +1,59 @@
+.modalProcessManager.modal.m-0.p-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+    .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+      .modal-content.p-0.m-0(style="max-width:100%; height:100vh")
+        .modal-header
+          h5.modalTitle.modal-tilte Exams Name 
+          .d-inline-block#modalProcessManagerTab.navModalTab.nav.align-content-center(role='tablist')
+            button#tabProcessPostManager.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#actionProcessPostManager', role='tab', aria-controls='actionProcessPostManager', aria-selected='true')
+              | Mock
+            button#tabProcessShiftManager.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#actionProcessShiftManager', role='tab', aria-controls='actionProcessShiftManager', aria-selected='true')
+              | Mock
+            button.closeProcessModal(type="button" data-dismiss="modal" aria-label="Close" data-close=".modalProcessManager")
+              span(aria-hidden="true") &times;
+        .modal-body(style="overflow-y: scroll !important;")
+          #nav-tabContentModal.tab-content
+            #actionProcessShiftManager.tab-pane.fade(role='tabpanel', aria-labelledby='actionProcessShiftManager')
+                .col-6.offset-3
+                  .card.examAddingCart.mb-2.d-none
+                    .card-body
+                      h5.card-title Add New Exam
+                      .form-group.ml-2
+                        label(for="") Exams*
+                        select.form-control.examsListSelect(name="")
+                      .form-group.ml-2
+                        label(for="") Post*
+                        select.form-control.postListSelect(name="" multiple="true" )
+                      .form-group
+                        button.btn.btn-primary.float-right.btnAddExamToProcess Add
+                        button.btn.btn-danger.mr-2.float-right.cancelProcessExamAdding Close
+                .col-10.offset-1
+                  .card
+                    .card-body
+                      h5.card-title 
+                        | Exams List
+                        button.ml-3.btn.btn-sm.btn-outline-success.examAddingButton Add Exam
+                      table.table.table-bordered
+                        thead
+                          tr
+                            th(width="7%") Sr No
+                            th(width="32%")  
+                            th(width="60%") Tag Post
+                        tbody.tbodyShiftExamList
+            #actionProcessPostManager.tab-pane.fade(role='tabpanel', aria-labelledby='actionProcessPostManager')
+                .col-6.offset-3
+                  .form-group
+                    input.form-control.saveUpdatePost(type="text", placeholder="Add Or Edit Post")
+                  table.table.table-bordered
+                    thead
+                      tr.text-center
+                        th(width="15%") Sr. No
+                        th(width="70%") Post
+                        th(width="15%") Action
+                    tbody.processPostManagerTable
+                      tr
+                        td.text-center 1
+                        td 
+                          span.font-weight-bold Jr. Clerk
+                        td.text-center
+                          span.hand.processPostDelete.text-danger.fa.fa-trash-o
+                          span.hand.processPostEdit.fa.text-info.fa-edit.ml-3

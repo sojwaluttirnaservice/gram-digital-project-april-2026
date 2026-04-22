@@ -1,0 +1,54 @@
+.modalMockReview.modal.m-0.p-0(tabindex='-1', role='dialog', aria-labelledby='modelTitleId', aria-hidden='true')
+    .modal-dialog.m-0.p-0(role='document' style="max-width:100%;")
+      .modal-content.p-0.m-0(style="max-width:100%; height:100vh")
+        .modal-header
+          h5.modalMockTitle.modal-tilte Exams Name 
+          .d-inline-block#mockReviewTab.navModalTab.nav.align-content-center(role='tablist')
+            button#viewReviewMockListTab.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#viewMockListAction', role='tab', aria-controls='viewMockListAction', aria-selected='true')
+              | Mock
+            button#viewMockEstimationtTab.btn.mr-2.btn-sm.btn-primary.d-none(data-toggle='tab', href='#viewMockEstimationtAction', role='tab', aria-controls='viewMockEstimationtAction', aria-selected='true')
+              | Mock
+            button.close(type="button" class="close" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+        .modal-body
+          #nav-tabContentModal.tab-content
+            #viewMockListAction.tab-pane.fade(role='tabpanel', aria-labelledby='viewReviewMockListTab')
+              .row
+                .col-2
+                  .form-group
+                    label(for="") Select Mock
+                    select#selectMock.form-control
+                      option(value="-1") ----Select Mock-----
+                .clearfix
+                .col-10.offset-1
+                  table.table.table-bordered.text-center(style="overflow-y:scroll;max-height: 650px;")
+                    thead
+                      tr
+                        th(width="5%") Sr.No
+                        th(width="20%") Candidate
+                        th(width="10%") Agreement
+                        th(width="10%") Status
+                        th(width="10%") Remain Time
+                        th(width="10%") MAC Address
+                        th(width="10%") IP Address
+                    tbody.tbodyMockListCandidateView
+                       tr.p-0.m-0
+                        td 1
+                        td Demo
+                        td 
+                          span.text-success Accrepted
+                        td
+                          span.text-success Done
+                        td
+                          span.font-weight-bold.text-primary ASWEXILAD
+                        td
+                          span.font-weight-bold.text-danger 192.168.1.1
+            #viewMockEstimationtAction.tab-pane.fade(role='tabpanel', aria-labelledby='viewMockEstimationtTab')
+              .row(style="overflow-y:scroll;max-height: 650px;")
+                .col-12
+                  center
+                    .tf-tree.font-weight-bold#printHirarchiTree
+                .col-md-12
+                  center
+                    #nodeMap.mb-5(style="margin-top: -100px;")
+                  

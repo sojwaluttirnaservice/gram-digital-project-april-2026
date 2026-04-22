@@ -1,0 +1,64 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        title जि.प. शाळा फॉर्म
+
+        // CSS
+        link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+        link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+        link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+        link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')
+        link(rel='stylesheet' href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css')
+        link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/gp/zp-school-points/zp-form.css' rel='stylesheet')
+        link(href='/asstest/coustom/css/namuna/common-new-form.css' rel='stylesheet')
+
+        // JS
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/popper/popper.min.js')
+        script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+        script(src='/asstest/plugins/date/jquery-ui.js')
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+        script(src='/asstest/plugins/notify/notify.js')
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+        script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+        script(src='/asstest/plugins/select/js/select2.full.min.js')
+        script(src='/asstest/coustom/js/base.converter.js')
+        script(src='/asstest/coustom/js/common.js')
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js')
+
+        // ✅ Page-specific JS for ZP School Points Form
+        script(src='/asstest/coustom/js/handlers/gp/zp-school-points/zp-school-points-form-handler.js')
+
+
+
+    body.w-100
+        include ../../include/navs.pug
+
+        section
+            .container
+                h2.heading-1.text-center जि.प. शाळा फॉर्म
+                .text-end
+                    a.btn.btn-primary.text-light(href='/zp-school-points') यादी बघा
+
+                // ✅ Corrected form ID
+                form#zp-school-points-form
+                    .form.form-1
+                        .row.g-3
+                            .col-md-12
+                                .form-group
+                                    label(for='point_desc') मुद्द्याचे वर्णन
+                                    textarea.form-control#point_desc(name='point_desc' rows='4' placeholder='मुद्द्याचे सविस्तर वर्णन' required)
+
+                    .text-end.mt-3
+                        // ✅ Correct button IDs
+                        button.btn.btn-primary#save-zp-point-btn(type='submit') जतन करा
+                        // Optional update button
+                        // button.btn.btn-warning#update-zp-point-btn(type='submit') अद्ययावत करा

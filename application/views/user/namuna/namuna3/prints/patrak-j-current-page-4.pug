@@ -1,0 +1,138 @@
+
+
+
+
+
+.my-print 
+
+    div(style='padding: 1rem 0;')
+
+        h3.text-center पत्रक 'जे' चालू
+
+
+        
+    table.w-full
+        thead
+            tr 
+                th(rowspan='2' colspan='1') अनु. क्र.
+                th(rowspan='2' colspan='1') ग्रामपंचायतीने वा गटग्रामपंचायतीचे नाव
+
+                th(rowspan='1' colspan='3') वर्गांच्या खोल्यांची संख्या
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='3') शिक्षण सांस्कृतिक कार्य चालू
+                //- th
+                //- th
+
+                th(rowspan='1' colspan='2') खळीची संख्या
+                //- th
+
+                th(rowspan='1' colspan='2') क्लबांची संख्या
+
+            tr 
+                //- th
+                //- th
+
+                th(rowspan='1') वर्षाच्या सुरुवातीस असलेल्या खोल्या
+                th(rowspan='1') वर्षात बांधलेल्या खोल्या
+                th(rowspan='1') वर्षात दुरुस्त केलेल्या खोल्या
+
+                th(rowspan='1') शाळेत जाणाऱ्या मुलांची संख्या
+                th(rowspan='1') कॉ. ६१ अ तील विद्यार्थ्याची आकडेवारी
+                th(rowspan='1') गतवर्षापेक्षा वाढ किंवा घट
+
+                th(rowspan='1') वर्षात सुरुवातीस असलेले आखाडे 
+                th(rowspan='1') वर्षात बांधलेली आखाडे
+
+                th(rowspan='1') वर्षाच्या सुरुवातीस असलेले क्लब
+                th(rowspan='1') वर्षात स्थापन
+
+            tr 
+                each num in [1,2,59,60,61,'61 अ', '61 ब', '61 क', 62,63,64,65]
+                    th #{num}
+        tbody 
+            tr 
+                td 1
+                td #{patrakJEducationCulture.gram_panchayat_name} 
+
+                td #{patrakJEducationCulture.rooms_at_year_start} 
+                td #{patrakJEducationCulture.rooms_constructed_in_year}
+                td #{patrakJEducationCulture.rooms_repaired_in_year} 
+
+                td #{patrakJEducationCulture.students_in_schools} 
+                td #{patrakJEducationCulture.students_in_col_61a} 
+                td #{patrakJEducationCulture.change_from_last_year} 
+                
+                td #{patrakJEducationCulture.arenas_at_year_start} 
+                td #{patrakJEducationCulture.arenas_constructed_in_year} 
+                
+                td #{patrakJEducationCulture.clubs_at_year_start}
+                td #{patrakJEducationCulture.clubs_established_in_year} 
+
+    div(style='padding: 1rem 0;')
+
+        div(style='display: flex; justify-content: space-between;')
+            div शिक्षण व सांस्कृतिक कार्यक्रम चालू
+            div ग्रामसंरक्षण कारभार
+
+
+    table.w-full 
+
+        thead 
+    
+            tr
+                th(colspan='2') नाटक गृहांची संख्या
+                //- th
+
+                th(colspan='2') ग्रंथालय व वाचनालयाची संख्या 
+                //- th
+
+                th(colspan='8') नोकरांची संख्या
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+                //- th
+
+            tr 
+                th वर्षाच्या सुरुवातीस असलेली नाटकगृहे 
+                th वर्षात बांधलेली नाट्यगृहे
+
+                th वर्षाच्या सुरुवातीस असलेली 
+                th वर्षात स्थापन केलेली
+
+                th कारकून
+                th निरीक्षक
+                th झाडूवाले
+                th भंगी
+                th पट्टेवाले
+                th कोंडवाडा मोहरील 
+                th पहारेकरी
+                th इतर पाणी पुरवठा कर्मचारी
+
+            tr 
+                each num in [66,67,68,69,70,71,72,73,74,75,76,77] 
+                    th #{num}
+
+        tbody 
+            tr 
+                td #{patrakJEducationCulture.theatres_at_year_start}
+                td #{patrakJEducationCulture.theatres_constructed_in_year} 
+
+                td #{patrakJEducationCulture.libraries_at_year_start} 
+                td #{patrakJEducationCulture.libraries_established_in_year} 
+
+                td #{patrakJEducationCulture.clerks_count} 
+                td #{patrakJEducationCulture.inspectors_count} 
+                td #{patrakJEducationCulture.sweepers_count} 
+                td #{patrakJEducationCulture.scavengers_count} 
+                td #{patrakJEducationCulture.patta_workers_count} 
+                td #{patrakJEducationCulture.kondawada_workers_count} 
+                td #{patrakJEducationCulture.watchmen_count}
+                td #{patrakJEducationCulture.other_water_supply_workers_count} 
+
+
+        

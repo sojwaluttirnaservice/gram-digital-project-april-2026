@@ -1,0 +1,81 @@
+doctype html
+head
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1.0')
+	meta(http-equiv='X-UA-Compatible' content='ie=edge')
+	// common css
+	link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+	link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+	link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+	link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+	link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+	link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+	//- link(rel='stylesheet' href='/asstest/bs-5.3.2/css/bootstrap.min.css')
+
+	script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+	script(src='/asstest/plugins/popper/popper.min.js')
+	script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+	script(src='/asstest/plugins/date/jquery-ui.js')
+	script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+	script(src='/asstest/plugins/notify/notify.js')
+	script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+	script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+	script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js") 
+
+	//- script(src='/asstest/bs-5.3.2/js/bootstrap.min.js')
+
+	//toggle
+	script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+	// extras
+
+	//mask plugin jquery	
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+
+	// common js setups
+	script(src='/asstest/coustom/js/base.converter.js')
+	script(src='/asstest/coustom/js/common.js')
+	//- script(src='/asstest/coustom/js/handlers/webcam.handler.marage.js')
+	script(src='/asstest/coustom/js/handlers/gram-sandarbha-ahaval/gram-sandarbha-ahaval-handler.js')
+
+	style.
+		.error {
+			color:red !important;
+			font-style:italic !important;
+			font-weight:700 !important;
+		}
+		.bg-warning{
+			background-color:#f0d688 !important;
+		}
+		body{
+			
+			height:100vh;
+		}
+		@media (min-width: 576px) {
+			.modal-dialog { max-width: none; }
+		}
+
+		.modal-dialog {
+			width: 98%;
+			height: 92%;
+			padding: 0;
+		}
+body
+	include ../include/navs.pug
+	.mt-2.mb-3.text-center
+		h1.heading-1 ग्राम कर संदर्भ अहवाल
+
+	.container
+		.d-flex.justify-content-end
+			a.btn.btn-success.text-light(href='/gram-sandarbha-ahaval/gram-sandarbha-ahaval-form-view')
+				i.fa.fa-plus &nbsp; नवीन अहवाल भरा
+
+		each ahaval, index in gramSandarbhaAhavalList
+			.d-flex
+				p #{index}
+				button.btn.btn-danger(class='deleteGramAhavalBtn' data-id=ahaval.id) delete
+				a.btn.btn-success(href=`/gram-sandarbha-ahaval/gram-sandarbha-ahaval-form-view?id=${ahaval.id}&isEdit=${true}`) Edit
+
+
+
+	

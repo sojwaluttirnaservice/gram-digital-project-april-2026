@@ -1,0 +1,214 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{title} 
+
+        script(src="/asstest/coustom/css/tailwind.js")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+        link(href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet")
+
+        style.
+            table { border-collapse: collapse; width: 100%; }
+            td, th {
+                padding: 0.3rem;
+                border: 1px solid oklch(26.2% 0.051 172.552);
+                vertical-align: top;
+                font-size:0.8rem;
+            }
+
+            @media print {
+                @page { size:  landscape; margin: 9mm; }
+                .hide-print { display: none !important; }
+                #print { height:100lvh; }
+                .my-print { position: relative; background: none !important; }
+                * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                .print-bg {
+                    background-image: url('/img/background/bg-tricolor.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top center;
+                }
+
+                /* keep header repeating */
+                thead { display: table-header-group !important; }
+                //- tfoot { display: table-footer-group !important; }
+                tr    { page-break-inside: avoid; break-inside: avoid; }
+            }
+
+            .tiro-devanagari-marathi-regular {
+                font-family: "Tiro Devanagari Marathi", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .qrcode {
+                width: 50.8mm;
+                height: 50.8mm;
+            }
+
+            .qrcode img {
+                width: 100%;
+                height: 100%;
+            }
+
+
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+    body
+        - let year = ''
+
+        div(class="hide-print")
+            div(class="fixed top-[45%] right-[2%] flex flex-col gap-2 z-50")
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow-md" onclick="window.print()") Print
+
+                //- select.hidden(class="form-select block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    option(value='1' selected=(gp && gp.srapanch_sign_display == 1)) सरपंच सही दाखवा
+                    option(value='-1' selected=(gp && gp.srapanch_sign_display == 0)) सरपंच सही लपवा
+                    option(value='2' selected=(gp && gp.srapanch_sign_display == 1)) ग्रा.अ. सही दाखवा
+                    option(value='-2' selected=(gp && gp.srapanch_sign_display == 0)) ग्रा.अ. सही लपवा
+                    option(value='3' selected=(gp && gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
+                    option(value='-3' selected=(gp && gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
+
+
+        if !(constructionApplications && constructionApplications.length)
+            h2(class='mt-8 text-center text-2xl font-bold text-red-500') निवडलेल्या  मालमत्ता धारकासाठी कोणतीही माहीती  नमुद नाही .
+        else
+            #print(class="tiro-devanagari-marathi-regular")
+                div(class="my-print p-2 border border-gray-900 bg-white/80 relative h-full print-bg")
+                    div(class="absolute inset-0 bg-white opacity-80")
+                    .relative.z-10.bg-white.bg-opacity-80.h-full
+
+                        table
+                            thead
+                                tr
+                                    th(colspan='10' class='border !border-b-0 p-0') 
+                                        p(class='text-xl p-0') ग्रामपंचायत कार्यालय , #{gp && gp.gp_name ? gp.gp_name : '—'} , पं. स. #{gp && gp.gp_taluka ? gp.gp_taluka : '—'} , जि. #{gp && gp.gp_dist ? gp.gp_dist : '—'}
+                                tr(class='border-b-0')
+                                    th(colspan='10' class='border !border-b-0 !border-t-0 p-0') 
+                                        p(class='text-sm p-0') महाराष्ट्र लोकसेवा हक्क अध्यादेश २०१५ क्रमांक - आर.टी.एस-२०१५/प्र.क्र. ३२/पं.स.-५, दिनांक १४ जुलै २०१५
+
+                                tr(class='border-b-0') 
+                                    th(colspan='10' class='border !border-b-0 !border-t-0 p-0') 
+                                        p(class='text-lg p-0') सहपत्र - ब
+
+                                tr(class='border-b-0')
+                                    th(colspan='10' class='border !border-b-0 !border-t-0 p-0') 
+                                        p(class='text-lg p-0') महाराष्ट्र बांधकाम परवानगी अर्ज नोंदवही
+
+                                tr
+                                    th(colspan='10')
+                                        div ग्रामपंचायत कार्यालय , #{gp && gp.gp_name ? gp.gp_name : '—'} , पं. स. #{gp && gp.gp_taluka ? gp.gp_taluka : '—'} , जि. #{gp && gp.gp_dist ? gp.gp_dist : '—'}
+
+                                tr
+                                    //- 1,2
+                                    th(rowspan='1' colspan='1') अ. क्र.
+                                    th(rowspan='1' colspan='1') अर्ज क्र.
+
+                                    //- 3, 4
+                                    th(rowspan='1' colspan='1') अर्जदाराचा तपशील
+                                    th(rowspan='1' colspan='1') नोदणी दिनांक
+
+                                    //- 5,6
+                                    th(rowspan='1' colspan='1') अर्जाचा विषय / कागदपत्रे
+                                    th(rowspan='1' colspan='1') निवारणीचा दिनांक
+                                     
+                                    //- 7
+                                    th(rowspan='1' colspan='1') ग्रा. पं. तपशील
+
+                                    //- 8, 9
+                                    th(rowspan='1' colspan='1') QR Code
+                                    th(rowspan='1' colspan='1') तक्रार निवारणीचा शेरा
+
+                                tr
+                                    each c in ['१','२','३','४','५','६','७','८', '९']
+                                        th #{c}
+
+                            tbody
+                                each constructionApplication, _index in constructionApplications 
+                                    - const applicantName = constructionApplication.malmatta_dharak_name || '—'
+                                    - const applicantAddr = constructionApplication.applicant_address || ''
+                                    - const docs = (() => { try { return JSON.parse(constructionApplication.attached_documents || '[]') } catch(e){ return [] } })()
+
+
+                                    tr
+                                        //- 1st and 2nd
+                                        td #{_index + 1}
+                                        td #{constructionApplication.id}
+
+                                        //- 3rd
+                                        td
+                                            div 
+                                                span(class='font-bold') नाव :
+                                                span #{applicantName}
+                                            if applicantAddr
+                                                div 
+                                                    span(class='font-bold') पत्ता: 
+                                                    span #{applicantAddr}
+                                            if constructionApplication.applicant
+                                                div 
+                                                    span(class='font-bold') मोबाईल क्र.: 
+                                                    span #{constructionApplication.applicant_mobile}
+
+                                            div 
+                                                span(class='font-bold') आधार क्र: 
+                                                span #{constructionApplication.applicant_adhar}
+
+
+                                        //- 4rth
+                                        td #{constructionApplication._application_date}
+                                            
+                                        //- 5
+                                        td 
+                                            div 
+                                                p #{constructionApplication.application_subject}
+
+                                                div(class='font-bold') सोबत जोडलेली कागदपत्र :
+                                                ol 
+                                                    each doc, i in docs 
+                                                        li #{i+1}. #{doc.document_name}
+
+
+                                        //- 6
+                                        td #{constructionApplication._date_of_resolution}
+
+                                        //- 7
+                                        td 
+                                            div 
+                                                div मासिक सभा दिनांक: #{constructionApplication._masik_sabha_date}
+                                                div मासिक ठराव क्रं. #{constructionApplication.masik_tharav_number}
+                                                div प्रमाणपत्र दीनांक: #{constructionApplication._construction_certificate_date}
+                                                div निवारण मा. क्र : #{constructionApplication.resolution_malmatta_number}
+
+
+                                        //- 8
+                                        td
+                                            div(class='px-4 py-2')
+                                                - let qrId = `qrcode-${constructionApplication.id}`
+                                                div.qrcode(id=qrId)
+                                        //- 9
+                                        td #{constructionApplication.resolution_remark}
+                                        
+                                        //- td 
+                                        //-     span.opacity-0 dummy
+
+
+
+script.
+    (function(){
+        let _constructionApplications = !{JSON.stringify(constructionApplications)}
+        //- console.log(_constructionApplications)
+
+        if(_constructionApplications){
+            _constructionApplications.forEach((_application) =>{
+                generateQRCode(_application.id);
+            })
+        }
+        console.log(window.location.origin)
+        function generateQRCode(applicationId){
+            let qrUrl = window.location.origin + "/gp-applications/construction/c/" + applicationId;
+            new QRCode(document.getElementById(`qrcode-${applicationId}`), qrUrl)
+        }
+    })()

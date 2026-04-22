@@ -1,0 +1,70 @@
+
+
+
+
+
+.my-print
+
+    div(style='padding: 2rem 0;') 
+        div ग्रामपंचायत #{gp.gp_name} पंचायत सामेती #{gp.gp_dist} जिल्हा
+
+        div(style='margin-top: 0.4rem;text-align: center; font-weight: bold;') महिला बाल कल्याण १० टक्के खर्च केल्याचा वार्षिक अहवाल
+
+    table 
+        thead
+            tr 
+
+                th(rowspan='2' colspan='1') वर्षात प्रत्यक्ष एकूण उत्त्पन्न
+                th(rowspan='2' colspan='1') महिला बाल कल्याण १० टक्के खर्च करावयाची रक्कम
+                th(rowspan='2' colspan='1') अंदाज पत्रकातील तरतूद रक्कम
+
+                th(rowspan='2' colspan='1') वर्षात प्रत्यक्ष खर्च केलेली रक्कम
+                th(rowspan='2' colspan='1') खर्च न झालेली रक्कम
+                th(rowspan='2' colspan='1') खर्च करावयाची शिल्लक रक्कम
+
+                th(rowspan='2' colspan='1') खर्च झाला नसल्यास न होण्याची करणे
+                
+                th(rowspan='1' colspan='5') कोणकोणत्या कामावर खर्च केला त्याचा तपशिल
+                //- th
+                //- th 
+
+            tr  
+                //- th
+                //- th
+                //- th
+                //- th 
+
+                //- th 
+                //- th
+                //- th 
+                th(rowspan='1' colspan='1') अनु. क्र. 
+                th(rowspan='1' colspan='1') कामाचे नाव
+                th(rowspan='1' colspan='1') खर्च रक्कम
+                th(rowspan='1' colspan='2' width='15%') 
+
+            tr 
+                each num  in [1,2,3,4,5,6,7,8,9,10]
+                    th(rowspan='1' colspan='1') #{num}
+
+                th(rowspan='1' colspan='2')
+                
+
+        tbody 
+
+            tr  
+                td #{wcWelfare.actual_total_income_year}
+                td #{wcWelfare.women_child_welfare_10_percent_expense}
+                td #{wcWelfare.budget_estimate_amount} 
+                td #{wcWelfare.actual_expenditure_amount} 
+
+                td #{wcWelfare.unspent_amount}
+                td #{wcWelfare.remaining_amount_to_be_spent}
+                td #{wcWelfare.reason_if_not_spent} 
+
+                td 1
+
+                td #{wcWelfare.work_name}
+                td #{wcWelfare.expense_amount}
+                td(colspan='2')
+
+            

@@ -1,0 +1,201 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  // common css
+  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+  link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+  link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+  link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+  link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+
+
+
+  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+  script(src='/asstest/plugins/popper/popper.min.js')
+  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+  script(src='/asstest/plugins/date/jquery-ui.js')
+  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+  script(src='/asstest/plugins/notify/notify.js')
+  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
+
+
+  //toggle
+  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
+  // extras
+
+  // common js setups
+  script(src='/asstest/coustom/js/base.converter.js')
+  script(src='/asstest/coustom/js/common.js')
+body
+  .container-fluid
+
+    if isMasterPanel
+      .row
+        .col-12 
+          .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+            a.navbar-brand(href="/master") Master Panel
+    else
+      include ../user/include/navs.pug
+
+    .row.mt-5
+      .col-12.mt-3
+        h1.ml-5.text-center.mr-5 आदर्श तक्ता   
+          button#updateTakta.add-takta.btn.btn-outline-primary.btn-sm.float-right.mr-5 तक्ता जतन करा
+      .col-10.offset-1.mt-3
+        .row
+          table.table.table-bordered
+            thead 
+              tr
+                th(width="40%") विवरण
+                th(width="40%") माहिती
+                th(width="10%") काढा
+            tbody#adarshaTakta
+            tfoot
+              tr
+                th(colspan="3" class="text-right") 
+                  button.add-takta.btn.btn-outline-success.btn-sm#addNewTakta ADD New
+
+    script.
+    
+        var takta = !{takta};
+        
+            // fallback default (converted to array format)
+            var defaultTakta = [
+            { key: 'ग्रामपंचायत स्थापना', value: '' },
+            { key: 'एकूण लोकसंख्या', value: '' },
+            { key: 'एकूण पुरुष', value: '' },
+            { key: 'एकूण महिला', value: '' },
+            { key: 'गावाचे भौगेलिक क्षेत्र', value: '' },
+            { key: 'एकून खातेदार संख्या', value: '' },
+            { key: 'एकून कुटुंब संख्या', value: '' },
+            { key: 'एकून घर संख्या', value: '' },
+            { key: 'एकून शौचालय संख्या', value: '' },
+            { key: 'गृह कर 2015', value: '' },
+            { key: 'पाणी कर 2015', value: '' },
+            { key: 'एकून खाजगी नळ संख्या', value: '' },
+            { key: 'एकून सार्वजनिक नळ संख्या', value: '' },
+            { key: 'एकून हातपंप', value: '' },
+            { key: 'येणीकोणी विहीर', value: '' },
+            { key: 'टयुबवेल', value: '' },
+            { key: 'इंदिरा आवास घरकुल', value: '' },
+            { key: 'सुवर्ण जयंती ग्राम स्वच्छता योजना लाभार्थी', value: '' },
+            { key: 'एकून शेतकरी संख्या', value: '' },
+            { key: 'एकून सिचंन विहिरीची संख्या', value: '' },
+            { key: 'एकून गुरांची संख्या', value: '' },
+            { key: 'एकून गोठूयांची संख्या', value: '' },
+            { key: 'बचत गट संख्या', value: '' },
+            { key: 'अंगणवाडी येनि क्र 21 मुले', value: '' },
+            { key: 'अंगणवाडी येनि क्र 21 मुली', value: '' },
+            { key: 'अंगणवाडी कोणी क्र 27 एकून', value: '' },
+            { key: 'उ. प्रा. शाळा वर्ग 1 ते 4', value: '' },
+            { key: 'एकून गोबर गस संख्या', value: '' },
+            { key: 'एकून गस जोडणी संख्या', value: '' },
+            { key: 'एकून विधूत पोल संख्या', value: '' },
+            { key: 'प्राथमिक आरोग्य उपकेंद्र', value: '' },
+            { key: 'प्रवासी निवारा', value: '' },
+            { key: 'ग्राम पंचायत कर्मचारी', value: '' },
+            { key: 'संगणक परिचालक', value: '' },
+            { key: 'ग्राम रोजगार सेवक', value: '' },
+            { key: 'महिला बचत गट संस्था', value: '' },
+            { key: 'समाज मंदिर', value: '' },
+            { key: 'हनुमान मंदिर', value: '' },
+            { key: 'पशुवैधाकिय दवाखाना', value: '' },
+            { key: 'पोस्ट आफिस', value: '' }
+            ];
+        
+            $(function () {
+        
+            // convert object → array if coming from backend
+            if (!takta || Object.keys(takta).length === 0) {
+                takta = defaultTakta;
+            } else if (!Array.isArray(takta)) {
+                takta = Object.keys(takta).map(k => ({
+                key: k,
+                value: takta[k]
+                }));
+            }
+        
+            function printTable() {
+                var html = takta.map(function (item, index) {
+                return `
+                    <tr>
+                    <td>
+                        <input value="${item.key}" class="form-control change-value"
+                        data-type="k" data-id="${index}" />
+                    </td>
+                    <td>
+                        <input value="${item.value}" class="form-control change-value"
+                        data-type="v" data-id="${index}" />
+                    </td>
+                    <td>
+                        <button class="delete-row btn btn-danger btn-sm"
+                        data-id="${index}">DEL</button>
+                    </td>
+                    </tr>
+                `;
+                }).join('');
+        
+                $('#adarshaTakta').html(html);
+            }
+        
+            // update values safely
+            $(document).on('input', '.change-value', function () {
+                var index = Number($(this).data('id'));
+                var type = $(this).data('type');
+        
+                if (type === 'k') {
+                takta[index].key = $(this).val();
+                } else {
+                takta[index].value = $(this).val();
+                }
+            });
+        
+            // delete row
+            $(document).on('click', '.delete-row', function () {
+                var index = Number($(this).data('id'));
+                takta.splice(index, 1);
+                printTable();
+            });
+        
+            // add new row
+            $(document).on('click', '#addNewTakta', function () {
+                takta.push({ key: '', value: '' });
+                printTable();
+            });
+        
+            // save
+            $(document).on('click', '#updateTakta', function () {
+        
+                var newTakta = {};
+        
+                takta.forEach(function (item) {
+                if (item.key.trim() !== '') {
+                    newTakta[item.key] = item.value;
+                }
+                });
+        
+                $.ajax({
+                url: "/master/update-takta",
+                data: { data: JSON.stringify(newTakta) },
+                method: 'post'
+                })
+                .done(function () {
+                alert('तक्ता यशस्वी जतन केले गेला आहे');
+                })
+                .fail(function (err) {
+                console.error(err);
+                alert('Error saving data');
+                });
+        
+            });
+        
+            printTable();
+            });
+        
+
+
+
