@@ -13,39 +13,46 @@ const ps_arogya_diva_kar = sequelize.define(
 		adk_min: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		adk_max: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		adk_arogya: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		adk_diva: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		cleaning_tax: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		education_tax: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		tree_tax: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 		firebligate_tax: {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
+			defaultValue: 0,
 		},
 	},
 	{
-		createdAt: false,
-		updatedAt: false,
+		timestamps: true, // enables createdAt and updatedAt
 	}
 )
 
