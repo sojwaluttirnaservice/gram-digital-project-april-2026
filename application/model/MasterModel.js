@@ -2455,57 +2455,72 @@ module.exports = {
 	},
 
 
-	getAllRequiredData: async () => {
-		const sql = `
-			-- 1️⃣ NOTICE
-			SELECT 
-			id, 
-			wn_notice_name AS notice, 
-			wn_show AS show_type, 
-			DATE_FORMAT(created_date,"%d-%m-%Y") AS date_1 
-			FROM ps_web_notice 
-			WHERE wn_show = 1 
-			ORDER BY id DESC;
+    getAllRequiredData: async (pool) => {
 
-			-- 2️⃣ GALLERY
-			SELECT * FROM ps_gallary;
+        const noticeQ = `
+            SELECT 
+                id, 
+                wn_notice_name AS notice, 
+                wn_show AS show_type, 
+                DATE_FORMAT(created_date,"%d-%m-%Y") AS date_1 
+            FROM ps_web_notice 
+            WHERE wn_show = 1 
+            ORDER BY id DESC
+        `;
 
-			-- 3️⃣ BIRTHDAY
-			SELECT 
-			fName, 
-			fImage 
-			FROM ps_gp_member_list 
-			WHERE DATE_FORMAT(fDob, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d');
+        const galleryQ = `SELECT * FROM ps_gallary`;
 
-			-- 4️⃣ GR FILE LIST
-			SELECT * FROM ps_gr_file_list;
+        const birthdayQ = `
+            SELECT fName, fImage 
+            FROM ps_gp_member_list 
+            WHERE DATE_FORMAT(fDob, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')
+        `;
 
-			-- 5️⃣ DIVYANGA FILE LIST
-			SELECT * FROM ps_divyanga_file_list;
+        const grFileQ = `SELECT * FROM ps_gr_file_list`;
 
-			-- 6️⃣ EMPTY PLOT LIST FILE
-			SELECT * FROM ps_empty_plot_list_file_list;
+        const divyangaQ = `SELECT * FROM ps_divyanga_file_list`;
 
-			-- 7️⃣ AROGYA SEVAK INFORMATION
-			SELECT * FROM ps_arogya_sevak_information;
+        const emptyPlotQ = `SELECT * FROM ps_empty_plot_list_file_list`;
 
-			-- 8️⃣ AROGYA CAMP PHOTOS
-			SELECT * FROM ps_arogya_camp_files;
-		`;
+        const sevakQ = `SELECT * FROM ps_arogya_sevak_information`;
 
-		const [results] = await db.query(sql);
+        const campQ = `SELECT * FROM ps_arogya_camp_files`;
 
-		return {
-			notice: results[0] || [],
-			gallery: results[1]?.reverse() || [],
-			birthday: results[2] || [],
-			grFileList: results[3] || [],
-			divyangaFileList: results[4] || [],
-			emptyPlotListFileList: results[5] || [],
-			arogyaSevakInformationList: results[6] || [],
-			arogyaCampPhotos: results[7] || []
-		};
-	},
+        // 1️⃣ NOTICE
+        const notice = await runQuery(pool, noticeQ);
+
+        // 2️⃣ GALLERY
+        const gallery = await runQuery(pool, galleryQ);
+
+        // 3️⃣ BIRTHDAY
+        const birthday = await runQuery(pool, birthdayQ);
+
+        // 4️⃣ GR FILE LIST
+        const grFileList = await runQuery(pool, grFileQ);
+
+        // 5️⃣ DIVYANGA FILE LIST
+        const divyangaFileList = await runQuery(pool, divyangaQ);
+
+        // 6️⃣ EMPTY PLOT LIST
+        const emptyPlotListFileList = await runQuery(pool, emptyPlotQ);
+
+        // 7️⃣ AROGYA SEVAK INFORMATION
+        const arogyaSevakInformationList = await runQuery(pool, sevakQ);
+
+        // 8️⃣ AROGYA CAMP PHOTOS
+        const arogyaCampPhotos = await runQuery(pool, campQ);
+
+        return {
+            notice,
+            gallery: gallery.reverse(),
+            birthday,
+            grFileList,
+            divyangaFileList,
+            emptyPlotListFileList,
+            arogyaSevakInformationList,
+            arogyaCampPhotos
+        };
+    },
 
 
 	upload_gov_yojna_file: function (pool, fullFileName) {
