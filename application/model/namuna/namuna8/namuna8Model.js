@@ -1,10 +1,10 @@
-const db = require("../../../config/db.connect.promisify")
+const { runQuery } = require("../../../utils/runQuery")
 
 const namuna8Model = {
 
-    getForm8Users: () => {
+    getForm8Users: (pool) => {
         let q = `SELECT * FROM ps_form_eight_user`
-        return db.query(q)
+        return runQuery(pool, q)
     }
     
 }
