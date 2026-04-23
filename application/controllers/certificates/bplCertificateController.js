@@ -14,8 +14,9 @@ const bplCertificateHolderImagesDir = `${baseDir}/uploads/images/certificates/bp
 
 const bplController = {
 
+    // 1
     renderBplCertificateListPage: asyncHandler(async (req, res) => {
-        let [bplCertificates] = await bplModel.getAll();
+        let bplCertificates = await bplModel.getAll(res.pool);
 
         renderPage(res, "user/certificates/bpl-certificate/list-bpl-certificate-page.pug", {
             title: "BPL नोंदणी",
@@ -23,24 +24,27 @@ const bplController = {
         });
     }),
 
+    // 2
     renderSaveBplCertificatePage: asyncHandler(async (req, res) => {
         renderPage(res, "user/certificates/bpl-certificate/save-bpl-certificate-page.pug", {
             title: "BPL नोंदणी"
         });
     }),
 
+    // 3
     renderEditBplCertificatePage: asyncHandler(async (req, res) => {
         const { bplCertificateId } = req.params;
-        const [[bplCertificate]] = await bplModel.getById(bplCertificateId);
+        const [bplCertificate] = await bplModel.getById(res.pool, bplCertificateId);
         renderPage(res, "user/certificates/bpl-certificate/edit-bpl-certificate-page.pug", {
             title: "BPL अपडेट",
             bplCertificate
         });
     }),
 
+    // 4
     renderPrintBplCertificatePage: asyncHandler(async (req, res) => {
         const { bplCertificateId } = req.params;
-        const [[bplCertificate]] = await bplModel.getById(bplCertificateId);
+        const [bplCertificate] = await bplModel.getById(res.pool, bplCertificateId);
         console.log(bplCertificate)
         renderPage(res, "user/certificates/bpl-certificate/print-bpl-certificate-page.pug", {
             title: "BPL प्रमाणपत्र प्रिंट",
@@ -48,6 +52,7 @@ const bplController = {
         });
     }),
 
+    // 5
     save: asyncHandler(async (req, res) => {
         const imageFile = req.files?.image;
         const certificateData = req.body;
@@ -67,22 +72,23 @@ const bplController = {
 
         certificateData.certificate_holder_image_name = imageName;
         let createdAt = addCurrentTimeToDate(certificateData.createdAt)
-        const [result] = await bplModel.save({...certificateData, createdAt});
+        const result = await bplModel.save(res.pool, {...certificateData, createdAt});
 
         if (!result.affectedRows) {
             throw new AppError('जतन करताना काहीतरी चुकले.', 500)
         }
         
 
-        await bplModel.addFamilyMembers(JSON.parse(certificateData.members || "[]"), result.insertId)
+        await bplModel.addFamilyMembers(res.pool, JSON.parse(certificateData.members || "[]"), result.insertId)
         return sendApiResponse(res, 201, true, 'नोंद यशस्वीरित्या जतन झाली.');  
     }),
 
+    // 6
     update: asyncHandler(async (req, res) => {
         const certificateData = req.body;
         const imageFile = req.files?.image;
 
-        const [[existingData]] = await bplModel.getById(certificateData.id);
+        const [existingData] = await bplModel.getById(res.pool, certificateData.id);
         if (!existingData) {
             return sendApiError(res, 404, false, 'नोंद सापडली नाही.');
         }
@@ -107,7 +113,7 @@ const bplController = {
 
         certificateData.certificate_holder_image_name = newImageName;
 
-        const [result] = await bplModel.update(certificateData);
+        const result = await bplModel.update(res.pool, certificateData);
         if (result.affectedRows) {
             return sendApiResponse(res, 200, true, 'नोंद यशस्वीरित्या अद्ययावत झाली.');
         }
@@ -115,15 +121,17 @@ const bplController = {
         return sendApiError(res, 500, false, 'अद्ययावत करताना काहीतरी चुकले.');
     }),
 
+
+    // 7
     delete: asyncHandler(async (req, res) => {
         const { id: bplCertificateId } = req.body;
-        const [[existingData]] = await bplModel.getById(bplCertificateId);
+        const [existingData] = await bplModel.getById(res.pool, bplCertificateId);
 
         if (!existingData) {
             return sendApiError(res, 404, false, 'नोंद सापडली नाही.');
         }
 
-        const [result] = await bplModel.delete(bplCertificateId);
+        const result = await bplModel.delete(res.pool, bplCertificateId);
         if (result.affectedRows) {
             if (existingData.certificate_holder_image_name) {
                 const imagePath = path.join(bplCertificateHolderImagesDir, existingData.certificate_holder_image_name);
@@ -135,29 +143,32 @@ const bplController = {
         return sendApiError(res, 500, false, 'नोंद हटवता आली नाही.');
     }),
 
+    // 8
     saveFamilyMember: asyncHandler(async (req, res) => {
         let familyMemberData = req.body;
 
-        await bplModel.saveFamilyMember(familyMemberData)
+        await bplModel.saveFamilyMember(res.pool, familyMemberData)
 
         return sendApiResponse(res, 200, true, 'सदस्य जतन झाला')
     }),
 
+    // 9
     updateFamilyMember: asyncHandler(async (req, res) => {
         let familyMemberData = req.body;
 
-        await bplModel.updateFamilyMember(familyMemberData)
+        await bplModel.updateFamilyMember(res.pool, familyMemberData)
 
         return sendApiResponse(res, 200, true, 'सदस्य अपडेट झाला')
     }),
 
+    // 10
     deleteFamilyMember: asyncHandler(async (req, res) => {
         let id = req.body.id
 
         if (!id) {
             return sendApiError(res, 400, false, 'कृपया वैध ID प्रदान करा.');
         }
-        await bplModel.deleteFamilyMember(id)
+        await bplModel.deleteFamilyMember(res.pool, id)
 
         return sendApiResponse(res, 200, true, 'डेलीट झाला')
     }),

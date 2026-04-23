@@ -1,8 +1,8 @@
-const db = require("../../config/db.connect.promisify");
+const { runQuery } = require("../../utils/runQuery");
 
 const bplModel = {
 
-    save: (certificateData) => {
+    save: (pool, certificateData) => {
         let q = `INSERT INTO ps_bpl_certificates
                     (
                         name,
@@ -41,10 +41,10 @@ const bplModel = {
             certificateData.createdAt || now
         ];
 
-        return db.query(q, insertDataArr);
+        return runQuery(pool, q, insertDataArr);
     },
 
-    addFamilyMembers: (members, certificateId) => {
+    addFamilyMembers: (pool, members, certificateId) => {
         const q = `INSERT INTO ps_bpl_certificate_family_members
                     (
                         bpl_certificate_id_fk,
@@ -69,10 +69,10 @@ const bplModel = {
             ]
         })
 
-        return db.query(q, [membersDataArr])
+        return runQuery(pool, q, [membersDataArr])
     },
 
-    update: (certificateData) => {
+    update: (pool, certificateData) => {
         let q = `UPDATE ps_bpl_certificates SET 
                     name = ?,
                     name_m = ?,
@@ -103,15 +103,15 @@ const bplModel = {
             certificateData.id
         ];
 
-        return db.query(q, updateDataArr);
+        return runQuery(pool, q, updateDataArr);
     },
 
-    delete: (id) => {
+    delete: (pool, id) => {
         let q = `DELETE FROM ps_bpl_certificates WHERE id = ?`;
-        return db.query(q, [id]);
+        return runQuery(pool, q, [id]);
     },
 
-    getById: (id) => {
+    getById: (pool, id) => {
         let q = `
             SELECT 
                 c.*,
@@ -135,11 +135,11 @@ const bplModel = {
             WHERE c.id = ?
             GROUP BY c.id
         `;
-        return db.query(q, [id]);
+        return runQuery(pool, q, [id]);
     },
 
 
-    getAll: () => {
+    getAll: (pool) => {
         let q = `
             SELECT 
                 c.*,
@@ -163,11 +163,11 @@ const bplModel = {
             GROUP BY c.id
             ORDER BY c.id DESC
         `;
-        return db.query(q);
+        return runQuery(pool, q)
     },
 
 
-    saveFamilyMember: (familyMemberData) => {
+    saveFamilyMember: (pool, familyMemberData) => {
         const q = `INSERT INTO ps_bpl_certificate_family_members
                     (
                         bpl_certificate_id_fk,
@@ -180,7 +180,9 @@ const bplModel = {
                     )
                         VALUES(?, ?, ?, ?, ?, ?, ?)`
 
-        return db.query(q,
+        return runQuery(
+            pool, 
+            q,
             [
                 familyMemberData.bpl_certificate_id_fk,
                 familyMemberData.family_member_name,
@@ -194,7 +196,7 @@ const bplModel = {
     },
 
 
-    updateFamilyMember: (familyMemberData) => {
+    updateFamilyMember: (pool, familyMemberData) => {
 
         const q = `UPDATE ps_bpl_certificate_family_members
                SET 
@@ -207,22 +209,26 @@ const bplModel = {
                    age_m = ?
                WHERE id = ?`;
 
-        return db.query(q, [
-            +familyMemberData.bpl_certificate_id_fk,
-            familyMemberData.family_member_name,
-            familyMemberData.family_member_name_m,
-            familyMemberData.relation,
-            familyMemberData.relation_m,
-            familyMemberData.age,
-            familyMemberData.age_m,
-            familyMemberData.id  // assuming 'id' is passed in familyMemberData
-        ]);
+        return runQuery(
+            pool,
+            q, 
+            [
+                +familyMemberData.bpl_certificate_id_fk,
+                familyMemberData.family_member_name,
+                familyMemberData.family_member_name_m,
+                familyMemberData.relation,
+                familyMemberData.relation_m,
+                familyMemberData.age,
+                familyMemberData.age_m,
+                familyMemberData.id  // assuming 'id' is passed in familyMemberData
+            ]
+        );
     },
 
 
-    deleteFamilyMember: (id) => {
+    deleteFamilyMember: (pool, id) => {
         const q = `DELETE FROM ps_bpl_certificate_family_members WHERE id = ?`;
-        return db.query(q, [id]);
+        return runQuery(pool, q, [id]);
     }
 
 };
