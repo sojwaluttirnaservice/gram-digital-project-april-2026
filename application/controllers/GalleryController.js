@@ -2,14 +2,13 @@ let masterModel = require('../model/MasterModel')
 let HomeModel = require('../model/HomeModel')
 let responderSet = require('../config/_responderSet')
 let fs = require('fs')
-const createBaseDir = require('./createBaseDir')
 const { deleteRedisData } = require('../utils/redis')
 const { gpDataRedisKey, commonDataRedisKey } = require('../utils/redisKeys')
 const generateUniqueFileName = require('../utils/generateFileName')
 const { saveFile } = require('../utils/saveFile')
 const asyncHandler = require('../utils/asyncHandler')
 const { renderPage } = require('../utils/sendResponse')
-let myDates = responderSet.myDate
+const { UPLOAD_PATHS } = require('../config/uploadPaths')
 
 let photoLimit = 200;
 
@@ -35,13 +34,7 @@ let GalleryController = {
 
             let imageName = generateUniqueFileName(galleryImageFile, 'g-img-')
 
-            let destDir = `${createBaseDir.baseDir}/gp/asstes/images/gallery`
-
-            if (!fs.existsSync(destDir)) {
-                fs.mkdirSync(destDir, { recursive: true })
-            }
-
-            let isGalleryImageSaved = await saveFile(galleryImageFile, `${destDir}/${imageName}`)
+            let isGalleryImageSaved = await saveFile(galleryImageFile, `${UPLOAD_PATHS.gallery.village}/${imageName}`)
 
             if(!isGalleryImageSaved){
                 return res.status(500).json({ call: 0, data: "Unable to save the gallery image"})
