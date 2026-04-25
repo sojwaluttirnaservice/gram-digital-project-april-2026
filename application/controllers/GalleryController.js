@@ -7,31 +7,24 @@ const { deleteRedisData } = require('../utils/redis')
 const { gpDataRedisKey, commonDataRedisKey } = require('../utils/redisKeys')
 const generateUniqueFileName = require('../utils/generateFileName')
 const { saveFile } = require('../utils/saveFile')
+const asyncHandler = require('../utils/asyncHandler')
+const { renderPage } = require('../utils/sendResponse')
 let myDates = responderSet.myDate
+
+let photoLimit = 200;
+
 let GalleryController = {
 
-	homeView: function (req, res, next) {
-		let gp = []
-		let photoLimit = 200;
-		HomeModel.getGpData(res.pool)
-			.then((result) => {
-				gp = result[0]
-				return masterModel.getGalleryImageList(res.pool)
-			})
-			.then((result) => {
-				let btnOff = result.length >= photoLimit
-				console.log('Images lenght = ', result.length)
-				res.render('user/gallery/gallery_list', {
-					gp: gp,
-					gallery: result,
-					link: `/gp/asstes/images/gallery/`,
-					btn: btnOff,
-				})
-			})
-			.catch((error) => {
-				res.status(500).send({ call: error })
-			})
-	},
+    homeView: asyncHandler(async (req, res) => {
+        const gallery = await masterModel.getGalleryImageList(res.pool)
+        let btnOff = gallery.length >= photoLimit;
+        renderPage(res, 'user/gallery/gallery_list', {
+            gallery,
+            link: `/gp/asstes/images/gallery/`,
+            btn: btnOff
+        })
+    }),
+
 
     addNewFile: async(req, res) =>{
         try {
