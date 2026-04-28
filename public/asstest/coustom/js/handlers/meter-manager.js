@@ -196,8 +196,10 @@ $(document).ready(function () {
 				if (id == null || id == undefined) {
 					alertjs.success({
 						t: 'Record Added Successfully',
-					})
-					window.location.assign('/meter/add-new-user')
+					},
+                    () =>{
+                        window.location.assign('/meter/add-new-user')
+                    })
 				} else {
 					var cn = confirm(
 						'Record Updated Successfully, want to add new record ?'

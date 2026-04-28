@@ -58,6 +58,7 @@ const asyncHandler = (fn) => {
             // Send standardized JSON response
             const statusCode = err?.statusCode || 500;
             return res.status(statusCode).json({
+                statusCode,
                 success: false,
                 message: err?.message || err?.sqlMessage || 'Internal Server Error',
                 data: null,
