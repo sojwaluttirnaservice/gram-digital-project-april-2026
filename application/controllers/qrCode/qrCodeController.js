@@ -5,6 +5,10 @@ const { baseDir } = require("../createBaseDir");
 const fs = require("fs");
 
 const qrCodeController = {
+  renderQrCodeListPage: asyncHandler(async (req, res) => {
+    renderPage(res, "master/qr-codes/outside-qr-page.pug")
+  }),
+
   renderQrCodePage: asyncHandler(async (req, res) => {
     let existingQrCodes = await qrCodeModel.qrCodeList(res.pool);
 
@@ -76,7 +80,7 @@ const qrCodeController = {
         } else {
           await qrCodeModel.updateBankQRCodeImageName(
             res.pool,
-            qrCodeImageName
+            qrCodeImageName,
           );
           return res.status(200).json({
             call: 1,
@@ -101,7 +105,7 @@ const qrCodeController = {
 
       const result = await qrCodeModel.toggleQrBankCodeVisbility(
         res.pool,
-        visibilityToSet
+        visibilityToSet,
       );
 
       if (result.affectedRows > 0) {
@@ -160,7 +164,7 @@ const qrCodeController = {
         } else {
           await qrCodeModel.updateBankQRCodeWaterImageName(
             res.pool,
-            qrCodeImageName
+            qrCodeImageName,
           );
           return res.status(200).json({
             call: 1,
@@ -185,7 +189,7 @@ const qrCodeController = {
 
       const result = await qrCodeModel.toggleQrBankCodeWaterVisbility(
         res.pool,
-        visibilityToSet
+        visibilityToSet,
       );
 
       if (result.affectedRows > 0) {

@@ -40,7 +40,7 @@ const asyncHandler = (fn) => {
             await fn(req, res, next);
 
         } catch (err) {
-            console.error(`Error: ${err}`);
+            console.error(err);
             console.error('STACK TRACE ::: ', err?.stack);
 
             // Attempt to clean up temporary files
@@ -57,10 +57,14 @@ const asyncHandler = (fn) => {
 
             // Send standardized JSON response
             const statusCode = err?.statusCode || 500;
+            let message = err?.message || err?.sqlMessage || 'Internal Server Error';
+            if (err?.code === "ER_BAD_DB_ERROR") {
+                message = "Database not found or misconfigured";
+            }
             return res.status(statusCode).json({
                 statusCode,
                 success: false,
-                message: err?.message || err?.sqlMessage || 'Internal Server Error',
+                message,
                 data: null,
                 error: err,
                 ...(process.env.NODE_ENV === 'DEV' && { stackTrace: err.stack }),

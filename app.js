@@ -66,7 +66,7 @@ var db_connect = require("./application/config/db.connect"); // connection strin
 var connection = db_connect.myConnection(
   db_connect.mysql,
   db_connect.dbOptions,
-  "single"
+  "single",
 );
 
 //migration.init(connection, __dirname + "application/config/migration");
@@ -84,8 +84,8 @@ var app = express();
 createBaseDir();
 
 // create a single instance or database
-app.use(connection);
-app.use(filesToCleanupMiddleware)
+// app.use(connection);
+app.use(filesToCleanupMiddleware);
 
 app.use(session);
 
@@ -129,13 +129,23 @@ app.use((req, res, next) => {
 });
 
 app.use(upload());
+app.use((req, res, next) => {
+    let __dbName = req?.session?.dbDetails?.dbName;
+    __dbName = __dbName?.replace(/^g-seva_/, "")?.trim() || '';
+  if (req.files) {
+    Object.values(req.files).forEach((file) => {
+      file.dynamicFolder = __dbName; // or compute dynamically
+    });
+  }
+  next();
+});
 // view engine setup
 app.set("views", path.join(__dirname, "application/views"));
 app.use(
   "/js",
   express.static("public/asstest/coustom/js", {
     maxAge: "10h", // Cache files in browser for 10 hours
-  })
+  }),
 );
 app.set("view engine", "pug");
 app.enable("trust proxy");
@@ -179,10 +189,31 @@ if (process.env.NODE_ENV === "development") {
   app.set("view cache", false);
 }
 
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  // MySQL: Unknown database
+  if (err.code === 'ER_BAD_DB_ERROR') {
+    return res.status(500).json({
+      success: false,
+      message: 'Database configuration error. Please contact support.',
+      error: {
+        code: err.code
+      }
+    });
+  }
+
+  // fallback
+  res.status(500).json({
+    success: false,
+    message: 'Internal Server Error'
+  });
+});
+
 app.use(function (req, res, next) {
   res.set(
     "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0",
   );
   next();
 });

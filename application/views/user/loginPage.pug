@@ -62,6 +62,14 @@ block content
                                         input#password(class=`${inputClassName}` name='password' type='password' placeholder=' ' required)
                                         label(class=`${labelClassName}` for='password') Password
 
+                                .input-group(class='mb-3 px-lg-2')
+                                    div(class='relative')
+                                        select#dbName(class=`${inputClassName}` name='dbName' type='text' placeholder=' ' required)
+                                            option(value="g-seva_uat") UAT
+                                            option(value="g-seva_test") test
+                                        label(class=`${labelClassName}` for='dbName') Village
+
+
                                 .input-group#otp-box(class='mb-3 px-lg-2' style="display:none;")
                                     div(class='relative')
                                         input#otp(class=`${inputClassName}` name='otp' type='text' placeholder='' maxlength='6')

@@ -110,7 +110,7 @@ $(() => {
   const indicatorsContainer = document.getElementById(
     "ppt-carousel-indicators",
   );
-  const titleEl = document.getElementById("carousel-ppt-title");
+  const titleEl = document.getElementById("carousel-ppt-title-footer");
 
   // Button event listener for View Slides
   $(document).on("click", ".view-ppt-slides-btn", async function () {
@@ -333,6 +333,14 @@ $(() => {
       contentHtml += `
       <h5 class="text-primary fw-bold mt-1 mb-0" style="font-size: 14px;">
         ${slide.slide_subtitle}
+      </h5>
+    `;
+    }
+
+    if (slide.slide_description) {
+      contentHtml += `
+      <h5 class="text-success fw-bold mt-1 mb-0" style="font-size: 20px;">
+        ${slide.slide_description}
       </h5>
     `;
     }

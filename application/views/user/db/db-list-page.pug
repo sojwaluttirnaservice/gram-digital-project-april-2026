@@ -1,0 +1,71 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+
+block content   
+
+    .container-fluid.mt-4
+
+        div
+            h4.heading-1 बॅकअप तपशील (यादी)           
+
+        .row.justify-content-center
+            .col-11.col-md-8
+
+                .card 
+                    .card-header.bg-danger.text-white.text-center.font-weight-bold
+                        | बॅकअप जतन करा.
+
+                    
+                    .card-body 
+                        form#backup-form
+                            .row 
+                                .col-12.col-md-6
+                                    .form-group 
+                                        label.form-label पासून वर्ष
+                                        input.form-control(type='text' name="fromYear" maxlength="4")
+
+                                .col-12.col-md-6 
+                                    .form-group 
+                                        label.form-label पर्यंत वर्ष 
+                                        input.form-control(type="text" name="toYear" maxlength="4")
+
+                                        input(name="website_id_fk" value=website.id readonly)
+                                        input(name="db_type" value="BACKUP" readonly)
+                                        input(name="original" value=primaryDb readonly)
+
+                                .col-12 
+                                    .text-center 
+                                        button.btn.btn-primary#save-backup-db-btn Save Backup
+
+
+                .card
+
+                    .card-header.bg-primary.text-white.font-weight-bold
+                        i.fa.fa-university.me-2
+                        | यादी 
+
+                    .card-body
+
+                        table 
+
+                            thead 
+                                tr 
+                                    th अनु.क्र.
+                                    th नाव
+
+                            tbody 
+
+                                each _db, _index in dbList
+                                    tr 
+                                        td #{_index + 1} 
+                                        td #{_db.db_type == "PRIMARY" ? "चालू वर्ष (मुख्य)" : `${_db.fromYear}-${_db.toYear} (बॅकअप)`}
+                                    
+
+
+ 
+
+block custom_js
+    script(src="/asstest/coustom/js/handlers/db-list/db-list-page-handler.js")

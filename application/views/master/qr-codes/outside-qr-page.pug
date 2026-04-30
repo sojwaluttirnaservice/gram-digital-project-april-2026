@@ -1,0 +1,428 @@
+extends ../../user/include/index-page-master-layout.pug
+
+block external_css 
+    link(href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet")
+
+
+block external_js
+
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+//- block internal_css
+//-     style.
+//-         @keyframes marquee {
+//-             0% { transform: translateX(100%); }
+//-             100% { transform: translateX(-100%); }
+//-         }
+//-         .animate-marquee {
+//-             animation: marquee 14s linear infinite;
+//-         }
+
+//-         .my-scrollbar-thickness::-webkit-scrollbar {
+//-             width: 5px; /* Adjust the width to make the scrollbar thinner */
+//-         }
+
+//-         .my-scrollbar-thickness::-webkit-scrollbar-thumb {
+//-             background-color: rgba(0, 0, 0, 0.2); /* Adjust the thumb color */
+//-             border-radius: 10px; /* Round the corners of the scrollbar thumb */
+//-         }
+
+//-         .my-scrollbar-thickness::-webkit-scrollbar-track {
+//-             background-color: transparent; /* Make the track transparent or any color you like */
+//-         }
+
+//-         .qrcode img {
+//-             width: 100% !important;
+//-             height: 100% !important;
+//-             //- width: 86px !important;
+//-             //- height:86px !important;
+//-         }
+
+//-         .shimmer-bg {
+//-             position: relative;
+//-             overflow: hidden;
+//-             background-color: #e5e7eb;
+//-         }
+
+//-         .shimmer-bg::after {
+//-             content: "";
+//-             position: absolute;
+//-             top: 0;
+//-             left: -100%;
+//-             width: 100%;
+//-             height: 100%;
+//-             background: linear-gradient(
+//-                 90deg,
+//-                 rgba(243, 244, 246, 0) 0%,
+//-                 rgba(255, 255, 255, 1) 50%,
+//-                 rgba(243, 244, 246, 0) 100%
+//-             );
+//-             animation: shimmer-slide 1.8s ease-in-out infinite;
+//-         }
+
+//-         @keyframes shimmer-slide {
+//-             0% {
+//-                 left: -100%;
+//-             }
+//-             100% {
+//-                 left: 100%;
+//-             }
+//-         }
+
+
+
+block content
+
+    - let seeMore = {mr: 'आणखी बघा', hi: "और देखे", en: 'See More'}
+
+
+    //-
+    section
+        #qr-code-container(class='py-8 bg-slate-100 border-t border-slate-300')
+            -
+                const qrButtons = [
+                    { endpoint: "/village/nagrik-nondani-view", title: t("navbar.top.citizenRegistration"), icon: "fa-user-plus", desc: { mr: "नागरिक नोंदणी अर्ज भरा\nतुमच्या माहितीसाठी सुरक्षित", hi: "नागरिक पंजीकरण आवेदन करें\nआपकी जानकारी सुरक्षित रहेगी", en: "Apply for citizen registration\nKeep your information secure" } },
+                    { endpoint: "/rti/info", title: t("navbar.bottom.rti"), icon: "fa-user-info", desc: { mr: "RTI अंतर्गत माहिती मागवण्यासाठी अर्ज भरा\nतुमची माहिती सुरक्षित राहील", hi: "RTI के अंतर्गत जानकारी प्राप्त करने के लिए आवेदन करें\nआपकी जानकारी सुरक्षित रहेगी", en: "Apply for information under RTI\nKeep your information secure" } },
+                    { endpoint: "/new-application-form", title: t("navbar.top.citizenServiceApplication"), icon: "fa-file-circle-plus", desc: { mr: "नागरिक सेवा अर्ज सादर करा\nसर्व सुविधा मिळवण्यासाठी", hi: "नागरिक सेवा आवेदन जमा करें\nसभी सुविधाओं के लिए", en: "Submit citizen service application\nGet access to all services" } },
+                    { endpoint: "/complaints/form", title: t("navbar.top.complaintRegistration"), icon: "fa-circle-exclamation", desc: { mr: "तक्रारी नोंदवा\nवेगवान उत्तर मिळवा", hi: "शिकायत दर्ज करें\nत्वरित प्रतिक्रिया प्राप्त करें", en: "Register your complaints\nReceive faster responses" } },
+                    { endpoint: "/gp-applications/f8-ferfar/register", title: t("navbar.top.propertyMutationApplication"), icon: "fa-building", desc: { mr: "संपत्ती हस्तांतरण अर्ज भरा\nसोपी मार्गदर्शन मिळवा", hi: "संपत्ति परिवर्तन आवेदन करें\nसरल मार्गदर्शन प्राप्त करें", en: "Apply for property mutation\nGet simple guidance" } },
+                    { endpoint: "/gp-applications/construction/form", title: t("navbar.top.constructionApplication"), icon: "fa-person-digging", desc: { mr: "बांधकाम परवानगी अर्ज करा\nसर्व नियम पाळा", hi: "निर्माण अनुमति आवेदन करें\nसभी नियमों का पालन करें", en: "Apply for construction permission\nFollow all rules" } },
+                    { endpoint: "/gp-applications/job-card/form", title: t("navbar.top.jobCardApplication"), icon: "fa-id-card", desc: { mr: "जॉब कार्ड अर्ज भरा\nरोजगार संधी मिळवा", hi: "जॉब कार्ड आवेदन करें\nरोजगार के अवसर प्राप्त करें", en: "Apply for job card\nGet employment opportunities" } },
+                    { endpoint: "/gp-applications/emp-demand/form", title: t("navbar.top.employmentGuaranteeApplication"), icon: "fa-briefcase", desc: { mr: "रोजगार हमी अर्ज करा\nअर्ज प्रक्रिया सोपी", hi: "रोजगार गारंटी आवेदन करें\nआवेदन प्रक्रिया सरल है", en: "Apply for employment guarantee\nEasy application process" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.meri_panchayat", title: t("navbar.top.myPanchayat"), icon: "fa-landmark", desc: { mr: "माझी पंचायत अँप डाउनलोड करा\nसर्व माहिती एका ठिकाणी", hi: "माय पंचायत ऐप डाउनलोड करें\nसारी जानकारी एक जगह पर", en: "Download My Panchayat app\nAll info in one place" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.gsnirnay.app&pli=1", title: t("navbar.top.panchayatDecisionApp"), icon: "fa-gavel", desc: { mr: "पंचायत निर्णय पहा\nसुलभ मार्गदर्शन मिळवा", hi: "पंचायत निर्णय देखें\nसहज मार्गदर्शन प्राप्त करें", en: "View panchayat decisions\nGet easy guidance" } },
+                    { endpoint: "https://play.google.com/store/apps/details?id=com.nic.gramsamvaad", title: t("navbar.top.gramSamvad"), icon: "fa-comments", desc: { mr: "ग्रामीण संवाद अँप वापरा\nसंपूर्ण समुदायासाठी", hi: "ग्रामीण संवाद ऐप इस्तेमाल करें\nपूरा समुदाय जुड़ा रहे", en: "Use Gram Samvad app\nConnect the whole community" } },
+                    { endpoint: "https://gr.maharashtra.gov.in/1125/Home", title: { mr: "शासन निर्णय", hi: "सरकारी निर्णय", en: "Government Resolutions" }[language], icon: "fa-gavel", desc: { mr: "सरकारी निर्णय पहा\nमहत्त्वाची माहिती मिळवा", hi: "सरकारी निर्णय देखें\nमहत्वपूर्ण जानकारी प्राप्त करें", en: "View government resolutions\nGet important information" } },
+                    { endpoint: "/gp-applications/to-seva/form", title: "नागरिकांना सेवा सुविधा अर्ज", icon: "fa-file-lines", desc: { mr: "सेवा सुविधा अर्ज भरा\nसर्व सुविधा मिळवा", hi: "सेवा सुविधा आवेदन करें\nसभी सेवाएं प्राप्त करें", en: "Apply for citizen service facilities\nAccess all available services" } },
+
+                    //- { endpoint: "/village/vaidyakiy-madat-kaksha-view", title: { original: t("navbar.bottom.medicalHelpDesk")}, desc: {
+                    //-         mr: "वैद्यकीय मदत कक्षाशी संपर्क साधा\nतुमच्या आरोग्याच्या त्वरित मदतीसाठी",
+                    //-         hi: "मेडिकल हेल्प डेस्क से संपर्क करें\nआपकी स्वास्थ्य के लिए त्वरित सहायता के लिए",
+                    //-         en: "Contact the Medical Help Desk\nFor immediate assistance with your health needs"
+                    //-     }
+                    //- }
+                    { endpoint: "/village/vaidyakiy-madat-kaksha-view", title: t("navbar.bottom.medicalHelpDesk"), icon: "fa-notes-medical", desc: { mr: "वैद्यकीय मदत कक्षाशी संपर्क साधा\nतुमच्या आरोग्याच्या त्वरित मदतीसाठी", hi: "मेडिकल हेल्प डेस्क से संपर्क करें\nआपकी स्वास्थ्य के लिए त्वरित सहायता के लिए", en: "Contact the Medical Help Desk\nFor immediate assistance with your health needs" } }
+                ]
+
+
+
+            .container
+
+                //- Heading (same visual weight as emergency section)
+                h4(class='text-center text-xl md:text-3xl font-bold tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 mb-8')
+                    i.fa-solid.fa-qrcode
+                    span.ml-2 DOWNLOAD QR CODES
+
+
+                div(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6')
+                    each btn, _index in qrButtons
+                        div(class='qr-card bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-row')
+
+                            // QR Code Container
+                            div(class='w-24 flex-shrink-0')
+                                div(id=`download-qr-${_index}` class='qr-box' data-endpoint=btn.endpoint )
+
+                            // Text & Description
+                            div(class='flex-grow px-3 flex flex-col justify-between')
+
+                                // Title and Description
+                                div
+                                    a(href=btn.endpoint target='_blank' class='text-blue-700 font-bold hover:underline block text-lg') #{btn.title}
+                                    p(class='text-gray-600 text-sm mt-1 mb-2 line-clamp-2') #{btn.desc[language]}
+
+                                // Download Button
+                                div(class='flex justify-end')
+                                    button(type='button' class='download-qr-btn text-sm px-3 py-1 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center' data-target=`download-qr-${_index}`)
+                                        i(class='fa-solid fa-download mr-1')
+                                        | Download QR
+
+    section
+
+        div(class='py-8 bg-slate-100 border-t border-slate-300')
+            .container
+
+                //- Heading (same visual weight as before)
+                h4(class='text-center text-xl md:text-3xl font-bold tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 mb-8')
+                    i.fa-solid.fa-qrcode
+                    span.ml-2 DOWNLOAD SERVICE PORTALS
+
+                -
+                    const serviceLinks = [
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आरटीएस सेवांसाठी नागरिक लॉगिन",
+                                hi: "आरटीएस सेवाओं के लिए नागरिक लॉगिन",
+                                en: "Citizen Login for RTS Services"
+                            },
+                            desc: {
+                                mr: "स्वतः चे नागरिक लॉगिन तयार करा आणि नागरी सेवा अधिकार कायदा महाराष्ट्र २०१५ च्या अंतर्गत सुचित सरकारी सेवेसाठी 'आपले सरकार' पोर्टलवर ऑनलाईन अर्ज करा.",
+                                hi: "अपना नागरिक लॉगिन बनाएं और महाराष्ट्र लोक सेवा अधिकार अधिनियम 2015 के अंतर्गत अधिसूचित सरकारी सेवाओं के लिए 'आपले सरकार' पोर्टल पर ऑनलाइन आवेदन करें।",
+                                en: "Create your citizen login and apply online for notified government services under the Maharashtra Right to Public Services Act, 2015 through the Aaple Sarkar portal."
+                            }
+                        },
+                        {
+                            endpoint: "https://rdd.maharashtra.gov.in/en/",
+                            title: {
+                                mr: "शासकीय विभाग",
+                                hi: "सरकारी विभाग",
+                                en: "Government Departments"
+                            },
+                            desc: {
+                                mr: "महाऑनलाईन पोर्टलचा वापर करणाऱ्या शासकीय विभागांनी सर्व्हिस डिलिव्हरीसाठी येथे लॉगिन करा.",
+                                hi: "महाऑनलाइन पोर्टल का उपयोग करने वाले सरकारी विभाग सेवा वितरण के लिए यहां लॉगिन करें।",
+                                en: "Government departments using the MahaOnline portal can log in here for service delivery and application management."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आपले सरकार सेवा केंद्र / सेतू केंद्र",
+                                hi: "आपले सरकार सेवा केंद्र / सेतू केंद्र",
+                                en: "Aaple Sarkar Seva Kendra / SETU Center"
+                            },
+                            desc: {
+                                mr: "नागरिकांना सेवा देण्यासाठी आपले सरकार सेवा केंद्र व सेतू केंद्र परिचालक या पर्यायाद्वारे येथे लॉगिन करू शकतात.",
+                                hi: "नागरिकों को सेवाएं प्रदान करने के लिए आपले सरकार सेवा केंद्र और सेतू केंद्र संचालक यहां लॉगिन कर सकते हैं।",
+                                en: "Aaple Sarkar Seva Kendra and SETU center operators can log in here to provide government services to citizens."
+                            }
+                        },
+                        {
+                            endpoint: "https://mpsc.gov.in/adv_notification/8",
+                            title: {
+                                mr: "महाराष्ट्र लोकसेवा आयोग",
+                                hi: "महाराष्ट्र लोक सेवा आयोग",
+                                en: "Maharashtra Public Service Commission"
+                            },
+                            desc: {
+                                mr: "एम पी एस सी च्या विविध स्पर्धा परीक्षा व भरती प्रक्रियेसाठी ऑनलाईन अर्ज करण्यासाठी अधिकृत पोर्टल.",
+                                hi: "महाराष्ट्र लोक सेवा आयोग की विभिन्न प्रतियोगी परीक्षाओं और भर्ती प्रक्रियाओं के लिए ऑनलाइन आवेदन करने का आधिकारिक पोर्टल।",
+                                en: "Official portal of the Maharashtra Public Service Commission for online applications to competitive exams and recruitment processes."
+                            }
+                        },
+                        {
+                            endpoint: "https://www.mahaonline.gov.in/Site/25/Online-Recruitment",
+                            title: {
+                                mr: "महा रिक्रूटमेंट पोर्टल",
+                                hi: "महा भर्ती पोर्टल",
+                                en: "Maha Recruitment Portal"
+                            },
+                            desc: {
+                                mr: "राज्यातील शासकीय व निमशासकीय कार्यालयांमधील भरती प्रक्रियेसाठी राज्यस्तरीय रिक्रूटमेंट पोर्टल.",
+                                hi: "राज्य के सरकारी और अर्ध-सरकारी कार्यालयों की भर्ती प्रक्रियाओं के लिए राज्यस्तरीय भर्ती पोर्टल।",
+                                en: "State-level recruitment portal for government and semi-government job opportunities in Maharashtra."
+                            }
+                        },
+                        {
+                            endpoint: "https://msrtc.mahaonline.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र राज्य मार्ग परिवहन महामंडळ",
+                                hi: "महाराष्ट्र राज्य सड़क परिवहन महामंडल",
+                                en: "Maharashtra State Road Transport Corporation"
+                            },
+                            desc: {
+                                mr: "महाराष्ट्र राज्य मार्ग परिवहन महामंडळाच्या बसेससाठी ऑनलाईन तिकीट आरक्षण व संबंधित सेवा.",
+                                hi: "महाराष्ट्र राज्य मार्ग परिवहन महामंडल की बसों के लिए ऑनलाइन टिकट बुकिंग और संबंधित सेवाएं।",
+                                en: "Online ticket booking and related services for Maharashtra State Road Transport Corporation (MSRTC) buses."
+                            }
+                        },
+                        {
+                            endpoint: "https://exciseservices.mahaonline.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र राज्य उत्पादन शुल्क",
+                                hi: "महाराष्ट्र राज्य आबकारी विभाग",
+                                en: "Maharashtra State Excise Department"
+                            },
+                            desc: {
+                                mr: "उत्पादन शुल्क विभागाच्या विविध परवाने, नोंदणी, अर्ज व अर्ज ट्रॅकिंगसाठी ऑनलाईन सुविधा.",
+                                hi: "उत्पादन शुल्क विभाग की विभिन्न लाइसेंस सेवाओं, आवेदन और आवेदन ट्रैकिंग के लिए ऑनलाइन सुविधा।",
+                                en: "Online services for licenses, applications, and tracking provided by the Maharashtra State Excise Department."
+                            }
+                        },
+                        {
+                            endpoint: "https://mahammb.maharashtra.gov.in/",
+                            title: {
+                                mr: "महाराष्ट्र सागरी मंडळ",
+                                hi: "महाराष्ट्र समुद्री मंडल",
+                                en: "Maharashtra Maritime Board"
+                            },
+                            desc: {
+                                mr: "महाराष्ट्र सागरी मंडळाच्या फेरी सेवांसाठी ऑनलाईन तिकीट बुकिंग करण्यासाठी अधिकृत पोर्टल.",
+                                hi: "महाराष्ट्र सागरी मंडल की फेरी सेवाओं के लिए ऑनलाइन टिकट बुकिंग हेतु आधिकारिक पोर्टल।",
+                                en: "Official portal for online ferry ticket booking services operated by the Maharashtra Maritime Board."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "प्रमाणित प्रमाणपत्र सत्यापित करा",
+                                hi: "प्रमाणित प्रमाणपत्र सत्यापित करें",
+                                en: "Verify Issued Certificates"
+                            },
+                            desc: {
+                                mr: "आपले सरकार पोर्टलवरून जारी करण्यात आलेल्या प्रमाणपत्रांची ऑनलाईन सत्यता तपासण्यासाठी सुविधा.",
+                                hi: "आपले सरकार पोर्टल के माध्यम से जारी प्रमाणपत्रों की ऑनलाइन सत्यापन सुविधा।",
+                                en: "Facility to verify the authenticity of certificates issued through the Aaple Sarkar portal."
+                            }
+                        },
+                        {
+                            endpoint: "https://aaplesarkar.mahaonline.gov.in/",
+                            title: {
+                                mr: "आपला अर्ज ट्रॅक करा",
+                                hi: "अपने आवेदन को ट्रैक करें",
+                                en: "Track Your Application"
+                            },
+                            desc: {
+                                mr: "आपले सरकार पोर्टलवर सादर केलेल्या अर्जाची सद्यस्थिती ऑनलाईन ट्रॅक करा.",
+                                hi: "आपले सरकार पोर्टल पर जमा किए गए आवेदन की वर्तमान स्थिति ऑनलाइन ट्रैक करें।",
+                                en: "Track the current status of applications submitted through the Aaple Sarkar portal."
+                            }
+                        },
+                    ];
+
+
+
+                //- Grid of QR Cards
+                div(class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6')
+                    each link, _index in serviceLinks
+                        div(class='qr-card bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-row')
+
+                            // QR Code Container
+                            div(class='w-24 flex-shrink-0')
+                                div(id=`service-qr-${_index}` class='qr-box' data-endpoint=link.endpoint )
+
+                            // Text & Description
+                            div(class='flex-grow px-3 flex flex-col justify-between')
+                                div
+                                    a(href=link.endpoint target='_blank' class='text-blue-700 font-bold hover:underline block text-lg') 
+                                        if link.title.original 
+                                            | #{link.title.original}
+                                        else 
+                                            | #{link.title[language]}
+                                    if link.desc && link.desc[language]
+                                        p(class='text-gray-600 text-sm mt-1 mb-2 line-clamp-2') #{link.desc[language]}
+
+                                // Download Button
+                                div(class='flex justify-end')
+                                    button(type='button' class='download-qr-btn text-sm px-3 py-1 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center' data-target=`service-qr-${_index}`)
+                                        i(class='fa-solid fa-download mr-1')
+                                        | Download QR
+
+
+block internal_js
+    script(src="https://cdn.lightwidget.com/widgets/lightwidget.js")
+
+    script.
+        document.addEventListener("DOMContentLoaded", function() {
+
+
+            var data = !{userDataString};
+            if(data){
+                data.forEach(function(userData, index) {
+                    generateQRCode(index, userData);
+                });
+            }
+            function generateQRCode(id, userData) {
+                //- let website = 'https://g-seva.com/pay';
+                //- website = `${website}/!{zp.pg_registration_no}/${userData.id}?rTo=${encodeURIComponent(window.location.origin)}`;
+                //- new QRCode(document.getElementById("qrcode" + id), website);
+                const container = document.getElementById("qrcode" + id);
+
+                // clear old QR (important for resize)
+                container.innerHTML = "";
+
+                let website = 'https://g-seva.com/pay';
+                website = `${website}/!{zp.pg_registration_no}/${userData.id}?rTo=${encodeURIComponent(window.location.origin)}`;
+
+                // get actual container width
+                const size = container.offsetWidth || 80; // fallback for mobile
+
+                new QRCode(container, {
+                    text: website,
+                    width: size,
+                    height: size
+                });
+            }
+
+
+            //- const allowedDomains = ['gpsangwabk.com', 'www.gpsangwabk.com'];
+            //- if (!allowedDomains.includes(window.location.hostname)) {
+            //-     document.getElementById('sangwa-section')?.remove();
+            //- }
+            AOS.init();
+
+            $("#accordion-shasan-pdf").accordion({
+                collapsible: true,
+                "heightStyle": "auto" ,
+                active: false,
+                activate: function (event, ui) {
+                    console.log(ui)
+                        $(ui.newPanel).css('height', '200');
+                        $(ui.newPanel).css('min-height', '200');
+                        $(ui.newPanel).css('max-height', '600');
+                    }
+            });
+            //- $('#myModal3').modal('show')
+            $.ajax({
+                url:"/site-seen",
+                method:'post',
+                data:{	
+                    count:Number(#{gp.gp_site_count})+1
+                }
+                }).done(function(data){
+                    console.log(data)
+                }).fail(function(error){
+                    alert('something went worng, try again')
+                    console.log(error)
+                })
+
+            let $carousel = $('.owl-carousel.gp-images-carousel');
+
+            $carousel.owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 1,
+
+                nav: false,        // ❌ disable default arrows (we use custom buttons)
+                dots: true,        // ✅ show dots
+                autoplay: true,
+                autoplayTimeout: 4500,
+                autoplayHoverPause: true,
+                smartSpeed: 800,   // smoother slide transition
+
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 1 },
+                    1000: { items: 1 }
+                }
+            });
+
+            $('#gp-slider-prev-btn').on('click', function () {
+                $carousel.trigger('prev.owl.carousel');
+            });
+
+            $('#gp-slider-next-btn').on('click', function () {
+                $carousel.trigger('next.owl.carousel');
+            });
+
+            $('.owl-carousel.arogya-camp-photos').owlCarousel({
+                items: 3.5,
+                // responsive: {
+                //   750: { items: 2 },
+                //   900: { items: 3.5 },
+                // },
+                loop: true,
+                margin: 30,
+                autoplay: true,
+                slideTransition: 'linear',
+                autoplayTimeout: 2500,
+                smartSpeed: 2500,
+                center: true,
+                autoplayHoverPause: true,
+                dots: true,
+                rewind: true
+            })
+        })
+
+    script(src='/asstest/coustom/js/handlers/home-page-handler.js')
+

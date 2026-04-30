@@ -11,7 +11,7 @@ var responderSet = require("../config/_responderSet");
 const MasterModel = require("../model/MasterModel");
 const { sendError, renderPage } = require("../utils/sendResponse");
 const asyncHandler = require("../utils/asyncHandler");
-const { sendApiResponse, sendApiError } = require("../utils/apiResponses");
+const { sendApiResponse, sendApiError, renderNormalPage } = require("../utils/apiResponses");
 const { commonDataRedisKey, MY_TIME } = require("../utils/redisKeys");
 const { redisClient, getRedisData, setRedisKey } = require("../utils/redis");
 const getOrigin = require("../utils/siteUtils.js");
@@ -64,7 +64,7 @@ let CandidateController = {
       allRequiredData.govYojnaFileList =
         (await MasterModel.get_gov_yojna_file_name_list(res.pool)) || [];
 
-      let queriedRes = await MasterModel.getAllRequiredData();
+      let queriedRes = await MasterModel.getAllRequiredData(res.pool);
 
       let day = getCurrentDayOfMonth();
 
@@ -197,6 +197,11 @@ let CandidateController = {
 
   indexView: asyncHandler(async (req, res) => {
     // if user is undefined, means if no user is logged
+
+    if(!req.session?.dbDetails){
+        res.redirect("/login")
+        return;
+    }
 
     if (!req.session?.User) {
       let allRequiredData = await CandidateController.getCommonData(req, res);
@@ -386,6 +391,14 @@ let CandidateController = {
         res.status(500).send({ call: error });
       });
   },
+
+  renderLoginPage: asyncHandler(async (req, res) => {
+    let { continue: continueOn } = req.query || {};
+    renderNormalPage(res, "user/new-login-page.pug", {
+        continueOn: continueOn,
+        withoutLogin: continueOn?.length > 0, 
+    })
+  }),
 
   homeView: asyncHandler(async (req, res) => {
     const sub_village = (await HomeModel.getGpCount(res.pool)) || [];
@@ -663,33 +676,13 @@ let CandidateController = {
   // })
   // },
 
-  checkOtp: asyncHandler(async (req, res) => {
-    let { otp } = req.body;
-
-    let loginData = req.body;
-
-    if (!loginData?.userName || !loginData?.password) {
-      return sendError(res, 400, 0, "Invalid Request", "Invalid Request");
-    }
-
-    const d = new Date();
-    const otpOfTheDay = `${String(d.getDate()).padStart(2, "0")}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getFullYear()).slice(-2)}`;
-
-    if (!otp || otp != otpOfTheDay) {
-      return sendApiError(res, 401, false, "Invalid otp");
-    }
-
-    const _userDetails = await HomeModel.checkAuth(res.pool, loginData);
-
-    req.session.User = _userDetails[0];
-
-    return sendApiResponse(res, 200, true, "Successful login");
-  }),
 
   logout: asyncHandler(async (req, res) => {
-    req.session.destroy(function (err) {
-      // cannot access session here
-    });
+    // req.session.destroy(function (err) {
+    //   // cannot access session here
+    // });
+    req.session.User = null;
+    req.session.dbDetails = null;
 
     return sendApiResponse(res, 200, true);
   }),

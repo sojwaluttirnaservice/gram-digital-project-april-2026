@@ -190,6 +190,8 @@ html(lang="en")
                             h3.text-danger.fw-bold.mb-0.slide-title(style="font-size:20px;")= slide.slide_title
                         if slide.slide_subtitle
                             h5.text-primary.mt-1.mb-0.slide-subtitle(style="font-size:14px;")= slide.slide_subtitle
+                        if slide.slide_description 
+                            h5(class="text-success fw-bold mt-1 mb-0" style="font-size: 20px;")= slide.slide_description
 
                     if hasImages
                         div.slide-image-area

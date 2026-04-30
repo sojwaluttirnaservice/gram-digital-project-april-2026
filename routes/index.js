@@ -74,9 +74,11 @@ const gpApplicationsRouter = require("./applications/gpApplicationsRouter.js");
 const pptRouter = require("./ppt/pptRouter.js");
 const rtiRouter = require("./rti/rtiRouter.js");
 const bankRouter = require("./bank/bankRouter.js");
+const authController = require("../application/controllers/auth/authController.js");
+const dbRouter = require("./db/dbRouter.js");
 
 indexRouter.get("/", middleware.checkForPoolConnection, homeController.indexView);
-
+indexRouter.get('/qr-list', qrCodeController.renderQrCodeListPage)
 indexRouter.post(
   "/site-seen",
   middleware.checkForPoolConnection,
@@ -145,12 +147,18 @@ indexRouter.get(
 // ********************
 // AUTH ROUTES
 // ********************
+// indexRouter.get(
+//   "/login",
+//   middleware.checkForPoolConnection,
+//   homeController.homeView
+// );
+
 indexRouter.get(
-  "/login",
-  middleware.checkForPoolConnection,
-  homeController.homeView
-);
-indexRouter.post("/logout", middleware.checkForPoolConnection, homeController.logout);
+    "/login",
+    homeController.renderLoginPage
+)
+
+indexRouter.post("/logout",  homeController.logout);
 
 indexRouter.get(
   "/new-application-form",
@@ -234,9 +242,20 @@ indexRouter.post(
 );
 
 indexRouter.post(
+    '/new-login',
+    authController.checkLogin
+)
+
+
+indexRouter.post(
+    '/gp-code',
+    authController.verifyGpCode
+)
+
+
+indexRouter.post(
     '/otpCheck',
-    middleware.checkForPoolConnection,
-    homeController.checkOtp
+    authController.checkOtp
 )
 
 indexRouter.post(
@@ -522,6 +541,8 @@ indexRouter.use('/ppt', pptRouter)
 indexRouter.use('/rti', rtiRouter)
 
 indexRouter.use("/bank", bankRouter)
+
+indexRouter.use('/db', dbRouter)
 
 indexRouter.use(
   "/gp-certificates",

@@ -1,0 +1,581 @@
+
+html
+    head
+        title ग्राम पंचायत 
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width,initial-scale=1")
+
+
+        script(src='/asstest/coustom/css/tailwind.js')
+
+
+
+        //- FAVICON
+
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/header-images/g-seval-globe.png">
+
+
+        //- google fonts 
+        //- ENGLISH 
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        //- link(href="https://fonts.googleapis.com/css2?family=Chivo:wght@700&display=swap" rel="stylesheet")
+
+        //- MARATHI FONT
+
+        //- YATRA ONE
+        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+        //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+
+
+
+        //- DEKKO
+        <link href="https://fonts.googleapis.com/css2?family=Dekko&display=swap" rel="stylesheet">
+
+
+        //- common css
+        link(rel="stylesheet" href="/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css")
+        link(rel="stylesheet" href="/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css")
+        link(rel="stylesheet" href="/asstest/lightbox/dist/css/lightbox.css")
+
+        //- Contains the container class css (DONT DELETE OR REMOVE)
+        link(rel="stylesheet" href="/asstest/coustom/css/index-page-outer/index-page.css")
+
+        //- link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.min.css')
+        //- latest font aweseome
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+        link(rel='stylesheet' href='/asstest/plugins/jquery-ui-1.13.2/jquery-ui.css')
+
+        //- link(href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css")
+        link(href="/asstest/plugins/daisyUi/daisyUi.css" rel="stylesheet" type="text/css")
+
+
+        //- link(rel="stylesheet" href="/new-gp-page/css/g-seva-main-page.min.css")
+
+
+        //- common scripts
+        script(src='/asstest/coustom/js/handlers/lazy-loader-handler.js' defer)
+        script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+        script(src='/asstest/plugins/webcamjs/webcam.js' defer)
+        script(src='/asstest/plugins/jquery-ui-1.13.2/jquery-ui.js')
+        script(src='/asstest/coustom/js/common.js' defer)
+
+        script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+        script(src="/asstest/plugins/jquery_validation/additional-methods.js")
+
+        script(src="/asstest/lightbox/dist/js/lightbox.js" defer)
+        script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+
+        //- script(src="https://cdn.tailwindcss.com")
+
+        link(rel="stylesheet" href="/asstest/coustom/css/index-page-outer/index-navigation-outer.css")
+        script(src='/asstest/coustom/js/handlers/index-page-master-layout/navigation-bar.js' defer)
+        //- exposing langauge variable ("DONT REMOVE THIS BELWO LINE")
+        script.
+            window.siteLanguage = "#{language}";
+        script(src="/asstest/coustom/js/handlers/index-page-master-layout/language-handler.js")
+        //- Lottie files cdn
+        //- origina content link taken on teh sever
+        //- script(src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"  defer)
+        script(src='/asstest/plugins/lottie-player/lottie-player.js' defer)
+
+        //- mask plugin jquery
+        //- script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"  defer)
+        script(src='/asstest/plugins/jquery-mask/jquery-mask-2.js')
+
+
+        script(src='/asstest/plugins/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/owl.carousel.js')
+        script(src='/asstest/plugins/qrcodejs/qrcode.min.js')
+
+        style.
+            .yatra-one-regular {
+                font-family: "Yatra One", system-ui;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .dekko-regular {
+                font-family: "Dekko", cursive;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            .poppins-marathi-font {
+                font-family:"Poppins", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            /* ===================================================
+            UNIVERSAL Lazy-Loading Base Styles
+            =================================================== */
+
+            .lazy-image,
+            //- .lazy-video,
+            .lazy-lottie {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 20;
+            }
+
+            /* ===================================================
+            1️⃣ IMAGES - Lazy Loading
+            =================================================== */
+
+            .lazy-image {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+                object-fit: cover;
+                border-radius: 1.5rem;  /* Or rounded-full if needed in markup */
+            }
+
+            .lazy-image.loaded {
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            2️⃣ VIDEOS - Lazy Loading
+            =================================================== */
+
+            .lazy-video {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .lazy-video.loaded {
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            3️⃣ LOTTIE Animations - Lazy Loading
+            =================================================== */
+
+            .lazy-lottie {
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+            }
+
+            .lazy-lottie.loaded {
+                visibility: visible;
+                transition-delay: 0s;
+                opacity: 1;
+            }
+
+
+            /* ===================================================
+            Shimmer Placeholder
+            =================================================== */
+
+            .shimmer-placeholder {
+                background: linear-gradient(
+                    to right,
+                    #eeeeee 8%,
+                    #dddddd 18%,
+                    #eeeeee 33%
+                );
+                background-size: 800px 104px;
+                animation: shimmer 1.2s infinite linear;
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+                border-radius: 1.5rem;  /* Or rounded-full in markup as needed */
+            }
+
+            /* ===================================================
+            Shimmer Animation Keyframes
+            =================================================== */
+
+            @keyframes shimmer {
+                0% {
+                    background-position: -800px 0;
+                }
+                100% {
+                    background-position: 800px 0;
+                }
+            }
+
+
+            /* Main calendar background */
+            .ui-datepicker {
+                z-index: 99999 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #ccc;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+            }
+
+            /* Header (month/year bar) */
+            .ui-datepicker-header {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: none;
+            }
+
+            /* Month & Year dropdowns */
+            .ui-datepicker select {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #ccc !important;
+            }
+
+            /* Individual options (important for some browsers) */
+            .ui-datepicker select option {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            }
+
+            /* Hover / focus fix */
+            .ui-datepicker select:focus {
+                outline: none;
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+
+
+        //- Internal css
+        link(href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet")
+
+        //- External CSS
+        link(href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet")
+
+    body.yatra-one-regular
+        //- body
+        .wrapper(class='relative')
+            //- Scroll Up Button
+            div#scrollUpContainer(class='hidden fixed z-[100] bottom-5 right-5')
+                button#scrollUpBtn(class='w-12 h-12 z-[1000] flex items-center justify-center rounded-full bg-sky-700 border-2 border-green-400 text-white shadow-lg transition-transform transition-colors duration-300 transform hover:scale-110 hover:bg-gradient-to-br hover:from-blue-600 hover:to-green-500 hover:border-green-300' title='Scroll to top')
+                    i(class='fas fa-arrow-up text-xl')
+
+
+            main(class='relative')
+
+
+
+                section.relative
+
+                    img(class='fixed top-0 left-0 bg-cover lg:w-full h-full z-[10]' src='https://i.pinimg.com/736x/87/93/73/87937304f81403887d2c7914af693c35.jpg')
+
+                    div(class='fixed top-0 left-0 w-full h-full z-[15] bg-gray-600/70')
+
+                    .container
+
+                        #login-form-container
+
+                            div(class='mt-8 sm:mt-16 mx-auto relative z-[20] border-2 border-white rounded-md bg-white/50 backdrop-blur-md shadow-xl max-w-[400px] md:max-w-[800px] shadow-xl transition duration-300 ease-in hover:shadow-2xl' )
+                                div(class='grid grid-cols-1 md:grid-cols-2')
+
+                                    div(class='hidden md:flex md:flex-col border-r')
+                                        //- .lottie-holder(class='h-96 aspect-square')
+                                            lottie-player(src="/animations/admin-login/animate-admin-login.json" class='w-full h-full' background="transparent" speed="1", loop, autoplay)
+
+                                        .g-seva-icon-holder(class='w-full  flex justify-center items-center flex-grow')
+                                            img(src='/img/header-images/g-seval-globe.png' class='w-[60%] aspect-square' alt='G-Seva logo globe')
+
+                                        //- div(class='h-16 py-2 px-1 flex items-center justify-center') 
+                                        //- 	//- p(class='font-bold') G- सेवा
+                                        //- 	img(src='/img/header-images/g-sevalogo-new-2.png')
+                                    form(id='login-form' class='h-full px-8 py-8 flex flex-col justify-center')
+
+
+                                        h6.mb-4(class='text-center font-bold text-xl') GRAM LOGIN
+
+                                        - let inputClassName = 'peer block bg-white w-full px-4 pt-6 pb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition duration-200'
+                                        - let labelClassName = 'absolute text-gray-700 bg-white/70 rounded-sm px-1 left-3 -top-2.5 transition-all duration-200 peer-placeholder-shown:top-4 peer-placeholder-shown:left-4 peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:left-3 peer-focus:text-sm peer-focus:text-gray-800'
+
+
+                                        if withoutLogin
+                                            p.mb-3#warning-text(data-continue=`${continueOn}` class='text-sm text-red-500 text-center') ग्राम लॉगिन एक्सेस करण्यासाठी लॉगिन करा.
+
+                                        .input-fields-container(class='flex flex-col gap-4')
+
+                                            //- Gp code 
+                                            .input-group(class='mb-3 px-lg-2')
+                                                div(class='relative')
+                                                    input#gp_code(class=`${inputClassName}` name='gp_code' type='text' placeholder=' ' value='GPDEV1' required)
+                                                    label(class=`${labelClassName}` for='gp_code') ग्रामपंचायत कोड
+
+                                            
+                                            button#verify-gp-btn.btn.btn-success(type='button') Verify
+
+
+                                            // 🔥 Hide everything until verification succeeds
+                                            .div#login-fields(style="display:none;")
+                                                //- Username
+                                                .input-group(class='mb-3 px-lg-2')
+                                                    div(class='relative')
+                                                        input#login(class=`${inputClassName}` name='username' type='text' placeholder=' ' value='a' required)
+                                                        label(class=`${labelClassName}` for='login') Username
+
+                                                //- Password 
+                                                .input-group(class='mb-3 px-lg-2')
+                                                    div(class='relative')
+                                                        input#password(class=`${inputClassName}` name='password' type='password' placeholder=' ' value='a' required)
+                                                        label(class=`${labelClassName}` for='password') Password
+
+                                                .input-group(class='mb-3 px-lg-2')
+                                                    div(class='relative')
+                                                        select#dbId(class=`${inputClassName}` name='dbId' type='text' placeholder=' ' required)
+                                                        label(class=`${labelClassName}` for='dbId') Village
+
+
+                                                .input-group#otp-box(class='mb-3 px-lg-2' style="display:none;")
+                                                    div(class='relative')
+                                                        input#otp(class=`${inputClassName}` name='otp' type='text' value='300426' placeholder='' maxlength='6')
+                                                        label(class=`${labelClassName}` for='otp') OTP
+
+                                                    div
+                                                        p(class='text-red-600 text-sm mt-2') * OTP प्राप्त करण्यासाठी 9561135790 या क्रमांकावर सकाळी 10.30 ते संध्याकाळी 6.00 या वेळेत संपर्क साधावा.
+
+                                                .buttons-container
+
+                                                    //- ORIGINALLY A LOGIN BUTTON, BUT NOW MAKING IT SEND OTP BUTTON, no change in functionality, just label change name
+                                                    button#login-btn(type='button' data-sendSendOtpBtn class='px-4 py-2 w-full rounded-md text-white font-bold tracking-wide bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-50 transition duration-200') Login
+                                                    button#loginWithOtpBtn(type='button' style="display:none;" data-loginWithOtpBtn class='px-4 py-2 w-full rounded-md text-white font-bold tracking-wide bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-200') Login With Otp
+
+
+
+
+    script.
+        $(document).ready(function() {
+
+            const $gpInput = $("#gp_code");
+            const $loginFields = $("#login-fields");
+
+
+
+            function populateDatabaseDropdown(dbList) {
+
+                const dropdown = document.getElementById("dbId");
+
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Select Village";
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                dropdown.appendChild(defaultOption);
+
+                // 🔥 map + append options
+                dbList.forEach(_dbEntry => {
+
+                    const label = _dbEntry.db_type === "PRIMARY"
+                        ? "चालू वर्ष"
+                        : `${_dbEntry.fromYear} ते ${_dbEntry.toYear}`;
+
+                    const option = document.createElement("option");
+                    option.value = _dbEntry.id; // ✅ now using id
+                    option.textContent = label;
+
+                    dropdown.appendChild(option);
+                });
+            }
+
+            const verifyGpCode = async ($btn, gpCode) => {
+                
+
+
+                const originalText = $btn.text();
+                console.log("verifygin the button", $btn)
+
+                $btn.prop('disabled', true).text('Verifying...');
+                 
+
+                try {
+
+                    
+                    const response = await fetch("/gp-code", {
+                        method: "POST",
+                        body: JSON.stringify({ gp_code: gpCode }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                   
+                    const { success, message , data} = await response.json();
+
+                   console.log(data)
+
+                    if (success) {
+
+                        alertjs.success({
+                            t: "SUCCESS",
+                            m: "GP Code verified successfully"
+                        }, () => {
+
+                            $("#login-fields").slideDown(200);
+                            $("#gp_code").prop("readonly", true);
+
+                            // ✅ hide button after success
+                            $("#verify-gp-btn").fadeOut(200);
+
+
+
+                            populateDatabaseDropdown(data.dbList || [])
+
+                        });
+
+                        return;
+                    }
+
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message
+                    });
+
+                } catch (err) {
+
+                    console.error(err);
+
+                    alertjs.warning({
+                        t: "Error",
+                        m: "Error verifying GP Code"
+                    });
+
+                } finally {
+
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            };
+
+            $(document).on('click', '#verify-gp-btn', async function (e) {
+                e.preventDefault();
+
+                const gpCode = $("#gp_code").val()?.trim();
+
+                if (!gpCode) {
+                    alertjs.warning({
+                        t: "Warning",
+                        m: "GP Code आवश्यक आहे"
+                    });
+                    return;
+                }
+
+                await verifyGpCode($(this), gpCode);
+            });
+
+            let otpBox = document.getElementById('otp-box')
+            let loginBtn = document.querySelector('[data-sendSendOtpBtn]');
+            let loginWithOtpBtn = document.querySelector('[data-loginWithOtpBtn]')
+
+            //- Authentication of the user 
+            $(document).on('click', '#login-btn', async function(e) {
+                e.preventDefault()
+
+                const $btn = $(this);
+                const originalText = $btn.text();
+
+                // disable button + loading text
+                $btn.prop('disabled', true).text('Sending OTP...');
+
+                const loginData = new FormData(document.getElementById('login-form'));
+
+                try {
+                    const _response = await fetch('/new-login', {
+                        method: 'POST',
+                        body: loginData
+                    })
+
+                    const {success, message} = await _response.json();
+
+                    if(success) {
+
+                        alertjs.success({
+                            t: 'SUCCESS',
+                            m: "सदर लॉगिन साठी OTP तुमच्या मोबाईल वर पाठवला आहे."
+                        }, () =>{
+                            otpBox.style.display = "block";
+                            document.getElementById('otp').setAttribute('required', 'required');
+                            loginBtn.style.display = "none";
+                            loginWithOtpBtn.style.display = "block";
+                        })
+
+                        return;
+                    }
+
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message
+                    })
+
+                } catch(err){
+                    console.error('Error whilte trying to login:', err)
+                    alertjs.warning({
+                        t: 'Error',
+                        m: 'Error while trying to login'
+                    })
+                } finally {
+                    // re-enable button
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            })
+
+
+            $(document).on('click', "#loginWithOtpBtn", async function(e){
+                e.preventDefault();
+
+                let otpValue = $('#otp').val();
+
+                if(!otpValue?.trim()){
+                    alertjs.warning({
+                        t: "Warning",
+                        m: 'Enter An Otp'
+                    })
+                    return;
+                }
+
+                const $btn = $(this);
+                const originalText = $btn.text();
+
+                // disable button + loading text
+                $btn.prop('disabled', true).text('Verifying OTP...');
+
+                const loginData = new FormData(document.getElementById('login-form'));
+
+                try {
+                    const _response = await fetch('/otpCheck', {
+                        method: 'POST',
+                        body: loginData
+                    })
+
+                    const {success, message} = await _response.json();
+
+                    if(success) {
+                        alertjs.success({
+                            t: 'SUCCESS',
+                            m: message
+                        }, () =>{
+                            const warningTextEl = document.getElementById("warning-text");
+                            let continueOn = null;
+
+                            if (warningTextEl) {
+                                continueOn = warningTextEl.getAttribute("data-continue");
+                            }
+
+                            window.location.href = continueOn ? continueOn : "/";
+                        })
+
+                        return;
+                    }
+
+                    alertjs.warning({
+                        t: "Warning",
+                        m: message
+                    })
+
+                } catch(err){
+                    console.error('Error whilte trying to login:', err)
+                    alertjs.warning({
+                        t: 'Error',
+                        m: 'Error while trying to login'
+                    })
+                } finally {
+                    // re-enable button
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            })
+        })

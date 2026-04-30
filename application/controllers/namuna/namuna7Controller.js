@@ -277,7 +277,7 @@ const namuna7Controller = {
 
     await namuna7Model.update(res.pool, id, data);
 
-    // await paymentModel.update(req.pool, record.payment_id, data);
+    // await paymentModel.update(res.pool, record.payment_id, data);
 
     return sendApiResponse(res, 200, true, "अपडेट झाले.");
   }),
