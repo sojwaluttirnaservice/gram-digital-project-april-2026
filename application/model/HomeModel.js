@@ -1133,9 +1133,8 @@ let HomeModel = {
 		if (cachedGpData) {
 			return cachedGpData
 		}
-
-		let [_gp] = await db.query(query)
-
+		// let [_gp] = await db.query(query)
+        let _gp = await runQuery(pool, query)
 		return _gp
 	},
 
@@ -1233,8 +1232,7 @@ let HomeModel = {
                         feu_image_map,
                         feu_water_tax,
                         home_image_longitude,
-                        home_image_latitude,
-                        home_image_location
+                        home_image_latitude
                     FROM ps_form_eight_user as feu
                         INNER JOIN 
                         ps_gharkul_yojna as gy 

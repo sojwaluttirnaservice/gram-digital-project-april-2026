@@ -45,7 +45,6 @@ const complaintsModel = {
 
                 imageLongitude,
                 imageLatitude,
-                ST_AsText(imageLocation) AS imageLocation,
 
                 complaintResolutionDate,
                 ${fmtDateField("complaintResolutionDate")},
@@ -88,7 +87,6 @@ const complaintsModel = {
 
                 imageLongitude,
                 imageLatitude,
-                ST_AsText(imageLocation) AS imageLocation,
 
                 complaintResolutionDate,
                 ${fmtDateField("complaintResolutionDate")},
@@ -129,7 +127,6 @@ const complaintsModel = {
 
                 imageLongitude,
                 imageLatitude,
-                ST_AsText(imageLocation) AS imageLocation,
 
                 complaintResolutionDate,
                 ${fmtDateField("complaintResolutionDate")},
@@ -171,7 +168,6 @@ const complaintsModel = {
 
             imageLongitude,
             imageLatitude,
-            ST_AsText(imageLocation) AS imageLocation,
 
             complaintResolutionDate,
             ${fmtDateField("complaintResolutionDate")},
@@ -220,7 +216,6 @@ const complaintsModel = {
 
             imageLongitude,
             imageLatitude,
-            ST_AsText(imageLocation) AS imageLocation,
 
             complaintResolutionDate,
             ${fmtDateField("complaintResolutionDate")},
@@ -271,7 +266,6 @@ const complaintsModel = {
 
                 imageLongitude,
                 imageLatitude,
-                imageLocation,
 
                 complaintStatus,
 
@@ -282,14 +276,12 @@ const complaintsModel = {
                 ?, ?, ?, ?, ?, ?, ?, ?,
                 ?, ?, ?,
                 ?, ?, 
-                ST_PointFromText(?),
                 "PENDING",
 
                 ?,?
             )
         `;
 
-    const point = `POINT(${data.imageLongitude} ${data.imageLatitude})`;
 
     const now = new Date();
 
@@ -309,7 +301,6 @@ const complaintsModel = {
 
       data.imageLongitude,
       data.imageLatitude,
-      point,
 
       data.createdAt || now,
       data.createdAt || now
@@ -388,17 +379,12 @@ const complaintsModel = {
                     complaintFinalResolutionDate = ?,
                     complaintStatus = ?,
                     complaintResolutionImageLongitude = ?,
-                    complaintResolutionImageLatitude = ?,
-                    complaintResolutionImageLocation = ST_GeomFromText(?)
+                    complaintResolutionImageLatitude = ?
                 WHERE
                 id = ?`;
 
     // MySQL POINT format: POINT(longitude latitude)
-    const locationPoint =
-      resolvedData.complaintResolutionImageLongitude &&
-      resolvedData.complaintResolutionImageLatitude
-        ? `POINT(${resolvedData.complaintResolutionImageLongitude} ${resolvedData.complaintResolutionImageLatitude})`
-        : null;
+
 
     return runQuery(pool, q, [
       resolvedData.complaintResolutionImageUrl || null,
@@ -406,7 +392,6 @@ const complaintsModel = {
       "RESOLVED",
       resolvedData.complaintResolutionImageLongitude || null,
       resolvedData.complaintResolutionImageLatitude || null,
-      locationPoint, // passed to ST_GeomFromText
       resolvedData.id,
     ]);
   },

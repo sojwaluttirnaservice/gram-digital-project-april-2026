@@ -87,12 +87,6 @@ const ps_citizen_complaints = sequelize.define(
       allowNull: false,
     },
 
-    // REQUIRED POINT
-    imageLocation: {
-      type: Sequelize.GEOMETRY("POINT"),
-      allowNull: false,
-    },
-
     complaintResolutionDate: {
       type: Sequelize.DATE,
       allowNull: true,
@@ -119,12 +113,6 @@ const ps_citizen_complaints = sequelize.define(
     // REQUIRED LATITUDE
     complaintResolutionImageLatitude: {
       type: Sequelize.DECIMAL(10, 7),
-      allowNull: true,
-    },
-
-    // REQUIRED POINT
-    complaintResolutionImageLocation: {
-      type: Sequelize.GEOMETRY("POINT"),
       allowNull: true,
     },
 

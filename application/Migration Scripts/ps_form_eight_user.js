@@ -163,10 +163,6 @@ const ps_form_eight_user = sequelize.define(
       type: Sequelize.DECIMAL(10, 7),
       allowNull: true,
     },
-    home_image_location: {
-      type: Sequelize.GEOMETRY("POINT"),
-      allowNull: true,
-    },
 
     // 📍 Extra useful fields for better tracking
     home_image_accuracy: {

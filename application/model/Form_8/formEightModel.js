@@ -32,14 +32,10 @@ const formEightModel2 = {
                     home_image_altitude_accuracy = ?,
                     home_image_heading = ?,
                     home_image_speed = ?,
-                    home_image_timestamp = ?,
+                    home_image_timestamp = ?
 
-                    home_image_location = ST_GeomFromText(?)
                     WHERE 
                 id = ?`;
-
-    // Construct WKT POINT(longitude latitude)
-    const geomPoint = `POINT(${updateData.home_image_longitude} ${updateData.home_image_latitude})`;
 
     const updateArr = [
         updateData.feu_image,
@@ -55,7 +51,6 @@ const formEightModel2 = {
         updateData.home_image_speed,
         updateData.home_image_timestamp,
 
-        geomPoint,
         updateData.id,
     ];
     return runQuery(pool, q, updateArr);
