@@ -10,12 +10,7 @@ const pptController = {
   renderPptListPage: asyncHandler(async (req, res) => {
     let sort = req.query.sort || "desc";
 
-    let ppts = await pptModel.list(res.pool);
-
-    if (sort === "asc") {
-      ppts = ppts.reverse();
-    }
-
+    let ppts = await pptModel.list(res.pool, {sort});
     renderPage(res, "user/ppt/ppt-list-page.pug", {
       title: "PPT List",
       ppts,
@@ -324,7 +319,6 @@ const pptController = {
 
     const generatePdf = require("../../utils/generatePdf"); // required dynamically to avoid circular dependencies if any, or can import at top
 
-    try {
       const pdfBuffer = await generatePdf(pdfUrl, {
         landscape: true,
         width: "1280px",
@@ -345,11 +339,7 @@ const pptController = {
         "Content-Length": pdfBuffer.length,
       });
 
-      res.send(pdfBuffer);
-    } catch (error) {
-      console.error("PDF Generation Error:", error);
-      res.status(500).send("Error generating PDF");
-    }
+      res.send(pdfBuffer); 
   }),
 };
 

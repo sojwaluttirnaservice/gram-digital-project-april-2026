@@ -62,7 +62,7 @@ block content
                 div.card.shadow-sm
                     div.card-body
                         div.table-responsive
-                            table.table.table-bordered.table-hover.align-middle.mb-0
+                            table.table.table-bordered.align-middle.mb-0
                                 thead
                                     tr.bg-primary.text-white.text-center
                                         th(width="5%") अ. क्रं.
@@ -95,10 +95,16 @@ block content
                                                     if ppt.subtitle
                                                         br
                                                         small.text-muted #{ppt.subtitle}
+                                                    
+                                                    div स्लाईड प्रश्नावली
+                                                    div
+                                                        ul 
+                                                            each _slide in ppt.slides 
+                                                                li #{_slide.slide_title}
 
                                                 //- Stats (Total Slides)
                                                 td.text-center
-                                                    span.badge.bg-info.text-dark #{ppt.total_slides} Slides
+                                                    span.badge.bg-info.text-dark #{ppt.slides.length} Slides
 
                                                 //- Status
                                                 td.text-center

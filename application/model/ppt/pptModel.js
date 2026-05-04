@@ -3,7 +3,9 @@ const fmtDateField = require("../../utils/fmtDateField");
 
 const pptModel = {
   // 🔹 Get All Visible PPTs (with slide count)
-  list: (pool) => {
+  list: (pool, filters={}) => {
+    let {sort = 'desc'} = filters;
+    sort = sort?.toUpperCase();
     const q = `
             SELECT 
                 p.id,
@@ -19,15 +21,23 @@ const pptModel = {
                 p.status,
                 p.total_slides,
                 p.is_visible,
-                ${fmtDateField("p.createdAt", '"_createdAt"')},
+                ${fmtDateField("p.createdAt", '_createdAt')},
                 p.updatedAt,
-                COUNT(s.id) as slide_count
+                IFNULL (
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id', s.id,
+                            'slide_title', s.slide_title
+                        )
+                    ),
+                    JSON_ARRAY()
+                ) as slides
             FROM ps_ppt p
             LEFT JOIN ps_ppt_slides s 
                 ON s.ppt_id_fk = p.id
            
             GROUP BY p.id
-            ORDER BY p.createdAt DESC
+            ORDER BY p.createdAt ${sort}
         `;
 
     return runQuery(pool, q);
