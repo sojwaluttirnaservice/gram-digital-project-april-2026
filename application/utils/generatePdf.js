@@ -18,6 +18,7 @@ module.exports = async function generatePdf(url, options = {}) {
 
   const pdfBuffer = await page.pdf({
     format: "A4",
+    landscape: true,           // 🔥 REQUIRED
     printBackground: true,
     margin: {
       top: "10mm",

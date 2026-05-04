@@ -10,10 +10,13 @@ html(lang="en")
         //- <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
 
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
+
         style.
             /* ── Page Setup ─────────────────────────────── */
             @page {
-                size: 1280px 720px;
+                //- size: 1280px 720px;
+                size: A4 landscape;
                 margin: 0;
             }
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,7 +26,8 @@ html(lang="en")
                 color: #2d2d2d;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                width: 1280px;
+                //- width: 100%;
+                width: 297mm;
             }
 
             .yatra-one-regular {
@@ -46,8 +50,10 @@ html(lang="en")
 
             /* ── EXACT 1280x720 SLIDE ──────── */
             .page {
-                width: 1280px;
-                height: 720px;
+                //- width: 100%;
+                //- height: 720px;
+                width: 297mm;   /* A4 width (landscape) */
+                height: 210mm;  /* A4 height */
                 overflow: hidden;
                 page-break-after: always;
                 position: relative;
@@ -59,14 +65,14 @@ html(lang="en")
 
             /* Header Image Area */
             .slide-header-img-container {
-                width: 1280px;
+                width: 100%;
                 height: 130px;
                 overflow: hidden;
                 flex-shrink: 0;
                 opacity:0;
             }
             .slide-header-img {
-                width: 1280px;
+                width: 100%;
                 height: 120px;
                 //- display: block;
                 object-fit: fill;
@@ -74,7 +80,7 @@ html(lang="en")
 
             /* Title Area */
             .slide-title-area {
-                width: 1280px;
+                width: 100%;
                 //- height: 80px;
                 display: flex;
                 flex-direction: column;
@@ -93,7 +99,7 @@ html(lang="en")
 
             /* Image Area Wrapper */
             .slide-image-area {
-                width: 1280px;
+                width: 100%;
                 height: 500px;
                 display: flex;
                 justify-content: center;
@@ -152,12 +158,29 @@ html(lang="en")
                 margin: auto;
             }
             
-            .bg-image{
+            .bg-image-2{
                 background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
                 background-size: 100% auto;
                 background-position: top;
                 background-repeat: no-repeat;
             }
+            .bg-image{
+                background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
+                //- background-size: cover;
+                background-size: 100% auto;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .noto-sans-devanagari-500 {
+                font-family: "Noto Sans Devanagari", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 500; 
+                font-style: normal;
+                font-variation-settings:"wdth" 100;
+            }
+
+
 
     body.yatra-one-regular
         //- ─── INTRO PAGE IMAGES ──────────────────────────────────────
@@ -175,7 +198,7 @@ html(lang="en")
 
         //- ─── SLIDE PAGES ──────────────────────────────────────────────
         if slides && slides.length > 0
-            each slide, index in slides
+            //- each slide, index in slides
                 - var beforeImgs = slide.parsed_before_images || []
                 - var afterImgs  = slide.parsed_after_images  || []
                 - var hasImages = beforeImgs.length > 0 || afterImgs.length > 0
@@ -193,7 +216,7 @@ html(lang="en")
                         if slide.slide_description 
                             h5(class="text-success fw-bold mt-1 mb-0" style="font-size: 20px;")= slide.slide_description
 
-                    if hasImages
+                    //- if hasImages
                         div.slide-image-area
                             //- Before Column
                             div.img-col.before-col
@@ -214,6 +237,93 @@ html(lang="en")
                                                 img(src=`/uploads/images/ppt/slides/after/${img.image_name}` onerror="this.src='/img/fallback/no-image-found.png'")
                                     else
                                         span.no-img-text No After Images
+
+                    if hasImages
+                        - var totalPairs = Math.min(beforeImgs.length, afterImgs.length)
+
+                        if totalPairs > 0
+                            each _, i in Array(totalPairs)
+
+                                div.slide-image-area
+
+                                    //- BEFORE
+                                    div(style="width:500px;height:380px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                        if beforeImgs[i] && beforeImgs[i].image_name
+                                            img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                        else
+                                            span.no-img-text No Before Image
+
+                                    //- AFTER
+                                    div(style="width:500px;height:380px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                        if afterImgs[i] && afterImgs[i].image_name
+                                            img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                        else
+                                            span.no-img-text No After Image
+                                           
+                    
                     else
                         div(style="width:100%; height:560px; display:flex; align-items:center; justify-content:center; color:#9aa5b4;")
                             | No images for this slide.
+
+            each slide in slides
+                - var beforeImgs = slide.parsed_before_images || []
+                - var afterImgs  = slide.parsed_after_images  || []
+                - var totalPairs = Math.min(beforeImgs.length, afterImgs.length)
+
+                // =========================
+                // 🟢 PAGE 1 (TEXT PAGE)
+                // =========================
+                div.page.bg-image
+
+                    //- div.slide-header-img-container
+                        if ppt.remaining_pages_header_image
+                            img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
+
+                    div(style="width:1280px;")
+                        h3(style="font-size:40px;color:#f6339a;margin-top:12rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
+                            | ग्राम पंचायत कार्यालय #{gp.gp_name}
+
+                    div(style="width:1280px;")
+                        h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
+                            | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
+
+                    div.slide-title-area
+                        if slide.slide_title
+                            h3.text-danger.fw-bold.mb-0.slide-title(style="font-size:30px;")= slide.slide_title
+                        if slide.slide_subtitle
+                            h5.text-primary.mt-1.mb-0.slide-subtitle(style="font-size:20px;")= slide.slide_subtitle
+                        if slide.slide_description
+                            h5.text-success.fw-bold.mt-2.mb-0(style="font-size:20px;")= slide.slide_description
+
+
+                // =========================
+                // 🟡 IMAGE PAGES (PAIR-WISE)
+                // =========================
+                if totalPairs > 0
+                    each _, i in Array(totalPairs)
+                        div.page.bg-image
+
+                            div.slide-header-img-container
+                                if ppt.remaining_pages_header_image
+                                    img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
+
+                            div(style="width:1280px;")
+                                h3(style="font-size:40px;color:#f6339a;margin-top:4rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
+                                    | ग्राम पंचायत कार्यालय #{gp.gp_name}
+
+                            div(style="width:1280px;")
+                                h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
+                                    | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
+
+                            div.slide-image-area
+
+                                //- BEFORE
+                                div(style="width:500px;height:380px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                    if beforeImgs[i] && beforeImgs[i].image_name
+                                        img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+
+                                //- AFTER
+                                div(style="width:500px;height:380px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                    if afterImgs[i] && afterImgs[i].image_name
+                                        img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+

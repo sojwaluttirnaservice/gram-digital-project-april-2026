@@ -125,7 +125,7 @@ const pptModel = {
       updateData.description,
       updateData.cover_image,
       updateData.theme_name,
-      updateData.status,
+      updateData.status || "PUBLISHED",
       updateData.is_visible || 1,
 
       updateData.page_1_image,
