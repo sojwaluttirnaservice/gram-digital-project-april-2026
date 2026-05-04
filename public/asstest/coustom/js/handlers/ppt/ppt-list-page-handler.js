@@ -520,7 +520,7 @@ $(() => {
   // ----------------------------------------------------
   $(document).on("click", ".delete-ppt-btn", function () {
     const $btn = $(this);
-    const pptId = $btn.data("pptid");
+    const pptId = +$btn.attr("data-pptid");
     if (!pptId) return;
 
     alertjs.deleteSpl(

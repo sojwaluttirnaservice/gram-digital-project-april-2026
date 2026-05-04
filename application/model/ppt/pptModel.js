@@ -153,15 +153,11 @@ const pptModel = {
 
   // 🔹 Hard Delete (Only if Really Needed)
   hardDelete: async (pool, id) => {
-    const deleteSlidesQuery = `
-            DELETE FROM ps_ppt_slides WHERE ppt_id_fk = ?
-        `;
-
     const deletePptQuery = `
             DELETE FROM ps_ppt WHERE id = ?
         `;
 
-    await runQuery(pool, deleteSlidesQuery, [id]);
+    await runQuery(pool, deletePptQuery, [id]);
   },
 
   // 🔹 Update Status Only

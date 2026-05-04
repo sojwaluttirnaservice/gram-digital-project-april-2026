@@ -270,8 +270,9 @@ const pptController = {
       await deleteFile(`${UPLOAD_PATHS.ppt.cover}/${existingPpt.cover_image}`);
     }
 
+    await pptSlidesModel.deleteByPptId(res.pool, +id);
     // 3. Delete all slide records and the parent PPT from the database
-    await pptModel.hardDelete(res.pool, id);
+    await pptModel.hardDelete(res.pool, +id);
 
     return sendApiResponse(
       res,

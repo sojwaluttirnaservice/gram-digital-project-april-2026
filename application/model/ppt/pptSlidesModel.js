@@ -111,6 +111,16 @@ const pptSlidesModel = {
         return runQuery(pool, q, [id]);
     },
 
+    deleteByPptId: (pool, pptId) =>{
+
+        const q = `
+            DELETE FROM ps_ppt_slides
+            WHERE ppt_id_fk = ?
+        `;
+
+        return runQuery(pool, q, [+pptId]);        
+    },
+
     // 🔹 Reorder Slides (Drag & Drop Support)
     reorderSlides: async (pool, slidesArray) => {
 
