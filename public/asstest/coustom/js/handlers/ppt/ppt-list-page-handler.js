@@ -90,6 +90,9 @@ After Images              1000 × 750  (4:3 Ratio)
 */
 
 $(() => {
+  const gpElement = document.querySelector("#gpData");
+  const gp = JSON.parse(gpElement.getAttribute("data-gp"));
+
   const carouselModalEl = document.getElementById("ppt-slides-carousel-modal");
   // Initialize Modal if element exists
   let carouselModal = null;
@@ -110,6 +113,7 @@ $(() => {
   const indicatorsContainer = document.getElementById(
     "ppt-carousel-indicators",
   );
+
   const titleEl = document.getElementById("carousel-ppt-title-footer");
 
   // Button event listener for View Slides
@@ -154,20 +158,9 @@ $(() => {
 
     let allSlides = [];
 
-    // ------------------------------------------------
-    // 1️⃣ COVER IMAGE
-    // ------------------------------------------------
-    // if (ppt && ppt.cover_image) {
-    //   allSlides.push({
-    //     type: "cover",
-    //     image: ppt.cover_image,
-    //     path: "/uploads/images/ppt/cover-images/",
-    //   });
-    // }
-
-    // ------------------------------------------------
-    // 2️⃣ PAGE IMAGES
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 1️⃣ PAGE IMAGES
+    // ---------------------------------------------
     ["page_1_image", "page_2_image", "page_3_image"].forEach((field) => {
       if (ppt && ppt[field]) {
         allSlides.push({
@@ -178,24 +171,30 @@ $(() => {
       }
     });
 
-    // ------------------------------------------------
-    // 3️⃣ REAL SLIDES
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 2️⃣ REAL SLIDES (FLATTENED)
+    // ---------------------------------------------
     slides.forEach((slide) => {
-      allSlides.push({
-        type: "slide",
-        data: slide,
+      const pages = generateSlideContent(slide, ppt); // ✅ array now
+
+      pages.forEach((pageHtml) => {
+        allSlides.push({
+          type: "slide",
+          html: pageHtml,
+        });
       });
     });
 
-    console.log(allSlides);
-
+    // ---------------------------------------------
+    // 3️⃣ RENDER
+    // ---------------------------------------------
     let innerHTML = "";
     let indicatorsHTML = "";
 
     allSlides.forEach((item, index) => {
       const activeClass = index === 0 ? "active" : "";
 
+      // Indicators
       indicatorsHTML += `
       <button type="button"
         data-bs-target="#pptSlidesCarousel"
@@ -205,39 +204,35 @@ $(() => {
       </button>
     `;
 
-      // ---------------------------------------------
-      // COVER + PAGE FULLSCREEN
-      // ---------------------------------------------
-      if (item.type === "cover" || item.type === "page") {
+      // -----------------------------------------
+      // PAGE / COVER
+      // -----------------------------------------
+      if (item.type === "page") {
         innerHTML += `
-      <div class="carousel-item ${activeClass}" style="background:#111;">
-        <div style="
-            width:100%;
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        ">
+        <div class="carousel-item ${activeClass}" style="background:#111;">
+          <div style="
+              width:100%;
+              height:100%;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+          ">
             <img src="${item.path}${item.image}"
-                style="
-                    width:100%;
-                    height:100%;
-                    object-fit:contain;
-                ">
+              style="width:100%;height:100%;object-fit:contain;">
+          </div>
         </div>
-      </div>
       `;
       }
 
-      // ---------------------------------------------
-      // NORMAL SLIDES
-      // ---------------------------------------------
+      // -----------------------------------------
+      // SLIDES (ALREADY FINAL HTML)
+      // -----------------------------------------
       if (item.type === "slide") {
         innerHTML += `
         <div class="carousel-item ${activeClass}" style="background:#fff; height:100%;">
-            <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100 p-2 p-md-4">
-                ${generateSlideContent(item.data, ppt)}
-            </div>
+          <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100 p-2 p-md-4">
+            ${item.html}
+          </div>
         </div>
       `;
       }
@@ -268,183 +263,156 @@ $(() => {
       afterImages = Array.isArray(a) ? a : [];
     } catch (e) {}
 
-    const hasImages = beforeImages.length > 0 || afterImages.length > 0;
+    const slides = []; // ✅ multiple pages
 
-    let contentHtml = `
-  <div style="
-      width: 100%;
-      max-width: 1280px;
-      aspect-ratio: 16/9;
-      margin: auto;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      flex-shrink: 0;
+    const header = `
+    <div style="width:1280px;">
+      <h3 style="font-size:40px;color:#f6339a;margin-top:12rem;"
+        class="fw-bold mb-0 text-center noto-sans-devanagari-500">
+        ग्राम पंचायत कार्यालय ${gp.gp_name}
+      </h3>
+    </div>
 
-      background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
-    background-size: 100% auto;
-    background-position: top;
-    background-repeat: no-repeat;
-  ">
-  `;
-
-    let headerImageHeight = 120;
-
-    // HEADER IMAGE AREA
-    contentHtml += `
-    <div style="
-        width: 1280px;
-        height: ${headerImageHeight}px;
-        overflow: hidden;
-
-    ">
-      <img class="header-slide-img"
-        src="/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}"
-        style="
-          width: 1280px;
-          height: ${headerImageHeight}px;
-          opacity:0;
-          object-fit: fill;
-        "
-        onerror="this.style.display='none'"
-      >
+    <div style="width:1280px;">
+      <h3 style="font-size:20px;color:#101828;"
+        class="fw-bold mb-0 text-center noto-sans-devanagari-500">
+        पंचायत समिती ${gp.gp_taluka}, जिल्हा परिषद ${gp.gp_dist}
+      </h3>
     </div>
   `;
 
-    // TITLE AREA
-    contentHtml += `
-  <div style="
-      width: 1280px;
-      height: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 0 20px;
-  ">
-      <h3 class="text-danger fw-bold mb-0" style="font-size: 20px;">
+    function wrap(content) {
+      return `
+    <div style="
+      width:100%;
+      max-width:1280px;
+      aspect-ratio:16/9;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      background-image:url('/img/ppt/mh-panchayat-raj.jpeg');
+      background-size:100% auto;
+      background-repeat:no-repeat;
+    ">
+      ${content}
+    </div>`;
+    }
+
+    // =========================
+    // 🟢 PAGE 1 (TEXT PAGE)
+    // =========================
+    let firstPage = `
+    ${header}
+
+    <div style="
+      width:1280px;
+      text-align:center;
+      margin-top:1rem;
+      padding:0 20px;
+    ">
+      <h3 class="text-danger fw-bold" style="font-size:30px;">
         ${slide.slide_title || ""}
       </h3>
+
+      ${
+        slide.slide_subtitle
+          ? `<h5 class="text-primary fw-bold" style="font-size:20px;">
+              ${slide.slide_subtitle}
+            </h5>`
+          : ""
+      }
+
+      ${
+        slide.slide_description
+          ? `<h5 class="text-success fw-bold" style="margin-top:2rem;font-size:20px;">
+              ${slide.slide_description}
+            </h5>`
+          : ""
+      }
+    </div>
   `;
 
-    if (slide.slide_subtitle) {
-      contentHtml += `
-      <h5 class="text-primary fw-bold mt-1 mb-0" style="font-size: 14px;">
-        ${slide.slide_subtitle}
-      </h5>
+    slides.push(wrap(firstPage));
+
+    // =========================
+    // 🟡 IMAGE PAGES (PAIR WISE)
+    // =========================
+    const totalPairs = Math.min(beforeImages.length, afterImages.length);
+
+    for (let i = 0; i < totalPairs; i++) {
+      const before = beforeImages[i];
+      const after = afterImages[i];
+
+      let imagePage = `
+      ${header}
+
+      <div style="
+        width:1280px;
+        height:500px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:40px;
+        margin-top:2rem;
+      ">
+
+            
+ <!-- BEFORE -->
+<div style="
+    width:500px;
+    height:380px;
+    border:2px solid #ff6b6b;
+    border-radius:16px;
+    padding:1px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+">
+    <img
+      src="/uploads/images/ppt/slides/before/${before.image_name}"
+      style="
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        border-radius:12px;
+        background:#f8f9fa;
+      "
+    />
+</div>
+
+<!-- AFTER -->
+<div style="
+    width:500px;
+    height:380px;
+    border:2px solid #52c41a;
+    border-radius:16px;
+    padding:1px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+">
+    <img
+      src="/uploads/images/ppt/slides/after/${after.image_name}"
+      style="
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        border-radius:12px;
+        background:#f8f9fa;
+      "
+    />
+</div>
+
+
+      </div>
     `;
+
+      slides.push(wrap(imagePage));
     }
 
-    if (slide.slide_description) {
-      contentHtml += `
-      <h5 class="text-success fw-bold mt-1 mb-0" style="font-size: 20px;">
-        ${slide.slide_description}
-      </h5>
-    `;
-    }
-
-    contentHtml += `</div>`;
-
-    // IMAGE AREA
-    if (hasImages) {
-      contentHtml += `
-    <div style="
-        width: 1280px;
-        height: 500px;
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-    ">
-    `;
-
-      // BEFORE IMAGE PANEL
-      contentHtml += `
-    <div style="
-        width: 500px;
-        height: 560px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        border-right: 1px solid #eee;
-        padding-right: 20px;
-        padding-top: 20px;
-    "> 
-        <div style="width: 100%; height: 500px; display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 2px; overflow: hidden;">
-    `;
-
-      if (beforeImages.length > 0) {
-        beforeImages.forEach((img) => {
-          if (img && img.image_name) {
-            contentHtml += `
-          <img
-            src="/uploads/images/ppt/slides/before/${img.image_name}"
-            style="
-              width: 100%;
-              border-radius: 2rem;
-              max-height: 500px;
-              flex: 1;
-              min-height: 0;
-              object-fit: contain;
-              background: #1a1a2e;
-              border: 1px solid #ddd;
-            "
-            onerror="this.src='/img/fallback/no-image-found.png'"
-          />
-          `;
-          }
-        });
-      }
-
-      contentHtml += `</div></div>`;
-
-      // AFTER IMAGE PANEL
-      contentHtml += `
-    <div style="
-        width: 500px;
-        height: 560px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding-left: 20px;
-        padding-top: 20px;
-    ">
-        <div style="width: 100%; height: 500px; display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 2px; overflow: hidden;">
-    `;
-
-      if (afterImages.length > 0) {
-        afterImages.forEach((img) => {
-          if (img && img.image_name) {
-            contentHtml += `
-          <img
-            src="/uploads/images/ppt/slides/after/${img.image_name}"
-            style="
-              width: 100%;
-              border-radius: 2rem;
-              max-height: 500px;
-              flex: 1;
-              min-height: 0;
-              object-fit: contain;
-              background: #1a1a2e;
-              border: 1px solid #ddd;
-            "
-            onerror="this.src='/img/fallback/no-image-found.png'"
-          />
-          `;
-          }
-        });
-      }
-
-      contentHtml += `</div></div>`;
-      contentHtml += `</div>`;
-    }
-
-    contentHtml += `</div>`;
-
-    return contentHtml;
+    return slides; // ✅ IMPORTANT
   }
 
   // ----------------------------------------------------
