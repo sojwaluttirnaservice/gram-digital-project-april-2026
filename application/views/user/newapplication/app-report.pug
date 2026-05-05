@@ -174,7 +174,10 @@ html(lang="en")
                                             td
                                             td
                                             td #{application._docRemarkDate} 
-                                            td
+                                            
+                                            - const titles = parsedDocs.map(d => d.docTitle).join(", ");
+                                            - const sentence = `${titles} ह्या ${application._docRemarkDate} तारखेस उपलब्ध करून देण्यात ${parsedDocs.length === 1 ? "आला" : "आले"}.`;
+                                            td #{sentence}
                                             td 
                                                 span.opacity-0 accepted
 
