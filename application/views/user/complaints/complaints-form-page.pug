@@ -60,7 +60,7 @@ block content
                                         label(class='font-bold tracking-wider') 
                                             //- | ई-मेल आईडी 
                                             | #{t("complaintsRegistrationPage.form.inputs.email.label")}
-                                            span(class='text-red-500 font-bold') &nbsp; *
+                                            //- span(class='text-red-500 font-bold') &nbsp; *
                                         .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
                                             i(class='fas fa-envelope')
                                             input#formEmail(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name="formEmail")
@@ -80,7 +80,7 @@ block content
                                         label(class='font-bold tracking-wider') 
                                             //- | आधार क्रं.
                                             | #{t("complaintsRegistrationPage.form.inputs.adhar.label")}
-                                            span(class='text-red-500 font-bold') &nbsp; *
+                                            //- span(class='text-red-500 font-bold') &nbsp; *
                                         .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
                                             i(class='fas fa-id-card')
                                             input#formAadhar(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' maxlength="12" name="formAadhar")
@@ -111,7 +111,7 @@ block content
                                             input#createdAt.datepicker(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='text' name='createdAt')
    
 
-                                - 
+                                -
                                     const applicationSubjects = [
                                         { mr: "नळ कनेक्शन दुरुस्ती करण्याबाबत", hi: "नल कनेक्शन मरम्मत संबंधी", en: "Regarding water tap connection repair" },
                                         { mr: "नळ कनेक्शन बसविण्याबाबत", hi: "नल कनेक्शन लगाने संबंधी", en: "Regarding installation of water tap connection" },
@@ -167,7 +167,7 @@ block content
                                         label(class='font-bold tracking-wider') 
                                             //- | तक्रारीसाठी आवश्यक कागदपत
                                             | #{t("complaintsRegistrationPage.form.inputs.docForComplaint.label")}
-                                            span(class='text-red-500 font-bold') &nbsp; *
+                                            //- span(class='text-red-500 font-bold') &nbsp; *
                                         .input-holder(class='relative w-full focus-within:border-blue-600 border border-stone-300 px-4 py-1 rounded-md flex items-center gap-2 overflow-hidden')
                                             i(class='fas fa-file')
                                             input#docForComplaint(class='py-1 px-2 outline-none bg-stone-100 flex-grow placeholder:italic' type='file' name="docForComplaint")

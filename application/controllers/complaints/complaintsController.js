@@ -97,8 +97,10 @@ const complaintsController = {
     let data = req.body;
     // console.log(data);
 
-    const { imageForComplaint: complaintImage, docForComplaint: complaintDoc } =
-      req.files;
+    // const { imageForComplaint: complaintImage, docForComplaint: complaintDoc } =
+    //   req.files;
+    const complaintImage = req.files?.imageForComplaint;
+    const complaintDoc = req.files?.docForComplaint;
 
     let existingComplaintsInPrevious90Days =
       await complaintsModel.existingComplaintsInPreviousDays(
@@ -125,44 +127,55 @@ const complaintsController = {
       let remainingDays = 90 - diffInDays;
 
       if (remainingDays > 0) {
-        throw new AppError(`तुम्ही आधी तक्रार नोंदवली आहे. कृपया ${remainingDays} दिवसांनंतर पुन्हा तक्रार नोंदवा.`, 409)
+        throw new AppError(
+          `तुम्ही आधी तक्रार नोंदवली आहे. कृपया ${remainingDays} दिवसांनंतर पुन्हा तक्रार नोंदवा.`,
+          409,
+        );
       }
     }
 
-    if (!complaintImage) {
-        throw new AppError("तक्रार कोणत्या संदर्भात आहे याचा फोटो अपलोड करा", 404)
+    // if (!complaintImage) {
+    //     throw new AppError("तक्रार कोणत्या संदर्भात आहे याचा फोटो अपलोड करा", 404)
+    // }
+
+    // if (!complaintDoc) {
+    //     throw new AppError("तक्रारीसाठी आवश्यक कागदपत्र जोडावेत", 404)
+    // }
+
+    let imageName = null,
+      docName = null;
+    if (complaintImage) {
+      let complaintImageDir = `${baseDir}/uploads/images/complaints`;
+      imageName = generateUniqueFileName(complaintImage, "complaint-");
+      let complaintImagePath = `${complaintImageDir}/${imageName}`;
+      let isImageSaved = await saveFile(complaintImage, complaintImagePath);
+      req.filesToCleanup.push(complaintImagePath);
     }
 
-    if (!complaintDoc) {
-        throw new AppError("तक्रारीसाठी आवश्यक कागदपत्र जोडावेत", 404)
+    if (complaintDoc) {
+      let complaintDocDir = `${baseDir}/uploads/docs/complaints`;
+      docName = generateUniqueFileName(complaintDoc, "complaint-");
+      let complaintDocPath = `${complaintDocDir}/${docName}`;
+      let isDocSaved = await saveFile(complaintDoc, complaintDocPath);
+      req.filesToCleanup.push(complaintDocPath);
     }
-
-    let complaintImageDir = `${baseDir}/uploads/images/complaints`;
-    let imageName = generateUniqueFileName(complaintImage, "complaint-");
-    let complaintImagePath = `${complaintImageDir}/${imageName}`;
-    let isImageSaved = await saveFile(complaintImage, complaintImagePath);
-    req.filesToCleanup.push(complaintImagePath)
-
-    let complaintDocDir = `${baseDir}/uploads/docs/complaints`;
-    let docName = generateUniqueFileName(complaintDoc, "complaint-");
-    let complaintDocPath = `${complaintDocDir}/${docName}`;
-
-    let isDocSaved = await saveFile(complaintDoc, complaintDocPath);
-    req.filesToCleanup.push(complaintDocPath)
 
     data.complaintImageUrl = imageName;
     data.complaintDocUrl = docName;
 
-    if (!data.imageLatitude || !data.imageLongitude) {
-      throw new AppError("लोकेशन मिळाले नाही", 400)
-    }
+    // if (!data.imageLatitude || !data.imageLongitude) {
+    //   throw new AppError("लोकेशन मिळाले नाही", 400)
+    // }
 
     const createdAt = addCurrentTimeToDate(data.createdAt);
 
-    let { insertId }= await complaintsModel.register(res.pool, {...data, createdAt});
+    let { insertId } = await complaintsModel.register(res.pool, {
+      ...data,
+      createdAt,
+    });
 
     return sendApiResponse(res, 200, true, "तक्रार नोंदवली गेली", {
-        id: insertId
+      id: insertId,
     });
   }),
 
@@ -224,55 +237,39 @@ const complaintsController = {
   resolveComplaint: asyncHandler(async (req, res) => {
     const resolvedData = req.body;
 
-    // -----------------------------
-    // 1. Validate image presence
-    // -----------------------------
-    if (!req.files || !req.files.resolvedComplaintImage) {
-      return sendApiError(
-        res,
-        400,
-        false,
-        "तक्रार निवारण झाल्याचे छायाचित्र अपलोड करणे आवश्यक आहे.",
-      );
+    //   if (!req.files || !req.files.resolvedComplaintImage) {
+    //   throw new AppError("तक्रार निवारण झाल्याचे छायाचित्र अपलोड करणे आवश्यक आहे.", 400)
+    // }
+    let imageName = null;
+
+    // ✅ Handle file only if present
+    if (req.files && req.files.resolvedComplaintImage) {
+      const complaintImage = req.files.resolvedComplaintImage;
+
+      // Generate unique name
+      imageName = generateUniqueFileName(complaintImage);
+
+      const resolutionImageDir = `${baseDir}/uploads/images/complaints/resolution`;
+      const imagePath = `${resolutionImageDir}/${imageName}`;
+
+      const isSaved = await saveFile(complaintImage, imagePath);
+
+      if (!isSaved) {
+        return sendApiError(
+          res,
+          500,
+          false,
+          "छायाचित्र जतन करता आले नाही. कृपया पुन्हा प्रयत्न करा.",
+        );
+      }
+
+      // Only set if image exists
+      resolvedData.complaintResolutionImageUrl = imageName;
     }
 
-    const complaintImage = req.files.resolvedComplaintImage;
-
-    // -----------------------------
-    // 2. Generate unique file name
-    // -----------------------------
-    const imageName = generateUniqueFileName(complaintImage);
-
-    // -----------------------------
-    // 3. Prepare save path
-    // -----------------------------
-    const resolutionImageDir = `${baseDir}/uploads/images/complaints/resolution`;
-    const imagePath = `${resolutionImageDir}/${imageName}`;
-
-    // -----------------------------
-    // 4. Save image using helper
-    // -----------------------------
-    const isSaved = await saveFile(complaintImage, imagePath);
-
-    if (!isSaved) {
-      return sendApiError(
-        res,
-        500,
-        false,
-        "छायाचित्र जतन करता आले नाही. कृपया पुन्हा प्रयत्न करा.",
-      );
-    }
-
-    // -----------------------------
-    // 5. Persist DB data
-    // -----------------------------
-    resolvedData.complaintResolutionImageUrl = imageName;
-
+    // ✅ Continue normally even without image
     await complaintsModel.resolveComplaint(res.pool, resolvedData);
 
-    // -----------------------------
-    // 6. Success response
-    // -----------------------------
     return sendApiResponse(
       res,
       200,

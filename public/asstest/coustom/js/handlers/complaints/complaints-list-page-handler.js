@@ -52,12 +52,12 @@ $(() => {
     e.preventDefault();
 
     let accpetedData = new FormData(
-      document.getElementById("accept-complaint-form")
+      document.getElementById("accept-complaint-form"),
     );
 
     accpetedData.set(
       "complaintResolutionDate",
-      formatDate(accpetedData.get("complaintResolutionDate"))
+      formatDate(accpetedData.get("complaintResolutionDate")),
     );
     // accpetedData.set(
     //   "complaintImage",
@@ -78,7 +78,7 @@ $(() => {
           },
           () => {
             window.location.reload();
-          }
+          },
         );
       } else {
         alertjs.warning({
@@ -101,12 +101,12 @@ $(() => {
     e.preventDefault();
 
     let rejectionData = new FormData(
-      document.getElementById("reject-complaint-form")
+      document.getElementById("reject-complaint-form"),
     );
 
     rejectionData.set(
       "complaintRejectionDate",
-      formatDate(rejectionData.get("complaintRejectionDate"))
+      formatDate(rejectionData.get("complaintRejectionDate")),
     );
 
     try {
@@ -123,7 +123,7 @@ $(() => {
           },
           () => {
             location.reload();
-          }
+          },
         );
       } else {
         alertjs.warning({
@@ -170,7 +170,7 @@ $(() => {
             t: "SUCCESS",
             m: message,
           },
-          () => location.reload()
+          () => location.reload(),
         );
       } else {
         alertjs.warning({
@@ -218,13 +218,13 @@ $(() => {
         // this was for shera
         const selectedDate = $(this).val();
         const $resolutionRemark = $(
-          'textarea[name="complaintResolutionRemark"]'
+          'textarea[name="complaintResolutionRemark"]',
         );
         if ($resolutionRemark.length) {
           $resolutionRemark.val(
             selectedDate
               ? `सदर तक्रारीचे निवारण ${selectedDate} पर्यंत होऊन जाईल`
-              : ""
+              : "",
           );
         }
 
@@ -233,7 +233,7 @@ $(() => {
 
         // dont chnage the button disable state unless hte previous date and new date is not same
         let $extendComplaintResolutionDateBtn = $(
-          "#extend-complaint-resolution-date-btn"
+          "#extend-complaint-resolution-date-btn",
         );
 
         if ($(`[name="copyComplaintResolutionDate"]`)) {
@@ -243,7 +243,7 @@ $(() => {
             $extendComplaintResolutionDateBtn.prop("disabled", true);
           }
         }
-      }
+      },
     );
   }
 
@@ -260,16 +260,16 @@ $(() => {
     $(`#extend-resolution-date-form [name="complaintResolutionDate"]`).val(
       complaint._complaintResolutionDate
         ? complaint._complaintResolutionDate.split(" ")[0]
-        : ""
+        : "",
     );
     $(`#extend-resolution-date-form [name="copyComplaintResolutionDate"]`).val(
       complaint._complaintResolutionDate
         ? complaint._complaintResolutionDate.split(" ")[0]
-        : ""
+        : "",
     );
 
     $(`#extend-resolution-date-form [name="complaintResolutionRemark"]`).val(
-      complaint.complaintResolutionRemark
+      complaint.complaintResolutionRemark,
     );
     $(`#extend-resolution-date-form [name="id"]`).val(complaint.id);
     $("#extend-resolution-date-modal").modal("show");
@@ -278,7 +278,7 @@ $(() => {
   async function extendResolutionDate(formData) {
     formData.set(
       "complaintResolutionDate",
-      formatDate(formData.get("complaintResolutionDate"))
+      formatDate(formData.get("complaintResolutionDate")),
     );
     const $btn = $("#extend-complaint-resolution-date-btn");
     const originalText = $btn.text();
@@ -302,7 +302,7 @@ $(() => {
           },
           () => {
             location.reload();
-          }
+          },
         );
       } else {
         alertjs.warning({
@@ -334,7 +334,7 @@ $(() => {
 
       const newExtendData = new FormData(form);
       extendResolutionDate(newExtendData);
-    }
+    },
   );
 
   //   MARK COMPLAINT AS RESOLVED,
@@ -372,7 +372,7 @@ $(() => {
           },
           () => {
             location.reload();
-          }
+          },
         );
       } else {
         alertjs.warning({
@@ -404,11 +404,25 @@ $(() => {
 
     const resolvedData = new FormData(form);
 
-    let compressedImg = await compressImageFile(
-      resolvedData.get("resolvedComplaintImage")
-    );
+    const originalImageFile = resolvedData.get("resolvedComplaintImage");
 
-    resolvedData.set("resolvedComplaintImage", compressedImg);
+    if (
+      originalImageFile &&
+      originalImageFile.size > 0 &&
+      originalImageFile.type.startsWith("image/")
+    ) {
+      try {
+        const compressedImg = await compressImageFile(originalImageFile);
+        resolvedData.set("resolvedComplaintImage", compressedImg);
+      } catch (err) {
+        console.error("Compression failed:", err);
+      }
+    }
+
+    resolvedData.set(
+      "complaintResolutionDate",
+      _commonjsDateFormat(resolvedData.get("complaintResolutionDate")),
+    );
 
     // ==============================
     // GET CURRENT LOCATION
@@ -437,9 +451,8 @@ $(() => {
       },
       (error) => {
         console.error("Geolocation error:", error);
-        
+
         handleMarkResolve(resolvedData, $btn);
-        
 
         // alertjs.warning({
         //   t: "WARNING",
@@ -453,7 +466,7 @@ $(() => {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 0,
-      }
+      },
     );
   });
 });

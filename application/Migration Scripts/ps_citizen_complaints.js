@@ -46,14 +46,14 @@ const ps_citizen_complaints = sequelize.define(
     // this is actually a saved name not a path
     complaintImageUrl: {
       type: Sequelize.STRING(150),
-      allowNull: false,
+      allowNull: true,
     },
 
     // REQUIRED PDF
     // this is actually a saved name not a path
     complaintDocUrl: {
       type: Sequelize.STRING(150),
-      allowNull: false,
+      allowNull: true,
     },
 
     // NOT REQUIRED, BUT JUST KEEPING FOR THIS SAKE
@@ -78,13 +78,13 @@ const ps_citizen_complaints = sequelize.define(
     // REQUIRED LONGITUDE
     imageLongitude: {
       type: Sequelize.DECIMAL(10, 7),
-      allowNull: false,
+      allowNull: true,
     },
 
     // REQUIRED LATITUDE
     imageLatitude: {
       type: Sequelize.DECIMAL(10, 7),
-      allowNull: false,
+      allowNull: true,
     },
 
     complaintResolutionDate: {

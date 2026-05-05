@@ -1,9 +1,9 @@
+const { addCurrentTimeToDate } = require("../../utils/addCurrentTimeToDate");
 const fmtDateField = require("../../utils/fmtDateField");
 const { runQuery } = require("../../utils/runQuery");
 const complaintsModel = {
   existingComplaintsInPreviousDays: (pool, data, checkForPreviousDays = 30) => {
     const { formAadhar, formMobile } = data;
-    
 
     const q = `
         SELECT 
@@ -13,7 +13,7 @@ const complaintsModel = {
         WHERE 
             createdAt >= NOW() - INTERVAL ${checkForPreviousDays} DAY
             AND (
-                 formAadhar = ? 
+                 (formAadhar IS NOT NULL AND formAadhar <> '' AND formAadhar = ?)
                  OR formMobile = ?
             )
     `;
@@ -241,7 +241,7 @@ const complaintsModel = {
             createdAt ASC;
     `;
 
-    return runQuery(pool, q, ['RESOLVED', month, year]);
+    return runQuery(pool, q, ["RESOLVED", month, year]);
   },
 
   // ============================================
@@ -282,7 +282,6 @@ const complaintsModel = {
             )
         `;
 
-
     const now = new Date();
 
     const params = [
@@ -299,11 +298,11 @@ const complaintsModel = {
       data.garbageCollectionVanFrequencyByWeek,
       data.isGarbageProperlyDisposed,
 
-      data.imageLongitude,
-      data.imageLatitude,
+      Number.isFinite(+data.imageLongitude) ? +data.imageLongitude : null,
+      Number.isFinite(+data.imageLatitude) ? +data.imageLatitude : null,
 
       data.createdAt || now,
-      data.createdAt || now
+      data.createdAt || now,
     ];
 
     return runQuery(pool, q, params);
@@ -372,7 +371,7 @@ const complaintsModel = {
   },
 
   resolveComplaint: (pool, resolvedData) => {
-        const q = `
+    const q = `
             UPDATE ps_citizen_complaints
                 SET
                     complaintResolutionImageUrl = ?,
@@ -385,10 +384,9 @@ const complaintsModel = {
 
     // MySQL POINT format: POINT(longitude latitude)
 
-
     return runQuery(pool, q, [
       resolvedData.complaintResolutionImageUrl || null,
-      new Date(), // final resolution date (intended)
+      addCurrentTimeToDate(resolvedData.complaintResolutionDate) || new Date(), // final resolution date (intended)
       "RESOLVED",
       resolvedData.complaintResolutionImageLongitude || null,
       resolvedData.complaintResolutionImageLatitude || null,
@@ -432,7 +430,7 @@ const complaintsModel = {
 
     // Append current time → YYYY-MM-DD HH:mm:ss
     const now = new Date();
-    const timePart = now.toTimeString().split(' ')[0]; // HH:mm:ss
+    const timePart = now.toTimeString().split(" ")[0]; // HH:mm:ss
     const fullDateTime = `${dateOnly} ${timePart}`;
     return runQuery(pool, q, [
       fullDateTime,

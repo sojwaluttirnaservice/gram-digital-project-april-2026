@@ -118,14 +118,14 @@ $(document).ready(function () {
         minLength: 3,
         minLengthMessage: "किमान 3 अक्षरे असणे आवश्यक",
       },
-      {
-        id: "formEmail",
-        label: "ई-मेल",
-        rules: [
-          (v) => isRequired(v) || "ई-मेल आवश्यक आहे",
-          (v) => isEmail(v) || "योग्य ई-मेल भरा",
-        ],
-      },
+      //   {
+      //     id: "formEmail",
+      //     label: "ई-मेल",
+      //     rules: [
+      //       (v) => isRequired(v) || "ई-मेल आवश्यक आहे",
+      //       (v) => isEmail(v) || "योग्य ई-मेल भरा",
+      //     ],
+      //   },
       {
         id: "formMobile",
         label: "मोबाईल क्रमांक",
@@ -135,15 +135,15 @@ $(document).ready(function () {
           (v) => isLength(v, 10) || "10 अंक असणे आवश्यक",
         ],
       },
-      {
-        id: "formAadhar",
-        label: "आधार क्रमांक",
-        rules: [
-          (v) => isRequired(v) || "आधार क्रमांक आवश्यक आहे",
-          (v) => isDigits(v) || "फक्त अंक",
-          (v) => isLength(v, 12) || "12 अंक असणे आवश्यक",
-        ],
-      },
+      //   {
+      //     id: "formAadhar",
+      //     label: "आधार क्रमांक",
+      //     rules: [
+      //       (v) => isRequired(v) || "आधार क्रमांक आवश्यक आहे",
+      //       (v) => isDigits(v) || "फक्त अंक",
+      //       (v) => isLength(v, 12) || "12 अंक असणे आवश्यक",
+      //     ],
+      //   },
       {
         id: "formAddress",
         label: "पत्ता",
@@ -200,37 +200,45 @@ $(document).ready(function () {
       {
         id: "imageForComplaint",
         label: "छायाचित्र",
+        isRequired: false,
         allowedExt: ["jpg", "jpeg", "png", "webp"],
       },
-      { id: "docForComplaint", label: "कागदपत्र", allowedExt: [] }, // allow any file
+      {
+        id: "docForComplaint",
+        label: "कागदपत्र",
+        isRequired: false,
+        allowedExt: [],
+      }, // allow any file
     ];
 
     fileFields.forEach((fileField) => {
-      const input = document.getElementById(fileField.id);
-      clearError(input);
+      if (fileField.isRequired) {
+        const input = document.getElementById(fileField.id);
+        clearError(input);
 
-      if (!input || !input.files || input.files.length === 0) {
-        showError(input, `${fileField.label} आवश्यक आहे`);
-        isValid = false;
-        return;
-      }
+        if (!input || !input.files || input.files.length === 0) {
+          showError(input, `${fileField.label} आवश्यक आहे`);
+          isValid = false;
+          return;
+        }
 
-      const file = input.files[0];
+        const file = input.files[0];
 
-      if (fileField.allowedExt.length > 0) {
-        const ext = file.name.split(".").pop().toLowerCase();
-        if (!fileField.allowedExt.includes(ext)) {
-          showError(
-            input,
-            `${fileField.label} फक्त ${fileField.allowedExt.join(", ").toUpperCase()} फॉर्मॅट`,
-          );
+        if (fileField.allowedExt.length > 0) {
+          const ext = file.name.split(".").pop().toLowerCase();
+          if (!fileField.allowedExt.includes(ext)) {
+            showError(
+              input,
+              `${fileField.label} फक्त ${fileField.allowedExt.join(", ").toUpperCase()} फॉर्मॅट`,
+            );
+            isValid = false;
+          }
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+          showError(input, `${fileField.label} 4MB पेक्षा जास्त आहे`);
           isValid = false;
         }
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-        showError(input, `${fileField.label} 4MB पेक्षा जास्त आहे`);
-        isValid = false;
       }
     });
 
@@ -256,7 +264,8 @@ $(document).ready(function () {
             resolve(userCoords);
           },
           (err) => {
-            reject("कृपया आपल्या स्थानाची परवानगी द्या. स्थान आवश्यक आहे.");
+            // reject("कृपया आपल्या स्थानाची परवानगी द्या. स्थान आवश्यक आहे.");
+            reject("कृपया आपल्या स्थानाची परवानगी द्या.");
           },
         );
       }
@@ -264,6 +273,7 @@ $(document).ready(function () {
   };
 
   // Ask for permission on page load
+  //   COMMENTING THIS FOR NOW
   getUserLocation().catch((errMsg) => {
     alertjs.warning({ t: "LOCATION REQUIRED", m: errMsg });
   });
@@ -301,14 +311,15 @@ $(document).ready(function () {
     }
 
     // If user denied location earlier, ask again
-    if (!userCoords) {
-      try {
-        await getUserLocation();
-      } catch (errMsg) {
-        alertjs.warning({ t: "LOCATION REQUIRED", m: errMsg });
-        return;
-      }
-    }
+    // COMMENTED THIS
+    // if (!userCoords) {
+    //   try {
+    //     await getUserLocation();
+    //   } catch (errMsg) {
+    //     alertjs.warning({ t: "LOCATION REQUIRED", m: errMsg });
+    //     return;
+    //   }
+    // }
 
     const complaintData = new FormData(form);
 
@@ -333,8 +344,8 @@ $(document).ready(function () {
       //   complaintData.delete("other_complaint_subject");
     }
 
-    complaintData.append("imageLatitude", userCoords.latitude);
-    complaintData.append("imageLongitude", userCoords.longitude);
+    complaintData.append("imageLatitude", userCoords?.latitude);
+    complaintData.append("imageLongitude", userCoords?.longitude);
 
     complaintData.set(
       "createdAt",
