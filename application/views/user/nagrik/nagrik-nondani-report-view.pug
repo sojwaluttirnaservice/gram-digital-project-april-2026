@@ -34,7 +34,7 @@ block content
                 select#nagrik-filter.form-select.form-select-sm(style='width:220px')
                     option(value='' selected=(!hasAabhaCard && !hasAyushmanCard && !hasDownloadedApp)) सर्व (All)
                     - let isAbhaCardSelected = (hasAabhaCard=='1')
-                    option(value='hasAabhaCard=1' selected=) आभा कार्ड आहे #{isAbhaCardSelected ? `(${nagrikList.length})` : ''}
+                    option(value='hasAabhaCard=1' selected=isAbhaCardSelected) आभा कार्ड आहे #{isAbhaCardSelected ? `(${nagrikList.length})` : ''}
                     option(value='hasAyushmanCard=1' selected=(hasAyushmanCard=='1')) आयुष्मान कार्ड आहे
                     option(value='hasDownloadedApp=meri_gram_panchayat' selected=(hasDownloadedApp=='meri_gram_panchayat')) मेरी पंचायत ॲप
                     option(value='hasDownloadedApp=panchayat_decision' selected=(hasDownloadedApp=='panchayat_decision')) पंचायत निर्णय ॲप
