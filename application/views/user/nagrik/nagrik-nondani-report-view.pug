@@ -29,6 +29,17 @@ block content
                 span.fw-bold #{nagrikList.length}
 
             div(class='d-flex gap-2')
+                div(class='d-flex gap-2 align-items-center')
+
+                select#nagrik-filter.form-select.form-select-sm(style='width:220px')
+                    option(value='' selected=(!hasAabhaCard && !hasAyushmanCard && !hasDownloadedApp)) सर्व (All)
+                    - let isAbhaCardSelected = (hasAabhaCard=='1')
+                    option(value='hasAabhaCard=1' selected=) आभा कार्ड आहे #{isAbhaCardSelected ? `(${nagrikList.length})` : ''}
+                    option(value='hasAyushmanCard=1' selected=(hasAyushmanCard=='1')) आयुष्मान कार्ड आहे
+                    option(value='hasDownloadedApp=meri_gram_panchayat' selected=(hasDownloadedApp=='meri_gram_panchayat')) मेरी पंचायत ॲप
+                    option(value='hasDownloadedApp=panchayat_decision' selected=(hasDownloadedApp=='panchayat_decision')) पंचायत निर्णय ॲप
+                    option(value='hasDownloadedApp=gram_samvad' selected=(hasDownloadedApp=='gram_samvad')) ग्राम संवाद ॲप
+                
                 button.btn.btn-secondary.btn-sm(data-bs-toggle="modal" data-bs-target="#print-report-modal")
                     i.fa.fa-print.me-1
                     | रिपोर्ट
@@ -90,3 +101,26 @@ block content
                                         div(class='d-flex align-items-center gap-2')
                                             a.btn.text-success(href=`/nagrik/edit/${nagrik.id}` target='_blank')
                                                 i.fa.fa-edit
+
+
+block custom_js
+    script.
+        $(document).on("change", "#nagrik-filter", function () {
+            const value = $(this).val();
+
+            const url = new URL(window.location.href);
+
+            // ❌ remove old filters first
+            url.searchParams.delete("hasAabhaCard");
+            url.searchParams.delete("hasAyushmanCard");
+            url.searchParams.delete("hasDownloadedApp");
+
+            // ✅ apply new filter if selected
+            if (value) {
+                const [key, val] = value.split("=");
+
+                url.searchParams.set(key, val);
+            }
+
+            window.location.href = url.toString();
+        });

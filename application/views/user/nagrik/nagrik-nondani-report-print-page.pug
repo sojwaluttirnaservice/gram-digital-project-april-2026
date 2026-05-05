@@ -36,8 +36,30 @@ html(lang="en")
             }
 
     body
-        div.hide-print
-            button(onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded")
+        div#toolbar.hide-print(style="position:fixed; top:25px; right:10px; z-index:9999; display:flex; gap:10px; align-items:center;")
+
+            - let isAll = (!hasAabhaCard && !hasAyushmanCard && !hasDownloadedApp)
+            - let isAabha = (hasAabhaCard == '1')
+            - let isAyushman = (hasAyushmanCard == '1')
+            - let isMeriApp = (hasDownloadedApp == 'meri_gram_panchayat')
+            - let isDecisionApp = (hasDownloadedApp == 'panchayat_decision')
+            - let isGramSamvad = (hasDownloadedApp == 'gram_samvad')
+
+            select#nagrikFilter.form-select(style='width:220px; padding: 1rem;')
+
+                option(value='' selected=isAll) सर्व (All) #{isAll ? `(${nagrikList.length})` : ''}
+
+                option(value='hasAabhaCard=1' selected=isAabha) आभा कार्ड आहे #{isAabha ? `(${nagrikList.length})` : ''}
+
+                option(value='hasAyushmanCard=1' selected=isAyushman) आयुष्मान कार्ड आहे #{isAyushman ? `(${nagrikList.length})` : ''}
+
+                option(value='hasDownloadedApp=meri_gram_panchayat' selected=isMeriApp) मेरी पंचायत ॲप #{isMeriApp ? `(${nagrikList.length})` : ''}
+
+                option(value='hasDownloadedApp=panchayat_decision' selected=isDecisionApp) पंचायत निर्णय ॲप #{isDecisionApp ? `(${nagrikList.length})` : ''}
+
+                option(value='hasDownloadedApp=gram_samvad' selected=isGramSamvad) ग्राम संवाद ॲप #{isGramSamvad ? `(${nagrikList.length})` : ''}
+
+            button(onclick="window.print()" style="padding:6px 12px; background:#2563eb; color:white; border:none; border-radius:4px; cursor:pointer")
                 | Print
 
         if !(nagrikList && nagrikList.length)
@@ -110,3 +132,40 @@ script.
             new QRCode(document.getElementById(`qrcode-${nagrikId}`), qrUrl)
         }
     })()
+
+script.
+
+    const select = document.getElementById("nagrikFilter");
+
+        // Set selected value from URL
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has("hasAabhaCard")) {
+            select.value = "hasAabhaCard=1";
+        }
+
+        if (params.has("hasAyushmanCard")) {
+            select.value = "hasAyushmanCard=1";
+        }
+
+        if (params.has("hasDownloadedApp")) {
+            select.value = "hasDownloadedApp=" + params.get("hasDownloadedApp");
+        }
+
+        // On change → merge params (DO NOT REMOVE EXISTING ONES)
+        select.addEventListener("change", function () {
+
+            const url = new URL(window.location.href);
+
+            // only remove filter params (NOT your yearToYear, type, etc.)
+            url.searchParams.delete("hasAabhaCard");
+            url.searchParams.delete("hasAyushmanCard");
+            url.searchParams.delete("hasDownloadedApp");
+
+            if (this.value) {
+                const [key, val] = this.value.split("=");
+                url.searchParams.set(key, val);
+            }
+
+            window.location.href = url.toString();
+        });

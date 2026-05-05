@@ -2,7 +2,16 @@ const { runQuery } = require("../../utils/runQuery");
 
 const nagrikModel = {
   getNagrikList: (pool, filters = {}) => {
-    let { month, year, fromYear, toYear } = filters;
+    let {
+      month,
+      year,
+      fromYear,
+      toYear,
+
+      hasAabhaCard,
+      hasAyushmanCard,
+      hasDownloadedApp,
+    } = filters;
 
     let q = `
         SELECT n.*, 
@@ -12,6 +21,28 @@ const nagrikModel = {
 
     let conditions = [];
     let params = [];
+
+    if (hasAabhaCard == "1") {
+      conditions.push(`n.has_aabha_card = 'YES'`);
+    }
+
+    if (hasAyushmanCard == "1") {
+      conditions.push(`n.has_ayushman_card = 'YES'`);
+    }
+
+    if (hasDownloadedApp) {
+      if (hasDownloadedApp === "meri_gram_panchayat") {
+        conditions.push(`n.has_downloaded_meri_gram_panchayat_app = 'YES'`);
+      }
+
+      if (hasDownloadedApp === "panchayat_decision") {
+        conditions.push(`n.has_downloaded_panchayat_decision_app = 'YES'`);
+      }
+
+      if (hasDownloadedApp === "gram_samvad") {
+        conditions.push(`n.has_downloaded_gram_samvad_app = 'YES'`);
+      }
+    }
 
     // Month filter (based on createdAt)
     if (month) {

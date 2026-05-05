@@ -9,11 +9,13 @@ const { renderPage } = require("../../utils/sendResponse");
 
 const nagrikController = {
   renderNagrikNondaniReportView: asyncHandler(async (req, res) => {
-    const nagrikList = await nagrikModel.getNagrikList(res.pool);
+    let filters = req.query;
+    const nagrikList = await nagrikModel.getNagrikList(res.pool, filters);
     renderPage(res, `user/nagrik/nagrik-nondani-report-view.pug`, {
       title: "नागरिक नोंदणी यादी",
       imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
       nagrikList,
+      ...filters
     });
   }),
 
@@ -24,6 +26,7 @@ const nagrikController = {
     renderPage(res, `user/nagrik/nagrik-nondani-report-print-page.pug`, {
       imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
       nagrikList,
+      ...filters
     });
   }),
 
