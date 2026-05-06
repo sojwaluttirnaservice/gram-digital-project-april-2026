@@ -120,12 +120,13 @@ body
                                 p.pl-2 
                                     small Online कर भरणा तपासणी
 
-                        .col-5.col-md-2.p-2.box.box--white
-                            .commonModalFrom(data-id="13" class="d-flex justify-content-center align-items-center") 
-                                p
-                                    i.fa.fa-globe.fa-2x.text-primary
+                        //- yadi and certificates
+                        a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/gp-certificates")
+                            div(class="d-flex justify-content-center align-items-center")
+                                p.box__title 
+                                    i.fa.fa-solid.fa-print.fa-2x.text-primary
                                 p.pl-2
-                                    small ग्रामपंचायत अंतर्गत वापरल्या जाणाऱ्या वेबसाईट
+                                    small ग्रामपंचायत दाखले (१ ते ७)
 
                         //- All namune / सर्व नमुने
                         a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/namuna")
@@ -134,6 +135,13 @@ body
                                     i.fa.fa-th-list.fa-2x.text-primary
                                 p.pl-2
                                     small लो.ह.ले.स.२०११ नुसार १ ते ३३ ग्रा.प.नमुने
+
+                        .col-5.col-md-2.p-2.box.box--white
+                            .commonModalFrom(data-id="13" class="d-flex justify-content-center align-items-center") 
+                                p
+                                    i.fa.fa-globe.fa-2x.text-primary
+                                p.pl-2
+                                    small ग्रामपंचायत अंतर्गत वापरल्या जाणाऱ्या वेबसाईट
 
                         //- new tab
                         a.col-5.col-md-2.p-2.box.box--white(href='https://digitalsatbara.mahabhumi.gov.in/dslr' target='_blank')
@@ -191,15 +199,7 @@ body
                                 p.box__title 
                                     i.fa.fa-file.fa-2x.text-primary
                                 p.pl-2
-                                    small दिव्यांग लोकांचे अर्ज 
-
-                        //- yadi and certificates
-                        a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/gp-certificates")
-                            div(class="d-flex justify-content-center align-items-center")
-                                p.box__title 
-                                    i.fa.fa-solid.fa-print.fa-2x.text-primary
-                                p.pl-2
-                                    small ग्रामपंचायत दाखले (१ ते ७)
+                                    small दिव्यांग लोकांचे अर्ज
 
                         a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="gp-notice")
                             div(class="d-flex justify-content-center align-items-center")
