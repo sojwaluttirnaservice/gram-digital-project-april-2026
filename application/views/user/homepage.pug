@@ -121,11 +121,6 @@ body
                                     small Online कर भरणा तपासणी
 
                         .col-5.col-md-2.p-2.box.box--white
-                            .commonModalFrom(data-id="12" class="d-flex justify-content-center align-items-center") 
-                                p(class="i fa fa-heartbeat fa-2x text-primary" )
-                                p.pl-2 
-                                    small जन्म / मृत्यू नोंदणी
-                        .col-5.col-md-2.p-2.box.box--white
                             .commonModalFrom(data-id="13" class="d-flex justify-content-center align-items-center") 
                                 p
                                     i.fa.fa-globe.fa-2x.text-primary
@@ -146,26 +141,6 @@ body
                                     i.fa.fa-info-circle.fa-2x.text-primary
                                 p.pl-2
                                     small ग्राम माहिती
-
-                        a.col-5.col-md-2.p-2.box.box--white(href='/gram-list-setting')
-                            .commonModalFrom( class="d-flex justify-content-center align-items-center") 
-                                p
-                                    i.fa.fa-folder-open.fa-2x.text-primary
-                                p.pl-2
-                                    small ग्राम दस्तावेज
-
-                        .col-5.col-md-2.p-2.box.box--white
-                            .commonModalFrom(data-id="14" class="d-flex justify-content-center align-items-center") 
-                                p
-                                    i.fa.fa-venus-mars.fa-2x.text-primary
-                                p.pl-2 
-                                    small विवाह नोंदणी
-                        .col-5.col-md-2.p-2.box.box--white
-                            .commonModalFrom(data-id="15" class="d-flex justify-content-center align-items-center") 
-                                p
-                                    i.fa.fa-certificate.fa-2x.text-primary
-                                p.pl-2
-                                    small ग्रा.प थकबाकी/निराधार प्रमाणपत्र
 
                         .col-5.col-md-2.p-2.box.box--white
                             a.commonModalFrom(href='/gp-applications/inside' class="d-flex justify-content-center align-items-center") 
@@ -202,12 +177,7 @@ body
                                     i.fa.fa-th-list.fa-2x.text-primary
                                 p.pl-2
                                 small पंचायत  समिती अहवाल
-                        .col-5.col-md-2.p-2.box.box--white
-                            .commonModalFrom(data-id="21" class="d-flex justify-content-center align-items-center") 
-                                p.box__title 
-                                    i.fa.fa-file-excel-o.fa-2x.text-primary
-                                p.pl-2
-                                    small नमुना ८ यादी  
+
                         a.col-5.col-md-2.p-2.box.box--white(href='/divyanga/applications')
                             .commonModalFrom(class="d-flex justify-content-center align-items-center") 
                                 p.box__title 
@@ -221,14 +191,7 @@ body
                                 p.box__title 
                                     i.fa.fa-solid.fa-print.fa-2x.text-primary
                                 p.pl-2
-                                    small ग्रामपंचायत दाखले 
-
-                        a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="form-9/yadi")
-                            div(class="d-flex justify-content-center align-items-center")
-                                p.box__title 
-                                    i.fa.fa-solid.fa-print.fa-2x.text-primary
-                                p.pl-2
-                                    small यादी आणि प्रमाणपत्र  
+                                    small ग्रामपंचायत दाखले
 
                         a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="gp-notice")
                             div(class="d-flex justify-content-center align-items-center")
@@ -236,14 +199,6 @@ body
                                     i.fa.fa-solid.fa-print.fa-2x.text-primary
                                 p.pl-2
                                     small ग्रामपंचायतद्वारे नोटीस
-
-                        //- print blank certificates
-                        a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/print/blankCertificate/")
-                            div(class="d-flex justify-content-center align-items-center")
-                                p.box__title 
-                                    i.fa.fa-solid.fa-print.fa-2x.text-primary
-                                p.pl-2
-                                    small Blank प्रमाणपत्र 
 
                         .col-5.col-md-2.p-2.box.box--white
                             a(class="d-inline-flex justify-content-center align-items-center" style='color:black; width:100%;' href="/print/card-print?p=0&tp=100" target="_blank")
@@ -325,14 +280,6 @@ body
                                 p.pl-2
                                     small नागरिक नोंदणी रिपोर्ट 
 
-                        //-Manipulate form 8 data
-                        a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/update-database-table/update-form-8-data-view")
-                            div(class="d-flex justify-content-center align-items-center") 
-                                p.box__title 
-                                    i.fa.fa-th-list.fa-2x.text-primary
-                                p.pl-2
-                                    small Update form 8 database
-
                         //-DATABASE clone
                         a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/db/list")
                             div(class="d-flex justify-content-center align-items-center") 
@@ -340,7 +287,6 @@ body
                                     i.fa.fa-th-list.fa-2x.text-primary
                                 p.pl-2
                                     small Backup DB
-
 
                         //- All namune / सर्व नमुने
                         a.col-5.col-md-2.p-2.box.box--white.text-decoration-none(href="/namuna")

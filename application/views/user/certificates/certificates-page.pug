@@ -1,58 +1,38 @@
-doctype html
-head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible' content='ie=edge')
-    // common css
-    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
-    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
-    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
-    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
-    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
-    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+extends ../include/internal-gp-master-layout.pug 
 
 
-    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
-    script(src='/asstest/plugins/popper/popper.min.js')
-    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
-    script(src='/asstest/plugins/date/jquery-ui.js')
-    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
-    script(src='/asstest/plugins/notify/notify.js')
-    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
-    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
+block content 
 
-
-    //toggle
-    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
-    // extras
-
-    // common js setups
-    script(src='/asstest/coustom/js/base.converter.js')
-    script(src='/asstest/coustom/js/common.js')
-
+block custom_css 
     style.
-        body{
-            
-            height:100vh;
-        }
-
         a {
             text-decoration: none !important;
             color: inherit;
         }
 
 
-body
-    include ../include/navs.pug
+block content
 
-
-    - 
+    -
         const certificates = [
-            { href: '/application', icon: 'fa-file-text-o', label: 'ग्रा.प.१ ते ७ दाखले सेवा मागणी अर्ज'},
+            { href: 'https://dc.crsorgi.gov.in/crs/home', icon: 'fa fa-heartbeat', label: 'जन्म / मृत्यू नोंदणी', target:"_blank" },
+            { href: '/marriage/list', icon: 'fa fa-heart', label: 'विवाह नोंदणी', target:"_blank" },
+            { href: '/certificate', icon: 'fa fa-file-text-o', label: 'ग्रा.प थकबाकी/निराधार प्रमाणपत्र', target:"_blank"},
+
+            { href: '/application', icon: 'fa-file-text-o', label: 'ग्रा.प.१ ते ७ दाखले सेवा मागणी अर्ज' },
             { href: '/death-certificate', icon: 'fa-user-times', label: 'मृत्यू प्रमाणपत्र' },
             { href: '/birth-certificate', icon: 'fa-child', label: 'जन्म प्रमाणपत्र' },
             { href: '/unavailability-certificate', icon: 'fa-file-o', label: 'अनुपलब्धता प्रमाणपत्र' },
-            { href: '/bpl-certificate/list', icon: 'fa-id-card-o', label: 'दारिद्र्य रेषेखालील (BPL) प्रमाणपत्र' }
+            { href: '/bpl-certificate/list', icon: 'fa-id-card-o', label: 'दारिद्र्य रेषेखालील (BPL) प्रमाणपत्र' },
+
+            { href: '/print/blankCertificate', icon: 'fa-print', label: 'Blank प्रमाणपत्र' },
+            { href: '/gram-list-setting', icon: 'fa-cogs', label: 'ग्राम दस्तावेज' },
+
+            { href: '/form-9/yadi', icon: 'fa-file', label: 'यादी व प्रमाणपत्र' },
+            
+            { href: '/exports/eight-form', icon: 'fa-list-alt', label: 'नमुना ८ यादी' },
+            { href: '/update-database-table/update-form-8-data-view', icon: 'fa-database', label: 'Update form 8 database' },
+            { href: '/exports/nine-form', icon: 'fa-list-alt', label: 'नमुना ९ यादी' },
         ];
 
     .container
@@ -60,33 +40,9 @@ body
             .row.justify-content-center
 
                 each cert in certificates
-                    .col-4.col-md-2.p-2.box.box--white
-                        a.commonModalFrom(href=cert.href class="w-100 d-flex justify-content-center align-items-center")
-                            p.box__title.d-flex.justify-content-center.align-items-center(style='gap: 0.2rem;')
-                                i.fa(class=`${cert.icon} fa-2x`)
-                                small #{cert.label}
-
-
-                //- .col-4.col-md-2.p-2.box.box--white
-                //-     a.commonModalFrom(href='/death-certificate' class="w-100 d-flex justify-content-center align-items-center") 
-                //-         p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                //-             i.fa.fa-file-text-o.fa-2x
-                //-             small मृत्यू प्रमाणपत्र 
-
-                //- .col-4.col-md-2.p-2.box.box--white
-                //-     a.commonModalFrom(href='/birth-certificate' class="w-100 d-flex justify-content-center align-items-center") 
-                //-         p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                //-             i.fa.fa-child.fa-2x
-                //-             small जन्म प्रमाणपत्र 
-
-                //- .col-4.col-md-2.p-2.box.box--white
-                //-     a.commonModalFrom(href='/unavailability-certificate' class="w-100 d-flex justify-content-center align-items-center") 
-                //-         p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                //-             i.fa.fa-file-o.fa-2x
-                //-             small अनुपलब्धता प्रमाणपत्र 
-
-                //- .col-4.col-md-2.p-2.box.box--white
-                //-     a.commonModalFrom(href='/bpl-certificate/list' class="w-100 d-flex justify-content-center align-items-center") 
-                //-         p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                //-             i.fa.fa-id-card-o.fa-2x
-                //-             small  दारिद्र्य रेषेखालील (BPL) प्रमाणपत्र
+                    .col-4.col-md-2
+                        .p-2.box.box--white
+                            a.commonModalFrom(href=cert.href class="w-100 d-flex justify-content-center align-items-center" target=(cert.target || '_self'))
+                                p.box__title.d-flex.justify-content-center.align-items-center(style='gap: 0.2rem;')
+                                    i.fa(class=`${cert.icon} fa-2x`)
+                                    small #{cert.label}
