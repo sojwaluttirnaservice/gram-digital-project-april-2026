@@ -1,102 +1,54 @@
 const HomeModel = require('../../model/HomeModel');
 const namuna11Model = require('../../model/namuna/namuna11Model');
+const asyncHandler = require('../../utils/asyncHandler');
+const { renderPage } = require('../../utils/sendResponse');
 
 const namuna11Controller = {
     // Render the Namuna 11 page
-    renderNamuna11Page: async (req, res) => {
-        try {
-            const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
-            let reportData = [];
-
-            if (month && year) {
-                reportData = await namuna11Model.fetchByMonthAndYear(res.pool, month, year);
-            } else if (year) {
-                reportData = await namuna11Model.fetchByYear(res.pool, year);
-            } else {
-                reportData = await namuna11Model.fetchAllNamuna11Details(res.pool);
-            }
-
-            res.render('user/namuna/namuna11/namuna-11-page.pug', {
-                gp: _gp[0],
-                namuna11Details: reportData,
-            });
-        } catch (err) {
-            console.log(`Error while rendering the Namuna 11 page: ${err.message}`);
-            res.status(500).json({
-                call: 0,
-                message: 'Failed to render the page.',
-                error: err?.message,
-            });
+    renderNamuna11Page: asyncHandler(async (req, res) => {
+        const { year, month, fromYear, toYear } = req.query;
+        let reportData = [];
+        if (month && year) {
+            reportData = await namuna11Model.fetchByMonthAndYear(res.pool, month, year);
+        } else if (year) {
+            reportData = await namuna11Model.fetchFinancialYear(res.pool, fromYear, toYear);
+        } else {
+            reportData = await namuna11Model.fetchAllNamuna11Details(res.pool);
         }
-    },
+        renderPage(res, 'user/namuna/namuna11/namuna-11-page.pug', {
+            namuna11Details: reportData,
+        })
+    }),
 
     // Render the page to create a new Namuna 11 entry
-    renderNamuna11CreatePage: async (req, res) => {
-        try {
-            const _gp = await HomeModel.getGpData(res.pool);
-            res.render('user/namuna/namuna11/namuna-11-create-entry-page.pug', {
-                gp: _gp[0],
-            });
-        } catch (err) {
-            console.error(`Error while rendering the Namuna 11 create page: ${err.message}`);
-            return res.status(500).json({
-                call: 0,
-                message: 'Failed to render create entry page. Please try again later.',
-                error: err?.message,
-            });
-        }
-    },
+    renderNamuna11CreatePage: asyncHandler(async (req, res) => {
+        renderPage(res, 'user/namuna/namuna11/namuna-11-create-entry-page.pug')
+    }),
 
     // Render the page to edit an existing Namuna 11 entry
-    renderEditNamuna11Page: async (req, res) => {
-        try {
-            const _gp = await HomeModel.getGpData(res.pool);
-            const { id } = req.params;
-            const _namuna11Entry = await namuna11Model.fetchNamuna11DetailsById(res.pool, id);
-
-            res.render('user/namuna/namuna11/namuna-11-edit-page.pug', {
-                gp: _gp[0],
-                namuna11Entry: _namuna11Entry[0],
-            });
-        } catch (err) {
-            console.log(`Error while rendering the Namuna 11 edit page: ${err.message}`);
-            res.status(500).json({
-                call: 0,
-                message: 'Failed to update entry. Please try again later.',
-                error: err?.message,
-            });
-        }
-    },
+    renderEditNamuna11Page: asyncHandler(async (req, res) => {
+        const { id } = req.params;
+        const _namuna11Entry = await namuna11Model.fetchNamuna11DetailsById(res.pool, id);
+        renderPage(res, 'user/namuna/namuna11/namuna-11-edit-page.pug', {
+            namuna11Entry: _namuna11Entry[0],
+        })
+    }),
 
     // Render the page to print Namuna 11 report
-    renderNamuna11Print: async (req, res) => {
-        try {
-            const { month, year } = req.query;
-            const _gp = await HomeModel.getGpData(res.pool);
-
-            let _namuna11Details = [];
-            if (month && year) {
-                _namuna11Details = await namuna11Model.fetchByMonthAndYear(res.pool, month, year);
-            } else {
-                _namuna11Details = await namuna11Model.fetchAllNamuna11Details(res.pool);
-            }
-
-            res.render('user/namuna/namuna11/namuna-11-print.pug', {
-                gp: _gp[0],
-                namuna11Details: _namuna11Details,
-                month,
-                year,
-            });
-        } catch (err) {
-            console.error(`Error while rendering the Namuna 11 page: ${err}`);
-            return res.status(500).json({
-                call: 0,
-                message: `Error while rendering the Namuna 11 page: ${err.message}`,
-                error: err,
-            });
+    renderNamuna11Print: asyncHandler(async (req, res) => {
+        const { month, year } = req.query;
+        let _namuna11Details = [];
+        if (month && year) {
+            _namuna11Details = await namuna11Model.fetchByMonthAndYear(res.pool, month, year);
+        } else {
+            _namuna11Details = await namuna11Model.fetchAllNamuna11Details(res.pool);
         }
-    },
+        renderPage(res, 'user/namuna/namuna11/namuna-11-print.pug', {
+            namuna11Details: _namuna11Details,
+            month,
+            year
+        })
+    }),
 
     // Save Namuna 11 details
     saveNamuna11Details: async (req, res) => {
