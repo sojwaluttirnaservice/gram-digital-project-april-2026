@@ -552,6 +552,7 @@ indexRouter.use(
       const _gp = await HomeModel.getGpData(res.pool);
       res.render("user/certificates/certificates-page.pug", {
         gp: _gp[0],
+        title: "ग्रामपंचायत प्रमाणपत्र"
       });
     } catch (err) {
       console.log(`Error while showing the certificates page : ${err}`);
