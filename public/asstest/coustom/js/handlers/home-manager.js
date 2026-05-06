@@ -679,7 +679,7 @@ $(document).ready(function () {
                 $('.modal-title').html('वर्ष निवडा');
                 break;
             case 12:
-                homeManager.openPrintToNewTab('http://crsorgi.gov.in/web/index.php/auth/login');
+                homeManager.openPrintToNewTab('https://dc.crsorgi.gov.in/crs/home');
                 break;
             case 13:
                 /*homeManager.openPrintToNewTab(
