@@ -9,6 +9,11 @@ nagrikRouter.get(
 )
 
 nagrikRouter.get(
+    '/n/:id',
+    nagrikController.renderNagrikDetailsPage
+)
+
+nagrikRouter.get(
     '/report-print',
     nagrikController.renderNagrikNondaiReportPrintPage
 )

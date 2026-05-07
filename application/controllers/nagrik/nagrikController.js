@@ -19,6 +19,15 @@ const nagrikController = {
     });
   }),
 
+    renderNagrikDetailsPage: asyncHandler(async (req, res) => {
+        let { id } = req.params;
+        let [nagrik] = await nagrikModel.getById(res.pool, id)
+        renderPage(res, 'user/nagrik/nagrik-details-page.pug', {
+            nagrik,
+            imageBaseUrl: UPLOAD_PATHS.users.profile
+        })
+  }),
+
   renderNagrikNondaiReportPrintPage: asyncHandler(async (req, res) => {
     let filters = req.query;
 

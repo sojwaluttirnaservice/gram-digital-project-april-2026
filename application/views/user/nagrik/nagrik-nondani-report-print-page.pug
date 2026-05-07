@@ -70,21 +70,27 @@ html(lang="en")
                 table
                     thead
                         tr
-                            th(colspan='10')
+                            th(colspan='13')
                                 b ग्रामपंचायत सदस्य यादी
 
-                        tr
-                            th अ. क्र.
-                            th ID
-                            th नाव / पत्ता / संपर्क
-                            th मोबाईल
-                            th ई-मेल
-                            th जन्म दिनांक
-                            th व्यवसाय
-                            th रक्त गट
-                            th गाव
-                            th QR Code
 
+                        tr
+                            th(style="width:4%") अ. क्र.
+                            th(style="width:6%") ID
+                            th(style="width:18%") नाव / पत्ता / संपर्क
+                            th(style="width:10%") मोबाईल
+                            th(style="width:12%") ई-मेल
+                            th(style="width:8%") जन्म दिनांक
+                            th(style="width:10%") व्यवसाय
+                            th(style="width:6%") रक्त गट
+                            th(style="width:8%") गाव
+                            th(style="width:6%") मेरी पंचायत ॲप डाउनलोड केले?
+                            th(style="width:6%") पंचायत निर्णय ॲप डाउनलोड केले?
+                            th(style="width:6%") ग्राम संवाद ॲप डाउनलोड केले?
+                            th(style="width:10%") QR Code
+
+                        
+                    - let yesOrNo = (v) => v == "YES" ? "होय" : "नाही";
                     tbody
                         each n, i in nagrikList
                             tr
@@ -110,6 +116,10 @@ html(lang="en")
                                 td #{n.fOccupation}
                                 td #{n.fBloodGroup}
                                 td #{n.fVillage}
+
+                                td #{yesOrNo(n.has_downloaded_meri_gram_panchayat_app)}
+                                td #{yesOrNo(n.has_downloaded_panchayat_decision_app)}
+                                td #{yesOrNo(n.has_downloaded_gram_samvad_app)}
 
                                 // QR CODE (UNCHANGED LOGIC)
                                 td

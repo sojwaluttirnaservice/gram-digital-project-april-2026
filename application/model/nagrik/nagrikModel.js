@@ -74,6 +74,7 @@ const nagrikModel = {
     const q = `
             SELECT 
                 n.*, 
+                fDob as originalDob,
                 DATE_FORMAT(n.fDob, "%d/%m/%Y") as dob,
                 DATE_FORMAT(n.createdAt, "%d/%m/%Y") as _createdAt
             FROM ps_gp_member_list n
