@@ -2,8 +2,7 @@ const { runQuery } = require("../../utils/runQuery");
 
 const birthCertificateModel = {
   saveBirthCertificate: (pool, data) => {
-    return new Promise((resolve, reject) => {
-      const q = `INSERT INTO ps_birth_certificates
+    const q = `INSERT INTO ps_birth_certificates
                         (
                             name,
                             name_m,
@@ -48,59 +47,55 @@ const birthCertificateModel = {
 
                         ) VALUES (?)`;
 
-      const insertData = [
-        data.name,
-        data.name_m,
+    const insertData = [
+      data.name,
+      data.name_m,
 
-        data.gender,
-        data.gender_m,
+      data.gender,
+      data.gender_m,
 
-        data.date_of_birth,
-        data.date_of_birth_m,
-        data.date_of_birth_in_words,
+      data.date_of_birth,
+      data.date_of_birth_m,
+      data.date_of_birth_in_words,
 
-        data.place_of_birth,
-        data.place_of_birth_m,
+      data.place_of_birth,
+      data.place_of_birth_m,
 
-        data.name_of_mother,
-        data.name_of_mother_m,
-        data.aadhar_number_of_mother,
-        data.aadhar_number_of_mother_m,
+      data.name_of_mother,
+      data.name_of_mother_m,
+      data.aadhar_number_of_mother,
+      data.aadhar_number_of_mother_m,
 
-        data.name_of_father,
-        data.name_of_father_m,
-        data.aadhar_number_of_father,
-        data.aadhar_number_of_father_m,
+      data.name_of_father,
+      data.name_of_father_m,
+      data.aadhar_number_of_father,
+      data.aadhar_number_of_father_m,
 
-        data.address_of_parents_at_birth_time_of_baby,
-        data.address_of_parents_at_birth_time_of_baby_m,
+      data.address_of_parents_at_birth_time_of_baby,
+      data.address_of_parents_at_birth_time_of_baby_m,
 
-        data.permanent_address_of_parents,
-        data.permanent_address_of_parents_m,
+      data.permanent_address_of_parents,
+      data.permanent_address_of_parents_m,
 
-        data.remarks,
+      data.remarks,
 
-        data.date_of_registration,
-        data.date_of_registration_m,
+      data.date_of_registration,
+      data.date_of_registration_m,
 
-        data.date_of_issue,
-        data.gp_registration_number,
-        data.official_present_at_birth,
-        data.official_present_at_birth_m,
-        data.weight_of_baby,
+      data.date_of_issue,
+      data.gp_registration_number,
+      data.official_present_at_birth,
+      data.official_present_at_birth_m,
+      data.weight_of_baby,
 
-        data.gp_registration_birth_report_file_name
-      ];
+      data.gp_registration_birth_report_file_name,
+    ];
 
-      pool.query(q, [insertData], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [insertData]);
   },
 
   updateBirthCertificate: (pool, data) => {
-    return new Promise((resolve, reject) => {
-      const q = `UPDATE ps_birth_certificates SET
+    const q = `UPDATE ps_birth_certificates SET
                         name = ?,
                         name_m = ?,
 
@@ -148,129 +143,131 @@ const birthCertificateModel = {
 
                         WHERE id = ?`;
 
-      const updateData = [
-        data.name,
-        data.name_m,
+    const updateData = [
+      data.name,
+      data.name_m,
 
-        data.gender,
-        data.gender_m,
+      data.gender,
+      data.gender_m,
 
-        data.date_of_birth,
-        data.date_of_birth_m,
-        data.date_of_birth_in_words,
+      data.date_of_birth,
+      data.date_of_birth_m,
+      data.date_of_birth_in_words,
 
-        data.place_of_birth,
-        data.place_of_birth_m,
+      data.place_of_birth,
+      data.place_of_birth_m,
 
-        data.name_of_mother,
-        data.name_of_mother_m,
-        data.aadhar_number_of_mother,
-        data.aadhar_number_of_mother_m,
+      data.name_of_mother,
+      data.name_of_mother_m,
+      data.aadhar_number_of_mother,
+      data.aadhar_number_of_mother_m,
 
-        data.name_of_father,
-        data.name_of_father_m,
-        data.aadhar_number_of_father,
-        data.aadhar_number_of_father_m,
+      data.name_of_father,
+      data.name_of_father_m,
+      data.aadhar_number_of_father,
+      data.aadhar_number_of_father_m,
 
-        data.address_of_parents_at_birth_time_of_baby,
-        data.address_of_parents_at_birth_time_of_baby_m,
+      data.address_of_parents_at_birth_time_of_baby,
+      data.address_of_parents_at_birth_time_of_baby_m,
 
-        data.permanent_address_of_parents,
-        data.permanent_address_of_parents_m,
+      data.permanent_address_of_parents,
+      data.permanent_address_of_parents_m,
 
-        data.remarks,
-        data.date_of_registration,
-        data.date_of_registration_m,
+      data.remarks,
+      data.date_of_registration,
+      data.date_of_registration_m,
 
-        data.date_of_issue,
-        data.gp_registration_number,
+      data.date_of_issue,
+      data.gp_registration_number,
 
-        data.official_present_at_birth,
-        data.official_present_at_birth_m,
-        data.weight_of_baby,
+      data.official_present_at_birth,
+      data.official_present_at_birth_m,
+      data.weight_of_baby,
 
-        data.gp_registration_birth_report_file_name,
+      data.gp_registration_birth_report_file_name,
 
-        data.id,
-      ];
-
-      pool.query(q, updateData, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+      data.id,
+    ];
+    return runQuery(pool, q, updateData);
   },
 
   deleteBirthCertificate: (pool, id) => {
-    return new Promise((resolve, reject) => {
-      const q = `DELETE FROM ps_birth_certificates WHERE id = ?`;
-
-      pool.query(q, [id], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    const q = `DELETE FROM ps_birth_certificates WHERE id = ?`;
+    return runQuery(pool, q, [id]);
   },
 
-  fetchAllBirthCertificates: (pool, year = null) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
+  fetchAllBirthCertificates: (pool, filters = {}) => {
+    let { month, year, fromYear, toYear } = filters;
+
+    let conditions = [];
+    let params = [];
+
+    // Month + Year filter (based on date_of_issue)
+    if (month && year) {
+      conditions.push(`MONTH(date_of_issue) = ? AND YEAR(date_of_issue) = ?`);
+      params.push(month, year);
+    }
+
+    // Only Year filter (based on date_of_issue)
+    else if (year) {
+      conditions.push(`YEAR(date_of_issue) = ?`);
+      params.push(year);
+    }
+
+    // Financial year filter (based on date_of_issue)
+    if (fromYear && toYear) {
+      const financialStart = `${fromYear}-04-01`;
+      const financialEnd = `${toYear}-03-31`;
+
+      conditions.push(`DATE(date_of_issue) BETWEEN ? AND ?`);
+      params.push(financialStart, financialEnd);
+    }
+
+    const conditionQuery = conditions.length
+      ? `WHERE ${conditions.join(" AND ")}`
+      : "";
+    const q = `SELECT *,
 							IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
 							IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
 							IFNULL(DATE_FORMAT(date_of_birth, '%d-%m-%Y'), "") AS _date_of_birth,
 							IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
-			 FROM ps_birth_certificates ${year ? `WHERE YEAR(date_of_registration) = ? ` : ""} ORDER BY date_of_birth`;
+			 FROM ps_birth_certificates 
+             ${conditionQuery} 
+                ORDER BY date_of_issue`;
 
-      const params = [];
-      if (year) params.push(year);
-
-      pool.query(q, params, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, params);
   },
 
   fetchBirthCertificatesByMonthYear: (pool, month, year) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
+    const q = `SELECT *,
 							IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
 							IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
 							IFNULL(DATE_FORMAT(date_of_birth, '%d-%m-%Y'), "") AS _date_of_birth,
 							IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
 			 FROM ps_birth_certificates WHERE MONTH(date_of_birth) = ? AND YEAR(date_of_birth) = ?`;
 
-      pool.query(q, [month, year], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [month, year]);
   },
 
   fetchBirthCertificateById: (pool, id) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
+    const q = `SELECT *,
 							IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
 							IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
 							IFNULL(DATE_FORMAT(date_of_birth, '%d-%m-%Y'), "") AS _date_of_birth,
 							IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
 			 FROM ps_birth_certificates WHERE id = ?`;
 
-      pool.query(q, [id], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [id]);
   },
 
   fetchBirthCertificatesByName: (pool, name) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
+    const q = `SELECT *,
 							IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
 							IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
 							IFNULL(DATE_FORMAT(date_of_birth, '%d-%m-%Y'), "") AS _date_of_birth,
 							IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
 			FROM ps_birth_certificates WHERE name = ? OR name_m = ?`;
-
-      pool.query(q, [name, name], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [name, name]);
   },
 
   // fetchBirthCertificateByAdhar: (pool, adharNumber) => {

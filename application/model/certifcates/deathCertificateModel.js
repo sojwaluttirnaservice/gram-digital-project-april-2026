@@ -242,7 +242,7 @@ const deathCertificateModel = {
             IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
         FROM ps_death_certificates
         ${conditionQuery}
-        ORDER BY date_of_death
+        ORDER BY date_of_issue;
     `;
 
     return runQuery(pool, q, params);
