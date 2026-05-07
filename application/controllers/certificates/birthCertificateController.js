@@ -16,6 +16,7 @@ const birthCertificateController = {
       res,
       "user/certificates/birth-certificate/birth-certificate-page.pug",
       {
+        title: "जन्म प्रमाणपत्र",
         birthCertificates,
       },
     );
