@@ -91,11 +91,12 @@ body
                 h4.ml-5.text-center
                     span.fa.fa-users
                     | &nbsp; मृत्यू नोंदणी यादी
+
                     a(href="/death-certificate/death-certificate-form").float-right.btn.btn-primary.btn-sm.mr-2
                         span.fa.fa-user-plus
                         |  नवीन मृत्यू प्रमाणपत्र नोंदणी करा 
-
-                    button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                    //- button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                    a.btn.btn-secondary(href='/death-certificate/print-death-certificate-report').float-right.mr-2
                         | मृत्यू नोंदणी रजिस्टर प्रिंट
 
             .col-12
@@ -141,8 +142,4 @@ body
                                         td 
                                             a.btn.text-primary(href=`/death-certificate/print-death-certificate/${_certificate.id}` target="_blank")
                                                 i.fa.fa-print
-
-
-
-
 

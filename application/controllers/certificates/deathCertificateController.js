@@ -59,7 +59,7 @@ const deathCertificateController = {
       const data = req.body;
 
       let gpRegistrationDeathReportFile =
-        req.files?.gpRegistrationDeathReportFile;
+        req.files.gpRegistrationDeathReportFile;
 
       if (gpRegistrationDeathReportFile) {
         let fileName = generateUniqueFileName(
@@ -132,7 +132,7 @@ const deathCertificateController = {
         );
 
       let gpRegistrationDeathReportFile =
-        req.files.gpRegistrationDeathReportFile;
+        req.files?.gpRegistrationDeathReportFile;
 
       if (gpRegistrationDeathReportFile) {
         let fileName = generateUniqueFileName(
@@ -361,13 +361,14 @@ const deathCertificateController = {
   }),
 
   printDeathCertificateRecords: asyncHandler(async (req, res) => {
-     const { year } = req.query;
+     const filters = req.query;
       // console.log(_gp);
       const deathCertificates =
-        await deathCertificateModel.fetchAllDeathCertificates(res.pool, year); 
+        await deathCertificateModel.fetchAllDeathCertificates(res.pool, filters); 
 
     renderPage(res,  "user/certificates/death-certificate/death-certificate-records-print.pug", {
-       deathCertificates 
+       deathCertificates,
+       ...filters
     })
   }),
 };

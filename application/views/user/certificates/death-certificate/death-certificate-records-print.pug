@@ -32,6 +32,10 @@ html(lang="en")
                     size: A4 landscape;
                 }
 
+                .hide-print {
+                    display: none;
+                }
+
                 .my-print {
                     border: 0px solid transparent;
 
@@ -41,12 +45,47 @@ html(lang="en")
                 }
             }
     body
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+        .hide-print
 
+            div(style="position:fixed;top:50%;right:0;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-end;gap:12px;margin-right:16px;z-index:1000;")
 
-        //- - const _deaths = Array(40).fill(deathCertificates).flatMap(arr => arr);
+                button(onclick="window.print()" style="background:#0d6efd;color:white;font-weight:600;border:none;padding:10px 16px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer;")
+                    | Print
 
-        
-        - const _deaths = deathCertificates
+                div(style="display:flex;flex-direction:column;gap:12px;")
+
+                    - let isMonthYearTypeReport = (month && year) ? true : false;
+                    - let isFinancialYearTypeReport = (fromYear && toYear) ? true : false;
+
+                    select#report-type(style="padding:10px 12px;border:1px solid #ccc;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,0.1);")
+                        option(value="" selected=(!isMonthYearTypeReport && !isFinancialYearTypeReport))
+                            | रिपोर्ट प्रकार निवडा
+
+                        option(value="monthYear" selected=isMonthYearTypeReport)
+                            | महिना व वर्षानुसार
+
+                        option(value="financialYear" selected=isFinancialYearTypeReport)
+                            | आर्थिक वर्षानुसार
+
+                    // Month Year Inputs
+                    div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};gap:8px;`)
+                        select#report-month(style="padding:10px;border:1px solid #ccc;border-radius:6px;")
+                            - for(let i = 1; i <= 12; i++)
+                                option(value=i selected=(month == i))
+                                    | #{getMonthName(i)}
+
+                        input#report-year(type="number" value=year placeholder="Year" style="padding:10px;border:1px solid #ccc;border-radius:6px;width:120px;")
+
+                    // Financial Year Inputs
+                    div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};gap:8px;`)
+                        input#from-year(type="number" value=fromYear placeholder="From Year" style="padding:10px;border:1px solid #ccc;border-radius:6px;width:120px;")
+
+                        input#to-year(type="number" value=toYear placeholder="To Year" style="padding:10px;border:1px solid #ccc;border-radius:6px;width:120px;")
+
+                    button#generate-report(style="background:#0d6efd;color:white;border:none;padding:10px 16px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.15);cursor:pointer;")
+                        | रिपोर्ट तयार करा
+
 
         .my-print(style='width:297mm; height:210mm; position:relative; font-size: 0.9rem;')
 
@@ -64,12 +103,17 @@ html(lang="en")
                                     img.header-image1(src="/new-gp-page/main-page/images/header-images/g-sevalogo-new-2.png" width=130)
 
                             div(style='position:relative; display: flex; justify-content: space-between;  height: 2rem; align-items: center;')
-                                div वर्ष : 
+                                if isMonthYearTypeReport
+                                    div माहे #{getMonthName(month)} सन #{year}
+                                else if isFinancialYearTypeReport
+                                    div सन #{fromYear} ते #{toYear}
+                                //- div वर्ष : 
                                     span(style="font-weight: bold") #{year}
                                 div(style='position:absolute; top: 0; left: 50%; transform: translate(-50%);background: #27272a; color: white; font-size: 1.1rem; padding: 0.2rem 1rem; font-weight: bold; border-radius: 4px;') मृत्यू नोंदणी रजिस्टर
                                 div नमुना - २ नियम क्रमांक ५ पहा 
                     tr 
                         th अ.क्र.
+                        th अर्जदाराचे नाव
                         th मृत्यूचा दिनांक
                         th मृतकाचे संपूर्ण नाव
                         th मृतकाचे लिंग
@@ -77,19 +121,20 @@ html(lang="en")
 
                         th मृत्यूचे ठिकाण
                         th मृतकाचा कायमचा पत्ता
-                        th माहिती देणाऱ्याचे नाव 
-                        th दिनांक
+                        th नोंदणी दिनांक
+                        th दाखला दिल्याची दिनांक
                         th माहिती देणाऱ्याची सही
                         //- ग्रामपंचायत 
                         th नोंदणी क्र 
                         th नोंदणी संस्थेचे नाव
                         th शेरा
                 tbody
-                    - for(let i = 0; i <_deaths.length; i++) 
-                        - const _certificate = _deaths[i]
+                    each _certificate, i in deathCertificates
 
                         tr
                             td #{i + 1}
+                            td #{_certificate.informer_name_m || _certificate.informer_name}
+
                             td #{_certificate.date_of_death_m || _certificate.date_of_death}
                             td #{_certificate.name_of_deceased_m || _certificate.name_of_deceased}
                             td #{_certificate.gender_m || _certificate.gender}
@@ -97,18 +142,96 @@ html(lang="en")
                             
                             td #{_certificate.address_of_deceased_at_death_time_m_m || _certificate.address_of_deceased_at_death_time_m}
                             td #{_certificate.permanent_address_of_deceased_m || _certificate.aadhar_number_of_mother_m}
-                            td #{_certificate.informer_name_m || _certificate.informer_name}
                             td #{_certificate.date_of_registration_m  || _certificate._date_of_registration}
+                            td #{_certificate._date_of_issue}
                             td 
+                                .hide-print 
+                                    a(href=`/uploads/docs/certificates/death/death-registration/${_certificate.gp_registration_death_report_file_name}` target="_blank" style="display:inline-block;background:#198754;color:white;padding:4px 10px;font-size:14px;border-radius:4px;text-decoration:none;border:none;") बघा
                             
                             td #{_certificate.id}
                             td ग्रा. पं. #{gp.gp_name}
                             td #{_certificate.remarks}
 
 
+script.
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
 
 
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
 
 
+            //- alert(reportType.value)
 
+            // Generate report URL
+            
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
 
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

@@ -49,7 +49,6 @@ const deathCertificateModel = {
                             updated_on
                         ) VALUES (?)`;
 
-
     const now = new Date();
 
     const insertData = [
@@ -95,7 +94,7 @@ const deathCertificateModel = {
       data.gp_registration_number,
       data.gp_registration_death_report_file_name,
       data.created_on || now,
-      data.created_on || now
+      data.created_on || now,
     ];
 
     return runQuery(pool, q, [insertData]);
@@ -204,17 +203,47 @@ const deathCertificateModel = {
     return runQuery(pool, q, [id]);
   },
 
-  fetchAllDeathCertificates: (pool, year = null) => {
-    const q = `SELECT *,
-							IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
-							IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
-							IFNULL(DATE_FORMAT(date_of_death, '%d-%m-%Y'), "") AS _date_of_death,
-							IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
-			 FROM ps_death_certificates ${year ? `WHERE YEAR(date_of_registration) = ?` : ""} ORDER BY date_of_death`;
+  fetchAllDeathCertificates: (pool, filters = {}) => {
+    let { month, year, fromYear, toYear } = filters;
 
-    const params = [];
+    let conditions = [];
+    let params = [];
 
-    if (year) params.push(year);
+    // Month + Year filter (based on date_of_issue)
+    if (month && year) {
+      conditions.push(`MONTH(date_of_issue) = ? AND YEAR(date_of_issue) = ?`);
+      params.push(month, year);
+    }
+
+    // Only Year filter (based on date_of_issue)
+    else if (year) {
+      conditions.push(`YEAR(date_of_issue) = ?`);
+      params.push(year);
+    }
+
+    // Financial year filter (based on date_of_issue)
+    if (fromYear && toYear) {
+      const financialStart = `${fromYear}-04-01`;
+      const financialEnd = `${toYear}-03-31`;
+
+      conditions.push(`DATE(date_of_issue) BETWEEN ? AND ?`);
+      params.push(financialStart, financialEnd);
+    }
+
+    const conditionQuery = conditions.length
+      ? `WHERE ${conditions.join(" AND ")}`
+      : "";
+
+    const q = `
+        SELECT *,
+            IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
+            IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
+            IFNULL(DATE_FORMAT(date_of_death, '%d-%m-%Y'), "") AS _date_of_death,
+            IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
+        FROM ps_death_certificates
+        ${conditionQuery}
+        ORDER BY date_of_death
+    `;
 
     return runQuery(pool, q, params);
   },
