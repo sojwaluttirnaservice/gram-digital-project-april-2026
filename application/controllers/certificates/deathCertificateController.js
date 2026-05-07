@@ -59,7 +59,7 @@ const deathCertificateController = {
       const data = req.body;
 
       let gpRegistrationDeathReportFile =
-        req.files.gpRegistrationDeathReportFile;
+        req.files?.gpRegistrationDeathReportFile;
 
       if (gpRegistrationDeathReportFile) {
         let fileName = generateUniqueFileName(
