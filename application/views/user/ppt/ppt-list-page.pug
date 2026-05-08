@@ -124,6 +124,9 @@ block content
                                                         button.btn.btn-sm.btn-outline-primary.view-ppt-slides-btn(type="button" data-pptid=ppt.id data-ppttitle=ppt.title title="Play PPT")
                                                             i.fa.fa-play
                                                         
+                                                        a.btn.btn-sm.btn-secondary(href=`/ppt/print/${ppt.id}?print=true` target='_blank')
+                                                            i.fa.fa-print
+                                                        
                                                         a.btn.btn-sm.btn-info(href=`/ppt/slides/list/page/${ppt.id}` title="Manage Slides")
                                                             i.fa.fa-list
                                                         

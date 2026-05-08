@@ -327,3 +327,8 @@ html(lang="en")
                                     if afterImgs[i] && afterImgs[i].image_name
                                         img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
 
+script.
+    const params = new URLSearchParams(window.location.search);
+    const shouldPrint = params.get('print') || false;
+    if(shouldPrint === 'true')
+        window.print();
