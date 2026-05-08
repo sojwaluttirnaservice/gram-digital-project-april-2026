@@ -721,6 +721,7 @@ let MasterController = {
         sadasyaMobile: data.sadasyaMobile,
         image: newPhotoFile ? newImageName : oldImageName,
         sadasyaInfo: data.sadasyaInfo,
+        isNotificationAllowed: data.isNotificationAllowed
       };
       gp_members[index] = newDataOfMember;
       // console.log('New Details of sadasya = ', newDataOfMember)

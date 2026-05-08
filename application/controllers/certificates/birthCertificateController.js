@@ -342,15 +342,15 @@ const birthCertificateController = {
   }),
 
   printBirthCertificateRecords: asyncHandler(async (req, res) => {
-    const { year } = req.query;
+    const filters = req.query;
     let birthCertificates =
-      await birthCertificateModel.fetchAllBirthCertificates(res.pool, year);
+      await birthCertificateModel.fetchAllBirthCertificates(res.pool, filters);
     renderPage(
       res,
       "user/certificates/birth-certificate/birth-certificate-records-print.pug",
       {
         birthCertificates,
-        year,
+        ...filters
       },
     );
   }),

@@ -96,8 +96,9 @@ body
                         span.fa.fa-user-plus
                         | नवीन जन्म प्रमाणपत्र नोंदणी करा 
 
-                    button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
-                        |  जन्म नोंदणी रजिस्टर प्रिट
+                    //- button(id='open-month-year-modal-btn' data-bs-target="#monthYearModal").float-right.btn.btn-primary.btn-sm.mr-2
+                    a.btn.btn-secondary(href='/birth-certificate/print-birth-certificate-report').float-right.mr-2
+                        | जन्म नोंदणी रजिस्टर प्रिट
 
             .col-12
                 .table-responsive(style='margin-bottom: 5rem;')

@@ -63,68 +63,6 @@ head
 
 
 body
-    //- .modal.fade#marriageModel(tabindex='-1' role='dialog')
-        .modal-dialog.modal-dialog-scrollable(role='document')
-            form#newFormMember.modal-content(style='height: 100%;')
-                .modal-header
-                    h5.modal-title
-                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                        span(aria-hidden='true') ×
-                .modal-body(style='overflow-y:auto;')
-                    div.row
-                        .col-12.col-md-6
-                            .form-group
-                                label(for="") सदस्य नाव
-                                input#memberName.form-control(type="text" placeholder="नाव" name="memberName")  
-                            .form-group
-                                label(for="") सदस्य पद
-                                select#memberType.form-control(name="memberType")
-                            .form-group
-                                label(for="") Section
-                                select#memberTo.form-control(name="memberTo")
-
-                            .form-group
-                                button.btn.btn-primary.btn-sm(type='button' id='add-other-section-btn') Add Other section
-                                button.btn.btn-primary.btn-sm(type='button' id='cancel-add-other-section-btn' style='display:none;') Cancel 
-
-                            .form-group#other-section-group(style='display:none;')
-                                div(class='d-flex align-items-center' style="gap:1rem;")
-                                    div 
-                                        input.form-control(name='otherMemberTo')  
-
-                                    div 
-                                        button.btn.btn-success(id='add-other-member-to-btn') Add
-                            .form-group 
-                                - let mainSNames = ["मुख्य सदस्य","उप सदस्य","कर्मचारी / लिपिक","गावातील प्रतिष्टीत नागरीक","गावातील मार्गदर्शक"]
-                                button.btn.btn-success.btn-sm(type='button' id='edit-other-section-btn') Edit Other Section
-                                button.btn.btn-primary.btn-sm(type='button' id='cancel-edit-other-section-btn' style='display:none;') Cancel Edit
-                                
-                            .form-group#other-section-group-list(style="display:none;")
-                                
-
-
-                            .form-group 
-                                label(for='sadasyaAadhar') सदस्य आधार न
-                                input.form-control(name='sadasyaAadhar' id='sadasyaAadhar' maxlength='12')
-                            .form-group 
-                                label(for='sadasyaMobile') सदस्य मो
-                                input.form-control(name='sadasyaMobile' id='sadasyaMobile' maxlength='10')
-                        .col-12.col-md-6
-                            .form-group
-                                input#image_1.form-control(type="file")
-                            .form-group
-                                img#image-1-preview(width=200 height=200 style='display: block;margin: 0 auto;')
-
-                        .col-12
-                            div
-                                label.form-label सदस्याची माहिती
-                                textarea.form-control(rows='8' placeholder='येथे सदस्याची माहिती भरा.' name='sadasyaInfo' id='sadasyaInfo')
-                        //- .col-12.text-center
-                .modal-footer
-                    button.btn.btn-primary(id='saveMember' type='button') जतन करा
-                    button.btn.btn-success(id='updateMember' type='button') अपडेट करा 
-                    button.btn.btn-info.d-none(id='resetFormBtn' type='reset') Reset
-    
     .modal.fade#marriageModel(tabindex='-1' role='dialog')
         .modal-dialog(tabindex='-1' role='document' class='modal-dialog-scrollable modal-lg')
             form#newFormMember(style='height: 100%;' class='modal-content')
@@ -136,19 +74,19 @@ body
                 .modal-body(style='overflow-y:auto;' class='modal-body')
                     .row(class='row')
                         .col-12.col-md-7(class='col-12 col-md-7')
-                            .form-group(class='form-group')
+                            .form-group
                                 label सदस्य नाव
                                 input#memberName(type='text' placeholder='नाव' name='memberName' class='form-control')
 
-                            .form-group(class='form-group')
+                            .form-group
                                 label सदस्य पद
                                 select#memberType(name='memberType' class='form-control')
 
-                            .form-group(class='form-group')
+                            .form-group
                                 label Section
                                 select#memberTo(name='memberTo' class='form-control')
 
-                            .form-group(class='form-group')
+                            .form-group
                                 button(type='button' id='add-other-section-btn' class='btn btn-primary btn-sm') Add Other section
                                 button(type='button' id='cancel-add-other-section-btn' style='display:none;' class='btn btn-primary btn-sm') Cancel
 
@@ -157,33 +95,40 @@ body
                                     input(name='otherMemberTo' class='form-control')
                                     button(id='add-other-member-to-btn' class='btn btn-success') Add
 
-                            .form-group(class='form-group')
+                            .form-group
                                 - let mainSNames = ["मुख्य सदस्य","उप सदस्य","कर्मचारी / लिपिक","गावातील प्रतिष्टीत नागरीक","गावातील मार्गदर्शक"]
                                 button(type='button' id='edit-other-section-btn' class='btn btn-success btn-sm') Edit Other Section
                                 button(type='button' id='cancel-edit-other-section-btn' style='display:none;' class='btn btn-primary btn-sm') Cancel Edit
 
                             .form-group#other-section-group-list(style='display:none;' class='form-group')
 
-                            .form-group(class='form-group')
+                            .form-group
                                 label(for='sadasyaAadhar') सदस्य आधार न
                                 input#sadasyaAadhar(name='sadasyaAadhar' maxlength='12' class='form-control')
 
-                            .form-group(class='form-group')
+                            .form-group
                                 label(for='sadasyaMobile') सदस्य मो
                                 input#sadasyaMobile(name='sadasyaMobile' maxlength='10' class='form-control')
 
+                            .form-group
+                                label.font-weight-bold(for="isNotificationAllowed") SMS सेंड करणे
+                                select#isNotificationAllowed(name='isNotificationAllowed' class='form-control') निवडा
+                                    option(value="YES") होय
+                                    option(value="NO" selected) नाही
+
+
                         .col-12.col-md-5(class='col-12 col-md-5')
                             div(class='border p-3 text-center')
-                                .form-group(class='form-group')
+                                .form-group
                                     label सदस्य फोटो
                                     input#image_1(type='file' class='form-control')
 
-                                .form-group(class='form-group')
+                                .form-group
                                     img#image-1-preview(width='200' height='200' style='display:block;margin:0 auto;border:1px solid #ccc;object-fit:cover;')
 
                     .row.mt-3(class='row mt-3')
                         .col-12(class='col-12')
-                            .form-group(class='form-group')
+                            .form-group
                                 label(class='form-label') सदस्याची माहिती
                                 textarea#sadasyaInfo(rows='8' placeholder='येथे सदस्याची माहिती भरा.' name='sadasyaInfo' class='form-control')
 
@@ -230,11 +175,12 @@ body
 
 
     script.
-            //- What's gonna happen is that, in master.sadasya.js, i am gonna create a member named variable having those properties
-            //- but that some part of the script will be executed after the WHOLE DOM is loaded, and some part will be
-            //- executed before the page loads, which is this member variable cration part,
-            //- And since this block comes after taht part is laoded, in here we are assigning the values here, then 
-            //- then the rest of he part is executed after whole DOM is loaded
+            // - What's going to happen is that, in master.sadasya.js, I am going to create a variable 
+            // - named 'member' containing those properties.
+            // - Some parts of the script will execute after the WHOLE DOM is loaded, while other 
+            // - parts will execute before the page loads (specifically the member variable creation).
+            // - Since this block runs after that initial part is loaded, we are assigning the 
+            // - values here. Then, the remaining logic will execute once the full DOM has loaded.
 
             //- sList is the sadasya list
             member.sList = !{sList}
