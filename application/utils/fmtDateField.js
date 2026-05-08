@@ -9,7 +9,7 @@
  * fmtDateField('start_date');
  */
 function fmtDateField(fieldName, aliasAs='', skipAlias=false) {
-  return `IFNULL(DATE_FORMAT(${fieldName}, '%d-%m-%Y'), '') AS ${skipAlias ? '' : aliasAs ? aliasAs : `_${fieldName}`} `;
+  return `IFNULL(DATE_FORMAT(${fieldName}, '%d-%m-%Y'), '') AS ${skipAlias ? '' : aliasAs ? aliasAs : `_${fieldName.split('.').pop()}`} `;
 }
 
 module.exports = fmtDateField;

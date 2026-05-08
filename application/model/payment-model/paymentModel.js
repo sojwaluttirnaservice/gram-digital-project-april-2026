@@ -1,6 +1,8 @@
 const { myDate } = require("../../config/_responderSet");
 const { paymentTypesMap, isPaymentForSamanyaAndCertificates } = require("../../data/paymentForOptions");
+const fmtDateField = require("../../utils/fmtDateField");
 const { runQuery } = require("../../utils/runQuery");
+const { fmtDateToTimestamp } = require("../../utils/sqlDates");
 const paymentModel = {
   savePaymentDetails: (pool, paymentData) => {
     let q = `INSERT INTO 
@@ -156,6 +158,75 @@ const paymentModel = {
   
   getPaymentDetailsByPaymentId: (pool, id) =>{
     return runQuery(pool, `SELECT * FROM ps_payment_information WHERE id = ?`, [+id])
+  },
+
+//   completed or approved whatever
+  getCompletedPaymentsForNamuna8Receipts: (pool, filters={}) =>{
+    let {month, year, fromYear, toYear} = filters;
+
+    let conditions = [`p.payment_for = 5`];
+    let params = [];
+
+    // Month + Year filter (based on payment_date)
+    if (month && year) {
+        conditions.push(`
+            MONTH(p.payment_date) = ? 
+            AND YEAR(p.payment_date) = ?
+        `);
+
+        params.push(month, year);
+    }
+
+    // Only Year filter
+    else if (year) {
+        conditions.push(`YEAR(p.payment_date) = ?`);
+        params.push(year);
+    }
+
+
+    // Financial year filter
+    // Example:
+    // fromYear = 2025
+    // toYear = 2026
+    // => 2025-04-01 to 2026-03-31
+    if (fromYear && toYear) {
+
+        const financialStart = `${fromYear}-04-01`;
+        const financialEnd = `${toYear}-03-31`;
+
+        conditions.push(`
+            DATE(p.payment_date) BETWEEN ? AND ?
+        `);
+
+        params.push(financialStart, financialEnd);
+    }
+
+    const conditionQuery = conditions.length
+        ? `WHERE ${conditions.join(" AND ")}`
+        : "";
+
+    let q = `SELECT 
+                    p.id,
+                    f8.feu_ownerName,
+                    f8.feu_secondOwnerName,
+                    p.malmatta_no,
+                    ${fmtDateField('p.payment_date', '_payment_date')},
+                    p.payment_for_desc,
+                    p.payment_amount,
+                    p.payment_mode,
+                    CASE 
+                        WHEN p.payment_mode = 0 THEN 'ऑफलाइन'
+                        WHEN p.payment_mode = 1 THEN 'ऑनलाईन'
+                        ELSE 'UNKNOWN'
+                    END AS _payment_mode
+
+            FROM ps_payment_information AS p
+                LEFT JOIN 
+                ps_form_eight_user AS f8
+            ON p.malmatta_no = f8.feu_malmattaNo 
+                ${conditionQuery}
+            ORDER BY p.id ASC`;
+    return runQuery(pool, q, params)
   }
 };
 

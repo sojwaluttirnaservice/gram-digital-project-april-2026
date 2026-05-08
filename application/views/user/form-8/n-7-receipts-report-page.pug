@@ -1,0 +1,209 @@
+extends ../include/print-page-tailwind-layout.pug
+
+
+block custom_css 
+    style.
+        @media print {
+            @page {
+                size: landscape;
+                //- margin:
+            }
+        }
+
+        table { border-collapse: collapse; width: 100%; }
+        td, th {
+            padding: 0.3rem;
+            border: 1px solid oklch(26.2% 0.051 172.552);
+            vertical-align: top;
+            font-size:0.8rem;
+        }
+
+
+block content 
+    body.tiro-devanagari-marathi-regular
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+        div.hide-print
+
+            div(class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col items-end gap-2 mr-3 z-50")
+
+
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded" onclick="window.print()") Print
+
+                //- month and year wise
+                //- financial year wise
+                //- if month and year wise, you select , show correspoding intputs and inquery if month and year append e.g. ?month=4&year=2023 
+                //- if financial year wise, you select , show correspoding intputs and inquery if financial year append e.g. ?fromYear=2023&toYear=2024
+                div(class="flex flex-col gap-2 w-56")
+
+                    select#report-type(class="shadow border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500")
+                        - let isMonthYearTypeReport = (month && year) ? true : false;
+                        - let isFinancialYearTypeReport = ( fromYear && toYear) ? true : false;
+
+                        option(value='' selected = (!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                        option(value='monthYear' selected=(isMonthYearTypeReport)) महिना व वर्षानुसार
+                        option(value='financialYear' selected=(isFinancialYearTypeReport)) आर्थिक वर्षानुसार
+
+                    // Month Year Inputs
+                    div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                        select#report-month(class="shadow border border-gray-300 rounded px-2 py-2 bg-white")
+                            - for(let i=1;i<=12;i++)
+                                option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                        input#report-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(year) placeholder='Year')
+
+                    // Financial Year Inputs
+                    div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                        input#from-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(fromYear) placeholder='From Year')
+                        input#to-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(toYear) placeholder='To Year')
+
+                    button#generate-report(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded") रिपोर्ट तयार करा
+
+        div
+
+            .my-print
+
+                table 
+
+                    thead
+                        tr
+                            th(colspan="10")
+                                div
+                                    .text-center.font-bold.text-lg.text-blue-800 नमुना ७ पावती
+                                    .text-center.text-sm.text-gray-700 
+                                        | महा. ग्रांप. लेखा सहित २०११ (नियम ११ (९), २२ (४) (क) आणि (४) (ब), ३५, ३६ (२) आणि ३७ (२) पहा)
+                                    .text-center.font-semibold.text-base.text-gray-900
+                                        | ग्रामपंचायत कार्यालय #{gp.gp_name}, ता. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+
+                                    // Section Row
+                                    div(class='grid grid-cols-3 items-center text-sm font-semibold')
+
+                                        .text-center.text-gray-800
+
+                                            if month && year 
+                                                | माहे #{getMonthName(month)} वर्ष #{year}
+                                            else if fromYear && toYear
+                                                | सन: #{fromYear} ते #{toYear}
+
+                        tr
+                            th(width="4%") अ. क्रं.
+                            th(width="5%") पावती क्रमांक
+                            th(width="9%") दिनांक
+                            th(width="6%") मालमत्ता क्रमांक
+
+                            th(width="5%") रक्कम
+                            th(width="7%") पेमेंट मोड
+                            th(width="24%") मालकाचे नाव
+                            th(width="24%") भोगवटदाराचे नाव
+
+                            th(width="8%") दाखला प्रकार
+                            th(width="8%") शेरा
+                    tbody 
+
+
+                        each paymentData, _index in paymentRecieptsForn8PrintReceipts
+                            tr 
+                                td.text-end #{_index + 1}
+                                td.text-end #{paymentData.id}
+                                td.text-center #{paymentData._payment_date}
+                                td.text-center #{paymentData.malmatta_no}
+
+                                td.text-end #{paymentData.payment_amount}
+                                td
+                                    span(class=`px-2 py-1 rounded-full text-white print:text-black text-xs font-semibold ${paymentData.payment_mode == 1 ? 'bg-green-600' : 'bg-rose-600'}`) #{paymentData._payment_mode} 
+                                td #{paymentData.feu_ownerName}
+                                td #{paymentData.feu_secondOwnerName}
+
+                                td #{paymentData.payment_for_desc}
+                                td 
+
+
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else if(reportType.value == "date") {
+                    //- params.set("date", )
+                }else{
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });
