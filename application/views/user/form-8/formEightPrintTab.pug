@@ -266,7 +266,9 @@ body.back-image
                     .modal-footer.d-none
                         button.btn.btn-primary(type='button') Save changes
                         button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-
+        
+        - const generateYearBlocks = (startYear, blocks = 5, gap = 4) => Array.from({ length: blocks }, (_, i) => ({ fromYear: `${startYear + i * gap}-${startYear + i * gap + 1}`, toYear: `${startYear + i * gap + gap - 1}-${startYear + i * gap + gap}` }));
+        - let yearRanges = generateYearBlocks(2020)
         .modal#masterModal1(tabindex='-1' role='dialog')
             .modal-dialog(role='document')
                 .modal-content
@@ -357,8 +359,19 @@ body.back-image
                                                 button#authorityToBypassBtn.btn.btn-primary.mr-2 Authority
                                                 input#pavtiName.d-none.form-control.col-4.float-left.mr-3(type='text' placeholder='पावतीसाठीच्ये नाव')
                                                 input#pavtiRuppe.d-none.form-control.col-2x.float-left.mr-3(type='text' placeholder='पावती रुपये')
-                                                input#d1.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पासून' required)
-                                                input#d2.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पर्यंत' required)
+                                                //- input#d1.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पासून' required)
+                                                //- input#d2.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पर्यंत' required)
+
+                                                select#d1.d-none.form-select.col-2.float-left.mr-3(required)
+                                                    option(value='') वर्षापासून निवडा
+                                                    each _yrRange in yearRanges
+                                                        option(value=_yrRange.fromYear) #{_yrRange.fromYear}
+                                                
+                                                select#d2.d-none.form-control.col-2.float-left.mr-3(required)
+                                                    option(value='') वर्षापर्यंत निवडा
+                                                    each _yrRange in yearRanges
+                                                        option(value=_yrRange.toYear) #{_yrRange.toYear}
+                                                        
                                             .div.d-flex.justify-content-center.align-items-center
                                                 div
                                                     button.form-eight-print-pay-btn.btn.btn-success.float-right.d-flex.align-items-center.gap-2 
@@ -383,13 +396,21 @@ body.back-image
                         .row.justify-content-center
                             .col-5
                                 .form-group.mb-2
-                                    input#date1.form-control(placeholder="---- पासून वर्ष ----")
+                                    //- input#date1.form-control(placeholder="---- पासून वर्ष ----date1")
+                                    select#date1.form-select
+                                        option(value='') वर्षापासून निवडा
+                                        each _yrRange in yearRanges
+                                            option(value=_yrRange.fromYear) #{_yrRange.fromYear}
                             .col-1
                                 .form-group.mt-2.text-center
                                     span.font-weight-bold ते
                             .col-5
                                 .form-group.mb-2
-                                    input#date2.form-control(placeholder="---- पासून वर्ष ----")
+                                    //- input#date2.form-control(placeholder="---- पासून वर्ष ----")
+                                    select#date2.form-select
+                                        option(value='') वर्षापर्यंत निवडा
+                                        each _yrRange in yearRanges
+                                            option(value=_yrRange.toYear) #{_yrRange.toYear}
                             .col-8.watermark-div
                                 .form-group.mb-2
                                     select#show-watermark.form-control
@@ -481,13 +502,21 @@ body.back-image
                         .row
                             .col-5
                                 .form-group.mb-2
-                                    input#date-1.form-control(placeholder="---- पासून वर्ष ----")
+                                    //- input#date-1.form-control(placeholder="---- पासून वर्ष ----ddate1")
+                                    select#date-1.form-select
+                                        option(value='') वर्षापासून निवडा
+                                        each _yrRange in yearRanges
+                                            option(value=_yrRange.fromYear) #{_yrRange.fromYear}
                             .col-1
                                 .form-group.mt-2.text-center
                                     span.font-weight-bold ते
                             .col-5  
                                 .form-group.mb-2
-                                    input#date-2.form-control(placeholder="---- पासून वर्ष ----")
+                                    //- input#date-2.form-control(placeholder="---- पासून वर्ष ----")
+                                    select#date-2.form-select
+                                        option(value='') वर्षापर्यंत निवडा
+                                        each _yrRange in yearRanges
+                                            option(value=_yrRange.toYear) #{_yrRange.toYear}
                             .col-12
                                 .d-flex.align-items-center.justify-content-center(style='gap:0.2rem;')
                                     button.btn.btn-success(id='print-kar-nihay-yadi-and-other-btn') नमुना ८ करनिहाय यादी व इतर
