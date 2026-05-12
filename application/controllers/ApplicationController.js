@@ -93,7 +93,7 @@ const ApplicationController = {
         },
       );
 
-    renderPage(res, "user/newapplication/application-print-report-page.pug", {
+    renderPage(res, "user/newapplication/application-print-report-new-page.pug", {
       applicationsList,
       filterCertificate: cert,
     });

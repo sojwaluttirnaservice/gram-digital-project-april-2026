@@ -72,4 +72,24 @@ document.addEventListener("DOMContentLoaded", function () {
       generateQRCode(targetElementName, targetUrl, sizePx);
     }
   }
+
+  const mentionedQrTargetTargetElements = document.getElementsByClassName(
+    "mentioned-qr-target-tag",
+  );
+
+  if (mentionedQrTargetTargetElements) {
+    Array.from(mentionedQrTargetTargetElements).forEach((qrElement) => {
+      const targetElementName = qrElement.getAttribute("data-target");
+
+      const targetUrl = qrElement.getAttribute("data-targeturl");
+
+      const sizeAttr = qrElement.getAttribute("data-size");
+
+      const sizePx = resolveSizeToPx(sizeAttr);
+
+      if (targetElementName && targetUrl && sizePx) {
+        generateQRCode(targetElementName, targetUrl, sizePx);
+      }
+    });
+  }
 });

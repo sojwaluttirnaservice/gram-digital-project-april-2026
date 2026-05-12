@@ -141,6 +141,7 @@ module.exports = {
                 formMobile,
                 formEmail,
                 formAadhar,
+                formAddress,
 
                 docDetails,
                 dakhlaCheckColOne,
