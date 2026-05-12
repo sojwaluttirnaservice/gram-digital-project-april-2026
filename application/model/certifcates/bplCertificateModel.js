@@ -1,3 +1,4 @@
+const fmtDateField = require("../../utils/fmtDateField");
 const { runQuery } = require("../../utils/runQuery");
 
 const bplModel = {
@@ -139,11 +140,71 @@ const bplModel = {
     },
 
 
-    getAll: (pool) => {
-        let q = `
+    getAll: (pool, filters={}) => {
+        const { month, year, fromYear, toYear } = filters;
+
+        let conditions = [];
+        let params = [];
+
+        /*
+        =========================================================
+        CASE 1:
+        Month + Year Filter
+
+        month = 4
+        year  = 2025
+
+        Means:
+        April 2025
+        =========================================================
+        */
+
+        if (month && year) {
+            conditions.push(`
+                MONTH(c.createdAt) = ?
+                AND YEAR(c.createdAt) = ?
+            `);
+
+            params.push(month, year);
+        }
+
+        /*
+        =========================================================
+        CASE 2:
+        Financial Year Range
+
+        fromYear = 2023
+        toYear   = 2025
+
+        Means:
+        2023-04-01 -> 2026-03-31
+        =========================================================
+        */
+
+        else if (fromYear && toYear) {
+            conditions.push(`
+                c.createdAt >= ?
+                AND c.createdAt <= ?
+            `);
+
+            params.push(
+                `${fromYear}-04-01`,
+                `${toYear}-03-31`
+            );
+        }
+
+        const whereClause = conditions.length
+            ? `WHERE ${conditions.join(" AND ")}`
+            : "";
+
+        const q = `
             SELECT 
-                c.*,
-                IF(COUNT(f.id), 
+            c.*,
+            ${fmtDateField('c.createdAt')},
+
+                IF(
+                    COUNT(f.id) > 0,
+
                     JSON_ARRAYAGG(
                         JSON_OBJECT(
                             'id', f.id,
@@ -154,16 +215,25 @@ const bplModel = {
                             'age', f.age,
                             'age_m', f.age_m
                         )
-                    ), 
+                    ),
+
                     NULL
                 ) AS family_members
+
             FROM ps_bpl_certificates AS c
-            LEFT JOIN ps_bpl_certificate_family_members AS f 
+
+            LEFT JOIN ps_bpl_certificate_family_members AS f
                 ON c.id = f.bpl_certificate_id_fk
+
+            ${whereClause}
+
             GROUP BY c.id
+
             ORDER BY c.id DESC
         `;
-        return runQuery(pool, q)
+        console.log(q)
+
+        return runQuery(pool, q, params);
     },
 
 

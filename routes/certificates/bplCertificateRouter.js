@@ -24,6 +24,8 @@ bplCertificateRouter.put('/family-member', bplController.updateFamilyMember)
 
 bplCertificateRouter.delete('/family-member', bplController.deleteFamilyMember)
 
+bplCertificateRouter.get('/report', bplController.renderBplCertificateReportPage)
+
 module.exports = bplCertificateRouter
 
 

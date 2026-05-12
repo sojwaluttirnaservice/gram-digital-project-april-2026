@@ -172,6 +172,18 @@ const bplController = {
 
         return sendApiResponse(res, 200, true, 'डेलीट झाला')
     }),
+
+    renderBplCertificateReportPage: asyncHandler(async (req, res) => {
+        let filters = req.query;
+
+        let bplCertificates = await bplModel.getAll(res.pool, filters);
+
+        renderPage(res, 'user/certificates/bpl-certificate/bpl-certificate-report-page.pug', {
+            title: 'BPL report',
+            bplCertificates,
+            ...filters
+        })
+    }),
 };
 
 module.exports = bplController;
