@@ -10,6 +10,8 @@ namuna8Router.use('/blank', namuna8BlankRouter)
 // THESE ARE THE RECIEPTS of Namuna 8 (which we print during the payment for namuna 8)
 namuna8Router.get('/n-7-receipts', namuna8Controller.renderNamuna7ReceiptsPage)
 
+namuna8Router.get('/n-7-receipt-malmatta', namuna8Controller.renderNamuna8RecieptsListByMalmattaNumber)
+
 namuna8Router.get('/home-image-status', namuna8Controller.renderNamuna8HomeImageStatusPage)
 
 module.exports = namuna8Router

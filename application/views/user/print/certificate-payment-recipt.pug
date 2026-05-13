@@ -95,7 +95,7 @@ body
         p.pavati-text(style="position:absolute;left:56.5rem;top:12.2rem") #{payDetails.id}
 
         p.pavati-text(style="position:absolute;left:13rem;top:32.5rem") #{payDetails.payment_amount} /-
-        p.pavati-text(style="position:absolute;left:14.4rem;top:28rem") #{payDetails.amountInwords}
+        p.pavati-text(style="position:absolute;left:14.4rem;top:28rem") #{payDetails.amountInwords != 'undefined' ?  payDetails.amountInwords : '-'}
         p.pavati-text(style="position:absolute;left:14.5rem;top:18.8rem;") #{payDetails.recipient_name}
         p.pavati-text(style="position:absolute;left:14.3rem;top:23.5rem;") #{payDetails.certificate_name}
 

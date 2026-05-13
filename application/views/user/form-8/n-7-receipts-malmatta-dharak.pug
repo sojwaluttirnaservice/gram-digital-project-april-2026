@@ -1,0 +1,103 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block content
+
+    - var totalReceipts = (receipts && receipts.length) ? receipts.length : 0
+    - var malmattaNo = (receipts && receipts.length && receipts[0].malmatta_no) ? receipts[0].malmatta_no : '-'
+
+    .container-fluid.mt-4
+
+        //- ===================================================
+        //- HEADER
+        //- ===================================================
+        .row.justify-content-center
+
+            .col-12.col-xl-11
+
+                .card.shadow-sm.border-0
+                    .card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+                            h4.mb-1.fw-bold
+                                i.fa.fa-file-text-o.me-2.text-primary
+                                | नमुना ८ पावत्या
+
+                            p.mb-0.text-muted
+                                | मालमत्ता धारक क्रमांक :
+                                span.fw-semibold.ms-1 #{malmattaNo}
+
+                        div
+                            span.badge.bg-primary.fs-6.px-3.py-2
+                                | एकूण पावत्या :
+                                span.ms-1 #{totalReceipts}
+
+            //- ===================================================
+            //- TABLE / EMPTY STATE
+            //- ===================================================
+            .col-12.col-xl-11.mt-4
+
+                .card.shadow-sm.border-0
+
+                    .card-body
+
+                        if receipts && receipts.length
+
+                            .table-responsive
+
+                                table.table.table-bordered.table-hover.table-striped.align-middle.mb-0
+
+                                    thead.table-dark
+
+                                        tr
+                                            th.text-center(width="5%") अ. क्र.
+                                            th.text-center(width="10%") पावती क्रमांक
+                                            th.text-center(width="15%") दिनांक
+                                            th.text-center(width="15%") मालमत्ता क्रमांक
+                                            th.text-end(width="12%") रक्कम
+                                            th.text-center(width="15%") Action
+
+                                    tbody
+
+                                        each paymentData, _index in receipts
+
+                                            tr
+                                                td.text-center
+                                                    | #{_index + 1}
+
+                                                td.text-center.fw-semibold
+                                                    | #{paymentData.id}
+
+                                                td.text-center
+                                                    | #{paymentData._payment_date}
+
+                                                td.text-center
+                                                    | #{paymentData.malmatta_no}
+
+                                                td.text-end.fw-semibold
+                                                    | ₹ #{paymentData.payment_amount}
+
+                                                td.text-center
+
+                                                    a.btn.btn-sm.btn-secondary(
+                                                        target="_blank"
+                                                        href=`/print/certificate-payment-recipt?amtWrd=${paymentData.amountInwords}&type=नमुना ८&reciptNo=${paymentData.id}`
+                                                    )
+                                                        i.fa.fa-print.me-1
+                                                        | पावती प्रिंट  
+
+                        else
+
+                            .d-flex.flex-column.align-items-center.justify-content-center.py-5.text-center.text-muted
+
+                                i.fa.fa-folder-open-o.mb-3(
+                                    style="font-size: 4rem; color:#9ca3af;"
+                                )
+
+                                h4.fw-bold.mb-2
+                                    | एकही पावती उपलब्ध नाही
+
+                                p.mb-0.fs-6
+                                    | सदर मालमत्ता धारक क्रमांकासाठी कोणतीही नमुना ८ पावती उपलब्ध नाही.

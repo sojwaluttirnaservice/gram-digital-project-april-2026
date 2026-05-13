@@ -1288,6 +1288,7 @@ $(document).ready(function () {
                 $('#newPherfarDate').val(data.feu_newPherfarDate);
                 $('#newPherfarTharav').val(data.feu_newPherfarTharav);
                 $('#newPherfarDocument').val(data.feu_newPherfarDocument);
+                $('#show-old-receipts-btn').attr('data-href', `/namuna/8/n-7-receipt-malmatta?malmatta=${encodeURIComponent(data.feu_malmattaNo)}`);
                 $('#previewDetails').removeClass('d-none');
             } else {
                 $('#previewDetails').addClass('d-none');

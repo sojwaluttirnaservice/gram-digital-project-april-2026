@@ -227,6 +227,11 @@ const paymentModel = {
                 ${conditionQuery}
             ORDER BY p.id ASC`;
     return runQuery(pool, q, params)
+  },
+
+  getPaymentDetailsByMalmattaNumber: (pool, malmattaNo) =>{
+    let q = `SELECT *, ${fmtDateField('payment_date')} FROM ps_payment_information WHERE payment_for = 5 AND malmatta_no = ?`;
+    return runQuery(pool, q, [malmattaNo])
   }
 };
 

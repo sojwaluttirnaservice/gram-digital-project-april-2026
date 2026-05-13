@@ -26,6 +26,16 @@ const namuna8Controller = {
             ...filters
         })
     }),
+
+    renderNamuna8RecieptsListByMalmattaNumber: asyncHandler(async (req, res) => {
+        let {malmatta: malmattaNumber} = req.query;
+        let receipts = await paymentModel.getPaymentDetailsByMalmattaNumber(res.pool, malmattaNumber);
+
+        renderPage(res, 'user/form-8/n-7-receipts-malmatta-dharak.pug', {
+            title: 'नमुना ८ पावती',
+            receipts
+        })
+    }),
 }
 
 module.exports = namuna8Controller
