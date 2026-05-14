@@ -1498,10 +1498,10 @@ var blankCertificateNavigation = {
 }
 
 // handler
-$(document).on('keyup', '#d1', function () {
+$(document).on('keyup change', '#d1', function () {
     homeManager.d1 = $('#d1').val();
 });
-$(document).on('keyup', '#d2', function () {
+$(document).on('keyup change', '#d2', function () {
     homeManager.d2 = $('#d2').val();
     homeManager.pavtiName = $('#pavtiName').val();
     homeManager.ruppe = $('#pavtiRuppe').val();
