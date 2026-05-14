@@ -2787,7 +2787,7 @@ let MasterController = {
 
   get_gov_yojna_upload_view: asyncHandler(async (req, res) => {
     const filesList = await MasterModel.get_gov_yojna_file_name_list(res.pool);
-    res.render("master/gov-yojna-upload-view.pug", {
+    renderPage(res, "master/gov-yojna-upload-view.pug", {
       filesList,
     });
   }),

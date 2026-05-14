@@ -12,11 +12,12 @@ const sendError = (res, statusCode, call, message, error) => {
 const renderPage = async (res, renderUrl, renderObject) => {
     try {
         const [gp] = await HomeModel.getGpData(res.pool);
-
+        let isMasterPanel = (res.User == undefined || res.User == 'undefined');
         return res.render(renderUrl, {
             gp,
             zp: gp,
             title: "Page",
+            isMasterPanel,
             dastaveg: JSON.parse(gp.gp_dastavegList),
             ...renderObject,
             place: renderObject?.place || gp.gp_name

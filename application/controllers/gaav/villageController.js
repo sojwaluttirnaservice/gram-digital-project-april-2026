@@ -311,7 +311,6 @@ const villageController = {
 		const filesList = await MasterModel.get_gov_yojna_file_name_list(res.pool);
 		renderPage(res, 'master/gov-yojna-upload-view.pug', {
 			filesList,
-			isMasterPanel: false
 		})
 	}),
 

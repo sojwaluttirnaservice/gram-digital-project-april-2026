@@ -14,6 +14,7 @@ const middleware = {
     // New code
     checkForPoolConnection: async (req, res, next) => {
         try {
+            res.User=req.session?.User;
             
             // req.session.dbDetails = {dbName: "g-seva_dev1"}
 
@@ -56,7 +57,7 @@ const middleware = {
     },
 
     checkForPoolConnectionWithSession: async (req, res, next) => {
-
+        res.User=req.session?.User;
        
         req.withoutLogin = true;
         console.log(req.origin);
@@ -95,6 +96,7 @@ const middleware = {
     },
 
     isUserLoggedIn: asyncHandler(async (req, res, next) => {
+        res.User=req.session?.User;
         if (
             process.env.PROJECT_ENV !== "DEV" &&
             (!req.session || !req.session.User)
