@@ -38,9 +38,9 @@ const UPLOAD_PATHS = {
     news: `${baseDir}/new-gp-page/main-page/images/news`,
     arogya: `${baseDir}/new-gp-page/main-page/images/arogya`,
     yojana: `${baseDir}/new-gp-page/main-page/images/yojana`,
-  },
+},
 
-  files: {
+files: {
     divyangaYadi: `${baseDir}/new-gp-page/main-page/files/divyanga-yadi`,
     grLists: `${baseDir}/new-gp-page/main-page/files/gr-lists`,
     gramAhaval: `${baseDir}/new-gp-page/main-page/files/gram-ahaval-documents`,
@@ -51,6 +51,7 @@ const UPLOAD_PATHS = {
     jobRelated: `${baseDir}/new-gp-page/main-page/files/job-related-files`,
     qrCodes: `${baseDir}/new-gp-page/main-page/files/qr-codes`,
     govYojana: `${baseDir}/new-gp-page/main-page/files/gov-yojna-lists`,
+    govYojanaImages: `${baseDir}/uploads/images/yojana/banners`
   },
 
   arogya: {

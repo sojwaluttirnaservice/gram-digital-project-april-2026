@@ -1,40 +1,234 @@
 extends ./master-layout
+
 block custom_js 
-	script(src='/asstest/coustom/js/handlers/master-panel-handlers/gov-yojna-upload-handler.js')
+    script(src='/asstest/coustom/js/handlers/master-panel-handlers/gov-yojna-upload-handler.js')
+
 block content
-	.container.mt-5(style='margin-top: 5rem !important')
-		.row.justify-content-center
-			.col-12
-				h4.text-center शासकीय योजना अपलोड
-				form#upload-divyanga-people-list
 
-					.row.align-items-end.gap-1.justify-content-center
-						.col-11.col-sm-5.col-md-5
-							label(for="gov-yojna-file-name") File name 
-							input.form-control(type='text', id="gov-yojna-file-name")
+    .container.py-5(style='margin-top: 5rem')
 
-						.col-11.col-sm-5.col-md-4
-							label(for="gov-yojna-file") File select
-							input.form-control(type='file', id="gov-yojna-file")
-						.col-12.col-md-2.text-center.text-md-end
-							button.btn.btn-primary.mt-3(type='button' id="upload-gov-yojna-file") जतन करा
+        //- Upload Form Section
+        .row.justify-content-center
 
-                            
-			.col-12.col-md-8.mt-4
-				table.table
-					thead 
-						tr 
-							th SR NO
-							th File Name
-							th Delete
-					tbody 
-						each file, index in filesList
-							tr 
-								td #{index + 1}
-								td #{file.file_name}
-								td 
-									button.btn.text-danger(id='delete-gov-yojna-file-btn' type='button' data-id=file.id data-fileName=file.file_name)
-										i.fa.fa-trash
+            .col-12.col-xl-10
+
+                .card.border-0.shadow-sm
+
+                    .card-header.bg-primary.text-white.py-3
+                        h4.mb-0.text-center
+                            i.fa.fa-upload.me-2
+                            | शासकीय योजना अपलोड
+
+                    .card-body.p-4
+
+                        form#gov-yojana-form
+
+                            .row.g-4
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='yojana_name') योजनेचे नाव
+                                    input.form-control(type='text' name='yojana_name' id='yojana_name' placeholder='योजनेचे नाव प्रविष्ट करा')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='yojana_status') योजनेची स्थिती
+
+                                    select.form-select(name='yojana_status' id='yojana_status')
+                                        option(value='ONGOING') सुरू
+                                        option(value='COMPLETE') पूर्ण
+                                        option(value='UPCOMING') प्रस्तावित
+
+                                .col-12
+                                    label.form-label.fw-semibold(for='yojana_description') वर्णन (Optional)
+
+                                    textarea.form-control(rows='3' name='yojana_description' id='yojana_description' placeholder='योजनेबद्दल माहिती')
+
+                                .col-12
+                                    label.form-label.fw-semibold(for='website_link') संकेतस्थळ लिंक
+
+                                    input.form-control(type='text' name='website_link' id='website_link' placeholder='https://example.com')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='start_date') प्रारंभ दिनांक (Optional)
+
+                                    input.form-control(type='date' name='start_date' id='start_date')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='imageBanner') फोटो / बॅनर (Optional)
+
+                                    input.form-control(type='file' name='imageBanner' id='imageBanner' accept='image/*')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='file') दस्तऐवज (Optional)
+
+                                    input.form-control(type='file' name='file' id='file' accept='.pdf,.doc,.docx')
 
 
 
+                                //- Required Documents UI
+                                .col-12
+
+                                    label.form-label.fw-semibold आवश्यक कागदपत्रांची यादी
+
+                                    .card.border-0.bg-light-subtle.shadow-sm
+
+                                        .card-body
+
+                                            .row.g-2.align-items-center
+
+                                                .col-12.col-md-9
+                                                    input.form-control(type='text' id='document-name-input' placeholder='उदा. आधार कार्ड' autocomplete='off')
+
+                                                .col-12.col-md-3
+                                                    button.btn.btn-primary.w-100(type='button' id='add-document-btn')
+                                                        i.fa.fa-plus.me-2
+                                                        | कागदपत्र जोडा
+
+                                            .mt-4
+
+                                                .d-flex.justify-content-between.align-items-center.mb-2
+
+                                                    h6.mb-0.text-muted जोडलेली कागदपत्रे
+
+                                                    small.text-secondary आवश्यक कागदपत्रांची यादी
+
+                                                #documents-list.d-flex.flex-wrap.gap-2
+
+                                                    .text-muted.small#empty-document-text
+                                                        | अद्याप कोणतेही कागदपत्र जोडलेले नाही
+
+                                            input(type='hidden' name='required_documents_list' id='required_documents_list')
+
+
+
+                                .col-12.text-center.pt-2
+
+                                    button.btn.btn-primary.px-5.py-2(type='button' id='upload-gov-yojna-file')
+                                        i.fa.fa-save.me-2
+                                        | जतन करा
+
+        div.modal.fade#docsModal(tabindex='-1')
+            div.modal-dialog.modal-dialog-centered.modal-sm
+                div.modal-content
+
+                    div.modal-header
+                        h5.modal-title दस्तऐवज तपशील
+                        button.btn-close(type='button' data-bs-dismiss='modal')
+
+                    div.modal-body
+
+                        ul.list-group#docs-modal-list
+
+                    div.modal-footer
+                        button.btn.btn-secondary(type='button' data-bs-dismiss='modal')
+                            | बंद करा
+
+        //- Table Section
+        .row.justify-content-center.mt-5
+
+            .col-12.col-xl-11
+
+                .card.border-0.shadow-sm
+
+                    .card-header.bg-light.py-3
+
+                        .d-flex.justify-content-between.align-items-center.flex-wrap.gap-2
+
+                            h5.mb-0
+                                i.fa.fa-table.me-2
+                                | शासकीय योजना यादी
+
+                            span.badge.bg-primary #{filesList.length} योजना
+
+                    .card-body.p-0
+
+                        .table-responsive
+
+                            table.table.align-middle.mb-0
+
+                                thead.table-light
+
+                                    tr
+                                        th(style='width: 80px') अ. क्र.
+                                        th योजनेचे नाव
+                                        th बॅनर फोटो
+                                        th वर्णन
+                                        th स्थिती
+                                        th आवश्यक कागदपत्रे
+                                        th दस्तऐवज
+                                        th.text-center(style='width: 120px') Delete
+
+                                tbody
+
+                                    - const statusMap = { ONGOING: "सुरू", COMPLETE: "पूर्ण", UPCOMING: "प्रस्तावित" };
+
+                                    if filesList && filesList.length
+
+                                        each file, index in filesList
+
+                                            - let schemeName = (file && file.yojana_name) ? file.yojana_name : (file && file.file_name) ? file.file_name.split(".")[0] : "";
+
+                                            tr
+
+                                                td.fw-bold #{index + 1}
+
+                                                td #{schemeName} 
+                                                    if file.website_link
+                                                        a.text-decoration-none.small(href=`${file.website_link}?scheme=${encodeURIComponent(file.yojana_name)}` target='_blank')
+                                                            i.fa.fa-link.me-1
+                                                            //- | संकेतस्थळ पहा
+
+
+                                                td
+                                                    - imageLink = `/uploads/images/yojana/banners/${file.image_banner}`
+                                                    a(href=imageLink target="_blank")
+                                                        image(width='80' height="60" src=imageLink)
+
+                                                td #{file.yojana_description}
+
+                                                td
+
+                                                    if file.yojana_status === 'ONGOING'
+                                                        span.badge.bg-success सुरू
+
+                                                    else if file.yojana_status === 'COMPLETE'
+                                                        span.badge.bg-primary पूर्ण
+
+                                                    else
+                                                        span.badge.bg-warning.text-dark प्रस्तावित
+
+                                                td
+
+                                                    if file.required_documents_list
+                                                        button.btn.btn-sm.btn-outline-secondary.view-docs-btn(type='button' data-docs=JSON.stringify(file.required_documents_list || []))
+                                                            i.fa.fa-file.me-1
+                                                            | आवश्यक कागदपत्रे
+                                                    else
+                                                        span.text-muted -
+
+                                                td
+
+                                                    if file.file_name
+                                                        a.btn.btn-secondary.btn-sm(href=`/new-gp-page/main-page/files/gov-yojna-lists/${file.file_name}?scheme=${schemeName}` target='_blank')
+                                                            | दस्तऐवज (Document)
+                                                    else 
+                                                        | -
+
+                                                td.text-center
+
+                                                    button.btn.btn-sm.btn-outline-danger(type='button' id='delete-gov-yojna-file-btn' data-id=file.id data-fileName=file.file_name data-bannerImageName=file.image_banner)
+                                                        i.fa.fa-trash
+
+                                    else
+
+                                        tr
+
+                                            td.text-center.py-5(colspan='6')
+
+                                                .d-flex.flex-column.align-items-center.gap-2
+
+                                                    i.fa.fa-folder-open.text-secondary(style='font-size: 2rem')
+
+                                                    h6.text-muted.mb-0 कोणतीही योजना उपलब्ध नाही
+
+                                                    small.text-secondary
+                                                        | नवीन योजना जोडण्यासाठी वरील फॉर्म वापरा

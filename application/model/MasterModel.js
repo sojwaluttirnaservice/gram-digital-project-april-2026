@@ -2188,46 +2188,77 @@ module.exports = {
 	},
 
 	// gr upload
-	get_gov_yojna_file_name_list: function (pool) {
-		return new Promise((resolve, reject) => {
-			const query = `select * from ps_gov_yojna_file_list`
-
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	get_gov_yojna_file_name_list: (pool) => {
+        let q = `SELECT * FROM ps_gov_yojna_file_list ORDER BY id DESC`;
+        return runQuery(pool, q);
 	},
 
-	upload_gov_yojna_file: function (pool, fullFileName) {
-		return new Promise((resolve, reject) => {
-			var query = `insert into ps_gov_yojna_file_list(file_name) values(?)`
+	upload_gov_yojna_file: function (pool, yojanaData) {
+        let q = `INSERT INTO 
+                    ps_gov_yojna_file_list
+                (
+                    yojana_name,
+                    website_link,
+                    yojana_description,
+                    required_documents_list,
+                    yojana_status,
+                    start_date,
+                    image_banner,
+                    file_name,
+                    is_visible
+                )
+                    VALUES
+                (?)`;
 
-			pool.query(query, [fullFileName], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+        let insertArr = [
+            yojanaData.yojana_name,
+            yojanaData.website_link,
+            yojanaData.yojana_description,
+            yojanaData.required_documents_list || [],
+            yojanaData.yojana_status,
+            yojanaData.start_date || null,
+            yojanaData.image_banner,
+            yojanaData.file_name,
+            yojanaData.is_visible || 1
+        ]
+        return runQuery(pool, q, [insertArr]);
 	},
+
+    update_gov_yojna_file: function (pool, id, yojanaData) {
+            let q = `
+                    UPDATE ps_gov_yojna_file_list
+                    SET
+                            yojana_name = ?,
+                            website_link = ?,
+                            yojana_description = ?,
+                            required_documents_list = ?,
+                            yojana_status = ?,
+                            start_date = ?,
+                            image_banner = ?,
+                            file_name = ?,
+                            is_visible = ?
+                    WHERE id = ?
+            `;
+
+            let updateArr = [
+                    yojanaData.yojana_name,
+                    yojanaData.website_link,
+                    yojanaData.yojana_description,
+                    JSON.stringify(yojanaData.required_documents_list || []),
+                    yojanaData.yojana_status,
+                    yojanaData.start_date || null,
+                    yojanaData.image_banner || null,
+                    yojanaData.file_name,
+                    yojanaData.is_visible ?? 1,
+                    id
+            ];
+
+            return runQuery(pool, q, updateArr);
+    },
 
 	delete_gov_yojna_file: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `delete from ps_gov_yojna_file_list where id=?`
-
-			pool.query(query, [id], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+        let q = `DELETE from ps_gov_yojna_file_list where id = ?`;
+        return runQuery(pool, q, [id]);
 	},
 
 	getDivyangaApplicationSingleUserDetails: function (pool, id) {
@@ -2439,22 +2470,6 @@ module.exports = {
 		})
 	},
 
-	// gr upload
-	get_gov_yojna_file_name_list: function (pool) {
-		return new Promise((resolve, reject) => {
-			const query = `select * from ps_gov_yojna_file_list`
-
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
-	},
-
-
     getAllRequiredData: async (pool) => {
 
         const noticeQ = `
@@ -2521,35 +2536,6 @@ module.exports = {
             arogyaCampPhotos
         };
     },
-
-
-	upload_gov_yojna_file: function (pool, fullFileName) {
-		return new Promise((resolve, reject) => {
-			var query = `insert into ps_gov_yojna_file_list(file_name) values(?)`
-
-			pool.query(query, [fullFileName], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
-	},
-
-	delete_gov_yojna_file: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `delete from ps_gov_yojna_file_list where id=?`
-
-			pool.query(query, [id], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
-	},
 
 	//Video gallery data
 	getVideoGalleryData: function (pool, id) {

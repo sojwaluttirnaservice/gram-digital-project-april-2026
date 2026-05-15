@@ -15,6 +15,7 @@ const generateUniqueFileName = require("../utils/generateFileName");
 const { baseDir } = require("./createBaseDir");
 const { saveFile, deleteFile } = require("../utils/saveFile");
 const { sendApiError, sendApiResponse } = require("../utils/apiResponses");
+const { UPLOAD_PATHS } = require("../config/uploadPaths");
 let myDates = responderSet.myDate;
 
 let MasterController = {
@@ -2792,63 +2793,49 @@ let MasterController = {
     });
   }),
 
-  upload_gov_yojna_file: function (req, res) {
-    let file = req.files.file;
-    let fileName = req.body.fileName;
-    let fileExtension = file.name.split(".").pop();
-    let fullFileName = `${fileName}.${fileExtension}`;
+  upload_gov_yojna_file: asyncHandler(async (req, res) => {
+      let govYojanaData = req.body;
 
-    let destDir = `./public/new-gp-page/main-page/files/gov-yojna-lists`;
+      let imageBanner = req.files?.imageBanner;
+      let file = req.files?.file;
 
-    if (!fs.existsSync(destDir)) {
-      fs.mkdirSync(destDir, { recursive: true });
-    }
-
-    file.mv(`${destDir}/${fullFileName}`, (err) => {
-      if (err) {
-        return res.status(400).json({
-          call: 0,
-          data: err,
-        });
-      } else {
-        MasterModel.upload_gov_yojna_file(res.pool, fullFileName)
-          .then((result) => {
-            if (result.affectedRows === 1) {
-              return res.status(201).json({
-                call: 1,
-              });
-            }
-          })
-          .catch((err) => {
-            return res.status(500).json({
-              call: 0,
-              data: err,
-            });
-          });
+      if(imageBanner){
+        let imageBannerName = generateUniqueFileName(imageBanner, 'gov-image-banner-');
+        let dest = `${UPLOAD_PATHS.files.govYojanaImages}/${imageBannerName}`
+        await saveFile(imageBanner, dest);
+        govYojanaData.image_banner = imageBannerName;
+        req.filesToCleanup.push(dest);
       }
-    });
-  },
-  delete_gov_yojna_file: function (req, res) {
+
+      if(file){
+        let fileName = generateUniqueFileName(file, 'gov-image-banner-');
+        let dest = `${UPLOAD_PATHS.files.govYojana}/${fileName}`
+        await saveFile(file, dest);
+        govYojanaData.file_name = fileName;
+        req.filesToCleanup.push(dest); 
+      }
+
+      await MasterModel.upload_gov_yojna_file(res.pool, govYojanaData);
+
+      return sendApiResponse(res, 201, true, "योजना जतन झाली.")
+  }),
+
+  update_gov_yojan_file: asyncHandler(async (req, res) => {
+      
+  }),
+
+  delete_gov_yojna_file: asyncHandler(async (req, res) => {
     let fileName = req.body.fileName;
+    let bannerImageName=req.body.bannerImageName
     let fileId = req.body.fileId;
-    MasterModel.delete_gov_yojna_file(res.pool, fileId)
-      .then((result) => {
-        if (result.affectedRows === 1) {
-          fs.unlinkSync(
-            `./public/new-gp-page/main-page/files/gov-yojna-lists/${fileName}`
-          );
-          return res.status(200).json({
-            call: 1,
-          });
-        }
-      })
-      .catch((err) => {
-        return res.status(500).json({
-          call: 0,
-          data: err,
-        });
-      });
-  },
+    
+    await MasterModel.delete_gov_yojna_file(res.pool, fileId)
+
+    await deleteFile(`${UPLOAD_PATHS.files.govYojana}/${fileName}`)
+    await deleteFile(`${UPLOAD_PATHS.files.govYojanaImages}/${bannerImageName}`)
+
+    return sendApiResponse(res, 200, true, "डिलीट झाले.")
+  }),
   // job related
 
   get_add_job_related_view: asyncHandler(async (req, res) => {
