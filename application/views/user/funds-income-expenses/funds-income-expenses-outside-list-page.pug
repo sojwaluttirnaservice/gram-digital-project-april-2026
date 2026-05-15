@@ -1,0 +1,145 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+
+block content
+
+    section(class='py-8 md:py-16 bg-gradient-to-b from-sky-50 to-green-50')
+
+        div(class='container mx-auto px-4')
+
+            //- ===================================================
+            //- SECTION HEADING
+            //- ===================================================
+            div(class='text-center mb-10')
+
+                div(class='inline-flex items-center justify-center w-16 h-16 rounded-full bg-sky-100 text-sky-700 mb-4')
+                    i(class='fa fa-file-text text-2xl')
+
+                h2(class='text-3xl md:text-4xl font-bold text-gray-800 mb-3')
+                    | निधी उत्पन्न व खर्चाचा तपशील
+
+                p(class='text-gray-600 max-w-2xl mx-auto')
+                    | ग्रामपंचायत निधी उत्पन्न व खर्चाचा संबंधित माहिती, आवश्यक कागदपत्रे व तपशील
+
+
+            //- ===================================================
+            //- ACCORDION LIST
+            //- ===================================================
+            div(class='max-w-5xl mx-auto space-y-4')
+
+                each item, index in fundIncomeExpenseList
+
+                    details(class='group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden')
+
+                        summary(class='list-none cursor-pointer select-none')
+
+                            div(class='flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-5 hover:bg-sky-50 transition')
+
+                                //- LEFT SIDE
+                                div(class='')
+
+                                    div(class='flex flex-wrap items-center gap-3 mb-2')
+
+                                        span(class='inline-flex items-center px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-sm font-semibold')
+                                            | #{item.from_year} - #{item.to_year}
+
+                                        span(class='text-sm text-gray-500')
+                                            | नोंद क्र. #{index + 1}
+
+                                    h3(class='text-lg font-semibold text-gray-800')
+                                        | #{item.title || 'निधी उत्पन्न व खर्चाचा माहिती'}
+
+
+                                //- RIGHT SIDE
+                                //- div(class='flex items-center gap-3')
+
+                                    if item.uploaded_document
+
+                                        a(
+                                            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition'
+                                            href=`/uploads/docs/funds/docs/${item.uploaded_document}`
+                                            target='_blank'
+                                            onclick='event.stopPropagation();'
+                                        )
+                                            i(class='fa fa-file-pdf-o')
+                                            | दस्तऐवज
+
+                                    div(class='w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 group-open:rotate-180 transition-transform duration-300')
+                                        i(class='fa fa-chevron-down')
+
+                                //- ===================================================
+                                //- RIGHT SIDE ACTIONS
+                                //- ===================================================
+                                div(class='flex items-center gap-3')
+
+                                    if item.images_count > 0
+
+                                        a(
+                                            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium transition'
+                                            href=`/fund-income-expenses/images-list/${item.id}`
+                                        )
+                                            i(class='fa fa-image')
+                                            | छायाचित्रे
+                                            span(class='bg-white/20 px-2 py-0.5 rounded-full text-xs')
+                                                | #{item.images_count}
+
+                                    if item.uploaded_document
+
+                                        a(
+                                            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition'
+                                            href=`/uploads/docs/funds/docs/${item.uploaded_document}`
+                                            target='_blank'
+                                            onclick='event.stopPropagation();'
+                                        )
+                                            i(class='fa fa-file-pdf-o')
+                                            | दस्तऐवज
+
+                                    div(class='w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 group-open:rotate-180 transition-transform duration-300')
+                                        i(class='fa fa-chevron-down')
+
+                        //- ===================================================
+                        //- ACCORDION BODY
+                        //- ===================================================
+                        div(class='border-t border-gray-100')
+
+                            div(class='p-5 grid grid-cols-1 md:grid-cols-2 gap-6')
+
+                                //- DESCRIPTION
+                                div
+
+                                    h4(class='text-base font-semibold text-gray-800 mb-3 flex items-center gap-2')
+                                        i(class='fa fa-info-circle text-sky-600')
+                                        | माहिती
+
+                                    div(class='bg-sky-50 rounded-xl p-4 text-gray-700 leading-relaxed')
+
+                                        if item.desc
+                                            | #{item.desc}
+                                        else
+                                            | सदर आर्थिक वर्षासाठी निधी उत्पन्न व खर्चाचा तपशील उपलब्ध आहे.
+
+
+                                //- REQUIRED DOCUMENTS
+                                div
+
+                                    h4(class='text-base font-semibold text-gray-800 mb-3 flex items-center gap-2')
+                                        i(class='fa fa-folder-open text-green-600')
+                                        | आवश्यक कागदपत्रे
+
+                                    ul(class='space-y-3')
+
+                                        li(class='flex items-start gap-3 bg-green-50 rounded-xl p-3')
+                                            i(class='fa fa-check-circle text-green-600 mt-1')
+                                            span(class='text-gray-700')
+                                                | आर्थिक वर्ष संबंधित निधी अहवाल
+
+                                        li(class='flex items-start gap-3 bg-green-50 rounded-xl p-3')
+                                            i(class='fa fa-check-circle text-green-600 mt-1')
+                                            span(class='text-gray-700')
+                                                | ग्रामपंचायत मंजुरी दस्तऐवज
+
+                                        li(class='flex items-start gap-3 bg-green-50 rounded-xl p-3')
+                                            i(class='fa fa-check-circle text-green-600 mt-1')
+                                            span(class='text-gray-700')
+                                                | आवश्यक पुरावे व संलग्नक

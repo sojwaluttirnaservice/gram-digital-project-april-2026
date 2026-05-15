@@ -33,7 +33,7 @@ const villageController = {
 
 
 	renderVillagePage: asyncHandler(async (req, res) => {
-		renderPage(res, 'user/village/village-page.pug')
+		renderPage(res, 'user/village/village-page.pug', {title: "गावाबद्दल"})
 	}),
 
 

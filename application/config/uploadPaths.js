@@ -105,6 +105,16 @@ files: {
     namuna5kSamanya: `${baseDir}/uploads/images/namuna/namuna5k/samanya`,
     namuna5kPani: `${baseDir}/uploads/images/namuna/namuna5k/pani`,
   },
+
+  funds: {
+    documents: `${baseDir}/uploads/docs/funds/docs`, 
+    images: `${baseDir}/uploads/images/funds/images`,
+  },
+
+  devWorks: {
+    documents: `${baseDir}/uploads/docs/dev-works/docs`, 
+    images: `${baseDir}/uploads/images/dev-works/images`,  
+  }
 };
 
 module.exports = {

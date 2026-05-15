@@ -1,0 +1,159 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/fund-income-expenses/fund-income-expense-images-page-handler.js')
+
+block content
+
+    div.container-fluid.mt-3
+
+        .row.justify-content-center
+
+            .col-12.col-xl-11
+
+                //- ===================================================
+                //- COMPACT HEADER
+                //- ===================================================
+                .card.shadow-sm.mb-3(style="background: oklch(86.9% 0.022 252.894);")
+
+                    .card-body.py-3.d-flex.flex-column.flex-md-row.align-items-md-center.justify-content-between.gap-2
+
+                        div
+
+                            h5.mb-1
+                                i.fa.fa-image.me-2
+                                | निधी उत्पन्न व खर्चाचा फोटोज
+
+                            div.d-flex.flex-wrap.align-items-center(style='gap:0.5rem;')
+
+                                span.badge.bg-primary
+                                    | #{fundIncomeExpenseDetails.from_year} ते #{fundIncomeExpenseDetails.to_year}
+
+                                span.text-muted
+                                    | #{fundIncomeExpenseDetails.title || '-'}
+
+                        div.d-flex.flex-wrap(style='gap:0.5rem;')
+
+                            if fundIncomeExpenseDetails.uploaded_document
+
+                                a.btn.btn-success.btn-sm(href=`/uploads/docs/funds/docs/${fundIncomeExpenseDetails.uploaded_document}` target='_blank')
+                                    i.fa.fa-file-pdf-o.me-1
+                                    | दस्तऐवज
+
+                            //- a.btn.btn-primary.btn-sm(href=`/fund-income-expenses/edit/${fundIncomeExpenseDetails.id}`)
+                                i.fa.fa-pencil.me-1
+                                | Edit
+
+                            a.btn.btn-secondary.btn-sm(href='/fund-income-expenses')
+                                i.fa.fa-arrow-left.me-1
+                                | मागे
+
+
+
+                //- ===================================================
+                //- IMAGE FORM
+                //- ===================================================
+                .card.shadow-sm.mb-3
+
+                    .card-body.py-3
+
+                        form#fund-income-expense-image-form(method='POST' enctype='multipart/form-data')
+
+                            input(type='hidden' name='fund_income_exp_id_fk' id='fund_income_exp_id_fk' value=fundIncomeExpenseDetails.id)
+
+                            .row.align-items-end
+
+                                .col-md-3.mb-2
+
+                                    .form-group
+
+                                        label.form-label.mb-1(for='title')
+                                            | शीर्षक
+                                            span.text-danger *
+
+                                        input.form-control.form-control-sm(type='text' name='title' id='title' placeholder='शीर्षक' maxlength='120' required)
+
+
+
+                                .col-md-4.mb-2
+
+                                    .form-group
+
+                                        label.form-label.mb-1(for='desc')
+                                            | वर्णन
+
+                                        input.form-control.form-control-sm(type='text' name='desc' id='desc' placeholder='वर्णन' maxlength='200')
+
+
+
+                                .col-md-3.mb-2
+
+                                    .form-group
+
+                                        label.form-label.mb-1(for='image')
+                                            | प्रतिमा
+                                            span.text-danger *
+
+                                        input.form-control.form-control-sm(type='file' name='image' id='image' accept='.jpg,.jpeg,.png,.webp' required)
+
+
+
+                                .col-md-2.mb-2
+
+                                    button.btn.btn-primary.btn-sm.w-100(type='submit' id='save-fund-income-expense-image-btn')
+                                        i.fa.fa-save.me-1
+                                        | अपलोड
+
+
+
+                //- ===================================================
+                //- IMAGE LIST
+                //- ===================================================
+                .card.shadow-sm
+
+                    .card-header.py-2.d-flex.justify-content-between.align-items-center
+
+                        h6.mb-0
+                            i.fa.fa-picture-o.me-2
+                            | प्रतिमा यादी
+
+                        span.badge.bg-secondary
+                            | #{images ? images.length : 0}
+
+                    .card-body.py-3
+
+                        if images && images.length > 0
+
+                            .row
+
+                                each image in images
+
+                                    .col-md-4.col-lg-3.mb-3
+
+                                        .card.shadow-sm.h-100
+
+                                            img.card-img-top(src=`/uploads/images/funds/images/${image.uploaded_image}` style='height:180px; object-fit:cover;')
+
+                                            .card-body.p-2.d-flex.flex-column
+
+                                                h6.mb-1.small
+                                                    | #{image.title}
+
+                                                p.text-muted.small.mb-2.flex-grow-1(style='font-size:12px;')
+                                                    | #{image.desc || '-'}
+
+                                                button.btn.btn-danger.btn-sm.delete-image-btn(type='button' data-id=image.id)
+                                                    i.fa.fa-trash.me-1
+                                                    | Delete
+
+                        else
+
+                            .text-center.py-4
+
+                                i.fa.fa-image.fa-2x.text-muted.mb-2
+
+                                p.text-muted.mb-0
+                                    | कोणतीही प्रतिमा उपलब्ध नाही

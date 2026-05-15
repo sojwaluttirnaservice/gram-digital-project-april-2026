@@ -1,0 +1,187 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/dev-works/dev-works-list-page-handler.js')
+
+block content
+
+    div.container-fluid.mt-4
+
+        //- ===================================================
+        //- HEADER
+        //- ===================================================
+        .row.justify-content-center
+
+            div.col-12.col-xl-11
+
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+
+                            h4.mb-1
+                                i.fa.fa-building.me-2
+                                | विकास कामे यादी
+
+                                span(style="font-size: 0.9rem;")
+                                    | (एकूण: #{devWorksList ? devWorksList.length : 0})
+
+                            p.text-muted.mb-0
+                                | ग्रामपंचायत विकास कामांची माहिती
+
+                        div.d-flex.flex-wrap(style='gap:0.5rem;')
+
+                            a.btn.btn-primary.btn-sm(href="/dev-works/add")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+
+
+
+            //- ===================================================
+            //- TABLE
+            //- ===================================================
+            .col-12.col-xl-11.mt-4
+
+                .card.shadow-sm
+
+                    .card-body
+
+                        .table-responsive
+
+                            table.table.table-bordered.table-striped.align-middle
+
+                                thead
+
+                                    tr
+                                        th(style='width:70px;') अ. क्र.
+                                        th आर्थिक वर्ष
+                                        th शीर्षक
+                                        th योजना
+                                        th स्थिती
+                                        th फोटो
+                                        th दस्तऐवज
+                                        th तयार तारीख
+                                        th(style='width:220px;') कृती
+
+                                tbody
+
+                                    if devWorksList && devWorksList.length > 0
+
+                                        each item, index in devWorksList
+
+                                            tr
+
+                                                td
+                                                    | #{index + 1}
+
+                                                td
+
+                                                    span.badge.bg-primary
+                                                        | #{item.from_year} ते #{item.to_year}
+
+                                                td
+
+                                                    div.fw-semibold
+                                                        | #{item.title || '-'}
+
+                                                td
+
+                                                    if item.scheme
+
+                                                        span.badge.bg-info.text-dark
+                                                            | #{item.scheme}
+
+                                                    else
+
+                                                        span.text-muted
+                                                            | -
+
+                                                td
+
+                                                    if item.status === 'ONGOING'
+
+                                                        span.badge.bg-warning.text-dark
+                                                            i.fa.fa-spinner.me-1
+                                                            | सुरू
+
+                                                    else if item.status === 'COMPLETE'
+
+                                                        span.badge.bg-success
+                                                            i.fa.fa-check.me-1
+                                                            | पूर्ण
+
+                                                    else if item.status === 'UPCOMING'
+
+                                                        span.badge.bg-secondary
+                                                            i.fa.fa-clock-o.me-1
+                                                            | आगामी
+
+                                                    else
+
+                                                        span.text-muted
+                                                            | -
+
+                                                td.text-center
+
+                                                    a.btn.btn-sm.btn-info.text-white(href=`/dev-works/images/${item.id}`)
+
+                                                        i.fa.fa-image.me-1
+
+                                                        | #{item.images_count || 0}
+
+                                                td.text-center
+
+                                                    if item.uploaded_document
+
+                                                        a.btn.btn-sm.btn-success(href=`/uploads/docs/dev-works/docs/${item.uploaded_document}` target='_blank')
+
+                                                            i.fa.fa-file-pdf-o.me-1
+                                                            | पहा
+
+                                                    else
+
+                                                        span.text-muted
+                                                            | -
+
+                                                td
+
+                                                    | #{item._createdAt || '-'}
+
+                                                td
+
+                                                    div.d-flex.flex-wrap(style='gap:0.5rem;')
+
+                                                        //- a.btn.btn-sm.btn-primary(href=`/dev-works/edit/${item.id}`)
+
+                                                            i.fa.fa-pencil.me-1
+                                                            | Edit
+
+                                                        a.btn.btn-sm.btn-info.text-white(href=`/dev-works/images/${item.id}`)
+
+                                                            i.fa.fa-picture-o.me-1
+                                                            | Images
+
+                                                        //- button.btn.btn-sm.btn-danger.delete-dev-work-btn(type='button' data-id=item.id)
+
+                                                            i.fa.fa-trash.me-1
+                                                            | Delete
+
+                                    else
+
+                                        tr
+
+                                            td.text-center(colspan='9')
+
+                                                div.py-4
+
+                                                    i.fa.fa-folder-open.fa-2x.text-muted.mb-3
+
+                                                    h6.text-muted.mb-1
+                                                        | कोणतीही नोंद उपलब्ध नाही
+
+                                                    p.text-muted.mb-0
+                                                        | कृपया नवीन विकास काम नोंदवा

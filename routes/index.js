@@ -74,6 +74,8 @@ const gpApplicationsRouter = require("./applications/gpApplicationsRouter.js");
 const pptRouter = require("./ppt/pptRouter.js");
 const rtiRouter = require("./rti/rtiRouter.js");
 const bankRouter = require("./bank/bankRouter.js");
+const fundIncomeExpenseRouter = require("./fundIncomeExpense/fundIncomeExpenseRouter.js");
+const devWorksRouter = require("./devWorks/devWorksRouter.js");
 const authController = require("../application/controllers/auth/authController.js");
 const dbRouter = require("./db/dbRouter.js");
 
@@ -541,6 +543,10 @@ indexRouter.use('/ppt', pptRouter)
 indexRouter.use('/rti', rtiRouter)
 
 indexRouter.use("/bank", bankRouter)
+
+indexRouter.use('/fund-income-expenses', fundIncomeExpenseRouter)
+
+indexRouter.use('/dev-works', devWorksRouter)
 
 indexRouter.use('/db', dbRouter)
 

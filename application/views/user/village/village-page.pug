@@ -1,209 +1,48 @@
-doctype html
-head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible' content='ie=edge')
-    // common css
-    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
-    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
-    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
-    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
-    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
-    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
 
+block custom_js
+    script(src='/asstest/coustom/js/handlers/dev-works/dev-works-form-handler.js')
 
-    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
-    script(src='/asstest/plugins/popper/popper.min.js')
-    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
-    script(src='/asstest/plugins/date/jquery-ui.js')
-    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
-    script(src='/asstest/plugins/notify/notify.js')
-    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
-    script(src="/asstest/plugins/jquery_validation/additional-methods.js") 
-
-
-    //toggle
-    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
-    // extras
-
-    // common js setups
-    script(src='/asstest/coustom/js/base.converter.js')
-    script(src='/asstest/coustom/js/common.js')
-
-    style.
-        body{
-            
-            height:100vh;
-        }
-
-        a {
-            text-decoration: none !important;
-            color: inherit;
-        }
-
-
-body
-    include ../include/navs.pug
+block content
+    -
+        const menuItems = [
+            { href: '/adarsh-takta', icon: 'fa-table', title: 'आदर्श तक्ता' },
+            { href: '/gram-sadasya', icon: 'fa-users', title: 'ग्राम सदस्य' },
+            { href: '/upload-gr', icon: 'fa-upload', title: 'GR Upload' },
+            { href: '/gram-adhik-info', icon: 'fa-info-circle', title: 'ग्राम अधिक माहिती' },
+            { href: '/medical-room', icon: 'fa-medkit', title: 'वैद्यकीय कक्ष' },
+            { href: '/upload-krishi-vidnyan-view', icon: 'fa-leaf', title: 'कृषी विज्ञान' },
+            { href: '/education/get-add-education-details', icon: 'fa-graduation-cap', title: 'शिक्षण' },
+            { href: '/arogya/gp-arogya-seva-kendra-list-view', icon: 'fa-heartbeat', title: 'आरोग्य सेवा केंद्र' },
+            { href: '/village/upload-gov-yojna', icon: 'fa-university', title: 'शासकीय योजना अपलोड' },
+            { href: '/village/zoom-meetings-view', icon: 'fa-video-camera', title: 'Zoom Meetings' },
+            { href: '/village/get-add-job-related-view', icon: 'fa-briefcase', title: 'नोकरी विषयक' },
+            { href: '/village/get-add-gram-ahaval-documents-view', icon: 'fa-bar-chart', title: 'ग्राम अहवाल व माहिती' },
+            { href: '/village/gram-manager', icon: 'fa-map-marker', title: 'गावाविषयी' },
+            { href: '/awards', icon: 'fa-trophy', title: 'प्राप्त पुरस्कार' },
+            { href: '/wg-initiatives', icon: 'fa-handshake-o', title: 'बचतगटाचे कामे/उपक्रम' },
+            { href: '/wg-names', icon: 'fa-list-ul', title: 'बचतगटांची नावे' },
+            { href: '/women-empowerment', icon: 'fa-female', title: 'महिला सक्षमीकरण' },
+            { href: '/zp-school-points', icon: 'fa-building', title: 'जिल्हा प. शाळा' },
+            { href: '/asha-workers', icon: 'fa-user-md', title: 'आशा सेविका' },
+            { href: '/water-conservation', icon: 'fa-tint', title: 'जल संधारण' },
+            { href: '/committees', icon: 'fa-sitemap', title: 'समिती यादी' },
+            { href: '/innovative-initiatives', icon: 'fa-lightbulb-o', title: 'नावीन्य उपक्रम' },
+            { href: '/aanganwadi', icon: 'fa-child', title: 'आंगणवाडी' },
+            { href: '/dev-works', icon: 'fa-building', title: 'चालू पूर्ण विकास कामे' },
+            { href: '/qr-codes/qr-list', icon: 'fa-qrcode', title: 'QR Code' }
+        ]
 
     .container
         .mt-5
             .row.justify-content-center
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/adarsh-takta')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-table.fa-2x
-                            small आदर्श तक्ता
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/gram-sadasya')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-users.fa-2x
-                            small ग्राम सदस्य
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/upload-gr')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-upload.fa-2x
-                            small GR Upload
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/gram-adhik-info')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-info-circle.fa-2x
-                            small ग्राम अधिक माहिती
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/medical-room')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-medkit.fa-2x
-                            small वैद्यकीय कक्ष
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/upload-krishi-vidnyan-view')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-leaf.fa-2x
-                            small कृषी विज्ञान
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/education/get-add-education-details')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-graduation-cap.fa-2x
-                            small शिक्षण
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/arogya/gp-arogya-seva-kendra-list-view')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-heartbeat.fa-2x
-                            small आरोग्य सेवा केंद्र
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/village/upload-gov-yojna')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-university.fa-2x
-                            small शासकीय योजना अपलोड
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/village/zoom-meetings-view')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-video-camera.fa-2x
-                            small Zoom Meetings
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/village/get-add-job-related-view')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-briefcase.fa-2x
-                            small नोकरी विषयक
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/village/get-add-gram-ahaval-documents-view')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-bar-chart.fa-2x
-                            small ग्राम अहवाल व माहिती
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/village/gram-manager')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-map-marker.fa-2x
-                            small गावाविषयी
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/awards')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-trophy.fa-2x
-                            small प्राप्त पुरस्कार
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/wg-initiatives')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-handshake-o.fa-2x
-                            small बचतगटाचे कामे/उपक्रम
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/wg-names')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-list-ul.fa-2x
-                            small बचतगटांची नावे
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/women-empowerment')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-female.fa-2x
-                            small महिला सक्षमीकरण
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/zp-school-points')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-building.fa-2x
-                            small जिल्हा प. शाळा
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/asha-workers')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-user-md.fa-2x
-                            small आशा सेविका 
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/water-conservation')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-tint.fa-2x
-                            small जल संधारण
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/committees')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-sitemap.fa-2x
-                            small समिती यादी
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/innovative-initiatives')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-lightbulb-o.fa-2x
-                            small नावीन्य उपक्रम
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/aanganwadi')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-child.fa-2x
-                            small आंगणवाडी
-
-
-                a.col-4.col-md-2.p-2.box.box--white(href='/qr-codes/qr-list')
-                    .commonModalFrom( class="w-100 d-flex justify-content-center align-items-center") 
-                        p.box__title(style='gap: 0.2rem;' class="d-flex justify-content-center align-items-center")
-                            i.fa.fa-qrcode.fa-2x
-                            small QR Code
+                each item in menuItems
+                    a.col-4.col-md-2(href=item.href style='text-decoration:none;')
+                        .p-2.box.box--white
+                            .commonModalFrom.w-100.d-flex.justify-content-center.align-items-center
+                                p.box__title.d-flex.justify-content-center.align-items-center(style='gap: 0.2rem;')
+                                    i(class=`fa ${item.icon} fa-2x`)
+                                    small= item.title

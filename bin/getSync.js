@@ -239,6 +239,11 @@ const ps_payment_receipt_samanya = require("../application/Migration Scripts/ps_
 const ps_payment_receipt_pani = require("../application/Migration Scripts/ps_payment_receipt_pani");
 
 const ps_payment_transactions_samanya = require("../application/Migration Scripts/ps_payment_transactions_samanya");
+const ps_fund_income_expense_details = require("../application/Migration Scripts/fundIncomeExpense/ps_fund_income_expense_details");
+const ps_fund_income_expense_details_images = require("../application/Migration Scripts/fundIncomeExpense/ps_fund_income_expense_details_images");
+const ps_dev_works = require("../application/Migration Scripts/devWorks/ps_dev_works");
+const ps_dev_works_images = require("../application/Migration Scripts/devWorks/ps_dev_works_images");
+
 
 
 

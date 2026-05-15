@@ -1,0 +1,270 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/dev-works/dev-works-form-handler.js')
+
+block content
+
+    -
+        let isEdit =
+            typeof devWorksDetails !== 'undefined'
+
+    div.container-fluid.mt-4
+
+        .row.justify-content-center
+
+            .col-12.col-xl-10
+
+                //- ===================================================
+                //- HEADER
+                //- ===================================================
+                .card.shadow-sm.mb-4(style="background: oklch(86.9% 0.022 252.894);")
+
+                    .card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+
+                            h4.mb-1
+
+                                i.fa.fa-building.me-2
+
+                                if isEdit
+                                    | विकास काम संपादित करा
+                                else
+                                    | नवीन विकास काम नोंदणी
+
+                            p.text-muted.mb-0
+
+                                if isEdit
+                                    | विकास कामाची माहिती अद्यतनित करा
+                                else
+                                    | नवीन विकास कामाची माहिती भरा
+
+                        div.d-flex.flex-wrap(style='gap:0.5rem;')
+
+                            a.btn.btn-secondary.btn-sm(href='/dev-works')
+
+                                i.fa.fa-arrow-left.me-1
+                                | मागे जा
+
+                            if isEdit
+
+                                a.btn.btn-info.btn-sm.text-white(href=`/dev-works/images/${devWorksDetails.id}`)
+
+                                    i.fa.fa-image.me-1
+                                    | Images
+
+
+
+                //- ===================================================
+                //- FORM
+                //- ===================================================
+                .card.shadow-sm
+
+                    .card-body
+
+                        form#dev-works-form(method='POST' enctype='multipart/form-data')
+
+                            if isEdit
+
+                                input(type='hidden' name='id' id='id' value=devWorksDetails.id)
+
+                            .row
+
+                                //- ======================================
+                                //- FROM YEAR
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='from_year')
+
+                                            | वित्तीय वर्ष सुरुवात
+                                            span.text-danger *
+
+                                        select.form-select(name='from_year' id='from_year' required)
+
+                                            option(value='')
+                                                | वर्ष निवडा
+
+                                            - for(let year = 2015; year <= 2040; year++)
+
+                                                option(
+                                                    value=year
+                                                    selected=isEdit && Number(devWorksDetails.from_year) === year
+                                                )
+                                                    | #{year}
+
+
+
+                                //- ======================================
+                                //- TO YEAR
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='to_year')
+
+                                            | वित्तीय वर्ष समाप्ती
+                                            span.text-danger *
+
+                                        select.form-select(name='to_year' id='to_year' required)
+
+                                            option(value='')
+                                                | वर्ष निवडा
+
+                                            - for(let year = 2016; year <= 2041; year++)
+
+                                                option(
+                                                    value=year
+                                                    selected=isEdit && Number(devWorksDetails.to_year) === year
+                                                )
+                                                    | #{year}
+
+
+
+                                //- ======================================
+                                //- TITLE
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='title')
+
+                                            | शीर्षक
+                                            span.text-danger *
+
+                                        input.form-control(
+                                            type='text'
+                                            name='title'
+                                            id='title'
+                                            placeholder='विकास कामाचे शीर्षक'
+                                            maxlength='200'
+                                            required
+                                            value=isEdit ? devWorksDetails.title : ''
+                                        )
+
+
+
+                                //- ======================================
+                                //- SCHEME
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='scheme')
+
+                                            | योजना
+
+                                        input.form-control(
+                                            type='text'
+                                            name='scheme'
+                                            id='scheme'
+                                            placeholder='योजनेचे नाव'
+                                            maxlength='100'
+                                            value=isEdit ? devWorksDetails.scheme : ''
+                                        )
+
+
+
+                                //- ======================================
+                                //- STATUS
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='status')
+
+                                            | स्थिती
+                                            span.text-danger *
+
+                                        select.form-select(name='status' id='status' required)
+
+                                            option(value='')
+                                                | स्थिती निवडा
+
+                                            option(
+                                                value='ONGOING'
+                                                selected=isEdit && devWorksDetails.status === 'ONGOING'
+                                            )
+                                                | सुरू
+
+                                            option(
+                                                value='COMPLETE'
+                                                selected=isEdit && devWorksDetails.status === 'COMPLETE'
+                                            )
+                                                | पूर्ण
+
+                                            option(
+                                                value='UPCOMING'
+                                                selected=isEdit && devWorksDetails.status === 'UPCOMING'
+                                            )
+                                                | आगामी
+
+
+
+                                //- ======================================
+                                //- DOCUMENT
+                                //- ======================================
+                                .col-md-6.mb-3
+
+                                    .form-group
+
+                                        label.form-label(for='document')
+
+                                            | दस्तऐवज
+
+                                            if !isEdit
+                                                span.text-danger *
+
+                                        input.form-control(
+                                            type='file'
+                                            name='document'
+                                            id='document'
+                                            accept='.pdf,.doc,.docx,.jpg,.jpeg,.png'
+                                            required=!isEdit
+                                        )
+
+                                        if isEdit && devWorksDetails.uploaded_document
+
+                                            .mt-2
+
+                                                a.btn.btn-sm.btn-success(
+                                                    href=`/uploads/docs/dev-works/docs/${devWorksDetails.uploaded_document}`
+                                                    target='_blank'
+                                                )
+
+                                                    i.fa.fa-file-pdf-o.me-1
+                                                    | सध्याचा दस्तऐवज पहा
+
+
+
+                            //- ======================================
+                            //- BUTTONS
+                            //- ======================================
+                            .d-flex.justify-content-end.flex-wrap.mt-3(style='gap:0.5rem;')
+
+                                a.btn.btn-secondary(href='/dev-works')
+
+                                    i.fa.fa-times.me-1
+                                    | Cancel
+
+                                button.btn.btn-primary(
+                                    type='submit'
+                                    id='save-dev-work-btn'
+                                )
+
+                                    i.fa.fa-save.me-1
+
+                                    if isEdit
+                                        | Update
+                                    else
+                                        | Save

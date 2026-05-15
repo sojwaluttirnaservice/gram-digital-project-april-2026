@@ -1,0 +1,338 @@
+//- =======================================================
+//- OUTSIDE MASTER LAYOUT
+//- =======================================================
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+
+block content
+
+    section(class='py-8 md:py-14 bg-gradient-to-b from-sky-50 to-green-50 min-h-screen')
+
+        div(class='container mx-auto px-4')
+
+            //- ===================================================
+            //- TOP SECTION
+            //- ===================================================
+            div(class='max-w-7xl mx-auto mb-8')
+
+                div(class='bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden')
+
+                    div(class='p-6 lg:p-8')
+
+                        div(class='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6')
+
+                            //- ==================================
+                            //- LEFT CONTENT
+                            //- ==================================
+                            div(class='flex-1')
+
+                                div(class='flex flex-wrap items-center gap-3 mb-4')
+
+                                    span(class='inline-flex items-center px-4 py-2 rounded-full bg-sky-100 text-sky-700 text-sm font-semibold')
+
+                                        | #{devWorksDetails.from_year} - #{devWorksDetails.to_year}
+
+                                    if devWorksDetails.scheme
+
+                                        span(class='inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium')
+
+                                            | #{devWorksDetails.scheme}
+
+                                    if devWorksDetails.status === 'ONGOING'
+
+                                        span(class='inline-flex items-center px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium')
+
+                                            i(class='fa fa-spinner mr-2')
+
+                                            | सुरू
+
+                                    else if devWorksDetails.status === 'COMPLETE'
+
+                                        span(class='inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium')
+
+                                            i(class='fa fa-check mr-2')
+
+                                            | पूर्ण
+
+                                    else if devWorksDetails.status === 'UPCOMING'
+
+                                        span(class='inline-flex items-center px-4 py-2 rounded-full bg-gray-200 text-gray-700 text-sm font-medium')
+
+                                            i(class='fa fa-clock-o mr-2')
+
+                                            | आगामी
+
+                                h1(class='text-2xl md:text-4xl font-bold text-gray-800 leading-snug')
+
+                                    | #{devWorksDetails.title || 'विकास काम माहिती'}
+
+                                p(class='text-gray-500 mt-3 max-w-3xl leading-relaxed')
+
+                                    | ग्रामपंचायत अंतर्गत विकास काम संबंधित माहिती, प्रगती छायाचित्रे व दस्तऐवज
+
+
+                            //- ==================================
+                            //- RIGHT ACTIONS
+                            //- ==================================
+                            div(class='flex flex-wrap items-center gap-3')
+
+                                a(
+                                    class='inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition'
+                                    href='/dev-works/list'
+                                )
+
+                                    i(class='fa fa-arrow-left')
+
+                                    | मागे जा
+
+                                if devWorksDetails.uploaded_document
+
+                                    a(
+                                        class='inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-medium transition'
+                                        href=`/uploads/docs/dev-works/docs/${devWorksDetails.uploaded_document}`
+                                        target='_blank'
+                                    )
+
+                                        i(class='fa fa-file-pdf-o')
+
+                                        | दस्तऐवज पहा
+
+
+
+            //- ===================================================
+            //- QUICK INFO
+            //- ===================================================
+            div(class='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 mb-8')
+
+                div(class='bg-white rounded-2xl shadow-sm border border-gray-200 p-5')
+
+                    div(class='flex items-center gap-4')
+
+                        div(class='w-14 h-14 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center')
+
+                            i(class='fa fa-calendar text-2xl')
+
+                        div
+
+                            p(class='text-sm text-gray-500 mb-1')
+                                | आर्थिक वर्ष
+
+                            h3(class='text-lg font-bold text-gray-800')
+
+                                | #{devWorksDetails.from_year} ते #{devWorksDetails.to_year}
+
+
+
+                div(class='bg-white rounded-2xl shadow-sm border border-gray-200 p-5')
+
+                    div(class='flex items-center gap-4')
+
+                        div(class='w-14 h-14 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center')
+
+                            i(class='fa fa-building text-2xl')
+
+                        div
+
+                            p(class='text-sm text-gray-500 mb-1')
+                                | योजना
+
+                            h3(class='text-lg font-bold text-gray-800')
+
+                                | #{devWorksDetails.scheme || '-'}
+
+
+
+                div(class='bg-white rounded-2xl shadow-sm border border-gray-200 p-5')
+
+                    div(class='flex items-center gap-4')
+
+                        div(class='w-14 h-14 rounded-2xl bg-yellow-100 text-yellow-700 flex items-center justify-center')
+
+                            i(class='fa fa-image text-2xl')
+
+                        div
+
+                            p(class='text-sm text-gray-500 mb-1')
+                                | फोटो
+
+                            h3(class='text-lg font-bold text-gray-800')
+
+                                | #{images ? images.length : 0}
+
+
+
+            //- ===================================================
+            //- DETAILS + DOCUMENT
+            //- ===================================================
+            div(class='max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8')
+
+                //- ==================================
+                //- DETAILS
+                //- ==================================
+                div(class='lg:col-span-2')
+
+                    div(class='bg-white rounded-3xl shadow-sm border border-gray-200 p-6 h-full')
+
+                        h3(class='text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3')
+
+                            div(class='w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center')
+
+                                i(class='fa fa-info-circle text-xl')
+
+                            span
+                                | विकास काम माहिती
+
+                        div(class='space-y-5 text-gray-700 leading-relaxed')
+
+                            div(class='bg-sky-50 rounded-2xl p-5')
+
+                                p(class='font-semibold text-gray-800 mb-2')
+                                    | विकास काम शीर्षक
+
+                                p
+                                    | #{devWorksDetails.title || '-'}
+
+                            div(class='grid grid-cols-1 md:grid-cols-2 gap-5')
+
+                                div(class='bg-green-50 rounded-2xl p-5')
+
+                                    p(class='font-semibold text-gray-800 mb-2')
+                                        | योजना
+
+                                    p
+                                        | #{devWorksDetails.scheme || '-'}
+
+                                div(class='bg-yellow-50 rounded-2xl p-5')
+
+                                    p(class='font-semibold text-gray-800 mb-2')
+                                        | स्थिती
+
+                                    p
+                                        | #{devWorksDetails.status || '-'}
+
+
+
+                //- ==================================
+                //- DOCUMENT CARD
+                //- ==================================
+                div
+
+                    div(class='bg-white rounded-3xl shadow-sm border border-gray-200 p-6 h-full')
+
+                        div(class='flex items-center gap-3 mb-5')
+
+                            div(class='w-12 h-12 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center')
+
+                                i(class='fa fa-file-pdf-o text-xl')
+
+                            h3(class='text-xl font-bold text-gray-800')
+
+                                | दस्तऐवज
+
+                        if devWorksDetails.uploaded_document
+
+                            a(
+                                class='flex items-center justify-between gap-4 bg-green-50 hover:bg-green-100 rounded-2xl p-5 transition'
+                                href=`/uploads/docs/dev-works/docs/${devWorksDetails.uploaded_document}`
+                                target='_blank'
+                            )
+
+                                div
+
+                                    p(class='font-semibold text-gray-800 mb-1')
+                                        | PDF दस्तऐवज
+
+                                    p(class='text-sm text-gray-500')
+                                        | क्लिक करून पहा
+
+                                div(class='w-12 h-12 rounded-2xl bg-green-600 text-white flex items-center justify-center')
+
+                                    i(class='fa fa-download')
+
+                        else
+
+                            div(class='bg-gray-50 rounded-2xl p-6 text-center')
+
+                                i(class='fa fa-file-o text-4xl text-gray-300 mb-3')
+
+                                p(class='text-gray-500')
+                                    | दस्तऐवज उपलब्ध नाही
+
+
+
+            //- ===================================================
+            //- IMAGE PREVIEW
+            //- ===================================================
+            div(class='max-w-7xl mx-auto')
+
+                div(class='flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6')
+
+                    h2(class='text-2xl md:text-3xl font-bold text-gray-800')
+
+                        | विकास कामे फोटो
+
+                    if images && images.length > 0
+
+                        a(
+                            class='inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-medium transition'
+                            href=`/dev-works/images-list/${devWorksDetails.id}`
+                        )
+
+                            i(class='fa fa-image')
+
+                            | सर्व फोटो पहा
+
+                if images && images.length > 0
+
+                    div(class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6')
+
+                        each image in images
+
+                            a(
+                                class='group bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300'
+                                href=`/uploads/images/dev-works/images/${image.uploaded_image}`
+                                target='_blank'
+                            )
+
+                                div(class='relative overflow-hidden')
+
+                                    img(
+                                        class='w-full h-72 object-cover group-hover:scale-110 transition duration-500'
+                                        src=`/uploads/images/dev-works/images/${image.uploaded_image}`
+                                        alt=image.title
+                                    )
+
+                                    div(class='absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80')
+
+                                    div(class='absolute top-4 right-4')
+
+                                        div(class='w-11 h-11 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-sky-700 shadow-sm')
+
+                                            i(class='fa fa-expand')
+
+                                div(class='p-5')
+
+                                    h3(class='text-lg font-bold text-gray-800 mb-2 line-clamp-1')
+
+                                        | #{image.title}
+
+                                    p(class='text-sm text-gray-600 leading-relaxed line-clamp-2 min-h-[40px]')
+
+                                        | #{image.desc || 'विकास कामे फोटो'}
+
+                else
+
+                    div(class='bg-white rounded-3xl shadow-sm border border-gray-200 p-14 text-center')
+
+                        div(class='w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6')
+
+                            i(class='fa fa-image text-5xl text-gray-400')
+
+                        h3(class='text-2xl font-bold text-gray-700 mb-3')
+
+                            | कोणत्याही फोटो उपलब्ध नाहीत
+
+                        p(class='text-gray-500 max-w-xl mx-auto')
+
+                            | सदर विकास कामासाठी अद्याप फोटो अपलोड करण्यात आलेल्या नाहीत

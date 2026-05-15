@@ -1,0 +1,111 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/fund-income-expenses/fund-income-expenses-list-page-handler.js')
+
+block content
+
+    div.container-fluid.mt-4
+
+        //- ===================================================
+        //- HEADER
+        //- ===================================================
+        .row.justify-content-center
+
+            div.col-12.col-xl-11
+
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+                            h4.mb-1
+                                i.fa.fa-money.me-2
+                                | निधी उत्पन्न व खर्चाचा तपशील यादी
+                                span(style="font-size: 0.9rem;")
+                                    | (एकूण: #{fundIncomeExpenseList ? fundIncomeExpenseList.length : 0})
+
+                        div.d-flex(style='gap:1rem;')
+
+                            a.btn.btn-primary.btn-sm(href="/fund-income-expenses/add")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+
+
+
+            //- ===================================================
+            //- TABLE
+            //- ===================================================
+            .col-11.mt-4
+
+                .table-responsive
+
+                    table.table.table-bordered.table-striped
+
+                        thead
+
+                            tr
+                                th अ. क्र.
+                                th आर्थिक वर्ष
+                                th शीर्षक
+                                th दस्तऐवज
+                                th दिनांक 
+                                th Action
+
+                        tbody
+
+                            if fundIncomeExpenseList && fundIncomeExpenseList.length > 0
+
+                                each item, index in fundIncomeExpenseList
+
+                                    tr
+
+                                        td #{index + 1}
+
+                                        td
+                                            span.badge.bg-primary
+                                                | #{item.from_year} ते #{item.to_year}
+
+                                        td
+                                            | #{item.title || '-'}
+
+                                        td.text-center
+
+                                            if item.uploaded_document
+
+                                                a.btn.btn-sm.btn-success(href=`/uploads/docs/funds/docs/${item.uploaded_document}` target='_blank')
+                                                    i.fa.fa-file-pdf-o.me-1
+                                                    | दस्तऐवज पहा
+
+                                            else
+
+                                                span.text-muted -
+
+                                        td
+                                            | #{item._createdAt ? item._createdAt : '-'}
+
+                                        td
+
+                                            div.d-flex.flex-wrap(style='gap:0.5rem;')
+
+                                                //- a.btn.btn-sm.btn-primary(href=`/fund-income-expense/edit/${item.id}`)
+                                                    i.fa.fa-pencil.me-1
+                                                    | Edit
+
+                                                a.btn.btn-sm.btn-info.text-white(href=`/fund-income-expenses/images/${item.id}`)
+                                                    i.fa.fa-image.me-1
+                                                    | Images
+
+                                                //- button.btn.btn-sm.btn-danger.delete-btn(type='button' data-id=item.id)
+                                                    i.fa.fa-trash.me-1
+                                                    | Delete
+
+                            else
+
+                                tr
+
+                                    td.text-center(colspan='6')
+                                        span.text-muted No records found
