@@ -2820,10 +2820,6 @@ let MasterController = {
       return sendApiResponse(res, 201, true, "योजना जतन झाली.")
   }),
 
-  update_gov_yojan_file: asyncHandler(async (req, res) => {
-      
-  }),
-
   delete_gov_yojna_file: asyncHandler(async (req, res) => {
     let fileName = req.body.fileName;
     let bannerImageName=req.body.bannerImageName

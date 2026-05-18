@@ -76,6 +76,7 @@ const rtiRouter = require("./rti/rtiRouter.js");
 const bankRouter = require("./bank/bankRouter.js");
 const fundIncomeExpenseRouter = require("./fundIncomeExpense/fundIncomeExpenseRouter.js");
 const devWorksRouter = require("./devWorks/devWorksRouter.js");
+const govYojanaRouter = require("./govYojana/govYojanaRouter.js");
 const authController = require("../application/controllers/auth/authController.js");
 const dbRouter = require("./db/dbRouter.js");
 
@@ -547,6 +548,8 @@ indexRouter.use("/bank", bankRouter)
 indexRouter.use('/fund-income-expenses', fundIncomeExpenseRouter)
 
 indexRouter.use('/dev-works', devWorksRouter)
+
+indexRouter.use('/gov-yojana', govYojanaRouter)
 
 indexRouter.use('/db', dbRouter)
 

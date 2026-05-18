@@ -146,7 +146,7 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                         div(class="hidden origin-top-right absolute right-0 mt-2 min-w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical" aria-labelledby="our-village-btn" tabindex="-1")
                                             div(class="py-1" role="none")
 
-                                                div(class="relative block text-left")
+                                                //- div(class="relative block text-left")
                                                     div(class='w-full')
                                                         button(class='flex items-center justify-between text-gray-700 w-full px-4 py-2 text-sm' type='button' data-toggle-dropdown id="gram-ahaval-btn" aria-expanded="false" aria-haspopup="true") 
                                                             | #{t("homePage.reportsInfoSection.heading")}
@@ -162,6 +162,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                                             else
                                                                 button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1" ) #{t("homePage.reportsInfoSection.noReportsAvailable")}
 
+                                                a(href='/gov-yojana/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                    //- span ग्रामपंचायत टिपणी
+                                                    span #{t("homePage.reportsInfoSection.heading")}
 
                                                 //- a(href='/village/info' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                     //- span गावाविषयी माहिती
@@ -466,7 +469,7 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
 
 
                                             //- Dropdown
-                                            div(class="relative block text-left")
+                                            //- div(class="relative block text-left")
                                                 //- Dropdown button
                                                 div(class='w-full')
                                                     button(class=`flex items-center justify-between text-gray-700 block px-4 py-2 text-sm` data-toggle-dropdown id="mobile-gram-ahaval-btn" aria-expanded="false" aria-haspopup="true") 
@@ -484,6 +487,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                                         else
                                                             button(disabled class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" target="_blank" tabindex="-1" ) #{t("homePage.reportsInfoSection.noReportsAvailable")}
 
+                                            a(href='/gov-yojana/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                //- span ग्रामपंचायत टिपणी
+                                                span #{t("homePage.reportsInfoSection.heading")}
 
 
                                             a(href='/village/population' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 

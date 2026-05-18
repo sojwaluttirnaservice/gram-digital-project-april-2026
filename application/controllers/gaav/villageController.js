@@ -309,7 +309,6 @@ const villageController = {
 
 	get_gov_yojna_upload_view: asyncHandler(async (req, res) => {
 		const filesList = await MasterModel.get_gov_yojna_file_name_list(res.pool);
-        console.log(filesList[0])
 		renderPage(res, 'master/gov-yojna-upload-view.pug', {
 			filesList,
 		})

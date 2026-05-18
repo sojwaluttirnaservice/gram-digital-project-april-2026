@@ -1,20 +1,27 @@
 $(document).ready(() => {
-  console.log("gov yojna upload js laoded");
+  console.log("gov yojna upload js loaded");
 
   let documentsList = [];
 
-  // =====================================
-  // RENDER DOCUMENTS
-  // =====================================
+  /* =====================================
+      MODE
+  ===================================== */
+
+  let isEditMode = false;
+
+  /* =====================================
+      RENDER DOCUMENTS
+  ===================================== */
+
   function renderDocumentsList() {
     $("#documents-list").empty();
 
     if (!documentsList.length) {
       $("#documents-list").html(`
-                        <div class="text-muted small" id="empty-document-text">
-                                अद्याप कोणतेही कागदपत्र जोडलेले नाही
-                        </div>
-                `);
+        <div class="text-muted small" id="empty-document-text">
+          अद्याप कोणतेही कागदपत्र जोडलेले नाही
+        </div>
+      `);
 
       $("#required_documents_list").val(JSON.stringify([]));
 
@@ -23,30 +30,36 @@ $(document).ready(() => {
 
     documentsList.forEach((name, index) => {
       $("#documents-list").append(`
-                        <div class="badge bg-primary d-flex align-items-center gap-2 px-3 py-2">
-                                <span>${name}</span>
+        <div class="badge bg-primary d-flex align-items-center gap-2 px-3 py-2">
+          <span>${name}</span>
 
-                                <button type="button"
-                                        class="btn-close btn-close-white shadow-none remove-document-btn"
-                                        data-index="${index}">
-                                </button>
-                        </div>
-                `);
+          <button
+            type="button"
+            class="btn-close btn-close-white shadow-none remove-document-btn"
+            data-index="${index}">
+          </button>
+        </div>
+      `);
     });
 
     $("#required_documents_list").val(JSON.stringify(documentsList));
   }
 
-  // =====================================
-  // ADD DOCUMENT
-  // =====================================
+  /* =====================================
+      ADD DOCUMENT
+  ===================================== */
+
   $("#add-document-btn").on("click", function () {
     let value = $("#document-name-input").val().trim();
 
     if (!value) return;
 
     if (documentsList.includes(value)) {
-      alert("हे कागदपत्र आधीच जोडले आहे");
+      alertjs.warning({
+        t: "WARNING",
+        m: "हे कागदपत्र आधीच जोडले आहे",
+      });
+
       return;
     }
 
@@ -57,17 +70,22 @@ $(document).ready(() => {
     $("#document-name-input").val("").focus();
   });
 
-  // Enter key support
+  /* =====================================
+      ENTER KEY SUPPORT
+  ===================================== */
+
   $("#document-name-input").on("keypress", function (e) {
     if (e.key === "Enter") {
       e.preventDefault();
+
       $("#add-document-btn").click();
     }
   });
 
-  // =====================================
-  // REMOVE DOCUMENT
-  // =====================================
+  /* =====================================
+      REMOVE DOCUMENT
+  ===================================== */
+
   $(document).on("click", ".remove-document-btn", function () {
     let index = $(this).data("index");
 
@@ -76,9 +94,10 @@ $(document).ready(() => {
     renderDocumentsList();
   });
 
-  // =====================================
-  // LOAD DOCUMENTS FOR EDIT
-  // =====================================
+  /* =====================================
+      LOAD DOCUMENTS FOR EDIT
+  ===================================== */
+
   function loadDocumentsForEdit(data) {
     if (data && data.required_documents_list) {
       try {
@@ -95,19 +114,23 @@ $(document).ready(() => {
     renderDocumentsList();
   }
 
-  // =====================================
-  // RESET DOCUMENTS (CREATE MODE)
-  // =====================================
+  /* =====================================
+      RESET DOCUMENTS
+  ===================================== */
+
   function resetDocuments() {
     documentsList = [];
 
     renderDocumentsList();
   }
 
+  /* =====================================
+      VIEW DOCS MODAL
+  ===================================== */
+
   $(document).on("click", ".view-docs-btn", function () {
     let docs = $(this).data("docs");
 
-    // safe parse
     if (typeof docs === "string") {
       try {
         docs = JSON.parse(docs);
@@ -116,34 +139,125 @@ $(document).ready(() => {
       }
     }
 
-    // clear old data
     $("#docs-modal-list").empty();
 
-    // handle empty case
     if (!docs || !docs.length) {
       $("#docs-modal-list").html(`
-                        <li class="list-group-item text-muted text-center">
-                                कोणतीही कागदपत्रे उपलब्ध नाहीत
-                        </li>
-                `);
+          <li class="list-group-item text-muted text-center">
+            कोणतीही कागदपत्रे उपलब्ध नाहीत
+          </li>
+        `);
     } else {
       docs.forEach((doc, index) => {
         $("#docs-modal-list").append(`
-                                <li class="list-group-item d-flex align-items-center gap-2">
-                                        <span class="badge bg-primary">${index + 1}</span>
-                                        <i class="fa fa-file-text text-secondary"></i>
-                                        <span>${doc}</span>
-                                </li>
-                        `);
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <span class="badge bg-primary">${index + 1}</span>
+
+              <i class="fa fa-file-text text-secondary"></i>
+
+              <span>${doc}</span>
+            </li>
+          `);
       });
     }
 
-    // open modal
-    // new bootstrap.Modal(document.getElementById("docsModal")).show();
-    $('#docsModal').modal('show')
+    $("#docsModal").modal("show");
   });
 
-  let file = document.querySelector("#gov-yojna-file");
+  /* =====================================
+      SET FORM DATA
+  ===================================== */
+
+  function setFormData(item) {
+    $("#id").val(item.id || "");
+
+    $("#yojana_name").val(item.yojana_name || "");
+
+    $("#yojana_status").val(item.yojana_status || "ONGOING");
+
+    $("#yojana_description").val(item.yojana_description || "");
+
+    $("#website_link").val(item.website_link || "");
+    $("#start_date").val(item.start_date ? item.start_date.split("T")[0] : "");
+
+    loadDocumentsForEdit(item);
+  }
+
+  /* =====================================
+      RESET FORM
+  ===================================== */
+
+  function resetForm() {
+    document.getElementById("gov-yojana-form").reset();
+
+    $("#id").val("");
+
+    resetDocuments();
+
+    isEditMode = false;
+
+    $("#form-title").html(`
+      <i class="fa fa-upload me-2"></i>
+      शासकीय योजना अपलोड
+    `);
+
+    $("#upload-gov-yojna-file").html(`
+      <i class="fa fa-save me-2"></i>
+      जतन करा
+    `);
+
+    $("#cancel-edit-btn").addClass("d-none");
+  }
+
+  /* =====================================
+      EDIT MODE
+  ===================================== */
+
+  $(document).on("click", ".edit-gov-yojna-file-btn", function () {
+    let item = $(this).attr("data-item");
+
+    try {
+      item = JSON.parse(item);
+    } catch (err) {
+      console.error(err);
+
+      return;
+    }
+
+    isEditMode = true;
+
+    setFormData(item);
+
+    $("#form-title").html(`
+        <i class="fa fa-edit me-2"></i>
+        शासकीय योजना अपडेट
+      `);
+
+    $("#upload-gov-yojna-file").html(`
+        <i class="fa fa-edit me-2"></i>
+        अपडेट करा
+      `);
+
+    $("#cancel-edit-btn").removeClass("d-none");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+
+  /* =====================================
+      CANCEL EDIT
+  ===================================== */
+
+  $("#cancel-edit-btn").on("click", function () {
+    resetForm();
+  });
+
+  /* =====================================
+      SAVE / UPDATE CLICK
+  ===================================== */
+
   $("#upload-gov-yojna-file").on("click", async function (e) {
     e.preventDefault();
 
@@ -154,16 +268,25 @@ $(document).ready(() => {
     if (
       govYojanaData.get("imageBanner") &&
       govYojanaData.get("imageBanner").size > 0
-    )
+    ) {
       govYojanaData.set(
         "imageBanner",
         await compressImageFile(govYojanaData.get("imageBanner")),
       );
+    }
 
-    post_file_data(govYojanaData);
+    if (isEditMode) {
+      updateGovYojana(govYojanaData);
+    } else {
+      saveGovYojana(govYojanaData);
+    }
   });
 
-  async function post_file_data(formData) {
+  /* =====================================
+      SAVE
+  ===================================== */
+
+  async function saveGovYojana(formData) {
     try {
       let { success, message } = await fetch("/master/upload-gov-yojna-file", {
         method: "POST",
@@ -177,7 +300,7 @@ $(document).ready(() => {
             m: message,
           },
           () => {
-            // location.reload();
+            location.reload();
           },
         );
       } else {
@@ -187,40 +310,110 @@ $(document).ready(() => {
         });
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error(err);
+
       alertjs.warning({
-        t: "WARNING",
-        m: err?.message,
+        t: "ERROR",
+        m: err?.message || "Something went wrong",
       });
     }
   }
 
-  // delte gov-yojna file
-  $(document).on("click", "#delete-gov-yojna-file-btn", function (e) {
+  /* =====================================
+      UPDATE
+  ===================================== */
+
+  async function updateGovYojana(formData) {
+    try {
+      let { success, message } = await fetch("/gov-yojana", {
+        method: "PUT",
+        body: formData,
+      }).then((r) => r.json());
+
+      if (success) {
+        alertjs.success(
+          {
+            t: "Success",
+            m: message,
+          },
+          () => {
+            location.reload();
+          },
+        );
+      } else {
+        alertjs.warning({
+          t: "WARNING",
+          m: message,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+
+      alertjs.warning({
+        t: "ERROR",
+        m: err?.message || "Something went wrong",
+      });
+    }
+  }
+
+  /* =====================================
+      DELETE
+  ===================================== */
+
+  $(document).on("click", ".delete-gov-yojna-file-btn", function (e) {
     e.preventDefault();
+
     let fileName = $(this).attr("data-fileName");
-    let bannerImageName = $(this).attr('data-bannerImageName');
+
+    let bannerImageName = $(this).attr("data-bannerImageName");
+
     let fileId = $(this).attr("data-id");
 
     fetch("/master/delete-gov-yojna-file", {
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fileName, fileId, bannerImageName }),
+
+      body: JSON.stringify({
+        fileName,
+        fileId,
+        bannerImageName,
+      }),
     })
-      .then((result) => {
-        return result.json();
-      })
+      .then((result) => result.json())
       .then((result) => {
         if (result.success) {
-          alertjs.success({ t: "Successful", m: result.message }, () => {
-            window.location.reload();
+          alertjs.success(
+            {
+              t: "Successful",
+              m: result.message,
+            },
+            () => {
+              window.location.reload();
+            },
+          );
+        } else {
+          alertjs.warning({
+            t: "WARNING",
+            m: result.message,
           });
         }
       })
       .catch((err) => {
-        alertjs.warning({ t: "Error", m: err }, () => {});
+        console.error(err);
+
+        alertjs.warning({
+          t: "ERROR",
+          m: err?.message || "Something went wrong",
+        });
       });
   });
+
+  /* =====================================
+      INIT
+  ===================================== */
+
+  renderDocumentsList();
 });

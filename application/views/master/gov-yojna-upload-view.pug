@@ -15,13 +15,14 @@ block content
                 .card.border-0.shadow-sm
 
                     .card-header.bg-primary.text-white.py-3
-                        h4.mb-0.text-center
+                        h4.mb-0.text-center#form-title
                             i.fa.fa-upload.me-2
                             | शासकीय योजना अपलोड
 
                     .card-body.p-4
 
                         form#gov-yojana-form
+                            input(type='hidden' name='id' id='id')
 
                             .row.g-4
 
@@ -45,7 +46,7 @@ block content
                                 .col-12
                                     label.form-label.fw-semibold(for='website_link') संकेतस्थळ लिंक
 
-                                    input.form-control(type='text' name='website_link' id='website_link' placeholder='https://example.com')
+                                    input.form-control(type='text' name='website_link' id='website_link' placeholder='https://example.com' autocomplete="off")
 
                                 .col-12.col-md-6
                                     label.form-label.fw-semibold(for='start_date') प्रारंभ दिनांक (Optional)
@@ -104,7 +105,10 @@ block content
 
                                     button.btn.btn-primary.px-5.py-2(type='button' id='upload-gov-yojna-file')
                                         i.fa.fa-save.me-2
-                                        | जतन करा
+                                        span#submit-btn-text जतन करा
+                                    button.btn.btn-secondary.px-4.py-2.ms-2.d-none(type='button' id='cancel-edit-btn')
+                                        i.fa.fa-times.me-2
+                                        | Cancel
 
         div.modal.fade#docsModal(tabindex='-1')
             div.modal-dialog.modal-dialog-centered.modal-sm
@@ -213,10 +217,14 @@ block content
                                                     else 
                                                         | -
 
-                                                td.text-center
+                                                td
+                                                    .d-flex.justify-center.gap-2
+                                                        button.btn.btn-sm.btn-outline-success(type='button' class='edit-gov-yojna-file-btn' data-item=JSON.stringify(file))
+                                                            i.fa.fa-edit
 
-                                                    button.btn.btn-sm.btn-outline-danger(type='button' id='delete-gov-yojna-file-btn' data-id=file.id data-fileName=file.file_name data-bannerImageName=file.image_banner)
-                                                        i.fa.fa-trash
+                                                        button.btn.btn-sm.btn-outline-danger(type='button' class='delete-gov-yojna-file-btn' data-id=file.id data-fileName=file.file_name data-bannerImageName=file.image_banner)
+                                                            i.fa.fa-trash
+
 
                                     else
 

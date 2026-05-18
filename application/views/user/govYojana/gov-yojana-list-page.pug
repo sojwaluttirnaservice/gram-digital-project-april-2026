@@ -1,0 +1,174 @@
+//- =======================================================
+//- OUTSIDE MASTER LAYOUT
+//- =======================================================
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+
+block content
+
+    section(class='py-8 md:py-14 bg-gradient-to-b from-sky-50 to-green-50 min-h-screen')
+
+        div(class='container mx-auto px-4')
+
+            //- ===================================================
+            //- PAGE HEADER
+            //- ===================================================
+            div(class='text-center mb-10')
+
+                div(class='inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-md text-sky-700 mb-4')
+                    i(class='fa fa-university text-4xl')
+
+                h1(class='text-3xl md:text-5xl font-bold text-gray-800 mb-3')
+                    | शासकीय योजना माहिती
+
+                p(class='text-gray-600 max-w-3xl mx-auto text-base md:text-lg')
+                    | ग्रामपंचायत अंतर्गत उपलब्ध विविध शासकीय योजना, आवश्यक कागदपत्रे, अर्ज प्रक्रिया व अधिकृत माहिती
+
+
+            //- ===================================================
+            //- ACCORDION LIST
+            //- ===================================================
+            if govYojanaList && govYojanaList.length > 0
+
+                div(class='max-w-6xl mx-auto space-y-5')
+
+                    each item, index in govYojanaList
+
+                        details(class='group bg-white rounded-3xl overflow-hidden shadow-md border border-gray-100')
+
+                            summary(class='list-none cursor-pointer')
+
+                                div(class='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 hover:bg-sky-50 transition')
+
+                                    //- ===================================================
+                                    //- LEFT SIDE
+                                    //- ===================================================
+                                    div(class='flex items-start gap-4')
+
+                                        //- Banner
+                                        if item.image_banner
+
+                                            img(src=`/uploads/images/yojana/banners/${item.image_banner}` alt=item.yojana_name class='w-24 h-24 rounded-2xl object-cover shadow-sm border border-gray-100 flex-shrink-0')
+
+                                        else
+
+                                            div(class='w-24 h-24 rounded-2xl bg-gradient-to-br from-sky-100 to-green-100 flex items-center justify-center flex-shrink-0')
+                                                i(class='fa fa-file-text-o text-4xl text-sky-600')
+
+                                        //- Title & Description
+                                        div(class='')
+
+                                            div(class='flex flex-wrap items-center gap-3 mb-2')
+
+                                                if item.yojana_status === 'ONGOING'
+
+                                                    span(class='px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold')
+                                                        | सुरू
+
+                                                else if item.yojana_status === 'UPCOMING'
+
+                                                    span(class='px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-semibold')
+                                                        | आगामी
+
+                                                else
+
+                                                    span(class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold')
+                                                        | पूर्ण
+
+                                                span(class='text-xs text-gray-400')
+                                                    | योजना क्र. #{index + 1}
+
+                                            h2(class='text-xl md:text-2xl font-bold text-gray-800 mb-2')
+                                                | #{item.yojana_name}
+
+                                            p(class='text-gray-600 text-sm md:text-base line-clamp-2')
+                                                | #{item.yojana_description || 'सदर योजनेची माहिती उपलब्ध आहे.'}
+
+
+                                    //- ===================================================
+                                    //- RIGHT SIDE
+                                    //- ===================================================
+                                    div(class='flex items-center gap-3')
+
+                                        if item.file_name
+
+                                            a(href=`/new-gp-page/main-page/files/gov-yojna-lists/${item.file_name}` target='_blank' onclick='event.stopPropagation();' class='inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium transition')
+                                                i(class='fa fa-file-pdf-o')
+                                                | दस्तऐवज
+
+                                        if item.website_link
+
+                                            a(href=item.website_link target='_blank' onclick='event.stopPropagation();' class='inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition')
+                                                i(class='fa fa-external-link')
+                                                | अधिक माहिती
+
+                                        div(class='w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 group-open:rotate-180 transition-transform duration-300')
+                                            i(class='fa fa-chevron-down')
+
+
+                            //- ===================================================
+                            //- ACCORDION BODY
+                            //- ===================================================
+                            div(class='border-t border-gray-100')
+
+                                div(class='p-6 grid grid-cols-1 lg:grid-cols-2 gap-8')
+
+                                    //- ===================================================
+                                    //- DESCRIPTION
+                                    //- ===================================================
+                                    div(class='')
+
+                                        h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
+                                            i(class='fa fa-info-circle text-sky-600')
+                                            | योजना माहिती
+
+                                        div(class='bg-sky-50 rounded-2xl p-5 text-gray-700 leading-relaxed')
+
+                                            p(class='mb-0')
+                                                | #{item.yojana_description || 'सदर योजनेबाबत माहिती उपलब्ध आहे.'}
+
+
+                                    //- ===================================================
+                                    //- REQUIRED DOCUMENTS
+                                    //- ===================================================
+                                    div(class='')
+
+                                        h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
+                                            i(class='fa fa-folder-open text-green-600')
+                                            | आवश्यक कागदपत्रे
+
+                                        if item.required_documents_list && item.required_documents_list.length > 0
+
+                                            ul(class='space-y-3')
+
+                                                each doc in item.required_documents_list
+
+                                                    li(class='flex items-start gap-3 bg-green-50 rounded-2xl px-4 py-3')
+
+                                                        i(class='fa fa-check-circle text-green-600 mt-1')
+
+                                                        span(class='text-gray-700 text-sm md:text-base')
+                                                            | #{doc}
+
+                                        else
+
+                                            div(class='bg-gray-50 rounded-2xl p-5 text-gray-500')
+                                                | आवश्यक कागदपत्रांची माहिती उपलब्ध नाही.
+
+
+            //- ===================================================
+            //- EMPTY STATE
+            //- ===================================================
+            else
+
+                div(class='max-w-xl mx-auto bg-white rounded-3xl shadow-md p-10 text-center')
+
+                    div(class='w-24 h-24 rounded-full bg-sky-100 flex items-center justify-center mx-auto mb-5')
+                        i(class='fa fa-folder-open-o text-5xl text-sky-600')
+
+                    h3(class='text-2xl font-bold text-gray-800 mb-3')
+                        | कोणतीही योजना उपलब्ध नाही
+
+                    p(class='text-gray-600')
+                        | सध्या कोणतीही शासकीय योजना उपलब्ध नाही. कृपया नंतर पुन्हा भेट द्या.
