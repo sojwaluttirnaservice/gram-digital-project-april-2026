@@ -1481,6 +1481,28 @@ const subjects = [
       },
     ],
   },
+
+  {
+    id: 87,
+    subject_name: "विवाह नोंद नसल्याबाबत प्रमाणपत्र देणे बाबत",
+    subject_name_en:
+      "Issuance of Certificate Regarding Non-Availability of Marriage Registration",
+    website: "",
+    description:
+      "This certificate is issued to confirm that no marriage registration record is available in the official records.",
+    document: [
+      {
+        key: "aadhaar_card",
+        label: "अर्जदाराचा आधार कार्ड",
+        is_required: !0,
+      },
+      {
+        key: "application_pdf_photo",
+        label: "अर्जाचा फोटो किंवा PDF",
+        is_required: !0,
+      },
+    ],
+  },
 ];
 
 module.exports = subjects;
