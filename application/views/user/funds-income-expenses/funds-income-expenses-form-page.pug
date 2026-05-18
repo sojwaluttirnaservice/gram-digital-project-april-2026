@@ -47,12 +47,15 @@ block content
 
                     .card-header
                         h5.mb-0
-                            i.fa.fa-plus-circle.me-2
-                            | नवीन नोंद
+                            i.fa(class=isEdit ? 'fa-edit me-2' : 'fa-plus-circle me-2')
+                            | #{isEdit ? 'नोंद संपादित करा' : 'नवीन नोंद'}
 
                     .card-body
 
                         form#fund-income-expense-form(method='POST' enctype='multipart/form-data')
+
+                            if isEdit
+                                input(type='hidden' name='id' id='id' value=fundIncomeExpenseDetails.id)
 
                             .row
 
@@ -73,7 +76,7 @@ block content
 
                                             each year in Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
 
-                                                option(value=year)
+                                                option(value=year selected=isEdit && fundIncomeExpenseDetails.from_year == year)
                                                     | #{year}
 
 
@@ -95,7 +98,7 @@ block content
 
                                             each year in Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
 
-                                                option(value=year)
+                                                option(value=year selected=isEdit && fundIncomeExpenseDetails.to_year == year)
                                                     | #{year}
 
 
@@ -110,7 +113,7 @@ block content
                                         label.form-label(for='title')
                                             | शीर्षक
 
-                                        input.form-control(type='text' id='title' name='title' placeholder='शीर्षक प्रविष्ट करा' maxlength='200')
+                                        input.form-control(type='text' id='title' name='title' placeholder='शीर्षक प्रविष्ट करा' maxlength='200' value=isEdit ? fundIncomeExpenseDetails.title : '')
 
 
 
@@ -123,12 +126,25 @@ block content
 
                                         label.form-label(for='document')
                                             | दस्तऐवज अपलोड करा
-                                            span.text-danger *
 
-                                        input.form-control(type='file' id='document' name='document' accept='.pdf,.doc,.docx,.jpg,.jpeg,.png' required)
+                                            if !isEdit
+                                                span.text-danger *
+
+                                        input.form-control(type='file' id='document' name='document' accept='.pdf,.doc,.docx,.jpg,.jpeg,.png' required=!isEdit)
 
                                         small.text-muted
                                             | PDF, DOC, DOCX, JPG, PNG फाइल स्वीकारल्या जातील
+
+                                        if isEdit && fundIncomeExpenseDetails.uploaded_document
+
+                                            .mt-2
+
+                                                a.btn.btn-sm.btn-outline-primary(
+                                                    href=`/uploads/docs/funds/docs/${fundIncomeExpenseDetails.uploaded_document}`
+                                                    target='_blank'
+                                                )
+                                                    i.fa.fa-eye.me-1
+                                                    | आधीचे दस्तऐवज पहा
 
 
 
@@ -137,6 +153,8 @@ block content
                             //- =========================================
                             .d-flex.justify-content-end.mt-3
 
-                                button.btn.btn-primary(type='submit' id='save-fund-income-expense-btn')
-                                    i.fa.fa-save.me-1
-                                    | जतन करा
+                                button.btn(type='submit' class=isEdit ? 'btn-success' : 'btn-primary' id='save-fund-income-expense-btn')
+
+                                    i.fa(class=isEdit ? 'fa-edit me-1' : 'fa-save me-1')
+
+                                    | #{isEdit ? 'अपडेट करा' : 'जतन करा'}

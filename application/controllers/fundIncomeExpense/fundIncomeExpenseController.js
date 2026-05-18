@@ -3,6 +3,7 @@ const { UPLOAD_PATHS } = require("../../config/uploadPaths");
 const fundIncomeExpenseModel = require("../../model/fundIncomeExpense/fundIncomeExpenseModel");
 
 const { sendApiResponse } = require("../../utils/apiResponses");
+const AppError = require("../../utils/AppError");
 const asyncHandler = require("../../utils/asyncHandler");
 
 const generateUniqueFileName = require("../../utils/generateFileName");
@@ -23,7 +24,6 @@ const fundIncomeExpenseController = {
 
         let fundIncomeExpenseList =
             await fundIncomeExpenseModel.fetchAll(res.pool)
-
         renderPage(res, 'user/funds-income-expenses/funds-income-expenses-list-page.pug', {
             title: 'Fund Income Expense List',
             fundIncomeExpenseList,
@@ -32,7 +32,7 @@ const fundIncomeExpenseController = {
 
 
     renderFundIncomeExpenseOutsideListPage: asyncHandler(async (req, res) => {
-                let fundIncomeExpenseList =
+        let fundIncomeExpenseList =
             await fundIncomeExpenseModel.fetchAll(res.pool)
 
         renderPage(res, 'user/funds-income-expenses/funds-income-expenses-outside-list-page.pug', {
@@ -80,10 +80,11 @@ const fundIncomeExpenseController = {
                 id
             )
 
-        renderPage(res, '', {
+        renderPage(res, 'user/funds-income-expenses/funds-income-expenses-form-page.pug', {
             title: 'Edit Fund Income Expense',
+            isEdit: true,
             fundIncomeExpenseDetails,
-            images,
+            // images,
         })
     }),
 
@@ -247,13 +248,7 @@ const fundIncomeExpenseController = {
             )
 
         if (oldData.length <= 0) {
-
-            return sendApiResponse(
-                res,
-                404,
-                false,
-                "Record not found"
-            )
+            throw new AppError("Record not found", 404)
         }
 
         oldData = oldData[0]
@@ -269,13 +264,7 @@ const fundIncomeExpenseController = {
             )
 
         if (duplicate.length > 0) {
-
-            return sendApiResponse(
-                res,
-                409,
-                false,
-                "Financial year already exists"
-            )
+            throw new AppError("Financial year already exists", 409)
         }
 
         /* -------------------------------
@@ -335,23 +324,16 @@ const fundIncomeExpenseController = {
 
         let { id } = req.params
 
-        let oldData =
+        let [oldData] =
             await fundIncomeExpenseModel.fetchById(
                 res.pool,
                 id
             )
 
-        if (oldData.length <= 0) {
-
-            return sendApiResponse(
-                res,
-                404,
-                false,
-                "Record not found"
-            )
+        if (!oldData) {
+            throw new AppError("Record not found", 404)
         }
 
-        oldData = oldData[0]
 
         /* -------------------------------
             DELETE DOCUMENT
@@ -525,23 +507,15 @@ const fundIncomeExpenseController = {
 
         let imageData = req.body
 
-        let oldImage =
+        let [oldImage] =
             await fundIncomeExpenseModel.fetchImageById(
                 res.pool,
                 imageData.id
             )
 
-        if (oldImage.length <= 0) {
-
-            return sendApiResponse(
-                res,
-                404,
-                false,
-                "Image not found"
-            )
+        if (!oldImage) {
+            throw new AppError("Image Not found", 404)
         }
-
-        oldImage = oldImage[0]
 
         let image = req.files?.image
 

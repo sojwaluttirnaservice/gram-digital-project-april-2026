@@ -3,6 +3,7 @@ const { UPLOAD_PATHS } = require("../../config/uploadPaths")
 const devWorksModel = require("../../model/devWorks/devWorksModel")
 
 const { sendApiResponse } = require("../../utils/apiResponses")
+const AppError = require("../../utils/AppError")
 const asyncHandler = require("../../utils/asyncHandler")
 
 const generateUniqueFileName = require("../../utils/generateFileName")
@@ -343,23 +344,15 @@ const devWorksController = {
 
         let { id } = req.params
 
-        let oldData =
+        let [oldData] =
             await devWorksModel.fetchById(
                 res.pool,
                 id
             )
 
-        if (oldData.length <= 0) {
-
-            return sendApiResponse(
-                res,
-                404,
-                false,
-                "Record not found"
-            )
+        if (!oldData) {
+            throw new AppError("Record Not Found", 404)
         }
-
-        oldData = oldData[0]
 
         if (oldData.uploaded_document) {
 
@@ -517,23 +510,15 @@ const devWorksController = {
 
         let imageData = req.body
 
-        let oldImage =
+        let [oldImage] =
             await devWorksModel.fetchImageById(
                 res.pool,
                 imageData.id
             )
 
-        if (oldImage.length <= 0) {
-
-            return sendApiResponse(
-                res,
-                404,
-                false,
-                "Image not found"
-            )
+        if (!oldImage) {
+            throw new AppError("Image Not Found", 404)
         }
-
-        oldImage = oldImage[0]
 
         let image = req.files?.image
 

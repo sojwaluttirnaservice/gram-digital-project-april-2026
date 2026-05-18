@@ -88,7 +88,7 @@ devWorksRouter.post(
     devWorksController.saveImage
 )
 
-devWorksRouter.post(
+devWorksRouter.put(
     '/image/update',
     devWorksController.updateImage
 )

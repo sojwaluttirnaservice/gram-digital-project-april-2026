@@ -89,19 +89,19 @@ block content
 
                                         td
 
-                                            div.d-flex.flex-wrap(style='gap:0.5rem;')
+                                            div.d-flex.justify-content-center.flex-wrap(style='gap:0.5rem;')
 
-                                                //- a.btn.btn-sm.btn-primary(href=`/fund-income-expense/edit/${item.id}`)
+                                                a.btn.btn-sm.btn-primary(href=`/fund-income-expenses/edit/${item.id}`)
                                                     i.fa.fa-pencil.me-1
-                                                    | Edit
+                                                    //- | Edit
 
                                                 a.btn.btn-sm.btn-info.text-white(href=`/fund-income-expenses/images/${item.id}`)
                                                     i.fa.fa-image.me-1
-                                                    | Images
+                                                    //- | Images
 
-                                                //- button.btn.btn-sm.btn-danger.delete-btn(type='button' data-id=item.id)
+                                                button.btn.btn-sm.btn-danger.delete-btn(type='button' data-id=item.id)
                                                     i.fa.fa-trash.me-1
-                                                    | Delete
+                                                    //- | Delete
 
                             else
 

@@ -45,12 +45,12 @@ fundIncomeExpenseRouter.get(
 ========================================================= */
 
 fundIncomeExpenseRouter.post(
-    '/save',
+    '/',
     fundIncomeExpenseController.save
 )
 
-fundIncomeExpenseRouter.post(
-    '/update',
+fundIncomeExpenseRouter.put(
+    '/',
     fundIncomeExpenseController.update
 )
 
@@ -86,7 +86,7 @@ fundIncomeExpenseRouter.post(
     fundIncomeExpenseController.saveImage
 )
 
-fundIncomeExpenseRouter.post(
+fundIncomeExpenseRouter.put(
     '/image/update',
     fundIncomeExpenseController.updateImage
 )

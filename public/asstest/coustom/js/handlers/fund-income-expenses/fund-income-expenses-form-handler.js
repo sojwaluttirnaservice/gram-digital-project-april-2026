@@ -19,6 +19,9 @@ $(document).on("submit", "#fund-income-expense-form", async function (e) {
     /* =====================================================
         BASIC VALIDATION
     ===================================================== */
+    let formData = new FormData(
+        document.getElementById("fund-income-expense-form")
+    )
 
     if (!fromYear) {
         return alertjs.warning({
@@ -41,16 +44,12 @@ $(document).on("submit", "#fund-income-expense-form", async function (e) {
         })
     }
 
-    if (!documentFile) {
+    if (!documentFile && !formData.get('id')) {
         return alertjs.warning({
             t: "WARNING",
             m: "कृपया दस्तऐवज निवडा",
         })
     }
-
-    let formData = new FormData(
-        document.getElementById("fund-income-expense-form")
-    )
 
     let $btn = $("#save-fund-income-expense-btn")
 
@@ -66,9 +65,9 @@ async function handleSaveFundIncomeExpense($btn, formData) {
         $btn.prop("disabled", true)
 
         let response = await fetch(
-            "/fund-income-expenses/save",
+            "/fund-income-expenses",
             {
-                method: "POST",
+                method: formData.get('id') ? "PUT" : "POST",
                 body: formData,
             }
         )
@@ -85,7 +84,7 @@ async function handleSaveFundIncomeExpense($btn, formData) {
                     m: message,
                 },
                 () => {
-                    location.reload()
+                    window.open('/fund-income-expenses')
                 },
             )
         }

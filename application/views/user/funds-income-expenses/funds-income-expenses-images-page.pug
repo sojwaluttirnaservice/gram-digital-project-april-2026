@@ -61,6 +61,7 @@ block content
                     .card-body.py-3
 
                         form#fund-income-expense-image-form(method='POST' enctype='multipart/form-data')
+                            input(type='hidden' name='id' id='id')
 
                             input(type='hidden' name='fund_income_exp_id_fk' id='fund_income_exp_id_fk' value=fundIncomeExpenseDetails.id)
 
@@ -100,13 +101,15 @@ block content
                                         input.form-control.form-control-sm(type='file' name='image' id='image' accept='.jpg,.jpeg,.png,.webp' required)
 
 
-
                                 .col-md-2.mb-2
 
                                     button.btn.btn-primary.btn-sm.w-100(type='submit' id='save-fund-income-expense-image-btn')
                                         i.fa.fa-save.me-1
-                                        | अपलोड
+                                        span#submit-btn-text अपलोड
 
+                                    button.btn.btn-secondary.btn-sm.w-100.mt-2.d-none(type='button' id='cancel-edit-btn')
+                                        i.fa.fa-times.me-1
+                                        | Cancel
 
 
                 //- ===================================================
@@ -145,9 +148,14 @@ block content
                                                 p.text-muted.small.mb-2.flex-grow-1(style='font-size:12px;')
                                                     | #{image.desc || '-'}
 
-                                                button.btn.btn-danger.btn-sm.delete-image-btn(type='button' data-id=image.id)
-                                                    i.fa.fa-trash.me-1
-                                                    | Delete
+                                                div
+                                                    div(class='d-flex align-items-center justify-content-center gap-2')
+                                                        button.btn.btn-success.btn-sm.edit-image-btn(type='button' data-imageData=JSON.stringify(image) data-id=image.id)
+                                                            i.fa.fa-edit.me-1
+                                                            | Edit
+                                                        button.btn.btn-danger.btn-sm.delete-image-btn(type='button' data-id=image.id)
+                                                            i.fa.fa-trash.me-1
+                                                            | Delete
 
                         else
 

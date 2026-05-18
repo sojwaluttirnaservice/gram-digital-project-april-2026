@@ -83,6 +83,7 @@ const fundIncomeExpenseModel = {
                 ON pfiedi.fund_income_exp_id_fk = pfied.id
 
             WHERE pfied.id = ?
+            GROUP BY pfied.id
         `
 
         return runQuery(pool, q, [id])
@@ -122,7 +123,8 @@ const fundIncomeExpenseModel = {
             params.push(`%${filters.title}%`)
         }
 
-        q += ` ORDER BY id DESC `
+        q += `  GROUP BY pfied.id
+                ORDER BY id DESC`
 
         return runQuery(pool, q, params)
     },
@@ -217,6 +219,7 @@ const fundIncomeExpenseModel = {
             imageData.uploaded_image,
             imageData.id,
         ]
+        console.log(updateArr)
 
         return runQuery(pool, q, updateArr)
     },
@@ -252,7 +255,7 @@ const fundIncomeExpenseModel = {
         let q = `
             SELECT *,
                 ${fmtDateField('createdAt')},
-                            ${fmtDateField('updatedAt')}
+                ${fmtDateField('updatedAt')}
             FROM ps_fund_income_expense_details_images
             WHERE id = ?
         `
@@ -267,7 +270,7 @@ const fundIncomeExpenseModel = {
         let q = `
             SELECT *,
                 ${fmtDateField('createdAt')},
-                            ${fmtDateField('updatedAt')}
+                ${fmtDateField('updatedAt')}
             FROM ps_fund_income_expense_details_images
             WHERE fund_income_exp_id_fk = ?
             ORDER BY id DESC

@@ -1,133 +1,230 @@
-$(document).on(
-    'submit',
-    '#dev-work-image-form',
-    async function (e) {
+$(() => {
 
-        e.preventDefault()
+    let isEditMode = false
 
-        let form =
-            document.getElementById(
-                'dev-work-image-form'
-            )
+    /* =========================================================
+        SET FORM DATA
+    ========================================================= */
 
-        let formData =
-            new FormData(form)
+    function setFormData(item) {
 
-        let title =
-            formData.get('title')
+        $("#title")
+            .val(item.title || "")
 
-        let image =
-            $('#image')[0]?.files?.[0]
+        $("#desc")
+            .val(item.desc || "")
 
-        let $btn =
-            $('#save-dev-work-image-btn')
+        $("#id")
+            .val(item.id || "")
 
-        /* =========================================
-            VALIDATION
-        ========================================= */
+        $("#submit-btn-text")
+            .text("फोटो अपडेट करा")
 
-        if (!title?.trim()) {
+        $("#cancel-edit-btn")
+            .removeClass("d-none")
 
-            return alertjs.warning({
-                t: "WARNING",
-                m: "Please enter title",
-            })
-        }
+        isEditMode = true
 
-        if (!image) {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        })
+    }
 
-            return alertjs.warning({
-                t: "WARNING",
-                m: "Please select image",
-            })
-        }
 
-        try {
 
-            $btn.prop("disabled", true)
+    /* =========================================================
+        RESET FORM
+    ========================================================= */
 
-            let response =
-                await fetch(
-                    '/dev-works/image/save',
-                    {
-                        method: 'POST',
-                        body: formData,
-                    }
-                )
+    function resetForm() {
 
-            let result =
-                await response.json()
+        document
+            .getElementById("dev-work-image-form")
+            .reset()
 
-            let {
-                success,
-                message,
-            } = result
+        $("#image_id")
+            .val("")
 
-            if (success) {
+        $("#submit-btn-text")
+            .text("फोटो जतन करा")
 
-                alertjs.success(
-                    {
-                        t: "SUCCESS",
-                        m: message,
-                    },
-                    () => {
-                        location.reload()
-                    },
-                )
+        $("#cancel-edit-btn")
+            .addClass("d-none")
+
+        isEditMode = false
+    }
+
+
+
+    /* =========================================================
+        EDIT IMAGE
+    ========================================================= */
+
+    $(document).on(
+        "click",
+        ".edit-dev-work-image-btn",
+        function () {
+
+            let item =
+                $(this).attr("data-devWorkImage")
+
+            try {
+
+                item = JSON.parse(item)
+
+                setFormData(item)
+
             }
-            else {
+            catch (err) {
+
+                console.error(err)
 
                 alertjs.warning({
                     t: "WARNING",
-                    m: message,
+                    m: "Invalid image data",
+                })
+            }
+        }
+    )
+
+
+
+    /* =========================================================
+        CANCEL EDIT
+    ========================================================= */
+
+    $("#cancel-edit-btn").on(
+        "click",
+        function () {
+
+            resetForm()
+        }
+    )
+
+
+
+    /* =========================================================
+        SAVE / UPDATE IMAGE
+    ========================================================= */
+
+    $(document).on(
+        "submit",
+        "#dev-work-image-form",
+        async function (e) {
+
+            e.preventDefault()
+
+            let form =
+                document.getElementById(
+                    "dev-work-image-form"
+                )
+
+            let formData =
+                new FormData(form)
+
+            let title =
+                formData.get("title")
+
+            let image =
+                $("#image")[0]?.files?.[0]
+
+            let $btn =
+                $("#save-dev-work-image-btn")
+
+            /* =========================================
+                VALIDATION
+            ========================================= */
+
+            if (!title?.trim()) {
+
+                return alertjs.warning({
+                    t: "WARNING",
+                    m: "Please enter title",
                 })
             }
 
+            if (!isEditMode && !image) {
+
+                return alertjs.warning({
+                    t: "WARNING",
+                    m: "Please select image",
+                })
+            }
+
+            try {
+
+                $btn.prop("disabled", true)
+
+                let response =
+                    await fetch(
+                        isEditMode
+                            ? "/dev-works/image/update"
+                            : "/dev-works/image/save",
+                        {
+                            method: isEditMode
+                                ? "PUT"
+                                : "POST",
+
+                            body: formData,
+                        }
+                    )
+
+                let result =
+                    await response.json()
+
+                let {
+                    success,
+                    message,
+                } = result
+
+                if (success) {
+
+                    alertjs.success(
+                        {
+                            t: "SUCCESS",
+                            m: message,
+                        },
+                        () => {
+                            location.reload()
+                        },
+                    )
+                }
+                else {
+
+                    alertjs.warning({
+                        t: "WARNING",
+                        m: message,
+                    })
+                }
+
+            }
+            catch (err) {
+
+                console.error("Error:", err)
+
+                alertjs.warning({
+                    t: "ERROR",
+                    m: err?.message,
+                })
+            }
+            finally {
+
+                $btn.prop("disabled", false)
+            }
         }
-        catch (err) {
-
-            console.error("Error:", err)
-
-            alertjs.warning({
-                t: "ERROR",
-                m: err?.message,
-            })
-        }
-        finally {
-
-            $btn.prop("disabled", false)
-        }
-    }
-)
+    )
 
 
 
-$(document).on(
-    'click',
-    '.delete-dev-work-image-btn',
-    async function () {
+    /* =========================================================
+        DELETE IMAGE
+    ========================================================= */
 
-        let id =
-            $(this).data('id')
-
-        let $btn =
-            $(this)
-
-        if (!id) {
-
-            return alertjs.warning({
-                t: "WARNING",
-                m: "Invalid image id",
-            })
-        }
-
-        let confirmDelete =
-            confirm(
-                "Are you sure you want to delete this image?"
-            )
-
-        if (!confirmDelete)
-            return
+    async function handleDelete(
+        $btn,
+        id
+    ) {
 
         try {
 
@@ -137,7 +234,7 @@ $(document).on(
                 await fetch(
                     `/dev-works/image/delete/${id}`,
                     {
-                        method: 'DELETE',
+                        method: "DELETE",
                     }
                 )
 
@@ -184,4 +281,41 @@ $(document).on(
             $btn.prop("disabled", false)
         }
     }
-)
+
+
+
+    $(document).on(
+        "click",
+        ".delete-dev-work-image-btn",
+        function () {
+
+            let id =
+                $(this).data("id")
+
+            let $btn =
+                $(this)
+
+            if (!id) {
+
+                return alertjs.warning({
+                    t: "WARNING",
+                    m: "Invalid image id",
+                })
+            }
+
+            alertjs.deleteSpl(
+                "तुम्हाला ही प्रतिमा हटवायची आहे का?",
+                (status) => {
+
+                    if (status) {
+
+                        handleDelete(
+                            $btn,
+                            id
+                        )
+                    }
+                }
+            )
+        }
+    )
+})
