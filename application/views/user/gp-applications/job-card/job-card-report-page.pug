@@ -177,7 +177,7 @@ script.
         }
 
         function generateQRCode(jobCardId){
-            let qrUrl = window.location.origin + "/job-card/j/" + jobCardId;
+            let qrUrl = window.location.origin + "/gp-applications/job-card/j/" + jobCardId;
             new QRCode(document.getElementById(`qrcode-${jobCardId}`), qrUrl)
         }
     })()
