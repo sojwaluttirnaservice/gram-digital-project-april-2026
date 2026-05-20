@@ -1,0 +1,166 @@
+//- =======================================================
+//- MASTER LAYOUT
+//- =======================================================
+extends ../../include/internal-gp-master-layout.pug
+
+block custom_js
+    script(src='/asstest/coustom/js/handlers/marriage-cert/marriage-cert-unavailability-list-page-handler.js')
+
+block content
+
+    div.container-fluid.mt-4
+
+        //- ===================================================
+        //- HEADER
+        //- ===================================================
+        .row.justify-content-center
+
+            div.col-12.col-xl-11
+
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+
+                        div
+
+                            h4.mb-1
+                                i.fa.fa-building.me-2
+                                | विवाह नोंद अनुपलब्धता प्रमाणपत्र यादी
+
+                                span(style="font-size: 0.9rem;")
+                                    | (एकूण: #{marriageCertUnavailabilityCertificates ? marriageCertUnavailabilityCertificates.length : 0})
+
+                            p.text-muted.mb-0
+                                //- |
+
+                        div.d-flex.flex-wrap(style='gap:0.5rem;')
+                            a.btn.btn-secondary.btn-sm(href="/marriage-cert-unavailability/report")
+                                i.fa.fa-document.me-1
+                                | रिपोर्ट
+
+                            a.btn.btn-primary.btn-sm(href="/marriage-cert-unavailability/form")
+                                i.fa.fa-plus.me-1
+                                | नवीन नोंद करा
+
+            //- ===================================================
+            //- TABLE
+            //- ===================================================
+            .col-12.col-xl-11.mt-4
+
+                .card.shadow-sm
+
+                    .card-body
+
+                        .table-responsive
+
+                            table.table.table-bordered.table-striped.align-middle
+
+                                - let totalCols = 10
+
+                                thead
+
+                                    tr
+                                        th(style='width:70px;') अ. क्र.
+                                        th प्रमाणपत्र क्र.
+                                        th जावक क्र.
+                                        th नाव व आधार
+                                        th पत्ता व संपर्क
+                                        th लिंग
+                                        th तपासणी दिनांक
+                                        th नोंदणी दिनांक
+                                        th दाखला दिनांक
+                                        th(style='width:220px;') कृती
+
+                                tbody
+
+                                    if marriageCertUnavailabilityCertificates && marriageCertUnavailabilityCertificates.length > 0
+
+                                        each item, index in marriageCertUnavailabilityCertificates
+
+                                            tr
+
+                                                td
+                                                    | #{index + 1}
+
+                                                td
+                                                    | #{item.id}
+
+                                                td
+                                                    | #{item.outgoing_no || '-'}
+
+                                                td
+
+                                                    div.fw-bold
+                                                        | #{item.name_m || item.name}
+
+                                                    div.small.text-muted
+                                                        | आधार:
+                                                        | #{item.adhar_m || item.adhar || '-'}
+
+                                                td
+
+                                                    div
+                                                        | #{item.address_m || item.address || '-'}
+
+                                                    div.small.text-muted.mt-1
+                                                        | मोबाईल:
+                                                        | #{item.mobile_m || item.mobile || '-'}
+
+                                                    div.small.text-muted
+                                                        | ता.
+                                                        | #{item.taluka_m || item.taluka || '-'}
+                                                        | ,
+                                                        | जि.
+                                                        | #{item.dist_m || item.dist || '-'}
+
+                                                td
+                                                    | #{item.gender_m || item.gender || '-'}
+
+                                                td
+                                                    | #{item._date_of_checking || '-'}
+
+                                                td
+                                                    | #{item._date_of_registration || '-'}
+
+                                                td
+                                                    | #{item._date_of_issue || '-'}
+
+                                                td
+
+                                                    div.d-flex.justify-content-center(style='gap:0.5rem;')
+
+                                                        a.btn.btn-sm.btn-primary(
+                                                            href=`/marriage-cert-unavailability/edit/${item.id}`
+                                                        )
+
+                                                            i.fa.fa-pencil.me-1
+
+                                                        a.btn.btn-sm.btn-success(
+                                                            href=`/marriage-cert-unavailability/print/${item.id}`
+                                                            target='_blank'
+                                                        )
+
+                                                            i.fa.fa-print.me-1
+
+                                                        button.btn.btn-sm.btn-danger.delete-marriage-cert-unavailability-btn(
+                                                            type='button'
+                                                            data-id=item.id
+                                                        )
+
+                                                            i.fa.fa-trash.me-1
+
+                                    else
+
+                                        tr
+
+                                            td.text-center(colspan=totalCols)
+
+                                                div.py-4
+
+                                                    i.fa.fa-folder-open.fa-2x.text-muted.mb-3
+
+                                                    h6.text-muted.mb-1
+                                                        | कोणतीही नोंद उपलब्ध नाही
+
+                                                    p.text-muted.mb-0
+                                                        | कृपया नवीन प्रमाणपत्र नोंदवा

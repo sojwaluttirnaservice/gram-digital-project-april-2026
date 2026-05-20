@@ -77,6 +77,7 @@ const bankRouter = require("./bank/bankRouter.js");
 const fundIncomeExpenseRouter = require("./fundIncomeExpense/fundIncomeExpenseRouter.js");
 const devWorksRouter = require("./devWorks/devWorksRouter.js");
 const govYojanaRouter = require("./govYojana/govYojanaRouter.js");
+const marriageCertUnavailabilityRouter = require("./certificates/marriageCertUnavailabilityRouter.js");
 const authController = require("../application/controllers/auth/authController.js");
 const dbRouter = require("./db/dbRouter.js");
 
@@ -489,6 +490,7 @@ indexRouter.use("/watertax", watertaxRouter);
 indexRouter.use("/death-certificate", deathCertificateRouter);
 indexRouter.use("/birth-certificate", birthCertificateRouter);
 indexRouter.use("/unavailability-certificate", bdUnavailabilityRouter);
+indexRouter.use('/marriage-cert-unavailability', marriageCertUnavailabilityRouter);
 indexRouter.use('/bpl-certificate', bplCertificateRouter)
 indexRouter.use("/gharkul-yojana", gharkulYojanaRouter)
 

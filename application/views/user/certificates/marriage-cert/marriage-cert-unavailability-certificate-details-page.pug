@@ -1,0 +1,88 @@
+//- =======================================================
+//- OUTSIDE MASTER LAYOUT
+//- =======================================================
+extends ../../include/index-page-master-layout.pug
+
+block internal_css
+
+block content
+
+    section(class='py-8 md:py-14 bg-gradient-to-b from-sky-50 to-green-50 min-h-screen flex items-center')
+
+        div(class='container mx-auto px-4')
+
+            //- ===============================
+            //- CARD WRAPPER
+            //- ===============================
+            div(class='max-w-2xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100')
+
+                //- HEADER
+                div(class='bg-blue-600 text-white px-5 py-4')
+
+                    div(class='flex items-center gap-3')
+
+                        i.fa.fa-qrcode.text-2xl
+
+                        div
+                            h2(class='text-lg md:text-xl font-bold') QR Verification Page
+                            p(class='text-xs md:text-sm text-blue-100') दस्तऐवज पडताळणी प्रणाली
+
+                //- BODY
+                div(class='p-5 md:p-7 space-y-5')
+
+                    //- WARNING BOX
+                    div(class='bg-red-50 border border-red-200 rounded-xl p-4')
+
+                        div(class='flex items-start gap-3')
+
+                            i.fa.fa-exclamation-triangle.text-red-500.mt-1
+
+                            div
+                                h3(class='font-semibold text-red-700') Sensitive Information Notice
+                                p(class='text-sm text-red-600 mt-1 leading-relaxed')
+                                    | या पेजवर काही वैयक्तिक माहिती (उदा. आधार क्रमांक) उपलब्ध असू शकते.
+                                    | कृपया ही माहिती फक्त अधिकृत कारणांसाठीच वापरा.
+
+                    //- CERT STATUS
+                    div(class='bg-green-50 border border-green-200 rounded-xl p-4')
+
+                        div(class='flex items-center gap-3')
+
+                            i.fa.fa-check-circle.text-green-600
+
+                            div
+                                h3(class='font-semibold text-green-700') Document Verified
+                                p(class='text-sm text-green-600')
+                                    | विवाह नोंद नसल्याबाबत प्रमाणपत्र सत्यापित आहे.
+
+                    //- INFO GRID
+                    div(class='grid grid-cols-1 md:grid-cols-2 gap-3 text-sm')
+
+                        div(class='bg-gray-50 p-3 rounded-lg')
+                            span(class='text-gray-500') नाव
+                            div(class='font-semibold text-gray-800') #{marriageCertUnavailability.name_m}
+
+                        div(class='bg-gray-50 p-3 rounded-lg')
+                            span(class='text-gray-500') गाव
+                            div(class='font-semibold text-gray-800') #{gp.gp_name}
+
+                        div(class='bg-gray-50 p-3 rounded-lg')
+                            span(class='text-gray-500') तालुका
+                            div(class='font-semibold text-gray-800') #{gp.gp_taluka}
+
+                        div(class='bg-gray-50 p-3 rounded-lg')
+                            span(class='text-gray-500') जिल्हा
+                            div(class='font-semibold text-gray-800') #{gp.gp_dist}
+
+                    //- QR INFO NOTE
+                    div(class='text-center text-xs text-gray-500 pt-2')
+                        | हा QR कोड ग्रामपंचायत कार्यालयीन पडताळणीसाठी तयार केला आहे.
+
+                //- FOOTER
+                div(class='bg-gray-50 px-5 py-4 border-t flex flex-col md:flex-row justify-between gap-2 text-xs text-gray-500')
+
+                    div
+                        | © ग्रामपंचायत डिजिटल प्रणाली
+
+                    div
+                        | सुरक्षित दस्तऐवज पडताळणी

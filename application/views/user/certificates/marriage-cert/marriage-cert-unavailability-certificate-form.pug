@@ -1,0 +1,374 @@
+extends ../../include/internal-gp-master-layout.pug
+
+block custom_js
+
+    script(src='/asstest/coustom/js/handlers/marriage-cert/marriage-cert-unavailability-form-page-handler.js')
+
+block content
+
+    div.container-fluid.mt-3.mb-4
+
+        .row.justify-content-center
+
+            .col-12.col-xl-9
+
+                form.card.shadow-lg.border-0.rounded-4.overflow-hidden#marriage-cert-unavailability-form
+
+                    if isEdit
+
+                        input(type='hidden' name='id' value=marriageCertUnavailabilityCertificate.id)
+
+                    .card-header.py-3.px-4(class=isEdit ? 'bg-success text-white' : 'bg-primary text-white')
+
+                        .d-flex.align-items-center.justify-content-between.flex-wrap.gap-2
+
+                            h4.mb-0.fw-bold
+
+                                i.fa.fa-file-text.me-2
+
+                                if isEdit
+                                    | विवाह प्रमाणपत्र संपादन
+                                else
+                                    | विवाह नोंद नसल्याबाबत प्रमाणपत्र
+
+                            if isEdit
+
+                                span.text-white.fw-semibold.px-3.py-2
+                                    i.fa.fa-pencil.me-1
+                                    | Edit Mode
+
+                    .card-body.p-4
+
+                        //- =====================================================
+                        //- PERSONAL INFO
+                        //- =====================================================
+
+                        .row.g-3
+
+                            .col-12
+
+                                .border.rounded-3.p-3.bg-light-subtle
+
+                                    h5.text-primary.mb-0.fw-bold
+
+                                        i.fa.fa-user.me-2
+
+                                        | वैयक्तिक माहिती
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | नाव
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control(type='text' name='name' data-target='name_m' placeholder='Name' required value=marriageCertUnavailabilityCertificate.name || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='name_m' placeholder='नाव' required value=marriageCertUnavailabilityCertificate.name_m || '')
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | जावक नंबर
+                                    span.text-danger.ms-1 *
+
+                                input.form-control(type='text' name='outgoing_no' placeholder='जावक नंबर' required value=marriageCertUnavailabilityCertificate.outgoing_no || '')
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | लिंग
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        select.mainText.form-select(name='gender' data-target='gender_m' required)
+
+                                            option(value='') Select
+
+                                            option(value='MALE' selected=marriageCertUnavailabilityCertificate.gender === 'MALE') Male
+
+                                            option(value='FEMALE' selected=marriageCertUnavailabilityCertificate.gender === 'FEMALE') Female
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        select.secText.form-select(name='gender_m' required)
+
+                                            option(value='') निवडा
+
+                                            option(value='पुरुष' selected=marriageCertUnavailabilityCertificate.gender_m === 'पुरुष') पुरुष
+
+                                            option(value='स्त्री' selected=marriageCertUnavailabilityCertificate.gender_m === 'स्त्री') स्त्री
+
+
+
+                        //- =====================================================
+                        //- AADHAR + MOBILE
+                        //- =====================================================
+
+                        .row.g-3.mt-2
+
+                            .col-12
+
+                                .border.rounded-3.p-3.bg-light-subtle
+
+                                    h5.text-primary.mb-0.fw-bold
+
+                                        i.fa.fa-id-card.me-2
+
+                                        | आधार व मोबाईल माहिती
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | आधार नंबर
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control.aadharNo(type='text' name='adhar' data-target='adhar_m' placeholder='Aadhar Number' maxlength='12' required value=marriageCertUnavailabilityCertificate.adhar || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control.aadharNo(type='text' name='adhar_m' placeholder='आधार नंबर' maxlength='12' required value=marriageCertUnavailabilityCertificate.adhar_m || '')
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | मोबाईल नंबर
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control(type='text' name='mobile' data-target='mobile_m' placeholder='Mobile Number' maxlength='10' required value=marriageCertUnavailabilityCertificate.mobile || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='mobile_m' placeholder='मोबाईल नंबर' maxlength='10' required value=marriageCertUnavailabilityCertificate.mobile_m || '')
+
+
+
+                        //- =====================================================
+                        //- ADDRESS
+                        //- =====================================================
+
+                        .row.g-3.mt-2
+
+                            .col-12
+
+                                .border.rounded-3.p-3.bg-light-subtle
+
+                                    h5.text-primary.mb-0.fw-bold
+
+                                        i.fa.fa-map-marker.me-2
+
+                                        | पत्ता माहिती
+
+                            .col-md-6
+
+                                label.form-label.fw-semibold
+                                    | पत्ता
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        textarea.mainText.form-control(name='address' data-target='address_m' rows='3' placeholder='Address' required)= marriageCertUnavailabilityCertificate.address || ''
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        textarea.secText.form-control(name='address_m' rows='3' placeholder='पत्ता' required)= marriageCertUnavailabilityCertificate.address_m || ''
+
+                            .col-md-3
+
+                                label.form-label.fw-semibold
+                                    | तालुका
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control(type='text' name='taluka' data-target='taluka_m' placeholder='Taluka' required value=marriageCertUnavailabilityCertificate.taluka || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='taluka_m' placeholder='तालुका' required value=marriageCertUnavailabilityCertificate.taluka_m || '')
+
+                            .col-md-3
+
+                                label.form-label.fw-semibold
+                                    | जिल्हा
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control(type='text' name='dist' data-target='dist_m' placeholder='District' required value=marriageCertUnavailabilityCertificate.dist || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='dist_m' placeholder='जिल्हा' required value=marriageCertUnavailabilityCertificate.dist_m || '')
+
+
+
+                        //- =====================================================
+                        //- DATES
+                        //- =====================================================
+
+                        .row.g-3.mt-2
+
+                            .col-12
+
+                                .border.rounded-3.p-3.bg-light-subtle
+
+                                    h5.text-primary.mb-0.fw-bold
+
+                                        i.fa.fa-calendar.me-2
+
+                                        | तारीख माहिती
+
+                            .col-md-4
+
+                                label.form-label.fw-semibold
+                                    | तपासणी तारीख
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control.datepicker(type='text' name='date_of_checking' data-target='date_of_checking_m' required value=marriageCertUnavailabilityCertificate._date_of_checking || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='date_of_checking_m' placeholder='१२-०५-२०२६' required value=marriageCertUnavailabilityCertificate.date_of_checking_m || '')
+
+                            .col-md-4
+
+                                label.form-label.fw-semibold
+                                    | नोंद तारीख
+                                    span.text-danger.ms-1 *
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        input.mainText.form-control.datepicker(type='text' name='date_of_registration' data-target='date_of_registration_m' required value=marriageCertUnavailabilityCertificate._date_of_registration || '')
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        input.secText.form-control(type='text' name='date_of_registration_m' placeholder='१२-०५-२०२६' required value=marriageCertUnavailabilityCertificate.date_of_registration_m || '')
+
+                            .col-md-4
+
+                                label.form-label.fw-semibold
+                                    | दाखला तारीख
+
+                                input.mainText.form-control.datepicker(type='text' name='date_of_issue' value=marriageCertUnavailabilityCertificate._date_of_issue || '')
+
+
+
+                        //- =====================================================
+                        //- REMARKS
+                        //- =====================================================
+
+                        .row.g-3.mt-2
+
+                            .col-12
+
+                                .border.rounded-3.p-3.bg-light-subtle
+
+                                    h5.text-primary.mb-0.fw-bold
+
+                                        i.fa.fa-comment.me-2
+
+                                        | इतर माहिती
+
+                            .col-12
+
+                                label.form-label.fw-semibold
+                                    | शेरा
+
+                                .row.g-2
+
+                                    .col-12
+
+                                        small.text-muted English
+
+                                        textarea.mainText.form-control(name='remarks' data-target='remarks_m' rows='3' placeholder='Remarks')= marriageCertUnavailabilityCertificate.remarks || ''
+
+                                    .col-12
+
+                                        small.text-muted मराठी
+
+                                        textarea.secText.form-control(name='remarks_m' rows='3' placeholder='शेरा')= marriageCertUnavailabilityCertificate.remarks_m || ''
+
+
+
+                    .card-footer.bg-white.py-3.px-4.border-0
+
+                        .d-flex.justify-content-end.gap-2
+
+                            button.btn.btn-sm.px-4.py-2(type='button' id='save-marriage-cert-form-btn' class=isEdit ? 'btn-success' : 'btn-primary')
+
+                                if isEdit
+
+                                    i.fa.fa-edit.me-1
+
+                                    | अपडेट करा
+
+                                else
+
+                                    i.fa.fa-save.me-1
+
+                                    | सेव्ह करा

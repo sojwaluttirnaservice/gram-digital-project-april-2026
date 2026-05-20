@@ -243,6 +243,7 @@ const ps_fund_income_expense_details = require("../application/Migration Scripts
 const ps_fund_income_expense_details_images = require("../application/Migration Scripts/fundIncomeExpense/ps_fund_income_expense_details_images");
 const ps_dev_works = require("../application/Migration Scripts/devWorks/ps_dev_works");
 const ps_dev_works_images = require("../application/Migration Scripts/devWorks/ps_dev_works_images");
+const ps_marriage_cert_unavailability_certificates = require("../application/Migration Scripts/ps_marriage_cert_unavailability_certificates");
 
 
 

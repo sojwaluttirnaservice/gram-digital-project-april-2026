@@ -1,36 +1,29 @@
+const fmtDateField = require("../../utils/fmtDateField");
+const { runQuery } = require("../../utils/runQuery");
+
 const unavailabilityCertificateModel = {
   getList: (pool) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
-                  IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
-                  IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
-                  IFNULL(DATE_FORMAT(created_on, '%d-%m-%Y'), "") AS _created_on,
-                  IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
+    const q = `SELECT *,
+                  ${fmtDateField("date_of_registration")},
+                  ${fmtDateField("date_of_issue")},
+                  ${fmtDateField("created_on")},
+                  ${fmtDateField("updated_on")}
             FROM ps_birth_death_certificate_unavailability_certificates`;
-
-      pool.query(q, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q);
   },
 
   getCertificate: (pool, id) => {
-    return new Promise((resolve, reject) => {
-      const q = `SELECT *,
-                  IFNULL(DATE_FORMAT(date_of_registration, '%d-%m-%Y'), "") AS _date_of_registration,
-                  IFNULL(DATE_FORMAT(date_of_issue, '%d-%m-%Y'), "") AS _date_of_issue,
-                  IFNULL(DATE_FORMAT(created_on, '%d-%m-%Y'), "") AS _created_on,
-                  IFNULL(DATE_FORMAT(updated_on, '%d-%m-%Y'), "") AS _updated_on
-            FROM ps_birth_death_certificate_unavailability_certificates WHERE id = ${id}`;
+    const q = `SELECT *,
+                  ${fmtDateField("date_of_registration")},
+                  ${fmtDateField("date_of_issue")},
+                  ${fmtDateField("created_on")},
+                  ${fmtDateField("updated_on")}
+            FROM ps_birth_death_certificate_unavailability_certificates WHERE id = ?`;
 
-      pool.query(q, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [+id]);
   },
   addCertificate: (pool, data) => {
-    return new Promise((resolve, reject) => {
-      const q = `
+    const q = `
       INSERT INTO ps_birth_death_certificate_unavailability_certificates (
         name, 
         name_m, 
@@ -54,40 +47,33 @@ const unavailabilityCertificateModel = {
       ) 
       VALUES (?)
     `;
+    const insertData = [
+      data.name || "",
+      data.name_m || "",
+      data.gender || "",
+      data.gender_m || "",
 
-      console.log(data);
+      data.name_of_parent_or_spouse || "",
+      data.name_of_parent_or_spouse_m || "",
+      data.year_range || "",
+      data.year_range_m || "",
 
-      const insertData = [
-        data.name || "",
-        data.name_m || "",
-        data.gender || "",
-        data.gender_m || "",
+      data.relation_to_parent_or_spouse || "",
+      data.relation_to_parent_or_spouse_m || "",
+      data.certificate_not_found_for || "",
+      data.certificate_not_found_for_m || "",
 
-        data.name_of_parent_or_spouse || "",
-        data.name_of_parent_or_spouse_m || "",
-        data.year_range || "",
-        data.year_range_m || "",
+      data.date_of_registration || "",
+      data.date_of_registration_m || "",
+      data.remarks || "",
+      data.date_of_issue || "",
+    ];
 
-        data.relation_to_parent_or_spouse || "",
-        data.relation_to_parent_or_spouse_m || "",
-        data.certificate_not_found_for || "",
-        data.certificate_not_found_for_m || "",
-
-        data.date_of_registration || "",
-        data.date_of_registration_m || "",
-        data.remarks || "",
-        data.date_of_issue || "",
-      ];
-
-      pool.query(q, [insertData], (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    return runQuery(pool, q, [insertData]);
   },
 
   updateCertificate: (pool, data) => {
-    return new Promise((resolve, reject) => {
-      const q = `
+    const q = `
         UPDATE ps_birth_death_certificate_unavailability_certificates
         SET
           name = ?,
@@ -110,43 +96,35 @@ const unavailabilityCertificateModel = {
         WHERE id = ?
       `;
 
-      const updateData = [
-        data.name || "",
-        data.name_m || "",
-        data.gender || "",
-        data.gender_m || "",
+    const updateData = [
+      data.name || "",
+      data.name_m || "",
+      data.gender || "",
+      data.gender_m || "",
 
-        data.name_of_parent_or_spouse || "",
-        data.name_of_parent_or_spouse_m || "",
-        data.year_range || "",
-        data.year_range_m || "",
+      data.name_of_parent_or_spouse || "",
+      data.name_of_parent_or_spouse_m || "",
+      data.year_range || "",
+      data.year_range_m || "",
 
-        data.relation_to_parent_or_spouse || "",
-        data.relation_to_parent_or_spouse_m || "",
-        data.certificate_not_found_for || "",
-        data.certificate_not_found_for_m || "",
+      data.relation_to_parent_or_spouse || "",
+      data.relation_to_parent_or_spouse_m || "",
+      data.certificate_not_found_for || "",
+      data.certificate_not_found_for_m || "",
 
-        data.date_of_registration || "",
-        data.date_of_registration_m || "",
-        data.remarks || "",
-        data.date_of_issue || "",
+      data.date_of_registration || "",
+      data.date_of_registration_m || "",
+      data.remarks || "",
+      data.date_of_issue || "",
 
-        data.id, // Assuming `data.id` contains the ID of the record to be updated
-      ];
-
-      pool.query(q, updateData, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+      data.id, // Assuming `data.id` contains the ID of the record to be updated
+    ];
+    return runQuery(pool, q, updateData);
   },
 
   deleteCertificate: (pool, id) => {
-    return new Promise((resolve, reject) => {
-      const q = `DELETE FROM ps_birth_death_certificate_unavailability_certificates WHERE id = ${id}`;
-      pool.query(q, (err, result) => {
-        err ? reject(err) : resolve(result);
-      });
-    });
+    const q = `DELETE FROM ps_birth_death_certificate_unavailability_certificates WHERE id = ?`;
+    return runQuery(pool, q, [+id]);
   },
 };
 

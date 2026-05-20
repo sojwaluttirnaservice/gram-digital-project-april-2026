@@ -1,0 +1,229 @@
+extends ../../include/print-page-tailwind-layout.pug
+
+
+block custom_css
+    style.
+        @media print {
+            @page {
+                size: landscape;
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            padding: 0.3rem;
+            border: 1px solid oklch(26.2% 0.051 172.552);
+            vertical-align: top;
+            font-size: 0.8rem;
+        }
+
+
+block content
+    body.tiro-devanagari-marathi-regular
+
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+        div.hide-print
+
+            div(class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col items-end gap-2 mr-3 z-50")
+
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded" onclick="window.print()")
+                    | Print
+
+                div(class="flex flex-col gap-2 w-56")
+
+                    select#report-type(class="shadow border border-gray-300 rounded px-3 py-2 bg-white")
+                        - let isMonthYear = (month && year)
+                        - let isFY = (fromYear && toYear)
+
+                        option(value='' selected=(!isMonthYear && !isFY)) रिपोर्ट प्रकार निवडा
+                        option(value='monthYear' selected=isMonthYear) महिना व वर्षानुसार
+                        option(value='financialYear' selected=isFY) आर्थिक वर्षानुसार
+
+
+                    // MONTH + YEAR
+                    div#month-year-inputs(style=`display:${isMonthYear ? 'flex' : 'none'};` class="gap-2")
+
+                        select#report-month(class="shadow border border-gray-300 rounded px-2 py-2 bg-white")
+                            - for(let i=1;i<=12;i++)
+                                option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                        input#report-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(year) placeholder='Year')
+
+
+                    // FINANCIAL YEAR
+                    div#financial-year-inputs(style=`display:${isFY ? 'flex' : 'none'};` class="gap-2")
+
+                        input#from-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(fromYear) placeholder='From Year')
+
+                        input#to-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(toYear) placeholder='To Year')
+
+
+                    button#generate-report(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded")
+                        | रिपोर्ट तयार करा
+
+
+        // =========================================================
+        // REPORT TABLE
+        // =========================================================
+
+        div.my-print
+
+            table(class="text-sm w-full border border-black")
+
+                thead
+
+                    tr(class="bg-gray-100")
+
+                        th(colspan="10" class="py-3")
+
+                            div(class="text-center font-bold text-lg text-blue-800")
+                                | विवाह नोंद नसल्याबाबत प्रमाणपत्र रजिस्टर
+
+                            div(class="text-center text-sm font-semibold mt-1")
+                                | ग्रामपंचायत #{gp.gp_name}, ता. #{gp.gp_taluka}, जि. #{gp.gp_dist}
+
+                            div(class="text-center text-xs mt-1")
+
+                                if month && year
+                                    | माहे #{getMonthName(month)} वर्ष #{year}
+
+                                else if fromYear && toYear
+                                    | सन #{fromYear} ते #{toYear}
+
+
+                    tr(class="bg-blue-50 text-xs uppercase")
+
+                        th(class="p-2 w-[4%]") अ.क्र
+
+                        th(class="p-2 w-[12%]") नाव
+
+                        th(class="p-2 w-[6%]") लिंग
+
+                        th(class="p-2 w-[10%]") आधार नं.
+
+                        th(class="p-2 w-[16%]") पत्ता
+
+                        th(class="p-2 w-[10%]") जावक नं.
+
+                        th(class="p-2 w-[10%]") तपासणी दिनांक
+
+                        th(class="p-2 w-[10%]") नोंद दिनांक
+
+                        th(class="p-2 w-[12%]") शेरा
+
+                        th(class="p-2 w-[10%]") QR
+
+
+                tbody
+
+                    each item, index in marriageCertUnavailabilityCertificates
+                        div(class='mentioned-qr-target-tag' style='display: none;' data-target=`qr-code-container-${index}` data-targetUrl=`/marriage-cert-unavailability/c/${item.id}` data-size='80')
+
+                        tr(class="hover:bg-gray-50")
+
+                            td(class="p-2 text-center") #{index + 1}
+
+                            td(class="p-2 font-semibold")
+                                | #{item.name_m || item.name}
+
+                            td(class="p-2 text-center")
+                                | #{item.gender_m}
+
+                            td(class="p-2 text-center")
+                                | #{item.adhar || '-'}
+
+                            td(class="p-2")
+                                | #{item.address_m}
+
+                            td(class="p-2 text-center")
+                                | #{item.outgoing_no || '-'}
+
+                            td(class="p-2 text-center")
+                                | #{item._date_of_checking || '-'}
+
+                            td(class="p-2 text-center")
+                                | #{item._date_of_registration || '-'}
+
+                            td(class="p-2 text-center")
+                                | #{item.remarks_m || '-'}
+
+                            td(class="p-2 text-center")
+
+                                div(id=`qr-code-container-${index}` class=' border rounded-md flex items-center justify-center text-xs text-blue-900 font-semibold bg-white')
+    
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type")
+
+            const monthYearInputs = document.getElementById("month-year-inputs")
+            const financialYearInputs = document.getElementById("financial-year-inputs")
+
+            const month = document.getElementById("report-month")
+            const year = document.getElementById("report-year")
+
+            const fromYear = document.getElementById("from-year")
+            const toYear = document.getElementById("to-year")
+
+            const btn = document.getElementById("generate-report")
+
+
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex"
+                    financialYearInputs.style.display = "none"
+
+                } else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex"
+                    monthYearInputs.style.display = "none"
+
+                } else {
+
+                    monthYearInputs.style.display = "none"
+                    financialYearInputs.style.display = "none"
+                }
+            })
+
+
+            btn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href)
+                const params = url.searchParams
+
+                if (reportType.value === "monthYear") {
+
+                    params.set("month", month.value)
+                    params.set("year", year.value)
+
+                    params.delete("fromYear")
+                    params.delete("toYear")
+
+                } else if (reportType.value === "financialYear") {
+
+                    params.set("fromYear", fromYear.value)
+                    params.set("toYear", toYear.value)
+
+                    params.delete("month")
+                    params.delete("year")
+
+                } else {
+
+                    params.delete("month")
+                    params.delete("year")
+                    params.delete("fromYear")
+                    params.delete("toYear")
+                }
+
+                window.location.href = url.toString()
+            })
+
+        })
