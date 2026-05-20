@@ -23,6 +23,7 @@ const marriageCertUnavailabilityController = {
     renderPage(
       res,
       "user/certificates/marriage-cert/marriage-cert-unavailability-certificate-form.pug",
+      {marriageCertUnavailabilityCertificate: {}}
     );
   }),
 
