@@ -36,178 +36,180 @@ block content
                 button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded" onclick="window.print()")
                     | Print
 
+        if !marriageCertUnavailability
+            div प्रमाणपत्र मिळाले नाही. पुन्हा प्रयत्न करा.
+        else
+            div(class='w-[210mm] h-[297mm] border-2 border-black')
 
-        div(class='w-[210mm] h-[297mm] border-2 border-black')
+                .my-print
 
-            .my-print
+                    div(class="relative")
 
-                div(class="relative")
-
-                    img#watermark.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="absolute opacity-30 w-[85%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square")
-
-
-
-                    //- ==================================================
-                    //- MARATHI CERTIFICATE
-                    //- ==================================================
-
-                    #marathi-certificate
-
-                        div(class='pt-3')
-
-                            h1(class="text-center text-3xl font-bold tracking-wide")
-                                | ग्रामपंचायत कार्यालय
-
-                            h3(class="text-center text-2xl font-semibold mt-2")
-                                | ग्रामपंचायत #{gp.gp_name}
-
-                            h5(class="text-center text-xl mt-1")
-                                | ता. #{gp.gp_taluka} जि. #{gp.gp_dist}
+                        img#watermark.waterMark(src="/img/water-mark-images/Seal_of_Maharashtra.png" class="absolute opacity-30 w-[85%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square")
 
 
 
-                        div(class="mt-8 px-8")
+                        //- ==================================================
+                        //- MARATHI CERTIFICATE
+                        //- ==================================================
 
-                            div(class="grid grid-cols-2 text-lg")
+                        #marathi-certificate
 
-                                div
+                            div(class='pt-3')
 
-                                    span(class="font-semibold")
-                                        | जावक क्र. :
+                                h1(class="text-center text-3xl font-bold tracking-wide")
+                                    | ग्रामपंचायत कार्यालय
 
-                                    span
-                                        | #{marriageCertUnavailability.outgoing_no || '________________'}
+                                h3(class="text-center text-2xl font-semibold mt-2")
+                                    | ग्रामपंचायत #{gp.gp_name}
 
-                                div(class="text-end")
-
-                                    span(class="font-semibold")
-                                        | दिनांक :
-
-                                    span
-                                        | #{marriageCertUnavailability.date_of_issue_m || marriageCertUnavailability._date_of_issue || '________________'}
+                                h5(class="text-center text-xl mt-1")
+                                    | ता. #{gp.gp_taluka} जि. #{gp.gp_dist}
 
 
 
-                            div(class="text-center mt-8")
+                            div(class="mt-8 px-8")
 
-                                div(class="inline-block border-4 border-blue-800 px-10 py-2 text-3xl font-extrabold tracking-widest rounded-sm")
-                                    | प्रमाणपत्र
-
-
-
-                            div(class="mt-8")
-
-                                p(class="text-center text-2xl font-bold text-rose-800 underline underline-offset-4")
-                                    | विषय : विवाह नोंद नसल्याबाबत प्रमाणपत्र देणे बाबत.
-
-
-
-                            div#cert-body(class="mt-8 px-4 text-black")
-
-                                p(class="text-xl leading-[2.3rem] text-justify tracking-wide")
-
-                                    span(class='inline-block ml-8')
-                                        | हे प्रमाणित करण्यात येते की,
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.gender == 'MALE' ? ' श्री. ' : ' श्रीमती. '} 
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.name_m} 
-
-                                    | रा. 
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.address_m} 
-
-                                    | ता. 
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.taluka_m || marriageCertUnavailability.taluka} 
-
-                                    | जि.
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.dist_m || marriageCertUnavailability.dist} 
-
-                                    | यांचे नाव ग्रामपंचायत कार्यालयातील विवाह नोंदवहीमध्ये दिनांक 
-
-                                    span(class="font-bold")
-                                        | #{marriageCertUnavailability.date_of_checking_m || marriageCertUnavailability._date_of_checking || '____________'} 
-
-                                    | रोजी तपासण्यात आले असता त्यांच्या विवाहाची कोणतीही नोंद उपलब्ध नाही.
-
-
-
-                                p(class="text-xl leading-[2.3rem] text-justify tracking-wide mt-2")
-
-                                    span(class='inline-block ml-8') त्यामुळे सदर व्यक्तीचे 
-
-                                    span(class="font-bold ml-1") “विवाह नोंद नसल्याबाबतचे प्रमाणपत्र” 
-
-                                    span त्यांना आवश्यक कामकाजासाठी देण्यात येत आहे.
-
-
-
-                                p(class="text-xl text-justify tracking-wide mt-2")
-
-                                    span(class='inline-block ml-8')
-                                        | हे प्रमाणपत्र त्यांच्या मागणीनुसार ग्रामपंचायत कार्यालयाकडून देण्यात येत आहे.
-
-
-                            div(class="flex justify-between items-end mt-20 px-10 text-xl")
-
-                                //- LEFT SIDE
-                                div(class="flex flex-col gap-3")
+                                div(class="grid grid-cols-2 text-lg")
 
                                     div
+
+                                        span(class="font-semibold")
+                                            | जावक क्र. :
+
+                                        span
+                                            | #{marriageCertUnavailability.outgoing_no || '________________'}
+
+                                    div(class="text-end")
 
                                         span(class="font-semibold")
                                             | दिनांक :
 
                                         span
-                                            | #{marriageCertUnavailability.date_of_issue_m || marriageCertUnavailability._date_of_issue || '____________'}
-
-                                    div
-
-                                        span(class="font-semibold")
-                                            | ठिकाण :
-
-                                        span
-                                            | #{gp.gp_name}
+                                            | #{marriageCertUnavailability.date_of_issue_m || marriageCertUnavailability._date_of_issue || '________________'}
 
 
 
-                                //- CENTER QR
-                                div(class="flex flex-col items-center")
+                                div(class="text-center mt-8")
 
-                                    div(id='qr-code-container' class='border border-gray-400 rounded-md flex items-center justify-center bg-white p-1' style='width:120px; height:120px;')
-
-                                        | QR Code
-
-                                    div(class='text-sm mt-1')
-                                        | Scan Here
+                                    div(class="inline-block border-4 border-blue-800 px-10 py-2 text-3xl font-extrabold tracking-widest rounded-sm")
+                                        | प्रमाणपत्र
 
 
 
-                                //- RIGHT SIDE SIGN
-                                div(class="flex flex-col items-center")
+                                div(class="mt-8")
 
-                                    img(src="/print/gs.jpeg" width="160" height="60" class=(gp.gramsevak_sign_display == 1 ? 'opacity-100' : 'opacity-0'))
-                                        
+                                    p(class="text-center text-2xl font-bold text-rose-800 underline underline-offset-4")
+                                        | विषय : विवाह नोंद नसल्याबाबत प्रमाणपत्र देणे बाबत.
 
-                                    div(class="font-bold mt-2")
-                                        | ग्रामसेवक / सचिव
 
-                                    div
-                                        | ग्रामपंचायत #{gp.gp_name}
 
-                                    div
-                                        | ता. #{gp.gp_taluka}
+                                div#cert-body(class="mt-8 px-4 text-black")
 
-                                    div
-                                        | जि. #{gp.gp_dist}
+                                    p(class="text-xl leading-[2.3rem] text-justify tracking-wide")
 
-                                    div(class="mt-2 text-sm")
-                                        | (स्वाक्षरी व शिक्का)
+                                        span(class='inline-block ml-8')
+                                            | हे प्रमाणित करण्यात येते की,
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.gender == 'MALE' ? ' श्री. ' : ' श्रीमती. '} 
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.name_m} 
+
+                                        | रा. 
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.address_m} 
+
+                                        | ता. 
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.taluka_m || marriageCertUnavailability.taluka} 
+
+                                        | जि.
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.dist_m || marriageCertUnavailability.dist} 
+
+                                        | यांचे नाव ग्रामपंचायत कार्यालयातील विवाह नोंदवहीमध्ये दिनांक 
+
+                                        span(class="font-bold")
+                                            | #{marriageCertUnavailability.date_of_checking_m || marriageCertUnavailability._date_of_checking || '____________'} 
+
+                                        | रोजी तपासण्यात आले असता त्यांच्या विवाहाची कोणतीही नोंद उपलब्ध नाही.
+
+
+
+                                    p(class="text-xl leading-[2.3rem] text-justify tracking-wide mt-2")
+
+                                        span(class='inline-block ml-8') त्यामुळे सदर व्यक्तीचे 
+
+                                        span(class="font-bold ml-1") “विवाह नोंद नसल्याबाबतचे प्रमाणपत्र” 
+
+                                        span त्यांना आवश्यक कामकाजासाठी देण्यात येत आहे.
+
+
+
+                                    p(class="text-xl text-justify tracking-wide mt-2")
+
+                                        span(class='inline-block ml-8')
+                                            | हे प्रमाणपत्र त्यांच्या मागणीनुसार ग्रामपंचायत कार्यालयाकडून देण्यात येत आहे.
+
+
+                                div(class="flex justify-between items-end mt-20 px-10 text-xl")
+
+                                    //- LEFT SIDE
+                                    div(class="flex flex-col gap-3")
+
+                                        div
+
+                                            span(class="font-semibold")
+                                                | दिनांक :
+
+                                            span
+                                                | #{marriageCertUnavailability.date_of_issue_m || marriageCertUnavailability._date_of_issue || '____________'}
+
+                                        div
+
+                                            span(class="font-semibold")
+                                                | ठिकाण :
+
+                                            span
+                                                | #{gp.gp_name}
+
+
+
+                                    //- CENTER QR
+                                    div(class="flex flex-col items-center")
+
+                                        div(id='qr-code-container' class='border border-gray-400 rounded-md flex items-center justify-center bg-white p-1' style='width:120px; height:120px;')
+
+                                            | QR Code
+
+                                        div(class='text-sm mt-1')
+                                            | Scan Here
+
+
+
+                                    //- RIGHT SIDE SIGN
+                                    div(class="flex flex-col items-center")
+
+                                        img(src="/print/gs.jpeg" width="160" height="60" class=(gp.gramsevak_sign_display == 1 ? 'opacity-100' : 'opacity-0'))
+                                            
+
+                                        div(class="font-bold mt-2")
+                                            | ग्रामसेवक / सचिव
+
+                                        div
+                                            | ग्रामपंचायत #{gp.gp_name}
+
+                                        div
+                                            | ता. #{gp.gp_taluka}
+
+                                        div
+                                            | जि. #{gp.gp_dist}
+
+                                        div(class="mt-2 text-sm")
+                                            | (स्वाक्षरी व शिक्का)
 
