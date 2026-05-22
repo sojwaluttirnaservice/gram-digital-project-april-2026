@@ -87,6 +87,10 @@ printRouter.get(
 	'/card-print',
 	FromPrintController.cardPrint
 )
+printRouter.get(
+    '/card-print-new',
+    FromPrintController.cardPrintNew
+)
 
 printRouter.get(
 	'/form-9-samanya/:year1/:year2',

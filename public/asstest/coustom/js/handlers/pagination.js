@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentUrl = window.location.href;
   const baseUrl = currentUrl.split("?")[0];
 
+  let propertyType = searchParams.get('property_type') || ''
+
   // Assume totalRecords is already defined or coming from a global scope
   const totalPages = Math.ceil(Number(totalRecords) / totalPrint);
 
@@ -89,6 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof printFormat !== "undefined" && printFormat !== null) {
         queryParams.append("printFormat", printFormat);
       }
+
+      if(typeof propertyType !== 'undefined' && propertyType !== null){
+        queryParams.append('property_type', propertyType)
+      }  
 
       window.open(`${baseUrl}?${queryParams.toString()}`, "_self");
     }

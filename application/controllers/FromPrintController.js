@@ -962,18 +962,39 @@ let FromPrintController = {
     // /**
 
     cardPrint: asyncHandler(async (req, res) => {
-        let { p, tp } = req.query;
+        let filters = req.query;
+        let { p, tp, property_type} = req.query;
 
         // these are hard coded values as of now but later will be dynamic
         let y1 = 2022;
         let y2 = 2023;
 
-        let userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p);
-        let [{totalUsers}] = await FormEightModel.getForm8UserCount(res.pool)
+        let userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p, { property_type });
+        let [{totalUsers}] = await FormEightModel.getForm8UserCount(res.pool, { property_type })
         renderPage(res, 'user/print/pageCard', {
             userData,
             userDataString: JSON.stringify(userData),
-            totalRecords: totalUsers
+            totalRecords: totalUsers,
+            property_type
+        })
+    }),
+    // same function as above, but with diffrent ui cardPrint
+    cardPrintNew: asyncHandler(async (req, res) => {
+        let filters = req.query;
+        let { p, tp, property_type='' } = filters;
+
+        // these are hard coded values as of now but later will be dynamic
+        let y1 = 2022;
+        let y2 = 2023;
+
+        let userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p, { property_type });
+        let [{totalUsers}] = await FormEightModel.getForm8UserCount(res.pool, { property_type   })
+        renderPage(res, 'user/print/pageCardNew', {
+            title: 'नमुना ८ QR',
+            userData,
+            userDataString: JSON.stringify(userData),
+            totalRecords: totalUsers,
+            property_type
         })
     }),
 

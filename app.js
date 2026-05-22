@@ -125,6 +125,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.endpoint = req.originalUrl; // only `/something`
   res.locals.fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+  res.locals.hostUrl = req.protocol + "://" + req.get("host");
   next();
 });
 

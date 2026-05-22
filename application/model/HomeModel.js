@@ -1877,8 +1877,77 @@ let HomeModel = {
         return runQuery(pool, q)
     },
 
-    getForm8UserCount: (pool) =>{
-        let q = `SELECT COUNT(DISTINCT eight_user.id) as totalUsers
+    getForm8UserCount: (pool, filters={}) =>{
+        let {property_type} = filters;
+        let where = [];
+
+        /*
+        open_plot
+        nivasi
+        audhyogik
+        vanijya
+        */
+
+        if (property_type === "open_plot") {
+
+            where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        COUNT(*) > 0
+                        AND SUM(fet_prop_desc NOT IN (5,6)) = 0
+                )
+            `);
+
+        } else if (property_type === "nivasi") {
+
+            where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc = 1) > 0
+                        AND SUM(fet_prop_desc NOT IN (1,5,6)) = 0
+                )
+            `);
+
+        } else if (property_type === "audhyogik") {
+
+            where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc = 3) > 0
+                        AND SUM(fet_prop_desc NOT IN (3,5,6)) = 0
+                )
+            `);
+
+        } else if (property_type === "vanijya") {
+
+            where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc IN (2,4)) > 0
+                        AND SUM(fet_prop_desc NOT IN (2,4,5,6)) = 0
+                )
+            `);
+
+        }
+
+        let whereClause = where.length
+            ? `WHERE ${where.join(" AND ")}`
+            : "";
+
+
+        let originalQuery = `SELECT COUNT(DISTINCT eight_user.id) as totalUsers
                     FROM ps_form_eight_user AS eight_user
                         INNER JOIN ps_gharkul_yojna AS gharkul_yojna 
                     ON eight_user.feu_gharkulYojna = gharkul_yojna.id
@@ -1887,7 +1956,24 @@ let HomeModel = {
                         LEFT JOIN ps_form_eight_taxation
                     ON eight_user.id = ps_form_eight_taxation.user_id;
                     `
-        return runQuery(pool, q)
+            let filterSupportQuery = 
+            `
+            SELECT COUNT(DISTINCT eight_user.id) AS totalUsers
+
+            FROM ps_form_eight_user AS eight_user
+
+            INNER JOIN ps_gharkul_yojna AS gharkul_yojna 
+                ON eight_user.feu_gharkulYojna = gharkul_yojna.id
+
+            LEFT JOIN ps_ferfar AS ferfar 
+                ON eight_user.id = ferfar.user_id
+
+            LEFT JOIN ps_form_eight_taxation
+                ON eight_user.id = ps_form_eight_taxation.user_id
+
+            ${whereClause}
+        `;
+        return runQuery(pool, filterSupportQuery)
     },
 	printGetFromEightTaxTotalData: function (pool) {
 		return new Promise((resolve, reject) => {

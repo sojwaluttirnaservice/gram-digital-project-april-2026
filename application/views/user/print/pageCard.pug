@@ -125,6 +125,14 @@ html
             div(style="position: fixed; top: 45%; right: 2%; display: flex; flex-direction: column; gap: 0.5rem; z-index: 50;")
                 button(style='background:blue;color:white; padding:0.5rem 1rem; border:0;' onclick='window.print()') Print
 
+                - const propertyTypes = [{ label: 'सर्व', value: '' }, { label: 'खुली/जागा प्लॉट', value: 'open_plot' }, { label: 'निवासी', value: 'nivasi' }, { label: 'औद्योगिक', value: 'audhyogik' }, { label: 'वाणिज्य/मनोरा', value: 'vanijya' }];
+                select(id="propertyType")
+                    each propertyType in propertyTypes
+                        - let isSelected = (property_type == propertyType.value)
+                        option(value=propertyType.value selected=isSelected) #{propertyType.label} #{isSelected ? `(एकूण ${totalRecords})` : ''}
+
+
+
             div(style='position: fixed; right: 2rem; top: 3rem')
                 label.form-label सन वर्ष येथे टाका 
                 input#year-input.form-control(placeholder="येथे वर्ष टाका")
@@ -181,6 +189,21 @@ html
 
         script.
             (function() {
+
+                document.getElementById('propertyType').addEventListener('change', function () {
+                    const value = this.value;
+
+                    const url = new URL(window.location.href);
+
+                    if (value) {
+                        url.searchParams.set('property_type', value);
+                    } else {
+                        url.searchParams.delete('property_type');
+                    }
+
+                    window.location.href = url.toString();
+                });
+                
                 var data = !{userDataString};
                 if(data){
                     data.forEach(function(userData, index) {
