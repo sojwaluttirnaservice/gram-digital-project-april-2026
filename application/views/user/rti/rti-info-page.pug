@@ -18,8 +18,11 @@ block content
                 // Tabs
                 div(class='w-full')
                     div(class='flex flex-wrap gap-2 border-b mb-6')
-                        button(class='tab-btn px-4 py-2 rounded-t-lg border-b-2 font-medium transition-all duration-200 border-blue-600 text-blue-600 bg-blue-50' data-tab='1') समग्र माहिती
-                        button(class='tab-btn px-4 py-2 rounded-t-lg border-b-2 font-medium transition-all duration-200 border-transparent text-gray-600 hover:bg-gray-100' data-tab='2') अर्ज नमुने व कायदा
+                        -let btnClassName = 'tab-btn px-4 py-2 rounded-t-lg border-b-2 font-medium transition-all duration-200 border-blue-600 text-blue-600 bg-blue-50' 
+                        button(class=btnClassName data-tab='1') समग्र माहिती
+                        button(class=btnClassName data-tab='2') अर्ज नमुने व कायदा
+                        button(class=btnClassName data-tab='3') कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्दे
+                        button(class=btnClassName data-tab='4') कलम 4(1)(ब) अंतर्गत स्पष्टीकरण
 
                     // Tab Contents
                     div
@@ -308,7 +311,299 @@ block content
                                         h3(class='font-medium text-blue-700') #{_index + 1}.  #{rtiDoc.doc_name}
                                         p(class='text-sm text-gray-500 mt-1') #{rtiDoc.doc_desc}
 
+                        div.tab-content(data=tab="3")
 
+                        div.tab-content(data-tab="3")
+
+                            h2(class='text-xl font-semibold mb-4 text-gray-800')
+                                | ग्रामपंचायत माहिती अधिकार अधिनियम 2005
+
+                            p(class='mb-6 text-gray-600')
+                                | कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्द्यांचे स्पष्टीकरण
+
+                            -
+                                const rtiSections = [
+                                    {
+                                        title: "१) ग्रामपंचायतीची कार्ये व कर्तव्ये",
+                                        points: [
+                                            "पाणीपुरवठा",
+                                            "स्वच्छता व साफसफाई",
+                                            "रस्ते दुरुस्ती",
+                                            "जन्म-मृत्यू नोंदणी",
+                                            "कर वसुली",
+                                            "शासकीय योजना राबविणे"
+                                        ]
+                                    },
+                                    {
+                                        title: "२) अधिकारी व कर्मचाऱ्यांचे अधिकार व कर्तव्ये",
+                                        points: [
+                                            "सरपंच – ग्रामसभेचे नेतृत्व",
+                                            "ग्रामसेवक – कार्यालयीन कामकाज",
+                                            "कर्मचारी – नोंदणी व कर संकलन"
+                                        ]
+                                    },
+                                    {
+                                        title: "३) निर्णय घेण्याची प्रक्रिया",
+                                        points: [
+                                            "ग्रामसभा",
+                                            "पंचायत बैठक",
+                                            "ठराव मंजुरी",
+                                            "समिती शिफारस"
+                                        ]
+                                    },
+                                    {
+                                        title: "४) कामकाजासाठी निश्चित नियम व निकष",
+                                        points: [
+                                            "महाराष्ट्र ग्रामपंचायत अधिनियम",
+                                            "शासन निर्णय (GR)",
+                                            "पंचायत राज नियम"
+                                        ]
+                                    },
+                                    {
+                                        title: "५) वापरात असलेले नियम, पुस्तिका व अभिलेख",
+                                        points: [
+                                            "सेवा पुस्तिका",
+                                            "कर नोंदवही",
+                                            "बांधकाम परवानगी नोंदी",
+                                            "मालमत्ता नोंद"
+                                        ]
+                                    },
+                                    {
+                                        title: "६) जतन केलेल्या कागदपत्रांची यादी",
+                                        points: [
+                                            "ग्रामसभा इतिवृत्त",
+                                            "ठराव पुस्तिका",
+                                            "अंदाजपत्रक",
+                                            "विकास कामांची नोंद"
+                                        ]
+                                    },
+                                    {
+                                        title: "७) नागरिकांच्या सहभागाची माहिती",
+                                        points: [
+                                            "ग्रामसभा",
+                                            "सूचना पेटी",
+                                            "तक्रार निवारण बैठक"
+                                        ]
+                                    },
+                                    {
+                                        title: "८) समित्या व मंडळांची माहिती",
+                                        points: [
+                                            "पाणीपुरवठा समिती",
+                                            "शिक्षण समिती",
+                                            "स्वच्छता समिती"
+                                        ]
+                                    },
+                                    {
+                                        title: "९) अधिकारी व कर्मचाऱ्यांची निर्देशिका",
+                                        points: [
+                                            "नाव",
+                                            "पद",
+                                            "मोबाईल नंबर",
+                                            "कार्यालयीन पत्ता"
+                                        ]
+                                    },
+                                    {
+                                        title: "१०) अधिकारी व कर्मचाऱ्यांचे वेतन",
+                                        points: [
+                                            "ग्रामसेवक वेतन",
+                                            "कर्मचारी मानधन"
+                                        ]
+                                    },
+                                    {
+                                        title: "११) अंदाजपत्रक व निधी माहिती",
+                                        points: [
+                                            "वार्षिक अंदाजपत्रक",
+                                            "मंजूर निधी",
+                                            "खर्च तपशील"
+                                        ]
+                                    },
+                                    {
+                                        title: "१२) अनुदान व लाभार्थी योजना",
+                                        points: [
+                                            "घरकुल योजना",
+                                            "जलजीवन मिशन",
+                                            "शौचालय योजना"
+                                        ]
+                                    },
+                                    {
+                                        title: "१३) सवलती, परवाने व लाभार्थी",
+                                        points: [
+                                            "बांधकाम परवाना",
+                                            "दुकाने परवाना",
+                                            "पाणी जोडणी"
+                                        ]
+                                    },
+                                    {
+                                        title: "१४) इलेक्ट्रॉनिक स्वरूपातील माहिती",
+                                        points: [
+                                            "वेबसाईट",
+                                            "PDF नोंदी",
+                                            "डिजिटल अभिलेख"
+                                        ]
+                                    },
+                                    {
+                                        title: "१५) नागरिकांसाठी उपलब्ध सुविधा",
+                                        points: [
+                                            "वेबसाईट / ई-मेल / ऑनलाईन अर्ज",
+                                            "माहिती कक्ष",
+                                            "कार्यालयीन भेट",
+                                            "अर्ज स्वीकृती केंद्र"
+                                        ]
+                                    },
+                                    {
+                                        title: "१६) सार्वजनिक माहिती अधिकारी (PIO)",
+                                        points: [
+                                            "नाव",
+                                            "पद",
+                                            "संपर्क क्रमांक"
+                                        ]
+                                    },
+                                    {
+                                        title: "१७) इतर उपयुक्त माहिती",
+                                        points: [
+                                            "निविदा सूचना",
+                                            "विकास कामे",
+                                            "ग्रामसभा सूचना",
+                                            "कर माहिती"
+                                        ]
+                                    }
+                                ]
+
+                            .accordion
+
+                                each sec, index in rtiSections
+
+                                    .accordion-item
+                                        button(class='accordion-btn' data-target=`rti-${index}`)
+
+                                            span(class='icon') +
+                                            span(class='title') #{sec.title}
+
+                                        div(class='accordion-body' id=`rti-${index}`)
+
+                                            ul(class='list-disc pl-5 text-gray-700 space-y-1')
+
+                                                each point in sec.points
+                                                    li #{point}
+
+                        div.tab-content(data-tab="4")
+
+                            div(class='bg-white rounded-xl shadow-sm border p-4 md:p-6')
+
+                                h2(class='text-2xl font-bold text-[#138f78] mb-3')
+                                    | ग्रामपंचायत मार्फत माहिती अधिकार अधिनियम 2005 कलम 4(1)(ब) अंतर्गत सुविधा उपलब्ध बाबत स्पष्टीकरण
+
+                                p(class='text-gray-700 leading-8 mb-6')
+                                    | माहिती अधिकार अधिनियम 2005 मधील कलम 4(1)(ब) नुसार नमूद करण्यात आलेली सर्व माहिती व सुविधा ग्रामपंचायत कार्यालयामार्फत नागरिकांना उपलब्ध करून दिल्या जातात. ग्रामपंचायत प्रशासन पारदर्शक व लोकाभिमुख राहण्यासाठी आवश्यक कागदपत्रे, अभिलेखे, योजना माहिती, अधिकारी माहिती तसेच विविध सेवा ऑनलाईन व ऑफलाईन पद्धतीने पुरविण्यात येतात.
+
+                                div(class='grid md:grid-cols-2 gap-5')
+
+                                    //- CARD 1
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | १) कार्यालयीन माहिती सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li ग्रामपंचायतीची कार्ये व कर्तव्ये
+                                            li अधिकारी व कर्मचारी माहिती
+                                            li निर्णय प्रक्रिया
+                                            li नियम व शासन निर्णय
+
+                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                            | ही माहिती कार्यालयीन फलकावर तसेच मागणीप्रमाणे नागरिकांना उपलब्ध करून दिली जाते.
+
+                                    //- CARD 2
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | २) अभिलेख व दस्तऐवज सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li ग्रामसभा इतिवृत्त
+                                            li ठराव पुस्तिका
+                                            li कर नोंदी
+                                            li जन्म-मृत्यू नोंद
+                                            li विकास कामे नोंदवही
+                                            li अंदाजपत्रक व खर्च तपशील
+
+                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                            | सदर माहिती अर्जानुसार पाहण्यासाठी किंवा प्रत मिळण्यासाठी उपलब्ध करून दिली जाते.
+
+                                    //- CARD 3
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | ३) नागरिक सहभाग सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li ग्रामसभा आयोजन
+                                            li सूचना व हरकती स्वीकारणे
+                                            li तक्रार निवारण
+                                            li सार्वजनिक सूचना
+
+                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                            | ग्रामपंचायत नागरिकांना निर्णय प्रक्रियेत सहभागी होण्यासाठी विविध सुविधा उपलब्ध करून देते.
+
+                                    //- CARD 4
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | ४) योजना व लाभ माहिती सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li घरकुल योजना
+                                            li जलजीवन मिशन
+                                            li स्वच्छ भारत अभियान
+                                            li शौचालय योजना
+                                            li पाणीपुरवठा योजना
+
+                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                            | शासनाच्या विविध योजनांची माहिती ग्रामपंचायत कार्यालयामार्फत उपलब्ध करून दिली जाते.
+
+                                    //- CARD 5
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | ५) ऑनलाईन सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li ऑनलाईन माहिती उपलब्धता
+                                            li ई-मेल सुविधा
+                                            li डिजिटल अभिलेख
+                                            li PDF स्वरूपातील माहिती
+                                            li शासन पोर्टलद्वारे सेवा
+
+                                    //- CARD 6
+                                    div(class='border rounded-xl p-4 bg-gray-50')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | ६) ऑफलाईन सुविधा
+
+                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                            li माहिती अर्ज स्वीकारणे
+                                            li अभिलेख पाहणी
+                                            li प्रमाणपत्र वितरण
+                                            li कर भरणा सुविधा
+                                            li अर्ज नोंदणी
+
+                                    //- CARD 7
+                                    div(class='border rounded-xl p-4 bg-gray-50 md:col-span-2')
+
+                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
+                                            | ७) सार्वजनिक माहिती अधिकारी सुविधा
+
+                                        p(class='text-gray-700 leading-7')
+                                            | माहिती अधिकार अधिनियम अंतर्गत सार्वजनिक माहिती अधिकारी (PIO) नियुक्त करण्यात आलेले असून माहिती अर्ज स्वीकारणे व माहिती पुरविणे ही कार्यवाही नियमानुसार केली जाते.
+
+                                //- CONCLUSION
+                                div(class='mt-8 bg-[#138f78]/10 border border-[#138f78]/20 rounded-xl p-5')
+
+                                    h3(class='text-xl font-bold text-[#138f78] mb-3')
+                                        | निष्कर्ष
+
+                                    p(class='text-gray-700 leading-8')
+                                        | ग्रामपंचायत कार्यालयामार्फत माहिती अधिकार अधिनियम 2005 कलम 4(1)(ब) अंतर्गत नमूद सर्व माहिती, अभिलेख, सेवा व सुविधा नागरिकांना ऑनलाईन तसेच ऑफलाईन पद्धतीने उपलब्ध करून दिल्या जातात. ग्रामपंचायत प्रशासन पारदर्शकता, उत्तरदायित्व व नागरिक सहभाग यासाठी कटिबद्ध आहे.
 
 
 block internal_js
