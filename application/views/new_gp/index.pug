@@ -1109,76 +1109,6 @@ block content
                                                 //- | रुग्णवाहिका-१०८
                                                 | #{t("homePage.emergencyServicesSection.services.ambulance")}
 
-    section#information-section(class='relative py-12 md:py-20 bg-gradient-to-b from-slate-50 to-white overflow-hidden')
-
-        //- subtle background image
-        div(class='absolute inset-0 bg-[url("/backgrounds/index-page/bg-firebrigade-index-page.png")] bg-cover bg-center opacity-[0.06]')
-        div(class='absolute inset-0 bg-white/80')
-
-        .container.relative.z-10
-
-            //- ===== SECTION HEADING =====
-            h4(class='mx-auto w-fit text-center text-xl md:text-3xl font-extrabold tracking-wide text-[#234a7d] px-10 pb-3 border-b-4 border-[#234a7d]')
-                i.fa-solid.fa-hand-holding-heart.mr-2
-                span #{t("homePage.emergencyServicesSection.heading")}
-
-            //- ===== UNIFIED EMERGENCY 112 =====
-            div(class='mt-12 max-w-xl mx-auto relative overflow-hidden rounded-2xl shadow-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600')
-                div(class='absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]')
-                div(class='relative p-4 md:p-8 text-center text-white')
-                    div(class='text-3xl md:text-5xl font-black tracking-widest drop-shadow animate-pulse') 112
-                    div(class='mt-2 text-sm md:text-base font-medium tracking-wide')
-                        | सर्व आपत्कालीन सेवा (पोलीस • अग्निशमन • रुग्णवाहिका)
-                    a(href='tel:112' class='mt-2 md:mt-6 inline-flex items-center gap-2 px-8 py-3 bg-white text-red-600 font-bold rounded-full shadow-lg hover:scale-[1.05] transition')
-                        i.fa-solid.fa-phone-volume.animate-pulse
-                        span कॉल करा
-
-            //- ===== SERVICES GRID =====
-            ul(class='mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10')
-
-                -
-                    const services = [
-                        { key:'police', title:'पोलीस', number:'100', icon:'fa-shield-halved', color:'from-blue-600 to-indigo-600', glow:'shadow-blue-500/40' },
-                        { key:'fire', title:'अग्निशमन', number:'101', icon:'fa-fire-extinguisher', color:'from-orange-500 to-red-500', glow:'shadow-red-500/40' },
-                        { key:'ambulance', title:'रुग्णवाहिका', number:'108', icon:'fa-truck-medical', color:'from-emerald-500 to-teal-600', glow:'shadow-emerald-500/40' },
-                        { key:'women', title:'महिला मदत', number:'181 / 1091', icon:'fa-person-dress', color:'from-pink-500 to-rose-600', glow:'shadow-pink-500/40' },
-                        { key:'child', title:'बालमदत', number:'1098', icon:'fa-child-reaching', color:'from-yellow-500 to-amber-600', glow:'shadow-amber-500/40' },
-                        { key:'highway', title:'राष्ट्रीय महामार्ग मदत', number:'1033', icon:'fa-road', color:'from-slate-600 to-gray-800', glow:'shadow-slate-500/40' }
-                    ]
-
-                each s in services
-                    li(class='group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden')
-
-                        //- top accent
-                        div(class=`h-1.5 bg-gradient-to-r ${s.color}`)
-
-                        a(href=`tel:${s.number.split(' / ')[0]}` class='block p-3 md:p-8 text-center')
-
-                            //- MOBILE: row layout | DESKTOP: column layout
-                            div(class='flex items-center justify-between md:flex-col md:justify-center md:text-center')
-
-                                //- LEFT SIDE (icon + title)
-                                div(class='flex items-center gap-3 md:flex-col md:gap-4')
-
-                                    //- ICON CIRCLE (smaller on mobile)
-                                    div(class=`mx-auto w-12 md:w-20 aspect-square rounded-full bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-xl md:text-3xl shadow-lg ${s.glow} animate-pulse`)
-                                        i(class=`fa-solid ${s.icon}`)
-
-                                    //- TITLE
-                                    div(class='mt-2 md:mt-5 text-sm md:text-lg font-bold tracking-wide text-slate-800')
-                                        | #{t(`homePage.emergencyServicesSection.services.${s.key}`) || s.title}
-
-                                //- RIGHT SIDE (number + CTA)
-                                div(class='text-right md:text-center')
-                                    //- NUMBER
-                                    div(class='mt-1 md:mt-2 text-xl md:text-3xl font-extrabold tracking-wider text-red-600')
-                                        | #{s.number}
-
-                                    //- CTA
-                                    div(class='mt-1 md:mt-4 inline-flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold text-blue-600 group-hover:underline')
-                                        i.fa-solid.fa-phone
-                                        span कॉल करा
-
     section(id='' class='py-8 md:py-16')
 
         .container
@@ -1789,6 +1719,75 @@ block content
                     //- div.text-center
                     //- 	button.my-text-blue.font-bold Show More...
 
+    section#information-section(class='relative py-12 md:py-20 bg-gradient-to-b from-slate-50 to-white overflow-hidden')
+
+        //- subtle background image
+        div(class='absolute inset-0 bg-[url("/backgrounds/index-page/bg-firebrigade-index-page.png")] bg-cover bg-center opacity-[0.06]')
+        div(class='absolute inset-0 bg-white/80')
+
+        .container.relative.z-10
+
+            //- ===== SECTION HEADING =====
+            h4(class='mx-auto w-fit text-center text-xl md:text-3xl font-extrabold tracking-wide text-[#234a7d] px-10 pb-3 border-b-4 border-[#234a7d]')
+                i.fa-solid.fa-hand-holding-heart.mr-2
+                span #{t("homePage.emergencyServicesSection.heading")}
+
+            //- ===== UNIFIED EMERGENCY 112 =====
+            div(class='mt-12 max-w-xl mx-auto relative overflow-hidden rounded-2xl shadow-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600')
+                div(class='absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,white,transparent_60%)]')
+                div(class='relative p-4 md:p-8 text-center text-white')
+                    div(class='text-3xl md:text-5xl font-black tracking-widest drop-shadow animate-pulse') 112
+                    div(class='mt-2 text-sm md:text-base font-medium tracking-wide')
+                        | सर्व आपत्कालीन सेवा (पोलीस • अग्निशमन • रुग्णवाहिका)
+                    a(href='tel:112' class='mt-2 md:mt-6 inline-flex items-center gap-2 px-8 py-3 bg-white text-red-600 font-bold rounded-full shadow-lg hover:scale-[1.05] transition')
+                        i.fa-solid.fa-phone-volume.animate-pulse
+                        span कॉल करा
+
+            //- ===== SERVICES GRID =====
+            ul(class='mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10')
+
+                -
+                    const services = [
+                        { key:'police', title:'पोलीस', number:'100', icon:'fa-shield-halved', color:'from-blue-600 to-indigo-600', glow:'shadow-blue-500/40' },
+                        { key:'fire', title:'अग्निशमन', number:'101', icon:'fa-fire-extinguisher', color:'from-orange-500 to-red-500', glow:'shadow-red-500/40' },
+                        { key:'ambulance', title:'रुग्णवाहिका', number:'108', icon:'fa-truck-medical', color:'from-emerald-500 to-teal-600', glow:'shadow-emerald-500/40' },
+                        { key:'women', title:'महिला मदत', number:'181 / 1091', icon:'fa-person-dress', color:'from-pink-500 to-rose-600', glow:'shadow-pink-500/40' },
+                        { key:'child', title:'बालमदत', number:'1098', icon:'fa-child-reaching', color:'from-yellow-500 to-amber-600', glow:'shadow-amber-500/40' },
+                        { key:'highway', title:'राष्ट्रीय महामार्ग मदत', number:'1033', icon:'fa-road', color:'from-slate-600 to-gray-800', glow:'shadow-slate-500/40' }
+                    ]
+
+                each s in services
+                    li(class='group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden')
+
+                        //- top accent
+                        div(class=`h-1.5 bg-gradient-to-r ${s.color}`)
+
+                        a(href=`tel:${s.number.split(' / ')[0]}` class='block p-3 md:p-8 text-center')
+
+                            //- MOBILE: row layout | DESKTOP: column layout
+                            div(class='flex items-center justify-between md:flex-col md:justify-center md:text-center')
+
+                                //- LEFT SIDE (icon + title)
+                                div(class='flex items-center gap-3 md:flex-col md:gap-4')
+
+                                    //- ICON CIRCLE (smaller on mobile)
+                                    div(class=`mx-auto w-12 md:w-20 aspect-square rounded-full bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-xl md:text-3xl shadow-lg ${s.glow} animate-pulse`)
+                                        i(class=`fa-solid ${s.icon}`)
+
+                                    //- TITLE
+                                    div(class='mt-2 md:mt-5 text-sm md:text-lg font-bold tracking-wide text-slate-800')
+                                        | #{t(`homePage.emergencyServicesSection.services.${s.key}`) || s.title}
+
+                                //- RIGHT SIDE (number + CTA)
+                                div(class='text-right md:text-center')
+                                    //- NUMBER
+                                    div(class='mt-1 md:mt-2 text-xl md:text-3xl font-extrabold tracking-wider text-red-600')
+                                        | #{s.number}
+
+                                    //- CTA
+                                    div(class='mt-1 md:mt-4 inline-flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold text-blue-600 group-hover:underline')
+                                        i.fa-solid.fa-phone
+                                        span कॉल करा
 
 
     section(class='py-8 md:py-16')
