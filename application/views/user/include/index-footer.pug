@@ -1,0 +1,44 @@
+footer(class='bg-gradient-to-r from-[#e0f7f4] to-[#f0f9ff] text-[#1f3a5f] py-12 md:py-16 border-t-4 border-[#2c5282]')
+    .container.mx-auto.px-4
+
+        .grid(class='grid-cols-1 md:grid-cols-2 gap-12')
+
+            .space-y-5
+                h2(class='text-3xl font-bold tracking-wide')
+                    | ग्रामपंचायत कार्यालय
+
+                p(class='text-sm md:text-base leading-relaxed text-[#1f3a5f]')
+                    | ग्रामपंचायत ही ग्रामीण शासनाची मूलभूत संस्था आहे. ती स्थानिक विकास, सार्वजनिक कल्याण योजना, पायाभूत सुविधा देखभाल आणि पारदर्शक प्रशासनासाठी कार्य करते.
+
+                p(class='text-sm md:text-base leading-relaxed text-[#2c5282]')
+                    | आम्ही नागरिक-केंद्रित सेवा सुधारण्यासाठी आणि सहभागी शासन मजबूत करण्यासाठी कटिबद्ध आहोत.
+
+                p(class='text-xs font-medium text-[#2c5282]')
+                    | “सेवा • समर्पण • पारदर्शकता”
+
+            .space-y-5
+                h3(class='text-2xl font-bold')
+                    | संपर्क माहिती (Contact Information)
+
+                .space-y-4
+
+                    .flex.items-center.gap-3
+                        i(class='fa-solid fa-phone text-[#2c5282]')
+                        span(class='text-sm md:text-base')
+                            | #{gp.mobile_1 || gp.mobile_2 || '-'}
+
+                    .flex.items-center.gap-3
+                        i(class='fa-solid fa-envelope text-[#2c5282]')
+                        span(class='text-sm md:text-base')
+                            | #{gp.email_1 || gp.email_2 || '-'}
+
+                    .flex.items-center.gap-3
+                        i(class='fa-solid fa-location-dot text-[#2c5282]')
+                        span(class='text-sm md:text-base')
+                            | ग्रामपंचायत कार्यालय #{gp.gp_name}, महाराष्ट्र, भारत
+
+        //- div(class='mt-10 border-t border-[#2c5282]/40')
+
+        div(class='mt-6 text-center text-sm text-[#1f3a5f]')
+            p
+                | © #{new Date().getFullYear()} ग्रामपंचायत. सर्व हक्क राखीव.

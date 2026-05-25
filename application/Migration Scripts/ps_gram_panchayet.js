@@ -234,8 +234,21 @@ const ps_gram_panchayet = sequelize.define(
       type: Sequelize.TINYINT,
       allowNull: true,
       defaultValue: 1
-    }
+    },
 
+    mobile_1: {
+        type: Sequelize.STRING(15),
+    },
+    mobile_2: {
+        type: Sequelize.STRING(15),
+    },
+
+    email_1: {
+        type: Sequelize.STRING(255),
+    },
+    email_2: {
+        type: Sequelize.STRING(255),
+    }
   },
   {
     createdAt: false,

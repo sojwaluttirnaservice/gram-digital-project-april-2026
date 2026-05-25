@@ -341,7 +341,12 @@ module.exports = {
 						gramsevak_stamp_image_name = ? ,
 						gramsevak_stamp_display = ?,
 						gp_office_stamp_image_name = ? ,
-						gp_office_stamp_display = ?
+						gp_office_stamp_display = ?,
+
+                        mobile_1 = ?,
+                        mobile_2 = ?,
+                        email_1 = ?,
+                        email_2 = ?
 
                     WHERE id = 1`
 
@@ -378,7 +383,12 @@ module.exports = {
 			gpData.gramsevak_stamp_image_name,
 			+gpData.gramsevakStampDisplay,
 			gpData.gp_office_stamp_image_name,
-			+gpData.gpOfficeStampDisplay
+			+gpData.gpOfficeStampDisplay,
+
+            gpData.mobile_1,
+            gpData.mobile_2,
+            gpData.email_1,
+            gpData.email_2
 		]
 
 		return runQuery(pool, query, updateArr)
