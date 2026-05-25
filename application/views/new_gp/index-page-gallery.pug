@@ -22,7 +22,7 @@ div.relative.my-carousel-container
 
         .relative
             .relative.owl-carousel.gp-images-carousel.owl-theme.g-seva-slider
-                - const firstThreeImages = gallery ? gallery.slice(0, Math.min(gallery.length, 30)) : [];
+                - const firstThreeImages = (gallery && gallery.length > 0) ? gallery.slice(0, Math.min(gallery.length, 30)) : [{}];
 
                 each image in firstThreeImages
                     .item
