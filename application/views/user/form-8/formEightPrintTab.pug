@@ -267,8 +267,8 @@ body.back-image
                         button.btn.btn-primary(type='button') Save changes
                         button.btn.btn-secondary(type='button' data-dismiss='modal') Close
         
-        - const generateYearBlocks = (startYear, blocks = 5, gap = 4) => Array.from({ length: blocks }, (_, i) => ({ fromYear: `${startYear + i * gap}-${startYear + i * gap + 1}`, toYear: `${startYear + i * gap + gap - 1}-${startYear + i * gap + gap}` }));
-        - let yearRanges = generateYearBlocks(2020)
+        - const generateYearBlocks = (startYear, gap = 4) => Array.from({ length: new Date().getFullYear() - startYear + 1 }, (_, i) => ({ fromYear: `${startYear + i}-${startYear + i + 1}`, toYear: `${startYear + i + gap - 1}-${startYear + i + gap}` }));
+        - let yearRanges = generateYearBlocks(2015)
         .modal#masterModal1(tabindex='-1' role='dialog')
             .modal-dialog(role='document')
                 .modal-content
@@ -544,7 +544,7 @@ body.back-image
         .row.d-flex.justify-content-center
             .col-6
                 h5.heading-1 नमुना ८ प्रिंट 
-        - 
+        -
             let form8Tabs = [
                 { tabLabel: "नमुना ८ प्रिंट", id: '3', icon: 'fa-print' },
                 { tabLabel: "नमुना ८ सर्व प्रिंट", id: '7', icon: 'fa-files-o' },
