@@ -35,6 +35,11 @@
                         label.form-label(for='video-desc') विडिओ वर्णन
                         input.form-control(type='text' id='video-desc' name='video_desc')
 
+                .col-12.col-md-8#video-file-group
+                    .form-check.mb-3
+                        input.form-check-input(type='checkbox' id='show-on-home-page' name='show_on_home_page_gallery' value='1')
+                        label.form-check-label(for='show-on-home-page' style="margin-left: 0.5rem;") मुख्यपृष्ठावरील गॅलरीच्या ठिकाणी दाखवा (Show on Homepage)
+
 
                 .col-12.col-md-4
                     label.form-label.d-none.d-md-block(for='video-link' style='opacity: 0') t
@@ -53,7 +58,11 @@
                                 video(style='width: 100%; height: 9.5rem;' controls)
                                     source(src=`/uploads/videos/videoGallery/${video.video_name}`)
 
-                            p.px-2 #{video.video_desc}
-                            .text-center
-                                button.btn(class='deleteVideoBtn' data-id = video.id)
+                            p.px-2.mt-2 #{video.video_desc}
+                            .d-flex.justify-content-between.align-items-center.px-2.pb-2
+                                if video && video.show_on_home_page_gallery == 1
+                                    span.badge.bg-success(style="color: white;") मुख्यपृष्ठ (On Homepage)
+                                //- else
+                                    span.badge.bg-secondary(style="color: white;") केवळ गॅलरी (Gallery Only)
+                                button.btn.p-0(class='deleteVideoBtn' data-id = video.id)
                                     i.fa.fa-trash.text-danger

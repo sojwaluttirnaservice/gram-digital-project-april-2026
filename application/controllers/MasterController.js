@@ -799,6 +799,7 @@ let MasterController = {
   uploadVideoGalleryLink: async (req, res) => {
     try {
       const videoData = req.body;
+      videoData.show_on_home_page_gallery = req.body.show_on_home_page_gallery !== undefined ? Number(req.body.show_on_home_page_gallery) : 0;
 
       const video_file = req.files ? req.files.video_file : null;
 

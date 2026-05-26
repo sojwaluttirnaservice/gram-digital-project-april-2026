@@ -2550,9 +2550,9 @@ module.exports = {
 	//Video gallery data
 	getVideoGalleryData: function (pool, id) {
 		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_video_gallery`
+			var query = id ? `SELECT * FROM ps_video_gallery WHERE id = ?` : `SELECT * FROM ps_video_gallery ORDER BY id DESC`
 
-			pool.query(query, [], function (err, result) {
+			pool.query(query, id ? [id] : [], function (err, result) {
 				return err ? reject(err) : resolve(result)
 			})
 		})
@@ -2567,12 +2567,13 @@ module.exports = {
 							video_name,
                             
                             video_title,
-                            video_desc
+                            video_desc,
+                            show_on_home_page_gallery
 						)
 						VALUES
-						(?, ?, ?, ?)`
+						(?, ?, ?, ?, ?)`
 
-		return runQuery(pool, query, [videoData.video_link, videoData.video_name, videoData.video_title, videoData.video_desc])
+		return runQuery(pool, query, [videoData.video_link, videoData.video_name, videoData.video_title, videoData.video_desc, videoData.show_on_home_page_gallery ?? 1])
 	},
 	deleteVideoGalleryLink: function (pool, id) {
 		let query = `DELETE FROM ps_video_gallery WHERE id = ?`
