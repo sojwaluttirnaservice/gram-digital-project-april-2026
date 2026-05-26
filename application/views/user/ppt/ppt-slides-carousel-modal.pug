@@ -22,6 +22,53 @@ style.
     /* Make sure all slide images inside the modal are always fully visible */
     #ppt-carousel-inner img:not(.header-slide-img) { max-height: 100% !important; max-width: 100% !important; object-fit: contain !important; }
 
+    /* Before Image Title Gradient */
+    .before-image-title {
+        font-size: 18px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ec4899, #ef4444, #eab308);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        color: #ef4444;
+    }
+
+    /* Before Image Subtitle Gradient */
+    .before-image-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        background: linear-gradient(135deg, #f43f5e, #fb7185, #fda4af);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+        margin-top: 2px;
+        color: #f43f5e;
+    }
+
+    /* After Image Title Gradient */
+    .after-image-title {
+        font-size: 18px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #3b82f6, #6366f1, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        color: #6366f1;
+    }
+
+    /* After Image Subtitle Gradient */
+    .after-image-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        background: linear-gradient(135deg, #60a5fa, #a78bfa, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+        margin-top: 2px;
+        color: #60a5fa;
+    }
+
+
 .modal.fade.yatra-one-regular(tabindex="-1" id="ppt-slides-carousel-modal" aria-hidden="true")
     .modal-dialog.modal-fullscreen
         .modal-content(style="background: #0d0d0d; display: flex; flex-direction: column;")

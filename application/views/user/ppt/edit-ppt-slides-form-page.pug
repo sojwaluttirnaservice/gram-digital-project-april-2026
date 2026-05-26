@@ -80,18 +80,23 @@ block content
                         if slide.parsed_before_images && slide.parsed_before_images.length > 0
                             .col-12.mb-3
                                 label.font-weight-bold अस्तित्वात असलेले Before Images (क्लिक करून हटवा)
-                                div#existing-before-container
+                                div#existing-before-container.d-flex.flex-wrap.gap-3
                                     each img in slide.parsed_before_images
-                                        .image-preview-wrapper(id=`before-wrap-${img.id}`)
-                                            img.image-preview(src=`/uploads/images/ppt/slides/before/${img.image_name}`)
-                                            .delete-badge(onclick=`removeExistingImage('${img.id}', 'before')`) ✖
+                                        .image-preview-wrapper.d-flex.align-items-center.gap-3.border.p-2.rounded.bg-light(id=`before-wrap-${img.id}` style="min-width: 320px;")
+                                            div(style="position: relative;")
+                                                img.image-preview(src=`/uploads/images/ppt/slides/before/${img.image_name}` style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;")
+                                                .delete-badge(onclick=`removeExistingImage('${img.id}', 'before')`) ✖
+                                            div.flex-grow-1
+                                                input.form-control.form-control-sm.mb-1(type="text" name=`existing_before_title_${img.id}` value=img.image_title placeholder="शीर्षक (Title)")
+                                                input.form-control.form-control-sm(type="text" name=`existing_before_subtitle_${img.id}` value=img.image_subtitle placeholder="उपशीर्षक (Subtitle)")
 
                         // New Before Images Upload
                         .col-12.col-md-6.mb-3
                             .form-group
                                 label.font-weight-bold नवीन Before Images (पूर्वीचे फोटो)
-                                input.form-control(type="file" name="new_before_images" accept="image/*" multiple)
+                                input#new_before_images_input.form-control(type="file" name="new_before_images" accept="image/*" multiple)
                                 small.text-muted जास्तीत जास्त 2 फोटो (अधिकचे फोटो वगळले जातील)
+                            div#new-before-previews-container.mt-3.d-flex.flex-column.gap-3
 
                         hr.w-100.my-4
 
@@ -99,18 +104,23 @@ block content
                         if slide.parsed_after_images && slide.parsed_after_images.length > 0
                             .col-12.mb-3
                                 label.font-weight-bold अस्तित्वात असलेले After Images (क्लिक करून हटवा)
-                                div#existing-after-container
+                                div#existing-after-container.d-flex.flex-wrap.gap-3
                                     each img in slide.parsed_after_images
-                                        .image-preview-wrapper(id=`after-wrap-${img.id}`)
-                                            img.image-preview(src=`/uploads/images/ppt/slides/after/${img.image_name}`)
-                                            .delete-badge(onclick=`removeExistingImage('${img.id}', 'after')`) ✖
+                                        .image-preview-wrapper.d-flex.align-items-center.gap-3.border.p-2.rounded.bg-light(id=`after-wrap-${img.id}` style="min-width: 320px;")
+                                            div(style="position: relative;")
+                                                img.image-preview(src=`/uploads/images/ppt/slides/after/${img.image_name}` style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;")
+                                                .delete-badge(onclick=`removeExistingImage('${img.id}', 'after')`) ✖
+                                            div.flex-grow-1
+                                                input.form-control.form-control-sm.mb-1(type="text" name=`existing_after_title_${img.id}` value=img.image_title placeholder="शीर्षक (Title)")
+                                                input.form-control.form-control-sm(type="text" name=`existing_after_subtitle_${img.id}` value=img.image_subtitle placeholder="उपशीर्षक (Subtitle)")
 
                         // New After Images Upload
                         .col-12.col-md-6.mb-3
                             .form-group
                                 label.font-weight-bold नवीन After Images (नंतरचे फोटो)
-                                input.form-control(type="file" name="new_after_images" accept="image/*" multiple)
+                                input#new_after_images_input.form-control(type="file" name="new_after_images" accept="image/*" multiple)
                                 small.text-muted जास्तीत जास्त 2 फोटो (अधिकचे फोटो वगळले जातील)
+                            div#new-after-previews-container.mt-3.d-flex.flex-column.gap-3
 
                         // Submit Button
                         .col-12.text-center.mt-4

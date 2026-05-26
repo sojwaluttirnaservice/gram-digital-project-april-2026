@@ -156,4 +156,50 @@ $(() => {
       },
     );
   });
+
+  const setupPreviewHandler = (inputSelector, containerSelector, prefix) => {
+    $(document).on("change", inputSelector, function (e) {
+      const container = $(containerSelector);
+      container.empty();
+      const files = Array.from(e.target.files).slice(0, 2);
+
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const html = `
+            <div class="d-flex align-items-center gap-3 border p-2 rounded bg-light" style="max-width: 450px;">
+              <img src="${e.target.result}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;" />
+              <div class="flex-grow-1">
+                <input type="text" name="${prefix}_image_titles[]" class="form-control form-control-sm mb-1" placeholder="फोटो शीर्षक (Title)" />
+                <input type="text" name="${prefix}_image_subtitles[]" class="form-control form-control-sm" placeholder="फोटो उपशीर्षक (Subtitle)" />
+              </div>
+            </div>
+          `;
+          container.append(html);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  };
+
+  setupPreviewHandler(
+    "#before_images_input",
+    "#before-previews-container",
+    "before",
+  );
+  setupPreviewHandler(
+    "#after_images_input",
+    "#after-previews-container",
+    "after",
+  );
+  setupPreviewHandler(
+    "#new_before_images_input",
+    "#new-before-previews-container",
+    "new_before",
+  );
+  setupPreviewHandler(
+    "#new_after_images_input",
+    "#new-after-previews-container",
+    "new_after",
+  );
 });

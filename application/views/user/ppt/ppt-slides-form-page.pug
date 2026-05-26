@@ -67,14 +67,16 @@ block content
                         .col-12.col-md-6.mb-3
                             .form-group
                                 label.font-weight-bold Before Images (पूर्वीचे फोटो)
-                                input.form-control(type="file" name="before_images" accept="image/*" multiple)
-                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता
+                                input#before_images_input.form-control(type="file" name="before_images" accept="image/*" multiple)
+                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता (जास्तीत जास्त २)
+                            div#before-previews-container.mt-3.d-flex.flex-column.gap-3
 
                         .col-12.col-md-6.mb-3
                             .form-group
                                 label.font-weight-bold After Images (नंतरचे फोटो)
-                                input.form-control(type="file" name="after_images" accept="image/*" multiple)
-                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता
+                                input#after_images_input.form-control(type="file" name="after_images" accept="image/*" multiple)
+                                small.text-muted एकापेक्षा जास्त फोटो निवडू शकता (जास्तीत जास्त २)
+                            div#after-previews-container.mt-3.d-flex.flex-column.gap-3
 
                         // Submit Button
                         .col-12.text-center.mt-3

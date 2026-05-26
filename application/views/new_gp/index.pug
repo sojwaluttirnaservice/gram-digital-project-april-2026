@@ -209,10 +209,10 @@ block content
                 if zpMembers && zpMembers.length > 0 && psMembers && psMembers.length > 0
 
 
-                    - 
+                    -
                         const memberSections = [
-                            { title: { mr: 'जिल्हा परिषद अमरावती', hi: 'जिला परिषद अमरावती', en: 'Zilla Parishad Amravati' }, members: zpMembers, color: 'indigo' },
-                            { title: { mr: 'पंचायत समिती अमरावती', hi: 'पंचायत समिति अमरावती', en: 'Panchayat Samiti Amravati' }, members: psMembers, color: 'emerald' },
+                            { title: { mr: `जिल्हा परिषद ${gp.gp_dist}`, hi: `जिला परिषद ${gp.gp_dist}`, en:  `Zilla Parishad ${gp.gp_dist}` }, members: zpMembers, color: 'indigo' },
+                            { title: { mr: `पंचायत समिती ${gp.gp_taluka}`, hi: `पंचायत समिति ${gp.gp_taluka}`, en:  `Panchayat Samiti ${gp.gp_taluka}` }, members: psMembers, color: 'emerald' },
                             //- { title: { mr: 'ग्राम पंचायत पदाधिकारी व अधिकारी', hi: 'ग्राम पंचायत पदाधिकारी व अधिकारी', en: 'Gram Panchayat Officers' }, members: firstThreeMembers, color: 'pink' }
                         ]
 

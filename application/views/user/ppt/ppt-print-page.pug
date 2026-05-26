@@ -180,6 +180,75 @@ html(lang="en")
                 font-variation-settings:"wdth" 100;
             }
 
+            /* Before Image Title Gradient */
+            .before-image-title {
+                font-size: 18px;
+                font-weight: 800;
+                background: linear-gradient(135deg, #ec4899, #ef4444, #eab308);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: inline-block;
+                color: #ef4444;
+            }
+
+            /* Before Image Subtitle Gradient */
+            .before-image-subtitle {
+                font-size: 13px;
+                font-weight: 500;
+                background: linear-gradient(135deg, #f43f5e, #fb7185, #fda4af);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: block;
+                margin-top: 2px;
+                color: #f43f5e;
+            }
+
+            /* After Image Title Gradient */
+            .after-image-title {
+                font-size: 18px;
+                font-weight: 800;
+                background: linear-gradient(135deg, #3b82f6, #6366f1, #a855f7);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: inline-block;
+                color: #6366f1;
+            }
+
+            /* After Image Subtitle Gradient */
+            .after-image-subtitle {
+                font-size: 13px;
+                font-weight: 500;
+                background: linear-gradient(135deg, #60a5fa, #a78bfa, #c084fc);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: block;
+                margin-top: 2px;
+                color: #60a5fa;
+            }
+
+            @media print {
+                .before-image-title {
+                    -webkit-text-fill-color: initial !important;
+                    color: #ef4444 !important;
+                    background: none !important;
+                }
+                .before-image-subtitle {
+                    -webkit-text-fill-color: initial !important;
+                    color: #f43f5e !important;
+                    background: none !important;
+                }
+                .after-image-title {
+                    -webkit-text-fill-color: initial !important;
+                    color: #6366f1 !important;
+                    background: none !important;
+                }
+                .after-image-subtitle {
+                    -webkit-text-fill-color: initial !important;
+                    color: #60a5fa !important;
+                    background: none !important;
+                }
+            }
+
 
 
     body.yatra-one-regular
@@ -318,14 +387,28 @@ html(lang="en")
                             div.slide-image-area
 
                                 //- BEFORE
-                                div(style="width:500px;height:380px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
-                                    if beforeImgs[i] && beforeImgs[i].image_name
-                                        img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
+                                    div(style="width:500px;height:320px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                        if beforeImgs[i] && beforeImgs[i].image_name
+                                            img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                    if beforeImgs[i] && (beforeImgs[i].image_title || beforeImgs[i].image_subtitle)
+                                        div(style="text-align:center; max-width:500px;")
+                                            if beforeImgs[i].image_title
+                                                div.before-image-title= beforeImgs[i].image_title
+                                            if beforeImgs[i].image_subtitle
+                                                div.before-image-subtitle= beforeImgs[i].image_subtitle
 
                                 //- AFTER
-                                div(style="width:500px;height:380px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
-                                    if afterImgs[i] && afterImgs[i].image_name
-                                        img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
+                                    div(style="width:500px;height:320px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                        if afterImgs[i] && afterImgs[i].image_name
+                                            img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                    if afterImgs[i] && (afterImgs[i].image_title || afterImgs[i].image_subtitle)
+                                        div(style="text-align:center; max-width:500px;")
+                                            if afterImgs[i].image_title
+                                                div.after-image-title= afterImgs[i].image_title
+                                            if afterImgs[i].image_subtitle
+                                                div.after-image-subtitle= afterImgs[i].image_subtitle
 
 script.
     const params = new URLSearchParams(window.location.search);

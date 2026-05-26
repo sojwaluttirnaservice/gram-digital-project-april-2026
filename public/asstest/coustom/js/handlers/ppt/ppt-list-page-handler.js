@@ -358,51 +358,91 @@ $(() => {
 
             
  <!-- BEFORE -->
-<div style="
-    width:500px;
-    height:380px;
-    border:2px solid #ff6b6b;
-    border-radius:16px;
-    padding:1px;
-    box-shadow:0 6px 14px rgba(0,0,0,0.12);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-">
-    <img
-      src="/uploads/images/ppt/slides/before/${before.image_name}"
-      style="
-        width:100%;
-        height:100%;
-        object-fit:contain;
-        border-radius:12px;
-        background:#f8f9fa;
-      "
-    />
+<div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+  <div style="
+      width:500px;
+      height:320px;
+      border:2px solid #ff6b6b;
+      border-radius:16px;
+      padding:1px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.125);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+  ">
+      <img
+        src="/uploads/images/ppt/slides/before/${before.image_name}"
+        style="
+          width:100%;
+          height:100%;
+          object-fit:contain;
+          border-radius:12px;
+          background:#f8f9fa;
+        "
+      />
+  </div>
+  ${
+    before.image_title || before.image_subtitle
+      ? `
+  <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
+      ${
+        before.image_title
+          ? `<div class="before-image-title">${before.image_title}</div>`
+          : ""
+      }
+      ${
+        before.image_subtitle
+          ? `<div class="before-image-subtitle">${before.image_subtitle}</div>`
+          : ""
+      }
+  </div>
+  `
+      : ""
+  }
 </div>
 
 <!-- AFTER -->
-<div style="
-    width:500px;
-    height:380px;
-    border:2px solid #52c41a;
-    border-radius:16px;
-    padding:1px;
-    box-shadow:0 6px 14px rgba(0,0,0,0.12);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-">
-    <img
-      src="/uploads/images/ppt/slides/after/${after.image_name}"
-      style="
-        width:100%;
-        height:100%;
-        object-fit:contain;
-        border-radius:12px;
-        background:#f8f9fa;
-      "
-    />
+<div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+  <div style="
+      width:500px;
+      height:320px;
+      border:2px solid #52c41a;
+      border-radius:16px;
+      padding:1px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.125);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+  ">
+      <img
+        src="/uploads/images/ppt/slides/after/${after.image_name}"
+        style="
+          width:100%;
+          height:100%;
+          object-fit:contain;
+          border-radius:12px;
+          background:#f8f9fa;
+        "
+      />
+  </div>
+  ${
+    after.image_title || after.image_subtitle
+      ? `
+  <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
+      ${
+        after.image_title
+          ? `<div class="after-image-title">${after.image_title}</div>`
+          : ""
+      }
+      ${
+        after.image_subtitle
+          ? `<div class="after-image-subtitle">${after.image_subtitle}</div>`
+          : ""
+      }
+  </div>
+  `
+      : ""
+  }
 </div>
 
 

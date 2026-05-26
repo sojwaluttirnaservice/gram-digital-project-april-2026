@@ -8,7 +8,13 @@ const generateUniqueFileName = require("../../utils/generateFileName");
 const { saveFile, deleteFile } = require("../../utils/saveFile");
 
 // Helper function to handle multiple file uploads and return array of objects
-const uploadImagesObj = async (files, prefix, directory) => {
+const uploadImagesObj = async (
+  files,
+  prefix,
+  directory,
+  titles = [],
+  subtitles = [],
+) => {
   if (!files) return [];
   const fileArray = Array.isArray(files) ? files : [files];
   const uploadedObjs = [];
@@ -16,13 +22,16 @@ const uploadImagesObj = async (files, prefix, directory) => {
   // Enforce Max 2 limit
   const limitToProcess = fileArray.slice(0, 2);
 
-  for (const file of limitToProcess) {
+  for (let i = 0; i < limitToProcess.length; i++) {
+    const file = limitToProcess[i];
     if (file && file.name) {
       const fileName = generateUniqueFileName(file, prefix);
       await saveFile(file, `${directory}/${fileName}`);
       uploadedObjs.push({
         id: Math.floor(Math.random() * 1000000000).toString(),
         image_name: fileName,
+        image_title: titles[i] || "",
+        image_subtitle: subtitles[i] || "",
       });
     }
   }
@@ -106,6 +115,18 @@ const pptSlidesController = {
       return sendApiResponse(res, 400, false, "PPT ID is required");
     }
 
+    // Helper to normalize req.body values to an array (handles bracketed and plain formats)
+    const parseBodyArray = (key, body) => {
+      const val = body[key] || body[`${key}[]`] || [];
+      if (Array.isArray(val)) return val;
+      return [val];
+    };
+
+    const beforeTitles = parseBodyArray("before_image_titles", req.body);
+    const beforeSubtitles = parseBodyArray("before_image_subtitles", req.body);
+    const afterTitles = parseBodyArray("after_image_titles", req.body);
+    const afterSubtitles = parseBodyArray("after_image_subtitles", req.body);
+
     // Process file uploads
     let before_images = [];
     let after_images = [];
@@ -115,11 +136,15 @@ const pptSlidesController = {
         req.files.before_images,
         "slide-before",
         UPLOAD_PATHS.ppt.slideBefore,
+        beforeTitles,
+        beforeSubtitles,
       );
       after_images = await uploadImagesObj(
         req.files.after_images,
         "slide-after",
         UPLOAD_PATHS.ppt.slideAfter,
+        afterTitles,
+        afterSubtitles,
       );
     }
 
@@ -157,6 +182,13 @@ const pptSlidesController = {
       return sendApiResponse(res, 404, false, "Slide not found.");
     }
 
+    // Helper to normalize req.body values to an array (handles bracketed and plain formats)
+    const parseBodyArray = (key, body) => {
+      const val = body[key] || body[`${key}[]`] || [];
+      if (Array.isArray(val)) return val;
+      return [val];
+    };
+
     // Retain existing images by default, parse them if they are stored as JSON strings
     let parsedBefore = [];
     let parsedAfter = [];
@@ -193,6 +225,23 @@ const pptSlidesController = {
       (img) => !removedAfterIds.includes(img.id),
     );
 
+    // Update titles and subtitles of retained (existing) images
+    retainedBefore = retainedBefore.map((img) => {
+      return {
+        ...img,
+        image_title: req.body[`existing_before_title_${img.id}`] || "",
+        image_subtitle: req.body[`existing_before_subtitle_${img.id}`] || "",
+      };
+    });
+
+    retainedAfter = retainedAfter.map((img) => {
+      return {
+        ...img,
+        image_title: req.body[`existing_after_title_${img.id}`] || "",
+        image_subtitle: req.body[`existing_after_subtitle_${img.id}`] || "",
+      };
+    });
+
     // Delete the physically removed ones
     const physicallyRemovedBefore = parsedBefore.filter((img) =>
       removedBeforeIds.includes(img.id),
@@ -220,10 +269,21 @@ const pptSlidesController = {
         const limitBefore = newBefore.slice(0, availableBeforeSlots);
 
         if (limitBefore.length > 0) {
+          const newBeforeTitles = parseBodyArray(
+            "new_before_image_titles",
+            req.body,
+          );
+          const newBeforeSubtitles = parseBodyArray(
+            "new_before_image_subtitles",
+            req.body,
+          );
+
           const uploadedNewBefore = await uploadImagesObj(
             limitBefore,
             "slide-before",
             UPLOAD_PATHS.ppt.slideBefore,
+            newBeforeTitles,
+            newBeforeSubtitles,
           );
           finalBeforeImages = [...retainedBefore, ...uploadedNewBefore];
         }
@@ -238,10 +298,21 @@ const pptSlidesController = {
         const limitAfter = newAfter.slice(0, availableAfterSlots);
 
         if (limitAfter.length > 0) {
+          const newAfterTitles = parseBodyArray(
+            "new_after_image_titles",
+            req.body,
+          );
+          const newAfterSubtitles = parseBodyArray(
+            "new_after_image_subtitles",
+            req.body,
+          );
+
           const uploadedNewAfter = await uploadImagesObj(
             limitAfter,
             "slide-after",
             UPLOAD_PATHS.ppt.slideAfter,
+            newAfterTitles,
+            newAfterSubtitles,
           );
           finalAfterImages = [...retainedAfter, ...uploadedNewAfter];
         }
@@ -308,7 +379,7 @@ const pptSlidesController = {
 
     const [ppt] = await pptModel.getById(res.pool, pptId);
 
-    console.log(ppt)
+    console.log(ppt);
 
     const slides = await pptSlidesModel.listSlides(res.pool, pptId);
     return sendApiResponse(res, 200, true, "Slides fetched successfully", {
