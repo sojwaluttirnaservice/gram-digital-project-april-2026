@@ -272,8 +272,12 @@ $(document).ready(function () {
 		homeManager
 			.saveGramBasicInformation(sendData)
 			.then(function (data) {
-				alert('Saved ....')
-				console.log(data)
+				if (data.call === 1) {
+					alert('Saved ....')
+					console.log(data)
+				} else {
+					alert(data.data || 'माहिती जतन करताना त्रुटी आली.')
+				}
 			})
 			.catch(function (error) {
 				alert('You have sever error')

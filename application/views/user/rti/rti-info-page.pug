@@ -23,6 +23,7 @@ block content
                         button(class=btnClassName data-tab='2') अर्ज नमुने व कायदा
                         button(class=btnClassName data-tab='3') कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्दे
                         button(class=btnClassName data-tab='4') कलम 4(1)(ब) अंतर्गत स्पष्टीकरण
+                        button(class=btnClassName data-tab='5') जन माहिती व अपिलीय अधिकारी
 
                     // Tab Contents
                     div
@@ -605,6 +606,25 @@ block content
                                     p(class='text-gray-700 leading-8')
                                         | ग्रामपंचायत कार्यालयामार्फत माहिती अधिकार अधिनियम 2005 कलम 4(1)(ब) अंतर्गत नमूद सर्व माहिती, अभिलेख, सेवा व सुविधा नागरिकांना ऑनलाईन तसेच ऑफलाईन पद्धतीने उपलब्ध करून दिल्या जातात. ग्रामपंचायत प्रशासन पारदर्शकता, उत्तरदायित्व व नागरिक सहभाग यासाठी कटिबद्ध आहे.
 
+                        div.tab-content(data-tab="5")
+                            div(class='space-y-3')
+                                - let members = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
+                                - let gramsevakDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'ग्रामसेवक' || member.p_name == 'ग्रामविकास अधिकारी' || member.p_name == 'ग्रामपंचायत अधिकारी')) : {}
+                                div
+                                    p #{gramsevakDetails.name || '-'}
+                                    p जन माहिती अधिकारी तथा सचिव ग्रामपंचायत #{gp.gp_name}
+                                    p Email: #{[gp.email_1, gp.email_2].filter(i => i).join(', ') || '-'}
+                                    p Mobile: #{[gp.mobile_1, gp.mobile_2].filter(i => i).join(', ') || '-'}
+
+                                div 
+                                    p गट विकास अधिकारी #{gp.bdo_name}
+                                    p Email: #{[gp.bdo_email, gp.bdo_email_2].filter(i => i).join(', ') || '-'}
+                                    p Mobile: #{[gp.bdo_contact, gp.bdo_contact_2].filter(i => i).join(', ') || '-'}
+
+                                div 
+                                    p राज्य माहिती आयोग, #{gp.gp_dist} खंडपीठ
+                                    p Email: #{[sic_primary_email].filter(i => i).join(', ') || '-'}
+                                    p Alternate Email: #{[sic_alt_email].filter(i => i).join(', ') || '-'}
 
 block internal_js
     script.

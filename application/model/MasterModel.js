@@ -346,7 +346,13 @@ module.exports = {
                         mobile_1 = ?,
                         mobile_2 = ?,
                         email_1 = ?,
-                        email_2 = ?
+                        email_2 = ?,
+                        bdo_name = ?,
+                        bdo_post = ?,
+                        bdo_email = ?,
+                        bdo_mobile = ?,
+                        sic_primary_email = ?,
+                        sic_alt_email = ?
 
                     WHERE id = 1`
 

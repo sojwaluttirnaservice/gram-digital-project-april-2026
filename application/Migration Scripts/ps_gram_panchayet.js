@@ -248,6 +248,37 @@ const ps_gram_panchayet = sequelize.define(
     },
     email_2: {
         type: Sequelize.STRING(255),
+    },
+
+    bdo_name: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      // गट विकास अधिकारी (BDO) नाव
+    },
+    bdo_post: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      // गट विकास अधिकारी (BDO) पद
+    },
+    bdo_email: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      // गट विकास अधिकारी (BDO) ई-मेल
+    },
+    bdo_mobile: {
+      type: Sequelize.STRING(15),
+      allowNull: true,
+      // गट विकास अधिकारी (BDO) मोबाईल क्रमांक
+    },
+    sic_primary_email: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      // राज्य माहिती आयोग ई-मेल
+    },
+    sic_alt_email: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+      // राज्य माहिती आयोग पर्यायी ई-मेल
     }
   },
   {
