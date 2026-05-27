@@ -68,6 +68,7 @@ const divyangaModel = {
         UPDATE ps_divyanga_registration
         SET
             full_name = ?,
+            uid = ?,
             address = ?,
             education = ?,
             demand = ?,
@@ -88,6 +89,7 @@ const divyangaModel = {
 
     return runQuery(pool, q, [
       updatedData.full_name,
+	  updatedData.uid,
       updatedData.address,
       updatedData.education,
       updatedData.demand,
@@ -118,10 +120,11 @@ const divyangaModel = {
     return runQuery(pool, query, [imagePath, certificateName, id]);
   },
 
-  getDivyangaApplicationsList: (pool, applicationStatus) => {
+  getDivyangaApplicationsList: (pool, applicationStatus, withUid = false) => {
     let query = `
             SELECT
                 id,
+				uid,
 
                 full_name,
                 address,
@@ -149,20 +152,21 @@ const divyangaModel = {
                 updated_at
             FROM
                 ps_divyanga_registration
-            WHERE application_status = ?
+            WHERE application_status = ? ${withUid ? "AND uid IS NOT NULL AND uid <> ''" : ""};
         `;
     return runQuery(pool, query, [applicationStatus]);
   },
 
-  approveDivyangaUserApplication: (pool, id) => {
+  approveDivyangaUserApplication: (pool, id, uid) => {
     let query = `
             UPDATE 
                 ps_divyanga_registration
             SET
-                application_status = ?
+                application_status = ?,
+				uid = ?
             WHERE id = ?;
         `;
-    return runQuery(pool, query, [1, id]);
+    return runQuery(pool, query, [1, uid, id]);
   },
 
   rejectDivyangaUserApplication: (pool, id) => {

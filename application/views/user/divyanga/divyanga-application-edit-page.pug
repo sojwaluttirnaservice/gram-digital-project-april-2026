@@ -90,6 +90,9 @@ block content
                                 - let path = `/${divyangaApplication.user_image_pathurl.split('/').slice(2).join('/')}`
                                 a(href=path target='_blank') आधी अपलोड केलेला फोटो बघा
 
+                        .col-md-6
+                            label(class='form-label fw-bold') UID
+                            input(type='text' name='uid' class='form-control' value=divyangaApplication.uid)
 
                     .mt-4(class='text-center')
                         button(type='button' id ='edit-divyanga-application-btn' class='btn btn-success px-5 fw-bold')

@@ -2285,6 +2285,7 @@ module.exports = {
                         id,
 
                         full_name,
+						uid,
                         address,
                         education,
                         demand,

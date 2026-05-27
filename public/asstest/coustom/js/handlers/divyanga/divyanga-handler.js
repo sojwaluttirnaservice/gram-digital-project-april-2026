@@ -416,7 +416,7 @@ $(function () {
     $(`#divyangaApplicantModal-${id}`).modal("show");
   });
 
-  async function handleApproveDivyangaUserApplication(id) {
+  async function handleApproveDivyangaUserApplication(id, uid) {
     let route = "/divyanga/approve-divyanga-user-application-form";
     try {
       let options = {
@@ -424,7 +424,7 @@ $(function () {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id: id, uid: uid }),
       };
       let response = await fetch(route, options);
 
@@ -463,10 +463,11 @@ $(function () {
     // alert( )
 
     let id = $(this).attr("data-id");
+	let uid =  $(`#divyangaApplicantModal-${id} input[name='uid']`).val();
 
     alertjs.deleteSpl("Confirm Approval", (status) => {
       if (status) {
-        handleApproveDivyangaUserApplication(id);
+        handleApproveDivyangaUserApplication(id, uid);
       }
     });
   });

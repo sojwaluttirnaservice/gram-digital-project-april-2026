@@ -30,6 +30,7 @@ const divyangaController = {
     let approvedApplications = await divyangaModel.getDivyangaApplicationsList(
       res.pool,
       1,
+	  withUid = true
     );
 
     renderPage(res, "user/divyanga/divyanga-people-page", {
@@ -60,10 +61,10 @@ const divyangaController = {
   }),
 
   approveDivyangaApplication: async (req, res) => {
-    const { id } = req.body;
-
+    const { id, uid } = req.body;
+console.log(req.body)
     divyangaModel
-      .approveDivyangaUserApplication(res.pool, id)
+      .approveDivyangaUserApplication(res.pool, id, uid)
       .then((result) => {
         if (result.affectedRows === 1) {
           return res.status(200).json({
@@ -73,7 +74,7 @@ const divyangaController = {
         }
       })
       .catch((err) => {
-        console.log("Error while approving the application");
+        console.log("Error while approving the application",err);
         return res.status(500).json({
           call: 0,
           error: `Error : ${err}`,
@@ -247,6 +248,7 @@ const divyangaController = {
       // default → keep old values
       user_image_pathurl: application.user_image_pathurl,
       certificate_file_name: application.certificate_file_name,
+	  uid: req.body.uid,
     };
 
     /** ----------------------------

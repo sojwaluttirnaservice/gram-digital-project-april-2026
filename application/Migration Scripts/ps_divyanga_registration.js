@@ -82,6 +82,11 @@ const ps_divyanga_registration = sequelize.define(
       allowNull: false,
       defaultValue: ''
     },
+	uid: {
+		type: Sequelize.STRING(50),
+		allowNull: false,
+		defaultValue: ''
+	},
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,

@@ -38,6 +38,9 @@ block content
                                             //- | अर्जदाराचे नाव
                                             | #{t("disabledPeoplePage.tableHeaderSection.applicantName")}
                                         th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
+                                            //- | UID
+                                            | UID
+                                        th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='10%') 
                                             //- | वय
                                             | #{t("disabledPeoplePage.tableHeaderSection.age")}
                                         th(class='text-white text-center py-3.5 px-2 text-sm font-semibold uppercase tracking-wider border border-white' scope='col' width='15%') 
@@ -70,6 +73,7 @@ block content
                                                     img(class='rounded-full shadow-sm border border-gray-400 flex-shrink-0' src=path alt='User Photo' width='40' height='40' onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"')
                                                     span(class='truncate max-w-[140px]') #{applicant.full_name}
 
+                                                td #{applicant.uid}
                                                 //- // 🎂 Age
                                                 td(class='text-center py-3 px-4 text-sm text-gray-600 border border-gray-400') #{applicant.age}
 
