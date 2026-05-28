@@ -50,4 +50,9 @@ applicationRouter.put(
     ApplicationController.updateApplication
 )
 
+applicationRouter.get(
+    "/count",
+    ApplicationController.renderApplicationCountReportPage
+)
+
 module.exports = applicationRouter;

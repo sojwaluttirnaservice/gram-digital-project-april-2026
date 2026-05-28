@@ -1,0 +1,423 @@
+extends ../include/print-page-tailwind-layout.pug
+
+block custom_css 
+    style.
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 4mm 6mm;
+            }
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            .hide-print {
+                display: none !important;
+            }
+            .my-print-container {
+                border: none !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            .inner-frame {
+                border: 2px double #334155 !important;
+                padding: 12px 16px !important;
+                min-height: 194mm !important;
+                max-height: 194mm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                box-sizing: border-box !important;
+            }
+            table {
+                margin-top: 0.25rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+            th {
+                padding: 0.35rem 0.25rem !important;
+                font-size: 0.75rem !important;
+            }
+            td {
+                padding: 0.3rem 0.4rem !important;
+                font-size: 0.72rem !important;
+            }
+            .mt-10 {
+                margin-top: 0.75rem !important;
+            }
+            .h-24 {
+                height: 4.5rem !important;
+            }
+            .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+            .mt-8 {
+                margin-top: 0.5rem !important;
+            }
+        }
+
+        .inner-frame {
+            border: 3px double #334155;
+            padding: 20px;
+            min-height: 184mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 800;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 0.4rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.025em;
+        }
+
+        td {
+            padding: 0.45rem 0.6rem;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+            font-size: 0.78rem;
+            color: #334155;
+            text-align: center;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+
+block content 
+    body.tiro-devanagari-marathi-regular
+
+        - const getMonthName = m => ({1:'जानेवारी',2:'फेब्रुवारी',3:'मार्च',4:'एप्रिल',5:'मे',6:'जून',7:'जुलै',8:'ऑगस्ट',9:'सप्टेंबर',10:'ऑक्टोबर',11:'नोव्हेंबर',12:'डिसेंबर'})[m]
+
+        div.hide-print
+            - const qrUrl = new URL(fullUrl); qrUrl.searchParams.set('withQr', 'true')
+            div(id='mentioned-qr-target-tag' style='display: none;' data-target='qr-code-container' data-targetUrl=(qrUrl.toString()) data-size='120')
+
+            div(class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col items-end gap-2 mr-3 z-50")
+
+                button(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded" onclick="window.print()")
+                    | Print
+
+                if !withQr
+                    div(class="flex flex-col gap-2 w-56")
+
+                        select#report-type(class="shadow border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500")
+                            - let isMonthYearTypeReport = (month && year) ? true : false;
+                            - let isFinancialYearTypeReport = ( fromYear && toYear) ? true : false;
+
+                            option(value='' selected = (!isMonthYearTypeReport && !isFinancialYearTypeReport)) रिपोर्ट प्रकार निवडा
+                            option(value='monthYear' selected=(isMonthYearTypeReport)) महिना व वर्षानुसार
+                            option(value='financialYear' selected=(isFinancialYearTypeReport)) आर्थिक वर्षानुसार
+
+                        // Month Year Inputs
+                        div#month-year-inputs(style=`display:${isMonthYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                            select#report-month(class="shadow border border-gray-300 rounded px-2 py-2 bg-white")
+                                - for(let i=1;i<=12;i++)
+                                    option(value=i selected=(month == i)) #{getMonthName(i)}
+
+                            input#report-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(year) placeholder='Year')
+
+                        // Financial Year Inputs
+                        div#financial-year-inputs(style=`display:${isFinancialYearTypeReport ? 'flex' : 'none'};` class="gap-2")
+                            input#from-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(fromYear) placeholder='From Year')
+                            input#to-year(type='number' class="shadow border border-gray-300 rounded px-2 py-2 w-full" value=(toYear) placeholder='To Year')
+
+                        button#generate-report(class="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow px-4 py-2 rounded") रिपोर्ट तयार करा
+
+        div(class='w-full max-w-[277mm] mx-auto border border-slate-300 p-6 bg-white my-print-container shadow-md my-8 rounded-xl')
+
+            .my-print.inner-frame
+
+                div
+                    div(class='grid grid-cols-12 items-center mb-2')
+
+                        div(class='col-span-2')
+
+                        div(class='col-span-8 text-center')
+                            p(class='text-3xl font-extrabold text-slate-800 tracking-wide mb-1') ग्रामपंचायत कार्यालय 
+                                span(class='text-blue-800') #{gp.gp_name}
+                            p(class='text-base font-semibold text-slate-600 mb-1') पंचायत समिती 
+                                span(class='text-blue-800') #{gp.gp_taluka}, 
+                                span जिल्हा 
+                                span(class='text-blue-800') #{gp.gp_dist}
+                            
+                            h2(class='text-lg font-bold text-slate-900 my-2 tracking-wide border-b border-dashed border-slate-400 pb-1 w-fit mx-auto') लोक हक्क सेवा हमी अधिनियम अंतर्गत १ ते ७ दाखले वितरण रिपोर्ट
+                            
+                            div(class='flex justify-center gap-2 mt-1')
+                                span(class='bg-teal-50 text-teal-700 px-3 py-0.5 rounded-full text-[11px] font-semibold border border-teal-200') सुशासनयुक्त पंचायत (Good Governance)
+                                span(class='bg-slate-100 text-slate-700 px-3 py-0.5 rounded-full text-[11px] font-semibold border border-slate-200') लोकाभिमुख प्रशासन (ऑनलाईन सेवा)
+                                    if fromYear && toYear 
+                                        |  : #{fromYear} ते #{toYear} 
+                                    else if month && year
+                                        |  : #{getMonthName(month)} #{year}
+                                    else
+                                        |  : सर्व कालावधी
+                        div(class='col-span-2')
+                            div(id='qr-code-container' class='mx-auto')
+
+                    div(class='w-full flex justify-between border-b-2 border-slate-200 pb-1.5 mb-2 text-sm font-bold text-slate-700')
+                        div(class='text-base text-slate-800') ग्रामपंचायत नाव : #{gp.gp_name}
+                        div(class='text-base text-slate-800') LGD Code : #{gp.lgd_code || '-'}
+
+                    div
+
+                        -
+                            let rows = [
+                                {
+                                    service: "जन्म दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.janma_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.janma_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "मृत्यू दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.mrutyu_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.mrutyu_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "विवाह नोंदणी दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.vivah_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.vivah_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "दारिद्र्य रेषेखालचा दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.daridrya_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.daridrya_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "ग्रामपंचायत येणे बाकी नसल्याचा दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.baki_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.baki_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "नमुना नं. 8 चा उतारा",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.namuna8_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.namuna8_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "निराधार असले बाबतचा दाखला",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.niradhar_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.niradhar_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                },
+                                {
+                                    service: "इतर सेवा",
+                                    received_offline: 0,
+                                    received_online: applicationsCount.itar_total || 0,
+                                    issued_offline: 0,
+                                    issued_online: applicationsCount.itar_accepted || 0,
+                                    medium: "ऑनलाइन"
+                                }
+                            ]
+
+                        table 
+                            thead 
+
+                                tr
+                                    th(rowspan="2" class="w-12") अ. क्र 
+                                    th(rowspan="2" class="text-left px-4") सेवा 
+
+                                    th(rowspan="1" colspan="3") प्राप्त अर्ज संख्या
+
+                                    th(rowspan="1" colspan="3") निर्गत अर्ज संख्या
+
+                                    th(rowspan="2") निर्गत टक्केवारी
+
+                                    th(rowspan="2" class="w-36") सेवा माध्यम
+
+                                tr 
+
+                                    th(rowspan='1') ऑफलाइन
+                                    th(rowspan='1') ऑनलाइन
+                                    th(rowspan='1') एकूण 
+
+                                    th(rowspan='1') ऑफलाइन
+                                    th(rowspan='1') ऑनलाइन
+                                    th(rowspan='1') एकूण
+
+                            tbody 
+
+                                each row, index in rows 
+                                    tr 
+                                        td #{index + 1}
+                                        td #{row.service}
+                                        td #{row.received_offline}
+                                        td #{row.received_online}
+                                        - let totalReceived = +row.received_offline + +row.received_online
+                                        td.font-semibold #{totalReceived}
+                                        td #{row.issued_offline}
+                                        td #{row.issued_online}
+                                        - let totalAccepted = +row.issued_offline + +row.issued_online
+                                        td.font-semibold #{totalAccepted}
+                                        - let percentage = totalReceived == 0 ? 0 : (totalAccepted / totalReceived * 100).toFixed(2)
+                                        td
+                                            if percentage == 100
+                                                span(class="font-bold text-teal-600 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full text-xs") #{percentage}%
+                                            else if percentage > 0
+                                                span(class="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full text-xs") #{percentage}%
+                                            else
+                                                span(class="font-semibold text-slate-500") #{percentage}%
+                                        td
+                                            span(class="bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-0.5 rounded-full text-xs font-bold") #{row.medium}
+
+                    div(class='mt-24')
+                        div(class='grid grid-cols-3 gap-6 text-center')
+
+                            div(class='flex flex-col items-center justify-end h-24')
+                                div(class='w-40 border-b-2 border-dashed border-slate-300 mb-2')
+                                    img(class='w-40 h-24 block' src='/print/sp.jpeg')
+                                div(class='font-extrabold text-sm text-slate-800') सरपंच
+                                div(class='text-xs text-slate-500 font-medium') ग्रामपंचायत कार्यालय 
+                                    span(class='font-extrabold') #{gp.gp_name}
+
+                            div(class='flex flex-col items-center justify-end h-24')
+                                div(class='w-40 border-b-2 border-dashed border-slate-300 mb-2')
+                                    img(class='w-40 h-24 block' src='/print/gs.jpeg')
+                                div(class='font-extrabold text-sm text-slate-800') ग्रामविकास अधिकारी
+                                div(class='text-xs text-slate-500 font-medium') ग्रामपंचायत कार्यालय 
+                                    span(class='font-extrabold') #{gp.gp_name}
+
+                            div(class='flex flex-col items-center justify-end h-24')
+                                div(class='w-40 border-b-2 border-dashed border-slate-300 mb-2')
+                                div(class='font-extrabold text-sm text-slate-800') संपर्क अधिकारी
+                                div(class='text-xs text-slate-500 font-medium') पंचायत समिती 
+                                    span(class='font-extrabold') #{gp.gp_taluka}
+block custom_js
+    script.
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reportType = document.getElementById("report-type");
+            const monthYearInputs = document.getElementById("month-year-inputs");
+            const financialYearInputs = document.getElementById("financial-year-inputs");
+
+            const month = document.getElementById("report-month");
+            const year = document.getElementById("report-year");
+
+            const fromYear = document.getElementById("from-year");
+            const toYear = document.getElementById("to-year");
+
+            const generateBtn = document.getElementById("generate-report");
+
+
+            // Show inputs depending on report type
+            reportType.addEventListener("change", () => {
+
+                if (reportType.value === "monthYear") {
+
+                    monthYearInputs.style.display = "flex";
+                    financialYearInputs.style.display = "none";
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    financialYearInputs.style.display = "flex";
+                    monthYearInputs.style.display = "none";
+
+                } 
+                else {
+
+                    monthYearInputs.style.display = "none";
+                    financialYearInputs.style.display = "none";
+
+                }
+
+            });
+
+
+            //- alert(reportType.value)
+
+            // Generate report URL
+
+            // Generate report URL
+            generateBtn.addEventListener("click", () => {
+
+                const url = new URL(window.location.href);
+                const params = url.searchParams;
+
+                if (reportType.value === "monthYear") {
+
+                    // set month/year
+                    params.set("month", month.value);
+                    params.set("year", year.value);
+
+                    // remove financial year params
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+
+                } 
+                else if (reportType.value === "financialYear") {
+
+                    // set financial year
+                    params.set("fromYear", fromYear.value);
+                    params.set("toYear", toYear.value);
+
+                    // remove month/year params
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");
+                }else{
+                    //- params.set("date", )
+                    params.delete("fromYear");
+                    params.delete("toYear");
+                    params.delete("date");
+                    params.delete("month");
+                    params.delete("year");
+                    params.delete("date");                    
+                }
+
+                // redirect
+                window.location.href = url.toString();
+
+            });
+
+        });

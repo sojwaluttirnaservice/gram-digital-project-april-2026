@@ -1,107 +1,125 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../config/db-connect-migration");
+const Sequelize = require('sequelize');
+const sequelize = require('../config/db-connect-migration');
 
 const ps_user_application = sequelize.define(
-  "ps_user_application",
-  {
-    id: {
-      type: Sequelize.BIGINT,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
+	'ps_user_application',
+	{
+		id: {
+			type: Sequelize.BIGINT,
+			allowNull: false,
+			autoIncrement: true,
+			primaryKey: true
+		},
 
-    formName: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      defaultValue: "",
-    },
+		formName: {
+			type: Sequelize.STRING(255),
+			allowNull: false,
+			defaultValue: ''
+		},
 
-    formMobile: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
+		formMobile: {
+			type: Sequelize.STRING(255),
+			allowNull: false
+		},
 
-    formEmail: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
+		formEmail: {
+			type: Sequelize.STRING(255),
+			allowNull: false
+		},
 
-    formAddress: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
+		formAddress: {
+			type: Sequelize.STRING(255),
+			allowNull: false
+		},
 
-    formAadhar: {
-      type: Sequelize.STRING(20),
-      allowNull: false,
-    },
+		formAadhar: {
+			type: Sequelize.STRING(20),
+			allowNull: false
+		},
 
-    docDetails: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
+		docDetails: {
+			type: Sequelize.STRING(255),
+			allowNull: false
+		},
 
-    dakhlaCheckColOne: {
-      type: Sequelize.STRING(255),
-      defaultValue: null,
-    },
+		dakhlaCheckColOne: {
+			type: Sequelize.STRING(255),
+			defaultValue: null
+		},
 
-    dakhlaCheckColTwo: {
-      type: Sequelize.STRING(255),
-      defaultValue: null,
-    },
+		dakhlaCheckColTwo: {
+			type: Sequelize.STRING(255),
+			defaultValue: null
+		},
 
-    documentTypeId: {
-      type: Sequelize.BIGINT,
-      defaultValue: null,
-    },
+		documentTypeId: {
+			type: Sequelize.BIGINT,
+			defaultValue: null
+		},
 
-    documentVerifyDone: {
-      type: Sequelize.INTEGER,
-      defaultValue: "0",
-    },
+		documentVerifyDone: {
+			type: Sequelize.INTEGER,
+			defaultValue: '0'
+		},
 
-    docSms: {
-      type: Sequelize.TEXT("long"),
-      defaultValue: null,
-    },
+		docSms: {
+			type: Sequelize.TEXT('long'),
+			defaultValue: null
+		},
 
-    docRemark: {
-      type: Sequelize.ENUM("PENDING", "ACCEPTED", "REJECTED"),
-      allowNull: false, // optional, depending on whether you allow nulls
-      defaultValue: "PENDING",
-    },
+		docRemark: {
+			type: Sequelize.ENUM('PENDING', 'ACCEPTED', 'REJECTED'),
+			allowNull: false, // optional, depending on whether you allow nulls
+			defaultValue: 'PENDING'
+		},
 
-    docSmsDate: {
-      type: Sequelize.DATEONLY,
-    },
+		docSmsDate: {
+			type: Sequelize.DATEONLY
+		},
 
-    docRemarkDate: {
-      type: Sequelize.DATEONLY,
-      allowNull: false,
-    },
+		docRemarkDate: {
+			type: Sequelize.DATEONLY,
+			allowNull: false
+		},
 
-    create_date: {
-      type: Sequelize.DATEONLY,
-      allowNull: false,
-    },
+		create_date: {
+			type: Sequelize.DATEONLY,
+			allowNull: false
+		},
 
-    // reviving the orignal format just in case
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-    },
+		// reviving the orignal format just in case
+		createdAt: {
+			type: Sequelize.DATE,
+			allowNull: true,
+			defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+		},
 
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-    },
-  },
-  {
-    timestamps: true
-  },
+		updatedAt: {
+			type: Sequelize.DATE,
+			allowNull: true,
+			defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+		}
+	},
+	{
+		timestamps: true,
+		indexes: [
+			{
+				name: 'idx_create_date',
+				fields: ['create_date']
+			},
+			{
+				name: 'idx_form_aadhar',
+				fields: ['formAadhar']
+			},
+			{
+				name: 'idx_verify_remark',
+				fields: ['documentVerifyDone', 'docRemark']
+			},
+			{
+				name: 'idx_remark_create',
+				fields: ['docRemark', 'create_date']
+			}
+		]
+	}
 );
 module.exports = ps_user_application;

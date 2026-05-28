@@ -352,7 +352,8 @@ module.exports = {
                         bdo_email = ?,
                         bdo_mobile = ?,
                         sic_primary_email = ?,
-                        sic_alt_email = ?
+                        sic_alt_email = ?,
+                        lgd_code = ?
 
                     WHERE id = 1`
 
@@ -394,7 +395,14 @@ module.exports = {
             gpData.mobile_1,
             gpData.mobile_2,
             gpData.email_1,
-            gpData.email_2
+            gpData.email_2,
+            gpData.bdo_name,
+            gpData.bdo_post,
+            gpData.bdo_email,
+            gpData.bdo_mobile,
+            gpData.sic_primary_email,
+            gpData.sic_alt_email,
+            gpData.lgd_code
 		]
 
 		return runQuery(pool, query, updateArr)

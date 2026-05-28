@@ -232,6 +232,164 @@ module.exports = {
     ]);
   },
 
+  getApplicationsCount: (pool, filters = {}) => {
+    let { month, year, fromYear, toYear } = filters;
+    let startDate, endDate;
+
+    if (month && year) {
+      // Month and Year filter
+      startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+      const lastDay = new Date(year, month, 0).getDate();
+      endDate = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
+    } else if (fromYear && toYear) {
+      // Financial Year filter (April 1st of fromYear to March 31st of toYear)
+      startDate = `${fromYear}-04-01`;
+      endDate = `${toYear}-03-31`;
+    }
+
+    let q = `
+			SELECT
+
+				/* जन्म नोंद दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'जन्म नोंद दाखला' THEN 1 ELSE 0 END), 0) AS janma_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'जन्म नोंद दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS janma_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'जन्म नोंद दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS janma_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'जन्म नोंद दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS janma_rejected,
+
+
+				/* मृत्यू नोंद दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'मृत्यू नोंद दाखला' THEN 1 ELSE 0 END), 0) AS mrutyu_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'मृत्यू नोंद दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS mrutyu_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'मृत्यू नोंद दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS mrutyu_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'मृत्यू नोंद दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS mrutyu_rejected,
+
+
+				/* विवाह नोंदणी दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'विवाह नोंदणी दाखला' THEN 1 ELSE 0 END), 0) AS vivah_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'विवाह नोंदणी दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS vivah_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'विवाह नोंदणी दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS vivah_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'विवाह नोंदणी दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS vivah_rejected,
+
+
+				/* नमुना नं. 8 चा उतारा */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'नमुना नं. 8 चा उतारा' THEN 1 ELSE 0 END), 0) AS namuna8_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'नमुना नं. 8 चा उतारा' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS namuna8_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'नमुना नं. 8 चा उतारा' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS namuna8_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'नमुना नं. 8 चा उतारा' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS namuna8_rejected,
+
+
+				/* निराधार असले बाबतचा दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'निराधार असले बाबतचा दाखला' THEN 1 ELSE 0 END), 0) AS niradhar_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'निराधार असले बाबतचा दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS niradhar_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'निराधार असले बाबतचा दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS niradhar_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'निराधार असले बाबतचा दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS niradhar_rejected,
+
+
+				/* इतर काम लिहावे कोणते असल्यास */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'इतर काम लिहावे कोणते असल्यास' THEN 1 ELSE 0 END), 0) AS itar_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'इतर काम लिहावे कोणते असल्यास' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS itar_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'इतर काम लिहावे कोणते असल्यास' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS itar_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'इतर काम लिहावे कोणते असल्यास' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS itar_rejected,
+
+
+				/* गावातील तक्रारी */
+
+				COALESCE(SUM(
+					CASE
+						WHEN jt.docTitle IN (
+							'गावातील तक्रारी नोद येथे लिहावी',
+							'गावातील तक्रारी नोद येथे लिहावी गावातील'
+						)
+						THEN 1 ELSE 0
+					END
+				), 0) AS takrari_total,
+
+				COALESCE(SUM(
+					CASE
+						WHEN jt.docTitle IN (
+							'गावातील तक्रारी नोद येथे लिहावी',
+							'गावातील तक्रारी नोद येथे लिहावी गावातील'
+						)
+						AND p.docRemark = 'PENDING'
+						THEN 1 ELSE 0
+					END
+				), 0) AS takrari_pending,
+
+				COALESCE(SUM(
+					CASE
+						WHEN jt.docTitle IN (
+							'गावातील तक्रारी नोद येथे लिहावी',
+							'गावातील तक्रारी नोद येथे लिहावी गावातील'
+						)
+						AND p.docRemark = 'ACCEPTED'
+						THEN 1 ELSE 0
+					END
+				), 0) AS takrari_accepted,
+
+				COALESCE(SUM(
+					CASE
+						WHEN jt.docTitle IN (
+							'गावातील तक्रारी नोद येथे लिहावी',
+							'गावातील तक्रारी नोद येथे लिहावी गावातील'
+						)
+						AND p.docRemark = 'REJECTED'
+						THEN 1 ELSE 0
+					END
+				), 0) AS takrari_rejected,
+
+
+				/* ग्रामपंचायत येणे बाकी नसल्याचा दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'ग्रामपंचायत येणे बाकी नसल्याचा दाखला' THEN 1 ELSE 0 END), 0) AS baki_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'ग्रामपंचायत येणे बाकी नसल्याचा दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS baki_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'ग्रामपंचायत येणे बाकी नसल्याचा दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS baki_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'ग्रामपंचायत येणे बाकी नसल्याचा दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS baki_rejected,
+
+
+				/* दारिद्र्यरेषेखालचा दाखला */
+
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'दारिद्र्यरेषेखालचा दाखला' THEN 1 ELSE 0 END), 0) AS daridrya_total,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'दारिद्र्यरेषेखालचा दाखला' AND p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS daridrya_pending,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'दारिद्र्यरेषेखालचा दाखला' AND p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS daridrya_accepted,
+				COALESCE(SUM(CASE WHEN jt.docTitle = 'दारिद्र्यरेषेखालचा दाखला' AND p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS daridrya_rejected,
+
+
+				/* overall */
+
+				COUNT(*) AS overall_total,
+				COALESCE(SUM(CASE WHEN p.docRemark = 'PENDING' THEN 1 ELSE 0 END), 0) AS overall_pending,
+				COALESCE(SUM(CASE WHEN p.docRemark = 'ACCEPTED' THEN 1 ELSE 0 END), 0) AS overall_accepted,
+				COALESCE(SUM(CASE WHEN p.docRemark = 'REJECTED' THEN 1 ELSE 0 END), 0) AS overall_rejected
+
+			FROM ps_user_application p
+
+			JOIN JSON_TABLE(
+				p.docDetails,
+				'$[*]'
+				COLUMNS (
+					docTitle VARCHAR(255) PATH '$.docTitle'
+				)
+			) AS jt
+
+			WHERE p.docDetails IS NOT NULL
+				AND JSON_VALID(p.docDetails)
+	`;
+
+    let params = [];
+    if (startDate && endDate) {
+      q += ` AND p.create_date BETWEEN ? AND ?`;
+      params.push(startDate, endDate);
+    }
+
+    return runQuery(pool, q, params);
+  },
+
   serialize: function (obj) {
     let str =
       "?" +
