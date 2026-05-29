@@ -183,7 +183,7 @@ html(lang="en")
                                                         span(class="fa fa-envelope text-primary hand sendSMSNewApplication" data-id=index title="संदेश पाठवा")
                                                     
                                                     td 
-                                                        div(class='d-flex justify-content-center align-items-center' style="gap:1rem;")
+                                                        div(class='d-flex justify-content-center align-items-center' style="gap:0.5rem;")
                                                             a.btn.btn-success.text-white(href=`/application/edit/${newApplicationItem.id}`) 
                                                                 i.fa.fa-edit
                                                             button.btn.btn-success.btn-sm.accept-application-btn(type="button" data-applicationId=newApplicationItem.id)
@@ -195,6 +195,11 @@ html(lang="en")
                                                                 div(class='d-flex align-items-center' style='gap:0.4rem')
                                                                     i.fa.fa-times-circle.me-1
                                                                     | Reject
+
+                                                            button.btn.btn-danger.btn-sm.delete-application-btn(type="button" data-applicationId=newApplicationItem.id)
+                                                                div(class='d-flex align-items-center' style='gap:0.4rem')
+                                                                    i.fa.fa-trash.me-1
+                                                                    | Delete
 
 
         //- Inline script initialization (kept exactly as originally)

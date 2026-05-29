@@ -1,16 +1,16 @@
-var responderSet = require("../config/_responderSet");
+var responderSet = require('../config/_responderSet');
 let myDates = responderSet.myDate;
-var request = require("request");
-const { runQuery } = require("../utils/runQuery");
-const fmtDateField = require("../utils/fmtDateField");
+var request = require('request');
+const { runQuery } = require('../utils/runQuery');
+const fmtDateField = require('../utils/fmtDateField');
 
 //NOTE :
 
 // docRemark: 1 => Accepted, 0 => Rejected, 2 => No action taken yet, i.e. pending as per old logic
 
 module.exports = {
-  getQuickUserInfoByAadhar: function (pool, data) {
-    let q = `SELECT 
+	getQuickUserInfoByAadhar: function (pool, data) {
+		let q = `SELECT 
                 formName,
                 formMobile,
                 formEmail,
@@ -20,18 +20,19 @@ module.exports = {
                 ps_user_application 
             WHERE 
                 formAadhar = ? 
+                AND is_deleted = 0
                 LIMIT 1`;
-    return runQuery(pool, q, [data.addhar]);
-  },
+		return runQuery(pool, q, [data.addhar]);
+	},
 
-  getById: (pool, id) => {
-    let q = `SELECT *, ${fmtDateField("create_date")} FROM ps_user_application WHERE id = ?`;
-    return runQuery(pool, q, [+id]);
-  },
+	getById: (pool, id) => {
+		let q = `SELECT *, ${fmtDateField('create_date')} FROM ps_user_application WHERE id = ? AND is_deleted = 0`;
+		return runQuery(pool, q, [+id]);
+	},
 
-  getNewApplicationList: (pool) => {
-    // docName removed from query
-    let q = `SELECT 
+	getNewApplicationList: (pool) => {
+		// docName removed from query
+		let q = `SELECT 
                 id,
                 formName,
                 formMobile,
@@ -51,30 +52,32 @@ module.exports = {
                 DATE_FORMAT(create_date,"%d-%m-%Y") create_date
             FROM  
                 ps_user_application 
-                    WHERE documentVerifyDone = 0 AND docRemark IN ('PENDING', '2')`;
+                    WHERE documentVerifyDone = 0 AND docRemark IN ('PENDING', '2') AND is_deleted = 0`;
 
-    // -- 'PENDING' is the new docRemark enum value after code refactoring,
-    // -- and '2' is the legacy value representing the same "pending" status.
-    // -- Both are included here to support old and new data until legacy data is cleaned up.
+		// -- 'PENDING' is the new docRemark enum value after code refactoring,
+		// -- and '2' is the legacy value representing the same "pending" status.
+		// -- Both are included here to support old and new data until legacy data is cleaned up.
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  //  returning applications irrespective of accepted or rejected
-  getAllApplications: (pool, { sort = "ASC" } = {}) => {
-    let q = `SELECT *, 
+	//  returning applications irrespective of accepted or rejected
+	getAllApplications: (pool, { sort = 'ASC' } = {}) => {
+		let q = `SELECT *, 
                     DATE_FORMAT(docRemarkDate,"%d-%m-%Y") as _docRemarkDate, 
                     DATE_FORMAT(create_date, '%d-%m-%Y') AS _create_date 
                 FROM 
                     ps_user_application
+                WHERE
+                    is_deleted = 0
                 ORDER BY 
                     create_date ${sort}`;
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  getRejectedApplicationList: (pool, { sort = "ASC" } = {}) => {
-    // removing the docName from the query
-    let q = `SELECT 
+	getRejectedApplicationList: (pool, { sort = 'ASC' } = {}) => {
+		// removing the docName from the query
+		let q = `SELECT 
                 id,
                 formName,
                 formMobile,
@@ -95,16 +98,17 @@ module.exports = {
                 ps_user_application 
             WHERE 
                 docRemark IN ('REJECTED', '0')
+                AND is_deleted = 0
             ORDER BY 
                 create_date ${sort}`;
-    //  docRemarkDate DESC, id DESC;
+		//  docRemarkDate DESC, id DESC;
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  getAcceptedApplicationList: (pool, { sort = "ASC" } = {}) => {
-    // removing the docName from the query
-    let q = `SELECT 
+	getAcceptedApplicationList: (pool, { sort = 'ASC' } = {}) => {
+		// removing the docName from the query
+		let q = `SELECT 
                 id,
                 formName,
                 formMobile,
@@ -125,17 +129,21 @@ module.exports = {
                 ps_user_application 
             WHERE 
                 docRemark IN ('ACCEPTED', '0')
+                AND is_deleted = 0
             ORDER BY 
                 create_date ${sort}`;
 
-    // docRemarkDate DESC, id DESC
+		// docRemarkDate DESC, id DESC
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  getAcceptedApplicationListSortByCreateDate: (pool, { sort = "ASC" } = {}) => {
-    // removing the docName from the query
-    let q = `SELECT 
+	getAcceptedApplicationListSortByCreateDate: (
+		pool,
+		{ sort = 'ASC' } = {}
+	) => {
+		// removing the docName from the query
+		let q = `SELECT 
                 id,
                 formName,
                 formMobile,
@@ -157,14 +165,15 @@ module.exports = {
                 ps_user_application 
             WHERE 
                 docRemark IN ('ACCEPTED', '0')
+                AND is_deleted = 0
             ORDER BY 
                 create_date ${sort}`;
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  updateApplication: (pool, updateData) => {
-    let q = `
+	updateApplication: (pool, updateData) => {
+		let q = `
     UPDATE ps_user_application
     SET
       formName = ?,
@@ -177,22 +186,22 @@ module.exports = {
     WHERE id = ?
   `;
 
-    let updateDataArr = [
-      updateData.formName,
-      updateData.formMobile,
-      updateData.formEmail,
-      updateData.formAddress,
-      updateData.formAadhar,
-      JSON.stringify(updateData.docDetails),
-      updateData.create_date,
-      updateData.id,
-    ];
+		let updateDataArr = [
+			updateData.formName,
+			updateData.formMobile,
+			updateData.formEmail,
+			updateData.formAddress,
+			updateData.formAadhar,
+			JSON.stringify(updateData.docDetails),
+			updateData.create_date,
+			updateData.id
+		];
 
-    return runQuery(pool, q, updateDataArr);
-  },
+		return runQuery(pool, q, updateDataArr);
+	},
 
-  updateApplicationStatus: (pool, data) => {
-    let q = `UPDATE 
+	updateApplicationStatus: (pool, data) => {
+		let q = `UPDATE 
                 ps_user_application
             SET
                 documentVerifyDone = ?,
@@ -203,21 +212,21 @@ module.exports = {
             WHERE 
                 id = ?`;
 
-    let updateArr = [
-      1,
-      Number(data.docResponse),
-      data.docSMS,
-      myDates.getDate(),
-      myDates.getDate(),
-      Number(data.appId),
-    ];
+		let updateArr = [
+			1,
+			Number(data.docResponse),
+			data.docSMS,
+			myDates.getDate(),
+			myDates.getDate(),
+			Number(data.appId)
+		];
 
-    return runQuery(pool, q, updateArr);
-  },
+		return runQuery(pool, q, updateArr);
+	},
 
-  updateDocRemark: (pool, applicationStatusData) => {
-    console.log(applicationStatusData);
-    let q = `UPDATE
+	updateDocRemark: (pool, applicationStatusData) => {
+		console.log(applicationStatusData);
+		let q = `UPDATE
                 ps_user_application
             SET 
                 docRemark = ?,
@@ -225,29 +234,29 @@ module.exports = {
             WHERE 
                 id = ?`;
 
-    return runQuery(pool, q, [
-      applicationStatusData.changeApplicationStatusTo,
-      myDates.getDate(),
-      applicationStatusData.applicationId,
-    ]);
-  },
+		return runQuery(pool, q, [
+			applicationStatusData.changeApplicationStatusTo,
+			myDates.getDate(),
+			applicationStatusData.applicationId
+		]);
+	},
 
-  getApplicationsCount: (pool, filters = {}) => {
-    let { month, year, fromYear, toYear } = filters;
-    let startDate, endDate;
+	getApplicationsCount: (pool, filters = {}) => {
+		let { month, year, fromYear, toYear } = filters;
+		let startDate, endDate;
 
-    if (month && year) {
-      // Month and Year filter
-      startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-      const lastDay = new Date(year, month, 0).getDate();
-      endDate = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
-    } else if (fromYear && toYear) {
-      // Financial Year filter (April 1st of fromYear to March 31st of toYear)
-      startDate = `${fromYear}-04-01`;
-      endDate = `${toYear}-03-31`;
-    }
+		if (month && year) {
+			// Month and Year filter
+			startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+			const lastDay = new Date(year, month, 0).getDate();
+			endDate = `${year}-${String(month).padStart(2, '0')}-${lastDay}`;
+		} else if (fromYear && toYear) {
+			// Financial Year filter (April 1st of fromYear to March 31st of toYear)
+			startDate = `${fromYear}-04-01`;
+			endDate = `${toYear}-03-31`;
+		}
 
-    let q = `
+		let q = `
 			SELECT
 
 				/* जन्म नोंद दाखला */
@@ -379,29 +388,30 @@ module.exports = {
 
 			WHERE p.docDetails IS NOT NULL
 				AND JSON_VALID(p.docDetails)
+				AND p.is_deleted = 0
 	`;
 
-    let params = [];
-    if (startDate && endDate) {
-      q += ` AND p.create_date BETWEEN ? AND ?`;
-      params.push(startDate, endDate);
-    }
+		let params = [];
+		if (startDate && endDate) {
+			q += ` AND p.create_date BETWEEN ? AND ?`;
+			params.push(startDate, endDate);
+		}
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	},
 
-  serialize: function (obj) {
-    let str =
-      "?" +
-      Object.keys(obj)
-        .reduce(function (a, k) {
-          a.push(k + "=" + encodeURIComponent(obj[k]));
-          return a;
-        }, [])
-        .join("&");
-    return str;
-  },
-  /*sendSMS: function (data, callback) {
+	serialize: function (obj) {
+		let str =
+			'?' +
+			Object.keys(obj)
+				.reduce(function (a, k) {
+					a.push(k + '=' + encodeURIComponent(obj[k]));
+					return a;
+				}, [])
+				.join('&');
+		return str;
+	},
+	/*sendSMS: function (data, callback) {
     var url = `http://msg.technolitesolution.com/api/SendMesssgeAPI`;
     var sendData = {
       username: "utirna",
@@ -433,32 +443,36 @@ module.exports = {
       }
     );
   },*/
-  sendSMS: function (data, callback) {
-    var url = `http://msg.technolitesolution.com/vendorsms/pushsms.aspx`;
+	sendSMS: function (data, callback) {
+		var url = `http://msg.technolitesolution.com/vendorsms/pushsms.aspx`;
 
-    var sendData = {
-      user: "utirna",
-      password: "Omsai@800",
-      sid: "UTIRNA",
-      fl: "0",
-      gwid: "2",
-      msisdn: data.userMobileNo,
-      msg: data.docSMS,
-    };
-    var str = this.serialize(sendData);
-    url += str;
-    request.get(
-      {
-        url: url,
-      },
-      function (error, response, body) {
-        data = {
-          error: error,
-          response: response,
-          body: body,
-        };
-        callback(data);
-      },
-    );
-  },
+		var sendData = {
+			user: 'utirna',
+			password: 'Omsai@800',
+			sid: 'UTIRNA',
+			fl: '0',
+			gwid: '2',
+			msisdn: data.userMobileNo,
+			msg: data.docSMS
+		};
+		var str = this.serialize(sendData);
+		url += str;
+		request.get(
+			{
+				url: url
+			},
+			function (error, response, body) {
+				data = {
+					error: error,
+					response: response,
+					body: body
+				};
+				callback(data);
+			}
+		);
+	},
+	softDelete: (pool, id) => {
+		let q = `UPDATE ps_user_application SET is_deleted = 1 WHERE id = ?`;
+		return runQuery(pool, q, [+id]);
+	}
 };

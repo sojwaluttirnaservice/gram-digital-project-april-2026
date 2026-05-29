@@ -98,6 +98,10 @@ const ps_user_application = sequelize.define(
 			type: Sequelize.DATE,
 			allowNull: true,
 			defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+		},
+		is_deleted: {
+			type: Sequelize.TINYINT,
+			defaultValue: 0
 		}
 	},
 	{

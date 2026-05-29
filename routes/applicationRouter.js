@@ -55,4 +55,9 @@ applicationRouter.get(
     ApplicationController.renderApplicationCountReportPage
 )
 
+applicationRouter.delete(
+    "/:id",
+    ApplicationController.softDeleteApplication
+)
+
 module.exports = applicationRouter;

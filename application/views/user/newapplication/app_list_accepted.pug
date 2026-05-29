@@ -138,8 +138,11 @@ body
                                         span #{acceptedApplicationItem._create_date}
                                     
                                     td  
-                                        a.btn.btn-success(href=`/application/edit/${acceptedApplicationItem.id}`)
-                                            .fa.fa-edit
+                                        div(class='d-flex justify-content-center align-items-center' style="gap:0.5rem;")
+                                            a.btn.btn-success.btn-sm(href=`/application/edit/${acceptedApplicationItem.id}`)
+                                                i.fa.fa-edit
+                                            button.btn.btn-danger.btn-sm.delete-application-btn(type="button" data-applicationId=acceptedApplicationItem.id)
+                                                i.fa.fa-trash
     script.
         $(function(){
             newApplicationList = !{json_list};

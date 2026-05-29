@@ -2152,7 +2152,7 @@ let HomeModel = {
                       formAadhar,
                       docDetails,
                       DATE_FORMAT(create_date,'%d-%m-%Y') as create_date
-                    FROM ps_user_application WHERE id = ?`
+                    FROM ps_user_application WHERE id = ? AND is_deleted = 0`
 			pool.query(query, [data], function (err, result) {
 				if (err) {
 					reject(err)

@@ -164,6 +164,15 @@ const ApplicationController = {
 			applicationsCount: applicationsCount || {},
 			...filters
 		});
+	}),
+
+	softDeleteApplication: asyncHandler(async (req, res) => {
+		const { id } = req.params;
+		if (!id) {
+			return sendApiResponse(res, 400, false, 'अर्ज आयडी आवश्यक आहे');
+		}
+		await ApplicationModel.softDelete(res.pool, id);
+		return sendApiResponse(res, 200, true, 'अर्ज यशस्वीरित्या काढून टाकला गेला.');
 	})
 };
 module.exports = ApplicationController;
