@@ -24,6 +24,13 @@ let GalleryController = {
         })
     }),
 
+	renderGalleryPage: asyncHandler(async (req, res) => {
+		let gallery = await masterModel.getGalleryImageList(res.pool)
+		renderPage(res, 'user/gallery/gallery-list-page.pug', {
+			gallery,
+			link: `/gp/asstes/images/gallery/`
+		})
+	}),
 
     addNewFile: async(req, res) =>{
         try {

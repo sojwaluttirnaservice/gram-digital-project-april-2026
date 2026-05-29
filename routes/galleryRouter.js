@@ -5,6 +5,8 @@ let galleryRouter = getRouter();
 
 galleryRouter.get("/", GalleryController.homeView);
 
+galleryRouter.get("/list", GalleryController.renderGalleryPage)
+
 galleryRouter.post("/", GalleryController.addNewFile);
 
 galleryRouter.post("/remove-image", GalleryController.removeImageFile);

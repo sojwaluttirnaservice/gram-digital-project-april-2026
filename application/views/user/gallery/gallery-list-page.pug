@@ -1,0 +1,386 @@
+extends ../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+
+        body {
+            background: linear-gradient(to bottom, #f8fafc, #eef2ff) !important;
+        }
+
+        .gallery-card {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(226,232,240,0.9);
+            box-shadow: 0 10px 25px rgba(15,23,42,0.06);
+            transition: all 0.35s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(15,23,42,0.12);
+            border-color: #93c5fd;
+        }
+
+        .gallery-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-card:hover .gallery-img {
+            transform: scale(1.06);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(15,23,42,0.75),
+                rgba(15,23,42,0.15)
+            );
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-view-btn {
+            transform: translateY(12px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-view-btn {
+            transform: translateY(0px);
+        }
+
+        .gallery-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .gallery-desc {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        /* MOBILE OPTIMIZATION */
+
+        @media(max-width: 640px) {
+
+            section {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
+
+            .container {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+
+            .gallery-card {
+                border-radius: 1rem !important;
+            }
+
+            .gallery-card:hover {
+                transform: translateY(-2px);
+            }
+
+            .gallery-img-wrapper {
+                aspect-ratio: 4 / 3;
+            }
+
+            .gallery-title {
+                font-size: 0.9rem !important;
+                line-height: 1.2rem !important;
+            }
+
+            .gallery-desc {
+                font-size: 0.72rem !important;
+                line-height: 1rem !important;
+            }
+
+            .gallery-view-btn span {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+
+            .gallery-view-btn i {
+                font-size: 0.85rem !important;
+            }
+
+            .gallery-overlay {
+                opacity: 1 !important;
+                background: linear-gradient(
+                    to top,
+                    rgba(15,23,42,0.65),
+                    rgba(15,23,42,0.05)
+                );
+            }
+
+            .mobile-gallery-grid {
+                gap: 0.75rem !important;
+            }
+
+            .mobile-gallery-grid .gallery-card .p-5 {
+                padding: 0.75rem !important;
+            }
+
+            .mobile-gallery-heading {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                padding-top: 0.75rem !important;
+                padding-bottom: 0.75rem !important;
+                border-radius: 999px !important;
+            }
+
+            .mobile-gallery-heading h4 {
+                font-size: 1rem !important;
+            }
+
+            .mobile-gallery-heading i {
+                font-size: 1rem !important;
+            }
+
+            .mobile-gallery-subtitle {
+                font-size: 0.72rem !important;
+                margin-top: 0.65rem !important;
+                line-height: 1rem !important;
+            }
+        }
+
+
+
+        /* LIGHTBOX FIX */
+
+        .lightboxOverlay {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(2,6,23,0.92) !important;
+            z-index: 99999 !important;
+        }
+
+        .lightbox {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 100000 !important;
+            width: auto !important;
+            max-width: 95vw !important;
+        }
+
+        .lb-outerContainer {
+            width: auto !important;
+            height: auto !important;
+            max-width: 92vw !important;
+            max-height: 85vh !important;
+            border-radius: 18px !important;
+            overflow: hidden !important;
+            background: #000 !important;
+            border: none !important;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45) !important;
+        }
+
+        .lb-container {
+            padding: 0 !important;
+        }
+
+        .lb-image {
+            border: none !important;
+            border-radius: 18px !important;
+            max-width: 92vw !important;
+            max-height: 78vh !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+        }
+
+        .lb-dataContainer {
+            width: 100% !important;
+            margin-top: -10px !important;
+            background: rgba(0,0,0,0.92) !important;
+            border-radius: 0 0 18px 18px !important;
+            padding: 14px 18px !important;
+        }
+
+        .lb-data {
+            padding: 0 !important;
+        }
+
+        .lb-data .lb-caption {
+            color: #ffffff !important;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            font-weight: 500 !important;
+        }
+
+        .lb-data .lb-number {
+            color: #94a3b8 !important;
+            margin-top: 6px !important;
+            font-size: 12px !important;
+        }
+
+        .lb-close {
+            filter: brightness(0) invert(1);
+            opacity: 0.85 !important;
+            transition: all 0.2s ease;
+        }
+
+        .lb-close:hover {
+            opacity: 1 !important;
+            transform: scale(1.05);
+        }
+
+        .lb-nav a.lb-prev,
+        .lb-nav a.lb-next {
+            opacity: 1 !important;
+        }
+
+        .lb-prev,
+        .lb-next {
+            filter: brightness(0) invert(1);
+        }
+
+block content
+
+    section(class='relative py-12 md:py-16 overflow-hidden')
+
+        // Background
+        div(class='absolute inset-0 -z-10')
+            div(class='absolute top-0 left-0 w-72 h-72 bg-sky-200/40 rounded-full blur-3xl')
+            div(class='absolute bottom-0 right-0 w-80 h-80 bg-indigo-200/40 rounded-full blur-3xl')
+
+        .container
+
+            // HEADING
+            div(class='text-center mb-8 md:mb-12')
+
+                div(class='mobile-gallery-heading inline-flex items-center justify-center gap-3 bg-white/80 border border-slate-200 rounded-full px-6 py-3 shadow-sm')
+
+                    i(class='fa-solid fa-images text-sky-700 text-xl')
+
+                    h4(class='text-xl md:text-3xl font-extrabold tracking-wide text-slate-800')
+
+                        if language === 'en'
+                            | Gallery
+
+                        else if language === 'hi'
+                            | गैलरी
+
+                        else
+                            | छायाचित्रे
+
+
+                p(class='mobile-gallery-subtitle mt-4 text-slate-500 text-sm md:text-base')
+
+                    if language === 'en'
+                        | Explore memorable moments and village activities
+
+                    else if language === 'hi'
+                        | यादगार क्षण और ग्राम गतिविधियों की झलक
+
+                    else
+                        | गावातील उपक्रम आणि संस्मरणीय क्षण
+
+            // GALLERY
+            if gallery && gallery.length > 0
+
+                div(class='mobile-gallery-grid grid gap-7 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')
+
+                    - for(let i = gallery.length - 1; i >= 0; i--)
+
+                        - let galleryItem = gallery[i]
+                        - let imageURL = link + galleryItem.g_image_name
+                        - let title = galleryItem.g_image_title || ''
+                        - let desc = galleryItem.g_image_desc || ''
+                        - let fullCaption = (title ? title : '') + (desc ? (title ? ' - ' : '') + desc : '')
+
+                        .gallery-card(class='rounded-2xl overflow-hidden flex flex-col h-full')
+
+                            a(href=imageURL data-lightbox='village-gallery' data-title=fullCaption class='block')
+
+                                .gallery-img-wrapper(class='aspect-[4/3]')
+
+                                    img(
+                                        class='gallery-img'
+                                        src=imageURL
+                                        alt=title || 'Gallery Image'
+                                        loading='lazy'
+                                        onerror="this.src='/img/fallback/clean-village-fallback.webp'"
+                                    )
+
+                                    .gallery-overlay(class='flex items-center justify-center')
+
+                                        div(class='gallery-view-btn')
+
+                                            span(class='inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30')
+
+                                                i(class='fa-solid fa-magnifying-glass-plus text-white text-lg')
+
+
+                            div(class='p-5 flex flex-col flex-grow')
+
+                                if title
+
+                                    h5(class='gallery-title text-base font-bold text-slate-800 mb-2')
+                                        | #{title}
+
+                                if desc
+
+                                    p(class='gallery-desc text-sm text-slate-500 leading-relaxed flex-grow')
+                                        | #{desc}
+
+                                if !title && !desc
+
+                                    div(class='text-sm italic text-slate-400')
+                                        | छायाचित्र
+
+
+            else
+
+                div(class='py-24')
+
+                    div(class='max-w-lg mx-auto bg-white border border-slate-200 rounded-3xl shadow-sm px-10 py-14 text-center')
+
+                        div(class='w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center mb-6')
+
+                            i(class='fa-solid fa-image text-3xl text-slate-400')
+
+                        h5(class='text-xl font-bold text-slate-700')
+
+                            if language === 'en'
+                                | No Photos Available
+
+                            else if language === 'hi'
+                                | कोई फोटो उपलब्ध नहीं है
+
+                            else
+                                | छायाचित्रे उपलब्ध नाहीत
+
+                        p(class='mt-3 text-slate-400 text-sm')
+
+                            if language === 'en'
+                                | Images will appear here once uploaded.
+
+                            else if language === 'hi'
+                                | अपलोड होने के बाद फोटो यहाँ दिखाई देंगे।
+
+                            else
+                                | छायाचित्रे अपलोड झाल्यानंतर येथे दिसतील.
