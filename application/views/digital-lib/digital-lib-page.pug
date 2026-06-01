@@ -11,77 +11,49 @@ block internal_css
                 linear-gradient(to bottom, #f8fafc, #f1f5f9);
         }
 
-        .digital-lib-card {
-            position: relative;
-            overflow: hidden;
-            background: rgba(255,255,255,0.92);
-            border: 1px solid rgba(226,232,240,0.9);
-            box-shadow:
-                0 10px 25px rgba(15,23,42,0.05),
-                0 2px 8px rgba(15,23,42,0.03);
-            transition: all 0.35s ease;
-            backdrop-filter: blur(12px);
+        .hero-glass {
+            backdrop-filter: blur(24px);
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 
+                0 10px 30px -10px rgba(15, 23, 42, 0.04),
+                0 1px 3px rgba(15, 23, 42, 0.02);
         }
 
-        .digital-lib-card::before {
+        /* 3D Book Spine & Cover Hover Effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .book-cover-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.45s ease;
+        }
+
+        .book-card-item:hover .book-cover-3d {
+            transform: rotateY(-15deg) rotateX(4deg) translateZ(10px);
+            box-shadow: 
+                15px 20px 35px -5px rgba(15, 23, 42, 0.25),
+                5px 5px 10px -5px rgba(15, 23, 42, 0.15);
+        }
+
+        /* Dynamic Book Spine Shine */
+        .book-cover-3d::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(14,165,233,0.03),
-                rgba(34,197,94,0.03)
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .digital-lib-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(14,165,233,0.25);
-            box-shadow:
-                0 20px 40px rgba(15,23,42,0.08),
-                0 10px 15px rgba(14,165,233,0.06);
-        }
-
-        .digital-lib-card:hover::before {
-            opacity: 1;
-        }
-
-        .book-link {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.25s ease;
-            border: 1px solid transparent;
-        }
-
-        .book-link::before {
-            content: '';
-            position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 100%;
             background: linear-gradient(
                 to right,
-                rgba(239,246,255,0.8),
-                rgba(240,253,244,0.8)
+                rgba(0, 0, 0, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 25%,
+                rgba(0, 0, 0, 0.05) 50%,
+                transparent 100%
             );
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .book-link:hover::before {
-            opacity: 1;
-        }
-
-        .book-link:hover {
-            border-color: #bfdbfe;
-            transform: translateX(4px);
-        }
-
-        .hero-glass {
-            backdrop-filter: blur(20px);
-            background: rgba(255,255,255,0.65);
-            border: 1px solid rgba(255,255,255,0.7);
-            box-shadow: 0 8px 24px rgba(15,23,42,0.05);
+            pointer-events: none;
+            z-index: 10;
         }
 
         .floating-orb {
@@ -89,222 +61,781 @@ block internal_css
         }
 
         @keyframes floatOrb {
-
             0%, 100% {
                 transform: translateY(0px);
             }
-
             50% {
                 transform: translateY(-15px);
             }
         }
 
-        @media(max-width:640px) {
-
-            .mobile-heading {
-                font-size: 1.9rem !important;
-                line-height: 2.4rem !important;
+        /* Shimmer Animation */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
             }
-
-            .mobile-subheading {
-                font-size: 0.9rem !important;
-                line-height: 1.5rem !important;
-            }
-
-            .book-title {
-                font-size: 0.82rem !important;
-                line-height: 1.25rem !important;
-            }
-
-            .digital-lib-card {
-                border-radius: 1.2rem !important;
-            }
-
-            .mobile-book-icon {
-                width: 2.7rem !important;
-                height: 2.7rem !important;
-                min-width: 2.7rem !important;
+            100% {
+                background-position: 200% 0;
             }
         }
 
+        .animate-shimmer {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        /* Tab Transitions */
+        .category-tab-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-tab-btn:not(.active-tab):hover {
+            transform: translateX(4px);
+            background-color: rgba(14, 165, 233, 0.04);
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        @media (max-width: 1023px) {
+            .category-tab-btn:not(.active-tab):hover {
+                transform: none;
+            }
+        }
+
+        /* Desktop Sticky Sidebar styling */
+        @media (min-width: 1024px) {
+            .desktop-sticky-sidebar {
+                position: sticky;
+                top: 130px;
+                max-height: calc(100vh - 160px);
+                overflow-y: auto;
+                padding-right: 6px;
+            }
+        }
+
+        /* Mobile Sticky Tabs Container and Edge Gradient Fades */
+        @media (max-width: 1023px) {
+            .mobile-sticky-tabs-container {
+                position: sticky;
+                top: 72px; /* Calculated dynamically by JS as fallback */
+                z-index: 50;
+                background: rgba(248, 250, 252, 0.96);
+                backdrop-filter: blur(16px);
+                border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+                margin-left: -1rem;
+                margin-right: -1rem;
+                padding: 0.75rem 1rem;
+                box-shadow: 0 4px 12px -5px rgba(15, 23, 42, 0.08);
+                overflow: hidden;
+            }
+
+            .mobile-sticky-tabs-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 32px;
+                height: 100%;
+                background: linear-gradient(to right, rgba(248, 250, 252, 0.96), transparent);
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            .mobile-sticky-tabs-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 32px;
+                height: 100%;
+                background: linear-gradient(to left, rgba(248, 250, 252, 0.96), transparent);
+                pointer-events: none;
+                z-index: 10;
+            }
+        }
+
+        /* Scrollbar styles for horizontal tabs on mobile */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Smooth CSS transitions for filtering */
+        .book-card-item, .book-list-item {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Custom scrollbar for sidebar */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @media(max-width: 640px) {
+            .mobile-heading {
+                font-size: 2rem !important;
+                line-height: 2.5rem !important;
+            }
+            .mobile-subheading {
+                font-size: 0.95rem !important;
+                line-height: 1.5rem !important;
+            }
+        }
 
 block content
 
-    section(class='relative py-10 md:py-16 overflow-hidden')
+    section(class='relative py-10 md:py-16')
 
-        // Decorative Background
-        div(class='floating-orb absolute top-0 left-0 w-72 h-72 bg-sky-200/30 rounded-full blur-3xl -z-10')
-        div(class='floating-orb absolute bottom-0 right-0 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl -z-10')
+        // Decorative Background (Self-contained overflow-hidden viewport to prevent horizontal scrollbars)
+        div(class='absolute inset-0 overflow-hidden pointer-events-none -z-10')
+            div(class='floating-orb absolute top-0 left-0 w-72 h-72 bg-sky-200/20 rounded-full blur-3xl')
+            div(class='floating-orb absolute bottom-0 right-0 w-80 h-80 bg-emerald-200/20 rounded-full blur-3xl')
 
         div(class='container mx-auto px-4')
 
             // HERO SECTION
-            div(class='max-w-5xl mx-auto text-center mb-12 md:mb-16')
+            div(class='max-w-5xl mx-auto text-center mb-10 md:mb-14')
 
-                div(class='hero-glass inline-flex items-center gap-3 rounded-full px-5 py-3')
-
+                div(class='hero-glass inline-flex items-center gap-3 rounded-full px-5 py-3 shadow-sm')
                     div(class='w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-cyan-500 flex items-center justify-center shadow-md')
-
-                        i(class='fa-solid fa-book-open-reader text-white')
-
-                    span(class='font-semibold tracking-wide text-slate-700')
+                        i(class='fa-solid fa-book-open-reader text-white text-sm')
+                    span(class='font-bold tracking-wide text-slate-700 text-sm')
                         | ग्रामपंचायत डिजिटल लायब्ररी
 
                 h1(class='mobile-heading mt-6 text-4xl md:text-6xl font-black text-slate-800 tracking-tight leading-tight')
-
                     span(class='bg-gradient-to-r from-sky-700 to-emerald-600 bg-clip-text text-transparent')
                         | डिजिटल पुस्तकालय
-
-                p(class='mobile-subheading mt-5 text-slate-500 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto')
-
+                
+                p(class='mobile-subheading mt-4 text-slate-500 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto')
                     | स्पर्धा परीक्षा, शैक्षणिक अभ्यासक्रम, शासन योजना, ग्रामविकास आणि इतर महत्त्वपूर्ण पुस्तके आता एका क्लिकवर उपलब्ध.
-
 
             if digitalLib && digitalLib.length > 0
 
                 -
                     let totalBooks = 0;
-
                     digitalLib.forEach(category => {
-                        totalBooks += (category.books?.length || 0)
-                    })
+                        totalBooks += (category.books ? category.books.length : 0);
+                    });
+
+                    // Dynamic Icons based on title keywords
+                    const getCategoryIcon = (title) => {
+                        let t = title.toLowerCase();
+                        if (t.includes('स्पर्धा') || t.includes('परीक्षा') || t.includes('अभ्यास') || t.includes('exam') || t.includes('study')) return 'fa-graduation-cap';
+                        if (t.includes('शासन') || t.includes('योजना') || t.includes('government') || t.includes('scheme')) return 'fa-file-invoice';
+                        if (t.includes('शेती') || t.includes('कृषी') || t.includes('agriculture') || t.includes('farmer')) return 'fa-seedling';
+                        if (t.includes('आरोग्य') || t.includes('वैद्यकीय') || t.includes('health') || t.includes('medical')) return 'fa-heart-pulse';
+                        if (t.includes('इतिहास') || t.includes('landmark') || t.includes('history')) return 'fa-landmark';
+                        if (t.includes('कथा') || t.includes('कादंबरी') || t.includes('गोष्टी') || t.includes('story') || t.includes('novel')) return 'fa-book-open';
+                        return 'fa-book';
+                    };
+
+                    // Gradient presets for fallback covers
+                    const getGradientPreset = (index) => {
+                        const presets = [
+                            'from-sky-500 to-indigo-600',
+                            'from-emerald-500 to-teal-700',
+                            'from-rose-500 to-purple-600',
+                            'from-amber-500 to-red-600',
+                            'from-violet-500 to-fuchsia-700'
+                        ];
+                        return presets[index % presets.length];
+                    };
 
 
-                // STATS
-                div(class='grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 md:mb-14')
+                // STATS PANEL
+                div(class='grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 md:mb-12')
 
-                    div(class='hero-glass rounded-2xl p-5 text-center')
-
+                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
                         div(class='text-3xl font-black text-sky-700')
                             | #{digitalLib.length}
-
-                        div(class='mt-1 text-sm text-slate-500')
+                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
                             | विभाग
 
-                    div(class='hero-glass rounded-2xl p-5 text-center')
-
+                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
                         div(class='text-3xl font-black text-emerald-700')
                             | #{totalBooks}
-
-                        div(class='mt-1 text-sm text-slate-500')
+                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
                             | पुस्तके
 
-                    div(class='hero-glass rounded-2xl p-5 text-center')
-
+                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
                         div(class='text-3xl font-black text-violet-700')
                             | PDF
-
-                        div(class='mt-1 text-sm text-slate-500')
+                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
                             | स्वरूप
 
-                    div(class='hero-glass rounded-2xl p-5 text-center')
-
+                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
                         div(class='text-3xl font-black text-orange-700')
                             | Free
-
-                        div(class='mt-1 text-sm text-slate-500')
+                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
                             | प्रवेश
 
 
+                // MAIN WORKSPACE INTERFACE (Asymmetric heights are resolved via Tabs)
+                div(class='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start')
 
-                // LIBRARY GRID
-                div(class='grid grid-cols-1 xl:grid-cols-2 gap-7')
+                    // LEFT COLUMN: CATEGORIES & SEARCH SIDEBAR (4 columns on Large screens, Sticky on Desktop)
+                    div(class='lg:col-span-4 desktop-sticky-sidebar flex flex-col gap-6 w-full')
 
-                    each category in digitalLib
+                        // Instant Search Panel
+                        div(class='hero-glass rounded-3xl p-5 md:p-6 shadow-sm')
+                            h3(class='text-sm md:text-base font-bold text-slate-800 mb-3.5 flex items-center gap-2')
+                                i(class='fa-solid fa-magnifying-glass text-sky-500')
+                                | पुस्तक शोधा
+                            div(class='relative')
+                                input#book-search-input(
+                                    type='text'
+                                    placeholder='पुस्तकाचे नाव टाइप करा...'
+                                    class='w-full pl-11 pr-10 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 bg-white text-slate-700 text-sm font-semibold transition-all'
+                                )
+                                i(class='fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none')
+                                button#clear-search-btn(class='hidden absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors')
+                                    i(class='fa-solid fa-xmark text-xs')
 
-                        .digital-lib-card(class='rounded-3xl')
+                        // Category Tabs Panel (Desktop only version inside sidebar)
+                        div(class='hero-glass rounded-3xl p-5 md:p-6 shadow-sm')
+                            div(class='flex items-center justify-between mb-4')
+                                h3(class='text-sm md:text-base font-bold text-slate-800 flex items-center gap-2')
+                                    i(class='fa-solid fa-layer-group text-sky-500')
+                                    | विभाग निवडा
+                                span(class='px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-700 text-xs font-bold')
+                                    | #{digitalLib.length}
 
-                            // HEADER
-                            div(class='relative p-6 md:p-7 border-b border-slate-100')
+                            // Desktop Sidebar List (Vertical scroll if many)
+                            div(class='hidden lg:flex flex-col gap-2.5 max-h-[480px] overflow-y-auto pr-1 sidebar-scroll')
+                                
+                                // "All Books" tab
+                                button(
+                                    class='category-tab-btn active-tab w-full text-left p-4 rounded-2xl bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md transition-all duration-300 flex items-center justify-between gap-3 border border-transparent'
+                                    data-category-id='all'
+                                )
+                                    div(class='flex items-center gap-3 min-w-0')
+                                        div(class='w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm')
+                                            i(class='fa-solid fa-grid-2 text-white text-sm')
+                                        div(class='min-w-0')
+                                            p(class='cat-title font-bold text-sm truncate') सर्व पुस्तके
+                                            p(class='text-[11px] opacity-80 truncate') सर्व विभागातील पुस्तके
+                                    span(class='count-badge px-2.5 py-1 rounded-lg bg-white/20 text-white text-xs font-bold shrink-0')
+                                        | #{totalBooks}
 
-                                div(class='flex items-start justify-between gap-4 relative z-10')
-
-                                    div
-
-                                        div(class='inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold mb-3')
-
-                                            i(class='fa-solid fa-layer-group')
-
-                                            span विभाग
-
-                                        h2(class='text-xl md:text-2xl font-black text-slate-800 leading-snug')
-
-                                            | #{category.title}
-
-                                        if category.subtitle
-
-                                            p(class='mt-2 text-sm text-slate-500 leading-relaxed')
-
-                                                | #{category.subtitle}
-
-                                    div(class='hidden md:flex w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-emerald-500 shadow-lg items-center justify-center')
-
-                                        i(class='fa-solid fa-books text-white text-2xl')
+                                each category, catIndex in digitalLib
+                                    button(
+                                        class='category-tab-btn w-full text-left p-4 rounded-2xl bg-white text-slate-700 border border-slate-100 hover:border-sky-200/40 hover:bg-sky-50/20 transition-all duration-300 flex items-center justify-between gap-3'
+                                        data-category-id=`cat-${catIndex}`
+                                        data-subtitle=category.subtitle
+                                    )
+                                        div(class='flex items-center gap-3 min-w-0')
+                                            div(class='w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:bg-sky-100 transition-colors')
+                                                i(class=`fa-solid ${getCategoryIcon(category.title)} text-base`)
+                                            div(class='min-w-0')
+                                                p(class='cat-title font-bold text-sm text-slate-800 truncate') #{category.title}
+                                                p(class='text-[11px] text-slate-400 truncate')
+                                                    | #{category.subtitle || 'अभ्यास व संदर्भ साहित्य'}
+                                        span(class='count-badge px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-bold shrink-0')
+                                            | #{category.books ? category.books.length : 0}
 
 
-                            // BOOKS
-                            div(class='p-4 md:p-5 flex flex-col gap-3 relative z-10')
+                    // RIGHT COLUMN: BOOKS BOARD (8 columns on Large screens)
+                    div(class='lg:col-span-8 flex flex-col gap-6 w-full')
 
+                        // Mobile Sticky Category Tabs Panel (Sticky on mobile, hidden on desktop)
+                        div(class='lg:hidden mobile-sticky-tabs-container')
+                            div(class='mobile-sticky-tabs relative flex items-center gap-3 overflow-x-auto scrollbar-none')
+                                // "All Books" tab
+                                button(
+                                    class='category-tab-btn active-tab shrink-0 px-4.5 py-3 rounded-2xl bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md transition-all duration-300 flex items-center gap-2 text-xs font-bold border border-transparent'
+                                    data-category-id='all'
+                                )
+                                    i(class='fa-solid fa-grid-2')
+                                    span(class='cat-title') सर्व पुस्तके
+                                    span(class='count-badge px-1.5 py-0.5 rounded-md bg-white/20 text-white text-[10px] font-bold')
+                                        | #{totalBooks}
+
+                                each category, catIndex in digitalLib
+                                    button(
+                                        class='category-tab-btn shrink-0 px-4.5 py-3 rounded-2xl bg-white text-slate-700 border border-slate-100 hover:border-sky-200/40 transition-all duration-300 flex items-center gap-2 text-xs font-bold'
+                                        data-category-id=`cat-${catIndex}`
+                                        data-subtitle=category.subtitle
+                                    )
+                                        i(class=`fa-solid ${getCategoryIcon(category.title)}`)
+                                        span(class='cat-title') #{category.title}
+                                        span(class='count-badge px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-bold')
+                                            | #{category.books ? category.books.length : 0}
+
+                        // Books View Controller
+                        div(class='hero-glass rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4')
+                            div
+                                h2#active-category-title(class='text-xl md:text-2xl font-black text-slate-800 leading-snug')
+                                    | सर्व पुस्तके
+                                p#active-category-subtitle(class='mt-1.5 text-xs md:text-sm text-slate-500 leading-relaxed')
+                                    | लायब्ररीमधील सर्व विभागातील उपलब्ध पुस्तके.
+                            
+                            // Grid / List Layout Switcher
+                            div(class='flex items-center bg-slate-100/80 p-1.5 rounded-2xl w-fit self-end sm:self-center')
+                                button#grid-view-btn(class='px-4 py-2 rounded-xl bg-sky-500 text-white text-xs font-bold shadow-sm transition-all duration-300 flex items-center gap-1.5')
+                                    i(class='fa-solid fa-grid-2')
+                                    span ग्रिड
+                                button#list-view-btn(class='px-4 py-2 rounded-xl bg-transparent text-slate-600 text-xs font-bold transition-all duration-300 flex items-center gap-1.5')
+                                    i(class='fa-solid fa-list')
+                                    span यादी
+
+                        // Custom Search Empty State
+                        div#empty-search-state(class='hidden hero-glass rounded-3xl p-12 text-center transition-all duration-300')
+                            div(class='w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-5 shadow-inner')
+                                i(class='fa-solid fa-magnifying-glass text-3xl')
+                            h4(class='text-lg md:text-xl font-black text-slate-700') पुस्तक सापडले नाही
+                            p(class='text-xs md:text-sm text-slate-500 mt-2 max-w-sm mx-auto')
+                                | आपण शोधत असलेले पुस्तक या विभागात किंवा लायब्ररीमध्ये उपलब्ध नाही. कृपया दुसरे नाव शोधून पहा.
+
+                        // GRID DISPLAY VIEW
+                        div#books-grid-container(class='grid grid-cols-2 sm:grid-cols-3 gap-6')
+                            - let bookIndex = 0
+                            each category, catIndex in digitalLib
                                 if category.books && category.books.length > 0
-
                                     each book in category.books
-
-                                        a(
-                                            href=book.link
-                                            target='_blank'
-                                            class='book-link rounded-2xl bg-slate-50/80 p-4 flex items-center justify-between gap-3'
+                                        div(
+                                            class='book-card-item group bg-white rounded-3xl p-4 border border-slate-100 hover:border-sky-200/50 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col justify-between'
+                                            data-category-id=`cat-${catIndex}`
+                                            data-name=book.name.toLowerCase()
                                         )
+                                            div
+                                                // Book cover block with 3D animation
+                                                div(class='relative w-full aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 shadow-inner perspective-1000')
+                                                    
+                                                    // 3D Rotator Cover
+                                                    div(class='book-cover-3d relative w-full h-full rounded-2xl overflow-hidden shadow-md')
+                                                        
+                                                        // Premium Fallback layout (styled like a real book cover)
+                                                        div(class=`absolute inset-0 bg-gradient-to-br ${getGradientPreset(bookIndex)} p-4 flex flex-col justify-between text-white`)
+                                                            
+                                                            // Header labels
+                                                            div(class='flex justify-between items-start z-10')
+                                                                span(class='text-[8px] md:text-[9px] font-black tracking-widest bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm')
+                                                                    | PDF
+                                                                i(class=`fa-solid ${getCategoryIcon(category.title)} text-white/40 text-xs`)
+                                                            
+                                                            // Styled Title
+                                                            div(class='z-10 my-auto text-center')
+                                                                p(class='poppins-marathi-font font-black text-xs md:text-[13px] leading-snug line-clamp-4 px-1 filter drop-shadow-md')
+                                                                    | #{book.name}
+                                                            
+                                                            // Footer info
+                                                            div(class='z-10 flex items-center justify-between border-t border-white/10 pt-2')
+                                                                span(class='text-[8px] font-bold opacity-80 uppercase tracking-wider truncate max-w-[85px]')
+                                                                    | #{category.title}
+                                                                i(class='fa-solid fa-file-pdf text-[10px] opacity-90')
+                                                        
+                                                        // Loading Shimmer overlay
+                                                        div(class='pdf-loading-shimmer absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 flex items-center justify-center z-20')
+                                                            div(class='w-8 h-8 rounded-full border-4 border-sky-500/20 border-t-sky-500 animate-spin')
+                                                        
+                                                        // Rendered PDF Page-1 Cover (loaded via pdf.js)
+                                                        img(
+                                                            class='pdf-thumbnail-target absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 z-30'
+                                                            data-pdf-url=book.link
+                                                            alt=book.name
+                                                            loading='lazy'
+                                                        )
 
-                                            div(class='relative z-10 flex items-start gap-4 min-w-0')
+                                                // Book details info
+                                                h4(class='book-title font-black text-slate-800 text-sm md:text-[15px] line-clamp-2 leading-snug break-words mb-2.5 px-1 min-h-[40px]')
+                                                    | #{book.name}
+                                                
+                                                div(class='flex items-center gap-1.5 text-[11px] text-slate-400 mb-4 px-1')
+                                                    i(class='fa-solid fa-folder-open text-sky-500/70')
+                                                    span(class='font-semibold truncate max-w-[150px]') #{category.title}
 
-                                                div(class='mobile-book-icon w-12 h-12 min-w-[48px] rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-md')
+                                            // Action Button
+                                            a(
+                                                href=book.link
+                                                target='_blank'
+                                                class='w-full py-3 rounded-2xl bg-sky-50 hover:bg-sky-500 text-sky-700 hover:text-white font-bold text-xs md:text-sm text-center transition-all duration-300 flex items-center justify-center gap-2 group-hover:scale-[1.02]'
+                                            )
+                                                i(class='fa-solid fa-arrow-up-right-from-square')
+                                                span वाचा / डाउनलोड करा
 
-                                                    i(class='fa-solid fa-file-pdf text-white text-lg')
+                                        - bookIndex++
+
+
+                        // LIST DISPLAY VIEW (Compact rows)
+                        div#books-list-container(class='hidden flex flex-col gap-4.5')
+                            - let listIndex = 0
+                            each category, catIndex in digitalLib
+                                if category.books && category.books.length > 0
+                                    each book in category.books
+                                        div(
+                                            class='book-list-item group bg-white rounded-3xl p-4 border border-slate-100 hover:border-sky-200/50 hover:bg-sky-50/10 transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-between gap-4'
+                                            data-category-id=`cat-${catIndex}`
+                                            data-name=book.name.toLowerCase()
+                                        )
+                                            div(class='flex items-center gap-4.5 min-w-0')
+                                                
+                                                // Small book cover
+                                                div(class='relative w-14 h-18 min-w-[56px] overflow-hidden rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 shadow-inner shrink-0')
+                                                    
+                                                    // Fallback Cover
+                                                    div(class=`absolute inset-0 bg-gradient-to-br ${getGradientPreset(listIndex)} p-1.5 flex flex-col justify-between text-white`)
+                                                        div(class='absolute top-0 left-0 w-2.5 h-full bg-gradient-to-r from-black/25 to-transparent pointer-events-none z-10')
+                                                        span(class='text-[7px] font-black bg-white/20 px-1 py-0.2 rounded-full self-start') PDF
+                                                        i(class='fa-solid fa-file-pdf text-[9px] self-end')
+                                                    
+                                                    // Loading Shimmer
+                                                    div(class='pdf-loading-shimmer absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 flex items-center justify-center z-20')
+                                                        div(class='w-4 h-4 rounded-full border-2 border-sky-500/20 border-t-sky-500 animate-spin')
+                                                    
+                                                    // Image
+                                                    img(
+                                                        class='pdf-thumbnail-target absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 z-30'
+                                                        data-pdf-url=book.link
+                                                        alt=book.name
+                                                    )
 
                                                 div(class='min-w-0')
-
-                                                    h4(class='book-title text-sm md:text-base font-bold text-slate-800 break-words')
-
+                                                    h4(class='font-bold text-slate-800 text-sm md:text-base truncate break-words mb-1.5')
                                                         | #{book.name}
+                                                    div(class='flex items-center gap-3 text-xs text-slate-400')
+                                                        span(class='inline-flex items-center gap-1.5')
+                                                            i(class='fa-solid fa-folder text-sky-500/50')
+                                                            span(class='font-medium') #{category.title}
+                                                        span(class='opacity-50') |
+                                                        span(class='inline-flex items-center gap-1.5')
+                                                            i(class='fa-regular fa-file-lines text-slate-400')
+                                                            span PDF
+                                            
+                                            // Action Button
+                                            a(
+                                                href=book.link
+                                                target='_blank'
+                                                class='w-10 h-10 min-w-[40px] rounded-full bg-sky-50 hover:bg-sky-500 text-sky-600 hover:text-white flex items-center justify-center border border-sky-100 hover:border-transparent transition-all duration-300 shrink-0 shadow-sm'
+                                                title='वाचा / डाउनलोड करा'
+                                            )
+                                                i(class='fa-solid fa-arrow-up-right-from-square text-xs')
 
-                                                    div(class='mt-1 flex items-center gap-2 text-xs text-slate-400')
-
-                                                        i(class='fa-regular fa-file-lines')
-
-                                                        span PDF Document
-
-                                            div(class='relative z-10 w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center')
-
-                                                i(class='fa-solid fa-arrow-up-right-from-square text-slate-500 text-xs')
-
-
-                                else
-
-                                    div(class='text-center py-10 text-slate-400')
-
-                                        div(class='w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center')
-
-                                            i(class='fa-solid fa-book text-3xl')
-
-                                        p(class='mt-4 text-sm')
-
-                                            | पुस्तके उपलब्ध नाहीत
-
+                                        - listIndex++
 
             else
 
                 div(class='max-w-2xl mx-auto')
 
-                    div(class='hero-glass rounded-3xl px-8 py-16 text-center')
+                    div(class='hero-glass rounded-3xl px-8 py-16 text-center shadow-sm')
 
                         div(class='w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center shadow-inner')
-
                             i(class='fa-solid fa-book-open text-4xl text-slate-400')
 
                         h3(class='mt-7 text-3xl font-black text-slate-700')
-
                             | डिजिटल लायब्ररी उपलब्ध नाही
 
                         p(class='mt-4 text-slate-500 text-sm md:text-base leading-relaxed')
-
                             | लवकरच नवीन पुस्तके आणि अभ्यास साहित्य येथे उपलब्ध करण्यात येतील.
+
+block external_js
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js')
+
+block internal_js
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Dynamic Sticky Position Calculation for Desktop & Mobile
+            const adjustStickyPositions = () => {
+                const indexHeader = document.querySelector('.index-navigation-bar');
+                const desktopSidebar = document.querySelector('.desktop-sticky-sidebar');
+                const mobileTabs = document.querySelector('.mobile-sticky-tabs-container');
+                
+                const headerHeight = indexHeader ? indexHeader.getBoundingClientRect().height : 70;
+                
+                if (desktopSidebar) {
+                    desktopSidebar.style.top = `${headerHeight + 24}px`;
+                    desktopSidebar.style.maxHeight = `calc(100vh - ${headerHeight + 48}px)`;
+                }
+                if (mobileTabs) {
+                    mobileTabs.style.top = `${headerHeight}px`;
+                }
+            };
+
+            // Run immediately and bind resize listener
+            window.addEventListener('resize', adjustStickyPositions);
+            adjustStickyPositions();
+            // Re-run after short delays to ensure proper layout after styles/assets load
+            setTimeout(adjustStickyPositions, 200);
+            setTimeout(adjustStickyPositions, 600);
+
+            // 1.5. PDF.js Worker Configuration
+            if (typeof pdfjsLib !== 'undefined') {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+            }
+
+            // 2. View Toggle Logic (Grid vs List)
+            const gridBtn = document.getElementById('grid-view-btn');
+            const listBtn = document.getElementById('list-view-btn');
+            const gridContainer = document.getElementById('books-grid-container');
+            const listContainer = document.getElementById('books-list-container');
+
+            if (gridBtn && listBtn) {
+                gridBtn.addEventListener('click', () => {
+                    gridBtn.className = 'px-4 py-2 rounded-xl bg-sky-500 text-white text-xs font-bold shadow-sm transition-all duration-300 flex items-center gap-1.5';
+                    listBtn.className = 'px-4 py-2 rounded-xl bg-transparent text-slate-600 text-xs font-bold transition-all duration-300 flex items-center gap-1.5';
+                    gridContainer.classList.remove('hidden');
+                    listContainer.classList.add('hidden');
+                    localStorage.setItem('lib-view-preference', 'grid');
+                });
+
+                listBtn.addEventListener('click', () => {
+                    listBtn.className = 'px-4 py-2 rounded-xl bg-sky-500 text-white text-xs font-bold shadow-sm transition-all duration-300 flex items-center gap-1.5';
+                    gridBtn.className = 'px-4 py-2 rounded-xl bg-transparent text-slate-600 text-xs font-bold transition-all duration-300 flex items-center gap-1.5';
+                    listContainer.classList.remove('hidden');
+                    gridContainer.classList.add('hidden');
+                    localStorage.setItem('lib-view-preference', 'list');
+                });
+
+                // Retrieve and load view preference
+                const savedPref = localStorage.getItem('lib-view-preference');
+                if (savedPref === 'list') {
+                    listBtn.click();
+                }
+            }
+
+            // 3. Dynamic Category Filtering & Real-time Searching
+            const categoryTabs = document.querySelectorAll('.category-tab-btn');
+            const searchInput = document.getElementById('book-search-input');
+            const clearSearchBtn = document.getElementById('clear-search-btn');
+            const bookCardItems = document.querySelectorAll('.book-card-item');
+            const bookListItems = document.querySelectorAll('.book-list-item');
+            const emptyState = document.getElementById('empty-search-state');
+            const activeCategoryTitle = document.getElementById('active-category-title');
+            const activeCategorySubtitle = document.getElementById('active-category-subtitle');
+
+            let currentCategoryId = 'all';
+            let currentSearchQuery = '';
+
+            function updateLibraryView() {
+                let visibleCount = 0;
+                const query = currentSearchQuery.trim().toLowerCase();
+
+                // Update category title/subtitle in headers
+                if (currentCategoryId === 'all') {
+                    activeCategoryTitle.textContent = "सर्व पुस्तके";
+                    activeCategorySubtitle.textContent = "लायब्ररीमधील सर्व विभागातील उपलब्ध पुस्तके.";
+                } else {
+                    const activeTab = document.querySelector(`.category-tab-btn[data-category-id="${currentCategoryId}"]`);
+                    if (activeTab) {
+                        activeCategoryTitle.textContent = activeTab.querySelector('.cat-title').textContent;
+                        activeCategorySubtitle.textContent = activeTab.dataset.subtitle || "या विभागातील सर्व पुस्तके खालीलप्रमाणे आहेत.";
+                    }
+                }
+
+                // Filter Grid Card Items
+                bookCardItems.forEach(item => {
+                    const catId = item.dataset.categoryId;
+                    const bookName = item.dataset.name;
+                    const matchesCategory = (currentCategoryId === 'all' || catId === currentCategoryId);
+                    const matchesSearch = (query === '' || bookName.includes(query));
+
+                    if (matchesCategory && matchesSearch) {
+                        item.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Filter List Row Items
+                bookListItems.forEach(item => {
+                    const catId = item.dataset.categoryId;
+                    const bookName = item.dataset.name;
+                    const matchesCategory = (currentCategoryId === 'all' || catId === currentCategoryId);
+                    const matchesSearch = (query === '' || bookName.includes(query));
+
+                    if (matchesCategory && matchesSearch) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Empty state visibility toggle
+                if (visibleCount === 0) {
+                    emptyState.classList.remove('hidden');
+                    gridContainer.style.display = 'none';
+                    listContainer.style.display = 'none';
+                } else {
+                    emptyState.classList.add('hidden');
+                    if (localStorage.getItem('lib-view-preference') === 'list') {
+                        listContainer.style.display = '';
+                        gridContainer.style.display = 'none';
+                    } else {
+                        gridContainer.style.display = '';
+                        listContainer.style.display = 'none';
+                    }
+                }
+            }
+
+            // Bind click events on category tab buttons
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Reset styling on all tab buttons
+                    categoryTabs.forEach(t => {
+                        t.classList.remove('bg-gradient-to-r', 'from-sky-600', 'to-sky-700', 'text-white', 'shadow-md', 'active-tab');
+                        t.classList.add('bg-white', 'text-slate-700', 'border-slate-100');
+                        const badge = t.querySelector('.count-badge');
+                        if (badge) {
+                            badge.classList.remove('bg-white/20', 'text-white');
+                            badge.classList.add('bg-slate-100', 'text-slate-600');
+                        }
+                    });
+
+                    // Set styling for the selected active tab button
+                    tab.classList.add('bg-gradient-to-r', 'from-sky-600', 'to-sky-700', 'text-white', 'shadow-md', 'active-tab');
+                    tab.classList.remove('bg-white', 'text-slate-700', 'border-slate-100');
+                    const badge = tab.querySelector('.count-badge');
+                    if (badge) {
+                        badge.classList.add('bg-white/20', 'text-white');
+                        badge.classList.remove('bg-slate-100', 'text-slate-600');
+                    }
+
+                    currentCategoryId = tab.dataset.categoryId;
+                    updateLibraryView();
+
+                    // Smoothly scroll back to the top of the books container on mobile
+                    if (window.innerWidth < 1024) {
+                        const booksController = document.querySelector('.lg:col-span-8');
+                        if (booksController) {
+                            const indexHeader = document.querySelector('.index-navigation-bar');
+                            const headerHeight = indexHeader ? indexHeader.getBoundingClientRect().height : 70;
+                            const elementPosition = booksController.getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({
+                                top: elementPosition - headerHeight - 12,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Bind keyup/input search events
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    currentSearchQuery = e.target.value;
+                    if (currentSearchQuery.length > 0) {
+                        clearSearchBtn.classList.remove('hidden');
+                    } else {
+                        clearSearchBtn.classList.add('hidden');
+                    }
+                    updateLibraryView();
+                });
+
+                clearSearchBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    currentSearchQuery = '';
+                    clearSearchBtn.classList.add('hidden');
+                    updateLibraryView();
+                });
+            }
+
+            // 4. Dynamic PDF Thumbnail Generation (using pdf.js)
+            const pdfThumbnails = document.querySelectorAll('.pdf-thumbnail-target');
+
+            async function renderPdfThumbnails() {
+                if (typeof pdfjsLib === 'undefined') {
+                    console.warn('PDF.js not loaded. Fallback cover states will remain active.');
+                    document.querySelectorAll('.pdf-loading-shimmer').forEach(shimmer => {
+                        shimmer.classList.add('hidden');
+                    });
+                    return;
+                }
+
+                // Loop through each thumbnail target
+                for (const thumb of pdfThumbnails) {
+                    const pdfUrl = thumb.dataset.pdfUrl;
+                    if (!pdfUrl) {
+                        hideCardShimmer(thumb);
+                        continue;
+                    }
+
+                    const cacheKey = `pdf-thumb-cache-${pdfUrl}`;
+
+                    // Try loading from localStorage Cache first for instantaneous speeds
+                    try {
+                        const cachedImage = localStorage.getItem(cacheKey);
+                        if (cachedImage) {
+                            thumb.src = cachedImage;
+                            thumb.classList.remove('opacity-0');
+                            hideCardShimmer(thumb);
+                            continue;
+                        }
+                    } catch (err) {
+                        console.error('LocalStorage read error:', err);
+                    }
+
+                    // Render cover dynamically from the PDF itself
+                    try {
+                        const loadingTask = pdfjsLib.getDocument({
+                            url: pdfUrl,
+                            disableRange: true,
+                            disableAutoFetch: true
+                        });
+                        const pdf = await loadingTask.promise;
+                        const page = await pdf.getPage(1);
+
+                        // Set up rendering parameters
+                        const viewport = page.getViewport({ scale: 0.6 });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        await page.render(renderContext).promise;
+
+                        // Get image URL from canvas and update target
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                        thumb.src = dataUrl;
+                        thumb.classList.remove('opacity-0');
+
+                        // Save in cache (localStorage)
+                        try {
+                            localStorage.setItem(cacheKey, dataUrl);
+                        } catch (quotaErr) {
+                            // If LocalStorage quota is reached, clean older cache records
+                            console.warn('LocalStorage limit reached. Purging older thumbnails...');
+                            for (let i = 0; i < localStorage.length; i++) {
+                                const key = localStorage.key(i);
+                                if (key && key.startsWith('pdf-thumb-cache-')) {
+                                    localStorage.removeItem(key);
+                                }
+                            }
+                        }
+                    } catch (pdfErr) {
+                        console.warn(`Could not render thumbnail for ${pdfUrl}. Fallback cover will remain visible.`, pdfErr);
+                    } finally {
+                        hideCardShimmer(thumb);
+                    }
+                }
+            }
+
+            function hideCardShimmer(thumbnailEl) {
+                const parentCard = thumbnailEl.closest('.book-card-item, .book-list-item');
+                if (parentCard) {
+                    const shimmer = parentCard.querySelector('.pdf-loading-shimmer');
+                    if (shimmer) {
+                        shimmer.classList.add('hidden');
+                    }
+                }
+            }
+
+            // Schedule thumbnail generation to start after page rendering completes
+            setTimeout(renderPdfThumbnails, 400);
+        });
