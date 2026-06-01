@@ -33,13 +33,13 @@ const ps_ppt_slides = sequelize.define(
         },
 
         slide_title: {
-            type: STRING(200),
+            type: STRING(500),
             allowNull: true,
             comment: 'Slide title',
         },
 
         slide_subtitle: {
-            type: STRING(250),
+            type: STRING(800),
             allowNull: true,
             defaultValue: '',
             comment: 'Slide subtitle',

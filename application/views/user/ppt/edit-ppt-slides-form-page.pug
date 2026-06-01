@@ -58,15 +58,15 @@ block content
                                     option(value="mixed" selected=slide.slide_type === 'mixed') Mixed (मिश्रित)
 
                         // Row 2: Title & Subtitle (1/2 width each on md+)
-                        .col-12.col-md-6.mb-3
+                        .col-12
                             .form-group
                                 label.font-weight-bold(for="slide_title") स्लाईडचे Title
-                                input.form-control(type="text" name="slide_title" value=slide.slide_title placeholder="Title टाका")
+                                textarea.form-control(type="text" name="slide_title" placeholder="Title टाका")
 
-                        .col-12.col-md-6.mb-3
+                        .col-12
                             .form-group
                                 label.font-weight-bold(for="slide_subtitle") स्लाईडचे Subtitle
-                                input.form-control(type="text" name="slide_subtitle" value=slide.slide_subtitle placeholder="Subtitle टाका")
+                                textarea.form-control(type="text" name="slide_subtitle" rows="4" placeholder="Subtitle टाका")
 
                         // Row 3: Description (Full Width)
                         .col-12.mb-3
