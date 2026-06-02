@@ -177,9 +177,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                                 a(href='/gallery/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                     //- span ग्रामपंचायत टिपणी
                                                     span Gallery/छायाचित्रे
-                                                a(href='/digital-lib/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                                a(href=(endpoint !== '/' ? '/#members' : '#members') class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                     //- span Digital library
-                                                    span Digital Library
+                                                    span #{t("navbar.bottom.officeBearers")}
                                                 //- a(href='#' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") विकास आराखडा
 
                                                 a(href="/village/village-udyog-view" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
@@ -244,9 +244,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
 
                                     //- D MENU 3
                                     //- Already working
-                                    a(class=`${navBtnClass}` href=(endpoint !== '/' ? '/#members' : '#members')) 
+                                    a(class=`${navBtnClass}` href='/digital-lib/list') 
                                         //- span पदाधिकारी व सेवकवर्ग
-                                        span #{t("navbar.bottom.officeBearers")}
+                                        span Digital Library
 
                                     //- D MENU 4
                                     //- Navlink works
@@ -504,9 +504,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                             a(href='/gallery/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                 //- span Gallery
                                                 span Gallery/छायाचित्रे
-                                            a(href='/digital-lib/list' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
+                                            a(href=(endpoint !== '/' ? '/#members' : '#members') class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                 //- span Gallery
-                                                span Digital Library
+                                                span #{t("navbar.bottom.officeBearers")}
                                             a(href='/village/village-udyog-view' class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0") 
                                                 //- span गावातील उद्योग 
                                                 span #{t("navbar.bottom.ourVillage.dropdown.villageIndustries")} 
@@ -523,9 +523,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
 
 
                                 //- Already working
-                                a(class=`${mobileNavBtnClass}` href= (endpoint != '/' ? '/#members' : '#members')) 
+                                a(class=`${mobileNavBtnClass}` href='/digital-lib/list') 
                                     //- span पदाधिकारी व सेवकवर्ग
-                                    span #{t("navbar.bottom.officeBearers")}
+                                    span Digital Library
 
                                 //- Navlink works
                                 div(class="relative block text-left")

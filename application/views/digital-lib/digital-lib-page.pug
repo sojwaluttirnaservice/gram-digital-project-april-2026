@@ -5,19 +5,142 @@ block internal_css
     style.
 
         body {
-            background:
-                radial-gradient(circle at top left, rgba(14,165,233,0.08), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(34,197,94,0.08), transparent 30%),
-                linear-gradient(to bottom, #f8fafc, #f1f5f9);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 100% 0%, rgba(52, 211, 153, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(129, 140, 248, 0.1) 0%, transparent 50%),
+                linear-gradient(rgba(250, 251, 253, 0.52), rgba(250, 251, 253, 0.52)),
+                url('/img/background/digital-lib-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: -5;
+        }
+
+        .gradient-heading {
+            background: linear-gradient(135deg, #0284c7, #0d9488, #4f46e5, #d946ef, #0284c7);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 8s ease infinite;
+            display: inline-block;
+        }
+
+        @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .hero-glass {
             backdrop-filter: blur(24px);
-            background: rgba(255, 255, 255, 0.75);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            background: rgba(255, 255, 255, 0.22) !important;
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
             box-shadow: 
-                0 10px 30px -10px rgba(15, 23, 42, 0.04),
-                0 1px 3px rgba(15, 23, 42, 0.02);
+                0 10px 30px -10px rgba(15, 23, 42, 0.03) !important;
+        }
+
+        .hero-glass-premium {
+            position: relative;
+            backdrop-filter: blur(36px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 
+                0 30px 60px -15px rgba(15, 23, 42, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .book-card-item {
+            background: rgba(255, 255, 255, 0.22) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+        }
+
+        .book-list-item {
+            background: rgba(255, 255, 255, 0.22) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+        }
+
+        .floating-icon-left {
+            animation: floatLeft 8s ease-in-out infinite;
+        }
+        .floating-icon-right {
+            animation: floatRight 9s ease-in-out infinite;
+        }
+
+        @keyframes floatLeft {
+            0%, 100% { transform: translateY(-50%) rotate(0deg) scale(1); }
+            50% { transform: translateY(-62%) rotate(-8deg) scale(1.08); }
+        }
+        @keyframes floatRight {
+            0%, 100% { transform: translateY(-50%) rotate(0deg) scale(1); }
+            50% { transform: translateY(-38%) rotate(12deg) scale(1.08); }
+        }
+
+        /* Depth / 3D camera effects for drifting elements */
+        .depth-blur {
+            filter: blur(3px);
+            opacity: 0.12 !important;
+        }
+
+        .depth-sharp {
+            filter: blur(0px);
+            opacity: 0.28 !important;
+        }
+
+
+        /* Dynamic drifting background book SVGs */
+        .bg-drift-element {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            z-index: -2;
+            opacity: 0.15;
+            transition: opacity 0.5s ease;
+        }
+
+        .bg-drift-element svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .drift-anim-1 { animation: floatDrift1 20s ease-in-out infinite; }
+        .drift-anim-2 { animation: floatDrift2 24s ease-in-out infinite; }
+        .drift-anim-3 { animation: floatDrift3 18s ease-in-out infinite; }
+        .drift-anim-4 { animation: floatDrift4 22s ease-in-out infinite; }
+        .drift-anim-5 { animation: floatDrift2 19s ease-in-out infinite; }
+        .drift-anim-6 { animation: floatDrift1 25s ease-in-out infinite; }
+
+        @keyframes floatDrift1 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(-20px, -40px) rotate(15deg) scale(1.1); }
+        }
+        @keyframes floatDrift2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1.05); }
+            50% { transform: translate(30px, 20px) rotate(-12deg) scale(0.95); }
+        }
+        @keyframes floatDrift3 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(-15px, 30px) rotate(-18deg) scale(1.15); }
+        }
+        @keyframes floatDrift4 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(0.95); }
+            50% { transform: translate(25px, -35px) rotate(8deg) scale(1.05); }
         }
 
         /* 3D Book Spine & Cover Hover Effect */
@@ -203,32 +326,173 @@ block content
             div(class='floating-orb absolute top-0 left-0 w-72 h-72 bg-sky-200/20 rounded-full blur-3xl')
             div(class='floating-orb absolute bottom-0 right-0 w-80 h-80 bg-emerald-200/20 rounded-full blur-3xl')
 
+            // Dynamic floating book graphics scattered in the background along the sides
+            // Left Column
+            div(class='bg-drift-element drift-anim-1 depth-blur absolute left-[3%] top-[12%] w-16 h-16')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M32 50C32 50 17 46 8 50V14C17 10 32 14 32 14C32 14 47 10 56 14V50C47 46 32 50 32 50Z" fill="url(#book-grad-left1)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M32 14V50" stroke="#cbd5e1" stroke-width="1.2")
+                    linearGradient#book-grad-left1(x1="0" y1="0" x2="64" y2="64")
+                        stop(stop-color="#38bdf8")
+                        stop(offset="1" stop-color="#1d4ed8")
+            
+            div(class='bg-drift-element drift-anim-2 depth-sharp absolute left-[1%] top-[38%] w-24 h-24')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M10 20 L32 10 L54 20 L32 30 Z" fill="url(#stack-top)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 20 L10 28 L32 38 L32 30 Z" fill="url(#stack-left)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M54 20 L54 28 L32 38 L32 30 Z" fill="url(#stack-right)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 32 L32 22 L54 32 L32 42 Z" fill="url(#stack-top2)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 32 L10 40 L32 50 L32 42 Z" fill="url(#stack-left2)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M54 32 L54 40 L32 50 L32 42 Z" fill="url(#stack-right2)" stroke="#cbd5e1" stroke-width="1")
+                    defs
+                        linearGradient#stack-top(x1="10" y1="10" x2="54" y2="30")
+                            stop(stop-color="#34d399")
+                            stop(offset="1" stop-color="#059669")
+                        linearGradient#stack-left(x1="10" y1="20" x2="32" y2="38")
+                            stop(stop-color="#059669")
+                            stop(offset="1" stop-color="#047857")
+                        linearGradient#stack-right(x1="32" y1="30" x2="54" y2="38")
+                            stop(stop-color="#10b981")
+                            stop(offset="1" stop-color="#059669")
+                        linearGradient#stack-top2(x1="10" y1="22" x2="54" y2="42")
+                            stop(stop-color="#f59e0b")
+                            stop(offset="1" stop-color="#d97706")
+                        linearGradient#stack-left2(x1="10" y1="32" x2="32" y2="50")
+                            stop(stop-color="#d97706")
+                            stop(offset="1" stop-color="#b45309")
+                        linearGradient#stack-right2(x1="32" y1="42" x2="54" y2="50")
+                            stop(stop-color="#f59e0b")
+                            stop(offset="1" stop-color="#d97706")
+
+            div(class='bg-drift-element drift-anim-3 depth-sharp absolute left-[4%] top-[68%] w-18 h-18')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M32 10 L58 22 L32 34 L6 22 Z" fill="url(#cap-top)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M16 27.5 V38 C16 44 24 48 32 48 C40 48 48 44 48 38 V27.5" fill="url(#cap-base)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M48 26 V36 L52 38" stroke="#fbbf24" stroke-width="1.5")
+                    circle(cx="52" cy="38" r="2.5" fill="#fbbf24")
+                    defs
+                        linearGradient#cap-top(x1="6" y1="10" x2="58" y2="34")
+                            stop(stop-color="#a855f7")
+                            stop(offset="1" stop-color="#6b21a8")
+                        linearGradient#cap-base(x1="16" y1="27.5" x2="48" y2="48")
+                            stop(stop-color="#7e22ce")
+                            stop(offset="1" stop-color="#581c87")
+
+            // Right Column
+            div(class='bg-drift-element drift-anim-4 depth-sharp absolute right-[3%] top-[18%] w-20 h-20')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M32 10 L58 22 L32 34 L6 22 Z" fill="url(#cap-top-r)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M16 27.5 V38 C16 44 24 48 32 48 C40 48 48 44 48 38 V27.5" fill="url(#cap-base-r)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M48 26 V36 L52 38" stroke="#fbbf24" stroke-width="1.5")
+                    circle(cx="52" cy="38" r="2.5" fill="#fbbf24")
+                    defs
+                        linearGradient#cap-top-r(x1="6" y1="10" x2="58" y2="34")
+                            stop(stop-color="#ec4899")
+                            stop(offset="1" stop-color="#be185d")
+                        linearGradient#cap-base-r(x1="16" y1="27.5" x2="48" y2="48")
+                            stop(stop-color="#db2777")
+                            stop(offset="1" stop-color="#9d174d")
+
+            div(class='bg-drift-element drift-anim-5 depth-blur absolute right-[1%] top-[45%] w-16 h-16')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M32 50C32 50 17 46 8 50V14C17 10 32 14 32 14C32 14 47 10 56 14V50C47 46 32 50 32 50Z" fill="url(#book-grad-r)" stroke="#cbd5e1" stroke-width="1.2")
+                    path(d="M32 14V50" stroke="#cbd5e1" stroke-width="1.2")
+                    linearGradient#book-grad-r(x1="0" y1="0" x2="64" y2="64")
+                        stop(stop-color="#6366f1")
+                        stop(offset="1" stop-color="#4338ca")
+
+            div(class='bg-drift-element drift-anim-6 depth-sharp absolute right-[4%] top-[75%] w-22 h-22')
+                svg(viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M10 20 L32 10 L54 20 L32 30 Z" fill="url(#stack-top-r)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 20 L10 28 L32 38 L32 30 Z" fill="url(#stack-left-r)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M54 20 L54 28 L32 38 L32 30 Z" fill="url(#stack-right-r)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 32 L32 22 L54 32 L32 42 Z" fill="url(#stack-top2-r)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M10 32 L10 40 L32 50 L32 42 Z" fill="url(#stack-left2-r)" stroke="#cbd5e1" stroke-width="1")
+                    path(d="M54 32 L54 40 L32 50 L32 42 Z" fill="url(#stack-right2-r)" stroke="#cbd5e1" stroke-width="1")
+                    defs
+                        linearGradient#stack-top-r(x1="10" y1="10" x2="54" y2="30")
+                            stop(stop-color="#06b6d4")
+                            stop(offset="1" stop-color="#0891b2")
+                        linearGradient#stack-left-r(x1="10" y1="20" x2="32" y2="38")
+                            stop(stop-color="#0891b2")
+                            stop(offset="1" stop-color="#0e7490")
+                        linearGradient#stack-right-r(x1="32" y1="30" x2="54" y2="38")
+                            stop(stop-color="#22d3ee")
+                            stop(offset="1" stop-color="#0891b2")
+                        linearGradient#stack-top2-r(x1="10" y1="22" x2="54" y2="42")
+                            stop(stop-color="#fb7185")
+                            stop(offset="1" stop-color="#f43f5e")
+                        linearGradient#stack-left2-r(x1="10" y1="32" x2="32" y2="50")
+                            stop(stop-color="#f43f5e")
+                            stop(offset="1" stop-color="#e11d48")
+                        linearGradient#stack-right2-r(x1="32" y1="42" x2="54" y2="50")
+                            stop(stop-color="#fb7185")
+                            stop(offset="1" stop-color="#f43f5e")
+
         div(class='container mx-auto px-4')
 
-            // HERO SECTION
-            div(class='max-w-5xl mx-auto text-center mb-10 md:mb-14')
+            -
+                let totalBooks = 0;
+                if (digitalLib && digitalLib.length > 0) {
+                    digitalLib.forEach(category => {
+                        totalBooks += (category.books ? category.books.length : 0);
+                    });
+                }
 
-                div(class='hero-glass inline-flex items-center gap-3 rounded-full px-5 py-3 shadow-sm')
-                    div(class='w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-cyan-500 flex items-center justify-center shadow-md')
-                        i(class='fa-solid fa-book-open-reader text-white text-sm')
-                    span(class='font-bold tracking-wide text-slate-700 text-sm')
-                        | ग्रामपंचायत डिजिटल लायब्ररी
-
-                h1(class='mobile-heading mt-6 text-4xl md:text-6xl font-black text-slate-800 tracking-tight leading-tight')
-                    span(class='bg-gradient-to-r from-sky-700 to-emerald-600 bg-clip-text text-transparent')
-                        | डिजिटल पुस्तकालय
+            // COMPACT HEADER BAR
+            div(class='relative max-w-5xl mx-auto mb-6 p-4 md:p-5 rounded-2xl overflow-hidden hero-glass-premium')
                 
-                p(class='mobile-subheading mt-4 text-slate-500 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto')
-                    | स्पर्धा परीक्षा, शैक्षणिक अभ्यासक्रम, शासन योजना, ग्रामविकास आणि इतर महत्त्वपूर्ण पुस्तके आता एका क्लिकवर उपलब्ध.
+                // Abstract SVG Bookshelf pattern backdrop
+                div(class='absolute inset-0 -z-10 opacity-[0.05] pointer-events-none')
+                    svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg")
+                        defs
+                            pattern#bookshelf-pattern(width="120" height="120" patternUnits="userSpaceOnUse")
+                                line(x1="0" y1="50" x2="120" y2="50" stroke="#0f172a" stroke-width="2")
+                                line(x1="0" y1="110" x2="120" y2="110" stroke="#0f172a" stroke-width="2")
+                                rect(x="10" y="10" width="15" height="40" rx="2" fill="#0f172a")
+                                rect(x="28" y="15" width="12" height="35" rx="2" fill="#0f172a")
+                                rect(x="43" y="8" width="18" height="42" rx="2" fill="#0f172a")
+                                path(d="M 65 40 L 78 12 L 88 15 L 75 43 Z" fill="#0f172a")
+                                rect(x="15" y="70" width="16" height="40" rx="2" fill="#0f172a")
+                                rect(x="35" y="75" width="14" height="35" rx="2" fill="#0f172a")
+                                rect(x="53" y="65" width="18" height="45" rx="2" fill="#0f172a")
+                                rect(x="75" y="70" width="15" height="40" rx="2" fill="#0f172a")
+                                path(d="M 94 100 L 107 72 L 117 75 L 104 103 Z" fill="#0f172a")
+                        rect(width="100%" height="100%" fill="url(#bookshelf-pattern)")
+
+                // Internal background glowing orbs
+                div(class='absolute -top-24 -left-24 w-48 h-48 rounded-full bg-sky-400/15 blur-3xl')
+                div(class='absolute -bottom-24 -right-24 w-48 h-48 rounded-full bg-emerald-400/15 blur-3xl')
+
+                div(class='flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8')
+                    // Title and Badge Group
+                    div(class='flex items-center gap-3')
+                        div(class='w-9 h-9 rounded-full bg-gradient-to-br from-sky-500 to-cyan-500 flex items-center justify-center shadow-md shrink-0')
+                            i(class='fa-solid fa-book-open-reader text-white text-xs')
+                        div(class='text-center md:text-left')
+                            h1(class='text-2xl md:text-3xl font-black tracking-tight')
+                                span(class='gradient-heading') डिजिटल वाचनालय
+                            div(class='text-[10px] md:text-xs font-semibold text-slate-500')
+                                | ग्रामपंचायत डिजिटल लायब्ररी
+
+                    // Inline Stats Group
+                    if digitalLib && digitalLib.length > 0
+                        div(class='flex items-center gap-4 md:gap-5 bg-slate-900/5 px-4 py-2 rounded-xl backdrop-blur-md')
+                            div(class='text-center')
+                                span(class='block text-base md:text-lg font-black text-sky-700 leading-none') #{digitalLib.length}
+                                span(class='text-[9px] md:text-[10px] font-bold text-slate-500') विभाग
+                            div(class='w-px h-5 bg-slate-400/20')
+                            div(class='text-center')
+                                span(class='block text-base md:text-lg font-black text-emerald-700 leading-none') #{totalBooks}
+                                span(class='text-[9px] md:text-[10px] font-bold text-slate-500') पुस्तके
+                            div(class='w-px h-5 bg-slate-400/20')
+                            div(class='text-center')
+                                span(class='block text-base md:text-lg font-black text-violet-700 leading-none') PDF
+                                span(class='text-[9px] md:text-[10px] font-bold text-slate-500') स्वरूप
 
             if digitalLib && digitalLib.length > 0
 
                 -
-                    let totalBooks = 0;
-                    digitalLib.forEach(category => {
-                        totalBooks += (category.books ? category.books.length : 0);
-                    });
-
                     // Dynamic Icons based on title keywords
                     const getCategoryIcon = (title) => {
                         let t = title.toLowerCase();
@@ -252,35 +516,6 @@ block content
                         ];
                         return presets[index % presets.length];
                     };
-
-
-                // STATS PANEL
-                div(class='grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 md:mb-12')
-
-                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
-                        div(class='text-3xl font-black text-sky-700')
-                            | #{digitalLib.length}
-                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
-                            | विभाग
-
-                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
-                        div(class='text-3xl font-black text-emerald-700')
-                            | #{totalBooks}
-                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
-                            | पुस्तके
-
-                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
-                        div(class='text-3xl font-black text-violet-700')
-                            | PDF
-                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
-                            | स्वरूप
-
-                    div(class='hero-glass rounded-2xl p-5 text-center transition-all duration-300 hover:scale-[1.02]')
-                        div(class='text-3xl font-black text-orange-700')
-                            | Free
-                        div(class='mt-1 text-xs md:text-sm font-bold text-slate-500')
-                            | प्रवेश
-
 
                 // MAIN WORKSPACE INTERFACE (Asymmetric heights are resolved via Tabs)
                 div(class='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start')
@@ -452,7 +687,7 @@ block content
                                                 h4(class='book-title font-black text-slate-800 text-sm md:text-[15px] line-clamp-2 leading-snug break-words mb-2.5 px-1 min-h-[40px]')
                                                     | #{book.name}
                                                 
-                                                div(class='flex items-center gap-1.5 text-[11px] text-slate-400 mb-4 px-1')
+                                                div(class='flex items-center gap-1.5 text-[11px] text-black mb-4 px-1')
                                                     i(class='fa-solid fa-folder-open text-sky-500/70')
                                                     span(class='font-semibold truncate max-w-[150px]') #{category.title}
 
@@ -504,13 +739,13 @@ block content
                                                 div(class='min-w-0')
                                                     h4(class='font-bold text-slate-800 text-sm md:text-base truncate break-words mb-1.5')
                                                         | #{book.name}
-                                                    div(class='flex items-center gap-3 text-xs text-slate-400')
+                                                    div(class='flex items-center gap-3 text-xs text-black')
                                                         span(class='inline-flex items-center gap-1.5')
-                                                            i(class='fa-solid fa-folder text-sky-500/50')
+                                                            i(class='fa-solid fa-folder text-sky-500')
                                                             span(class='font-medium') #{category.title}
                                                         span(class='opacity-50') |
                                                         span(class='inline-flex items-center gap-1.5')
-                                                            i(class='fa-regular fa-file-lines text-slate-400')
+                                                            i(class='fa-regular fa-file-lines text-slate-900')
                                                             span PDF
                                             
                                             // Action Button
@@ -587,6 +822,7 @@ block internal_js
                     gridContainer.classList.remove('hidden');
                     listContainer.classList.add('hidden');
                     localStorage.setItem('lib-view-preference', 'grid');
+                    updateLibraryView();
                 });
 
                 listBtn.addEventListener('click', () => {
@@ -595,12 +831,15 @@ block internal_js
                     listContainer.classList.remove('hidden');
                     gridContainer.classList.add('hidden');
                     localStorage.setItem('lib-view-preference', 'list');
+                    updateLibraryView();
                 });
 
                 // Retrieve and load view preference
                 const savedPref = localStorage.getItem('lib-view-preference');
                 if (savedPref === 'list') {
                     listBtn.click();
+                } else {
+                    gridBtn.click();
                 }
             }
 
@@ -666,15 +905,21 @@ block internal_js
                 if (visibleCount === 0) {
                     emptyState.classList.remove('hidden');
                     gridContainer.style.display = 'none';
+                    gridContainer.classList.add('hidden');
                     listContainer.style.display = 'none';
+                    listContainer.classList.add('hidden');
                 } else {
                     emptyState.classList.add('hidden');
                     if (localStorage.getItem('lib-view-preference') === 'list') {
                         listContainer.style.display = '';
+                        listContainer.classList.remove('hidden');
                         gridContainer.style.display = 'none';
+                        gridContainer.classList.add('hidden');
                     } else {
                         gridContainer.style.display = '';
+                        gridContainer.classList.remove('hidden');
                         listContainer.style.display = 'none';
+                        listContainer.classList.add('hidden');
                     }
                 }
             }
