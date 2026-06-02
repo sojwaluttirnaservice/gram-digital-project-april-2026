@@ -34,6 +34,10 @@ block content
                 div(class='max-w-6xl mx-auto space-y-5')
 
                     each item, index in govYojanaList
+                        - var beneficiaryLists = []
+                        - try { beneficiaryLists = typeof item.beneficiaryLists === 'string' ? JSON.parse(item.beneficiaryLists) : (item.beneficiaryLists || []) } catch(e) {}
+                        - var requiredDocs = []
+                        - try { requiredDocs = typeof item.required_documents_list === 'string' ? JSON.parse(item.required_documents_list) : (item.required_documents_list || []) } catch(e) {}
 
                         details(class='group bg-white rounded-3xl overflow-hidden shadow-md border border-gray-100')
 
@@ -79,6 +83,12 @@ block content
                                                 span(class='text-xs text-gray-400')
                                                     | योजना क्र. #{index + 1}
 
+                                                if beneficiaryLists && beneficiaryLists.length > 0
+
+                                                    span(class='px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold flex items-center gap-1.5')
+                                                        i(class='fa fa-users text-[10px]')
+                                                        | लाभार्थी यादी उपलब्ध (#{beneficiaryLists.length})
+
                                             h2(class='text-xl md:text-2xl font-bold text-gray-800 mb-2')
                                                 | #{item.yojana_name}
 
@@ -112,49 +122,84 @@ block content
                             //- ===================================================
                             div(class='border-t border-gray-100')
 
-                                div(class='p-6 grid grid-cols-1 lg:grid-cols-2 gap-8')
+                                div(class='p-6 space-y-6')
+
+                                    div(class='grid grid-cols-1 lg:grid-cols-2 gap-8')
+
+                                        //- ===================================================
+                                        //- DESCRIPTION
+                                        //- ===================================================
+                                        div(class='')
+
+                                            h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
+                                                i(class='fa fa-info-circle text-sky-600')
+                                                | योजना माहिती
+
+                                            div(class='bg-sky-50 rounded-2xl p-5 text-gray-700 leading-relaxed')
+
+                                                p(class='mb-0')
+                                                    | #{item.yojana_description || 'सदर योजनेबाबत माहिती उपलब्ध आहे.'}
+
+
+                                        //- ===================================================
+                                        //- REQUIRED DOCUMENTS
+                                        //- ===================================================
+                                        div(class='')
+
+                                            h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
+                                                i(class='fa fa-folder-open text-green-600')
+                                                | आवश्यक कागदपत्रे
+
+                                            if requiredDocs && requiredDocs.length > 0
+
+                                                ul(class='space-y-3')
+
+                                                    each doc in requiredDocs
+
+                                                        li(class='flex items-start gap-3 bg-green-50 rounded-2xl px-4 py-3')
+
+                                                            i(class='fa fa-check-circle text-green-600 mt-1')
+
+                                                            span(class='text-gray-700 text-sm md:text-base')
+                                                                | #{doc}
+
+                                            else
+
+                                                div(class='bg-gray-50 rounded-2xl p-5 text-gray-500')
+                                                    | आवश्यक कागदपत्रांची माहिती उपलब्ध नाही.
 
                                     //- ===================================================
-                                    //- DESCRIPTION
+                                    //- BENEFICIARY LIST (NEW SECTION)
                                     //- ===================================================
-                                    div(class='')
+                                    if beneficiaryLists && beneficiaryLists.length > 0
 
-                                        h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
-                                            i(class='fa fa-info-circle text-sky-600')
-                                            | योजना माहिती
+                                        div(class='border-t border-dashed border-gray-200 pt-6 mt-2')
 
-                                        div(class='bg-sky-50 rounded-2xl p-5 text-gray-700 leading-relaxed')
+                                            h3(class='text-base font-bold text-gray-800 mb-4 flex items-center gap-2')
+                                                i(class='fa fa-users text-sky-600')
+                                                | लाभार्थी यादी (वर्षनिहाय)
 
-                                            p(class='mb-0')
-                                                | #{item.yojana_description || 'सदर योजनेबाबत माहिती उपलब्ध आहे.'}
+                                            div(class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')
 
+                                                each list in beneficiaryLists
 
-                                    //- ===================================================
-                                    //- REQUIRED DOCUMENTS
-                                    //- ===================================================
-                                    div(class='')
+                                                    a(href=list.file_name ? `/new-gp-page/main-page/files/gov-yojana-beneficiaries/${list.file_name}` : '#' target='_blank' class='group/card flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-150 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_-6px_rgba(14,165,233,0.15)] hover:border-sky-200 transition duration-300')
 
-                                        h3(class='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2')
-                                            i(class='fa fa-folder-open text-green-600')
-                                            | आवश्यक कागदपत्रे
+                                                        div(class='flex items-center gap-4')
 
-                                        if item.required_documents_list && item.required_documents_list.length > 0
+                                                            div(class='w-12 h-12 rounded-xl bg-red-50 text-red-500 group-hover/card:bg-red-500 group-hover/card:text-white transition-colors duration-300 flex items-center justify-center flex-shrink-0')
+                                                                i(class='fa fa-file-pdf-o text-xl')
 
-                                            ul(class='space-y-3')
+                                                            div
 
-                                                each doc in item.required_documents_list
+                                                                span(class='inline-flex items-center text-xs font-bold tracking-wider text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md uppercase')
+                                                                    | FY #{list.from_year} - #{list.to_year}
 
-                                                    li(class='flex items-start gap-3 bg-green-50 rounded-2xl px-4 py-3')
+                                                                h4(class='text-base font-bold text-gray-800 mt-1.5 line-clamp-1 group-hover/card:text-sky-700 transition-colors duration-300')
+                                                                    | #{list.document_name}
 
-                                                        i(class='fa fa-check-circle text-green-600 mt-1')
-
-                                                        span(class='text-gray-700 text-sm md:text-base')
-                                                            | #{doc}
-
-                                        else
-
-                                            div(class='bg-gray-50 rounded-2xl p-5 text-gray-500')
-                                                | आवश्यक कागदपत्रांची माहिती उपलब्ध नाही.
+                                                        div(class='w-8 h-8 rounded-full bg-slate-50 text-slate-400 group-hover/card:bg-sky-50 group-hover/card:text-sky-600 transition-all duration-300 flex items-center justify-center flex-shrink-0')
+                                                            i(class='fa fa-chevron-right text-xs')
 
 
             //- ===================================================

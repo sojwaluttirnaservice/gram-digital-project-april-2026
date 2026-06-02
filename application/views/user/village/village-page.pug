@@ -11,13 +11,15 @@ block content
         const menuItems = [
             { href: '/adarsh-takta', icon: 'fa-table', title: 'आदर्श तक्ता' },
             { href: '/gram-sadasya', icon: 'fa-users', title: 'ग्राम सदस्य' },
-            { href: '/upload-gr', icon: 'fa-upload', title: 'GR Upload' },
             { href: '/gram-adhik-info', icon: 'fa-info-circle', title: 'ग्राम अधिक माहिती' },
+            { href: '/dev-works', icon: 'fa-building', title: 'चालू पूर्ण विकास कामे' },
+            { href: '/fund-income-expenses', icon: 'fa-rupee', title: 'निधी उत्पन्न व खर्चाचा फोटोज' },
+            { href: '/village/upload-gov-yojna', icon: 'fa-university', title: 'शासकीय योजना अपलोड' },
+            { href: '/upload-gr', icon: 'fa-upload', title: 'GR Upload' },
             { href: '/medical-room', icon: 'fa-medkit', title: 'वैद्यकीय कक्ष' },
             { href: '/upload-krishi-vidnyan-view', icon: 'fa-leaf', title: 'कृषी विज्ञान' },
             { href: '/education/get-add-education-details', icon: 'fa-graduation-cap', title: 'शिक्षण' },
             { href: '/arogya/gp-arogya-seva-kendra-list-view', icon: 'fa-heartbeat', title: 'आरोग्य सेवा केंद्र' },
-            { href: '/village/upload-gov-yojna', icon: 'fa-university', title: 'शासकीय योजना अपलोड' },
             { href: '/village/zoom-meetings-view', icon: 'fa-video-camera', title: 'Zoom Meetings' },
             { href: '/village/get-add-job-related-view', icon: 'fa-briefcase', title: 'नोकरी विषयक' },
             { href: '/village/get-add-gram-ahaval-documents-view', icon: 'fa-bar-chart', title: 'ग्राम अहवाल व माहिती' },
@@ -32,17 +34,18 @@ block content
             { href: '/committees', icon: 'fa-sitemap', title: 'समिती यादी' },
             { href: '/innovative-initiatives', icon: 'fa-lightbulb-o', title: 'नावीन्य उपक्रम' },
             { href: '/aanganwadi', icon: 'fa-child', title: 'आंगणवाडी' },
-            { href: '/dev-works', icon: 'fa-building', title: 'चालू पूर्ण विकास कामे' },
-            { href: '/qr-codes/qr-list', icon: 'fa-qrcode', title: 'QR Code' }
+            { href: '/qr-codes/qr-list', icon: 'fa-qrcode', title: 'QR Code' },
         ]
 
-    .container
-        .mt-5
-            .row.justify-content-center
-                each item in menuItems
-                    a.col-4.col-md-2(href=item.href style='text-decoration:none;')
-                        .p-2.box.box--white
-                            .commonModalFrom.w-100.d-flex.justify-content-center.align-items-center
-                                p.box__title.d-flex.justify-content-center.align-items-center(style='gap: 0.2rem;')
-                                    i(class=`fa ${item.icon} fa-2x`)
-                                    small= item.title
+    section(class='py:8 md:py-16')
+        .container
+            h1(class='text-center mt-4') ग्राम माहिती 
+            .mt-5
+                .row.justify-content-center
+                    each item in menuItems
+                        a.col-4.col-md-2(href=item.href style='text-decoration:none;')
+                            .p-2.box.box--white
+                                .commonModalFrom.w-100.d-flex.justify-content-center.align-items-center
+                                    p.box__title.d-flex.justify-content-center.align-items-center(style='gap: 0.2rem;')
+                                        i(class=`fa ${item.icon} fa-2x`)
+                                        small= item.title

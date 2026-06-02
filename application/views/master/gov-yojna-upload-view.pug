@@ -10,7 +10,7 @@ block content
         //- Upload Form Section
         .row.justify-content-center
 
-            .col-12.col-xl-10
+            .col-12.col-md-9.col-lg-7
 
                 .card.border-0.shadow-sm
 
@@ -159,6 +159,7 @@ block content
                                         th स्थिती
                                         th आवश्यक कागदपत्रे
                                         th दस्तऐवज
+                                        th लाभार्थी यादी
                                         th.text-center(style='width: 120px') Delete
 
                                 tbody
@@ -216,6 +217,11 @@ block content
                                                             | दस्तऐवज (Document)
                                                     else 
                                                         | -
+
+                                                td
+                                                    a.btn.btn-outline-primary.btn-sm(href=`/gov-yojana-beneficiary?yojanaId=${file.id}` target='_blank')
+                                                        i.fa.fa-users.me-1
+                                                        | लाभार्थी यादी (#{file.beneficiary_years_count || 0})
 
                                                 td
                                                     .d-flex.justify-center.gap-2

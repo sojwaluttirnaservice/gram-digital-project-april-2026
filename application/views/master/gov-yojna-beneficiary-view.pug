@@ -1,0 +1,153 @@
+extends ./master-layout
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/master-panel-handlers/gov-yojna-beneficiary-handler.js')
+
+block content
+
+    .container.py-5(style='margin-top: 5rem')
+
+        //- Yojana Details Header
+        .row.justify-content-center.mb-4
+            .col-12.col-xl-10
+                .card.border-0.bg-light.shadow-sm
+                    .card-body.p-4
+                        .d-flex.align-items-center.justify-content-between.flex-wrap.gap-3
+                            div
+                                span.text-muted.small.text-uppercase.fw-semibold शासकीय योजना
+                                h2.mb-1.text-primary #{yojanaDetails.yojana_name}
+                                p.mb-0.text-secondary #{yojanaDetails.yojana_description || 'कोणतेही वर्णन नाही'}
+                            a.btn.btn-outline-secondary(href='/master/upload-gov-yojna')
+                                i.fa.fa-arrow-left.me-2
+                                | मागे जा
+
+        //- Upload Form Section
+        .row.justify-content-center
+
+            .col-12.col-xl-10
+
+                .card.border-0.shadow-sm
+
+                    .card-header.bg-primary.text-white.py-3
+                        h4.mb-0.text-center#form-title
+                            i.fa.fa-upload.me-2
+                            | लाभार्थी यादी अपलोड
+
+                    .card-body.p-4
+
+                        form#gov-beneficiary-form
+                            input(type='hidden' name='yojana_id' id='yojana_id' value=yojanaDetails.id)
+                            input(type='hidden' name='id' id='id')
+
+                            .row.g-4
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='from_year') आर्थिक वर्ष सुरू (उदा. २०२३)
+                                    input.form-control(type='number' name='from_year' id='from_year' placeholder='प्रारंभ वर्ष प्रविष्ट करा (YYYY)' required min='2000' max='2100')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='to_year') आर्थिक वर्ष समाप्त (उदा. २०२४)
+                                    input.form-control(type='number' name='to_year' id='to_year' placeholder='समाप्ती वर्ष प्रविष्ट करा (YYYY)' required min='2000' max='2100')
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='document_name') यादीचे नाव / शीर्षक
+                                    input.form-control(type='text' name='document_name' id='document_name' placeholder='उदा. घरकुल योजना लाभार्थी यादी २०२३-२४' required)
+
+                                .col-12.col-md-6
+                                    label.form-label.fw-semibold(for='file') यादी फाइल (PDF / Word)
+                                    input.form-control(type='file' name='file' id='file' accept='.pdf,.doc,.docx')
+                                    small.text-secondary.mt-1.d-block#file-help-text नवीन यादी जोडण्यासाठी फाइल अपलोड करणे आवश्यक आहे.
+
+                                .col-12
+                                    label.form-label.fw-semibold(for='document_desc') वर्णन (Optional)
+                                    textarea.form-control(rows='3' name='document_desc' id='document_desc' placeholder='यादीबद्दल अधिक माहिती')
+
+                                .col-12.text-center.pt-2
+                                    button.btn.btn-primary.px-5.py-2(type='button' id='submit-beneficiary-btn')
+                                        i.fa.fa-save.me-2
+                                        span#submit-btn-text जतन करा
+                                    button.btn.btn-secondary.px-4.py-2.ms-2.d-none(type='button' id='cancel-edit-btn')
+                                        i.fa.fa-times.me-2
+                                        | रद्द करा
+
+        //- Table Section
+        .row.justify-content-center.mt-5
+
+            .col-12.col-xl-10
+
+                .card.border-0.shadow-sm
+
+                    .card-header.bg-light.py-3
+
+                        .d-flex.justify-content-between.align-items-center.flex-wrap.gap-2
+
+                            h5.mb-0
+                                i.fa.fa-table.me-2
+                                | अपलोड केलेल्या लाभार्थी याद्या
+
+                            span.badge.bg-primary #{beneficiaryLists.length} याद्या
+
+                    .card-body.p-0
+
+                        .table-responsive
+
+                            table.table.align-middle.mb-0
+
+                                thead.table-light
+
+                                    tr
+                                        th(style='width: 80px') अ. क्र.
+                                        th आर्थिक वर्ष
+                                        th यादीचे नाव / शीर्षक
+                                        th वर्णन
+                                        th दस्तऐवज
+                                        th.text-center(style='width: 120px') Actions
+
+                                tbody
+
+                                    if beneficiaryLists && beneficiaryLists.length
+
+                                        each list, index in beneficiaryLists
+
+                                            tr
+
+                                                td.fw-bold #{index + 1}
+
+                                                td 
+                                                    span.badge.bg-info.text-dark.fs-6 #{list.from_year} - #{list.to_year}
+
+                                                td.fw-semibold #{list.document_name}
+
+                                                td #{list.document_desc || '-'}
+
+                                                td
+                                                    if list.file_name
+                                                        a.btn.btn-secondary.btn-sm(href=`/new-gp-page/main-page/files/gov-yojana-beneficiaries/${list.file_name}` target='_blank')
+                                                            i.fa.fa-download.me-1
+                                                            | फाईल पहा
+                                                    else 
+                                                        | -
+
+                                                td
+                                                    .d-flex.justify-content-center.gap-2
+                                                        button.btn.btn-sm.btn-outline-success(type='button' class='edit-beneficiary-btn' data-item=JSON.stringify(list))
+                                                            i.fa.fa-edit
+
+                                                        button.btn.btn-sm.btn-outline-danger(type='button' class='delete-beneficiary-btn' data-id=list.id)
+                                                            i.fa.fa-trash
+
+
+                                    else
+
+                                        tr
+
+                                            td.text-center.py-5(colspan='6')
+
+                                                .d-flex.flex-column.align-items-center.gap-2
+
+                                                    i.fa.fa-folder-open.text-secondary(style='font-size: 2rem')
+
+                                                    h6.text-muted.mb-0 कोणतीही लाभार्थी यादी उपलब्ध नाही
+
+                                                    small.text-secondary
+                                                        | नवीन लाभार्थी यादी जोडण्यासाठी वरील फॉर्म वापरा

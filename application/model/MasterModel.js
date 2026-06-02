@@ -2213,7 +2213,13 @@ module.exports = {
 
 	// gr upload
 	get_gov_yojna_file_name_list: (pool) => {
-        let q = `SELECT * FROM ps_gov_yojna_file_list ORDER BY id DESC`;
+        let q = `
+			SELECT f.*, COUNT(b.id) AS beneficiary_years_count 
+			FROM ps_gov_yojna_file_list f
+			LEFT JOIN ps_gov_yojna_beneficiary_list b ON f.id = b.yojana_id
+			GROUP BY f.id
+			ORDER BY f.id DESC
+		`;
         return runQuery(pool, q);
 	},
 

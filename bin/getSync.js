@@ -50,6 +50,7 @@ let sms_delivery_status = require("../application/Migration Scripts/sms_delivery
 let ps_masik_sabha_tharav = require("../application/Migration Scripts/ps_masik_sabha_tharav");
 let ps_sabha_attendance = require("../application/Migration Scripts/ps_sabha_attendance");
 let ps_gr_file_list = require("../application/Migration Scripts/ps_gr_file_list");
+let ps_gov_yojna_beneficiary_list = require("../application/Migration Scripts/ps_gov_yojna_beneficiary_list");
 let ps_medical_room = require("../application/Migration Scripts/ps_medical_room");
 let ps_divyanga_file_list = require("../application/Migration Scripts/ps_divyanga_file_list");
 let ps_empty_plot_list_file_list = require("../application/Migration Scripts/ps_empty_plot_list_file_list");
