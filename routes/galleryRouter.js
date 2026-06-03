@@ -9,6 +9,8 @@ galleryRouter.get("/list", GalleryController.renderGalleryPage)
 
 galleryRouter.post("/", GalleryController.addNewFile);
 
+galleryRouter.put("/edit/:id", GalleryController.editGalleryImage);
+
 galleryRouter.post("/remove-image", GalleryController.removeImageFile);
 
 module.exports = galleryRouter;

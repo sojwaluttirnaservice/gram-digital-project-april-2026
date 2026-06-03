@@ -1,84 +1,120 @@
-let masterModel = require('../model/MasterModel')
-let HomeModel = require('../model/HomeModel')
-let responderSet = require('../config/_responderSet')
-let fs = require('fs')
-const { deleteRedisData } = require('../utils/redis')
-const { gpDataRedisKey, commonDataRedisKey } = require('../utils/redisKeys')
-const generateUniqueFileName = require('../utils/generateFileName')
-const { saveFile } = require('../utils/saveFile')
-const asyncHandler = require('../utils/asyncHandler')
-const { renderPage } = require('../utils/sendResponse')
-const { UPLOAD_PATHS } = require('../config/uploadPaths')
+const galleryModel = require('../model/gallery/galleryModel');
+const { deleteRedisData } = require('../utils/redis');
+const { gpDataRedisKey, commonDataRedisKey } = require('../utils/redisKeys');
+const generateUniqueFileName = require('../utils/generateFileName');
+const { saveFile, deleteFile } = require('../utils/saveFile');
+const asyncHandler = require('../utils/asyncHandler');
+const { renderPage } = require('../utils/sendResponse');
+const { sendApiResponse } = require('../utils/apiResponses');
+const { UPLOAD_PATHS } = require('../config/uploadPaths');
 
-let photoLimit = 200;
+const photoLimit = 100;
 
-let GalleryController = {
+const GalleryController = {
 
     homeView: asyncHandler(async (req, res) => {
-        const gallery = await masterModel.getGalleryImageList(res.pool)
-        let btnOff = gallery.length >= photoLimit;
+        const gallery = await galleryModel.getGalleryImageList(res.pool);
+        const btnOff = gallery.length >= photoLimit;
         renderPage(res, 'user/gallery/gallery_list', {
             gallery,
             link: `/gp/asstes/images/gallery/`,
-            btn: btnOff
-        })
+            btn: btnOff,
+            photoLimit
+        });
     }),
 
-	renderGalleryPage: asyncHandler(async (req, res) => {
-		let gallery = await masterModel.getGalleryImageList(res.pool)
-		renderPage(res, 'user/gallery/gallery-list-page.pug', {
-			gallery,
-			link: `/gp/asstes/images/gallery/`
-		})
-	}),
+    renderGalleryPage: asyncHandler(async (req, res) => {
+        const gallery = await galleryModel.getGalleryImageList(res.pool);
+        renderPage(res, 'user/gallery/gallery-list-page.pug', {
+            gallery,
+            link: `/gp/asstes/images/gallery/`
+        });
+    }),
 
-    addNewFile: async(req, res) =>{
-        try {
+    addNewFile: asyncHandler(async (req, res) => {
+        const galleryImageFile = req.files?.imageFile;
+        const { g_image_title, g_image_desc } = req.body;
 
-            let galleryImageFile =  req.files.imageFile
+        if (!galleryImageFile) {
+            return sendApiResponse(res, 400, false, "Please upload an image file");
+        }
 
-            let { g_image_title, g_image_desc } = req.body;
+        const gallery = await galleryModel.getGalleryImageList(res.pool);
+        if (gallery.length >= photoLimit) {
+            return sendApiResponse(res, 400, false, `तुम्ही फक्त ${photoLimit} छायाचित्रे जोडू शकता.`);
+        }
 
-            let imageName = generateUniqueFileName(galleryImageFile, 'g-img-')
+        const imageName = generateUniqueFileName(galleryImageFile, 'g-img-');
+        const savePath = `${UPLOAD_PATHS.gallery.village}/${imageName}`;
+        req.filesToCleanup.push(savePath);
 
-            let isGalleryImageSaved = await saveFile(galleryImageFile, `${UPLOAD_PATHS.gallery.village}/${imageName}`)
+        const isGalleryImageSaved = await saveFile(galleryImageFile, savePath);
+        if (!isGalleryImageSaved) {
+            return sendApiResponse(res, 500, false, "Unable to save the gallery image");
+        }
 
-            if(!isGalleryImageSaved){
-                return res.status(500).json({ call: 0, data: "Unable to save the gallery image"})
+        await galleryModel.saveNewGalleryImage(res.pool, { imageName, g_image_title, g_image_desc });
+
+        await deleteRedisData(gpDataRedisKey);
+        await deleteRedisData(commonDataRedisKey);
+
+        return sendApiResponse(res, 200, true, "Saved successfully");
+    }),
+
+    editGalleryImage: asyncHandler(async (req, res) => {
+        const { id } = req.params;
+        const { g_image_title, g_image_desc } = req.body;
+        const imageFile = req.files?.imageFile;
+
+        const [existingImage] = await galleryModel.getById(res.pool, id);
+        if (!existingImage) {
+            return sendApiResponse(res, 404, false, "Image not found");
+        }
+
+        let imageName = null;
+        if (imageFile) {
+            imageName = generateUniqueFileName(imageFile, 'g-img-');
+            const savePath = `${UPLOAD_PATHS.gallery.village}/${imageName}`;
+            req.filesToCleanup.push(savePath);
+
+            const isSaved = await saveFile(imageFile, savePath);
+            if (!isSaved) {
+                return sendApiResponse(res, 500, false, "Unable to save the gallery image");
             }
 
-            await masterModel.saveNewGalleryImage(res.pool, {imageName, g_image_title, g_image_desc})
-
-            await deleteRedisData(gpDataRedisKey)
-            await deleteRedisData(commonDataRedisKey)
-
-            return res.status(200).json({
-                call: 1,
-            })
-
-
-        } catch (err) {
-            console.error('Error:', err);
-            res.status(500).json({ call: 0, data: err })
+            // Delete old file if exists
+            if (existingImage.g_image_name) {
+                const oldPath = `${UPLOAD_PATHS.gallery.village}/${existingImage.g_image_name}`;
+                await deleteFile(oldPath);
+            }
         }
-    },
 
-	removeImageFile: function (req, res, next) {
-		masterModel
-			.removeImageFromList(res.pool, Number(req.body.id))
-			.then(async (result) => {
-				await deleteRedisData(gpDataRedisKey)
-				await deleteRedisData(commonDataRedisKey)
-				fs.unlink(
-					'./public/gp/asstes/images/gallery/' + req.body.image,
-					function (err) {
-						res.status(200).send({ call: 1, data: req.body.image })
-					}
-				)
-			})
-			.catch((error) => {
-				res.status(500).send({ call: 0, data: error })
-			})
-	},
-}
-module.exports = GalleryController
+        await galleryModel.editGalleryImage(res.pool, id, {
+            g_image_title,
+            g_image_desc,
+            imageName
+        });
+
+        await deleteRedisData(gpDataRedisKey);
+        await deleteRedisData(commonDataRedisKey);
+
+        return sendApiResponse(res, 200, true, "Updated successfully");
+    }),
+
+    removeImageFile: asyncHandler(async (req, res) => {
+        const { id, image } = req.body;
+
+        await galleryModel.removeImageFromList(res.pool, Number(id));
+        await deleteRedisData(gpDataRedisKey);
+        await deleteRedisData(commonDataRedisKey);
+
+        if (image) {
+            const deletePath = `${UPLOAD_PATHS.gallery.village}/${image}`;
+            await deleteFile(deletePath);
+        }
+
+        return sendApiResponse(res, 200, true, "Removed successfully", image);
+    })
+};
+
+module.exports = GalleryController;

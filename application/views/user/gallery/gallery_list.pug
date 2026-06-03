@@ -1,36 +1,7 @@
-doctype html
-head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible' content='ie=edge')
-    // common css
-    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
-    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
-    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
-    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
-    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
-    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+extends ../include/internal-gp-master-layout.pug
+
+block custom_css
     link(rel='stylesheet' href='/asstest/lightbox/dist/css/lightbox.css')
-
-
-    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
-    script(src='/asstest/plugins/popper/popper.min.js')
-    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
-    script(src='/asstest/plugins/date/jquery-ui.js')
-    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
-    script(src='/asstest/plugins/notify/notify.js')
-    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
-    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
-    script(src="/asstest/lightbox/dist/js2/lightbox.js")
-
-    //toggle
-    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
-    // extras
-
-    // common js setups
-    script(src='/asstest/coustom/js/base.converter.js')
-    script(src='/asstest/coustom/js/common.js')
-    script(src='/asstest/coustom/js/handlers/gallery.js')
     style.
         .error {
             color:red !important;
@@ -41,7 +12,6 @@ head
             background-color:#f0d688 !important;
         }
         body{
-
             height:100vh;
         }
         @media (min-width: 576px) {
@@ -81,13 +51,12 @@ head
             transition: all 200ms ease-in-out;
         }
 
-        .removeImage {
+        .removeImage, .editImage {
             display: flex;
             gap: 0.3rem;
             align-items: center;
             justify-content: center;
             color: white;
-            margin: 0 auto;
         }
 
         .gallery img:hover {
@@ -104,8 +73,6 @@ head
             .gallery {
                 grid-template-columns: 1fr 1fr;
             }
-
-
         }
 
         @media (max-width: 576px) {
@@ -113,7 +80,7 @@ head
                 grid-template-columns: 1fr 1fr;
             }
 
-            .removeImage  {
+            .removeImage, .editImage  {
                 font-size: 0.8rem;
             }
 
@@ -122,30 +89,28 @@ head
             }
         }
 
-body
-    include ../include/navs.pug
+block content
     .modal#marriageModel(tabindex='-1' role='dialog')
         .modal-dialog(role='document' style="width:70% !important;")
             .modal-content
                 .modal-header
                     h5.modal-title
-                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    button.close.close-modal-cross-btn(type='button' data-dismiss='marriageModel' aria-label='Close')
                         span(aria-hidden='true') ×
                 .modal-body 
                     .row
                         .col-3
                         .col-6
-                            form(id='gallery-form')
+                            form#gallery-form(enctype="multipart/form-data")
+                                input(type="hidden" name="image_id" id="image_id")
+                                input(type="hidden" name="mode" id="gallery_mode" value="add")
                                 div(class='d-flex flex-column' style='gap:1rem;')
                                     input(name='imageFile')#image_1.form-control(type="file")
-
-                                    input.form-control(name='g_image_title' placeholder='शीर्षक')
-
-                                    input.form-control(name='g_image_desc' placeholder='वर्णन')
-
+                                    input#image_title.form-control(name='g_image_title' placeholder='शीर्षक' required)
+                                    input#image_desc.form-control(name='g_image_desc' placeholder='वर्णन' required)
                                 div
                                     .text-center.mt-2
-                                        button.btn.btn-primary(id='submit-gallery-img-btn') Submit
+                                        button.btn.btn-primary(type="button" id="submit-gallery-img-btn") Submit
                         .col-12.mt-1
                             center
                                 img#image-1-preview(width=600 height=300)
@@ -156,16 +121,16 @@ body
         .row
             .col-12.mt-3
                 h6.ml-5.text-center
-                    span.text-primary.fa.fa-file-image-o.fa-2x
+                    span.text-primary.fa.fa-file-image-o.fa-2x.p-1
                         |  &nbsp;छायाचित्रे
                     if(!btn)
-                        button.galleryAddModel.float-right.btn.btn-primary.btn-sm.mr-2
+                        button.galleryAddModel.float-right.btn.btn-primary.btn-sm.mr-2(type="button")
                             span.fa.fa-image
                             |  नवीन छायाचित्रे जोडा 
             .col-10.offset-1.mt-3
                 if(btn)
                     center 
-                        h5.text-danger तुम्ही फक्त 12 छायाचित्रे जुडू शकता ... नवीन जोडणीन साठी काही छायाचीत्र काढा !
+                        h5.text-danger तुम्ही फक्त #{photoLimit} छायाचित्रे जोडू शकता ... नवीन जोडणीसाठी काही छायाचित्रे काढा !
 
             .gallery-container(style='background: ')
                 .gallery
@@ -180,7 +145,14 @@ body
                                         div.text-center.fw-bold #{image.g_image_title}
                                         div.text-center #{image.g_image_desc}
                             .card-footer
-                                .text-center(style='border:none')
-                                    button.btn.bg-danger.removeImage(style='font-size: 1rem;cursor: pointer;' data-id=image.id data-image=image.g_image_name)
+                                .text-center.d-flex.justify-content-center.gap-2(style='border:none')
+                                    button.btn.btn-warning.editImage.text-dark(type="button" style='font-size: 1rem;cursor: pointer;' data-id=image.id data-title=image.g_image_title data-desc=image.g_image_desc data-image=image.g_image_name)
+                                        i.fa.fa-edit
+                                        span  Edit
+                                    button.btn.bg-danger.removeImage(type="button" style='font-size: 1rem;cursor: pointer;' data-id=image.id data-image=image.g_image_name)
                                         i.fa.fa-trash.text-light 
                                         span Delete
+
+block custom_js
+    script(src="/asstest/lightbox/dist/js2/lightbox.js")
+    script(src='/asstest/coustom/js/handlers/gallery.js')
