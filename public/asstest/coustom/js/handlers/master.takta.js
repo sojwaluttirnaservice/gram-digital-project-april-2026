@@ -2,42 +2,44 @@ var snapMale = "";
 var memberImage = "";
 
 $(document).ready(function () {
-  $("#image_1").on("change", function (e) {
+  $("#image_1").on("change", async function (e) {
     snapMale = "";
     $("#image-1-preview").prop("src", snapMale);
     var input = $(this)[0];
-    memberImage = input.files[0];
-    var fileName = $(this).val().split("\\").pop();
-    extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      var fileName = file.name;
+      var extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
-    if (
-      extension == "jpeg" ||
-      extension == "JPEG" ||
-      extension == "jpg" ||
-      extension == "JPG"
-    ) {
-      if (input.files && input.files[0]) {
-        if (input.files[0].size > 524288) {
-          alert("Try to upload file less than 512KB!");
-          $(this).val("");
+      if (
+        extension == "jpeg" ||
+        extension == "jpg" ||
+        extension == "png"
+      ) {
+        try {
+          var compressedFile = await compressImageFile(file);
+          memberImage = compressedFile;
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(compressedFile);
+          input.files = dataTransfer.files;
 
-          e.preventDefault();
-        } else {
           $(this)
             .siblings(".custom-file-label")
             .addClass("selected")
-            .html(fileName);
+            .html(compressedFile.name);
           var reader = new FileReader();
           reader.onload = function (e) {
             $("#image-1-preview").prop("src", e.target.result);
-            // uploadImage();
           };
-          reader.readAsDataURL(input.files[0]); // convert to base64 string
+          reader.readAsDataURL(compressedFile);
+        } catch (err) {
+          console.error("Compression error:", err);
+          alertjs.warning({ t: "त्रुटी", m: "फोटो कॉम्प्रेस करताना त्रुटी आली." });
         }
+      } else {
+        alertjs.warning({ t: "फक्त JPEG, JPG किंवा PNG फोटो पाहिजे." });
+        $(this).val("");
       }
-    } else {
-      alert("फक्त JPEG किंवा JPG फोटो पाहिजे आणि size 1 MB पर्यंत");
-      $(this).val("");
     }
   });
 

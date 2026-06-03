@@ -62,42 +62,44 @@ $(document).ready(function () {
 	let memberImage = ''
 	$('#sadasyaAadhar').mask('0000-0000-0000')
 
-	$('#image_1').on('change', function (e) {
+	$('#image_1').on('change', async function (e) {
 		snapMale = ''
 		$('#image-1-preview').prop('src', snapMale)
 		let input = $(this)[0]
-		memberImage = input.files[0]
-		let fileName = $(this).val().split('\\').pop()
-		extension = fileName.substring(fileName.lastIndexOf('.') + 1)
+		if (input.files && input.files[0]) {
+			let file = input.files[0]
+			let fileName = file.name
+			let extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
 
-		if (
-			extension == 'jpeg' ||
-			extension == 'JPEG' ||
-			extension == 'jpg' ||
-			extension == 'JPG'
-		) {
-			if (input.files && input.files[0]) {
-				if (input.files[0].size > 524288) {
-					alert('Try to upload file less than 512KB!')
-					$(this).val('')
+			if (
+				extension == 'jpeg' ||
+				extension == 'jpg' ||
+				extension == 'png'
+			) {
+				try {
+					let compressedFile = await compressImageFile(file)
+					memberImage = compressedFile
+					const dataTransfer = new DataTransfer();
+					dataTransfer.items.add(compressedFile);
+					input.files = dataTransfer.files;
 
-					e.preventDefault()
-				} else {
 					$(this)
 						.siblings('.custom-file-label')
 						.addClass('selected')
-						.html(fileName)
+						.html(compressedFile.name)
 					let reader = new FileReader()
 					reader.onload = function (e) {
 						$('#image-1-preview').prop('src', e.target.result)
-						// uploadImage();
 					}
-					reader.readAsDataURL(input.files[0]) // convert to base64 string
+					reader.readAsDataURL(compressedFile)
+				} catch (err) {
+					console.error("Compression error:", err);
+					alertjs.warning({ t: "त्रुटी", m: "फोटो कॉम्प्रेस करताना त्रुटी आली." });
 				}
+			} else {
+				alertjs.warning({ t: 'फक्त JPEG, JPG किंवा PNG फोटो पाहिजे.' })
+				$(this).val('')
 			}
-		} else {
-			alert('फक्त JPEG किंवा JPG फोटो पाहिजे आणि size 1 MB पर्यंत')
-			$(this).val('')
 		}
 	})
 
@@ -203,7 +205,8 @@ $(document).ready(function () {
 				sadasyaAadhar: formData.get('sadasyaAadhar'),
 				sadasyaMobile: formData.get('sadasyaMobile'),
 				image: data.data,
-                sadasyaInfo: formData.get('sadasyaInfo')
+                sadasyaInfo: formData.get('sadasyaInfo'),
+                isNotificationAllowed: formData.get('isNotificationAllowed')
 			}
 			member.sList.push(sendData)
 			member.updateList(function (status) {
@@ -286,6 +289,7 @@ $(document).ready(function () {
 		// console.log(gp_members[index])
 		formData.set('priority', priority)
 		formData.set('gp_members', JSON.stringify(gp_members))
+        formData.set('isNotificationAllowed', $('#isNotificationAllowed').val())
 
 		// console.log('files = ', $('#image_1')[0].files[0])
 
@@ -336,6 +340,7 @@ $(document).ready(function () {
 		// $('#memberName').val(memberData.name);
 		$('#sadasyaMobile').val(memberData.sadasyaMobile)
         $('#sadasyaInfo').val(memberData.sadasyaInfo)
+        $("#isNotificationAllowed").val(memberData?.isNotificationAllowed || "NO")
 
 		updateMemberButton.attr('data-index', index)
 		updateMemberButton.attr('data-oldImageName', memberData.image)

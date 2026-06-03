@@ -284,7 +284,7 @@ $(document).ready(function () {
 			} else {
 				file1 = $('#image_1')[0].files[0]
 				if (typeof file1 == 'undefined') {
-					alert('पतीचा फोटो पाहिजे')
+					alertjs.warning({ t: 'पतीचा फोटो पाहिजे' })
 					return false
 				}
 				formData.set('file1', file1)
@@ -305,7 +305,7 @@ $(document).ready(function () {
 			} else {
 				file2 = $('#image_2')[0].files[0]
 				if (typeof file2 == 'undefined') {
-					alert('पत्नीचा फोटो पाहिजे')
+					alertjs.warning({ t: 'पत्नीचा फोटो पाहिजे' })
 					return false
 				}
 				formData.set('file2', file2)
@@ -339,8 +339,8 @@ $(document).ready(function () {
 					}
 				})
 				.fail(function (xhr) {
-					alert('You Have An Error, PLease check Console')
-					console.log(data)
+					alertjs.warning({ t: 'त्रुटी', m: 'काहीतरी चुकले.' })
+					console.log(xhr)
 					return false
 				})
 		}
@@ -407,69 +407,92 @@ $(document).ready(function () {
 					}
 				})
 				.fail(function (xhr) {
-					alert('You Have An Error, PLease check Console')
-					console.log(data)
+					alertjs.warning({ t: 'त्रुटी', m: 'काहीतरी चुकले.' })
+					console.log(xhr)
 					return false
 				})
 		}
 	})
 
-	$('#image_1').on('change', function (e) {
+	$('#image_1').on('change', async function (e) {
 		snapMale = ''
 		$('#image-1-preview').prop('src', snapMale)
 		let input = $(this)[0]
 		let fileName = $(this).val().split('\\').pop()
 
-		extension = fileName.substring(fileName.lastIndexOf('.') + 1)
+		if (input.files && input.files[0]) {
+			let file = input.files[0]
+			let extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
 
-		if (
-			extension == 'jpeg' ||
-			extension == 'JPEG' ||
-			extension == 'jpg' ||
-			extension == 'JPG'
-		) {
-			if (input.files && input.files[0]) {
-				if (input.files[0].size > 1048576) {
-					alert('Try to upload file less than 1MB!')
-					$(this).val('')
+			if (
+				extension == 'jpeg' ||
+				extension == 'jpg' ||
+				extension == 'png'
+			) {
+				try {
+					let compressedFile = await compressImageFile(file)
+					const dataTransfer = new DataTransfer();
+					dataTransfer.items.add(compressedFile);
+					input.files = dataTransfer.files;
 
-					e.preventDefault()
-				} else {
 					$(this)
 						.siblings('.custom-file-label')
 						.addClass('selected')
-						.html(fileName)
+						.html(compressedFile.name)
 					let reader = new FileReader()
 					reader.onload = function (e) {
 						$('#image-1-preview').prop('src', e.target.result)
 					}
-					reader.readAsDataURL(input.files[0]) // convert to base64 string
+					reader.readAsDataURL(compressedFile)
+				} catch (err) {
+					console.error("Compression error:", err);
+					alertjs.warning({ t: "त्रुटी", m: "फोटो कॉम्प्रेस करताना त्रुटी आली." });
 				}
+			} else {
+				alertjs.warning({ t: 'फक्त JPEG, JPG किंवा PNG फोटो पाहिजे.' })
+				$(this).val('')
 			}
-		} else {
-			alert('फक्त JPEG किंवा JPG फोटो पाहिजे आणि size 1 MB पर्यंत')
-			$(this).val('')
 		}
 	})
 
-	$('#image_2').on('change', function (e) {
+	$('#image_2').on('change', async function (e) {
 		snapFemale = ''
 		$('#image-2-preview').prop('src', snapFemale)
 		let input = $(this)[0]
 		let fileName = $(this).val().split('\\').pop()
+
 		if (input.files && input.files[0]) {
-			// if (input.files[0].size > 1048576) {
-			// 	alert('Try to upload file less than 1MB!')
-			// 	$(this).val('')
-			// 	e.preventDefault()
-			// } else {
-			$(this).siblings('.custom-file-label').addClass('selected').html(fileName)
-			let reader = new FileReader()
-			reader.onload = function (e) {
-				$('#image-2-preview').prop('src', e.target.result)
+			let file = input.files[0]
+			let extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
+
+			if (
+				extension == 'jpeg' ||
+				extension == 'jpg' ||
+				extension == 'png'
+			) {
+				try {
+					let compressedFile = await compressImageFile(file)
+					const dataTransfer = new DataTransfer();
+					dataTransfer.items.add(compressedFile);
+					input.files = dataTransfer.files;
+
+					$(this)
+						.siblings('.custom-file-label')
+						.addClass('selected')
+						.html(compressedFile.name)
+					let reader = new FileReader()
+					reader.onload = function (e) {
+						$('#image-2-preview').prop('src', e.target.result)
+					}
+					reader.readAsDataURL(compressedFile)
+				} catch (err) {
+					console.error("Compression error:", err);
+					alertjs.warning({ t: "त्रुटी", m: "फोटो कॉम्प्रेस करताना त्रुटी आली." });
+				}
+			} else {
+				alertjs.warning({ t: 'फक्त JPEG, JPG किंवा PNG फोटो पाहिजे.' })
+				$(this).val('')
 			}
-			reader.readAsDataURL(input.files[0]) // convert to base64 string
-			// }
 		}
 	})
 
@@ -558,7 +581,7 @@ $(document).ready(function () {
 				}
 				commonHandler.ajaxManager(data, function (type, data) {
 					if (type == false) {
-						alert('You Have An Error, PLease check Console')
+						alertjs.warning({ t: 'त्रुटी', m: 'काहीतरी चुकले.' })
 						console.log(data)
 						return false
 					}

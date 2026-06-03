@@ -31,41 +31,44 @@ $(document).ready(function () {
 		showOn: 'off',
 	})
 
-	$('#image1').on('change', function () {
+	$('#image1').on('change', async function () {
 		image = ''
 		$('#image-1-preview').prop('src', '')
 		var input = $(this)[0]
-		var fileName = $(this).val().split('\\').pop()
+		if (input.files && input.files[0]) {
+			var file = input.files[0]
+			var fileName = file.name
+			var extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
 
-		extension = fileName.substring(fileName.lastIndexOf('.') + 1)
-		if (
-			extension == 'jpeg' ||
-			extension == 'JPEG' ||
-			extension == 'jpg' ||
-			extension == 'JPG'
-		) {
-			if (input.files && input.files[0]) {
-				if (input.files[0].size > 1048576) {
-					alert('Try to upload file less than 1MB!')
-					$(this).val('')
+			if (
+				extension == 'jpeg' ||
+				extension == 'jpg' ||
+				extension == 'png'
+			) {
+				try {
+					var compressedFile = await compressImageFile(file);
+					const dataTransfer = new DataTransfer();
+					dataTransfer.items.add(compressedFile);
+					input.files = dataTransfer.files;
 
-					e.preventDefault()
-				} else {
 					$(this)
 						.siblings('.custom-file-label')
 						.addClass('selected')
-						.html(fileName)
+						.html(compressedFile.name)
 					var reader = new FileReader()
 					reader.onload = function (e) {
 						image = e.target.result
 						$('#image-1-preview').prop('src', e.target.result)
 					}
-					reader.readAsDataURL(input.files[0]) // convert to base64 string
+					reader.readAsDataURL(compressedFile)
+				} catch (err) {
+					console.error("Compression error:", err);
+					alertjs.warning({ t: "त्रुटी", m: "फोटो कॉम्प्रेस करताना त्रुटी आली." });
 				}
+			} else {
+				alertjs.warning({ t: 'फक्त JPEG, JPG किंवा PNG फोटो पाहिजे.' })
+				$(this).val('')
 			}
-		} else {
-			alert('फक्त JPEG किंवा JPG फोटो पाहिजे आणि size 1 MB पर्यंत')
-			$(this).val('')
 		}
 	})
 
