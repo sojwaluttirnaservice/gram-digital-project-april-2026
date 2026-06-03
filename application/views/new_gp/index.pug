@@ -1441,6 +1441,16 @@ block content
                         -
                             const otherLinks = [
                                 { 
+                                    link: "/nagrik/birthday", 
+                                    icon: "fa-solid fa-cake-candles", 
+                                    isBirthday: true,
+                                    text: {
+                                        mr: "आजचे वाढदिवस 🎂",
+                                        hi: "आज के जन्मदिन 🎂",
+                                        en: "Today's Birthdays 🎂"
+                                    }
+                                },
+                                { 
                                     link: "https://www.mahaonline.gov.in/", 
                                     icon: "fa-solid fa-user", 
                                     text: {
@@ -1545,11 +1555,18 @@ block content
                         each otherLink in otherLinks
 
                             li(class='relative group' data-aos='fade-up' data-aos-duration="200")
-                                div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
-                                a(href=otherLink.link, class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
-                                    i.w-5(class=`${otherLink.icon} text-blue-400`  data-aos='fade-up'  )
-                                    div(class='flex-1 overflow-hidden ' data-aos='fade-up' )
-                                        p(class='truncate whitespace-nowrap') #{otherLink.text[language]}
+                                if otherLink.isBirthday
+                                    div(class='absolute -inset-1 bg-gradient-to-r from-rose-300 via-pink-400 to-amber-300 rounded-lg blur opacity-15 group-hover:opacity-60 transition duration-1000 group-hover:duration-200')
+                                    a(href=otherLink.link, class='relative w-full px-4 py-4 font-medium bg-rose-50/10 hover:bg-rose-50/35 ring-1 ring-rose-200/50 rounded-lg flex items-center justify-start gap-4 transition-all duration-300')
+                                        i.w-5(class=`${otherLink.icon} text-rose-400 text-lg` data-aos='fade-up')
+                                        div(class='flex-1 overflow-hidden' data-aos='fade-up')
+                                            p(class='truncate whitespace-nowrap text-rose-600') #{otherLink.text[language]}
+                                else
+                                    div(class='absolute -inset-1 bg-gradient-to-r from-[#1e90ff] to-[#00bfae] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200')
+                                    a(href=otherLink.link, class='relative w-full px-4 py-4  font-medium bg-white ring-1 ring-gray-900/5 rounded-lg  flex items-center justify-start gap-4')
+                                        i.w-5(class=`${otherLink.icon} text-blue-400`  data-aos='fade-up'  )
+                                        div(class='flex-1 overflow-hidden ' data-aos='fade-up' )
+                                            p(class='truncate whitespace-nowrap') #{otherLink.text[language]}
 
     //- अहवाल व माहिती SEction
     //- section(class='py-8 md:py-16') 

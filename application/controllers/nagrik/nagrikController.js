@@ -1,88 +1,100 @@
-const { UPLOAD_PATHS } = require("../../config/uploadPaths");
-const nagrikModel = require("../../model/nagrik/nagrikModel");
-const { addCurrentTimeToDate } = require("../../utils/addCurrentTimeToDate");
-const { sendApiResponse } = require("../../utils/apiResponses");
-const asyncHandler = require("../../utils/asyncHandler");
-const generateUniqueFileName = require("../../utils/generateFileName");
-const { saveFile, deleteFile } = require("../../utils/saveFile");
-const { renderPage } = require("../../utils/sendResponse");
+const { UPLOAD_PATHS } = require('../../config/uploadPaths');
+const nagrikModel = require('../../model/nagrik/nagrikModel');
+const { addCurrentTimeToDate } = require('../../utils/addCurrentTimeToDate');
+const { sendApiResponse } = require('../../utils/apiResponses');
+const asyncHandler = require('../../utils/asyncHandler');
+const generateUniqueFileName = require('../../utils/generateFileName');
+const { saveFile, deleteFile } = require('../../utils/saveFile');
+const { renderPage } = require('../../utils/sendResponse');
 
 const nagrikController = {
-  renderNagrikNondaniReportView: asyncHandler(async (req, res) => {
-    let filters = req.query;
-    const nagrikList = await nagrikModel.getNagrikList(res.pool, filters);
-    renderPage(res, `user/nagrik/nagrik-nondani-report-view.pug`, {
-      title: "नागरिक नोंदणी यादी",
-      imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
-      nagrikList,
-      ...filters
-    });
-  }),
+	renderNagrikNondaniReportView: asyncHandler(async (req, res) => {
+		let filters = req.query;
+		const nagrikList = await nagrikModel.getNagrikList(res.pool, filters);
+		renderPage(res, `user/nagrik/nagrik-nondani-report-view.pug`, {
+			title: 'नागरिक नोंदणी यादी',
+			imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
+			nagrikList,
+			...filters
+		});
+	}),
 
-    renderNagrikDetailsPage: asyncHandler(async (req, res) => {
-        let { id } = req.params;
-        let [nagrik] = await nagrikModel.getById(res.pool, id)
-        renderPage(res, 'user/nagrik/nagrik-details-page.pug', {
-            nagrik,
-            imageBaseUrl: UPLOAD_PATHS.users.profile
-        })
-  }),
+	renderNagrikDetailsPage: asyncHandler(async (req, res) => {
+		let { id } = req.params;
+		let [nagrik] = await nagrikModel.getById(res.pool, id);
+		renderPage(res, 'user/nagrik/nagrik-details-page.pug', {
+			nagrik,
+			imageBaseUrl: UPLOAD_PATHS.users.profile
+		});
+	}),
 
-  renderNagrikNondaiReportPrintPage: asyncHandler(async (req, res) => {
-    let filters = req.query;
+	renderNagrikNondaiReportPrintPage: asyncHandler(async (req, res) => {
+		let filters = req.query;
 
-    const nagrikList = await nagrikModel.getNagrikList(res.pool, filters);
-    renderPage(res, `user/nagrik/nagrik-nondani-report-print-page.pug`, {
-      imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
-      nagrikList,
-      ...filters
-    });
-  }),
+		const nagrikList = await nagrikModel.getNagrikList(res.pool, filters);
+		renderPage(res, `user/nagrik/nagrik-nondani-report-print-page.pug`, {
+			imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
+			nagrikList,
+			...filters
+		});
+	}),
 
-  renderNagrikNondaniEditPage: asyncHandler(async (req, res) => {
-    let { id } = req.params;
-    const [nagrik] = await nagrikModel.getById(res.pool, id);
+	renderNagrikNondaniEditPage: asyncHandler(async (req, res) => {
+		let { id } = req.params;
+		const [nagrik] = await nagrikModel.getById(res.pool, id);
 
-    renderPage(res, "user/nagrik/nagrik-nondani-edit-page.pug", {
-      title: "Edit नागरीक नोंदणी",
-      imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
-      nagrik,
-    });
-  }),
+		renderPage(res, 'user/nagrik/nagrik-nondani-edit-page.pug', {
+			title: 'Edit नागरीक नोंदणी',
+			imageBaseUrl: `new-gp-page/main-page/images/user-pic`,
+			nagrik
+		});
+	}),
 
+	updateNagrikDetails: asyncHandler(async (req, res) => {
+		const nagrikData = req.body;
 
-  updateNagrikDetails: asyncHandler(async (req, res) => {
-     
-     const nagrikData = req.body;
+		const userImage = req.files?.userImage;
 
-     const userImage = req.files?.userImage;
+		const [existingData] = await nagrikModel.getById(
+			res.pool,
+			nagrikData.id
+		);
 
+		let newData = { ...existingData, ...nagrikData };
 
-     const [existingData] = await nagrikModel.getById(res.pool, nagrikData.id)
+		if (!userImage) {
+			newData.image = existingData.fImage;
+		} else {
+			const imageName = generateUniqueFileName(userImage, 'nagrik-');
 
-    let newData = {...existingData, ...nagrikData}
+			console.log('new iamge Name', imageName);
+			const destPath = `${UPLOAD_PATHS.users.profile}/${imageName}`;
+			await saveFile(userImage, destPath);
+			req.filesToCleanup.push(destPath);
+			newData.image = imageName;
+			console.log(
+				'old file name',
+				`${UPLOAD_PATHS.users.profile}/${existingData.fImage}`
+			);
+			await deleteFile(
+				`${UPLOAD_PATHS.users.profile}/${existingData.fImage}`
+			);
+		}
 
-     if(!userImage) {
-        newData.image = existingData.fImage;
-     }else{
-        const imageName = generateUniqueFileName(userImage, "nagrik-");
+		nagrikData.createdAt = addCurrentTimeToDate(nagrikData.createdAt);
 
-        console.log("new iamge Name", imageName)
-        const destPath = `${UPLOAD_PATHS.users.profile}/${imageName}`;
-        await saveFile(userImage, destPath);
-        req.filesToCleanup.push(destPath);
-        newData.image = imageName
-        console.log("old file name", `${UPLOAD_PATHS.users.profile}/${existingData.fImage}`)
-        await deleteFile(`${UPLOAD_PATHS.users.profile}/${existingData.fImage}`)
-     }
+		await nagrikModel.update(res.pool, newData);
 
-     nagrikData.createdAt = addCurrentTimeToDate(nagrikData.createdAt)
+		return sendApiResponse(res, 200, true, 'Updated.');
+	}),
 
-
-     await nagrikModel.update(res.pool, newData);
-
-     return sendApiResponse(res, 200, true, "Updated.")
-  }),
+	renderBirthdayPage: asyncHandler(async (req, res) => {
+		let nagrikList = await nagrikModel.getBirthdayList(res.pool);
+		renderPage(res, `user/nagrik/birthday-page.pug`, {
+			title: 'वाढदिवस शुभेच्छा',
+			nagrikList
+		});
+	})
 };
 
 module.exports = nagrikController;

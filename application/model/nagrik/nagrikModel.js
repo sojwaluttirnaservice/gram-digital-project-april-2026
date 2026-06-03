@@ -1,77 +1,81 @@
-const { runQuery } = require("../../utils/runQuery");
+const { runQuery } = require('../../utils/runQuery');
 
 const nagrikModel = {
-  getNagrikList: (pool, filters = {}) => {
-    let {
-      month,
-      year,
-      fromYear,
-      toYear,
+	getNagrikList: (pool, filters = {}) => {
+		let {
+			month,
+			year,
+			fromYear,
+			toYear,
 
-      hasAabhaCard,
-      hasAyushmanCard,
-      hasDownloadedApp,
-    } = filters;
+			hasAabhaCard,
+			hasAyushmanCard,
+			hasDownloadedApp
+		} = filters;
 
-    let q = `
+		let q = `
         SELECT n.*, 
         DATE_FORMAT(n.fDob, "%d/%m/%Y") as dob
         FROM ps_gp_member_list n
     `;
 
-    let conditions = [];
-    let params = [];
+		let conditions = [];
+		let params = [];
 
-    if (hasAabhaCard == "1") {
-      conditions.push(`n.has_aabha_card = 'YES'`);
-    }
+		if (hasAabhaCard == '1') {
+			conditions.push(`n.has_aabha_card = 'YES'`);
+		}
 
-    if (hasAyushmanCard == "1") {
-      conditions.push(`n.has_ayushman_card = 'YES'`);
-    }
+		if (hasAyushmanCard == '1') {
+			conditions.push(`n.has_ayushman_card = 'YES'`);
+		}
 
-    if (hasDownloadedApp) {
-      if (hasDownloadedApp === "meri_gram_panchayat") {
-        conditions.push(`n.has_downloaded_meri_gram_panchayat_app = 'YES'`);
-      }
+		if (hasDownloadedApp) {
+			if (hasDownloadedApp === 'meri_gram_panchayat') {
+				conditions.push(
+					`n.has_downloaded_meri_gram_panchayat_app = 'YES'`
+				);
+			}
 
-      if (hasDownloadedApp === "panchayat_decision") {
-        conditions.push(`n.has_downloaded_panchayat_decision_app = 'YES'`);
-      }
+			if (hasDownloadedApp === 'panchayat_decision') {
+				conditions.push(
+					`n.has_downloaded_panchayat_decision_app = 'YES'`
+				);
+			}
 
-      if (hasDownloadedApp === "gram_samvad") {
-        conditions.push(`n.has_downloaded_gram_samvad_app = 'YES'`);
-      }
-    }
+			if (hasDownloadedApp === 'gram_samvad') {
+				conditions.push(`n.has_downloaded_gram_samvad_app = 'YES'`);
+			}
+		}
 
-    // Month filter (based on createdAt)
-    if (month) {
-      conditions.push(`MONTH(n.createdAt) = ?`);
-      params.push(month);
-    }
+		// Month filter (based on createdAt)
+		if (month) {
+			conditions.push(`MONTH(n.createdAt) = ?`);
+			params.push(month);
+		}
 
-    // Year filter (based on createdAt)
-    if (year) {
-      conditions.push(`YEAR(n.createdAt) = ?`);
-      params.push(year);
-    }
+		// Year filter (based on createdAt)
+		if (year) {
+			conditions.push(`YEAR(n.createdAt) = ?`);
+			params.push(year);
+		}
 
-    // Financial year filter (April - March)
-    if (fromYear && toYear) {
-      conditions.push(`n.createdAt BETWEEN ? AND ?`);
-      params.push(`${fromYear}-04-01 00:00:00`);
-      params.push(`${toYear}-03-31 23:59:59`);
-    }
+		// Financial year filter (April - March)
+		if (fromYear && toYear) {
+			conditions.push(`n.createdAt BETWEEN ? AND ?`);
+			params.push(`${fromYear}-04-01 00:00:00`);
+			params.push(`${toYear}-03-31 23:59:59`);
+		}
 
-    if (conditions.length > 0) {
-      q += ` WHERE ` + conditions.join(" AND ");
-    }
+		if (conditions.length > 0) {
+			q += ` WHERE ` + conditions.join(' AND ');
+		}
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	},
 
-  getById: (pool, id) => {
-    const q = `
+	getById: (pool, id) => {
+		const q = `
             SELECT 
                 n.*, 
                 fDob as originalDob,
@@ -79,11 +83,11 @@ const nagrikModel = {
                 DATE_FORMAT(n.createdAt, "%d/%m/%Y") as _createdAt
             FROM ps_gp_member_list n
                 WHERE n.id = ?`;
-    return runQuery(pool, q, [+id]);
-  },
+		return runQuery(pool, q, [+id]);
+	},
 
-  update: (pool, data) => {
-    let q = `UPDATE ps_gp_member_list SET
+	update: (pool, data) => {
+		let q = `UPDATE ps_gp_member_list SET
                 fName = ?, 
                 fAadhar = ?, 
                 fMobile = ?,
@@ -112,40 +116,49 @@ const nagrikModel = {
 
             WHERE id = ?`;
 
-    const now = new Date();
+		const now = new Date();
 
-    let updateData = [
-      data.fName,
-      data.fAadhar,
-      data.fMobile,
-      data.fAltMobile,
-      data.fOccupation,
-      data.fEmail,
-      data.fVillage,
-      data.fBloodGroup,
-      data.fDob,
-      data.fPassword,
-      data.image,
+		let updateData = [
+			data.fName,
+			data.fAadhar,
+			data.fMobile,
+			data.fAltMobile,
+			data.fOccupation,
+			data.fEmail,
+			data.fVillage,
+			data.fBloodGroup,
+			data.fDob,
+			data.fPassword,
+			data.image,
 
-      data.has_aabha_card,
-      data.aabha_card_number,
+			data.has_aabha_card,
+			data.aabha_card_number,
 
-      data.has_ayushman_card,
-      data.ayushman_card_number,
-      data.ayushman_bharat_yojana_name,
+			data.has_ayushman_card,
+			data.ayushman_card_number,
+			data.ayushman_bharat_yojana_name,
 
-      data.has_downloaded_meri_gram_panchayat_app,
-      data.has_downloaded_panchayat_decision_app,
-      data.has_downloaded_gram_samvad_app,
+			data.has_downloaded_meri_gram_panchayat_app,
+			data.has_downloaded_panchayat_decision_app,
+			data.has_downloaded_gram_samvad_app,
 
-      data.createdAt || now,
-      now, // updatedAt हमेशा current time
+			data.createdAt || now,
+			now, // updatedAt हमेशा current time
 
-      data.id, // 👉 WHERE id = ?
-    ];
+			data.id // 👉 WHERE id = ?
+		];
 
-    return runQuery(pool, q, updateData);
-  },
+		return runQuery(pool, q, updateData);
+	},
+
+	getBirthdayList: (pool) =>{
+		let q = `SELECT *
+				FROM ps_gp_member_list
+					WHERE fDob <> '0000-00-00'
+						AND MONTH(fDob) = MONTH(CURDATE())
+						AND DAY(fDob) = DAY(CURDATE())`;
+		return runQuery(pool, q)
+	}
 };
 
 module.exports = nagrikModel;

@@ -1,0 +1,91 @@
+extends ../include/index-page-master-layout.pug
+
+block content
+
+    section(class='relative py-12 md:py-20 bg-gradient-to-br from-rose-50 via-sky-50 to-green-50 min-h-screen overflow-hidden')
+        
+        //- Decorative Background Elements
+        div(class='absolute top-10 left-10 w-32 h-32 bg-pink-200/40 rounded-full blur-2xl pointer-events-none')
+        div(class='absolute bottom-10 right-10 w-48 h-48 bg-sky-200/40 rounded-full blur-3xl pointer-events-none')
+        div(class='absolute top-1/3 right-1/4 w-36 h-36 bg-yellow-100/50 rounded-full blur-2xl pointer-events-none')
+
+        div(class='container mx-auto px-4 relative z-10')
+
+            //- ===================================================
+            //- PAGE HEADER
+            //- ===================================================
+            div(class='text-center mb-12 md:mb-16')
+                div(class='inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-lg text-rose-500 mb-5 animate-bounce duration-1000')
+                    i(class='fa fa-birthday-cake text-4xl')
+
+                h1(class='text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-amber-600 mb-4 py-2')
+                    | आजचे वाढदिवस
+                
+                p(class='text-gray-600 max-w-2xl mx-auto text-base md:text-lg font-medium')
+                    | आमच्या ग्रामपंचायतीमधील आज वाढदिवस असणाऱ्या सर्व नागरिकांना मनःपूर्वक शुभेच्छा!
+
+            //- ===================================================
+            //- BIRTHDAY LIST
+            //- ===================================================
+            if nagrikList && nagrikList.length > 0
+
+                div(class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto')
+
+                    each member in nagrikList
+
+                        div(class='group bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-pink-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(244,63,94,0.15)] hover:border-pink-200 transition-all duration-500 flex flex-col items-center text-center')
+                            
+                            //- Festive Balloon Ribbon Tag
+                            div(class='absolute top-0 right-8 transform -translate-y-2 bg-gradient-to-b from-rose-500 to-pink-600 text-white text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-b-lg shadow-md uppercase')
+                                | वाढदिवस 🎉
+
+                            //- Member Photo
+                            div(class='relative mb-6')
+                                div(class='absolute -inset-1.5 bg-gradient-to-tr from-rose-400 to-amber-400 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500')
+                                
+                                if member.fImage
+                                    img(src=`/new-gp-page/main-page/images/user-pic/${member.fImage}` alt=member.fName onerror='this.src="/img/fallback/default-avatar-fallback-img.jpg"' class='relative w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-md group-hover:scale-105 transition duration-500')
+                                else
+                                    div(class='relative w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-rose-100 to-amber-100 flex items-center justify-center border-4 border-white shadow-md group-hover:scale-105 transition duration-500')
+                                        i(class='fa fa-user text-5xl text-rose-400/80')
+
+                            //- Member Details
+                            h2(class='text-xl md:text-2xl font-bold text-gray-800 mb-2 group-hover:text-rose-600 transition duration-300')
+                                | #{member.fName}
+
+                            if member.fVillage
+                                span(class='inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 text-slate-600 text-xs font-semibold mb-4')
+                                    i(class='fa fa-map-marker text-rose-500')
+                                    | #{member.fVillage}
+
+                            //- Wish message
+                            div(class='w-full mt-4 bg-gradient-to-br from-rose-50 to-amber-50/50 rounded-2xl p-4 border border-rose-100/50')
+                                p(class='text-rose-700 font-bold text-base md:text-lg mb-0')
+                                    | तुम्हाला वाढदिवसाच्या हार्दिक शुभेच्छा... 💐
+
+                            //- if member.fMobile
+                                a(href=`https://wa.me/91${member.fMobile}?text=ग्रामपंचायत कार्यालय ${gp ? gp.gp_name : ''} कडून तुम्हाला वाढदिवसाच्या हार्दिक शुभेच्छा!` target='_blank' class='mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold transition-all duration-300 shadow-md hover:shadow-lg')
+                                    i(class='fa fa-whatsapp text-lg')
+                                    | शुभेच्छा संदेश पाठवा
+
+                            //- Sparkle / Confetti effect highlights
+                            div(class='flex gap-1.5 mt-5 text-rose-400/60 text-xs')
+                                i(class='fa fa-star animate-pulse')
+                                i(class='fa fa-star animate-pulse delay-75')
+                                i(class='fa fa-star animate-pulse delay-150')
+
+            //- ===================================================
+            //- EMPTY STATE
+            //- ===================================================
+            else
+
+                div(class='max-w-md mx-auto bg-white/70 backdrop-blur-md rounded-3xl border border-gray-100 p-8 md:p-12 text-center shadow-lg')
+                    
+                    div(class='w-20 h-20 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center mx-auto mb-6 shadow-inner')
+                        i(class='fa fa-smile-o text-5xl')
+
+                    h3(class='text-xl md:text-2xl font-bold text-gray-800 mb-3')
+                        | आज कोणाचाही वाढदिवस नाही
+                    
+                    p(class='text-gray-500 text-sm md:text-base mb-0 leading-relaxed')
+                        | आज आपल्या ग्रामपंचायतीमधील कोणाचाही वाढदिवस नोंदवलेला नाही. सर्वांना पुढील यशस्वी वाटचालीस शुभेच्छा!

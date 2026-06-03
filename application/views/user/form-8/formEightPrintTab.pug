@@ -362,7 +362,7 @@ body.back-image
                                                 //- input#d1.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पासून' required)
                                                 //- input#d2.d-none.form-control.col-2.float-left.mr-3(type='text' placeholder='वर्ष पर्यंत' required)
 
-                                                select#d1.d-none.form-select.col-2.float-left.mr-3(required)
+                                                select#d1.d-none.form-select.col-2.float-left.mr-3(required onchange="const target = document.getElementById('d2'); if (target) { target.selectedIndex = this.selectedIndex; if (window.jQuery && jQuery(target).data('select2')) { jQuery(target).trigger('change'); } }")
                                                     option(value='') वर्षापासून निवडा
                                                     each _yrRange in yearRanges
                                                         option(value=_yrRange.fromYear) #{_yrRange.fromYear}
@@ -399,7 +399,7 @@ body.back-image
                             .col-5
                                 .form-group.mb-2
                                     //- input#date1.form-control(placeholder="---- पासून वर्ष ----date1")
-                                    select#date1.form-select
+                                    select#date1.form-select(onchange="const target = document.getElementById('date2'); if (target) { target.selectedIndex = this.selectedIndex; if (window.jQuery && jQuery(target).data('select2')) { jQuery(target).trigger('change'); } }")
                                         option(value='') वर्षापासून निवडा
                                         each _yrRange in yearRanges
                                             option(value=_yrRange.fromYear) #{_yrRange.fromYear}
@@ -505,7 +505,7 @@ body.back-image
                             .col-5
                                 .form-group.mb-2
                                     //- input#date-1.form-control(placeholder="---- पासून वर्ष ----ddate1")
-                                    select#date-1.form-select
+                                    select#date-1.form-select(onchange="const target = document.getElementById('date-2'); if (target) { target.selectedIndex = this.selectedIndex; if (window.jQuery && jQuery(target).data('select2')) { jQuery(target).trigger('change'); } }")
                                         option(value='') वर्षापासून निवडा
                                         each _yrRange in yearRanges
                                             option(value=_yrRange.fromYear) #{_yrRange.fromYear}

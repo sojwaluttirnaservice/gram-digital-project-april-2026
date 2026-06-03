@@ -28,4 +28,9 @@ nagrikRouter.put(
     nagrikController.updateNagrikDetails
 )
 
+nagrikRouter.get(
+	'/birthday',
+	nagrikController.renderBirthdayPage
+)
+
 module.exports = nagrikRouter
