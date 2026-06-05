@@ -46,9 +46,9 @@ const ps_fund_income_expense_details = sequelize.define(
 
         indexes: [
             {
-                unique: true,
+                unique: false,
                 fields: ['from_year', 'to_year'],
-                name: 'idx_from_to_year_unique',
+                name: 'idx_from_to_year',
             },
         ],
     }

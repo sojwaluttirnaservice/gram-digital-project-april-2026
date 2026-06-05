@@ -175,26 +175,6 @@ const fundIncomeExpenseController = {
         let fundExpenseData = req.body
 
         /* -------------------------------
-            DUPLICATE CHECK
-        ------------------------------- */
-
-        let duplicate =
-            await fundIncomeExpenseModel.checkDuplicateFinancialYear(
-                res.pool,
-                fundExpenseData
-            )
-
-        if (duplicate.length > 0) {
-
-            return sendApiResponse(
-                res,
-                409,
-                false,
-                "Financial year already exists"
-            )
-        }
-
-        /* -------------------------------
             DOCUMENT
         ------------------------------- */
 
@@ -252,20 +232,6 @@ const fundIncomeExpenseController = {
         }
 
         oldData = oldData[0]
-
-        /* -------------------------------
-            DUPLICATE CHECK
-        ------------------------------- */
-
-        let duplicate =
-            await fundIncomeExpenseModel.checkDuplicateFinancialYear(
-                res.pool,
-                fundExpenseData
-            )
-
-        if (duplicate.length > 0) {
-            throw new AppError("Financial year already exists", 409)
-        }
 
         /* -------------------------------
             DOCUMENT
