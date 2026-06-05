@@ -1,4 +1,90 @@
 extends ../include/index-page-master-layout.pug
+
+block internal_css
+    style.
+        .accordion {
+            margin: 0 auto;
+        }
+        .accordion-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .accordion-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #138f78;
+        }
+        .accordion-btn {
+            width: 100%;
+            padding: 15px 20px;
+            background: #f9fafb;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            color: #1f2937;
+        }
+        .accordion-btn:hover {
+            background: #e6f4f2;
+            color: #138f78;
+        }
+        .accordion-btn.active {
+            background: #e6f4f2;
+            color: #138f78;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .accordion-body {
+            display: none;
+            padding: 20px;
+            line-height: 1.7;
+            color: #4b5563;
+            background-color: #ffffff;
+        }
+        .icon {
+            font-weight: bold;
+            font-size: 18px;
+            color: #138f78;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Tab content hidden by default */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Custom tab buttons styling */
+        .rti-tab-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            background-color: #ffffff;
+            color: #4b5563;
+            cursor: pointer;
+        }
+        .rti-tab-btn:hover {
+            background-color: #e6f4f2;
+            color: #138f78;
+            border-color: #138f78;
+        }
+        .rti-tab-btn.active {
+            background-color: #138f78;
+            color: #ffffff;
+            border-color: #138f78;
+            box-shadow: 0 4px 12px rgba(19, 143, 120, 0.2);
+        }
+
 block content
     section(class='relative pb-10 md:pb-16 bg-gray-50')
 
@@ -17,18 +103,17 @@ block content
 
                 // Tabs
                 div(class='w-full')
-                    div(class='flex flex-wrap gap-2 border-b mb-6')
-                        -let btnClassName = 'tab-btn px-4 py-2 rounded-t-lg border-b-2 font-medium transition-all duration-200 border-blue-600 text-blue-600 bg-blue-50' 
-                        button(class=btnClassName data-tab='1') समग्र माहिती
-                        button(class=btnClassName data-tab='2') अर्ज नमुने व कायदा
-                        button(class=btnClassName data-tab='3') कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्दे
-                        button(class=btnClassName data-tab='4') कलम 4(1)(ब) अंतर्गत स्पष्टीकरण
-                        button(class=btnClassName data-tab='5') जन माहिती व अपिलीय अधिकारी
+                    div(class='flex flex-wrap gap-3 border-b pb-4 mb-6')
+                        button(class='rti-tab-btn active' data-tab='1') समग्र माहिती
+                        button(class='rti-tab-btn' data-tab='2') अर्ज नमुने व कायदा
+                        button(class='rti-tab-btn' data-tab='3') कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्दे
+                        button(class='rti-tab-btn' data-tab='4') कलम 4(1)(ब) अंतर्गत स्पष्टीकरण
+                        button(class='rti-tab-btn' data-tab='5') जन माहिती व अपिलीय अधिकारी
 
                     // Tab Contents
                     div
                         // Tab 1
-                        div.tab-content(data-tab="1")
+                        div.tab-content.active(data-tab="1")
                             .accordion
 
                                 // 1. माहिती म्हणजे काय
@@ -86,7 +171,7 @@ block content
                                         span.title कोणती माहिती मिळू शकते?
 
                                     .accordion-body(id='item4')
-                                        p हे अधिकारी सर्व प्रशासकीय खात्यांत किंवा कार्यालयांत सार्वजनिक अधिकार्यांद्वारे नेमण्यात आलेले असतात. ते नागरीकांना त्यांनी मागितलेल्या माहितीनुसार माहिती देण्याचे काम करतात. जर ते सहाय्यकाची मदत घेत असतील, तर अशा व्यक्तीसही जन माहिती अधिकारी म्हणून वागवले जाते.
+                                        p हे अधिकारी सर्व प्रशासकीय खात्यांत किंवा कार्यालयांत सार्वजनिक अधिकार्यांद्वारे नेमण्यात आलेले असतात. ते नागरीकांना त्यांनी मागितलेल्या माहितीनुसार माहिती देण्याचे काम करतात. जर ते सहाय्यकाची मदत घेत असतील, तर अशा व्यक्तीसह जन माहिती अधिकारी म्हणून वागवले जाते.
 
                                         p कोणा कडून माहिती घेता येणार नाही ?
 
@@ -238,7 +323,7 @@ block content
                                         p अपील करण्याची प्रक्रिया:
 
                                         ul(class='list-decimal pl-4')
-                                            li अपील अर्ज सादर करताना कागदावर रु. २० चा न्यायालयीन मुद्रांक (Court Fee Stamp) लावावा.
+                                            li अपील अर्ज सादर करताना कागदावर रु. २० चा न्यायालयीन मुद्रांक (Court Fee Stamp) लगावावा.
                                             li अर्जामध्ये अर्जदाराचे नाव, पत्ता तसेच संबंधित जनमाहिती अधिकार्‍याचा तपशील नमूद करावा.
                                             li कोणती माहिती मिळाली नाही किंवा अपूर्ण मिळाली याचा स्पष्ट उल्लेख करावा.
                                             li तक्रारीचे स्वरूप किंवा अपील करण्याचे कारण सविस्तर लिहावे.
@@ -262,7 +347,7 @@ block content
                                         br
                                         p दुसरे अपील करण्याची प्रक्रिया:
                                         ul(class='list-decimal pl-4')
-                                            li अपील अर्ज सादर करताना कागदावर रु. २० चा न्यायालयीन मुद्रांक (Court Fee Stamp) लावावा.
+                                            li अपील अर्ज सादर करताना कागदावर रु. २० चा न्यायालयीन मुद्रांक (Court Fee Stamp) लगावावा.
                                             li अर्जामध्ये अर्जदाराचे नाव, पत्ता तसेच जनमाहिती अधिकार्‍याचा तपशील नमूद करावा.
                                             li अपेक्षित माहिती मिळाली नाही किंवा अपूर्ण/चुकीची मिळाली याचा स्पष्ट उल्लेख करावा.
                                             li तक्रारीचे स्वरूप किंवा अपील करण्याचे कारण सविस्तर लिहावे.
@@ -271,7 +356,6 @@ block content
 
 
                         div.tab-content(data-tab="2")
-                        
                             h2(class='text-xl font-semibold mb-4 text-gray-800') अर्ज नमुने व कायदा
 
                             p(class='mb-4 text-gray-600') माहितीचा अधिकार (RTI) अंतर्गत विविध अर्ज नमुने व कायद्याची प्रत खाली दिलेली आहे:
@@ -279,7 +363,7 @@ block content
                             -
                                 const rtiDocs = [
                                     { 
-                                        doc_name: 'माहितीचा अधिकार अंतर्गत अर्जाचा नमुना-जोडपत्र अ', 
+                                        doc_name: 'माहितीचा अधिकार अंतर्गत अर्जाचा नमुना-जोдपत्र अ', 
                                         doc_link_name: 'rti-application-form-annexure-a.pdf',
                                         doc_desc: 'माहितीचा अधिकार अंतर्गत माहिती मागवण्यासाठी अर्ज करण्याचा नमुना.'
                                     },
@@ -308,19 +392,34 @@ block content
 
                                 each rtiDoc, _index in rtiDocs
 
-                                    a(class='block p-4 border rounded-lg hover:shadow-md transition bg-white' href=`/docs/rti/${rtiDoc.doc_link_name}` target='_blank')
-                                        h3(class='font-medium text-blue-700') #{_index + 1}.  #{rtiDoc.doc_name}
+                                    a(class='block p-4 border border-gray-200 rounded-lg hover:border-[#138f78] hover:shadow-md transition bg-white' href=`/docs/rti/${rtiDoc.doc_link_name}` target='_blank')
+                                        h3(class='font-medium text-[#138f78]') #{_index + 1}.  #{rtiDoc.doc_name}
                                         p(class='text-sm text-gray-500 mt-1') #{rtiDoc.doc_desc}
 
-                        div.tab-content(data=tab="3")
-
                         div.tab-content(data-tab="3")
+
 
                             h2(class='text-xl font-semibold mb-4 text-gray-800')
                                 | ग्रामपंचायत माहिती अधिकार अधिनियम 2005
 
                             p(class='mb-6 text-gray-600')
-                                | कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्द्यांचे स्पष्टीकरण
+                                | कलम 4(1)(ब) अंतर्गत १ ते १७ मुद्द्यांचे स्पष्टीकरण व संबंधित दस्तऐवज
+
+                            //- Year filter selection
+                            div(class='mb-6 p-4 bg-gray-50 rounded-lg border flex flex-wrap items-center justify-between gap-4')
+                                div(class='flex items-center gap-3')
+                                    label(class='block text-sm font-semibold text-gray-700') आर्थिक वर्ष निवडा (Select Year):
+                                    select(id='filter-financial-year' class='p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#138f78] bg-white')
+                                        option(value='2024-2025' selected) 2024-2025
+                                        option(value='2025-2026') 2025-2026
+                                        option(value='2026-2027') 2026-2027
+                                        option(value='2023-2024') 2023-2024
+                                        option(value='2022-2023') 2022-2023
+                                        option(value='2021-2022') 2021-2022
+                                        option(value='2020-2021') 2020-2021
+                                div(class='text-right')
+                                    span(class='text-xs text-gray-500 block') कलम ४(१)(ब) अंतर्गत एकूण मुद्दे
+                                    span(class='text-sm font-bold text-[#138f78]') १७ मुद्दे प्रसिद्धीकरण
 
                             -
                                 const rtiSections = [
@@ -475,10 +574,11 @@ block content
                                 each sec, index in rtiSections
 
                                     .accordion-item
-                                        button(class='accordion-btn' data-target=`rti-${index}`)
-
-                                            span(class='icon') +
-                                            span(class='title') #{sec.title}
+                                        button(class='accordion-btn flex items-center justify-between w-full' data-target=`rti-${index}`)
+                                            div(class='flex items-center space-x-3')
+                                                span(class='icon') +
+                                                span(class='title text-left') #{sec.title}
+                                            div(class='rti-header-docs-container flex items-center space-x-2' data-point=index+1)
 
                                         div(class='accordion-body' id=`rti-${index}`)
 
@@ -487,7 +587,13 @@ block content
                                                 each point in sec.points
                                                     li #{point}
 
+                                            //- Uploaded files for this point
+                                            div(class='mt-4 pt-3 border-t')
+                                                h4(class='text-xs font-bold text-gray-500 uppercase tracking-wider mb-2') जोडलेले दस्तऐवज (Uploaded Documents):
+                                                div(class='rti-docs-container space-y-2' data-point=index+1)
+
                         div.tab-content(data-tab="4")
+
 
                             div(class='bg-white rounded-xl shadow-sm border p-4 md:p-6')
 
@@ -500,105 +606,98 @@ block content
                                 div(class='grid md:grid-cols-2 gap-5')
 
                                     //- CARD 1
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | १) कार्यालयीन माहिती सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') १
+                                            span कार्यालयीन माहिती सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li ग्रामपंचायतीची कार्ये व कर्तव्ये
                                             li अधिकारी व कर्मचारी माहिती
                                             li निर्णय प्रक्रिया
                                             li नियम व शासन निर्णय
-
-                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
                                             | ही माहिती कार्यालयीन फलकावर तसेच मागणीप्रमाणे नागरिकांना उपलब्ध करून दिली जाते.
 
                                     //- CARD 2
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | २) अभिलेख व दस्तऐवज सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') २
+                                            span अभिलेख व दस्तऐवज सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li ग्रामसभा इतिवृत्त
                                             li ठराव पुस्तिका
                                             li कर नोंदी
                                             li जन्म-मृत्यू नोंद
                                             li विकास कामे नोंदवही
                                             li अंदाजपत्रक व खर्च तपशील
-
-                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
                                             | सदर माहिती अर्जानुसार पाहण्यासाठी किंवा प्रत मिळण्यासाठी उपलब्ध करून दिली जाते.
 
                                     //- CARD 3
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | ३) नागरिक सहभाग सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') ३
+                                            span नागरिक सहभाग सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li ग्रामसभा आयोजन
                                             li सूचना व हरकती स्वीकारणे
                                             li तक्रार निवारण
                                             li सार्वजनिक सूचना
-
-                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
                                             | ग्रामपंचायत नागरिकांना निर्णय प्रक्रियेत सहभागी होण्यासाठी विविध सुविधा उपलब्ध करून देते.
 
                                     //- CARD 4
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | ४) योजना व लाभ माहिती सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') ४
+                                            span योजना व लाभ माहिती सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li घरकुल योजना
                                             li जलजीवन मिशन
                                             li स्वच्छ भारत अभियान
                                             li शौचालय योजना
                                             li पाणीपुरवठा योजना
-
-                                        p(class='mt-4 text-sm text-gray-600 leading-6')
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
                                             | शासनाच्या विविध योजनांची माहिती ग्रामपंचायत कार्यालयामार्फत उपलब्ध करून दिली जाते.
 
                                     //- CARD 5
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | ५) ऑनलाईन सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') ५
+                                            span ऑनलाईन सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li ऑनलाईन माहिती उपलब्धता
                                             li ई-मेल सुविधा
                                             li डिजिटल अभिलेख
                                             li PDF स्वरूपातील माहिती
                                             li शासन पोर्टलद्वारे सेवा
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
+                                            | विविध ऑनलाईन प्रणालीद्वारे माहिती व सेवा जलद गतीने उपलब्ध करून दिली जाते.
 
                                     //- CARD 6
-                                    div(class='border rounded-xl p-4 bg-gray-50')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | ६) ऑफलाईन सुविधा
-
-                                        ul(class='list-disc pl-5 text-gray-700 space-y-2')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') ६
+                                            span ऑफलाईन सुविधा
+                                        ul(class='list-disc pl-5 text-gray-600 space-y-2 text-sm')
                                             li माहिती अर्ज स्वीकारणे
                                             li अभिलेख पाहणी
                                             li प्रमाणपत्र वितरण
                                             li कर भरणा सुविधा
                                             li अर्ज नोंदणी
+                                        p(class='mt-4 text-sm text-gray-500 leading-relaxed border-t pt-3')
+                                            | कार्यालयात प्रत्यक्ष भेट देऊन विहित नमुन्यात अर्ज करण्याची सुविधा उपलब्ध आहे.
 
                                     //- CARD 7
-                                    div(class='border rounded-xl p-4 bg-gray-50 md:col-span-2')
-
-                                        h3(class='text-lg font-semibold text-blue-700 mb-3')
-                                            | ७) सार्वजनिक माहिती अधिकारी सुविधा
-
-                                        p(class='text-gray-700 leading-7')
+                                    div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2')
+                                        h3(class='text-lg font-bold text-gray-800 mb-3 flex items-center gap-2')
+                                            span(class='w-6 h-6 rounded-full bg-[#138f78]/10 text-[#138f78] flex items-center justify-center text-xs font-bold') ७
+                                            span सार्वजनिक माहिती अधिकारी सुविधा
+                                        p(class='text-gray-600 leading-relaxed text-sm')
                                             | माहिती अधिकार अधिनियम अंतर्गत सार्वजनिक माहिती अधिकारी (PIO) नियुक्त करण्यात आलेले असून माहिती अर्ज स्वीकारणे व माहिती पुरविणे ही कार्यवाही नियमानुसार केली जाते.
 
                                 //- CONCLUSION
-                                div(class='mt-8 bg-[#138f78]/10 border border-[#138f78]/20 rounded-xl p-5')
+                                div(class='mt-8 bg-[#138f78]/5 border border-[#138f78]/10 rounded-xl p-5')
 
                                     h3(class='text-xl font-bold text-[#138f78] mb-3')
                                         | निष्कर्ष
@@ -607,172 +706,107 @@ block content
                                         | ग्रामपंचायत कार्यालयामार्फत माहिती अधिकार अधिनियम 2005 कलम 4(1)(ब) अंतर्गत नमूद सर्व माहिती, अभिलेख, सेवा व सुविधा नागरिकांना ऑनलाईन तसेच ऑफलाईन पद्धतीने उपलब्ध करून दिल्या जातात. ग्रामपंचायत प्रशासन पारदर्शकता, उत्तरदायित्व व नागरिक सहभाग यासाठी कटिबद्ध आहे.
 
                         div.tab-content(data-tab="5")
-                            div(class='space-y-3')
+
+                            h2(class='text-xl font-semibold mb-6 text-gray-800') जन माहिती व अपिलीय अधिकारी (Information & Appellate Officers)
+                            div(class='grid md:grid-cols-3 gap-6')
                                 - let members = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
                                 - let gramsevakDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'ग्रामसेवक' || member.p_name == 'ग्रामविकास अधिकारी' || member.p_name == 'ग्रामपंचायत अधिकारी')) : {}
-                                div
-                                    p #{gramsevakDetails.name || '-'}
-                                    p जन माहिती अधिकारी तथा सचिव ग्रामपंचायत #{gp.gp_name}
-                                    p Email: #{[gp.email_1, gp.email_2].filter(i => i).join(', ') || '-'}
-                                    p Mobile: #{[gp.mobile_1, gp.mobile_2].filter(i => i).join(', ') || '-'}
 
-                                div 
-                                    p गट विकास अधिकारी #{gp.bdo_name}
-                                    p Email: #{[gp.bdo_email, gp.bdo_email_2].filter(i => i).join(', ') || '-'}
-                                    p Mobile: #{[gp.bdo_contact, gp.bdo_contact_2].filter(i => i).join(', ') || '-'}
+                                //- CARD 1: PIO
+                                div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between')
+                                    div
+                                        div(class='w-12 h-12 rounded-lg bg-[#138f78]/10 flex items-center justify-center text-[#138f78] mb-4 text-xl')
+                                            i(class='fa-solid fa-user-tie')
+                                        h3(class='text-lg font-bold text-gray-800 mb-1') #{gramsevakDetails.name || '-'}
+                                        p(class='text-sm font-semibold text-[#138f78] mb-4') जन माहिती अधिकारी (PIO)
+                                        p(class='text-xs text-gray-500 mb-4') सचिव, ग्रामपंचायत #{gp.gp_name}
+                                    
+                                    div(class='space-y-2 pt-3 border-t border-gray-100 text-sm text-gray-600')
+                                        if [gp.email_1, gp.email_2].filter(i => i).join(', ')
+                                            div(class='flex items-center gap-2')
+                                                i(class='fa-solid fa-envelope text-[#138f78] w-4')
+                                                span(class='truncate' title=[gp.email_1, gp.email_2].filter(i => i).join(', ')) #{[gp.email_1, gp.email_2].filter(i => i).join(', ')}
+                                        if [gp.mobile_1, gp.mobile_2].filter(i => i).join(', ')
+                                            div(class='flex items-center gap-2')
+                                                i(class='fa-solid fa-phone text-[#138f78] w-4')
+                                                span #{[gp.mobile_1, gp.mobile_2].filter(i => i).join(', ')}
 
-                                div 
-                                    p राज्य माहिती आयोग, #{gp.gp_dist} खंडपीठ
-                                    p Email: #{[sic_primary_email].filter(i => i).join(', ') || '-'}
-                                    p Alternate Email: #{[sic_alt_email].filter(i => i).join(', ') || '-'}
+                                //- CARD 2: First Appellate Authority
+                                div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between')
+                                    div
+                                        div(class='w-12 h-12 rounded-lg bg-[#138f78]/10 flex items-center justify-center text-[#138f78] mb-4 text-xl')
+                                            i(class='fa-solid fa-user-shield')
+                                        h3(class='text-lg font-bold text-gray-800 mb-1') #{gp.bdo_name || '-'}
+                                        p(class='text-sm font-semibold text-[#138f78] mb-4') प्रथम अपिलीय अधिकारी
+                                        p(class='text-xs text-gray-500 mb-4') गट विकास अधिकारी (BDO)
+                                    
+                                    div(class='space-y-2 pt-3 border-t border-gray-100 text-sm text-gray-600')
+                                        if [gp.bdo_email, gp.bdo_email_2].filter(i => i).join(', ')
+                                            div(class='flex items-center gap-2')
+                                                i(class='fa-solid fa-envelope text-[#138f78] w-4')
+                                                span(class='truncate' title=[gp.bdo_email, gp.bdo_email_2].filter(i => i).join(', ')) #{[gp.bdo_email, gp.bdo_email_2].filter(i => i).join(', ')}
+                                        if [gp.bdo_contact, gp.bdo_contact_2].filter(i => i).join(', ')
+                                            div(class='flex items-center gap-2')
+                                                i(class='fa-solid fa-phone text-[#138f78] w-4')
+                                                span #{[gp.bdo_contact, gp.bdo_contact_2].filter(i => i).join(', ')}
+
+                                //- CARD 3: Second Appellate Authority
+                                div(class='border border-gray-100 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between')
+                                    div
+                                        div(class='w-12 h-12 rounded-lg bg-[#138f78]/10 flex items-center justify-center text-[#138f78] mb-4 text-xl')
+                                            i(class='fa-solid fa-building-columns')
+                                        h3(class='text-lg font-bold text-gray-800 mb-1') राज्य माहिती आयोग
+                                        p(class='text-sm font-semibold text-[#138f78] mb-4') द्वितीय अपिलीय अधिकारी
+                                        p(class='text-xs text-gray-500 mb-4') #{gp.gp_dist} खंडपीठ
+                                    
+                                    div(class='space-y-2 pt-3 border-t border-gray-100 text-sm text-gray-600')
+                                        if [sic_primary_email, sic_alt_email].filter(i => i).length > 0
+                                            div(class='flex flex-col gap-1')
+                                                if sic_primary_email
+                                                    div(class='flex items-center gap-2')
+                                                        i(class='fa-solid fa-envelope text-[#138f78] w-4')
+                                                        span(class='truncate' title=sic_primary_email) #{sic_primary_email}
+                                                if sic_alt_email
+                                                    div(class='flex items-center gap-2')
+                                                        i(class='fa-solid fa-envelope-open text-[#138f78] w-4')
+                                                        span(class='truncate' title=sic_alt_email) #{sic_alt_email}
 
 block internal_js
     script.
         $(document).ready(function () {
-            // Generic Tabs
-            $('.tab-btn').on('click', function () {
+            // Tab switching handler
+            $('.rti-tab-btn').on('click', function () {
                 const tab = $(this).data('tab');
 
-                $('.tab-btn')
-                    .removeClass('border-blue-600 text-blue-600 bg-blue-50')
-                    .addClass('border-transparent text-gray-600');
+                $('.rti-tab-btn').removeClass('active');
+                $(this).addClass('active');
 
-                $(this)
-                    .removeClass('border-transparent text-gray-600')
-                    .addClass('border-blue-600 text-blue-600 bg-blue-50');
-
-                $('.tab-content:visible').fadeOut(100, function () {
-                    $('.tab-content').addClass('hidden');
-                    $('.tab-content[data-tab="' + tab + '"]')
-                        .removeClass('hidden')
-                        .hide()
-                        .fadeIn(200);
-                });
+                $('.tab-content').removeClass('active');
+                $('.tab-content[data-tab="' + tab + '"]').addClass('active');
             });
 
             // Generic Accordion
             $('.accordion-btn').on('click', function () {
                 const targetId = $(this).data('target');
                 const $content = $('#' + targetId);
-
-                $content.toggleClass('show');
-
-                const $icon = $(this).find('.accordion-icon');
-                $icon.text($content.hasClass('show') ? '−' : '+');
-            });
-
-            /* =========================================================
-            1. BASIC STYLING (Applied via JS)
-            ========================================================= */
-
-            $('.accordion').css({
-                //- maxWidth: '900px',
-                margin: '0 auto'
-            });
-
-            $('.accordion-item').css({
-                border: '1px solid #e5e7eb',
-                borderRadius: '10px',
-                marginBottom: '12px',
-                overflow: 'hidden',
-                background: '#ffffff',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.05)'
-            });
-
-            $('.accordion-btn').css({
-                width: '100%',
-                padding: '15px',
-                background: '#f9fafb',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px'
-            });
-
-            $('.accordion-body').css({
-                display: 'none',
-                padding: '15px',
-                lineHeight: '1.6',
-                color: '#374151'
-            });
-
-            $('.icon').css({
-                fontWeight: 'bold',
-                fontSize: '18px'
-            });
-
-            /* =========================================================
-            2. TAB FUNCTIONALITY
-            ========================================================= */
-
-            /**
-            * Handles tab switching
-            * - Activates clicked tab
-            * - Shows corresponding content
-            */
-            $('.tab-btn').on('click', function () {
-
-                const tab = $(this).data('tab');
-
-                // Reset all buttons
-                $('.tab-btn').css({
-                    background: '#e5e7eb',
-                    color: '#000'
-                });
-
-                // Highlight active tab
-                $(this).css({
-                    background: '#2563eb',
-                    color: '#fff'
-                });
-
-                // Hide all tab contents
-                $('.tab-content').hide();
-
-                // Show selected tab
-                $('.tab-content[data-tab="' + tab + '"]').fadeIn(200);
-            });
-
-            /* =========================================================
-            3. ACCORDION FUNCTIONALITY
-            ========================================================= */
-
-            /**
-            * Accordion behavior:
-            * - Opens clicked item
-            * - Closes others
-            * - Toggles + / − icon
-            * - Highlights active item
-            */
-            $('.accordion-btn').on('click', function () {
-
-                const targetId = $(this).data('target');
-                const $content = $('#' + targetId);
+                const isOpening = !$content.is(':visible');
 
                 // Close all other sections
                 $('.accordion-body').not($content).slideUp();
+                $('.accordion-btn').removeClass('active');
                 $('.accordion-btn .icon').text('+');
 
-                // Remove active highlight
-                $('.accordion-btn').css('background', '#f9fafb');
-
-                // Toggle current section
-                $content.stop(true, true).slideToggle();
-
-                // Toggle icon
-                const $icon = $(this).find('.icon');
-                $icon.text($content.is(':visible') ? '−' : '+');
-
-                // Highlight active button
-                $(this).css('background', '#e0f2fe');
-
-
+                if (isOpening) {
+                    $content.stop(true, true).slideDown();
+                    $(this).addClass('active');
+                    $(this).find('.icon').text('−');
+                } else {
+                    $content.stop(true, true).slideUp();
+                }
             });
 
             /* =========================================================
-            4. SPECIAL STYLING (IMPORTANT SECTION)
+            1. SPECIAL STYLING
             ========================================================= */
 
             /**
@@ -785,14 +819,99 @@ block internal_js
             });
 
             /* =========================================================
-            5. DEFAULT STATES
+            2. DEFAULT STATES
             ========================================================= */
 
             // Activate first tab
-            $('.tab-btn').first().click();
+            $('.rti-tab-btn').first().click();
 
             // Open first accordion item
             $('.accordion-btn').first().click();
 
-        });
+            // RTI dynamic documents filtering
+            const disclosures = !{JSON.stringify(disclosures || [])};
 
+            // Select the latest year by default
+            if (disclosures && disclosures.length > 0) {
+                const yearsInDb = disclosures.map(d => `${d.from_year}-${d.to_year}`);
+                const latestYear = yearsInDb.sort().reverse()[0];
+                if (latestYear && $('#filter-financial-year option[value="' + latestYear + '"]').length > 0) {
+                    $('#filter-financial-year').val(latestYear);
+                }
+            } else {
+                let maxYear = '';
+                $('#filter-financial-year option').each(function() {
+                    const val = $(this).val();
+                    if (val > maxYear) {
+                        maxYear = val;
+                    }
+                });
+                if (maxYear) {
+                    $('#filter-financial-year').val(maxYear);
+                }
+            }
+
+            function updateRtiFiles() {
+                const selectedYear = $('#filter-financial-year').val();
+                if (!selectedYear) return;
+                const [fromYear, toYear] = selectedYear.split('-').map(Number);
+
+                // Filter disclosures for the selected year
+                const activeDocs = disclosures.filter(doc => doc.from_year === fromYear && doc.to_year === toYear);
+
+                // Clear all containers
+                $('.rti-docs-container').html('');
+                $('.rti-header-docs-container').html('');
+
+                // Distribute disclosures to their points
+                activeDocs.forEach(doc => {
+                    const pointNum = Number(doc.point_number);
+                    
+                    // HTML for document inside accordion body
+                    const docHtml = `
+                        <div class="flex items-center justify-between p-3 bg-[#138f78]/5 border border-[#138f78]/15 rounded-lg hover:bg-[#138f78]/10 transition-colors duration-150 my-2">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa fa-file-pdf-o text-red-500 text-lg mr-2"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">${doc.description || doc.document_name}</p>
+                                </div>
+                            </div>
+                            <a href="${doc.saved_path}" target="_blank" class="px-3 py-1 bg-[#138f78] hover:bg-[#0f6c5a] text-white rounded text-xs font-semibold shadow-sm transition-all duration-150">
+                                <i class="fa fa-download mr-1"></i> पहा / डाउनलोड
+                            </a>
+                        </div>
+                    `;
+
+                    // HTML for document in accordion header (inline)
+                    const headerDocHtml = `
+                        <a href="${doc.saved_path}" target="_blank" class="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded-md text-xs font-semibold shadow-sm transition-all duration-150 flex items-center gap-1 border border-red-200" title="${doc.description || doc.document_name}">
+                            <i class="fa fa-file-pdf-o"></i> PDF
+                        </a>
+                    `;
+
+                    if (pointNum >= 1 && pointNum <= 17) {
+                        $(`.rti-docs-container[data-point="${pointNum}"]`).append(docHtml);
+                        $(`.rti-header-docs-container[data-point="${pointNum}"]`).append(headerDocHtml);
+                    }
+                });
+
+                // Populate placeholder message for points with no docs
+                $('.rti-docs-container').each(function() {
+                    if ($(this).children().length === 0) {
+                        $(this).html('<p class="text-xs text-gray-400 italic"><i class="fa fa-info-circle mr-1"></i> या आर्थिक वर्षासाठी कोणतेही दस्तऐवज उपलब्ध नाही.</p>');
+                    }
+                });
+            }
+
+            // Prevent accordion toggle when clicking inline header PDF buttons
+            $(document).on('click', '.rti-header-docs-container a', function(e) {
+                e.stopPropagation();
+            });
+
+            // Bind event listener
+            $('#filter-financial-year').on('change', updateRtiFiles);
+
+            // Initialize on page load
+            updateRtiFiles();
+
+        });

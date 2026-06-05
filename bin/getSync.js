@@ -82,6 +82,7 @@ const ps_qr_codes = require("../application/Migration Scripts/ps_qr_codes");
 const ps_birth_death_certificate_unavailability_certificates = require("../application/Migration Scripts/ps_birth_death_certificate_unavailability_certificates");
 const ps_bpl_certificates = require("../application/Migration Scripts/ps_bpl_certificates");
 const ps_bpl_certificate_family_members = require("../application/Migration Scripts/ps_bpl_certificate_family_members");
+const ps_rti_points_pdf = require("../application/Migration Scripts/ps_rti_points_pdf");
 
 // Namuna tables
 

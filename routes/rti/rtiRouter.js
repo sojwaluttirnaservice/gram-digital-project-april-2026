@@ -1,12 +1,14 @@
-const asyncHandler = require("../../application/utils/asyncHandler");
+const rtiController = require("../../application/controllers/rti/rtiController");
 const getRouter = require("../../application/utils/getRouter");
-const { renderPage } = require("../../application/utils/sendResponse");
 
 const rtiRouter = getRouter();
 
-rtiRouter.get('/info', asyncHandler(async (req, res) => {
-    renderPage(res, 'user/rti/rti-info-page.pug');
-}),)
+// Public route
+rtiRouter.get('/info', rtiController.renderRtiInfoPage);
 
+// Admin / Management routes
+rtiRouter.get('/rti-management', rtiController.renderRtiManagementPage);
+rtiRouter.post('/rti-management/upload', rtiController.uploadRtiDocument);
+rtiRouter.post('/rti-management/delete', rtiController.deleteRtiDocument);
 
-module.exports = rtiRouter
+module.exports = rtiRouter;

@@ -52,7 +52,8 @@ const UPLOAD_PATHS = {
 		qrCodes: `${baseDir}/new-gp-page/main-page/files/qr-codes`,
 		govYojana: `${baseDir}/new-gp-page/main-page/files/gov-yojna-lists`,
 		govYojanaImages: `${baseDir}/uploads/images/yojana/banners`,
-		govYojanaBeneficiary: `${baseDir}/new-gp-page/main-page/files/gov-yojana-beneficiaries`
+		govYojanaBeneficiary: `${baseDir}/new-gp-page/main-page/files/gov-yojana-beneficiaries`,
+		rti: `${baseDir}/uploads/rti`
 	},
 
 	arogya: {

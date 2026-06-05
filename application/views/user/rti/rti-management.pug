@@ -1,0 +1,146 @@
+extends ../include/internal-gp-master-layout.pug
+
+block custom_css 
+    style.
+        th, tr, td {
+            border: 1px solid #dee2e6 !important; 
+        }
+        tr, td {
+            vertical-align: middle !important;
+        }
+
+block custom_js 
+    script(src='/asstest/coustom/js/handlers/rti/rti-management-handler.js')
+
+block content
+    div.container-fluid.mt-4
+        .row.justify-content-center
+            div.col-12.col-xl-11
+                div.card.shadow-sm(style="background: oklch(86.9% 0.022 252.894);")
+                    div.card-body.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between.gap-3
+                        div
+                            h4.mb-1
+                                i.fa.fa-file-text-o.me-2
+                                | माहितीचा अधिकार (RTI) दस्तऐवज यादी
+                                span(style="font-size: 0.9rem;")
+                                    | (कलम ४(१)(ब) १७ मुद्दे व इतर अहवाल)
+                        div
+                            button.btn.btn-primary.btn-sm#upload-rti-document-btn(type='button')
+                                i.fa.fa-plus.me-1
+                                | नवीन दस्तऐवज अपलोड करा
+
+            .col-12.col-xl-11.mt-4
+                -
+                    const groupedDisclosures = {};
+                    if (disclosures && disclosures.length > 0) {
+                        disclosures.forEach(doc => {
+                            const yearKey = `${doc.from_year}-${doc.to_year}`;
+                            if (!groupedDisclosures[yearKey]) {
+                                groupedDisclosures[yearKey] = [];
+                            }
+                            groupedDisclosures[yearKey].push(doc);
+                        });
+                    }
+                    const years = Object.keys(groupedDisclosures).sort().reverse();
+
+                if years && years.length > 0
+                    .accordion#rtiYearAccordion
+                        each yearGroup, yearIndex in years
+                            .accordion-item
+                                h2.accordion-header(id=`heading-${yearGroup}`)
+                                    button.accordion-button(
+                                        type='button' 
+                                        data-bs-toggle='collapse' 
+                                        data-bs-target=`#collapse-${yearGroup}` 
+                                        aria-expanded=(yearIndex === 0 ? 'true' : 'false') 
+                                        aria-controls=`collapse-${yearGroup}`
+                                        class=(yearIndex === 0 ? '' : 'collapsed')
+                                    )
+                                        strong.text-primary.me-2 आर्थिक वर्ष: #{yearGroup}
+                                        span.badge.bg-secondary #{groupedDisclosures[yearGroup].length} दस्तऐवज
+                                
+                                div.accordion-collapse.collapse(
+                                    id=`collapse-${yearGroup}` 
+                                    aria-labelledby=`heading-${yearGroup}` 
+                                    data-bs-parent='#rtiYearAccordion'
+                                    class=(yearIndex === 0 ? 'show' : '')
+                                )
+                                    div.accordion-body.p-0
+                                        .table-responsive
+                                            table.table.table-bordered.table-striped.mb-0
+                                                thead
+                                                    tr 
+                                                        th.text-center(width='5%') अ. क्र.
+                                                        th.text-center(width='10%') मुद्दा क्र.
+                                                        th दस्तऐवज प्रकार / नाव
+                                                        th वर्णन (Description)
+                                                        th.text-center(width='15%') फाईल पहा
+                                                        th.text-center(width='10%') Action
+                                                tbody 
+                                                    each doc, docIndex in groupedDisclosures[yearGroup]
+                                                        tr 
+                                                            td.text-center #{docIndex + 1}
+                                                            td.text-center
+                                                                span.badge.bg-secondary #{doc.point_number}
+                                                            td.font-weight-bold #{doc.document_name}
+                                                            td.text-muted #{doc.description || '-'}
+                                                            td.text-center 
+                                                                a.btn.btn-sm.btn-success(href=doc.saved_path target='_blank')
+                                                                    i.fa.fa-file-pdf-o.me-1
+                                                                    | PDF पहा
+                                                            td.text-center 
+                                                                button.btn.btn-sm.btn-danger.delete-rti-document-btn(type='button' data-id=doc.id)
+                                                                    i.fa.fa-trash.me-1
+                                                                    | काढा
+                else
+                    div.text-center.py-5.bg-light.rounded.border
+                        span.text-muted कोणतेही दस्तऐवज उपलब्ध नाहीत. कृपया नवीन दस्तऐवज अपलोड करा.
+
+    //- Upload Modal
+    .modal.fade(tabindex="-1" aria-labelledby="rtiDocumentModalLabel" aria-hidden="true" id ='rti-document-modal')
+        .modal-dialog.modal-dialog-centered(style='min-width: 50% !important;')
+            .modal-content.border-0.shadow-lg
+                .modal-header.bg-warning.text-dark
+                    h5.modal-title#rtiDocumentModalLabel
+                        i.fa.fa-upload.me-2
+                        | नवीन दस्तऐवज अपलोड करा
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                .modal-body.p-4
+                    form#rti-document-form(enctype="multipart/form-data")
+                        .row.g-3
+                            .col-12.col-md-6 
+                                .form-group 
+                                    label.form-label.font-weight-bold(for="point_number") माहितीचा अधिकार मुद्दा निवडा <span class="text-danger">*</span>
+                                    select.form-select(name='point_number' id='point_number' required)
+                                        option(value='') -- निवडा --
+                                        each title, num in RTI_POINTS_MAP
+                                            option(value=num) #{title}
+                            .col-12.col-md-6 
+                                .form-group 
+                                    label.form-label.font-weight-bold(for="financial_year") आर्थिक वर्ष <span class="text-danger">*</span>
+                                    select.form-select(name='financial_year' id='financial_year' required)
+                                        option(value='') -- निवडा --
+                                        option(value='2020-2021') 2020-2021
+                                        option(value='2021-2022') 2021-2022
+                                        option(value='2022-2023') 2022-2023
+                                        option(value='2023-2024') 2023-2024
+                                        option(value='2024-2025') 2024-2025
+                                        option(value='2025-2026') 2025-2026
+                                        option(value='2026-2027') 2026-2027
+                                        option(value='2027-2028') 2027-2028
+                                        option(value='2028-2029') 2028-2029
+                                        option(value='2029-2030') 2029-2030
+                            .col-12 
+                                .form-group 
+                                    label.form-label.font-weight-bold(for="document_file") पीडीएफ दस्तऐवज (PDF Only) <span class="text-danger">*</span>
+                                    input.form-control(type='file' name='document_file' id='document_file' accept='application/pdf' required)
+                            .col-12 
+                                .form-group 
+                                    label.form-label.font-weight-bold(for="description") वर्णन (Description) - ऐच्छिक
+                                    textarea.form-control(name='description' id='description' rows='3' placeholder='दस्तऐवजाचे संक्षिप्त वर्णन लिहा...')
+
+                            .col-12.text-center.mt-4
+                                button.btn.btn-secondary.me-2(type='button' data-bs-dismiss='modal') रद्द करा
+                                button.btn.btn-primary#submit-rti-document-btn(type='submit')
+                                    i.fa.fa-save.me-1
+                                    | जतन करा
