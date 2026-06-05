@@ -364,6 +364,12 @@ const villageController = {
 		}
 	},
 
+	renderAhavalPage: asyncHandler(async (req, res) => {
+		const gram_ahaval_documents = await MasterModel.getGramAvhavalDocuements(res.pool)
+		renderPage(res, 'user/village/ahaval-page.pug', { gram_ahaval_documents })
+	}),
+
+
 
 	gramManager: async (req, res) => {
 

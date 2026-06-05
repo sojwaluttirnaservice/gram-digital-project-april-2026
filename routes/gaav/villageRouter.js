@@ -81,4 +81,9 @@ villageRouter.get(
 	villageController.gramManager
 )
 
+villageRouter.get(
+	'/ahaval',
+	villageController.renderAhavalPage
+)
+
 module.exports = villageRouter
