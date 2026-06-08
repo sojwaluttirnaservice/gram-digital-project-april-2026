@@ -134,9 +134,8 @@ const paymentPaniReceiptModel = {
             tpl_currentGenealWaterTax,
             tpl_totalGenealWaterTax,
             tpl_totalWaterTax,
-            tpl_checkNo,
             tpl_bharnaDate,
-            tpl_createdDate
+            createdAt
         )
         VALUES 
         (?)`;
@@ -186,7 +185,6 @@ const paymentPaniReceiptModel = {
       Number(newWaterVasuliDetails.lastGenealWaterTax || 0) +
         Number(newWaterVasuliDetails.currentGenealWaterTax || 0),
       newWaterVasuliDetails.finalWaterTax || 0,
-      newWaterVasuliDetails.checkNo || null,
       newWaterVasuliDetails.bharnaDate ||
         new Date().toISOString().split("T")[0],
       new Date().toISOString().split("T")[0],

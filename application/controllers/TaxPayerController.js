@@ -546,9 +546,6 @@ let TaxPayerController = {
     // let {paymentData, newVasuliData, updateFormNine} = req.body;
     let paymentData, newVasuliData, updateFormNine;
 
-    console.log("*************");
-    console.log(req.is);
-    console.log("***********");
     if (req.is("multipart/form-data")) {
       paymentData = req.body.paymentData
         ? JSON.parse(req.body.paymentData)
