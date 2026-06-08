@@ -253,24 +253,58 @@ html
 
             main(class='relative')
 
-                //- dialog#myModal.modal
-                    .modal-box
+                -
+                    function devanagariNormalize(str) {
+                        if (!str) return "";
+                        return str
+                            .replace(/ग्रामपंचायत|ग्राम\s*पंचायत/g, "")
+                            .replace(/[\u093e\u093f\u0940\u0941\u0942\u0947\u0948\u094b\u094c\u0902\u0901\u093c]/g, "")
+                            .replace(/[^a-zA-Z0-9\u0900-\u097F]/g, "")
+                            .trim();
+                    }
+                    var valid_sub_villages = (typeof sub_village !== 'undefined' && sub_village) ? sub_village.filter(v => devanagariNormalize(v.gp_name) !== devanagariNormalize(gp.gp_name)) : [];
 
+                //- Login Modal
+                dialog#myModal.modal
+                    .modal-box.max-w-xl
                         form(method="dialog")
-
-                            h3(class='text-center text-gray-500 font-bold text-xl') गाव निवडा
+                            h3(class='text-center text-gray-700 font-bold text-xl mb-4') गाव निवडा
                             button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
-
-                        .p-4(class='md:p-5')
-                            .modal-body
-                                table.table.table-bordered(class='w-full border-collapse border border-gray-200')
-                                    thead
-                                        tr
-                                            each value, index in sub_village
-                                                th(width="5%" class='border border-gray-300 p-2') #{index + 1}
-                                                th(class='border border-gray-300 p-2')
+                        .modal-body.overflow-x-auto
+                            table.table(class='w-full border-collapse border border-gray-200 text-left')
+                                tbody
+                                    tr(class='hover:bg-gray-50')
+                                        td(width="10%" class='border border-gray-300 p-3 text-center') 1
+                                        td(class='border border-gray-300 p-3')
+                                            button(data-url="/login" class='redirectToLoginPageModalBtn text-blue-600 hover:text-blue-800 font-bold w-full text-left') #{gp.gp_name}
+                                    if valid_sub_villages && valid_sub_villages.length > 0
+                                        each value, index in valid_sub_villages
+                                            tr(class='hover:bg-gray-50')
+                                                td(width="10%" class='border border-gray-300 p-3 text-center') #{index + 2}
+                                                td(class='border border-gray-300 p-3')
                                                     - var url = value.gp_url + "/login";
-                                                    button(data-url=url, class='redirectToLoginPageModalBtn text-blue-500 hover:text-blue-700') #{value.gp_name}
+                                                    button(data-url=url class='redirectToLoginPageModalBtn text-blue-600 hover:text-blue-800 font-bold w-full text-left') #{value.gp_name}
+
+                //- New Application Modal
+                dialog#myModal1.modal
+                    .modal-box.max-w-xl
+                        form(method="dialog")
+                            h3(class='text-center text-gray-700 font-bold text-xl mb-4') नवीन अर्जासाठी गाव निवडा
+                            button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+                        .modal-body.overflow-x-auto
+                            table.table(class='w-full border-collapse border border-gray-200 text-left')
+                                tbody
+                                    tr(class='hover:bg-gray-50')
+                                        td(width="10%" class='border border-gray-300 p-3 text-center') 1
+                                        td(class='border border-gray-300 p-3')
+                                            button(data-url="/new-application-form" class='redirectToLoginPageModalBtn text-blue-600 hover:text-blue-800 font-bold w-full text-left') #{gp.gp_name}
+                                    if valid_sub_villages && valid_sub_villages.length > 0
+                                        each value, index in valid_sub_villages
+                                            tr(class='hover:bg-gray-50')
+                                                td(width="10%" class='border border-gray-300 p-3 text-center') #{index + 2}
+                                                td(class='border border-gray-300 p-3')
+                                                    - var url = value.gp_url + "/new-application-form";
+                                                    button(data-url=url class='redirectToLoginPageModalBtn text-blue-600 hover:text-blue-800 font-bold w-full text-left') #{value.gp_name}
 
                 block content
 
@@ -279,7 +313,7 @@ html
         script(src='https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js')
 
         script.
-            gpCount = #{sub_count}
+            gpCount = #{typeof sub_count !== 'undefined' ? sub_count : 0};
 
             const scrollContainer = document.getElementById("scrollUpContainer");
             const scrollBtn = document.getElementById('scrollUpBtn');

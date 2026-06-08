@@ -29,15 +29,20 @@ const RTI_POINTS_MAP = {
 	17: '१७) इतर आवश्यक माहिती'
 };
 
+const HomeController = require('../HomeController');
+
 const rtiController = {
 	// Render public RTI Info Page
 	renderRtiInfoPage: asyncHandler(async (req, res) => {
 		// Fetch all uploaded RTI disclosures to render in the view
 		const disclosures = await rtiModel.getAllDisclosures(res.pool);
-		const [gp] = await HomeModel.getGpData(res.pool);
-		const sic_primary_email = gp ? gp.sic_primary_email : '';
-		const sic_alt_email = gp ? gp.sic_alt_email : '';
+		let allRequiredData = await HomeController.getCommonData(req, res);
+		
+		const sic_primary_email = allRequiredData.gp ? allRequiredData.gp.sic_primary_email : '';
+		const sic_alt_email = allRequiredData.gp ? allRequiredData.gp.sic_alt_email : '';
+
 		renderPage(res, 'user/rti/rti-info-page.pug', {
+			...allRequiredData,
 			disclosures,
 			RTI_POINTS_MAP,
 			sic_primary_email,
