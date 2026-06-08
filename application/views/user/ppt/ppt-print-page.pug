@@ -159,17 +159,35 @@ html(lang="en")
             }
             
             .bg-image-2{
-                background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
-                background-size: 100% auto;
+                background-image: url('/img/ppt/mh-panchayat-raj.png');
+                background-size: 100% 100%;
                 background-position: top;
                 background-repeat: no-repeat;
             }
             .bg-image{
-                background-image: url('/img/ppt/mh-panchayat-raj.jpeg');
+                background-image: url('/img/ppt/mh-panchayat-raj.png');
                 //- background-size: cover;
-                background-size: 100% auto;
+                background-size: 100% 100%;
                 background-position: center;
                 background-repeat: no-repeat;
+            }
+
+            .slide-scroll-container {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(0,0,0,0.25) transparent;
+            }
+            .slide-scroll-container::-webkit-scrollbar {
+                width: 6px;
+            }
+            .slide-scroll-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .slide-scroll-container::-webkit-scrollbar-thumb {
+                background: rgba(0,0,0,0.25);
+                border-radius: 4px;
+            }
+            .slide-scroll-container::-webkit-scrollbar-thumb:hover {
+                background: rgba(0,0,0,0.4);
             }
 
             .noto-sans-devanagari-500 {
@@ -246,6 +264,23 @@ html(lang="en")
                     -webkit-text-fill-color: initial !important;
                     color: #60a5fa !important;
                     background: none !important;
+                }
+                .slide-scroll-container {
+                    max-height: none !important;
+                    overflow: visible !important;
+                    overflow-y: visible !important;
+                    scrollbar-width: none !important;
+                }
+                .slide-scroll-container::-webkit-scrollbar {
+                    display: none !important;
+                }
+                .slide-scroll-container h5 {
+                    font-size: 17px !important;
+                    line-height: 1.4 !important;
+                }
+                .slide-scroll-container span {
+                    font-size: 13px !important;
+                    padding: 4px 8px !important;
                 }
             }
 
@@ -343,26 +378,35 @@ html(lang="en")
                 // 🟢 PAGE 1 (TEXT PAGE)
                 // =========================
                 div.page.bg-image
-
-                    //- div.slide-header-img-container
-                        if ppt.remaining_pages_header_image
-                            img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
-
-                    div(style="width:1280px;")
-                        h3(style="font-size:40px;color:#f6339a;margin-top:12rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
+                    div(style="width:100%;")
+                        h3(style="font-size:40px;color:#f6339a;margin-top:10.5rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
                             | ग्राम पंचायत कार्यालय #{gp.gp_name}
 
-                    div(style="width:1280px;")
+                    div(style="width:100%;")
                         h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
                             | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
 
-                    div.slide-title-area(style="margin-top:3rem;")
+                    div.slide-scroll-container.content-area-to-split(style="width:100%; text-align:left; margin-top:1.5rem; padding:0 80px; height:370px; position:relative; overflow:hidden; margin-bottom:90px;")
                         if slide.slide_title
-                            h3.text-danger.fw-bold.mb-0.slide-title(style="font-size:30px;")= slide.slide_title
+                            h3.slide-title(style="font-size:16px; color:#1e40af; margin-bottom:1rem; text-align:center;" class="fw-bold w-100")
+                                i.fa.fa-info-circle.me-2
+                                = slide.slide_title
+                        
                         if slide.slide_subtitle
-                            h5.text-primary.mt-1.mb-0.slide-subtitle(style="font-size:20px;")= slide.slide_subtitle
+                            div.question-block(style="background:#fff5f5; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; margin-bottom:1rem; width:100%;")
+                                span(style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;")
+                                    i.fa.fa-question-circle.me-1
+                                    | प्रश्न
+                                h5.question-text(style="color:#9b2c2c; font-size:18px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; text-align:left; font-family:'Tiro Devanagari Marathi', serif;")
+                                    = slide.slide_subtitle
+                        
                         if slide.slide_description
-                            h5.text-success.fw-bold.mt-2.mb-0(style="font-size:20px;")= slide.slide_description
+                            div.answer-block(style="background:#f0fdf4; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; width:100%;")
+                                span.answer-badge(style="background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;")
+                                    i.fa.fa-check-circle.me-1
+                                    | उत्तर
+                                h5.answer-text(style="color:#14532d; font-size:21px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;")
+                                    = slide.slide_description
 
 
                 // =========================
@@ -384,34 +428,121 @@ html(lang="en")
                                 h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
                                     | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
 
-                            div.slide-image-area
+                            div.slide-image-area(style="height:360px; margin-top:1rem; margin-bottom:90px;")
 
                                 //- BEFORE
                                 div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
-                                    div(style="width:500px;height:320px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                    div(style="width:500px;height:290px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
                                         if beforeImgs[i] && beforeImgs[i].image_name
                                             img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
                                     if beforeImgs[i] && (beforeImgs[i].image_title || beforeImgs[i].image_subtitle)
                                         div(style="text-align:center; max-width:500px;")
                                             if beforeImgs[i].image_title
-                                                div.before-image-title= beforeImgs[i].image_title
+                                                div.before-image-title(style="font-size:16px;")= beforeImgs[i].image_title
                                             if beforeImgs[i].image_subtitle
-                                                div.before-image-subtitle= beforeImgs[i].image_subtitle
+                                                div.before-image-subtitle(style="font-size:12px;")= beforeImgs[i].image_subtitle
 
                                 //- AFTER
                                 div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
-                                    div(style="width:500px;height:320px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
+                                    div(style="width:500px;height:290px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
                                         if afterImgs[i] && afterImgs[i].image_name
                                             img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
                                     if afterImgs[i] && (afterImgs[i].image_title || afterImgs[i].image_subtitle)
                                         div(style="text-align:center; max-width:500px;")
                                             if afterImgs[i].image_title
-                                                div.after-image-title= afterImgs[i].image_title
+                                                div.after-image-title(style="font-size:16px;")= afterImgs[i].image_title
                                             if afterImgs[i].image_subtitle
-                                                div.after-image-subtitle= afterImgs[i].image_subtitle
+                                                div.after-image-subtitle(style="font-size:12px;")= afterImgs[i].image_subtitle
 
 script.
-    const params = new URLSearchParams(window.location.search);
-    const shouldPrint = params.get('print') || false;
-    if(shouldPrint === 'true')
-        window.print();
+    document.addEventListener("DOMContentLoaded", () => {
+        const maxContentHeight = 370;
+        const pages = Array.from(document.querySelectorAll('.page'));
+        
+        for (let i = 0; i < pages.length; i++) {
+            const page = pages[i];
+            const contentArea = page.querySelector('.content-area-to-split');
+            if (!contentArea) continue;
+
+            const answerBlock = contentArea.querySelector('.answer-block');
+            const answerTextEl = contentArea.querySelector('.answer-text');
+            if (!answerBlock || !answerTextEl) continue;
+
+            // Check if it overflows the height limit
+            if (contentArea.scrollHeight > maxContentHeight) {
+                const fullText = answerTextEl.innerText.trim();
+                const words = fullText.split(/\s+/);
+                
+                let low = 0;
+                let high = words.length;
+                let fitIndex = 0;
+
+                // Binary search to find how many words fit on this page
+                while (low <= high) {
+                    let mid = Math.floor((low + high) / 2);
+                    let testText = words.slice(0, mid).join(" ");
+                    answerTextEl.innerText = testText;
+
+                    if (contentArea.scrollHeight <= maxContentHeight) {
+                        fitIndex = mid;
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
+                }
+
+                const fitText = words.slice(0, fitIndex).join(" ");
+                const overflowText = words.slice(fitIndex).join(" ");
+
+                // Apply fit text
+                answerTextEl.innerText = fitText;
+                if (fitText.trim() === "") {
+                    answerBlock.style.display = 'none';
+                }
+
+                // If we have overflow text, create a new page for it
+                if (overflowText.trim().length > 0) {
+                    const newPage = page.cloneNode(true);
+                    const newContentArea = newPage.querySelector('.content-area-to-split');
+                    
+                    // Reset styling (ensure overflow is shown on clone if it needs splitting again)
+                    newContentArea.style.display = 'block';
+
+                    // Remove question block on the continuation page
+                    const newQuestionBlock = newContentArea.querySelector('.question-block');
+                    if (newQuestionBlock) {
+                        newQuestionBlock.remove();
+                    }
+
+                    // Append (उत्तर - क्रमशः) to title
+                    const newTitle = newContentArea.querySelector('.slide-title');
+                    if (newTitle) {
+                        newTitle.innerHTML = newTitle.innerHTML + ' (उत्तर - क्रमशः)';
+                    }
+
+                    // Put remaining text in the clone's text element
+                    const newAnswerTextEl = newContentArea.querySelector('.answer-text');
+                    const newAnswerBlock = newContentArea.querySelector('.answer-block');
+                    if (newAnswerBlock) {
+                        newAnswerBlock.style.display = 'flex'; // Ensure it is visible
+                    }
+                    newAnswerTextEl.innerText = overflowText;
+
+                    // Insert the new page right after the current one
+                    page.parentNode.insertBefore(newPage, page.nextSibling);
+                    
+                    // Add the new page to our array so it gets checked/processed if it also overflows!
+                    pages.splice(i + 1, 0, newPage);
+                }
+            }
+        }
+
+        // Trigger print if param set
+        const params = new URLSearchParams(window.location.search);
+        const shouldPrint = params.get('print') || false;
+        if (shouldPrint === 'true') {
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+    });

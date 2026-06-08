@@ -269,7 +269,7 @@ $(() => {
 
 		const header = `
     <div style="width:1280px;">
-      <h3 style="font-size:40px;color:#f6339a;margin-top:12rem;"
+      <h3 style="font-size:40px;color:#f6339a;margin-top:8.8rem;"
         class="fw-bold mb-0 text-center noto-sans-devanagari-500">
         ग्राम पंचायत कार्यालय ${gp.gp_name}
       </h3>
@@ -292,8 +292,8 @@ $(() => {
       margin:auto;
       display:flex;
       flex-direction:column;
-      background-image:url('/img/ppt/mh-panchayat-raj.jpeg');
-      background-size:100% auto;
+      background-image:url('/img/ppt/mh-panchayat-raj.png');
+      background-size:100% 100%;
       background-repeat:no-repeat;
     ">
       ${content}
@@ -306,29 +306,46 @@ $(() => {
 		let firstPage = `
     ${header}
 
-    <div style="
+    <div class="slide-scroll-container" style="
       width:1280px;
-      text-align:center;
+      text-align:left;
       margin-top:1rem;
-      padding:0 20px;
+      padding:0 80px;
+      max-height:370px;
+      overflow-y:auto;
+      margin-bottom:90px;
     ">
-      <h3 class="text-danger fw-bold" style="font-size:30px;">
-        ${slide.slide_title || ''}
-      </h3>
+      ${
+			slide.slide_title
+				? `<h3 style="font-size:16px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center">
+              <i class="fa fa-info-circle me-2"></i>${slide.slide_title}
+             </h3>`
+				: ''
+		}
 
       ${
 			slide.slide_subtitle
-				? `<h5 class="text-primary fw-bold" style="font-size:20px;">
-              ${slide.slide_subtitle}
-            </h5>`
+				? `<div style="background:#fff5f5; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; margin-bottom:1rem; width:100%;">
+              <span style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;">
+                <i class="fa fa-question-circle me-1"></i>प्रश्न
+              </span>
+              <h5 style="color:#9b2c2c; font-size:18px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; font-family:'Tiro Devanagari Marathi', serif;">
+                ${slide.slide_subtitle}
+              </h5>
+             </div>`
 				: ''
 		}
 
       ${
 			slide.slide_description
-				? `<h5 class="text-success fw-bold" style="margin-top:2rem;font-size:20px;">
-              ${slide.slide_description}
-            </h5>`
+				? `<div style="background:#f0fdf4; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; width:100%;">
+              <span style="background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;">
+                <i class="fa fa-check-circle me-1"></i>उत्तर
+              </span>
+              <h5 style="color:#14532d; font-size:21px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; font-family:'Noto Sans Devanagari', sans-serif;">
+                ${slide.slide_description}
+              </h5>
+             </div>`
 				: ''
 		}
     </div>
@@ -350,12 +367,13 @@ $(() => {
 
       <div style="
         width:1280px;
-        height:500px;
+        height:360px;
         display:flex;
         justify-content:center;
         align-items:center;
         gap:40px;
-        margin-top:2rem;
+        margin-top:1rem;
+        margin-bottom:90px;
       ">
 
             
@@ -363,7 +381,7 @@ $(() => {
 <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
   <div style="
       width:500px;
-      height:320px;
+      height:290px;
       border:2px solid #ff6b6b;
       border-radius:16px;
       padding:1px;
@@ -389,12 +407,12 @@ $(() => {
   <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
       ${
 			before.image_title
-				? `<div class="before-image-title">${before.image_title}</div>`
+				? `<div class="before-image-title" style="font-size:16px;">${before.image_title}</div>`
 				: ''
 		}
       ${
 			before.image_subtitle
-				? `<div class="before-image-subtitle">${before.image_subtitle}</div>`
+				? `<div class="before-image-subtitle" style="font-size:12px;">${before.image_subtitle}</div>`
 				: ''
 		}
   </div>
@@ -407,7 +425,7 @@ $(() => {
 <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
   <div style="
       width:500px;
-      height:320px;
+      height:290px;
       border:2px solid #52c41a;
       border-radius:16px;
       padding:1px;
@@ -433,12 +451,12 @@ $(() => {
   <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
       ${
 			after.image_title
-				? `<div class="after-image-title">${after.image_title}</div>`
+				? `<div class="after-image-title" style="font-size:16px;">${after.image_title}</div>`
 				: ''
 		}
       ${
 			after.image_subtitle
-				? `<div class="after-image-subtitle">${after.image_subtitle}</div>`
+				? `<div class="after-image-subtitle" style="font-size:12px;">${after.image_subtitle}</div>`
 				: ''
 		}
   </div>

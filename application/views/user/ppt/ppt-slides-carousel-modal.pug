@@ -1,5 +1,7 @@
 //- Modal for PPT Slide Carousel — Full Screen
 style.
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&display=swap');
+
     .yatra-one-regular {
         font-family: "Yatra One", system-ui;
         font-weight: 400;
@@ -21,6 +23,26 @@ style.
     #ppt-carousel-inner .carousel-item > div { height: 100%; }
     /* Make sure all slide images inside the modal are always fully visible */
     #ppt-carousel-inner img:not(.header-slide-img) { max-height: 100% !important; max-width: 100% !important; object-fit: contain !important; }
+
+    /* Elegant scrollbar for overflowing slide descriptions */
+    .slide-scroll-container {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0,0,0,0.25) transparent;
+    }
+    .slide-scroll-container::-webkit-scrollbar {
+        width: 6px;
+    }
+    .slide-scroll-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .slide-scroll-container::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.25);
+        border-radius: 4px;
+    }
+    .slide-scroll-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(0,0,0,0.4);
+    }
+
 
     /* Before Image Title Gradient */
     .before-image-title {
