@@ -170,6 +170,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                     a(class=navBtnClass href='/rti/info') 
                                         span #{t("navbar.bottom.rti")}
 
+                                    a(class=navBtnClass href='/village/vaidyakiy-madat-kaksha-view') 
+                                        span #{t("navbar.bottom.medicalHelpDesk")}
+
                                     a(class=navBtnClass href='/divyanga/divyanga-registration-view') 
                                         span #{t("navbar.bottom.divyangRegistration")}
 
@@ -179,10 +182,9 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                     select(class='lang-dropdown !bg-white text-blue-600')
                                         each label, code in { mr: "मराठी", hi: "हिंदी", en: "English" }
                                             option(value=code selected=(code == language) class='!bg-white') #{label}
-
                                 //- MOBILE Menu Btn ---------------------------------------------
-                                div(class='inline lg:hidden')
-                                    button(class='text-end text-white  w-full text-xl py-2' id='mobile-menu-btn')
+                                div(class='inline lg:hidden ml-auto')
+                                    button(class='text-end text-white text-xl py-2' id='mobile-menu-btn')
                                         i.fa-solid.fa-bars(id='mobile-menu-ham-icon')
                                         i.fa-solid.fa-xmark(class='hidden' id='mobile-menu-close-icon')
 
@@ -190,7 +192,7 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                     - let mobileNavBtnClass = 'w-fit  border-transparent text-white hover:border-gray-100 hover:text-gray-200 inline-flex items-center justify-end px-1 pt-1 border-b-2 text-sm font-medium'
                     div(class="lg:hidden" id="mobile-menu")
 
-                        div(class="space-y-1 z-1000 transition-all duration-400 ease-in-out  max-h-0 hidden opacity-0" aria-labelledby='mobile-menu-btn' aria-expanded='false')
+                        div(class="space-y-1 z-1000 transition-all duration-400 ease-in-out max-h-0 hidden opacity-0 overflow-hidden" aria-labelledby='mobile-menu-btn' aria-expanded='false')
                             div(class="flex flex-col gap-4 items-end")
 
                                 a(class=mobileNavBtnClass href="/") 
@@ -233,14 +235,17 @@ nav.navigation.index-navigation-bar(class='sticky top-0 left-0 bg-white' style='
                                         a(href=item.href class=ddItemClass role="menuitem" tabindex="-1")
                                             span #{item.label}
 
-                                a(class=navBtnClass href='/village/vaidyakiy-madat-kaksha-view') 
+                                a(class=mobileNavBtnClass href='/rti/info') 
+                                    span #{t("navbar.bottom.rti")}
+
+                                a(class=mobileNavBtnClass href='/village/vaidyakiy-madat-kaksha-view') 
                                     span #{t("navbar.bottom.medicalHelpDesk")}
 
-                                a(class=navBtnClass href='/divyanga/divyanga-registration-view') 
+                                a(class=mobileNavBtnClass href='/divyanga/divyanga-registration-view') 
                                     //- | दिव्यांग नोंदणी
                                     span #{t("navbar.bottom.divyangRegistration")}
 
-                                a(class=navBtnClass href='/qr-list') 
+                                a(class=mobileNavBtnClass href='/qr-list') 
                                     span QR List
                                 
                                 select(class='lang-dropdown text-white bg-white/20')
