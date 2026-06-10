@@ -861,6 +861,31 @@ let CandidateController = {
 
     var insertID = 0;
     HomeModel.updateFormEightDetails(res.pool, data)
+      .then(() => {
+        return HomeModel.updateFerfarByUserId(res.pool, {
+          userId: data.id,
+          newMalmattaNo: data.newMalmattaNo,
+          newNewDharak: data.newNewDharak,
+          newOldDharak: data.newOldDharak,
+          newPherfarTharav: data.newPherfarTharav,
+          newPherfarDocument: data.newPherfarDocument,
+          newPherfarDate: data.newPherfarDate,
+          registry_no: "",
+        }).then((ferfarResult) => {
+          if (ferfarResult.affectedRows === 0) {
+            return HomeModel.updateFerfarDetails(res.pool, {
+              userId: data.id,
+              newMalmattaNo: data.newMalmattaNo,
+              newNewDharak: data.newNewDharak,
+              newOldDharak: data.newOldDharak,
+              newPherfarTharav: data.newPherfarTharav,
+              newPherfarDocument: data.newPherfarDocument,
+              newPherfarDate: data.newPherfarDate,
+              registry_no: "",
+            });
+          }
+        });
+      })
       .then((result) => {
         if (fileOne !== undefined) {
           var file1_name = data.newMalmattaNo.split("/").join("-") + ".jpeg";

@@ -147,11 +147,13 @@ $(function () {
 				)
 				$('#newNewDharak').val(data.feu_newNewDharak)
 
-				let _fetchedDate = data.feu_newPherfarDate.split('/')
-				let _showFormatDate =
-					_fetchedDate.length !== 1
-						? [_fetchedDate[0], _fetchedDate[1], _fetchedDate[2]].join('/')
-						: '-'
+				let _showFormatDate = '-'
+				if (data.feu_newPherfarDate && data.feu_newPherfarDate.includes('/')) {
+					let _fetchedDate = data.feu_newPherfarDate.split('/')
+					if (_fetchedDate.length === 3) {
+						_showFormatDate = [_fetchedDate[0], _fetchedDate[1], _fetchedDate[2]].join('/')
+					}
+				}
 
 				$('#newPherfarDate').val(_showFormatDate)
 				$('#newPherfarTharav').val(data.feu_newPherfarTharav)
@@ -432,10 +434,10 @@ $(function () {
 			formData.set('id', homeManager.tempUserDetails.id)
 
 			let _date = $('#newPherfarDate').val().split('/')
-			let _requiredFormat = [_date[0], _date[1], _date[2]].join('/')
+			let _requiredFormat = [_date[1], _date[0], _date[2]].join('/')
 			formData.set(
 				'newPherfarDate',
-				_date && _date.length != 1 ? _requiredFormat : ''
+				_date && _date.length === 3 ? _requiredFormat : ''
 			)
 
 			//Old code to upload file

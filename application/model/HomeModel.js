@@ -533,6 +533,39 @@ let HomeModel = {
 			})
 		})
 	},
+	updateFerfarByUserId: function (pool, data) {
+		return new Promise((resolve, reject) => {
+			const query = `
+				UPDATE ps_ferfar
+				SET
+					feu_malmatta_no = ?,
+					feu_new_owner = ?,
+					feu_old_owner = ?,
+					tharav_no = ?,
+					dastavej = ?,
+					ferfar_date = ?,
+					registry_no = ?
+				WHERE
+					user_id = ?;
+			`
+			pool.query(
+				query,
+				[
+					data.newMalmattaNo,
+					data.newNewDharak,
+					data.newOldDharak,
+					data.newPherfarTharav,
+					data.newPherfarDocument,
+					data.newPherfarDate,
+					data.registry_no || '',
+					Number(data.userId || data.id),
+				],
+				(err, result) => {
+					err ? reject(err) : resolve(result)
+				}
+			)
+		})
+	},
 
 	saveEditedFerfar: function (pool, data) {
 		return new Promise((resolve, reject) => {

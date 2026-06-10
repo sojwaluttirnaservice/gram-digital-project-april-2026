@@ -15,6 +15,19 @@ const { sendError, renderPage } = require('../utils/sendResponse');
 const asyncHandler = require('../utils/asyncHandler');
 const { sendApiResponse } = require('../utils/apiResponses');
 const TaxPaymentModel = require('../model/isTaxPaid/TaxPaymentModel');
+
+function formatPherfarDate(dateStr) {
+    if (!dateStr || dateStr === '-' || !dateStr.includes('/')) return dateStr;
+    let parts = dateStr.split('/');
+    if (parts.length === 3) {
+        let first = parseInt(parts[0], 10);
+        if (first <= 12) {
+            return [parts[1], parts[0], parts[2]].join('/');
+        }
+    }
+    return dateStr;
+}
+
 let FromPrintController = {
     homeView: function (req, res, next) {
         res.redirect('/');
@@ -32,6 +45,9 @@ let FromPrintController = {
 
         // fetch fomr 8 user data 
         const [userData] = await FormEightModel.formEightUser(res.pool, queryData);
+        if (userData) {
+            userData.feu_newPherfarDate = formatPherfarDate(userData.feu_newPherfarDate);
+        }
 
 
         const allOldOwnerList = await HomeModel.getOldOwnerList(res.pool, form8UserId)
@@ -79,6 +95,9 @@ let FromPrintController = {
 
         // fetch fomr 8 user data 
         const [userData] = await FormEightModel.formEightUser(res.pool, queryData);
+        if (userData) {
+            userData.feu_newPherfarDate = formatPherfarDate(userData.feu_newPherfarDate);
+        }
 
 
         const allOldOwnerList = await HomeModel.getOldOwnerList(res.pool, form8UserId)
@@ -226,6 +245,9 @@ let FromPrintController = {
 
         // fetch fomr 8 user data 
         const [userData] = await FormEightModel.formEightUser(res.pool, queryData);
+        if (userData) {
+            userData.feu_newPherfarDate = formatPherfarDate(userData.feu_newPherfarDate);
+        }
 
 
         const allOldOwnerList = await HomeModel.getOldOwnerList(res.pool, form8UserId)
@@ -662,7 +684,12 @@ let FromPrintController = {
                     console.log('no records found');
                 } else {
                     console.log(result[0], 'result is here');
-                    userData = result;
+                    userData = result.map(user => {
+                        if (user) {
+                            user.feu_newPherfarDate = formatPherfarDate(user.feu_newPherfarDate);
+                        }
+                        return user;
+                    });
                     return FormEightModel.printGetFromEightTaxTotalData(res.pool);
                 }
             })
@@ -719,6 +746,13 @@ let FromPrintController = {
 
 
         const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p);
+        if (userData && userData.length > 0) {
+            userData.forEach(user => {
+                if (user) {
+                    user.feu_newPherfarDate = formatPherfarDate(user.feu_newPherfarDate);
+                }
+            });
+        }
 
         const totalArray = await FormEightModel.printGetFromEightTaxTotalData(res.pool);
 
