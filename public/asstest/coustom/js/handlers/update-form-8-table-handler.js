@@ -178,4 +178,21 @@ $(function () {
             }
         }
     });
+
+    $('.autoFillSeqBtn').on('click', function (e) {
+        e.preventDefault();
+        const totalRecords = +$(`#userTable`).attr('data-length');
+        for (let _ind = 0; _ind < totalRecords; _ind++) {
+            $(`#updated_malmattaNo-${_ind}`).val(_ind + 1);
+        }
+    });
+
+    $('.resetMalmattaBtn').on('click', function (e) {
+        e.preventDefault();
+        const totalRecords = +$(`#userTable`).attr('data-length');
+        for (let _ind = 0; _ind < totalRecords; _ind++) {
+            const originalVal = $(`#feu_malmattaNo-${_ind}`).val();
+            $(`#updated_malmattaNo-${_ind}`).val(originalVal);
+        }
+    });
 });
