@@ -434,7 +434,7 @@ $(function () {
 			formData.set('id', homeManager.tempUserDetails.id)
 
 			let _date = $('#newPherfarDate').val().split('/')
-			let _requiredFormat = [_date[1], _date[0], _date[2]].join('/')
+			let _requiredFormat = [_date[0], _date[1], _date[2]].join('/')
 			formData.set(
 				'newPherfarDate',
 				_date && _date.length === 3 ? _requiredFormat : ''

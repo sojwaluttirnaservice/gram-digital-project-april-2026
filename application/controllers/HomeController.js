@@ -1128,16 +1128,6 @@ let CandidateController = {
     // in DD/MM/YYYY format
     // console.log(date_from, date_to, '-------------------------------')
 
-    let _d1 = date_from.split("/");
-    let _d2 = date_to.split("/");
-
-    let requiredFormat1 = [_d1[1], _d1[0], _d1[2]].join("/");
-    let requiredFormat2 = [_d2[1], _d2[0], _d2[2]].join("/");
-
-    //MM/DD/YYYY format was used for query
-    date_from = requiredFormat1;
-    date_to = requiredFormat2;
-
     console.log(date_from, date_to, "-------------------------------");
     ZPModel.getZpDetails(res.pool)
       .then((result) => {

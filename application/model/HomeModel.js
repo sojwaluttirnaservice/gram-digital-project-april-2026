@@ -623,7 +623,7 @@ let HomeModel = {
 							t1.*,
 							t2.*,
                             t1.ferfar_date AS _ferfar_date,
-							DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y'), '%d/%m/%Y') as ferfar_date
+							DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
 						FROM 
 							ps_ferfar as t1 
 						INNER JOIN 
@@ -643,7 +643,7 @@ let HomeModel = {
 						t1.*,
 						t2.*,
                         t1.ferfar_date AS _ferfar_date,
-						DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y'), '%d/%m/%Y') as ferfar_date
+						DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
 						 FROM 
 						ps_ferfar as t1 
         			INNER JOIN 
@@ -667,17 +667,17 @@ let HomeModel = {
 			const query = `SELECT 
 								t1.*,
 								t2.*,
-								DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y'), '%d/%m/%Y') as ferfar_date
+								DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
 							FROM ps_ferfar AS t1 
 							INNER JOIN 
 								ps_form_eight_user AS t2 
 							ON 
 								t1.feu_malmatta_no = t2.feu_malmattaNo 
 							WHERE 
-								STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y') 
-								BETWEEN STR_TO_DATE(?, '%m/%d/%Y') AND STR_TO_DATE(?, '%m/%d/%Y')
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') 
+								BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y')
 							ORDER BY 
-								STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y') ASC;`
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`
 
 			pool.query(query, [date_from, date_to], (err, result) => {
 				err ? reject(err) : resolve(result)
@@ -689,7 +689,7 @@ let HomeModel = {
 			const query = `
 					SELECT 
 						t1.*,
-						DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%m/%d/%Y'), '%d/%m/%Y') AS ferfar_date,
+						DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') AS ferfar_date,
 						t2.* 
 					FROM 
 						ps_ferfar AS t1 
@@ -735,8 +735,8 @@ let HomeModel = {
 		return new Promise((resolve, reject) => {
 			const query = `
       DELETE FROM ps_ferfar
-      WHERE STR_TO_DATE(ferfar_date, '%m/%d/%Y') 
-      BETWEEN STR_TO_DATE(?, '%m/%d/%Y') AND STR_TO_DATE(?, '%m/%d/%Y');
+      WHERE STR_TO_DATE(ferfar_date, '%d/%m/%Y') 
+      BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y');
       `
 
 			pool.query(query, [date_from, date_to], (err, result) => {
