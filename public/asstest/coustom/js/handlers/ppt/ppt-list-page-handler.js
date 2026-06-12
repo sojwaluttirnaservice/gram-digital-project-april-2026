@@ -345,63 +345,18 @@ $(() => {
 			});
 		}
 
-		// Generate question pages (4 per page)
-		if (questions.length > 0) {
-			const questionChunks = chunk(questions, 4);
-			questionChunks.forEach((chunk, chunkIdx) => {
-				const titleSuffix = chunkIdx > 0 ? ' (क्रमशः)' : '';
-				const qHtml = `
-          ${textHeader}
-          <div class="slide-scroll-container" style="
-            width:1280px;
-            text-align:left;
-            margin-top:2.5rem;
-            padding:0 80px;
-            max-height:370px;
-            overflow-y:auto;
-            margin-bottom:90px;
-          ">
-            ${
-							slide.slide_title
-								? `<h3 style="font-size:24px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center noto-sans-devanagari-500">
-                    <i class="fa fa-info-circle me-2"></i>${slide.slide_title}${titleSuffix}
-                   </h3>`
-								: ''
-						}
-            ${chunk
-							.map((q, idx) => {
-								const actualIdx = chunkIdx * 4 + idx;
-								const qColors = [
-									{ bg: '#fff5f5', border: '#feb2b2', text: '#9b2c2c', badge: '#dc2626' },
-									{ bg: '#faf5ff', border: '#e9d5ff', text: '#581c87', badge: '#7c3aed' },
-									{ bg: '#eef2ff', border: '#c7d2fe', text: '#1e1b4b', badge: '#4f46e5' },
-									{ bg: '#fffbeb', border: '#fde68a', text: '#78350f', badge: '#d97706' }
-								];
-								const qc = qColors[actualIdx % qColors.length];
-								return `
-                  <div style="background:${qc.bg}; border: 2px solid ${qc.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <span style="background:${qc.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;">
-                      <i class="fa fa-question-circle me-1"></i>प्रश्न ${actualIdx + 1}
-                    </span>
-                    <h5 style="color:${qc.text}; font-size:22px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Tiro Devanagari Marathi', serif;">
-                      ${q}
-                    </h5>
-                  </div>
-                `;
-							})
-							.join('')}
-          </div>
-        `;
-				slides.push(wrap(qHtml));
-			});
+		// Generate combined Q&A pages (3 pairs per page)
+		const totalQAPairs = Math.max(questions.length, answers.length);
+		const pairs = [];
+		for (let i = 0; i < totalQAPairs; i++) {
+			pairs.push({ q: questions[i], a: answers[i] });
 		}
 
-		// Generate answer pages (4 per page)
-		if (answers.length > 0) {
-			const answerChunks = chunk(answers, 4);
-			answerChunks.forEach((chunk, chunkIdx) => {
+		if (pairs.length > 0) {
+			const pairChunks = chunk(pairs, 3);
+			pairChunks.forEach((chunk, chunkIdx) => {
 				const titleSuffix = chunkIdx > 0 ? ' (क्रमशः)' : '';
-				const aHtml = `
+				const qaHtml = `
           ${textHeader}
           <div class="slide-scroll-container" style="
             width:1280px;
@@ -414,36 +369,49 @@ $(() => {
           ">
             ${
 							slide.slide_title
-								? `<h3 style="font-size:24px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center noto-sans-devanagari-500">
-                    <i class="fa fa-info-circle me-2"></i>${slide.slide_title} (उत्तर)${titleSuffix}
+								? `<h3 style="font-size:20px; color:#1e40af; margin-bottom:0.8rem; text-align:center; background:linear-gradient(135deg, #1e40af, #3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800;" class="fw-bold text-center noto-sans-devanagari-500">
+                    <i class="fa fa-info-circle me-2" style="color:#1e40af;"></i>${slide.slide_title}${titleSuffix}
                    </h3>`
 								: ''
 						}
             ${chunk
-							.map((a, idx) => {
-								const actualIdx = chunkIdx * 4 + idx;
-								const aColors = [
-									{ bg: '#f0fdf4', border: '#bbf7d0', text: '#14532d', badge: '#15803d' },
-									{ bg: '#f0fdfa', border: '#99f6e4', text: '#115e59', badge: '#0d9488' },
-									{ bg: '#f0f9ff', border: '#bae6fd', text: '#0c4a6e', badge: '#0284c7' },
-									{ bg: '#fff1f2', border: '#fecdd3', text: '#881337', badge: '#e11d48' }
+							.map((pair, idx) => {
+								const actualIdx = chunkIdx * 3 + idx;
+								const qaColors = [
+									{ bg: '#f8fafc', border: '#cbd5e1', qText: '#9b2c2c', aText: '#14532d', qBadge: '#dc2626', aBadge: '#15803d' },
+									{ bg: '#faf5ff', border: '#e9d5ff', qText: '#581c87', aText: '#115e59', qBadge: '#7c3aed', aBadge: '#0d9488' },
+									{ bg: '#fffbeb', border: '#fde68a', qText: '#78350f', aText: '#0c4a6e', qBadge: '#d97706', aBadge: '#0284c7' }
 								];
-								const ac = aColors[actualIdx % aColors.length];
+								const qc = qaColors[actualIdx % qaColors.length];
 								return `
-                  <div style="background:${ac.bg}; border: 2px solid ${ac.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <span style="background:${ac.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;">
-                      <i class="fa fa-check-circle me-1"></i>उत्तर ${actualIdx + 1}
-                    </span>
-                    <h5 style="color:${ac.text}; font-size:23px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;">
-                      ${a}
-                    </h5>
+                  <div style="background:${qc.bg}; border: 2px solid ${qc.border}; border-radius:10px; padding:8px 12px; margin-bottom:8px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display:flex; flex-direction:column; gap:6px;">
+                    ${pair.q ? `
+                      <div style="display:flex; align-items:flex-start; gap:10px;">
+                        <span style="background:${qc.qBadge}; color:#fff; padding:2px 6px; border-radius:4px; font-weight:800; font-size:11px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
+                          <i class="fa fa-question-circle me-1"></i>प्रश्न ${actualIdx + 1}
+                        </span>
+                        <h5 style="color:${qc.qText}; font-size:18px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Tiro Devanagari Marathi', serif;">
+                          ${pair.q}
+                        </h5>
+                      </div>
+                    ` : ''}
+                    ${pair.a ? `
+                      <div style="display:flex; align-items:flex-start; gap:10px;">
+                        <span style="background:${qc.aBadge}; color:#fff; padding:2px 6px; border-radius:4px; font-weight:800; font-size:11px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
+                          <i class="fa fa-check-circle me-1"></i>उत्तर ${actualIdx + 1}
+                        </span>
+                        <h5 style="color:${qc.aText}; font-size:18px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;">
+                          ${pair.a}
+                        </h5>
+                      </div>
+                    ` : ''}
                   </div>
                 `;
 							})
 							.join('')}
           </div>
         `;
-				slides.push(wrap(aHtml));
+				slides.push(wrap(qaHtml));
 			});
 		}
 
