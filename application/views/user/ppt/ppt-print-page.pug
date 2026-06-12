@@ -374,40 +374,83 @@ html(lang="en")
                 - var afterImgs  = slide.parsed_after_images  || []
                 - var totalPairs = Math.min(beforeImgs.length, afterImgs.length)
 
+                - 
+                    var questions = [];
+                    if (slide.slide_subtitle) {
+                        var rawQuestions = slide.slide_subtitle.split('?');
+                        for (var q of rawQuestions) {
+                            var trimmed = q.trim();
+                            if (trimmed) {
+                                var cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
+                                if (cleaned.trim()) {
+                                    questions.push(cleaned.trim() + '?');
+                                }
+                            }
+                        }
+                    }
+                    var answers = [];
+                    if (slide.slide_description) {
+                        var rawAnswers = slide.slide_description.split('...');
+                        for (var a of rawAnswers) {
+                            var trimmed = a.trim();
+                            if (trimmed) {
+                                var cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
+                                if (cleaned.trim()) {
+                                    answers.push(cleaned.trim());
+                                }
+                            }
+                        }
+                    }
+
                 // =========================
-                // 🟢 PAGE 1 (TEXT PAGE)
+                // 🟢 QUESTIONS PAGE
                 // =========================
-                div.page.bg-image
-                    div(style="width:100%;")
-                        h3(style="font-size:40px;color:#f6339a;margin-top:10.5rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
-                            | ग्राम पंचायत कार्यालय #{gp.gp_name}
+                if questions.length > 0
+                    div.page.bg-image
+                        div.slide-header-img-container
+                            if ppt.remaining_pages_header_image
+                                img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
 
-                    div(style="width:100%;")
-                        h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
-                            | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
+                        div.slide-scroll-container.content-area-to-split(style="width:100%; text-align:left; margin-top:2.5rem; padding:0 80px; height:370px; position:relative; overflow:hidden; margin-bottom:90px;")
+                            if slide.slide_title
+                                h3.slide-title(style="font-size:24px; color:#1e40af; margin-bottom:1rem; text-align:center;" class="fw-bold w-100 noto-sans-devanagari-500")
+                                    i.fa.fa-info-circle.me-2
+                                    = slide.slide_title
 
-                    div.slide-scroll-container.content-area-to-split(style="width:100%; text-align:left; margin-top:1.5rem; padding:0 80px; height:370px; position:relative; overflow:hidden; margin-bottom:90px;")
-                        if slide.slide_title
-                            h3.slide-title(style="font-size:16px; color:#1e40af; margin-bottom:1rem; text-align:center;" class="fw-bold w-100")
-                                i.fa.fa-info-circle.me-2
-                                = slide.slide_title
-                        
-                        if slide.slide_subtitle
-                            div.question-block(style="background:#fff5f5; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; margin-bottom:1rem; width:100%;")
-                                span(style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;")
-                                    i.fa.fa-question-circle.me-1
-                                    | प्रश्न
-                                h5.question-text(style="color:#9b2c2c; font-size:18px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; text-align:left; font-family:'Tiro Devanagari Marathi', serif;")
-                                    = slide.slide_subtitle
-                        
-                        if slide.slide_description
-                            div.answer-block(style="background:#f0fdf4; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; width:100%;")
-                                span.answer-badge(style="background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;")
-                                    i.fa.fa-check-circle.me-1
-                                    | उत्तर
-                                h5.answer-text(style="color:#14532d; font-size:21px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;")
-                                    = slide.slide_description
+                            each q, qIdx in questions
+                                - var qColors = [ { bg: '#fff5f5', border: '#feb2b2', text: '#9b2c2c', badge: '#dc2626' }, { bg: '#faf5ff', border: '#e9d5ff', text: '#581c87', badge: '#7c3aed' }, { bg: '#eef2ff', border: '#c7d2fe', text: '#1e1b4b', badge: '#4f46e5' }, { bg: '#fffbeb', border: '#fde68a', text: '#78350f', badge: '#d97706' } ]
+                                - var qc = qColors[qIdx % qColors.length]
+                                div.question-block(style=`background:${qc.bg}; border: 2px solid ${qc.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);`)
+                                    span(style=`background:${qc.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;`)
+                                        i.fa.fa-question-circle.me-1
+                                        | प्रश्न #{qIdx + 1}
+                                    h5.question-text(style=`color:${qc.text}; font-size:22px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Tiro Devanagari Marathi', serif;`)
+                                        = q
 
+                // =========================
+                // 🔵 ANSWERS PAGE
+                // =========================
+                if answers.length > 0
+                    div.page.bg-image
+                        div.slide-header-img-container
+                            if ppt.remaining_pages_header_image
+                                img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
+
+                        div.slide-scroll-container.content-area-to-split(style="width:100%; text-align:left; margin-top:2.5rem; padding:0 80px; height:370px; position:relative; overflow:hidden; margin-bottom:90px;")
+                            if slide.slide_title
+                                h3.slide-title(style="font-size:24px; color:#1e40af; margin-bottom:1rem; text-align:center;" class="fw-bold w-100 noto-sans-devanagari-500")
+                                    i.fa.fa-info-circle.me-2
+                                    = slide.slide_title + ' (उत्तर)'
+
+                            each a, aIdx in answers
+                                - var aColors = [ { bg: '#f0fdf4', border: '#bbf7d0', text: '#14532d', badge: '#15803d' }, { bg: '#f0fdfa', border: '#99f6e4', text: '#115e59', badge: '#0d9488' }, { bg: '#f0f9ff', border: '#bae6fd', text: '#0c4a6e', badge: '#0284c7' }, { bg: '#fff1f2', border: '#fecdd3', text: '#881337', badge: '#e11d48' } ]
+                                - var ac = aColors[aIdx % aColors.length]
+                                div.answer-block(style=`background:${ac.bg}; border: 2px solid ${ac.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);`)
+                                    span.answer-badge(style=`background:${ac.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;`)
+                                        i.fa.fa-check-circle.me-1
+                                        | उत्तर #{aIdx + 1}
+                                    h5.answer-text(style=`color:${ac.text}; font-size:23px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;`)
+                                        = a
 
                 // =========================
                 // 🟡 IMAGE PAGES (PAIR-WISE)
@@ -464,75 +507,100 @@ script.
             const contentArea = page.querySelector('.content-area-to-split');
             if (!contentArea) continue;
 
-            const answerBlock = contentArea.querySelector('.answer-block');
-            const answerTextEl = contentArea.querySelector('.answer-text');
-            if (!answerBlock || !answerTextEl) continue;
-
             // Check if it overflows the height limit
             if (contentArea.scrollHeight > maxContentHeight) {
-                const fullText = answerTextEl.innerText.trim();
-                const words = fullText.split(/\s+/);
-                
-                let low = 0;
-                let high = words.length;
-                let fitIndex = 0;
-
-                // Binary search to find how many words fit on this page
-                while (low <= high) {
-                    let mid = Math.floor((low + high) / 2);
-                    let testText = words.slice(0, mid).join(" ");
-                    answerTextEl.innerText = testText;
-
-                    if (contentArea.scrollHeight <= maxContentHeight) {
-                        fitIndex = mid;
-                        low = mid + 1;
-                    } else {
-                        high = mid - 1;
+                // Get all blocks
+                const blocks = Array.from(contentArea.querySelectorAll('.question-block, .answer-block'));
+                if (blocks.length <= 1) {
+                    // Fallback to word-splitting if there's only one block
+                    const textEl = contentArea.querySelector('.answer-text, .question-text');
+                    const parentBlock = contentArea.querySelector('.answer-block, .question-block');
+                    if (textEl && parentBlock) {
+                        const fullText = textEl.innerText.trim();
+                        const words = fullText.split(/\s+/);
+                        let low = 0;
+                        let high = words.length;
+                        let fitIndex = 0;
+                        while (low <= high) {
+                            let mid = Math.floor((low + high) / 2);
+                            textEl.innerText = words.slice(0, mid).join(" ");
+                            if (contentArea.scrollHeight <= maxContentHeight) {
+                                fitIndex = mid;
+                                low = mid + 1;
+                            } else {
+                                high = mid - 1;
+                            }
+                        }
+                        const fitText = words.slice(0, fitIndex).join(" ");
+                        const overflowText = words.slice(fitIndex).join(" ");
+                        textEl.innerText = fitText;
+                        
+                        if (overflowText.trim().length > 0) {
+                            const newPage = page.cloneNode(true);
+                            const newContentArea = newPage.querySelector('.content-area-to-split');
+                            newContentArea.style.display = 'block';
+                            
+                            const newTitle = newContentArea.querySelector('.slide-title');
+                            if (newTitle) {
+                                const text = newTitle.innerHTML;
+                                if (!text.includes('क्रमशः')) {
+                                    if (text.includes('उत्तर')) {
+                                        newTitle.innerHTML = text.replace(' (उत्तर)', '') + ' (उत्तर - क्रमशः)';
+                                    } else {
+                                        newTitle.innerHTML = text + ' (क्रमशः)';
+                                    }
+                                }
+                            }
+                            
+                            const newTextEl = newContentArea.querySelector('.answer-text, .question-text');
+                            if (newTextEl) {
+                                newTextEl.innerText = overflowText;
+                            }
+                            
+                            page.parentNode.insertBefore(newPage, page.nextSibling);
+                            pages.splice(i + 1, 0, newPage);
+                        }
                     }
-                }
-
-                const fitText = words.slice(0, fitIndex).join(" ");
-                const overflowText = words.slice(fitIndex).join(" ");
-
-                // Apply fit text
-                answerTextEl.innerText = fitText;
-                if (fitText.trim() === "") {
-                    answerBlock.style.display = 'none';
-                }
-
-                // If we have overflow text, create a new page for it
-                if (overflowText.trim().length > 0) {
-                    const newPage = page.cloneNode(true);
-                    const newContentArea = newPage.querySelector('.content-area-to-split');
-                    
-                    // Reset styling (ensure overflow is shown on clone if it needs splitting again)
-                    newContentArea.style.display = 'block';
-
-                    // Remove question block on the continuation page
-                    const newQuestionBlock = newContentArea.querySelector('.question-block');
-                    if (newQuestionBlock) {
-                        newQuestionBlock.remove();
+                } else {
+                    // We have multiple blocks! Let's move overflowing blocks to a new page
+                    const overflowBlocks = [];
+                    // Keep removing the last block until it fits
+                    while (contentArea.scrollHeight > maxContentHeight && blocks.length > 1) {
+                        const lastBlock = blocks.pop();
+                        overflowBlocks.unshift(lastBlock); // Keep order
+                        lastBlock.remove();
                     }
 
-                    // Append (उत्तर - क्रमशः) to title
-                    const newTitle = newContentArea.querySelector('.slide-title');
-                    if (newTitle) {
-                        newTitle.innerHTML = newTitle.innerHTML + ' (उत्तर - क्रमशः)';
+                    if (overflowBlocks.length > 0) {
+                        const newPage = page.cloneNode(true);
+                        const newContentArea = newPage.querySelector('.content-area-to-split');
+                        
+                        // Clear the content area in the new page
+                        newContentArea.innerHTML = '';
+                        
+                        // Add slide-title back if it was there
+                        const titleEl = page.querySelector('.slide-title');
+                        if (titleEl) {
+                            const newTitleEl = titleEl.cloneNode(true);
+                            const text = newTitleEl.innerHTML;
+                            if (!text.includes('क्रमशः')) {
+                                if (text.includes('उत्तर')) {
+                                    newTitleEl.innerHTML = text.replace(' (उत्तर)', '') + ' (उत्तर - क्रमशः)';
+                                } else {
+                                    newTitleEl.innerHTML = text + ' (क्रमशः)';
+                                }
+                            }
+                            newContentArea.appendChild(newTitleEl);
+                        }
+                        
+                        // Append the overflow blocks to the new content area
+                        overflowBlocks.forEach(block => {
+                            newContentArea.appendChild(block);
+                        });
+                        
+                        page.parentNode.insertBefore(newPage, page.nextSibling);
+                        pages.splice(i + 1, 0, newPage);
                     }
-
-                    // Put remaining text in the clone's text element
-                    const newAnswerTextEl = newContentArea.querySelector('.answer-text');
-                    const newAnswerBlock = newContentArea.querySelector('.answer-block');
-                    if (newAnswerBlock) {
-                        newAnswerBlock.style.display = 'flex'; // Ensure it is visible
-                    }
-                    newAnswerTextEl.innerText = overflowText;
-
-                    // Insert the new page right after the current one
-                    page.parentNode.insertBefore(newPage, page.nextSibling);
-                    
-                    // Add the new page to our array so it gets checked/processed if it also overflows!
-                    pages.splice(i + 1, 0, newPage);
                 }
             }
         }
