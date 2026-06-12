@@ -267,17 +267,23 @@ $(() => {
 
 		const slides = []; // ✅ multiple pages
 
-		const header = `
+		const textHeader = `
+    <div class="slide-header-img-container" style="width: 100%; height: 130px; overflow: hidden; flex-shrink: 0; opacity: 0;">
+      ${ppt && ppt.remaining_pages_header_image ? `<img class="slide-header-img" src="/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}" style="width: 100%; height: 120px; object-fit: fill;" onerror="this.style.display='none'" />` : ''}
+    </div>
+  `;
+
+		const imageHeader = `
+    <div class="slide-header-img-container" style="width: 100%; height: 130px; overflow: hidden; flex-shrink: 0; opacity: 0;">
+      ${ppt && ppt.remaining_pages_header_image ? `<img class="slide-header-img" src="/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}" style="width: 100%; height: 120px; object-fit: fill;" onerror="this.style.display='none'" />` : ''}
+    </div>
     <div style="width:1280px;">
-      <h3 style="font-size:40px;color:#f6339a;margin-top:8.8rem;"
-        class="fw-bold mb-0 text-center noto-sans-devanagari-500">
+      <h3 style="font-size:40px;color:#f6339a;margin-top:4rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500">
         ग्राम पंचायत कार्यालय ${gp.gp_name}
       </h3>
     </div>
-
     <div style="width:1280px;">
-      <h3 style="font-size:20px;color:#101828;"
-        class="fw-bold mb-0 text-center noto-sans-devanagari-500">
+      <h3 style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500">
         पंचायत समिती ${gp.gp_taluka}, जिल्हा परिषद ${gp.gp_dist}
       </h3>
     </div>
@@ -300,58 +306,146 @@ $(() => {
     </div>`;
 		}
 
-		// =========================
-		// 🟢 PAGE 1 (TEXT PAGE)
-		// =========================
-		let firstPage = `
-    ${header}
-
-    <div class="slide-scroll-container" style="
-      width:1280px;
-      text-align:left;
-      margin-top:1rem;
-      padding:0 80px;
-      max-height:370px;
-      overflow-y:auto;
-      margin-bottom:90px;
-    ">
-      ${
-			slide.slide_title
-				? `<h3 style="font-size:16px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center">
-              <i class="fa fa-info-circle me-2"></i>${slide.slide_title}
-             </h3>`
-				: ''
+		// Helper to chunk arrays
+		function chunk(arr, size) {
+			const chunks = [];
+			for (let i = 0; i < arr.length; i += size) {
+				chunks.push(arr.slice(i, i + size));
+			}
+			return chunks;
 		}
 
-      ${
-			slide.slide_subtitle
-				? `<div style="background:#fff5f5; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; margin-bottom:1rem; width:100%;">
-              <span style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;">
-                <i class="fa fa-question-circle me-1"></i>प्रश्न
-              </span>
-              <h5 style="color:#9b2c2c; font-size:18px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; font-family:'Tiro Devanagari Marathi', serif;">
-                ${slide.slide_subtitle}
-              </h5>
-             </div>`
-				: ''
+		// Parse questions
+		const questions = [];
+		if (slide.slide_subtitle) {
+			const rawQuestions = slide.slide_subtitle.split('?');
+			rawQuestions.forEach((q) => {
+				const trimmed = q.trim();
+				if (trimmed) {
+					const cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
+					if (cleaned.trim()) {
+						questions.push(cleaned.trim() + '?');
+					}
+				}
+			});
 		}
 
-      ${
-			slide.slide_description
-				? `<div style="background:#f0fdf4; border-radius:12px; padding:12px 16px; display:flex; align-items:flex-start; gap:12px; width:100%;">
-              <span style="background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; flex-shrink:0; font-family:sans-serif;">
-                <i class="fa fa-check-circle me-1"></i>उत्तर
-              </span>
-              <h5 style="color:#14532d; font-size:21px; font-weight:700; margin:0; line-height:1.5; padding-top:2px; font-family:'Noto Sans Devanagari', sans-serif;">
-                ${slide.slide_description}
-              </h5>
-             </div>`
-				: ''
+		// Parse answers
+		const answers = [];
+		if (slide.slide_description) {
+			const rawAnswers = slide.slide_description.split('...');
+			rawAnswers.forEach((a) => {
+				const trimmed = a.trim();
+				if (trimmed) {
+					const cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
+					if (cleaned.trim()) {
+						answers.push(cleaned.trim());
+					}
+				}
+			});
 		}
-    </div>
-  `;
 
-		slides.push(wrap(firstPage));
+		// Generate question pages (4 per page)
+		if (questions.length > 0) {
+			const questionChunks = chunk(questions, 4);
+			questionChunks.forEach((chunk, chunkIdx) => {
+				const titleSuffix = chunkIdx > 0 ? ' (क्रमशः)' : '';
+				const qHtml = `
+          ${textHeader}
+          <div class="slide-scroll-container" style="
+            width:1280px;
+            text-align:left;
+            margin-top:2.5rem;
+            padding:0 80px;
+            max-height:370px;
+            overflow-y:auto;
+            margin-bottom:90px;
+          ">
+            ${
+							slide.slide_title
+								? `<h3 style="font-size:24px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center noto-sans-devanagari-500">
+                    <i class="fa fa-info-circle me-2"></i>${slide.slide_title}${titleSuffix}
+                   </h3>`
+								: ''
+						}
+            ${chunk
+							.map((q, idx) => {
+								const actualIdx = chunkIdx * 4 + idx;
+								const qColors = [
+									{ bg: '#fff5f5', border: '#feb2b2', text: '#9b2c2c', badge: '#dc2626' },
+									{ bg: '#faf5ff', border: '#e9d5ff', text: '#581c87', badge: '#7c3aed' },
+									{ bg: '#eef2ff', border: '#c7d2fe', text: '#1e1b4b', badge: '#4f46e5' },
+									{ bg: '#fffbeb', border: '#fde68a', text: '#78350f', badge: '#d97706' }
+								];
+								const qc = qColors[actualIdx % qColors.length];
+								return `
+                  <div style="background:${qc.bg}; border: 2px solid ${qc.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <span style="background:${qc.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;">
+                      <i class="fa fa-question-circle me-1"></i>प्रश्न ${actualIdx + 1}
+                    </span>
+                    <h5 style="color:${qc.text}; font-size:22px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Tiro Devanagari Marathi', serif;">
+                      ${q}
+                    </h5>
+                  </div>
+                `;
+							})
+							.join('')}
+          </div>
+        `;
+				slides.push(wrap(qHtml));
+			});
+		}
+
+		// Generate answer pages (4 per page)
+		if (answers.length > 0) {
+			const answerChunks = chunk(answers, 4);
+			answerChunks.forEach((chunk, chunkIdx) => {
+				const titleSuffix = chunkIdx > 0 ? ' (क्रमशः)' : '';
+				const aHtml = `
+          ${textHeader}
+          <div class="slide-scroll-container" style="
+            width:1280px;
+            text-align:left;
+            margin-top:2.5rem;
+            padding:0 80px;
+            max-height:370px;
+            overflow-y:auto;
+            margin-bottom:90px;
+          ">
+            ${
+							slide.slide_title
+								? `<h3 style="font-size:24px; color:#1e40af; margin-bottom:1rem;" class="fw-bold text-center noto-sans-devanagari-500">
+                    <i class="fa fa-info-circle me-2"></i>${slide.slide_title} (उत्तर)${titleSuffix}
+                   </h3>`
+								: ''
+						}
+            ${chunk
+							.map((a, idx) => {
+								const actualIdx = chunkIdx * 4 + idx;
+								const aColors = [
+									{ bg: '#f0fdf4', border: '#bbf7d0', text: '#14532d', badge: '#15803d' },
+									{ bg: '#f0fdfa', border: '#99f6e4', text: '#115e59', badge: '#0d9488' },
+									{ bg: '#f0f9ff', border: '#bae6fd', text: '#0c4a6e', badge: '#0284c7' },
+									{ bg: '#fff1f2', border: '#fecdd3', text: '#881337', badge: '#e11d48' }
+								];
+								const ac = aColors[actualIdx % aColors.length];
+								return `
+                  <div style="background:${ac.bg}; border: 2px solid ${ac.border}; border-radius:10px; padding:6px 12px; display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <span style="background:${ac.badge}; color:#fff; padding:3px 8px; border-radius:6px; font-weight:800; font-size:13px; flex-shrink:0; font-family:'Poppins', sans-serif;">
+                      <i class="fa fa-check-circle me-1"></i>उत्तर ${actualIdx + 1}
+                    </span>
+                    <h5 style="color:${ac.text}; font-size:23px; font-weight:700; margin:0; line-height:1.4; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;">
+                      ${a}
+                    </h5>
+                  </div>
+                `;
+							})
+							.join('')}
+          </div>
+        `;
+				slides.push(wrap(aHtml));
+			});
+		}
 
 		// =========================
 		// 🟡 IMAGE PAGES (PAIR WISE)
@@ -363,7 +457,7 @@ $(() => {
 			const after = afterImages[i];
 
 			let imagePage = `
-      ${header}
+      ${imageHeader}
 
       <div style="
         width:1280px;
