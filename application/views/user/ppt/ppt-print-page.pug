@@ -381,10 +381,7 @@ html(lang="en")
                         for (var q of rawQuestions) {
                             var trimmed = q.trim();
                             if (trimmed) {
-                                var cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
-                                if (cleaned.trim()) {
-                                    questions.push(cleaned.trim() + '?');
-                                }
+                                questions.push(trimmed + '?');
                             }
                         }
                     }
@@ -394,10 +391,7 @@ html(lang="en")
                         for (var a of rawAnswers) {
                             var trimmed = a.trim();
                             if (trimmed) {
-                                var cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
-                                if (cleaned.trim()) {
-                                    answers.push(cleaned.trim());
-                                }
+                                answers.push(trimmed);
                             }
                         }
                     }

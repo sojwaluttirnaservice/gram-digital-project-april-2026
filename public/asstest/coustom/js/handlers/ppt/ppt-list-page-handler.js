@@ -322,10 +322,7 @@ $(() => {
 			rawQuestions.forEach((q) => {
 				const trimmed = q.trim();
 				if (trimmed) {
-					const cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
-					if (cleaned.trim()) {
-						questions.push(cleaned.trim() + '?');
-					}
+					questions.push(trimmed + '?');
 				}
 			});
 		}
@@ -337,10 +334,7 @@ $(() => {
 			rawAnswers.forEach((a) => {
 				const trimmed = a.trim();
 				if (trimmed) {
-					const cleaned = trimmed.replace(/^([०-९\d]+[\.\)-]?\s*)/, '');
-					if (cleaned.trim()) {
-						answers.push(cleaned.trim());
-					}
+					answers.push(trimmed);
 				}
 			});
 		}
