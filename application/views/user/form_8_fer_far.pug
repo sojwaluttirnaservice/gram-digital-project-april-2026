@@ -1,53 +1,12 @@
-doctype html
-head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible' content='ie=edge')
-    // common css
-    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
-    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
-    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
-    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
-    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
-    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+extends ./include/internal-gp-master-layout.pug
 
-
-    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
-    script(src='/asstest/plugins/popper/popper.min.js')
-    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
-    script(src='/asstest/plugins/date/jquery-ui.js' defer)  
-    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
-    script(src='/asstest/plugins/notify/notify.js')
-    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
-    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
-    //mask plugin jquery
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js") 
-
-    //toggle
-    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
-    // extras
-    script(src='/asstest/plugins/select/js/select2.full.min.js')
-    // common js setups
-    script(src='/asstest/coustom/js/base.converter.js')
-    script(src='/asstest/coustom/js/common.js')
-
-    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')
-
-    script(src='/asstest/coustom/js/handlers/form8Ferfar.js' defer)
-
-    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
-    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
-
-    title #{title}
-
+block custom_css
     style.
-
         .modal.show{
             top: 25% !important;
         }
         .modal-content{
-            width: 16rem !important;
+            min-width: 24rem !important;
         }
 
         #threeButtons {
@@ -73,13 +32,9 @@ head
             }
         }
 
-
-
-body
-    include ./include/navs.pug
+block content
     include ./include/home-logout-button.pug
     .container
-
         .row.justify-content-center.p-0
             .col-12.d-flex.justify-content-center
                 h5.heading-1 नमुना ८ फेरफार
@@ -95,11 +50,6 @@ body
                     button#getFerfarAvahalYearWiseModalBtn.btn.btn-secondary.mb-2.ml-3 पूर्ण वर्षाचा फेरफार अहवाल
                     button#getFerfarAvahalDateToDateModalBtn.btn.btn-secondary.mb-2.ml-3 वर्ष ते वर्ष फेरफार अहवाल
             .col-12.mt-3.d-flex.justify-content-center.align-items-center
-                //- form#searchByMalmattaNo.d-flex.justify-content-center.align-items-center.flex-column
-                //-   label.font-weight-bold.m-2(for='malmattaNo' style='font-size: 1.4rem;') मालमत्ता क्र 
-                //-   input.form-control(id='malmattaNo' type='text' name='malmattaNo')
-                //-   button.btn.btn-primary.m-2(id='searchMalmattaNo') 
-                //-     i.fa.fa-search &nbsp; शोधा
 
             .col-12.col-md-8
                 form
@@ -117,8 +67,6 @@ body
                                 input#homeId1.form-control(type='hidden' placeholder='enter')
                         .col-12.col-md-3.text-center
                             button#btnGetUserDetails1.btn.btn-primary.mb-2(type='submit') माहिती पहा
-
-
 
             .col-12.d-flex.justify-content-center.align-items-center
                 div(class='alert alert-warning' role='alert').d-none#alertDiv
@@ -190,7 +138,6 @@ body
                             th.bg-primary महिना
                             th.bg-primary प्रिंट करा
                             th.bg-primary काढून टाका
-                            //- th.bg-primary.text-light सुधारणा करा
 
                     tbody#ferfarMonthList
 
@@ -201,7 +148,6 @@ body
                             th.bg-primary वर्ष
                             th.bg-primary प्रिंट करा
                             th.bg-primary काढून टाका
-                            //- th.bg-primary.text-light सुधारणा करा
 
                     tbody#yearwise-body
 
@@ -212,59 +158,88 @@ body
                             th.bg-primary वर्ष
                             th.bg-primary प्रिंट करा
                             th.bg-primary काढून टाका
-                            //- th.bg-primary.text-light सुधारणा करा
 
                     tbody#date-to-date-body
 
+    .modal#getFerfarAvahalModal(tabindex='-1')
+        .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+            .modal-content.modal-sm.w-auto
+                .modal-header
+                    h5.modal-title फेरफार अहवाल 
+                .modal-body
+                    .row
+                        .col-6
+                            div.form-group
+                                label(for='monthDropdown') महिना
+                                select(name='month' id='monthDropdown' class='form-control')
+                                    option(value=-1) --निवडा--
+                                    option(value='01') जानेवारी
+                                    option(value='02') फेब्रुवारी
+                                    option(value='03') मार्च
+                                    option(value='04') एप्रिल
+                                    option(value='05') मे
+                                    option(value='06') जून
+                                    option(value='07') जुलै
+                                    option(value='08') ऑगस्ट
+                                    option(value='09') सप्टेंबर
+                                    option(value='10') ऑक्टोबर
+                                    option(value='11') नोव्हेंबर
+                                    option(value='12') डिसेंबर
+                        .col-6
+                            div.form-group
+                                label(for='yearDropdown') वर्ष
+                                select(name='year' id='yearDropdown' class='form-control')
+                                    option(value=-1) --Select Year--
 
-.modal#getFerfarAvahalModal(tabindex='-1')
-    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
-        .modal-content.modal-sm.w-auto
-            .modal-header
-                h5.modal-title फेरफार अहवाल 
-            .modal-body
-                div.form-group
-                    label(for='yearDropdown') वर्ष
-                    select(name='year' id='yearDropdown' class='form-control')
-                        option(value=-1) --Select Year--
-                        each ferfarYear in ferfarYears  
-                            option(value=ferfarYear) #{ferfarYear}
+                .modal-footer.d-flex.justify-content-center
+                    button.btn.btn-secondary.closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
+                    button#getFerfarAvahalMonthwiseBtn.btn.btn-primary(type='button') Get Data
 
-            .modal-footer.d-flex.justify-content-center
-                button.btn.btn-secondary.closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
-                button#getFerfarAvahalMonthwiseBtn.btn.btn-primary(type='button') Get Data
+    .modal#getFerfarAvahalYearwiseModal(tabindex='-1')
+        .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+            .modal-content.modal-sm.w-auto
+                .modal-header
+                    h5.modal-title फेरफार अहवाल (आर्थिक वर्ष)
+                .modal-body
+                    .row
+                        .col-6
+                            div.form-group
+                                label(for='fromYearDropdownYearwise') पासून वर्ष
+                                select(name='from-year-yearwise' id='fromYearDropdownYearwise' class='form-control')
+                                    option(value=-1) --Select Year--
+                        .col-6
+                            div.form-group
+                                label(for='toYearDropdownYearwise') पर्यंत वर्ष
+                                select(name='to-year-yearwise' id='toYearDropdownYearwise' class='form-control')
+                                    option(value=-1) --Select Year--
 
-.modal#getFerfarAvahalYearwiseModal(tabindex='-1')
-    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
-        .modal-content.modal-sm.w-auto
-            .modal-header
-                h5.modal-title फेरफार अहवाल 
-            .modal-body
-                div.form-group
-                    label(for='yearDropdownYearwise') वर्ष
-                    select(name='year-yearwise' id='yearDropdownYearwise' class='form-control')
-                        option(value=-1) --Select Year--
-                        each ferfarYear in ferfarYears  
-                            option(value=ferfarYear) #{ferfarYear}
+                .modal-footer.d-flex.justify-content-center
+                    button.btn.btn-secondary#closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
+                    button#getFerfarAvahalYearwiseBtn.btn.btn-primary(type='button') Show Table
 
-            .modal-footer.d-flex.justify-content-center
-                button.btn.btn-secondary#closeFerfarAvahalModal(type='button' data-bs-dismiss='modal') Close
-                button#getFerfarAvahalYearwiseBtn.btn.btn-primary(type='button') Show Table
+    .modal#getFerfarAvahalDateToDateModal(tabindex='-1')
+        .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
+            .modal-content.modal-sm.w-auto
+                .modal-header
+                    h5.modal-title फेरफार अहवाल 
+                .modal-body
+                    form
+                        .row.align-items-center
+                            .col-5
+                                .form-group
+                                    label(for='date-from') पासून दिनांक
+                                    input.form-control#date-from(type='text' placeholder='DD/MM/YYYY' name='this_date_from' autocomplete='off')
+                            .col-2.text-center.mt-4
+                                span.fw-semibold ते
+                            .col-5
+                                .form-group
+                                    label(for='date-To') पर्यंत दिनांक
+                                    input.form-control#date-To(type='text' placeholder='DD/MM/YYYY' name='this_date_to' autocomplete='off')
+                .modal-footer.d-flex.justify-content-center
+                    button.btn.btn-secondary#closeFerfarAvahalDateToDateModal(type='button' data-bs-dismiss='modal') Close
+                    button#getFerfarAvahalDateToDateBtn.btn.btn-primary(type='button') Show Table
 
-.modal#getFerfarAvahalDateToDateModal(tabindex='-1')
-    .modal-dialog.d-flex.justify-content-center.align-items-center(style='margin: 0 auto;')
-        .modal-content.modal-sm.w-auto
-            .modal-header
-                h5.modal-title फेरफार अहवाल 
-            .modal-body
-                form
-                    .form-group
-                        input.dateDate.form-control#date-from(type='text' placeholder='DD/MM/YYYY' name='this_date_from')
-
-                    .text-center.fw-semibold.my-2 ते
-
-                    .form-group
-                        input.dateDate.form-control#date-To(type='text' placeholder='DD/MM/YYYY' name='this_date_to')
-            .modal-footer.d-flex.justify-content-center
-                button.btn.btn-secondary#closeFerfarAvahalDateToDateModal(type='button' data-bs-dismiss='modal') Close
-                button#getFerfarAvahalDateToDateBtn.btn.btn-primary(type='button') Show Table
+block custom_js
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+    script(src='/asstest/coustom/js/handlers/form8Ferfar.js' defer)

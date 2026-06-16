@@ -1,5 +1,27 @@
 $(document).ready(() => {
 
+	// Populate year dropdowns dynamically
+	const currentYear = new Date().getFullYear();
+
+	// 1. Month-Year Dropdown: starting from 2017 to next 2 years (currentYear + 2)
+	const startYear = 2017;
+	const endYear = currentYear + 2;
+	let yearOptions = '<option value="-1">--Select Year--</option>';
+	for (let y = startYear; y <= endYear; y++) {
+		yearOptions += `<option value="${y}">${y}</option>`;
+	}
+	$('#yearDropdown').html(yearOptions);
+
+	// 2. Year-to-Year Dropdown: currentYear to nextYear (currentYear + 1) and previous 4 to 6 years (currentYear - 6)
+	const startYearYearwise = currentYear - 6;
+	const endYearYearwise = currentYear + 1;
+	let yearwiseOptions = '<option value="-1">--Select Year--</option>';
+	for (let y = startYearYearwise; y <= endYearYearwise; y++) {
+		yearwiseOptions += `<option value="${y}">${y}</option>`;
+	}
+	$('#fromYearDropdownYearwise').html(yearwiseOptions);
+	$('#toYearDropdownYearwise').html(yearwiseOptions);
+
 	$('#newDharakAadhar').mask('0000-0000-0000')
 	$('#newPherfarDate').datepicker({ dateFormat: 'dd/mm/yy' })
 
@@ -396,7 +418,27 @@ $(document).ready(() => {
 
 	// Ferfar month show
 
-	const handleGetFerfarAvahalMonthWise = async (year) => {
+	$('#getFerfarAvahalBtn').on('click', () => {
+		$('#ferfarFormCard').addClass('d-none')
+		$('#getFerfarAvahalModal').modal('show')
+	})
+
+	$('.closeFerfarAvahalModal').on('click', () => {
+		$('#getFerfarAvahalModal').modal('hide')
+	})
+
+	$('#getFerfarAvahalMonthwiseBtn').on('click', () => {
+		const year = $('#yearDropdown').val()
+		const month = $('#monthDropdown').val()
+		if (year == -1 || month == -1) {
+			alert('कृपया महिना आणि वर्ष निवडा')
+			return
+		}
+		$('#getFerfarAvahalModal').modal('hide')
+		$('#ferfar-avahal-list-table').removeClass('d-none')
+		$('#ferfar-avahal-list-date-to-date-table').addClass('d-none')
+		$('#ferfar-avahal-list-year-wise-table').addClass('d-none')
+
 		let monthsList = [
 			'जानेवारी',
 			'फेब्रुवारी',
@@ -412,68 +454,30 @@ $(document).ready(() => {
 			'डिसेंबर',
 		]
 
-		const response = await fetch(
-			`/form-8/get-ferfar-avahal-months?year=${year}`,
-			{
-				method: 'GET',
-			}
-		)
-
-		const data = await response.json()
-		if (data.call === 1) {
-			$('#ferfarMonthList').html(
-				data.months
-					.map((mt) => {
-						return `
-            <tr class="" id='month-${mt}-year-${year}'>
-              <td>${monthsList[mt - 1]}</td>
+		const htmlString = `
+            <tr class="" id='month-${month}-year-${year}'>
+              <td>${monthsList[parseInt(month) - 1]} ${year}</td>
               <td>
-                <button type='button' class='btn btn-success p-1 print-ferfar-avahal-btn' data-month=${mt} data-year=${year}>
+                <button type='button' class='btn btn-success p-1 print-ferfar-avahal-btn' data-month="${month}" data-year="${year}">
                   <i class="fa fa-print fa-1x"></i>
                 </button>
               </td>
               <td>
-                <button type='button' class='btn btn-danger p-1 delete-ferfar-avahal-btn' data-month=${mt} data-year=${year}>
+                <button type='button' class='btn btn-danger p-1 delete-ferfar-avahal-btn' data-month="${month}" data-year="${year}">
                   <i class="fa fa-trash fa-1x"></i>
                 </button>
               </td>
           </tr>
           `
-					})
-					.join(' ')
-			)
-		}
-	}
-
-	$('#getFerfarAvahalBtn').on('click', () => {
-		$('#ferfarFormCard').addClass('d-none')
-		$('#getFerfarAvahalModal').modal('show')
-	})
-
-	$('.closeFerfarAvahalModal').on('click', () => {
-		$('#getFerfarAvahalModal').modal('hide')
-	})
-
-	$('#getFerfarAvahalMonthwiseBtn').on('click', () => {
-		const year = $('#yearDropdown').val()
-		console.log(year)
-		handleGetFerfarAvahalMonthWise(year)
-		$('#getFerfarAvahalModal').modal('hide')
-		$('#ferfar-avahal-list-table').removeClass('d-none')
-		$('#ferfar-avahal-list-date-to-date-table').addClass('d-none')
-		$('#ferfar-avahal-list-year-wise-table').addClass('d-none')
+		$('#ferfarMonthList').html(htmlString)
 	})
 
 	//Print the avahal form
 	$(document).on('click', '.print-ferfar-avahal-btn', function () {
-		let data = {
-			month: $(this).attr('data-month'),
-			year: $(this).attr('data-year'),
-		}
-
-		// console.log('PRINTING DUDE: ', data);
+		let month = $(this).attr('data-month')
+		let year = $(this).attr('data-year')
 		window.open(
-			`/form-8/ferfar-avahal-print?month=${data.month}&year=${data.year}`
+			`/form-8/ferfar-avahal-print?month=${encodeURIComponent(month)}&year=${encodeURIComponent(year)}`
 		)
 	})
 
@@ -497,7 +501,6 @@ $(document).ready(() => {
 					t: 'फेरफार अहवाल',
 					m: 'माहिती यशस्वी रित्या काढल्या गेली.',
 				},
-
 				function () {
 					$(`#month-${month}-year-${year}`).addClass('d-none')
 				}
@@ -512,49 +515,14 @@ $(document).ready(() => {
 
 	$(document).on('click', '.delete-ferfar-avahal-btn', function (e) {
 		e.preventDefault()
-		console.log(22222222)
-		const data = {
-			month: $(this).attr('data-month'),
-			year: $(this).attr('data-year'),
-		}
-		handleDeleteFerfarAvahal(data.month, data.year)
+		const month = $(this).attr('data-month')
+		const year = $(this).attr('data-year')
+		handleDeleteFerfarAvahal(month, year)
 	})
 
 	// ==========================================
 
 	// Year Wise btn
-
-	const handleDeleteFerfarYearwiseAvahal = async (year) => {
-		const response = await fetch(`/form-8/delete-ferfar-avahal-year-wise`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				year: year,
-			}),
-		})
-		const data = await response.json()
-
-		if (data.call === 1) {
-			alertjs.success(
-				{
-					t: 'फेरफार अहवाल',
-					m: 'माहिती यशस्वी रित्या काढल्या गेली.',
-				},
-
-				function () {
-					console.log('done')
-					$(`#ferfar-avahal-list-year-wise-table`).addClass('d-none')
-				}
-			)
-		} else {
-			alertjs.warning({
-				t: 'फेरफार अहवाल',
-				m: 'माहिती यशस्वी रित्या काढली गेली नाही.',
-			})
-		}
-	}
 
 	$('#getFerfarAvahalYearWiseModalBtn').on('click', () => {
 		$('#ferfarFormCard').addClass('d-none')
@@ -565,11 +533,24 @@ $(document).ready(() => {
 		$('#getFerfarAvahalYearwiseModal').modal('hide')
 	})
 
-	$('#getFerfarAvahalYearwiseBtn').on('click', () => {
-		const year = $('#yearDropdownYearwise').val()
+	$('#fromYearDropdownYearwise').on('change', function () {
+		const selectedVal = parseInt($(this).val());
+		if (selectedVal && selectedVal !== -1) {
+			const nextYear = selectedVal + 1;
+			if ($(`#toYearDropdownYearwise option[value="${nextYear}"]`).length > 0) {
+				$('#toYearDropdownYearwise').val(nextYear);
+			} else {
+				$('#toYearDropdownYearwise').val(-1);
+			}
+		}
+	})
 
-		if (year == -1) {
-			alert('वर्ष निवडा')
+	$('#getFerfarAvahalYearwiseBtn').on('click', () => {
+		const fromYear = $('#fromYearDropdownYearwise').val()
+		const toYear = $('#toYearDropdownYearwise').val()
+
+		if (fromYear == -1 || toYear == -1) {
+			alert('कृपया आर्थिक वर्ष निवडा')
 			return
 		}
 		$('#getFerfarAvahalYearwiseModal').modal('hide')
@@ -578,15 +559,15 @@ $(document).ready(() => {
 		$('#ferfar-avahal-list-date-to-date-table').addClass('d-none')
 
 		const htmlString = `
-            <tr class="" id="year-wise-${year}">
-                <td id="selectedYearColumnData">${year}</td>
+            <tr class="" id="year-wise-${fromYear}-${toYear}">
+                <td id="selectedYearColumnData">${fromYear} ते ${toYear}</td>
                 <td>
-                        <button class="btn btn-success p-1 print-ferfar-avahal-year-wise-btn" type="button" data-year="${year}">
-                            <i class="fa fa-print fa-1x"></i>
-                        </button>
-                    </td>
+                    <button class="btn btn-success p-1 print-ferfar-avahal-year-wise-btn" type="button" data-from_year="${fromYear}" data-to_year="${toYear}">
+                        <i class="fa fa-print fa-1x"></i>
+                    </button>
+                </td>
                 <td>
-                    <button class="btn btn-danger p-1 delete-ferfar-avahal-year-wise-btn" type="button" data-year="${year}">
+                    <button class="btn btn-danger p-1 delete-ferfar-avahal-year-wise-btn" type="button" data-from_year="${fromYear}" data-to_year="${toYear}">
                         <i class="fa fa-trash fa-1x"></i>
                     </button>
                 </td>
@@ -597,27 +578,25 @@ $(document).ready(() => {
 
 	//Print the avahal form
 	$(document).on('click', '.print-ferfar-avahal-year-wise-btn', function () {
-		let data = {
-			year: $(this).attr('data-year'),
-		}
-		window.open(`/form-8/ferfar-avahal-print-year-wise?year=${data.year}`)
+		let fromYear = $(this).attr('data-from_year')
+		let toYear = $(this).attr('data-to_year')
+		window.open(`/form-8/ferfar-avahal-print-year-wise?fromYear=${encodeURIComponent(fromYear)}&toYear=${encodeURIComponent(toYear)}`)
 	})
 
 	// delete-ferfar-avahal-year-ise-btn
-
 	$(document).on('click', '.delete-ferfar-avahal-year-wise-btn', function (e) {
 		e.preventDefault()
-		console.log($(this).attr('data-year'))
-		const data = {
-			year: $(this).attr('data-year'),
-		}
-		handleDeleteFerfarYearwiseAvahal(data.year)
+		const fromYear = $(this).attr('data-from_year')
+		const toYear = $(this).attr('data-to_year')
+		const date_from = `01/04/${fromYear}`
+		const date_to = `31/03/${toYear}`
+		handleDeleteFerfarDateToDateAvahal(date_from, date_to, `#year-wise-${fromYear}-${toYear}`)
 	})
 
 	// =======================================
 	//Date to Date
 
-	const handleDeleteFerfarDateToDateAvahal = async (date_from, date_to) => {
+	const handleDeleteFerfarDateToDateAvahal = async (date_from, date_to, rowSelector) => {
 		const response = await fetch(`/form-8/delete-ferfar-avahal-date-to-date`, {
 			method: 'DELETE',
 			headers: {
@@ -630,7 +609,6 @@ $(document).ready(() => {
 		})
 		const data = await response.json()
 
-		// console.log('doing')
 		if (data.call === 1) {
 			alertjs.success(
 				{
@@ -638,9 +616,11 @@ $(document).ready(() => {
 					m: 'माहिती यशस्वी रित्या काढल्या गेली.',
 				},
 				function () {
-					console.log('done')
-					//NEED TO UPDATE
-					$(`#ferfar-avahal-list-date-to-date-table`).addClass('d-none')
+					if (rowSelector) {
+						$(rowSelector).remove()
+					} else {
+						$(`#ferfar-avahal-list-date-to-date-table`).addClass('d-none')
+					}
 				}
 			)
 		} else {
@@ -653,7 +633,6 @@ $(document).ready(() => {
 
 	$('#getFerfarAvahalDateToDateModalBtn').on('click', (e) => {
 		e.preventDefault()
-		// alert('do');
 		$('#ferfarFormCard').addClass('d-none')
 		$('#getFerfarAvahalDateToDateModal').modal('show')
 	})
@@ -669,18 +648,8 @@ $(document).ready(() => {
 
 	$('#getFerfarAvahalDateToDateBtn').on('click', (e) => {
 		e.preventDefault()
-		let _d1 = $('#date-from').val()
-		let _d2 = $('#date-To').val()
-
-		let _date1 = _d1.split('/')
-		let _date2 = _d2.split('/')
-
-		let requiredFormat1 = [_date1[1], _date1[0], _date1[2]].join('/')
-		let requiredFormat2 = [_date2[1], _date2[0], _date2[2]].join('/')
-		let date_from = requiredFormat1
-		let date_to = requiredFormat2
-
-		console.log(date_from, date_to, 'djfkdj')
+		let date_from = $('#date-from').val()
+		let date_to = $('#date-To').val()
 
 		if (
 			date_from == '' ||
@@ -688,7 +657,7 @@ $(document).ready(() => {
 			date_to == '' ||
 			date_to.length !== 10
 		) {
-			alert('वर्ष निवडा')
+			alert('कृपया दिनांक निवडा')
 			return
 		}
 		$('#getFerfarAvahalDateToDateModal').modal('hide')
@@ -696,10 +665,12 @@ $(document).ready(() => {
 		$('#ferfar-avahal-list-year-wise-table').addClass('d-none')
 		$('#ferfar-avahal-list-table').addClass('d-none')
 
+		const rowId = `date-to-date-${date_from.replace(/\//g, '-')}-${date_to.replace(/\//g, '-')}`
+
 		const htmlString = `
-			<tr class="" id="${date_from}-to-${date_to}">
-			<td id="">${_d1} ते ${_d2}</td>
-			<td><button class="btn btn-success p-1 print-ferfar-avahal-date-to-date-btn" type="button" data-date_from="${_d1}" data-date_to="${_d2}"><i class="fa fa-print fa-1x"></i></button></td>
+			<tr class="" id="${rowId}">
+			<td id="">${date_from} ते ${date_to}</td>
+			<td><button class="btn btn-success p-1 print-ferfar-avahal-date-to-date-btn" type="button" data-date_from="${date_from}" data-date_to="${date_to}"><i class="fa fa-print fa-1x"></i></button></td>
 			<td><button class="btn btn-danger p-1 delete-ferfar-avahal-date-to-date-btn" type="button" data-date_from="${date_from}" data-date_to="${date_to}"><i class="fa fa-trash fa-1x"></i></button></td>
 			</tr>
 			`
@@ -713,7 +684,7 @@ $(document).ready(() => {
 		let date_to = $(this).attr('data-date_to')
 
 		window.open(
-			`/form-8/ferfar-avahal-print-date-to-date?date_from=${date_from}&date_to=${date_to}`
+			`/form-8/ferfar-avahal-print-date-to-date?date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}`
 		)
 	})
 
@@ -722,11 +693,10 @@ $(document).ready(() => {
 		'.delete-ferfar-avahal-date-to-date-btn',
 		function (e) {
 			e.preventDefault()
-			let data = {
-				date_from: $(this).attr('data-date_from'),
-				date_to: $(this).attr('data-date_to'),
-			}
-			handleDeleteFerfarDateToDateAvahal(data.date_from, data.date_to)
+			let date_from = $(this).attr('data-date_from')
+			let date_to = $(this).attr('data-date_to')
+			const rowId = `#date-to-date-${date_from.replace(/\//g, '-')}-${date_to.replace(/\//g, '-')}`
+			handleDeleteFerfarDateToDateAvahal(date_from, date_to, rowId)
 		}
 	)
 })

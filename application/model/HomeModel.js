@@ -684,6 +684,30 @@ let HomeModel = {
 			})
 		})
 	},
+
+	form8FerfarAvahalPrintFinancialYearDetails: function (pool, fromYear, toYear) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT 
+								t1.*,
+								t2.*,
+								DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
+							FROM ps_ferfar AS t1 
+							INNER JOIN 
+								ps_form_eight_user AS t2 
+							ON 
+								t1.feu_malmatta_no = t2.feu_malmattaNo 
+							WHERE 
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') 
+								BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y')
+							ORDER BY 
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`
+			const startDate = `01/04/${fromYear}`;
+			const endDate = `31/03/${toYear}`;
+			pool.query(query, [startDate, endDate], (err, result) => {
+				err ? reject(err) : resolve(result)
+			})
+		})
+	},
 	fetchDataToEdit: function (pool, malmattaNumber) {
 		return new Promise((resolve, reject) => {
 			const query = `

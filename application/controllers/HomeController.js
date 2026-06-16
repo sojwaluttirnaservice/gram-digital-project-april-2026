@@ -1092,7 +1092,7 @@ let CandidateController = {
   },
 
   form8FerfarAvahalPrintView: function (req, res) {
-    let { month, year } = req.query;
+    let { month, year, fromYear, toYear } = req.query;
 
     // console.log('In controller :', month, year);
 
@@ -1105,7 +1105,11 @@ let CandidateController = {
     ZPModel.getZpDetails(res.pool)
       .then((result) => {
         gp = result[0];
-        return HomeModel.form8FerfarAvahalPrintDetails(res.pool, year, month);
+        if (fromYear && toYear) {
+          return HomeModel.form8FerfarAvahalPrintFinancialYearDetails(res.pool, fromYear, toYear);
+        } else {
+          return HomeModel.form8FerfarAvahalPrintDetails(res.pool, year, month);
+        }
       })
       .then((ferfarAvahalList) => {
         // console.log('When month is undefined :', ferfarAvahalList);
