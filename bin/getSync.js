@@ -542,24 +542,28 @@ const backfillGpDastavegList = async () => {
 				}
 			}
 
-			// Trim existing values to normalize comparison
-			const trimmedExisting = currentList
-				.map((item) => (typeof item === 'string' ? item.trim() : ''))
-				.filter(Boolean);
+			// Filter out any non-string, null, undefined, empty, or whitespace-only elements
+			currentList = currentList.filter(
+				(item) => typeof item === 'string' && item.trim() !== ''
+			);
 
 			let updated = false;
 			for (const target of targetDastaveg) {
 				const trimmedTarget = target.trim();
-				if (!trimmedExisting.includes(trimmedTarget)) {
+				// Check if this target already exists in currentList (ignoring surrounding spaces)
+				const exists = currentList.some(
+					(item) => typeof item === 'string' && item.trim() === trimmedTarget
+				);
+				if (!exists) {
 					currentList.push(target);
-					trimmedExisting.push(trimmedTarget);
 					updated = true;
 				}
 			}
 
-			if (updated || !gp.gp_dastavegList) {
+			const serializedNew = JSON.stringify(currentList);
+			if (serializedNew !== gp.gp_dastavegList) {
 				await ps_gram_panchayet.update(
-					{ gp_dastavegList: JSON.stringify(currentList) },
+					{ gp_dastavegList: serializedNew },
 					{
 						where: { id: gp.id },
 						transaction
