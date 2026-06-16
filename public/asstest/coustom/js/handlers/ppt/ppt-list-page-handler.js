@@ -345,7 +345,7 @@ $(() => {
 			});
 		}
 
-		// Generate combined Q&A pages (3 pairs per page)
+		// Generate combined Q&A pages (4 pairs per page)
 		const totalQAPairs = Math.max(questions.length, answers.length);
 		const pairs = [];
 		for (let i = 0; i < totalQAPairs; i++) {
@@ -353,7 +353,7 @@ $(() => {
 		}
 
 		if (pairs.length > 0) {
-			const pairChunks = chunk(pairs, 3);
+			const pairChunks = chunk(pairs, 4);
 			pairChunks.forEach((chunk, chunkIdx) => {
 				const titleSuffix = chunkIdx > 0 ? ' (क्रमशः)' : '';
 				const qaHtml = `
@@ -376,7 +376,7 @@ $(() => {
 						}
             ${chunk
 							.map((pair, idx) => {
-								const actualIdx = chunkIdx * 3 + idx;
+								const actualIdx = chunkIdx * 4 + idx;
 								const qaColors = [
 									{ bg: '#f8fafc', border: '#cbd5e1', qText: '#9b2c2c', aText: '#14532d', qBadge: '#dc2626', aBadge: '#15803d' },
 									{ bg: '#faf5ff', border: '#e9d5ff', qText: '#581c87', aText: '#115e59', qBadge: '#7c3aed', aBadge: '#0d9488' },
@@ -384,23 +384,23 @@ $(() => {
 								];
 								const qc = qaColors[actualIdx % qaColors.length];
 								return `
-                  <div style="background:${qc.bg}; border: 2px solid ${qc.border}; border-radius:10px; padding:8px 12px; margin-bottom:8px; width:100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display:flex; flex-direction:column; gap:6px;">
+                  <div style="background:${qc.bg}; border: 1.5px solid ${qc.border}; border-radius:8px; padding:5px 8px; margin-bottom:5px; width:100%; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display:flex; flex-direction:column; gap:4px;">
                     ${pair.q ? `
-                      <div style="display:flex; align-items:flex-start; gap:10px;">
-                        <span style="background:${qc.qBadge}; color:#fff; padding:2px 6px; border-radius:4px; font-weight:800; font-size:11px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
-                          <i class="fa fa-question-circle me-1"></i>प्रश्न ${actualIdx + 1}
+                      <div style="display:flex; align-items:flex-start; gap:8px;">
+                        <span style="background:${qc.qBadge}; color:#fff; padding:2px 5px; border-radius:3px; font-weight:800; font-size:10px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
+                          <i class="fa fa-question-circle me-1"></i>प्रश्न
                         </span>
-                        <h5 style="color:${qc.qText}; font-size:18px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Tiro Devanagari Marathi', serif;">
+                        <h5 style="color:${qc.qText}; font-size:17px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Tiro Devanagari Marathi', serif;">
                           ${pair.q}
                         </h5>
                       </div>
                     ` : ''}
                     ${pair.a ? `
-                      <div style="display:flex; align-items:flex-start; gap:10px;">
-                        <span style="background:${qc.aBadge}; color:#fff; padding:2px 6px; border-radius:4px; font-weight:800; font-size:11px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
-                          <i class="fa fa-check-circle me-1"></i>उत्तर ${actualIdx + 1}
+                      <div style="display:flex; align-items:flex-start; gap:8px;">
+                        <span style="background:${qc.aBadge}; color:#fff; padding:2px 5px; border-radius:3px; font-weight:800; font-size:10px; flex-shrink:0; font-family:'Poppins', sans-serif; margin-top:2px;">
+                          <i class="fa fa-check-circle me-1"></i>उत्तर
                         </span>
-                        <h5 style="color:${qc.aText}; font-size:18px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;">
+                        <h5 style="color:${qc.aText}; font-size:17px; font-weight:800; margin:0; line-height:1.3; text-align:left; font-family:'Noto Sans Devanagari', sans-serif;">
                           ${pair.a}
                         </h5>
                       </div>
