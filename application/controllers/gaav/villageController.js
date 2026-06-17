@@ -31,6 +31,68 @@ const CandidateController = require('../HomeController')
 // 				}
 const villageController = {
 
+	getPopulationInfoData: async (pool) => {
+		let subVillages = await HomeModel.getGpCount(pool)
+		let awards = await awardsModel.getAll(pool)
+		let initiatives = await womensSavingsGroupsInitiativeModel.getAll(pool)
+		let groups = await womensSavingsGroupNamesModel.getAll(pool)
+
+		let womenEmpowermentPoints = await womenEmpowermentModel.getAll(pool)
+		let zpSchoolPoints = await zpSchoolPointsModel.getAll(pool)
+
+		let structures = await waterConservationModel.getAll(pool)
+		let workers = await ashaWorkersModel.getAll(pool)
+
+		let committees = await committeesModel.getAllCommitteesWithMembers(pool)
+
+		let [gp] = await HomeModel.getGpData(pool)
+
+		let gpMembers = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
+
+		let mainGpMembers = []
+		let gpWorkers = []
+
+		let innovativeInitiatives = await innovativeInitiativesModel.getAll(pool)
+
+		let institutesWithStaff = await educationDetailsModel.getInstitutesWithStaffList(pool)
+
+		let employementAssistants = gpMembers.filter((member) => {
+			return member.p_name == 'रोजगार सेवक'
+		})
+
+		gpMembers.forEach(member => {
+			const { s_name } = member;
+			const mainRoles = ['मुख्य सदस्य', 'उपसदस्य', 'उप सदस्य', 'पदाधिकारी'];
+
+			if (mainRoles.includes(s_name)) {
+				mainGpMembers.push(member);
+			} else if (s_name === 'कर्मचारी वर्ग') {
+				gpWorkers.push(member);
+			}
+		})
+
+		let aanganwadiCenters = await aanganwadiModel.getAanganwadiCentersWithWorkersAndYearlyStats(pool)
+
+		return {
+			subVillages,
+			awards,
+			initiatives,
+			groups,
+			womenEmpowermentPoints,
+			zpSchoolPoints,
+			structures,
+			workers,
+			committees,
+			gpMembers,
+			mainGpMembers,
+			gpWorkers,
+			innovativeInitiatives,
+			employementAssistants,
+			institutesWithStaff,
+			aanganwadiCenters,
+			gp
+		}
+	},
 
 	renderVillagePage: asyncHandler(async (req, res) => {
 		renderPage(res, 'user/village/village-page.pug', {title: "गावाबद्दल"})
@@ -38,182 +100,16 @@ const villageController = {
 
 
 	renderPopulationInfoPage: asyncHandler(async (req, res) => {
-		let subVillages = await HomeModel.getGpCount(res.pool)
-		let awards = await awardsModel.getAll(res.pool)
-		let initiatives = await womensSavingsGroupsInitiativeModel.getAll(res.pool)
-		let groups = await womensSavingsGroupNamesModel.getAll(res.pool)
-
-
-		let womenEmpowermentPoints = await womenEmpowermentModel.getAll(res.pool)
-		let zpSchoolPoints = await zpSchoolPointsModel.getAll(res.pool)
-
-		let structures = await waterConservationModel.getAll(res.pool)
-		let workers = await ashaWorkersModel.getAll(res.pool)
-
-		let committees = await committeesModel.getAllCommitteesWithMembers(res.pool)
-
-		let [gp] = await HomeModel.getGpData(res.pool)
-
-		let gpMembers = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
-
-		let mainGpMembers = []
-		let gpWorkers = []
-
-		let innovativeInitiatives = await innovativeInitiativesModel.getAll(res.pool)
-
-		let institutesWithStaff = await educationDetailsModel.getInstitutesWithStaffList(res.pool)
-
-
-		let employementAssistants = gpMembers.filter((member) => {
-			return member.p_name == 'रोजगार सेवक'
-		})
-
-		gpMembers.forEach(member => {
-			const { s_name } = member;
-			const mainRoles = ['मुख्य सदस्य', 'उपसदस्य', 'उप सदस्य', 'पदाधिकारी'];
-
-			if (mainRoles.includes(s_name)) {
-				mainGpMembers.push(member);
-			} else if (s_name === 'कर्मचारी वर्ग') {
-				gpWorkers.push(member);
-			}
-		})
-
-
-		let aanganwadiCenters = await aanganwadiModel.getAanganwadiCentersWithWorkersAndYearlyStats(res.pool)
-
-		let totalChildCount = 0;
-		aanganwadiCenters.forEach((center, index) => {
-			// console.log('===== 1. ================')
-
-			if (center) {
-				// console.log("***********CENTER NAME *****************")
-				console.log(center)
-
-				if (center.yearly_stats) {
-					// console.log("============AGEWISE COUNT =====================")
-					center.yearly_stats.forEach((stat) => {
-
-						totalChildCount += stat?.agewise_children?.length || 0
-					})
-				}
-			}
-			// console.log('===== ends 1. ================')
-
-		})
-
-
-		// console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-		// console.log(totalChildCount)
-		// console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-
-
-		renderPage(res, 'user/village/population-info-page.pug', {
-			subVillages,
-			awards,
-			initiatives,
-			groups,
-
-			womenEmpowermentPoints,
-			zpSchoolPoints,
-
-			structures,
-			workers,
-			committees,
-
-			gpMembers,
-			mainGpMembers,
-			gpWorkers,
-
-			innovativeInitiatives,
-			employementAssistants,
-
-			institutesWithStaff,
-			aanganwadiCenters
-		})
+		let data = await villageController.getPopulationInfoData(res.pool);
+		renderPage(res, 'user/village/population-info-page.pug', data)
 	}),
 
 
 	renderGpInfoPrintPage: asyncHandler(async (req, res) => {
-		let subVillages = await HomeModel.getGpCount(res.pool)
-		let awards = await awardsModel.getAll(res.pool)
-		let initiatives = await womensSavingsGroupsInitiativeModel.getAll(res.pool)
-		let groups = await womensSavingsGroupNamesModel.getAll(res.pool)
-
-
-		let womenEmpowermentPoints = await womenEmpowermentModel.getAll(res.pool)
-		let zpSchoolPoints = await zpSchoolPointsModel.getAll(res.pool)
-
-		let structures = await waterConservationModel.getAll(res.pool)
-		let workers = await ashaWorkersModel.getAll(res.pool)
-
-		let committees = await committeesModel.getAllCommitteesWithMembers(res.pool)
-
-		let [gp] = await HomeModel.getGpData(res.pool)
-
-		let gpMembers = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
-
-		let mainGpMembers = []
-		let gpWorkers = []
-
-		let innovativeInitiatives = await innovativeInitiativesModel.getAll(res.pool)
-
-		let institutesWithStaff = await educationDetailsModel.getInstitutesWithStaffList(res.pool)
-
-
-		let employementAssistants = gpMembers.filter((member) => {
-			return member.p_name == 'रोजगार सेवक'
-		})
-
-		gpMembers.forEach(member => {
-			const { s_name } = member;
-			const mainRoles = ['मुख्य सदस्य', 'उपसदस्य', 'उप सदस्य', 'पदाधिकारी'];
-
-			if (mainRoles.includes(s_name)) {
-				mainGpMembers.push(member);
-			} else if (s_name === 'कर्मचारी वर्ग') {
-				gpWorkers.push(member);
-			}
-		})
-
-
-		let aanganwadiCenters = await aanganwadiModel.getAanganwadiCentersWithWorkersAndYearlyStats(res.pool)
-
-		let totalChildCount = 0;
-		aanganwadiCenters.forEach((center, index) => {
-			if (center) {
-				if (center.yearly_stats) {
-					center.yearly_stats.forEach((stat) => {
-						totalChildCount += stat?.agewise_children?.length || 0
-					})
-				}
-			}
-		})
-
-
+		let data = await villageController.getPopulationInfoData(res.pool);
 		renderPage(res, 'user/village/gp-info-print-page.pug', {
 			title: 'ग्रामपंचायत टिपणी प्रिंट',
-			subVillages,
-			awards,
-			initiatives,
-			groups,
-
-			womenEmpowermentPoints,
-			zpSchoolPoints,
-
-			structures,
-			workers,
-			committees,
-
-			gpMembers,
-			mainGpMembers,
-			gpWorkers,
-
-			innovativeInitiatives,
-			employementAssistants,
-
-			institutesWithStaff,
-			aanganwadiCenters
+			...data
 		})
 	}),
 

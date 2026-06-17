@@ -142,8 +142,8 @@ $(() => {
 			const data = await res.json();
 
 			if (data.success && data.data) {
-				const { slides, ppt } = data.data;
-				renderSlides(slides, ppt);
+				const { slides, ppt, populationHtml } = data.data;
+				renderSlides(slides, ppt, populationHtml);
 			} else {
 				if (innerContainer)
 					innerContainer.innerHTML = `<div class="text-danger w-100 text-center py-5">No slides found for this PPT.</div>`;
@@ -155,12 +155,12 @@ $(() => {
 		}
 	});
 
-	function renderSlides(slides, ppt) {
+	function renderSlides(slides, ppt, populationHtml) {
 		if (!innerContainer || !indicatorsContainer) return;
 
 		let allSlides = [];
 
-		const isMainPpt = ppt.is_main_ppt === 1 || ppt.is_main_ppt === '1';
+		const isMainPpt = ppt.is_main_ppt == 1 || ppt.is_main_ppt === '1';
 
 		// ---------------------------------------------
 		// 1️⃣ PAGE IMAGES (Only for Main PPT)
@@ -175,23 +175,42 @@ $(() => {
 					});
 				}
 			});
-		}
 
-		// ---------------------------------------------
-		// 2️⃣ REAL SLIDES (FLATTENED) (Only if NOT Main PPT)
-		// ---------------------------------------------
-		if (!isMainPpt) {
-			slides.forEach((slide) => {
-				const pages = generateSlideContent(slide, ppt); // ✅ array now
-
-				pages.forEach((pageHtml) => {
+			if (populationHtml) {
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(populationHtml, 'text/html');
+				const pages = doc.querySelectorAll('.page');
+				pages.forEach((page) => {
+					page.removeAttribute('style'); // Clear A4 fixed width/height print styles
+					page.style.width = '100%';
+					page.style.height = '100%';
+					page.style.maxWidth = '100%';
+					page.style.maxHeight = '100%';
+					page.style.overflowY = 'auto'; // allow scrolling if content overflows
+					page.style.background = 'transparent';
+					page.style.color = '#333';
+					
 					allSlides.push({
 						type: 'slide',
-						html: pageHtml
+						html: page.outerHTML
 					});
 				});
-			});
+			}
 		}
+
+		// ---------------------------------------------
+		// 2️⃣ REAL SLIDES (FLATTENED)
+		// ---------------------------------------------
+		slides.forEach((slide) => {
+			const pages = generateSlideContent(slide, ppt); // ✅ array now
+
+			pages.forEach((pageHtml) => {
+				allSlides.push({
+					type: 'slide',
+					html: pageHtml
+				});
+			});
+		});
 
 		// ---------------------------------------------
 		// 3️⃣ RENDER
@@ -415,123 +434,83 @@ $(() => {
 			});
 		}
 
+		function plainWrap(content) {
+			return `
+			<div style="
+			  width:100%;
+			  max-width:1280px;
+			  aspect-ratio:16/9;
+			  margin:auto;
+			  display:flex;
+			  flex-direction:column;
+			  background: linear-gradient(135deg, #f0f7ff 0%, #fdf2f8 100%);
+			">
+			  ${content}
+			</div>`;
+		}
+
 		// =========================
-		// 🟡 IMAGE PAGES (PAIR WISE)
+		// 🟡 IMAGE PAGES (4 IMAGES PER PAGE)
 		// =========================
 		const totalPairs = Math.min(beforeImages.length, afterImages.length);
+		const pairsPerPage = 2;
+		const totalImagePages = Math.ceil(totalPairs / pairsPerPage);
 
-		for (let i = 0; i < totalPairs; i++) {
-			const before = beforeImages[i];
-			const after = afterImages[i];
+		for (let pageIndex = 0; pageIndex < totalImagePages; pageIndex++) {
+			let innerImagesHtml = '';
+			
+			for(let j = 0; j < pairsPerPage; j++) {
+				let i = (pageIndex * pairsPerPage) + j;
+				if (i < totalPairs) {
+					const before = beforeImages[i];
+					const after = afterImages[i];
+					
+					innerImagesHtml += `
+						<div style="display:flex; justify-content:center; gap:50px; width:100%;">
+							<!-- BEFORE -->
+							<div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+							  <div style="width:380px;height:220px;background:linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);border-radius:12px;padding:3px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(255, 117, 140, 0.3);">
+								  <img src="/uploads/images/ppt/slides/before/${before.image_name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#fff;" onerror="this.src='/img/fallback/no-image-found.png'" />
+							  </div>
+							  ${before.image_title || before.image_subtitle ? `
+							  <div style="text-align:center; max-width:380px; font-family: 'Poppins', sans-serif;">
+								  ${before.image_title ? `<div class="before-image-title" style="font-size:16px; font-weight:700; color:#1e293b; background:none; -webkit-text-fill-color:#1e293b;">${before.image_title}</div>` : ''}
+								  ${before.image_subtitle ? `<div class="before-image-subtitle" style="font-size:13px; color:#64748b; background:none; -webkit-text-fill-color:#64748b;">${before.image_subtitle}</div>` : ''}
+							  </div>` : ''}
+							</div>
+							
+							<!-- AFTER -->
+							<div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+							  <div style="width:380px;height:220px;background:linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);border-radius:12px;padding:3px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(67, 233, 123, 0.3);">
+								  <img src="/uploads/images/ppt/slides/after/${after.image_name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#fff;" onerror="this.src='/img/fallback/no-image-found.png'" />
+							  </div>
+							  ${after.image_title || after.image_subtitle ? `
+							  <div style="text-align:center; max-width:380px; font-family: 'Poppins', sans-serif;">
+								  ${after.image_title ? `<div class="after-image-title" style="font-size:16px; font-weight:700; color:#1e293b; background:none; -webkit-text-fill-color:#1e293b;">${after.image_title}</div>` : ''}
+								  ${after.image_subtitle ? `<div class="after-image-subtitle" style="font-size:13px; color:#64748b; background:none; -webkit-text-fill-color:#64748b;">${after.image_subtitle}</div>` : ''}
+							  </div>` : ''}
+							</div>
+						</div>
+					`;
+				}
+			}
 
 			let imagePage = `
-      ${imageHeader}
+				<div style="
+					width:1280px;
+					height:100%;
+					display:flex;
+					flex-direction:column;
+					justify-content:center;
+					align-items:center;
+					gap:40px;
+					padding: 10px 40px;
+				">
+					${innerImagesHtml}
+				</div>
+			`;
 
-      <div style="
-        width:1280px;
-        height:360px;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        gap:40px;
-        margin-top:1rem;
-        margin-bottom:90px;
-      ">
-
-            
- <!-- BEFORE -->
-<div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
-  <div style="
-      width:500px;
-      height:290px;
-      border:2px solid #ff6b6b;
-      border-radius:16px;
-      padding:1px;
-      box-shadow:0 6px 14px rgba(0,0,0,0.125);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-  ">
-      <img
-        src="/uploads/images/ppt/slides/before/${before.image_name}"
-        style="
-          width:100%;
-          height:100%;
-          object-fit:contain;
-          border-radius:12px;
-          background:#f8f9fa;
-        "
-      />
-  </div>
-  ${
-		before.image_title || before.image_subtitle
-			? `
-  <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
-      ${
-			before.image_title
-				? `<div class="before-image-title" style="font-size:16px;">${before.image_title}</div>`
-				: ''
-		}
-      ${
-			before.image_subtitle
-				? `<div class="before-image-subtitle" style="font-size:12px;">${before.image_subtitle}</div>`
-				: ''
-		}
-  </div>
-  `
-			: ''
-  }
-</div>
-
-<!-- AFTER -->
-<div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
-  <div style="
-      width:500px;
-      height:290px;
-      border:2px solid #52c41a;
-      border-radius:16px;
-      padding:1px;
-      box-shadow:0 6px 14px rgba(0,0,0,0.125);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-  ">
-      <img
-        src="/uploads/images/ppt/slides/after/${after.image_name}"
-        style="
-          width:100%;
-          height:100%;
-          object-fit:contain;
-          border-radius:12px;
-          background:#f8f9fa;
-        "
-      />
-  </div>
-  ${
-		after.image_title || after.image_subtitle
-			? `
-  <div style="text-align:center; max-width:500px; font-family: 'Poppins', sans-serif;">
-      ${
-			after.image_title
-				? `<div class="after-image-title" style="font-size:16px;">${after.image_title}</div>`
-				: ''
-		}
-      ${
-			after.image_subtitle
-				? `<div class="after-image-subtitle" style="font-size:12px;">${after.image_subtitle}</div>`
-				: ''
-		}
-  </div>
-  `
-			: ''
-  }
-</div>
-
-
-      </div>
-    `;
-
-			slides.push(wrap(imagePage));
+			slides.push(plainWrap(imagePage));
 		}
 
 		return slides; // ✅ IMPORTANT
@@ -588,40 +567,8 @@ $(() => {
 		});
 	}
 
-	// Update renderSlides to initialize counter
-	//   const originalRenderSlides = renderSlides;
-	//   renderSlides = function (slides) {
-	//     originalRenderSlides(slides);
-	//     totalSlidesCount = slides && slides.length ? slides.length : 0;
-	//     if (slideCounterEl) {
-	//       if (totalSlidesCount > 0) {
-	//         slideCounterEl.textContent = `1 of ${totalSlidesCount}`;
-	//       } else {
-	//         slideCounterEl.textContent = "";
-	//       }
-	//     }
-	//   };
 
-	const originalRenderSlides = renderSlides;
-	renderSlides = function (slides, ppt) {
-		originalRenderSlides(slides, ppt);
 
-		const introSlidesCount =
-			//   (ppt?.cover_image ? 1 : 0) +
-			(ppt?.page_1_image ? 1 : 0) +
-			(ppt?.page_2_image ? 1 : 0) +
-			(ppt?.page_3_image ? 1 : 0);
-
-		totalSlidesCount = introSlidesCount + (slides ? slides.length : 0);
-
-		if (slideCounterEl) {
-			if (totalSlidesCount > 0) {
-				slideCounterEl.textContent = `1 of ${totalSlidesCount}`;
-			} else {
-				slideCounterEl.textContent = '';
-			}
-		}
-	};
 
 	// Clear interval when modal is closed
 	if (carouselModalEl) {

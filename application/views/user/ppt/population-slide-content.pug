@@ -1,0 +1,801 @@
+//- PPT Slide Theme Styles
+mixin slideTemplate(title, iconClass, currentSlide, totalSlides)
+    div(class="page ppt-page" style="width: 297mm; height: 210mm; page-break-after: always; box-sizing: border-box; border: none; padding: 0;")
+        if currentSlide == 1
+            style.
+                @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap');
+                
+                .ppt-slide-wrapper {
+                    background: #f8fafc;
+                    background-image: 
+                        radial-gradient(circle at 10% 20%, rgba(186, 230, 253, 0.4) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(199, 210, 254, 0.4) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, rgba(254, 205, 211, 0.3) 0%, transparent 60%);
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    overflow: hidden;
+                    font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+                    color: #0f172a;
+                }
+                
+                .ppt-orb-1 { position: absolute; width: 450px; height: 450px; background: rgba(56, 189, 248, 0.2); filter: blur(80px); top: -150px; left: -100px; z-index: 0; border-radius: 50%; }
+                .ppt-orb-2 { position: absolute; width: 550px; height: 550px; background: rgba(139, 92, 246, 0.15); filter: blur(100px); bottom: -150px; right: -150px; z-index: 0; border-radius: 50%; }
+
+                /* Top Banner */
+                .ppt-slide-header {
+                    background: rgba(255, 255, 255, 0.85);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-bottom: 1px solid rgba(255, 255, 255, 1);
+                    padding: 1.5rem 3rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    position: relative;
+                    z-index: 10;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                }
+                .ppt-slide-title {
+                    font-size: 32px;
+                    font-weight: 800;
+                    margin: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    letter-spacing: 0.5px;
+                    color: #1e3a8a;
+                }
+                .ppt-slide-title i {
+                    background: linear-gradient(135deg, #2563eb, #7c3aed);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-size: 36px;
+                }
+                .ppt-slide-number {
+                    background: #ffffff;
+                    border: 1px solid #e2e8f0;
+                    padding: 8px 24px;
+                    border-radius: 30px;
+                    font-weight: 800;
+                    font-size: 16px;
+                    color: #3b82f6;
+                    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.1);
+                }
+                
+                /* Content Area */
+                .ppt-slide-body {
+                    padding: 2rem 3rem;
+                    height: calc(100% - 95px);
+                    display: flex;
+                    position: relative;
+                    z-index: 10;
+                }
+                
+                /* Cards */
+                .ppt-card {
+                    background: rgba(255, 255, 255, 0.85);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-radius: 20px;
+                    border: 1px solid rgba(255, 255, 255, 1);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                    height: 100%;
+                    position: relative;
+                }
+                
+                .ppt-card-header {
+                    padding: 1.25rem 1.75rem;
+                    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+                    font-weight: 800;
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    color: #0f172a;
+                    background: rgba(248, 250, 252, 0.8);
+                }
+                .ppt-card-header i {
+                    color: #3b82f6;
+                    font-size: 22px;
+                }
+                .ppt-card-body {
+                    padding: 1.5rem 1.75rem;
+                    flex-grow: 1;
+                    overflow-y: auto;
+                }
+
+                /* Custom Scrollbar */
+                .ppt-card-body::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                }
+                .ppt-card-body::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .ppt-card-body::-webkit-scrollbar-thumb {
+                    background: rgba(0, 0, 0, 0.15);
+                    border-radius: 10px;
+                }
+                .ppt-card-body::-webkit-scrollbar-thumb:hover {
+                    background: rgba(0, 0, 0, 0.25);
+                }
+                
+                /* Info Rows */
+                .ppt-info-row {
+                    display: flex;
+                    padding: 12px 0;
+                    border-bottom: 1px dashed #cbd5e1;
+                    font-size: 16px;
+                    align-items: center;
+                }
+                .ppt-info-row:last-child {
+                    border-bottom: none;
+                }
+                .ppt-info-label {
+                    font-weight: 600;
+                    color: #475569;
+                    width: 45%;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .ppt-info-label i {
+                    color: #94a3b8;
+                    font-size: 15px;
+                }
+                .ppt-info-value {
+                    color: #0f172a;
+                    font-weight: 800;
+                    width: 55%;
+                }
+                
+                /* Badges */
+                .ppt-badge {
+                    background: #eff6ff;
+                    color: #2563eb;
+                    border: 1px solid #bfdbfe;
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    font-weight: 800;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                
+                /* Tables */
+                .ppt-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    font-size: 15px;
+                }
+                .ppt-table th {
+                    background: #f1f5f9;
+                    color: #475569;
+                    font-weight: 800;
+                    padding: 12px 14px;
+                    border-bottom: 2px solid #cbd5e1;
+                    text-align: left;
+                    letter-spacing: 0.5px;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                }
+                .ppt-table td {
+                    padding: 10px 14px;
+                    border-bottom: 1px solid #e2e8f0;
+                    color: #1e293b;
+                    font-weight: 600;
+                }
+                .ppt-table tr:hover td {
+                    background: #f8fafc;
+                }
+                
+                /* Accent Cards */
+                .card-accent-pink .ppt-card-header i { color: #ec4899; }
+                .card-accent-pink .ppt-card-header { background: #fdf2f8; border-bottom-color: #fbcfe8; color: #9d174d; }
+                
+                .card-accent-green .ppt-card-header i { color: #22c55e; }
+                .card-accent-green .ppt-card-header { background: #f0fdf4; border-bottom-color: #bbf7d0; color: #166534; }
+                
+                .card-accent-amber .ppt-card-header i { color: #f59e0b; }
+                .card-accent-amber .ppt-card-header { background: #fffbeb; border-bottom-color: #fde68a; color: #b45309; }
+                
+                /* Highlight Row */
+                .highlight-row td {
+                    background: #eff6ff;
+                    color: #1d4ed8;
+                    font-weight: 800;
+                    border-top: 2px solid #bfdbfe;
+                    border-bottom: 2px solid #bfdbfe;
+                }
+
+                /* List items */
+                .ppt-list-item {
+                    background: #ffffff;
+                    border: 1px solid #e2e8f0;
+                    border-left: 5px solid #3b82f6;
+                    padding: 12px 16px;
+                    border-radius: 10px;
+                    margin-bottom: 12px;
+                    color: #1e293b;
+                    font-size: 15px;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+                }
+                .ppt-list-item i {
+                    color: #3b82f6;
+                    font-size: 18px;
+                }
+                .list-accent-pink { border-left-color: #ec4899; }
+                .list-accent-pink i { color: #ec4899; }
+                .list-accent-green { border-left-color: #22c55e; }
+                .list-accent-green i { color: #22c55e; }
+
+                /* Badges Container */
+                .ppt-badge-container {
+                    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; padding: 12px;
+                    background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;
+                }
+                .ppt-pill {
+                    background: #ffffff;
+                    border: 1px solid #cbd5e1;
+                    padding: 6px 12px;
+                    border-radius: 30px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #475569;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                }
+                .ppt-pill strong { color: #0f172a; font-weight: 800; margin-left: 4px; }
+
+                /* Mini Grid Member Cards */
+                .ppt-member-grid-card {
+                    background: #ffffff;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 10px;
+                    padding: 10px 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+                }
+
+                /* Print overrides */
+                @media print {
+                    .ppt-page { height: 210mm !important; width: 297mm !important; overflow: hidden !important; page-break-after: always !important; page-break-inside: avoid !important; }
+                    .ppt-slide-wrapper { height: 100% !important; overflow: hidden !important; background: white !important; color: #000 !important; }
+                    .ppt-orb-1, .ppt-orb-2 { display: none !important; }
+                    .ppt-slide-header { background: white !important; border-bottom: 2px solid #1e3a8a !important; color: #1e3a8a !important; box-shadow: none !important; padding: 0.5rem 1.5rem !important; }
+                    .ppt-slide-title, .ppt-slide-title i { background: none !important; -webkit-text-fill-color: #1e3a8a !important; color: #1e3a8a !important; font-size: 20px !important; }
+                    
+                    /* Keep Flex/Grid Layout side-by-side but reduce paddings/margins to fit perfectly */
+                    .ppt-slide-body { padding: 1rem 1.5rem !important; height: calc(100% - 60px) !important; overflow: hidden !important; display: flex !important; flex-wrap: wrap !important; }
+                    .ppt-slide-body > div[class*="col-"] { height: 100% !important; padding: 0 0.5rem !important; }
+                    
+                    .ppt-card { background: white !important; box-shadow: none !important; border: 1px solid #cbd5e1 !important; color: #000 !important; height: 100% !important; overflow: hidden !important; }
+                    .ppt-card::before { display: none !important; }
+                    .ppt-card-header { background: #f8fafc !important; color: #1e3a8a !important; border-bottom: 1px solid #cbd5e1 !important; padding: 0.5rem 1rem !important; font-size: 15px !important; }
+                    .ppt-card-body { padding: 0.5rem 1rem !important; overflow: hidden !important; height: auto !important; }
+                    
+                    .ppt-info-row { padding: 6px 0 !important; font-size: 13px !important; }
+                    .ppt-info-value, .ppt-info-label { color: #000 !important; font-size: 12px !important; }
+                    .ppt-table th { background: #f1f5f9 !important; color: #000 !important; border-bottom: 2px solid #cbd5e1 !important; padding: 4px 6px !important; font-size: 11px !important; }
+                    .ppt-table td { color: #000 !important; border-bottom: 1px solid #e2e8f0 !important; padding: 4px 6px !important; font-size: 11px !important; line-height: 1.2 !important; }
+                    .highlight-row td { color: #1d4ed8 !important; background: #eff6ff !important; border: none !important; }
+                    .ppt-list-item { background: white !important; color: #000 !important; border-color: #cbd5e1 !important; padding: 6px 10px !important; font-size: 11px !important; margin-bottom: 6px !important; }
+                    .ppt-slide-number { background: #f1f5f9 !important; color: #000 !important; border-color: #cbd5e1 !important; padding: 4px 12px !important; font-size: 12px !important; }
+                    .ppt-badge { background: white !important; color: #1e3a8a !important; border-color: #cbd5e1 !important; padding: 2px 8px !important; font-size: 10px !important; }
+                    .ppt-badge-container { background: white !important; border-color: #cbd5e1 !important; padding: 6px !important; margin-bottom: 10px !important; }
+                    .ppt-pill { color: #000 !important; border-color: #cbd5e1 !important; padding: 2px 8px !important; font-size: 10px !important; }
+                    .ppt-pill strong { color: #000 !important; font-size: 11px !important; }
+                    .ppt-member-grid-card { padding: 4px 6px !important; gap: 6px !important; }
+                    .ppt-member-grid-card i { font-size: 16px !important; }
+                }
+
+                /* Screen View Overrides for Dedicated Print Page */
+                .is-print-page .ppt-page { height: 210mm !important; width: 297mm !important; overflow: hidden !important; page-break-after: always !important; page-break-inside: avoid !important; }
+                .is-print-page .ppt-slide-wrapper { height: 100% !important; overflow: hidden !important; background: white !important; color: #000 !important; }
+                .is-print-page .ppt-orb-1, .is-print-page .ppt-orb-2 { display: none !important; }
+                .is-print-page .ppt-slide-header { background: white !important; border-bottom: 2px solid #1e3a8a !important; color: #1e3a8a !important; box-shadow: none !important; padding: 0.5rem 1.5rem !important; }
+                .is-print-page .ppt-slide-title, .is-print-page .ppt-slide-title i { background: none !important; -webkit-text-fill-color: #1e3a8a !important; color: #1e3a8a !important; font-size: 20px !important; }
+                
+                .is-print-page .ppt-slide-body { padding: 1rem 1.5rem !important; height: calc(100% - 60px) !important; overflow: hidden !important; display: flex !important; flex-wrap: wrap !important; }
+                .is-print-page .ppt-slide-body > div[class*="col-"] { height: 100% !important; padding: 0 0.5rem !important; }
+                
+                .is-print-page .ppt-card { background: white !important; box-shadow: none !important; border: 1px solid #cbd5e1 !important; color: #000 !important; height: 100% !important; overflow: hidden !important; }
+                .is-print-page .ppt-card::before { display: none !important; }
+                .is-print-page .ppt-card-header { background: #f8fafc !important; color: #1e3a8a !important; border-bottom: 1px solid #cbd5e1 !important; padding: 0.5rem 1rem !important; font-size: 15px !important; }
+                .is-print-page .ppt-card-body { padding: 0.5rem 1rem !important; overflow: hidden !important; height: auto !important; }
+                
+                .is-print-page .ppt-info-row { padding: 6px 0 !important; font-size: 13px !important; }
+                .is-print-page .ppt-info-value, .is-print-page .ppt-info-label { color: #000 !important; font-size: 12px !important; }
+                .is-print-page .ppt-table th { background: #f1f5f9 !important; color: #000 !important; border-bottom: 2px solid #cbd5e1 !important; padding: 4px 6px !important; font-size: 11px !important; }
+                .is-print-page .ppt-table td { color: #000 !important; border-bottom: 1px solid #e2e8f0 !important; padding: 4px 6px !important; font-size: 11px !important; line-height: 1.2 !important; }
+                .is-print-page .highlight-row td { color: #1d4ed8 !important; background: #eff6ff !important; border: none !important; }
+                .is-print-page .ppt-list-item { background: white !important; color: #000 !important; border-color: #cbd5e1 !important; padding: 6px 10px !important; font-size: 11px !important; margin-bottom: 6px !important; }
+                .is-print-page .ppt-slide-number { background: #f1f5f9 !important; color: #000 !important; border-color: #cbd5e1 !important; padding: 4px 12px !important; font-size: 12px !important; }
+                .is-print-page .ppt-badge { background: white !important; color: #1e3a8a !important; border-color: #cbd5e1 !important; padding: 2px 8px !important; font-size: 10px !important; }
+                .is-print-page .ppt-badge-container { background: white !important; border-color: #cbd5e1 !important; padding: 6px !important; margin-bottom: 10px !important; }
+                .is-print-page .ppt-pill { color: #000 !important; border-color: #cbd5e1 !important; padding: 2px 8px !important; font-size: 10px !important; }
+                .is-print-page .ppt-pill strong { color: #000 !important; font-size: 11px !important; }
+                .is-print-page .ppt-member-grid-card { padding: 4px 6px !important; gap: 6px !important; }
+                .is-print-page .ppt-member-grid-card i { font-size: 16px !important; }
+        div(class="ppt-slide-wrapper")
+            div(class="ppt-orb-1")
+            div(class="ppt-orb-2")
+            
+            div(class="ppt-slide-header")
+                h4(class="ppt-slide-title")
+                    i(class=iconClass)
+                    | #{title}
+                span(class="ppt-slide-number") Slide #{currentSlide}/#{totalSlides}
+            
+            div(class="ppt-slide-body row m-0 g-4")
+                block
+
+//- Slide 1: मूलभूत व लोकसंख्या माहिती (General Info & Population)
++slideTemplate('ग्रामपंचायतीची सर्वसाधारण व लोकसंख्या माहिती', 'fa fa-info-circle', 1, 6)
+    div(class="col-5 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-building")
+                | मूलभूत माहिती
+            div(class="ppt-card-body d-flex flex-column justify-content-between")
+                - let members = gp && gp.gp_member ? JSON.parse(gp.gp_member) : []
+                - let sarpanchDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'सरपंच')) : null
+                - let gramsevakDetails = members && members.length > 0 ? members.find((member) => member && (member.p_name == 'ग्रामसेवक' || member.p_name == 'ग्रामविकास अधिकारी' || member.p_name == 'ग्रामपंचायत अधिकारी')) : null
+
+                div
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-user-circle"></i> सरपंचाचे नाव :
+                        div(class="ppt-info-value" style="color: #2563eb;") #{sarpanchDetails ? sarpanchDetails.name : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-id-badge"></i> ग्रामसेवकाचे नाव :
+                        div(class="ppt-info-value" style="color: #2563eb;") #{gramsevakDetails ? gramsevakDetails.name : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-calendar-check"></i> चार्ज दिनांक :
+                        div(class="ppt-info-value") #{gp && gp.charge_taken_date ? gp.charge_taken_date : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-vote-yea"></i> सरपंच निवडणूक :
+                        div(class="ppt-info-value") #{gp && gp.sarpanch_election_date ? gp.sarpanch_election_date : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-hourglass-end"></i> मुदत समाप्ती :
+                        div(class="ppt-info-value") #{gp && gp.term_end_date ? gp.term_end_date : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-file-alt"></i> अहवाल दिनांक :
+                        div(class="ppt-info-value") #{gp && gp.annual_report_date ? gp.annual_report_date : '-'}
+                    div(class="ppt-info-row")
+                        div(class="ppt-info-label") <i class="fa fa-calculator"></i> अंदाजपत्रक सन :
+                        div(class="ppt-info-value") #{gp && gp.budget_year ? gp.budget_year : '-'}
+
+                div(class="mt-3 pt-3" style="border-top: 1px dashed #cbd5e1;")
+                    - let mainVillageFirst = (subVillages && subVillages[0]) ? subVillages[0] : {}
+                    div(class="ppt-badge-container")
+                        div(class="ppt-pill") वार्ड <strong>#{mainVillageFirst.ward_number || '-'}</strong>
+                        div(class="ppt-pill") सदस्य <strong>#{mainVillageFirst.total_members || '-'}</strong>
+                        div(class="ppt-pill") थेट सरपंच <strong>#{mainVillageFirst.sarpanch_directly_elected_count || '-'}</strong>
+                    
+                    div(class="ppt-info-row border-0 pb-1")
+                        div(class="ppt-info-label") <i class="fa fa-landmark"></i> लोकसभा:
+                        div(class="ppt-info-value") #{mainVillageFirst.constituency_number}-#{mainVillageFirst.constituency_name}
+                    div(class="ppt-info-row border-0 pt-1")
+                        div(class="ppt-info-label") <i class="fa fa-monument"></i> विधानसभा:
+                        div(class="ppt-info-value") #{mainVillageFirst.assembly_constituency_number}-#{mainVillageFirst.assembly_constituency_name}
+
+    div(class="col-7 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-users")
+                | गावाची लोकसंख्या माहिती
+            div(class="ppt-card-body p-0")
+                if subVillages && subVillages.length > 0
+                    each subVillage in subVillages
+                        div(class="p-4" style="border-bottom: 4px solid #f1f5f9;")
+                            h6(class="mb-3" style="font-size: 20px; font-weight: 800; color: #1e3a8a; display: flex; align-items: center; gap: 10px;") 
+                                i(class="fa fa-map-marker-alt text-danger")
+                                | #{subVillage.gp_name}
+                            table(class="ppt-table")
+                                thead
+                                    tr
+                                        th संवर्ग
+                                        th पुरुष
+                                        th स्त्री
+                                        th एकूण
+                                tbody
+                                    tr
+                                        td(style="font-weight: 700; color: #64748b;") SC
+                                        td #{subVillage.sc_count_male}
+                                        td #{subVillage.sc_count_female}
+                                        td(style="font-weight: 800;") #{subVillage.sc_count}
+                                    tr
+                                        td(style="font-weight: 700; color: #64748b;") ST
+                                        td #{subVillage.st_count_male}
+                                        td #{subVillage.st_count_female}
+                                        td(style="font-weight: 800;") #{subVillage.st_count}
+                                    tr
+                                        td(style="font-weight: 700; color: #64748b;") NT
+                                        td #{subVillage.nt_count_male}
+                                        td #{subVillage.nt_count_female}
+                                        td(style="font-weight: 800;") #{subVillage.nt_count}
+                                    tr
+                                        td(style="font-weight: 700; color: #64748b;") OBC
+                                        td #{subVillage.obc_count_male}
+                                        td #{subVillage.obc_count_female}
+                                        td(style="font-weight: 800;") #{subVillage.obc_count}
+                                    tr
+                                        td(style="font-weight: 700; color: #64748b;") Open/General
+                                        td #{subVillage.open_others_count_male}
+                                        td #{subVillage.open_others_count_female}
+                                        td(style="font-weight: 800;") #{subVillage.open_others_count}
+                                    - let totalMale = subVillage.sc_count_male + subVillage.st_count_male + subVillage.nt_count_male + subVillage.obc_count_male + subVillage.open_others_count_male;
+                                    - let totalFemale = subVillage.sc_count_female + subVillage.st_count_female + subVillage.nt_count_female + subVillage.obc_count_female + subVillage.open_others_count_female;
+                                    - let totalAll = subVillage.sc_count + subVillage.st_count + subVillage.nt_count + subVillage.obc_count + subVillage.open_others_count;
+                                    tr(class="highlight-row")
+                                        td(style="text-transform: uppercase; letter-spacing: 1px;") एकूण लोकसंख्या
+                                        td #{totalMale}
+                                        td #{totalFemale}
+                                        td(style="font-size: 18px;") #{totalAll}
+                else
+                    div(class="p-5 text-center text-danger font-bold" style="font-size: 18px;") कोणतीही जनसंख्या माहिती उपलब्ध नाही.
+
+//- Slide 2: पाणीपुरवठा व कचरा व्यवस्थापन (Water & Waste Management) - LADY LAYOUT OUT IN 3 HORIZONTAL COLUMNS
++slideTemplate('पाणीपुरवठा व सांडपाणी घनकचरा व्यवस्थापन', 'fa fa-tint', 2, 6)
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-database")
+                | पाणीपुरवठा टाकी तपशील
+            div(class="ppt-card-body p-0")
+                if subVillages && subVillages.length > 0
+                    each subVillage in subVillages
+                        div(class="p-3 border-bottom")
+                            h6(class="mb-2" style="font-size: 16px; font-weight: 800; color: #1e3a8a;") <i class="fa fa-map-marker me-1 text-primary"></i> #{subVillage.tank_location || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") क्षमता:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.tank_capacity || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") कर्मचारी:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.staff_in_charge || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") दर (सामान्य/विशेष):
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.normal_rate || '-'} / #{subVillage.special_rate || '-'}
+                else
+                    div(class="p-4 text-center text-muted") कोणतीही नोंद उपलब्ध नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-green")
+            div(class="ppt-card-header")
+                i(class="fa fa-leaf")
+                | स्वच्छ भारत मिशन
+            div(class="ppt-card-body p-0")
+                if subVillages && subVillages.length > 0
+                    each subVillage in subVillages
+                        div(class="p-3 border-bottom")
+                            h6(class="mb-2" style="font-size: 16px; font-weight: 800; color: #166534;") <i class="fa fa-home me-1 text-success"></i> #{subVillage.gp_name || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") कुटुंब / शौचालय:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.number_of_households || '-'} / #{subVillage.number_of_households_having_toilets || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") हागणदारी मुक्ती:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.open_defecation_free_year || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") शेरा:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.odf_plus_remarks || '-'}
+                else
+                    div(class="p-4 text-center text-muted") कोणतीही नोंद उपलब्ध नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-amber")
+            div(class="ppt-card-header")
+                i(class="fa fa-recycle")
+                | सांडपाणी व कचरा व्यवस्थापन
+            div(class="ppt-card-body p-0")
+                if subVillages && subVillages.length > 0
+                    each subVillage in subVillages
+                        div(class="p-3 border-bottom")
+                            h6(class="mb-2" style="font-size: 16px; font-weight: 800; color: #b45309;") <i class="fa fa-globe me-1 text-warning"></i> #{subVillage.gp_name || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") जोडलेली कुटुंबे:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.households_connected_to_waste_management || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") शोषखड्डे संख्या:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.soak_pits || '-'}
+                            div(class="ppt-info-row py-1")
+                                div(class="ppt-info-label" style="font-size:14px;") कचरा व्यवस्थापन:
+                                div(class="ppt-info-value" style="font-size:14px;") #{subVillage.waste_management || '-'}
+                else
+                    div(class="p-4 text-center text-muted") कोणतीही नोंद उपलब्ध नाही.
+
+//- Slide 3: आदर्श तक्ता व कार्यकारिणी (Ideal Table & GP Members) - NO SCROLLBAR WITH TWO-COLUMN PARTITIONS
++slideTemplate('आदर्श तक्ता व कार्यकारिणी', 'fa fa-users', 3, 6)
+    div(class="col-6 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-amber")
+            div(class="ppt-card-header")
+                i(class="fa fa-star")
+                | "आदर्श तक्ता"
+            div(class="ppt-card-body")
+                - let adarshTakta = (gp && gp.ps_gram_adarsh_takta) ? JSON.parse(gp.ps_gram_adarsh_takta) : {}
+                - let taktaKeys = Object.keys(adarshTakta)
+                if taktaKeys.length > 0
+                    - let halfKeys = Math.ceil(taktaKeys.length / 2)
+                    - let leftKeys = taktaKeys.slice(0, halfKeys)
+                    - let rightKeys = taktaKeys.slice(halfKeys)
+                    div(class="row m-0")
+                        div(class="col-6 pe-3" style="border-right: 1px dashed #cbd5e1;")
+                            table(class="ppt-table")
+                                tbody
+                                    each key, index in leftKeys
+                                        tr
+                                            td(width="70%" style="font-size: 13px; font-weight: 700; color: #475569; padding: 6px 0;") #{key}
+                                            td(width="30%" style="font-weight: 800; color: #d97706; font-size: 15px; text-align: right; padding: 6px 0;") #{adarshTakta[key] || '-'}
+                        div(class="col-6 ps-3")
+                            table(class="ppt-table")
+                                tbody
+                                    each key, index in rightKeys
+                                        tr
+                                            td(width="70%" style="font-size: 13px; font-weight: 700; color: #475569; padding: 6px 0;") #{key}
+                                            td(width="30%" style="font-weight: 800; color: #d97706; font-size: 15px; text-align: right; padding: 6px 0;") #{adarshTakta[key] || '-'}
+                else
+                    div(class="p-5 text-center font-semibold text-muted") अद्याप आदर्श तक्त्याची माहिती उपलब्ध नाही.
+
+    div(class="col-6 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-sitemap")
+                | "ग्रामपंचायत कार्यकारिणी"
+            div(class="ppt-card-body")
+                if mainGpMembers && mainGpMembers.length > 0
+                    - let halfMembers = Math.ceil(mainGpMembers.length / 2)
+                    - let leftMembers = mainGpMembers.slice(0, halfMembers)
+                    - let rightMembers = mainGpMembers.slice(halfMembers)
+                    div(class="row m-0 g-3")
+                        div(class="col-6 d-flex flex-column gap-2" style="border-right: 1px dashed #cbd5e1; padding-right: 15px;")
+                            each member in leftMembers
+                                div(class="ppt-member-grid-card")
+                                    i(class="fa fa-user-circle text-primary" style="font-size: 20px;")
+                                    div
+                                        div(style="font-weight: 800; font-size: 13px; color: #0f172a;") #{member.name || '-'}
+                                        div(style="font-size: 11px; color: #64748b; margin-top: 1px;")
+                                            span(class="ppt-badge px-2 py-0-5 me-1 text-primary" style="font-size: 9px; line-height:1;") #{member.p_name || '-'}
+                                            span #{member.sadasyaMobile || '-'}
+                        div(class="col-6 d-flex flex-column gap-2" style="padding-left: 15px;")
+                            each member in rightMembers
+                                div(class="ppt-member-grid-card")
+                                    i(class="fa fa-user-circle text-primary" style="font-size: 20px;")
+                                    div
+                                        div(style="font-weight: 800; font-size: 13px; color: #0f172a;") #{member.name || '-'}
+                                        div(style="font-size: 11px; color: #64748b; margin-top: 1px;")
+                                            span(class="ppt-badge px-2 py-0-5 me-1 text-primary" style="font-size: 9px; line-height:1;") #{member.p_name || '-'}
+                                            span #{member.sadasyaMobile || '-'}
+                else
+                    div(class="p-5 text-center font-semibold text-muted") अद्याप कार्यकारिणीची माहिती उपलब्ध नाही.
+
+//- Slide 4: पुरस्कार, उपक्रम व बचतगट (Awards, Initiatives & Self-Help Groups) - 3 VERTICAL COLUMNS
++slideTemplate('पुरस्कार, नाविन्य उपक्रम व बचतगट माहिती', 'fa fa-trophy', 4, 6)
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-award")
+                | प्राप्त पुरस्कार
+            div(class="ppt-card-body")
+                if awards && awards.length > 0
+                    div(class="d-flex flex-column gap-3")
+                        each award in awards
+                            div(class="ppt-list-item" style="flex-direction: column; align-items: flex-start; gap: 6px;")
+                                h6(class="mb-0" style="font-size: 15px; font-weight: 800; color: #1d4ed8;") <i class="fa fa-trophy me-2 text-warning"></i> #{award.award_name}
+                                if award.award_desc
+                                    p(class="mb-0 text-muted" style="font-size: 13px; line-height: 1.4;") #{award.award_desc}
+                                if award.award_year
+                                    span(class="ppt-badge mt-1" style="font-size: 11px;") Year: #{award.award_year}
+                else
+                    p(class="text-center text-muted mt-4" style="font-size: 14px;") प्राप्त पुरस्काराची नोंद नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-amber")
+            div(class="ppt-card-header")
+                i(class="fa fa-lightbulb")
+                | नाविन्य उपक्रम
+            div(class="ppt-card-body")
+                if innovativeInitiatives && innovativeInitiatives.length > 0
+                    div(class="d-flex flex-column gap-2")
+                        each initiative in innovativeInitiatives
+                            div(class="ppt-list-item" style="border-left-color: #f59e0b;")
+                                i(class="fa fa-star" style="color: #f59e0b;")
+                                span(style="font-size: 14px;") #{initiative.initiative_name}
+                else
+                    p(class="text-center text-muted mt-4" style="font-size: 14px;") नाविन्य उपक्रमाची नोंद नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-green")
+            div(class="ppt-card-header")
+                i(class="fa fa-hands-helping")
+                | बचतगट उपक्रम व यादी
+            div(class="ppt-card-body p-0 d-flex flex-column")
+                if initiatives && initiatives.length > 0
+                    div(class="p-3 border-bottom" style="background: #f8fafc;")
+                        each initiative in initiatives
+                            div(class="ppt-list-item mb-2" style="box-shadow: none; padding: 8px 12px; font-size: 13px;")
+                                i(class="fa fa-check-circle text-success")
+                                span #{initiative.point_desc}
+                div(class="flex-grow-1" style="overflow-y: auto;")
+                    table(class="ppt-table" style="border-top: none;")
+                        thead
+                            tr
+                                th(width="20%") अ.क्र.
+                                th(width="50%") बचतगटाचे नाव
+                                th(width="30%") गाव
+                        tbody
+                            if groups && groups.length > 0
+                                each group, ind in groups
+                                    tr
+                                        td(style="font-size:13px;") #{ind + 1}
+                                        td(style="font-weight: 800; color: #166534; font-size:13px;") #{group.group_name}
+                                        td(style="font-size:13px;") #{group.village_name}
+                            else
+                                tr
+                                    td(colspan="3" class="text-center py-4 text-muted" style="font-size: 13px;") कोणतीही नोंद उपलब्ध नाही.
+
+//- Slide 5: महिला सक्षमीकरण, शाळा व समित्या (Empowerment, School & Committees) - 3 VERTICAL COLUMNS
++slideTemplate('महिला सक्षमीकरण, शाळा व ग्रामस्तरीय समित्या', 'fa fa-female', 5, 6)
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-pink")
+            div(class="ppt-card-header")
+                i(class="fa fa-heart")
+                | महिला सक्षमीकरण मुद्दे
+            div(class="ppt-card-body")
+                if womenEmpowermentPoints && womenEmpowermentPoints.length > 0
+                    div(class="d-flex flex-column gap-2")
+                        each point in womenEmpowermentPoints
+                            div(class="ppt-list-item list-accent-pink" style="padding: 10px 14px;")
+                                i(class="fa fa-angle-double-right")
+                                span(style="font-size: 13px;") #{point.point_desc}
+                else
+                    p(class="text-center text-muted mt-4" style="font-size: 14px;") महिला सक्षमीकरण मुद्यांची नोंद नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card card-accent-green")
+            div(class="ppt-card-header")
+                i(class="fa fa-graduation-cap")
+                | जि. प. शाळा मुद्दे
+            div(class="ppt-card-body")
+                if zpSchoolPoints && zpSchoolPoints.length > 0
+                    div(class="d-flex flex-column gap-2")
+                        each point in zpSchoolPoints
+                            div(class="ppt-list-item list-accent-green" style="padding: 10px 14px;")
+                                i(class="fa fa-book")
+                                span(style="font-size: 13px;") #{point.point_desc}
+                else
+                    p(class="text-center text-muted mt-4" style="font-size: 14px;") शाळा मुद्यांची नोंद नाही.
+
+    div(class="col-4 d-flex flex-column px-2" style="height: 100%;")
+        div(class="ppt-card")
+            div(class="ppt-card-header")
+                i(class="fa fa-gavel")
+                | ग्रामस्तरीय समित्या
+            div(class="ppt-card-body d-flex flex-column gap-3 p-3")
+                if committees && committees.length > 0
+                    each committee, index in committees
+                        div(style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;")
+                            h6(class="mb-2" style="font-size: 15px; font-weight: 800; color: #1e3a8a;")
+                                i(class="fa fa-users me-1 text-primary")
+                                | #{committee.committee_name || 'नाव उपलब्ध नाही'}
+                            div(class="mb-2 pb-2 text-muted" style="font-size: 12px; border-bottom: 1px dashed #cbd5e1;")
+                                span(class="me-2") ठर. क्र. <strong>#{committee.resolution_number || '-'}</strong>
+                                span दि: <strong>#{committee._resolution_date || '-'}</strong>
+                            
+                            - const committee_members = Array.isArray(committee.committee_members) ? committee.committee_members.filter(Boolean) : []
+                            if committee_members.length > 0
+                                div(class="d-flex flex-wrap gap-1")
+                                    each c_member in committee_members
+                                        span(style="background: #ffffff; padding: 3px 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px; color: #1e293b; font-weight: 600;")
+                                            | #{c_member.member_name} <span style="color: #64748b; font-size: 9px;">(#{c_member.member_post || '-'})</span>
+                else
+                    div(class="text-center text-muted mt-4") कोणतीही समिती उपलब्ध नाही.
+
+//- Slide 6: कर्मचारी, जल संधारण व अंगणवाडी (Workers, Water Conservation & Aanganwadi) - OPTIMIZED GRID CARDS
++slideTemplate('कर्मचारी, जल संधारण व अंगणवाडी माहिती', 'fa fa-briefcase', 6, 6)
+    div(class="col-6 d-flex flex-column px-2" style="height: 100%; gap: 1.5rem;")
+        div(class="ppt-card" style="flex: 1.2; min-height: 0;")
+            div(class="ppt-card-header")
+                i(class="fa fa-id-badge")
+                | कर्मचारी माहिती (ग्रामपंचायत)
+            div(class="ppt-card-body")
+                if gpWorkers && gpWorkers.length > 0
+                    div(class="row g-2")
+                        each worker, index in gpWorkers
+                            div(class="col-6")
+                                div(class="ppt-member-grid-card")
+                                    i(class="fa fa-user text-primary" style="font-size: 18px;")
+                                    div
+                                        div(style="font-weight: 800; font-size: 13px; color: #0f172a;") #{worker.name || '-'}
+                                        div(style="font-size: 11px; color: #64748b; margin-top: 1px;")
+                                            span(class="ppt-badge px-2 py-0-5 me-1 text-primary" style="font-size: 9px; line-height: 1;") #{worker.p_name || '-'}
+                                            span #{worker.sadasyaMobile || '-'}
+                else
+                    p(class="text-center text-muted mt-4") कर्मचारी माहिती उपलब्ध नाही.
+
+        div(class="ppt-card card-accent-pink" style="flex: 0.8; min-height: 0;")
+            div(class="ppt-card-header")
+                i(class="fa fa-user-md")
+                | आशा सेविका यादी
+            div(class="ppt-card-body p-0")
+                table(class="ppt-table")
+                    thead
+                        tr
+                            th नाव
+                            th मोबाईल
+                            th गाव
+                    tbody
+                        if workers && workers.length > 0
+                            each worker in workers
+                                tr
+                                    td(style="font-weight: 800; color: #db2777; font-size:13px;") #{worker.name}
+                                    td(style="font-weight: 700; font-size:13px;") #{worker.mobile}
+                                    td(style="font-size:13px;") #{worker.village || '-'}
+                        else
+                            tr
+                                td(colspan="3" class="text-center py-4 text-muted") आशा सेविकांची नोंद नाही.
+
+    div(class="col-6 d-flex flex-column px-2" style="height: 100%; gap: 1.5rem;")
+        div(class="ppt-card" style="flex: 1; min-height: 0;")
+            div(class="ppt-card-header")
+                i(class="fa fa-water")
+                | जल संधारण संरचना
+            div(class="ppt-card-body p-0")
+                table(class="ppt-table")
+                    thead
+                        tr
+                            th संरचनेचे नाव
+                            th लांबी (मी.)
+                            th क्षमता (घन मी.)
+                    tbody
+                        if structures && structures.length > 0
+                            each structure in structures
+                                tr
+                                    td(style="font-weight: 800; color: #2563eb; font-size:13px;") #{structure.structure_name}
+                                    td(style="font-weight: 700; font-size:13px;") #{structure.structure_length_m}
+                                    td(style="font-weight: 700; font-size:13px;") #{structure.storage_capacity_cubic_m || '-'}
+                        else
+                            tr
+                                td(colspan="3" class="text-center py-4 text-muted") जल संधारण संरचनेची नोंद नाही.
+
+        div(class="ppt-card card-accent-green" style="flex: 1; min-height: 0;")
+            div(class="ppt-card-header")
+                i(class="fa fa-child")
+                | अंगणवाडी केंद्रांची माहिती
+            div(class="ppt-card-body p-0")
+                table(class="ppt-table")
+                    thead
+                        tr
+                            th केंद्र
+                            th सेविका
+                            th शौचालय
+                            th किचन शेड
+                    tbody
+                        if aanganwadiCenters && aanganwadiCenters.length > 0
+                            each center in aanganwadiCenters
+                                tr
+                                    td(style="font-weight: 800; color: #16a34a; font-size:13px;") #{center.village_name || '-'}
+                                    - let sevikaNames = (center && Array.isArray(center.workers)) ? center.workers.filter(w => w.role === 'सेविका').map(w => w.name).join(', ') : '-' 
+                                    td(style="font-weight: 600; font-size:13px;") #{sevikaNames}
+                                    td(style="font-size:13px;")
+                                        if center.has_toilet === 'AVAILABLE'
+                                            span(style="color: #16a34a; font-weight: 800;") <i class="fa fa-check-circle me-1"></i> होय
+                                        else
+                                            span(style="color: #ef4444; font-weight: 700;") <i class="fa fa-times-circle me-1"></i> नाही
+                                    td(style="font-size:13px;")
+                                        if center.has_kitchen_shed === 'AVAILABLE'
+                                            span(style="color: #16a34a; font-weight: 800;") <i class="fa fa-check-circle me-1"></i> होय
+                                        else
+                                            span(style="color: #ef4444; font-weight: 700;") <i class="fa fa-times-circle me-1"></i> नाही
+                        else
+                            tr
+                                td(colspan="4" class="text-center py-4 text-muted") अंगणवाडी केंद्रांची नोंद नाही.

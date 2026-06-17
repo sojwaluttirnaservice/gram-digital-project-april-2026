@@ -4,6 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         title= ppt.title
         link(href="/asstest/bootstrap/css/bootstrap.min.css" rel="stylesheet")
+        link(href="/asstest/plugins/font-awesome470/css/font-awesome.css" rel="stylesheet")
 
         //- YATRA ONE
         <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
@@ -244,6 +245,26 @@ html(lang="en")
                 color: #60a5fa;
             }
 
+            /* ── Population Slide Content Styles ──────────────── */
+            .slide-title-blue { color: #1e3a8a !important; font-weight: 700; }
+            .bg-blue-light { background-color: #f0f7ff !important; }
+            .bg-pink-light { background-color: #fdf2f8 !important; }
+            .bg-green-light { background-color: #f0fdf4 !important; }
+            .bg-yellow-light { background-color: #fefce8 !important; }
+            .border-blue-light { border: 1px solid #dbeafe !important; }
+            .border-pink-light { border: 1px solid #fce7f3 !important; }
+            .border-green-light { border: 1px solid #dcfce7 !important; }
+            .border-yellow-light { border: 1px solid #fef9c3 !important; }
+            .text-blue-dark { color: #1e3a8a !important; }
+            .text-blue-med { color: #2563eb !important; }
+            .text-pink-dark { color: #9d174d !important; }
+            .text-green-dark { color: #065f46 !important; }
+            .text-gray-dark { color: #374151 !important; }
+            .text-gray-med { color: #4b5563 !important; }
+            .text-gray-light { color: #9ca3af !important; }
+            .font-bold { font-weight: bold !important; }
+            .font-semibold { font-weight: 600 !important; }
+
             @media print {
                 .before-image-title {
                     -webkit-text-fill-color: initial !important;
@@ -286,7 +307,7 @@ html(lang="en")
 
 
 
-    body.yatra-one-regular
+    body.yatra-one-regular.is-print-page
         //- ─── INTRO PAGE IMAGES ──────────────────────────────────────
         if ppt.is_main_ppt == 1
             if ppt.page_1_image
@@ -301,8 +322,10 @@ html(lang="en")
                 div.page
                     img(src=`/uploads/images/ppt/pages-images/${ppt.page_3_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
 
+            include ./population-slide-content.pug
+
         //- ─── SLIDE PAGES ──────────────────────────────────────────────
-        if ppt.is_main_ppt != 1 && slides && slides.length > 0
+        if slides && slides.length > 0
             //- each slide, index in slides
                 - var beforeImgs = slide.parsed_before_images || []
                 - var afterImgs  = slide.parsed_after_images  || []
@@ -438,46 +461,38 @@ html(lang="en")
                 // 🟡 IMAGE PAGES (PAIR-WISE)
                 // =========================
                 if totalPairs > 0
-                    each _, i in Array(totalPairs)
-                        div.page.bg-image
+                    - var pairsPerPage = 2
+                    - var totalPages = Math.ceil(totalPairs / pairsPerPage)
+                    each _, pageIndex in Array(totalPages)
+                        div.page(style="background: linear-gradient(135deg, #f0f7ff 0%, #fdf2f8 100%);")
+                            div(style="display:flex; flex-direction:column; gap:40px; align-items:center; justify-content:center; height: 100%; padding: 10px 40px;")
+                                - for(var j = 0; j < pairsPerPage; j++)
+                                    - var i = (pageIndex * pairsPerPage) + j
+                                    if i < totalPairs
+                                        div(style="display:flex; justify-content:center; gap:50px; width:100%;")
+                                            //- BEFORE
+                                            div(style="display:flex; flex-direction:column; align-items:center; gap:10px;")
+                                                div(style="width:380px;height:220px;background:linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);border-radius:12px;padding:3px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(255, 117, 140, 0.3);")
+                                                    if beforeImgs[i] && beforeImgs[i].image_name
+                                                        img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#fff;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                                if beforeImgs[i] && (beforeImgs[i].image_title || beforeImgs[i].image_subtitle)
+                                                    div(style="text-align:center; max-width:380px;")
+                                                        if beforeImgs[i].image_title
+                                                            div.before-image-title(style="font-size:16px; font-weight:700; color:#1e293b;")= beforeImgs[i].image_title
+                                                        if beforeImgs[i].image_subtitle
+                                                            div.before-image-subtitle(style="font-size:13px; color:#64748b;")= beforeImgs[i].image_subtitle
 
-                            div.slide-header-img-container
-                                if ppt.remaining_pages_header_image
-                                    img.slide-header-img(src=`/uploads/images/ppt/pages-images/${ppt.remaining_pages_header_image}` onerror="this.style.display='none'")
-
-                            div(style="width:1280px;")
-                                h3(style="font-size:40px;color:#f6339a;margin-top:4rem;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
-                                    | ग्राम पंचायत कार्यालय #{gp.gp_name}
-
-                            div(style="width:1280px;")
-                                h3(style="font-size:20px;color:#101828;" class="fw-bold mb-0 text-center noto-sans-devanagari-500")
-                                    | पंचायत समिती #{gp.gp_taluka}, जिल्हा परिषद #{gp.gp_dist}
-
-                            div.slide-image-area(style="height:360px; margin-top:1rem; margin-bottom:90px;")
-
-                                //- BEFORE
-                                div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
-                                    div(style="width:500px;height:290px;border:2px solid #ff6b6b;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
-                                        if beforeImgs[i] && beforeImgs[i].image_name
-                                            img(src=`/uploads/images/ppt/slides/before/${beforeImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
-                                    if beforeImgs[i] && (beforeImgs[i].image_title || beforeImgs[i].image_subtitle)
-                                        div(style="text-align:center; max-width:500px;")
-                                            if beforeImgs[i].image_title
-                                                div.before-image-title(style="font-size:16px;")= beforeImgs[i].image_title
-                                            if beforeImgs[i].image_subtitle
-                                                div.before-image-subtitle(style="font-size:12px;")= beforeImgs[i].image_subtitle
-
-                                //- AFTER
-                                div(style="display:flex; flex-direction:column; align-items:center; gap:8px;")
-                                    div(style="width:500px;height:290px;border:2px solid #52c41a;border-radius:16px;padding:6px;display:flex;align-items:center;justify-content:center;")
-                                        if afterImgs[i] && afterImgs[i].image_name
-                                            img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#f8f9fa;" onerror="this.src='/img/fallback/no-image-found.png'")
-                                    if afterImgs[i] && (afterImgs[i].image_title || afterImgs[i].image_subtitle)
-                                        div(style="text-align:center; max-width:500px;")
-                                            if afterImgs[i].image_title
-                                                div.after-image-title(style="font-size:16px;")= afterImgs[i].image_title
-                                            if afterImgs[i].image_subtitle
-                                                div.after-image-subtitle(style="font-size:12px;")= afterImgs[i].image_subtitle
+                                            //- AFTER
+                                            div(style="display:flex; flex-direction:column; align-items:center; gap:10px;")
+                                                div(style="width:380px;height:220px;background:linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);border-radius:12px;padding:3px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(67, 233, 123, 0.3);")
+                                                    if afterImgs[i] && afterImgs[i].image_name
+                                                        img(src=`/uploads/images/ppt/slides/after/${afterImgs[i].image_name}` style="width:100%;height:100%;object-fit:contain;border-radius:10px;background:#fff;" onerror="this.src='/img/fallback/no-image-found.png'")
+                                                if afterImgs[i] && (afterImgs[i].image_title || afterImgs[i].image_subtitle)
+                                                    div(style="text-align:center; max-width:380px;")
+                                                        if afterImgs[i].image_title
+                                                            div.after-image-title(style="font-size:16px; font-weight:700; color:#1e293b;")= afterImgs[i].image_title
+                                                        if afterImgs[i].image_subtitle
+                                                            div.after-image-subtitle(style="font-size:13px; color:#64748b;")= afterImgs[i].image_subtitle
 
 script.
     document.addEventListener("DOMContentLoaded", () => {

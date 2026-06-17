@@ -3,6 +3,7 @@ const pptModel = require('../../model/ppt/pptModel');
 const pptSlidesModel = require('../../model/ppt/pptSlidesModel');
 const { sendApiResponse } = require('../../utils/apiResponses');
 const asyncHandler = require('../../utils/asyncHandler');
+const villageController = require('../gaav/villageController');
 const generateUniqueFileName = require('../../utils/generateFileName');
 const { saveFile, deleteFile } = require('../../utils/saveFile');
 const { renderPage } = require('../../utils/sendResponse');
@@ -366,11 +367,17 @@ const pptController = {
 			};
 		});
 
+		let populationData = {};
+		if (ppt.is_main_ppt == 1) {
+			populationData = await villageController.getPopulationInfoData(res.pool);
+		}
+
 		renderPage(res, 'user/ppt/ppt-print-page.pug', {
 			title: 'Print PPT',
 			ppt,
 			slides: processedSlides,
-			layout: false // If we want a clean layout for printing
+			layout: false, // If we want a clean layout for printing
+			...populationData
 		});
 	}),
 
