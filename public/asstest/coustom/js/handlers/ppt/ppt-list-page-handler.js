@@ -160,32 +160,38 @@ $(() => {
 
 		let allSlides = [];
 
-		// ---------------------------------------------
-		// 1️⃣ PAGE IMAGES
-		// ---------------------------------------------
-		['page_1_image', 'page_2_image', 'page_3_image'].forEach((field) => {
-			if (ppt && ppt[field]) {
-				allSlides.push({
-					type: 'page',
-					image: ppt[field],
-					path: '/uploads/images/ppt/pages-images/'
-				});
-			}
-		});
+		const isMainPpt = ppt.is_main_ppt === 1 || ppt.is_main_ppt === '1';
 
 		// ---------------------------------------------
-		// 2️⃣ REAL SLIDES (FLATTENED)
+		// 1️⃣ PAGE IMAGES (Only for Main PPT)
 		// ---------------------------------------------
-		slides.forEach((slide) => {
-			const pages = generateSlideContent(slide, ppt); // ✅ array now
+		if (isMainPpt) {
+			['page_1_image', 'page_2_image', 'page_3_image'].forEach((field) => {
+				if (ppt && ppt[field]) {
+					allSlides.push({
+						type: 'page',
+						image: ppt[field],
+						path: '/uploads/images/ppt/pages-images/'
+					});
+				}
+			});
+		}
 
-			pages.forEach((pageHtml) => {
-				allSlides.push({
-					type: 'slide',
-					html: pageHtml
+		// ---------------------------------------------
+		// 2️⃣ REAL SLIDES (FLATTENED) (Only if NOT Main PPT)
+		// ---------------------------------------------
+		if (!isMainPpt) {
+			slides.forEach((slide) => {
+				const pages = generateSlideContent(slide, ppt); // ✅ array now
+
+				pages.forEach((pageHtml) => {
+					allSlides.push({
+						type: 'slide',
+						html: pageHtml
+					});
 				});
 			});
-		});
+		}
 
 		// ---------------------------------------------
 		// 3️⃣ RENDER

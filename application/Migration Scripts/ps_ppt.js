@@ -64,24 +64,30 @@ const ps_ppt = sequelize.define(
             comment: 'This might be need to show the ppt or not'
         },
 
+        is_main_ppt: {
+            type: TINYINT,
+            defaultValue: 0,
+            comment: 'Is this the main PPT'
+        },
+
         page_1_image: {
             type: STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
 
         page_2_image: {
             type: STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
 
         page_3_image: {
             type: STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
 
         remaining_pages_header_image: {
             type: STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
 
         createdAt: {

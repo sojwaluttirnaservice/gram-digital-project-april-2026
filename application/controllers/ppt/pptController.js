@@ -35,66 +35,78 @@ const pptController = {
 
 	create: asyncHandler(async (req, res) => {
 		const pptData = req.body;
+		const is_main_ppt = pptData.is_main_ppt === '1' || pptData.is_main_ppt === 'on' ? 1 : 0;
 
-		const coverImage = req.files.cover_image;
-		const page1Image = req.files.page_1_image;
-		const page2Image = req.files.page_2_image;
-		const page3Image = req.files.page_3_image;
+		const coverImage = req.files?.cover_image;
+		const page1Image = req.files?.page_1_image;
+		const page2Image = req.files?.page_2_image;
+		const page3Image = req.files?.page_3_image;
 		const remainingPagesHeaderImage =
-			req.files.remaining_pages_header_image;
+			req.files?.remaining_pages_header_image;
 
-		if (
-			!coverImage ||
-			!page1Image ||
-			!page2Image ||
-			!page3Image ||
-			!remainingPagesHeaderImage
-		) {
-			return sendApiResponse(res, 404, false, 'All images are required');
+		if (is_main_ppt) {
+			if (!page1Image || !page2Image || !page3Image) {
+				return sendApiResponse(res, 400, false, 'Page 1, 2, and 3 Banner Images are required for main PPT');
+			}
 		}
 
 		/**
 		 * COVER IMAGE
 		 */
-		const cover_image = generateUniqueFileName(coverImage, 'ppt-cover-img');
-		await saveFile(coverImage, `${UPLOAD_PATHS.ppt.cover}/${cover_image}`);
+		let cover_image = null;
+		if (coverImage) {
+			cover_image = generateUniqueFileName(coverImage, 'ppt-cover-img');
+			await saveFile(coverImage, `${UPLOAD_PATHS.ppt.cover}/${cover_image}`);
+		}
 
 		/**
 		 * PAGE IMAGES
 		 */
-		const page_1_image = generateUniqueFileName(
-			page1Image,
-			'ppt-page-1-img'
-		);
-		await saveFile(page1Image, `${UPLOAD_PATHS.ppt.pages}/${page_1_image}`);
+		let page_1_image = null;
+		if (page1Image) {
+			page_1_image = generateUniqueFileName(
+				page1Image,
+				'ppt-page-1-img'
+			);
+			await saveFile(page1Image, `${UPLOAD_PATHS.ppt.pages}/${page_1_image}`);
+		}
 
-		const page_2_image = generateUniqueFileName(
-			page2Image,
-			'ppt-page-2-img'
-		);
-		await saveFile(page3Image, `${UPLOAD_PATHS.ppt.pages}/${page_2_image}`);
+		let page_2_image = null;
+		if (page2Image) {
+			page_2_image = generateUniqueFileName(
+				page2Image,
+				'ppt-page-2-img'
+			);
+			await saveFile(page2Image, `${UPLOAD_PATHS.ppt.pages}/${page_2_image}`);
+		}
 
-		const page_3_image = generateUniqueFileName(
-			page3Image,
-			'ppt-page-4-img'
-		);
-		await saveFile(page3Image, `${UPLOAD_PATHS.ppt.pages}/${page_3_image}`);
+		let page_3_image = null;
+		if (page3Image) {
+			page_3_image = generateUniqueFileName(
+				page3Image,
+				'ppt-page-3-img'
+			);
+			await saveFile(page3Image, `${UPLOAD_PATHS.ppt.pages}/${page_3_image}`);
+		}
 
-		const remaining_pages_header_image = generateUniqueFileName(
-			remainingPagesHeaderImage,
-			'ppt-remaining-pages-header-img'
-		);
-
-		await saveFile(
-			remainingPagesHeaderImage,
-			`${UPLOAD_PATHS.ppt.pages}/${remaining_pages_header_image}`
-		);
+		let remaining_pages_header_image = null;
+		if (remainingPagesHeaderImage) {
+			remaining_pages_header_image = generateUniqueFileName(
+				remainingPagesHeaderImage,
+				'ppt-remaining-pages-header-img'
+			);
+			await saveFile(
+				remainingPagesHeaderImage,
+				`${UPLOAD_PATHS.ppt.pages}/${remaining_pages_header_image}`
+			);
+		}
 
 		/**
 		 * SAVE DB
 		 */
 		const { insertId } = await pptModel.save(res.pool, {
 			...pptData,
+			is_main_ppt,
 			cover_image,
 			page_1_image,
 			page_2_image,
@@ -127,12 +139,23 @@ const pptController = {
 			return sendApiResponse(res, 404, false, 'PPT not found.');
 		}
 
+		const is_main_ppt = pptData.is_main_ppt === '1' || pptData.is_main_ppt === 'on' ? 1 : 0;
+
 		const coverImage = req.files?.cover_image;
 		const page1Image = req.files?.page_1_image;
 		const page2Image = req.files?.page_2_image;
 		const page3Image = req.files?.page_3_image;
 		const remainingPagesHeaderImage =
 			req.files?.remaining_pages_header_image;
+
+		if (is_main_ppt) {
+			const p1 = page1Image || existing.page_1_image;
+			const p2 = page2Image || existing.page_2_image;
+			const p3 = page3Image || existing.page_3_image;
+			if (!p1 || !p2 || !p3) {
+				return sendApiResponse(res, 400, false, 'Page 1, 2, and 3 Banner Images are required for main PPT');
+			}
+		}
 
 		let cover_image = existing.cover_image;
 		let page_1_image = existing.page_1_image;
@@ -238,6 +261,7 @@ const pptController = {
 		 * Attach final values
 		 */
 		Object.assign(pptData, {
+			is_main_ppt,
 			cover_image,
 			page_1_image,
 			page_2_image,

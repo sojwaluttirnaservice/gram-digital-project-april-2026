@@ -21,6 +21,7 @@ const pptModel = {
                 p.status,
                 p.total_slides,
                 p.is_visible,
+                p.is_main_ppt,
                 ${fmtDateField("p.createdAt", '_createdAt')},
                 p.updatedAt,
                 IFNULL (
@@ -79,6 +80,7 @@ const pptModel = {
                 status,
                 total_slides,
                 is_visible,
+                is_main_ppt,
 
                 page_1_image,
                 page_2_image,
@@ -97,6 +99,7 @@ const pptModel = {
       pptData.status || "PUBLISHED",
       pptData.total_slides || 0,
       pptData.is_visible ?? 1,
+      pptData.is_main_ppt ?? 0,
 
       pptData.page_1_image,
       pptData.page_2_image,
@@ -120,6 +123,7 @@ const pptModel = {
                 theme_name = ?,
                 status = ?,
                 is_visible = ?,
+                is_main_ppt = ?,
 
                 page_1_image = ?,
                 page_2_image = ?,
@@ -137,6 +141,7 @@ const pptModel = {
       updateData.theme_name,
       updateData.status || "PUBLISHED",
       updateData.is_visible || 1,
+      updateData.is_main_ppt ?? 0,
 
       updateData.page_1_image,
       updateData.page_2_image,

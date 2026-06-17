@@ -288,20 +288,21 @@ html(lang="en")
 
     body.yatra-one-regular
         //- ─── INTRO PAGE IMAGES ──────────────────────────────────────
-        if ppt.page_1_image
-            div.page
-                img(src=`/uploads/images/ppt/pages-images/${ppt.page_1_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
-        
-        if ppt.page_2_image
-            div.page
-                img(src=`/uploads/images/ppt/pages-images/${ppt.page_2_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
-                
-        if ppt.page_3_image
-            div.page
-                img(src=`/uploads/images/ppt/pages-images/${ppt.page_3_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+        if ppt.is_main_ppt == 1
+            if ppt.page_1_image
+                div.page
+                    img(src=`/uploads/images/ppt/pages-images/${ppt.page_1_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+            
+            if ppt.page_2_image
+                div.page
+                    img(src=`/uploads/images/ppt/pages-images/${ppt.page_2_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
+                    
+            if ppt.page_3_image
+                div.page
+                    img(src=`/uploads/images/ppt/pages-images/${ppt.page_3_image}` style="width: 100%; height: 100%; object-fit: fill; display: block;" onerror="this.style.display='none'")
 
         //- ─── SLIDE PAGES ──────────────────────────────────────────────
-        if slides && slides.length > 0
+        if ppt.is_main_ppt != 1 && slides && slides.length > 0
             //- each slide, index in slides
                 - var beforeImgs = slide.parsed_before_images || []
                 - var afterImgs  = slide.parsed_after_images  || []

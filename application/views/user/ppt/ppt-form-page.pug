@@ -32,26 +32,31 @@ block content
                                 input.form-control(type="text" name="description" placeholder="वर्णन टाका" required)
 
                         .col-12.col-sm-6.col-lg-5
+                            .form-group.form-check.mt-4.pt-2
+                                input.form-check-input#is_main_ppt(type="checkbox" name="is_main_ppt" value="1")
+                                label.form-check-label.font-weight-bold.ms-2(for="is_main_ppt") Is this Main PPT?
+
+                        .col-12.col-sm-6.col-lg-5
                             .form-group
                                 label.font-weight-bold 
                                     | Cover Image
-                                    span.required-star *
-                                input.form-control(type="file" name="cover_image" accept="image/*" required)
+                                    span.required-star.cover-image-star(style="display:none;") *
+                                input.form-control(type="file" name="cover_image" accept="image/*")
 
                         each _, index in [1,2,3]
                             .col-12.col-sm-6.col-lg-5
                                 .form-group
                                     label.font-weight-bold 
                                         | Page #{index + 1} Banner Image
-                                        span.required-star *
-                                    input.form-control(type="file" name=`page_${index + 1}_image` accept="image/*" required)
+                                        span.required-star.page-image-star(style="display:none;") *
+                                    input.form-control(type="file" name=`page_${index + 1}_image` accept="image/*")
 
                         .col-12.col-sm-6.col-lg-5
                             .form-group
                                 label.font-weight-bold 
                                     | Other Page Background Image
-                                    span.required-star *
-                                input.form-control(type="file" name="remaining_pages_header_image" accept="image/*" required)
+                                    span.required-star.remaining-pages-star(style="display:none;") *
+                                input.form-control(type="file" name="remaining_pages_header_image" accept="image/*")
 
                         .col-12.mt-2.d-flex.justify-content-center
                             button(type="button" id="save-ppt-main-details-btn" class="btn btn-primary px-4")

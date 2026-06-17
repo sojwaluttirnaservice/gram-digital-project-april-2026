@@ -41,19 +41,31 @@ block content
                         // TITLE
                         .col-12.col-sm-6.col-lg-5
                             .form-group
-                                label.font-weight-bold PPT चे Title *
+                                label.font-weight-bold
+                                    | PPT चे Title
+                                    span.required-star *
                                 input.form-control(type="text" name="title" value=ppt.title required)
 
                         // DESCRIPTION
                         .col-12.col-sm-6.col-lg-5
                             .form-group
-                                label.font-weight-bold PPT चे वर्णन *
+                                label.font-weight-bold
+                                    | PPT चे वर्णन
+                                    span.required-star *
                                 input.form-control(type="text" name="description" value=ppt.description)
+
+                        // IS MAIN PPT
+                        .col-12.col-sm-6.col-lg-5
+                            .form-group.form-check.mt-4.pt-2
+                                input.form-check-input#is_main_ppt(type="checkbox" name="is_main_ppt" value="1" checked=(ppt.is_main_ppt === 1))
+                                label.form-check-label.font-weight-bold.ms-2(for="is_main_ppt") Is this Main PPT?
 
                         // COVER IMAGE
                         .col-12.col-sm-6.col-lg-5
                             .form-group
-                                label.font-weight-bold Cover Image
+                                label.font-weight-bold
+                                    | Cover Image
+                                    span.required-star.cover-image-star(style="display:none;") *
                                 input.form-control(type="file" name="cover_image" accept="image/*")
 
                                 if ppt.cover_image
@@ -67,7 +79,9 @@ block content
 
                             .col-12.col-sm-6.col-lg-5
                                 .form-group
-                                    label.font-weight-bold Page #{page} Banner Image
+                                    label.font-weight-bold
+                                        | Page #{page} Banner Image
+                                        span.required-star.page-image-star(style="display:none;") *
                                     input.form-control(type="file" name=`page_${page}_image` accept="image/*")
 
                                     if ppt[`page_${page}_image`]
@@ -79,7 +93,9 @@ block content
                         // REMAINING BACKGROUND
                         .col-12.col-sm-6.col-lg-5
                             .form-group
-                                label.font-weight-bold Other Page Background Image
+                                label.font-weight-bold
+                                    | Other Page Background Image
+                                    span.required-star.remaining-pages-star(style="display:none;") *
                                 input.form-control(type="file" name="remaining_pages_header_image" accept="image/*")
 
                                 if ppt.remaining_pages_header_image
