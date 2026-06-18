@@ -7,10 +7,16 @@ const namuna29Controller = {
     renderNamuna29Page: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna29Model.fetchNamuna29DetailsByYearRange(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna29Model.fetchNamuna29DetailsByMonthAndYear(
                     res.pool,
                     month,
