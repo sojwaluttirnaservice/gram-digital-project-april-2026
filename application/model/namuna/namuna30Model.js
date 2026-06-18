@@ -146,6 +146,10 @@ const namuna30Model = {
         });
     },
 
+    fetchAllNamuna30: (pool) => {
+        return namuna30Model.fetchAllNamuna30Details(pool);
+    },
+
     // Fetch a record by ID
     fetchNamuna30DetailsById: (pool, id) => {
         return new Promise((resolve, reject) => {
@@ -161,6 +165,52 @@ const namuna30Model = {
         });
     },
 
+    fetchNamuna30ById: (pool, id) => {
+        return namuna30Model.fetchNamuna30DetailsById(pool, id);
+    },
+
+    // Fetch records by audit report year
+    fetchNamuna30DetailsByYear: (pool, year) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT *,
+                    DATE_FORMAT(report_received_date, '%d-%m-%Y') AS _report_received_date, 
+                    DATE_FORMAT(resolved_objection_outward_date, '%d-%m-%Y') AS _resolved_objection_outward_date, 
+                    DATE_FORMAT(resolution_forwarded_date, '%d-%m-%Y') AS _resolution_forwarded_date 
+                FROM ps_namuna_30
+                WHERE audit_report_year = ?;
+            `;
+            pool.query(query, [year], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
+    fetchNamuna30ByYear: (pool, year) => {
+        return namuna30Model.fetchNamuna30DetailsByYear(pool, year);
+    },
+
+    // Fetch records for a financial year range
+    fetchNamuna30DetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT *,
+                    DATE_FORMAT(report_received_date, '%d-%m-%Y') AS _report_received_date, 
+                    DATE_FORMAT(resolved_objection_outward_date, '%d-%m-%Y') AS _resolved_objection_outward_date, 
+                    DATE_FORMAT(resolution_forwarded_date, '%d-%m-%Y') AS _resolution_forwarded_date 
+                FROM ps_namuna_30
+                WHERE 
+                    (audit_report_year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (audit_report_year = ? AND month BETWEEN 1 AND 3);
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
 
     // Fetch records by month and year
     fetchNamuna30DetailsByMonthAndYear: (pool, month, audit_report_year) => {

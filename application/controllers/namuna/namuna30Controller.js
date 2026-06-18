@@ -6,10 +6,16 @@ const namuna30Controller = {
     renderNamuna30Page: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna30Model.fetchNamuna30DetailsByFinancialYear(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna30Model.fetchNamuna30DetailsByMonthAndYear(
                     res.pool,
                     month,
@@ -82,11 +88,18 @@ const namuna30Controller = {
     // Render the page to print Namuna 30 report
     renderNamuna30Print: async (req, res) => {
         try {
-            const { month, year } = req.query;
+            const { month, year, fromYear, toYear } = req.query;
             const _gp = await HomeModel.getGpData(res.pool);
 
             let _namuna30Details = [];
-            if (month && year) {
+            if (fromYear && toYear) {
+                _namuna30Details =
+                    await namuna30Model.fetchNamuna30DetailsByFinancialYear(
+                        res.pool,
+                        fromYear,
+                        toYear
+                    );
+            } else if (month && year) {
                 _namuna30Details =
                     await namuna30Model.fetchNamuna30DetailsByMonthAndYear(
                         res.pool,
@@ -104,6 +117,8 @@ const namuna30Controller = {
                 namuna30Details: _namuna30Details,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the Namuna 30 page: ${err}`);
