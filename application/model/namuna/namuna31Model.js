@@ -146,6 +146,28 @@ const namuna31Model = {
         });
     },
 
+    // Fetch records for a financial year range
+    fetchNamuna31DetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT *,
+                    IFNULL(DATE_FORMAT(departure_date, '%d-%m-%Y'), 'Invalid Date') AS _departure_date,
+                    IFNULL(DATE_FORMAT(arrival_date, '%d-%m-%Y'), 'Invalid Date') AS _arrival_date,
+                    IFNULL(DATE_FORMAT(STR_TO_DATE(departure_time, '%H:%i:%s'), '%h:%i %p'), 'Invalid Time') AS _departure_time,
+                    IFNULL(DATE_FORMAT(STR_TO_DATE(arrival_time, '%H:%i:%s'), '%h:%i %p'), 'Invalid Time') AS _arrival_time
+                FROM ps_namuna_31
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records for specific month and year
     fetchNamuna31DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

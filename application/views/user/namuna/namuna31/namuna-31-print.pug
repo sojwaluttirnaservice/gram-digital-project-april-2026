@@ -59,164 +59,176 @@ html(lang="en")
 
             button(type='button' onclick='window.print()') Print
 
-        table(style='width: 100%;')
+        if namuna31Details && namuna31Details.length > 0
+            table(style='width: 100%;')
 
-            thead
+                thead
 
-                tr 
-                    th(colspan='21' )
-                        div
-                            div(style='display: flex; align-items: center; justify-content: space-between;')
-
-                                div नमुना ३१ प्रवास भत्ता देयक 
-
-                                div ग्रामपंचायत कार्यालय 
-                                    span #{gp.gp_name}
-                                div
-                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
-
-                            div 
-                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४(२) (ग)(२) पहा)
-
-                            //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
-
-
-                tr 
-                    th(colspan='21')
-                        | प्रवास भत्ता देयक
-                tr
-                    //- 1 to 2
-                    th(rowspan='3') सरपंच/उपसरपंच /सदस्य यांचे नाव
-                    th(rowspan='3') कार्यालयाचे ठिकाण
-
-                    //- 3 to 8
-                    th(rowspan='1' colspan='6') कार्यालयीन प्रवासाचा तपशील
-
-                    //- 9
-                    th(rowspan='3') रेल्वे(मेल, पसेंजर), बोट, रस्त्यावरून धावणाऱ्या/ट्रोली यापैकी केलेल्या प्रवासाचे साधन
-
-                    //- 10 to 12
-                    th(rowspan='1' colspan='3') रेल्वे / बोटीचे नाव
-
-                    //- 13 to 15
-                    th(rowspan='1' colspan='3') रस्त्याने किंवा ट्रोलीने केलेल्या प्रवासाकरिता मेल भत्ता
-
-                    th(rowspan='1' colspan='3') दैनिक भत्ता
-
-                    th(rowspan='3') प्रवासाचे कारण
-                    th(rowspan='3') प्रत्येक स्तंभाची बेरीज
-
-                    th(rowspan='3') शेरा
-
-                tr 
-                    //-1 to 2
-                    //- th
-                    //- th
-
-                    //- 3 to 5
-                    th(rowspan='1' colspan='3') निगमन
-                    //- 6 to 8
-                    th(rowspan='1' colspan='3') आगमन
-
-                    //-  9
-                    //- th
-
-                    //- 10 to 12
-                    th(rowspan='2' colspan='1') वर्ग
-                    th(rowspan='2' colspan='1') तिकिटांची संख्या
-                    th(rowspan='2' colspan='1') रक्कम
-
-
-                    //- 13 to 15
-                    th(rowspan='2' colspan='1') किमी
-                    th(rowspan='2' colspan='1') दर
-                    th(rowspan='2' colspan='1') रक्कम
-
-                    //- 16 to 18 
-                    th(rowspan='2' colspan='1') दिवसाची संख्या
-                    th(rowspan='2' colspan='1') दर
-                    th(rowspan='1' colspan='1') रक्कम
-
-                    //- 19 to 21
-                    //- th
-                    //- th
-                    //- th
-
-
-                tr 
-                    //-1 to 2
-                    //- th
-                    //- th
-
-                    //- 3 to 5
-                    th(rowspan='1' colspan='1') ठिकाण
-                    th(rowspan='1' colspan='1') दिनांक
-                    th(rowspan='1' colspan='1') वेळ
-
-                    //- 6 to 8
-                    th(rowspan='1' colspan='1') ठिकाण
-                    th(rowspan='1' colspan='1') दिनांक
-                    th(rowspan='1' colspan='1') वेळ
-
-                    //-  9
-                    //- th
-
-                    //- 10 to 12
-                    //- th
-                    //- th
-                    //- th
-
-                    //- 13 to 15
-                    //- th
-                    //- th
-                    //- th
-
-                    //- 16 to 18 
-                    //- th
-                    //- th 
-                    //- th
-
-                    //- 19 to 21
-                    //- th
-                    //- th
-                    //- th
-
-
-                tr 
-                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-                        th #{num}
-
-            tbody
-
-                each namuna31Entry, index in namuna31Details 
-                    //- each namuna31Entry, index in Array(20).fill(paymentnamuna31Entry).flat()
                     tr 
-                        td #{namuna31Entry.name_of_person}
-                        td #{namuna31Entry.office_location}
+                        th(colspan='22' )
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
 
-                        td #{namuna31Entry.departure_place}
-                        td #{namuna31Entry._departure_date}
-                        td #{namuna31Entry._departure_time}
+                                    div नमुना ३१ प्रवास भत्ता देयक 
+                                        if fromYear && toYear
+                                            span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                        else if month && year
+                                            span  (महिना: #{month}, वर्ष: #{year})
 
-                        td #{namuna31Entry.arrival_place}
-                        td #{namuna31Entry._arrival_date}
-                        td #{namuna31Entry._arrival_time}
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम २४(२) (ग)(२) पहा)
+
+                                //- div(style='font-size:13px;') सन ____ ते ________या वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
 
 
-                        td #{namuna31Entry.means_of_travel}
+                    tr 
+                        th(colspan='22')
+                            | प्रवास भत्ता देयक
+                    tr
+                        //- 1 to 2
+                        th(rowspan='3') महिना व वर्ष
+                        th(rowspan='3') सरपंच/उपसरपंच /सदस्य यांचे नाव
+                        th(rowspan='3') कार्यालयाचे ठिकाण
 
-                        td #{namuna31Entry.rail_boat_name_class}
-                        td #{namuna31Entry.ticket_count}
-                        td #{namuna31Entry.ticket_amount}
+                        //- 3 to 8
+                        th(rowspan='1' colspan='6') कार्यालयीन प्रवासाचा तपशील
 
-                        td #{namuna31Entry.road_distance_km}
-                        td #{namuna31Entry.road_rate_per_km}
-                        td #{namuna31Entry.road_amount}
+                        //- 9
+                        th(rowspan='3') रेल्वे(मेल, पसेंजर), बोट, रस्त्यावरून धावणाऱ्या/ट्रोली यापैकी केलेल्या प्रवासाचे साधन
 
-                        td #{namuna31Entry.daily_allowance_days}
-                        td #{namuna31Entry.daily_allowance_rate}
-                        td #{namuna31Entry.daily_allowance_amount}
+                        //- 10 to 12
+                        th(rowspan='1' colspan='3') रेल्वे / बोटीचे नाव
 
-                        td #{namuna31Entry.travel_reason}
-                        td #{namuna31Entry.total_travel_amount}
-                        td #{namuna31Entry.remarks}
+                        //- 13 to 15
+                        th(rowspan='1' colspan='3') रस्त्याने किंवा ट्रोलीने केलेल्या प्रवासाकरिता मेल भत्ता
+
+                        th(rowspan='1' colspan='3') दैनिक भत्ता
+
+                        th(rowspan='3') प्रवासाचे कारण
+                        th(rowspan='3') प्रत्येक स्तंभाची बेरीज
+
+                        th(rowspan='3') शेरा
+
+                    tr 
+                        //-1 to 2
+                        //- th
+                        //- th
+
+                        //- 3 to 5
+                        th(rowspan='1' colspan='3') निगमन
+                        //- 6 to 8
+                        th(rowspan='1' colspan='3') आगमन
+
+                        //-  9
+                        //- th
+
+                        //- 10 to 12
+                        th(rowspan='2' colspan='1') वर्ग
+                        th(rowspan='2' colspan='1') तिकिटांची संख्या
+                        th(rowspan='2' colspan='1') रक्कम
+
+
+                        //- 13 to 15
+                        th(rowspan='2' colspan='1') किमी
+                        th(rowspan='2' colspan='1') दर
+                        th(rowspan='2' colspan='1') रक्कम
+
+                        //- 16 to 18 
+                        th(rowspan='2' colspan='1') दिवसाची संख्या
+                        th(rowspan='2' colspan='1') दर
+                        th(rowspan='1' colspan='1') रक्कम
+
+                        //- 19 to 21
+                        //- th
+                        //- th
+                        //- th
+
+
+                    tr 
+                        //-1 to 2
+                        //- th
+                        //- th
+
+                        //- 3 to 5
+                        th(rowspan='1' colspan='1') ठिकाण
+                        th(rowspan='1' colspan='1') दिनांक
+                        th(rowspan='1' colspan='1') वेळ
+
+                        //- 6 to 8
+                        th(rowspan='1' colspan='1') ठिकाण
+                        th(rowspan='1' colspan='1') दिनांक
+                        th(rowspan='1' colspan='1') वेळ
+
+                        //-  9
+                        //- th
+
+                        //- 10 to 12
+                        //- th
+                        //- th
+                        //- th
+
+                        //- 13 to 15
+                        //- th
+                        //- th
+                        //- th
+
+                        //- 16 to 18 
+                        //- th
+                        //- th 
+                        //- th
+
+                        //- 19 to 21
+                        //- th
+                        //- th
+                        //- th
+
+
+                    tr 
+                        each num in Array.from({length: 22}, (v, i) => i + 1)
+                            th #{num}
+
+                tbody
+
+                    each namuna31Entry, index in namuna31Details 
+                        //- each namuna31Entry, index in Array(20).fill(paymentnamuna31Entry).flat()
+                        tr 
+                            td #{namuna31Entry.month < 10 ? '0' + namuna31Entry.month : namuna31Entry.month} / #{namuna31Entry.year}
+                            td #{namuna31Entry.name_of_person}
+                            td #{namuna31Entry.office_location}
+
+                            td #{namuna31Entry.departure_place}
+                            td #{namuna31Entry._departure_date}
+                            td #{namuna31Entry._departure_time}
+
+                            td #{namuna31Entry.arrival_place}
+                            td #{namuna31Entry._arrival_date}
+                            td #{namuna31Entry._arrival_time}
+
+
+                            td #{namuna31Entry.means_of_travel}
+
+                            td #{namuna31Entry.rail_boat_name_class}
+                            td #{namuna31Entry.ticket_count}
+                            td #{namuna31Entry.ticket_amount}
+
+                            td #{namuna31Entry.road_distance_km}
+                            td #{namuna31Entry.road_rate_per_km}
+                            td #{namuna31Entry.road_amount}
+
+                            td #{namuna31Entry.daily_allowance_days}
+                            td #{namuna31Entry.daily_allowance_rate}
+                            td #{namuna31Entry.daily_allowance_amount}
+
+                            td #{namuna31Entry.travel_reason}
+                            td #{namuna31Entry.total_travel_amount}
+                            td #{namuna31Entry.remarks}
+        else 
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना ३१ मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना ३१ मध्ये नोंदी उपलब्ध नाही.
