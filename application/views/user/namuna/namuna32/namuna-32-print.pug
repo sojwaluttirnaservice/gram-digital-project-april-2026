@@ -70,7 +70,7 @@ html(lang="en")
 
 
 
-        if namuna32Details
+        if namuna32Details && namuna32Details.length > 0
 
             each namuna32Entry in namuna32Details
 
@@ -89,6 +89,10 @@ html(lang="en")
                                         div(style='display: flex; align-items: center; justify-content: space-between;')
 
                                             div नमुना ३२
+                                                if fromYear && toYear
+                                                    span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                                else if month && year
+                                                    span  (महिना: #{month}, वर्ष: #{year})
 
                                             div ग्रामपंचायत कार्यालय 
                                                 span #{gp.gp_name}
@@ -105,6 +109,7 @@ html(lang="en")
                                     table 
                                         thead
                                             tr 
+                                                th महिना व वर्ष
                                                 th पावती क्रमांक
                                                 th दिलेल्या मूळ रक्कम दिनांक
                                                 th रक्कम
@@ -116,11 +121,12 @@ html(lang="en")
 
 
                                             tr 
-                                                each marathiNum in ['१', '२', '३', '४', '५', '६', '७']
+                                                each marathiNum in ['१', '२', '३', '४', '५', '६', '७', '८']
                                                     th #{marathiNum}
                                         tbody 
 
                                             tr 
+                                                td #{namuna32Entry.month < 10 ? '0' + namuna32Entry.month : namuna32Entry.month} / #{namuna32Entry.year}
                                                 td #{namuna32Entry.receipt_number}
                                                 td #{namuna32Entry._given_original_amount_date}
                                                 td #{namuna32Entry.amount}
@@ -133,11 +139,10 @@ html(lang="en")
 
 
 
-                                    div 
-                                        div(style='margin-top: 2rem;')
-                                            p श्री #{namuna32Entry.dddddddddddd} यांस रुपये ( /-) (अक्षरी) दिले. 
-                                                | रूपये (#{namuna32Entry.dddddddddddd}) (अक्षरी) #{namuna32Entry.dddddddddddd} इतकी रक्कम 
-                                                | #{namuna32Entry.dddddddddddd} या ठिकाणी दिनांक #{namuna32Entry.dddddddddddd} रोजी मिळाली 
+                                        div 
+                                            p श्री #{namuna32Entry.depositor_name} यांस रुपये #{namuna32Entry.amount_to_return} ( /-) (अक्षरी) ........................................ दिले. 
+                                                | रूपये (#{namuna32Entry.amount_to_return}) (अक्षरी) ........................................ इतकी रक्कम 
+                                                | #{namuna32Entry.location} या ठिकाणी दिनांक #{namuna32Entry._date_of_receipt} रोजी मिळाली 
 
                                         div
                                             div(style='padding-top: 5rem; width: 100%; display: flex; align-items: center; justify-content: space-evenly;')
@@ -146,4 +151,7 @@ html(lang="en")
                                                 P सरपंच
 
         else 
-            h3(style='text-align:center; margin-top:3rem; font-size:2rem;') सदर महिना #{month} व वर्ष #{year} साठी नोंद उपलब्ध नाही 
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना ३२ मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना ३२ मध्ये नोंदी उपलब्ध नाही.

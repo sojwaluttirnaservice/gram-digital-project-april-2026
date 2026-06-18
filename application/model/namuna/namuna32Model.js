@@ -103,6 +103,26 @@ const namuna32Model = {
         });
     },
 
+    // Fetch records for a financial year range
+    fetchNamuna32DetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT *,
+                    IFNULL(DATE_FORMAT(given_original_amount_date, '%d-%m-%Y'), 'Invalid Date') AS _given_original_amount_date,
+                    IFNULL(DATE_FORMAT(date_of_receipt, '%d-%m-%Y'), 'Invalid Date') AS _date_of_receipt
+                FROM ps_namuna_32
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3);
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records for specific month and year
     fetchNamuna32DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {
