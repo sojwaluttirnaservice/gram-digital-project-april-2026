@@ -8,14 +8,13 @@ const namuna33Controller = {
             const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            // if (fromYear && toYear) {
-            //     reportData = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByYear(
-            //         res.pool,
-            //         fromYear,
-            //         toYear
-            //     );
-            // } else 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByFinancialYear(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByMonthAndYear(
                     res.pool,
                     month,
@@ -24,7 +23,6 @@ const namuna33Controller = {
             } else if (year) {
                 reportData = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByYear(
                     res.pool,
-                    year - 1,
                     year
                 );
             } else {
@@ -78,15 +76,23 @@ const namuna33Controller = {
 
     renderNamuna33Print: async (req, res) => {
         try {
-            const { month, year } = req.query;
+            const { month, year, fromYear, toYear } = req.query;
             const _gp = await HomeModel.getGpData(res.pool);
-            const _namuna33Details = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByMonthAndYear(res.pool, month, year)
+            let _namuna33Details = [];
+
+            if (fromYear && toYear) {
+                _namuna33Details = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByFinancialYear(res.pool, fromYear, toYear);
+            } else {
+                _namuna33Details = await namuna33TreeDetailsModel.fetchNamuna33TreeDetailsByMonthAndYear(res.pool, month, year);
+            }
 
             res.render('user/namuna/namuna33/namuna-33-print.pug', {
                 gp: _gp[0],
                 namuna33Details: _namuna33Details,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the namuna 33 page: ${err}`);

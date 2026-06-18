@@ -169,6 +169,23 @@ const namuna33TreeDetailsModel = {
         });
     },
 
+    fetchNamuna33TreeDetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const q = `
+                SELECT *
+                FROM ps_namuna_33_tree_details 
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(q, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     fetchAllNamuna33TreeDetails: (pool) => {
         return new Promise((resolve, reject) => {
             const q = `
