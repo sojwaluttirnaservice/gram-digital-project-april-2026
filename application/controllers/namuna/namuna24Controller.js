@@ -6,10 +6,16 @@ const namuna24Controller = {
     renderNamuna24Page: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna24Model.fetchNamuna24DetailsByYearRange(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna24Model.fetchNamuna24DetailsByMonthAndYear(
                     res.pool,
                     month,
@@ -76,7 +82,7 @@ const namuna24Controller = {
     // Render the page to print Namuna 24 report
     renderNamuna24Print: async (req, res) => {
         try {
-            const { month, year } = req.query;
+            const { month, year, fromYear, toYear } = req.query;
             const _gp = await HomeModel.getGpData(res.pool);
 
             let _namuna24Details = [];
@@ -85,6 +91,12 @@ const namuna24Controller = {
                     res.pool,
                     month,
                     year
+                );
+            } else if (fromYear && toYear) {
+                _namuna24Details = await namuna24Model.fetchNamuna24DetailsByYearRange(
+                    res.pool,
+                    fromYear,
+                    toYear
                 );
             } else {
                 _namuna24Details = await namuna24Model.fetchAllNamuna24Details(res.pool);
@@ -95,6 +107,8 @@ const namuna24Controller = {
                 namuna24Details: _namuna24Details,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the Namuna 24 page: ${err}`);

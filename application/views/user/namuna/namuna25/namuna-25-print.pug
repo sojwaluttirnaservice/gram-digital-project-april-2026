@@ -61,10 +61,10 @@ html(lang="en")
     body
 
         if !namuna25Details || namuna25Details.length == 0
-            h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना २५ मध्ये नोंदी उपलब्ध नाही. येथे 
-                a(href='/namuna/25/create') नवीन नोंदणी करा
-
-
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना २५ मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना २५ मध्ये नोंदी उपलब्ध नाही.
 
         else
             - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -77,11 +77,15 @@ html(lang="en")
                 thead
 
                     tr 
-                        th(colspan='15' )
+                        th(colspan='16' )
                             div
                                 div(style='display: flex; align-items: center; justify-content: space-between;')
 
-                                    div नमुना २५
+                                    div नमुना २५ - गुंतवणूक नोंदवही
+                                        if fromYear && toYear
+                                            span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                        else if month && year
+                                            span  (महिना: #{month}, वर्ष: #{year})
 
                                     div ग्रामपंचायत कार्यालय 
                                         span #{gp.gp_name}
@@ -93,11 +97,12 @@ html(lang="en")
 
 
                     tr 
-                        th(colspan='15')
+                        th(colspan='16')
                             | गुंतवणूक नोंदवही
                     tr
                         //- 1
                         th(rowspan='2') अनु. क्र
+                        th(rowspan='2') महिना व वर्ष
 
                         //- 2 to 3
                         th(rowspan='2') गुंतवणुकीची तारीख
@@ -152,14 +157,14 @@ html(lang="en")
 
 
                     tr 
-                        each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] 
-                            //-12,13,14,15]
+                        each num in Array.from({length: 16}, (v, i) => i + 1)
                             th #{num}
 
                 tbody
                     each investment, index in namuna25Details
                         tr
                             td #{index + 1}
+                            td #{investment.month < 10 ? '0' + investment.month : investment.month} / #{investment.year}
                             td #{investment._investment_date}
                             td #{investment.investment_details} / #{investment.reference_number} | #{investment._reference_date}
                             td #{investment.face_value}
@@ -177,5 +182,3 @@ html(lang="en")
 
                             td
                             td
-
-

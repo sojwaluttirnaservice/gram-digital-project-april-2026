@@ -130,6 +130,32 @@ const namuna24Model = {
             });
         });
     },
+
+    fetchNamuna24DetailsByYearRange: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT *,
+                    IFNULL(DATE_FORMAT(transaction_date, '%d-%m-%Y'), 'Invalid Date') AS _transaction_date,
+                    IFNULL(DATE_FORMAT(certificate_date, '%d-%m-%Y'), 'Invalid Date') AS _certificate_date,
+                    IFNULL(DATE_FORMAT(resolution_date, '%d-%m-%Y'), 'Invalid Date') AS _resolution_date,
+                    IFNULL(DATE_FORMAT(authority_order_date, '%d-%m-%Y'), 'Invalid Date') AS _authority_order_date
+                FROM ps_namuna_24
+                WHERE
+                    (year = ? AND month >= 4)
+                    OR
+                    (year > ? AND year < ?)
+                    OR
+                    (year = ? AND month <= 3)
+                ORDER BY year ASC, month ASC
+            `;
+
+            pool.query(query, [fromYear, fromYear, toYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records for specific month and year
     fetchNamuna24DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

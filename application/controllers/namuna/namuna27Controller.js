@@ -5,10 +5,16 @@ const namuna27Controller = {
     renderNamuna27Page: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna27ObjectionModel.fetchNamuna27ObjectionByYearRange(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna27ObjectionModel.fetchNamuna27ObjectionByMonthAndYear(
                     res.pool,
                     month,
@@ -97,6 +103,8 @@ const namuna27Controller = {
                 namuna27Details: _namuna27Details,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the namuna 27 page: ${err}`);

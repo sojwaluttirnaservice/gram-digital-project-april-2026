@@ -168,6 +168,56 @@ const namuna22Model = {
         });
     },
 
+    fetchAllNamuna22DetailsByYear: (pool, year) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+            SELECT 
+                *,
+                IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
+                IFNULL(DATE_FORMAT(order_date, '%d-%m-%Y'), 'Invalid Date') AS _order_date,
+                IFNULL(DATE_FORMAT(resolution_date, '%d-%m-%Y'), 'Invalid Date') AS _resolution_date,
+                IFNULL(DATE_FORMAT(repairs_expenditure_date, '%d-%m-%Y'), 'Invalid Date') AS _repairs_expenditure_date,
+                IFNULL(DATE_FORMAT(disposal_order_date, '%d-%m-%Y'), 'Invalid Date') AS _disposal_order_date,
+                IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), 'Invalid Date') AS _createdAt,
+                IFNULL(DATE_FORMAT(updatedAt, '%d-%m-%Y'), 'Invalid Date') AS _updatedAt
+            FROM ps_namuna_22
+            WHERE year = ?
+        `;
+            pool.query(query, [year], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
+    fetchNamuna22DetailsByYearRange: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+            SELECT 
+                *,
+                IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
+                IFNULL(DATE_FORMAT(order_date, '%d-%m-%Y'), 'Invalid Date') AS _order_date,
+                IFNULL(DATE_FORMAT(resolution_date, '%d-%m-%Y'), 'Invalid Date') AS _resolution_date,
+                IFNULL(DATE_FORMAT(repairs_expenditure_date, '%d-%m-%Y'), 'Invalid Date') AS _repairs_expenditure_date,
+                IFNULL(DATE_FORMAT(disposal_order_date, '%d-%m-%Y'), 'Invalid Date') AS _disposal_order_date,
+                IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), 'Invalid Date') AS _createdAt,
+                IFNULL(DATE_FORMAT(updatedAt, '%d-%m-%Y'), 'Invalid Date') AS _updatedAt
+            FROM ps_namuna_22
+            WHERE 
+                (year = ? AND month >= 4)
+                OR
+                (year > ? AND year < ?)
+                OR
+                (year = ? AND month <= 3)
+            ORDER BY year ASC, month ASC
+        `;
+            pool.query(query, [fromYear, fromYear, toYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch all records for a specific month and year
     fetchAllNamuna22DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

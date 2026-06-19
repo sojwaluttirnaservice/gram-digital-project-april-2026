@@ -6,10 +6,16 @@ const namuna28Controller = {
     renderNamuna28Page: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna28Model.fetchNamuna28DetailsByYearRange(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna28Model.fetchNamuna28DetailsByMonthAndYear(
                     res.pool,
                     month,

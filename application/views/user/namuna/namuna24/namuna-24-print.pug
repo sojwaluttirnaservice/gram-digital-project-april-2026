@@ -6,19 +6,18 @@ html(lang="en")
         title नमुना २४ प्रिंट
 
         style.
-
-
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
             }
 
-            table{
-                border-collapse:  collapse;
+            table {
+                border-collapse: collapse;
+                width: 100%;
             }
 
-            tr, th, td{
+            tr, th, td {
                 border: 1px solid gray;
             }
 
@@ -27,8 +26,8 @@ html(lang="en")
                 text-align: center;
             }
 
-            #hide-buttons{
-                button{
+            #hide-buttons {
+                button {
                     position: fixed;
                     top: 48%;
                     left: 1rem;
@@ -38,117 +37,100 @@ html(lang="en")
                 }
             }
 
-
             /* Print-specific styles */
             @media print {
                 @page {
-                    size:A4 landscape; /* Forces horizontal orientation */
+                    size: A4 landscape;
                 }
                 body {
-                    margin: 0; /* Removes default margin for printing */
+                    margin: 0;
                 }
                 tr {
-                    break-inside: avoid; /* Prevents table rows from breaking across pages */
-                    page-break-inside: avoid; /* For compatibility with older browsers */
+                    break-inside: avoid;
+                    page-break-inside: avoid;
                 }
                 #hide-buttons {
-                    display:none;
+                    display: none;
                 }
             }
         link(rel='stylesheet' href='/asstest/coustom/css/namuna/namuna-1-to-33-print.css')
 
     body
-        - const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        - const months = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"]
         #hide-buttons 
-
             button(type='button' onclick='window.print()') Print
 
-        table(style='width: 100%;')
-
-            thead
-
-                tr 
-                    th(colspan='16' )
-                        div
-                            div(style='display: flex; align-items: center; justify-content: space-between;')
-
-                                div नमुना २४
-
-                                div ग्रामपंचायत कार्यालय 
-                                    span #{gp.gp_name}
-                                div
-                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
-
-                            div 
-                                div.text-center(style='font-size:10px;') गट _____________ जिल्हा: #{gp.gp_dist} महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६९ पहा)
-
-
-                tr 
-                    th(colspan='16')
-                        | जमिनीची नोंदवही
-                tr
-                    //- 1
-                    th() अनु. क्र
-
-                    //- 2 to 5
-                    th() हस्तांतरीत खरेदी किंवा संपादित केल्याची तारीख
-                    th() कोणत्या कारी
-                    th() कोणाकडून
-                    th() करारनामा, निवाडा इत्यादींचा निर्देश
-
-                    //- 6 to 11
-                    th() जमिनीचे क्षेत्रफळ
-                    th() भूमापन क्रमांक इत्यादी
-                    th() आकारणी
-                    th() जमिनीच्या सीमा
-                    th() जमिनीसह खरेदी केलेल्या किंवा संपादन केलेल्या कोणत्याही असल्यास
-                    th() जमिनीची व इमारतीची विल्हेवाट
-
-
-                    //-  12 TO 16  
-                    th() विक्रीपासून मिळालेली रक्कम
-                    th() प्रमाणपत्राचा क्रमांक व दिनांक
-                    th() मालमत्तेची विल्व्हेवाट लावण्यासाठी पंचायतीचा ठराव क्रमांक व तारीख
-                    th() मालमत्तेची विल्व्हेवाट लावण्यासाठी कलम ५५ खालील प्रधिकाऱ्याच्या आदेशाचा क्रमांक व दिनांक
-                    th() शेरा
-
-
-
-
-                tr 
-                    each num in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-                        th #{num}
-
-            tbody
-
-
-
-                each namuna24Entry, index in namuna24Details 
-                    //- each namuna24Entry, index in Array(20).fill(paymentnamuna24Entry).flat()
+        if namuna24Details && namuna24Details.length > 0
+            table(style='width: 100%;')
+                thead
                     tr 
+                        th(colspan='17')
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
+                                    div नमुना २४
+                                        if fromYear && toYear
+                                            span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                        else if month && year
+                                            span  (माहे: #{months[month - 1] || month} वर्ष: #{year})
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
 
-                        td #{index +  1}
+                                div 
+                                    div.text-center(style='font-size:10px;') गट _____________ जिल्हा: #{gp.gp_dist} महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६९ पहा)
 
-                        td #{namuna24Entry._transaction_date}
-                        td #{namuna24Entry.transaction_reason}
-                        td #{namuna24Entry.from_party}
-                        td #{namuna24Entry.agreement_reference}
+                    tr 
+                        th(colspan='17')
+                            | जमिनीची नोंदवही
+                    tr
+                        th() अनु. क्र
+                        th() महिना व वर्ष
+                        th() हस्तांतरीत खरेदी किंवा संपादित केल्याची तारीख
+                        th() कोणत्या कारणाने खरेदी / संपादन
+                        th() कोणाकडून
+                        th() करारनामा, निवाडा इत्यादींचा निर्देश
+                        th() जमिनीचे क्षेत्रफळ
+                        th() भूमापन क्रमांक इत्यादी
+                        th() आकारणी
+                        th() जमिनीच्या सीमा
+                        th() जमिनीसह खरेदी केलेल्या किंवा संपादन केलेल्या कोणत्याही मालमत्तेचा तपशील
+                        th() जमिनीची व इमारतीची विल्हेवाट
+                        th() विक्रीपासून मिळालेली रक्कम
+                        th() प्रमाणपत्राचा क्रमांक व दिनांक
+                        th() मालमत्तेची विल्व्हेवाट लावण्यासाठी पंचायतीचा ठराव क्रमांक व तारीख
+                        th() मालमत्तेची विल्व्हेवाट लावण्यासाठी कलम ५५ खालील प्रधिकाऱ्याच्या आदेशाचा क्रमांक व दिनांक
+                        th() शेरा
 
-                        td #{namuna24Entry.land_area}
-                        td #{namuna24Entry.survey_number}
-                        td #{namuna24Entry.land_valuation}
-                        td #{namuna24Entry.land_boundaries}
+                    tr 
+                        each num in Array.from({length: 17}, (v, i) => i + 1)
+                            th #{num}
 
-                        td #{namuna24Entry.land_and_building_purchase}
-                        td #{namuna24Entry.disposal_of_land_and_building}
-                        td #{namuna24Entry.transaction_amount_from_sale}
+                tbody
+                    each namuna24Entry, index in namuna24Details 
+                        tr 
+                            td #{index +  1}
+                            td #{months[namuna24Entry.month - 1] || namuna24Entry.month} / #{namuna24Entry.year}
+                            td #{namuna24Entry._transaction_date}
+                            td #{namuna24Entry.transaction_reason}
+                            td #{namuna24Entry.from_party}
+                            td #{namuna24Entry.agreement_reference}
+                            td #{namuna24Entry.land_area}
+                            td #{namuna24Entry.survey_number}
+                            td #{namuna24Entry.land_valuation}
+                            td #{namuna24Entry.land_boundaries}
+                            td #{namuna24Entry.land_and_building_purchase}
+                            td #{namuna24Entry.disposal_of_land_and_building}
+                            td #{namuna24Entry.transaction_amount_from_sale}
+                            td #{namuna24Entry.certificate_number}, #{namuna24Entry._certificate_date}
+                            td #{namuna24Entry.resolution_number}, #{namuna24Entry._resolution_date}
+                            td #{namuna24Entry.authority_order_number}, #{namuna24Entry._authority_order_date}
+                            td #{namuna24Entry.remarks}
 
-                        td #{namuna24Entry.certificate_number}, #{namuna24Entry._certificate_date}
-                        td #{namuna24Entry.resolution_number}, #{namuna24Entry._resolution_date}
-                        td #{namuna24Entry.authority_order_number}, #{namuna24Entry._authority_order_date}
-                        td #{namuna24Entry.remarks}
-
-        div(style='margin-top: 1rem; font-weight: 600; margin: 1rem;')
-
-            p टीप: पंचायतीने खरेदी केलेल्या किंवा संपादन केलेल्या किंवा मुंबई ग्रामपंचायत अधिनियम १९८५ याच्या कलम ५१ अन्वये शासनाने पंचायतीकडे निहित केलेल्याकिंवा जिल्हा परिषदेने तिच्याकडे हस्तांतरीत केलेल्या सर्व जमिनीबाबतची माहिती या नमुन्यात देण्यात येईल
-
+            div(style='margin-top: 1rem; font-weight: 600; margin: 1rem;')
+                p टीप: पंचायतीने खरेदी केलेल्या किंवा संपादन केलेल्या किंवा मुंबई ग्रामपंचायत अधिनियम १९५८ याच्या कलम ५१ अन्वये शासनाने पंचायतीकडे निहित केलेल्या किंवा जिल्हा परिषदेने तिच्याकडे हस्तांतरीत केलेल्या सर्व जमिनीबाबतची माहिती या नमुन्यात देण्यात येईल
+        else 
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना २४ मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना २४ मध्ये नोंदी उपलब्ध नाही.

@@ -4,14 +4,18 @@ const namuna25InvestmentDetailsModel = require('../../model/namuna/namuna25Inves
 
 const namuna25Controller = {
     renderNamuna25Page: async (req, res) => {
-
-     
         try {
             const _gp = await HomeModel.getGpData(res.pool);
             const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByFinancialYear(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByMonthAndYear(
                     res.pool,
                     month,
@@ -20,7 +24,6 @@ const namuna25Controller = {
             } else if (year) {
                 reportData = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByYear(
                     res.pool,
-                    year - 1,
                     year
                 );
             } else {
@@ -82,19 +85,33 @@ const namuna25Controller = {
 
     renderNamuna25Print: async (req, res) => {
         try {
-            const { month, year } = req.query;
+            const { month, year, fromYear, toYear } = req.query;
             const _gp = await HomeModel.getGpData(res.pool);
-            const _namuna25Details = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByMonthAndYear(
-                res.pool,
-                month,
-                year
-            );
+            let _namuna25Details = [];
+
+            if (fromYear && toYear) {
+                _namuna25Details = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByFinancialYear(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
+                _namuna25Details = await namuna25InvestmentDetailsModel.fetchNamuna25InvestmentDetailsByMonthAndYear(
+                    res.pool,
+                    month,
+                    year
+                );
+            } else {
+                _namuna25Details = await namuna25InvestmentDetailsModel.fetchAllNamuna25InvestmentDetails(res.pool);
+            }
 
             res.render('user/namuna/namuna25/namuna-25-print.pug', {
                 gp: _gp[0],
                 namuna25Details: _namuna25Details,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the Namuna 25 page: ${err}`);

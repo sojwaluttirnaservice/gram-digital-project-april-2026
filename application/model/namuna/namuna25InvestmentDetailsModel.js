@@ -136,6 +136,30 @@ const namuna25InvestmentDetailsModel = {
         });
     },
 
+    // Fetch records by financial year
+    fetchNamuna25InvestmentDetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const q = `
+                SELECT *,
+                    DATE_FORMAT(STR_TO_DATE(investment_date, '%Y-%m-%d'), '%d-%m-%Y') AS _investment_date,
+                    DATE_FORMAT(STR_TO_DATE(reference_date, '%Y-%m-%d'), '%d-%m-%Y') AS _reference_date,
+                    DATE_FORMAT(STR_TO_DATE(maturity_date, '%Y-%m-%d'), '%d-%m-%Y') AS _maturity_date,
+                    DATE_FORMAT(STR_TO_DATE(interest_earned_date, '%Y-%m-%d'), '%d-%m-%Y') AS _interest_earned_date,
+                    DATE_FORMAT(STR_TO_DATE(transfer_promotion_date, '%Y-%m-%d'), '%d-%m-%Y') AS _transfer_promotion_date,
+                    DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') AS _createdAt
+                FROM ps_namuna_25_investment_register
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(q, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records by month and year
     fetchNamuna25InvestmentDetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

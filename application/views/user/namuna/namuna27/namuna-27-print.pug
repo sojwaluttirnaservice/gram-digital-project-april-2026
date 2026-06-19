@@ -3,7 +3,7 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
-        title नमुना २७ 
+        title नमुना २७ प्रिंट
 
         style.
             * {
@@ -62,70 +62,79 @@ html(lang="en")
 
             button(type='button' onclick='window.print()') Print
 
-        table(style='width: 100%;')
+        if namuna27Details && namuna27Details.length > 0
+            table(style='width: 100%;')
 
-            thead
+                thead
 
-                tr 
-                    th(colspan='9' )
-                        div
-                            div(style='display: flex; align-items: center; justify-content: space-between;')
-
-                                div नमुना २७ 
-
-                                div ग्रामपंचायत कार्यालय 
-                                    span #{gp.gp_name}
-                                div
-                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
-
-                            div 
-                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६९ पहा)
-
-                            div(style='font-size:13px;') सन #{fromYear} ते #{toYear}  वर्षाच्या  लेखा परीक्षणाच्या आक्षेपांचे पुर्तेतेचे मासिक विवरण
-
-
-                tr 
-                    th(colspan='9')
-                        | लेखापरीक्षणातील  आक्षेपांच्या पूर्ततेच्या मासिक विवरण
-                tr
-                    //- 1
-                    th(rowpsan='1') अनु. क्र
-
-                    //- 2 to 3
-                    th(rowpsan='1') लेखापरीक्षण अहवालाचे वर्ष
-                    th(rowpsan='1') लेखापरीक्षण अहवालातील परिच्छेद संख्या
-
-
-                    th(rowpsan='1') ग्रामपंचायतीने या महिन्यात पूर्तता केलेल्या परीच्छेदांची संख्या
-
-
-                    th(rowpsan='1') पंचायत समितीने मान्य आक्षेपाद्वारे मान्य केलेल्या पुर्तातांची संख्या
-
-                    th(rowpsan='1') लेखा परीक्षकाने ज्या बाबतीत पूर्तता मान्य केली आहे त्या अपेक्षांची संख्या
-                    th(rowpsan='1') प्रलंबित असलेल्या आक्षेपांची संख्या
-                    th(rowpsan='1') पूर्तता न केल्याबद्दलची कारणे (३-६)
-                    th(rowspan='1') शेरा
-
-                tr 
-                    each num in [1,2,3,4,5,6,7,8,9]
-                        th #{num}
-
-            tbody
-
-                each namuna27Entry, index in namuna27Details 
-                    //- each namuna27Entry, index in Array(20).fill(paymentnamuna27Entry).flat()
                     tr 
-                        td #{index + 1}
+                        th(colspan='10' )
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
 
-                        td #{namuna27Entry.audit_report_year}
-                        td #{namuna27Entry.paragraph_number}
-                        td #{namuna27Entry.paragraphs_resolved_by_gp}
+                                    div नमुना २७ - लेखापरीक्षणातील आक्षेपांच्या पूर्ततेचे मासिक विवरण
+                                        if fromYear && toYear
+                                            span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                        else if month && year
+                                            span  (महिना: #{month}, वर्ष: #{year})
+
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम ६९ पहा)
 
 
-                        td #{namuna27Entry.objections_resolved_by_committee}
-                        td #{namuna27Entry.objections_resolved_by_auditor}
+                    tr 
+                        th(colspan='10')
+                            | लेखापरीक्षणातील  आक्षेपांच्या पूर्ततेच्या मासिक विवरण
+                    tr
+                        //- 1
+                        th(rowpsan='1') अनु. क्र
+                        th(rowpsan='1') महिना व वर्ष
 
-                        td #{namuna27Entry.pending_objections}
+                        //- 2 to 3
+                        th(rowpsan='1') लेखापरीक्षण अहवालाचे वर्ष
+                        th(rowpsan='1') लेखापरीक्षण अहवालातील परिच्छेद संख्या
 
-                        td #{namuna27Entry.reasons_for_non_compliance}
-                        td #{namuna27Entry.remarks}
+
+                        th(rowpsan='1') ग्रामपंचायतीने या महिन्यात पूर्तता केलेल्या परीच्छेदांची संख्या
+
+
+                        th(rowpsan='1') पंचायत समितीने मान्य आक्षेपाद्वारे मान्य केलेल्या पुर्तातांची संख्या
+
+                        th(rowpsan='1') लेखा परीक्षकाने ज्या बाबतीत पूर्तता मान्य केली आहे त्या अपेक्षांची संख्या
+                        th(rowpsan='1') प्रलंबित असलेल्या आक्षेपांची संख्या
+                        th(rowpsan='1') पूर्तता न केल्याबद्दलची कारणे (३-६)
+                        th(rowspan='1') शेरा
+
+                    tr 
+                        each num in Array.from({length: 10}, (v, i) => i + 1)
+                            th #{num}
+
+                tbody
+
+                    each namuna27Entry, index in namuna27Details 
+                        //- each namuna27Entry, index in Array(20).fill(paymentnamuna27Entry).flat()
+                        tr 
+                            td #{index + 1}
+                            td #{namuna27Entry.month < 10 ? '0' + namuna27Entry.month : namuna27Entry.month} / #{namuna27Entry.audit_report_year}
+                            td #{namuna27Entry.audit_report_year}
+                            td #{namuna27Entry.paragraph_number}
+                            td #{namuna27Entry.paragraphs_resolved_by_gp}
+
+
+                            td #{namuna27Entry.objections_resolved_by_committee}
+                            td #{namuna27Entry.objections_resolved_by_auditor}
+
+                            td #{namuna27Entry.pending_objections}
+
+                            td #{namuna27Entry.reasons_for_non_compliance}
+                            td #{namuna27Entry.remarks}
+        else 
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना २७ मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना २७ मध्ये नोंदी उपलब्ध नाही.
