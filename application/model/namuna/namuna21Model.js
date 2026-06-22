@@ -144,6 +144,23 @@ const namuna21Model = {
         });
     },
 
+    // Fetch records by financial year range
+    fetchNamuna21DetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM ps_namuna_21
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records for specific month and year
     fetchNamuna21DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

@@ -109,6 +109,23 @@ const namuna20Model = {
         });
     },
 
+    // Fetch all for financial year
+    fetchNamuna20DetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM ps_namuna_20
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch all for month and year
     fetchAllNamuna20DetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {
@@ -125,7 +142,7 @@ const namuna20Model = {
     fetchAllNamuna20DetailsByYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT *
-                             FROM ps_namuna_20 WHERE year = ?`;
+                            FROM ps_namuna_20 WHERE year = ?`;
             pool.query(query, [year], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);

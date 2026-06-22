@@ -418,6 +418,14 @@ body.back-image
                                     select#show-watermark.form-control
                                         option(value=1 selected) Show Watermark
                                         option(value=0) Hide Watermark
+                            .col-12.property-type-div
+                                .form-group.mb-2
+                                    select#print-property-type.form-control
+                                        option(value='') सर्व (All)
+                                        option(value='open_plot') खुली/जागा प्लॉट
+                                        option(value='nivasi') निवासी
+                                        option(value='audhyogik') औद्योगिक
+                                        option(value='vanijya') वाणिज्य/मनोरा
                             .col-12
                                 center
                                     button#btnGetPrintSpace.btn.btn-primary.mb-2(type='submit') प्रिंट करा

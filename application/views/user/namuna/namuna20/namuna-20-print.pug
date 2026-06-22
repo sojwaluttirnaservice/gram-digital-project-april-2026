@@ -63,82 +63,92 @@ html(lang="en")
 
             button(type='button' onclick='window.print()') Print
 
-        table(style='width: 100%;')
+        if namuna20Details && namuna20Details.length > 0
+            table(style='width: 100%;')
 
-            thead
+                thead
 
-                tr 
-                    th(colspan='11' )
-                        div
-                            div(style='display: flex; align-items: center; justify-content: space-between;')
-
-                                div नमुना २० 
-
-                                div ग्रामपंचायत कार्यालय 
-                                    span #{gp.gp_name}
-                                div
-                                    img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
-
-                            div 
-                                div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम  २४ (२) (ग), (५) व ५१ (२) पहा)
-
-
-
-
-                tr 
-                    th(colspan='11')
-                        | कामाच्या अंदाजाची नोंदवही
-
-                tr 
-                    th(colspan='5') सर्वसाधारण वर्णन गोषवारा
-                    th(colspan='6') आतील बाजू मोजमाप अंदाजपत्रक मोजमाप
-                tr
-                    //- 1 to 5
-                    th परिमाण
-                    th बाब 
-                    th दर (र. पै.)
-                    th प्रत्येकी
-                    th रक्कम रू. (दशांशात)
-
-                    //- 6 to 11
-                    th क्रमांक
-                    th लांबी
-                    th रुंदी
-                    th खोली
-                    th परिमाण दशांशात
-                    th एकूण
-
-
-                tr 
-                    each num in [1,2,3,4,5,6,7,8,9,10,11] 
-                        //- [13,14,15,16]
-                        th #{num}
-
-            tbody
-
-
-
-                each namuna20Entry, index in namuna20Details 
-                    //- each namuna20Entry, index in Array(20).fill(paymentnamuna20Entry).flat()
                     tr 
-                        td #{namuna20Entry.quantity}
-                        td #{namuna20Entry.item_description}
-                        td #{namuna20Entry.rate}
-                        td #{namuna20Entry.per_unit}
-                        td #{namuna20Entry.amount}
+                        th(colspan='12' )
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-between;')
 
-                        td #{namuna20Entry.serial_number}
-                        td #{namuna20Entry.length}
-                        td #{namuna20Entry.width}
-                        td #{namuna20Entry.depth}
-                        td #{namuna20Entry.calculated_quantity}
-                        td #{namuna20Entry.total}
+                                    div नमुना २० 
+                                        if fromYear && toYear
+                                            span  (आर्थिक वर्ष: #{fromYear}-#{toYear})
+                                        else if month && year
+                                            span  (महिना: #{month}, वर्ष: #{year})
 
-            tfoot 
-                tr 
-                    td(colspan='12')
-                        div
-                            div(style='display: flex; align-items: center; justify-content: space-evenly; gap: 1rem;')
-                                div दिनांक : 
-                                div सचिव
-                                div सरपंच
+                                    div ग्रामपंचायत कार्यालय 
+                                        span #{gp.gp_name}
+                                    div
+                                        img(src="/new-gp-page/main-page/images/header-images/mudra-nav-2.png" style='width: 100px;')
+
+                                div 
+                                    div.text-center(style='font-size:10px;') महा. ग्रा. पं. लेखा संहिता २०११ (नियम  २४ (२) (ग), (५) व ५१ (२) पहा)
+
+
+
+
+                    tr 
+                        th(colspan='12')
+                            | कामाच्या अंदाजाची नोंदवही
+
+                    tr 
+                        th(rowspan='2') महिना व वर्ष
+                        th(colspan='5') सर्वसाधारण वर्णन गोषवारा
+                        th(colspan='6') आतील बाजू मोजमाप अंदाजपत्रक मोजमाप
+                    tr
+                        //- 1 to 5
+                        th परिमाण
+                        th बाब 
+                        th दर (र. पै.)
+                        th प्रत्येकी
+                        th रक्कम रू. (दशांशात)
+
+                        //- 6 to 11
+                        th क्रमांक
+                        th लांबी
+                        th रुंदी
+                        th खोली
+                        th परिमाण दशांशात
+                        th एकूण
+
+
+                    tr 
+                        each num in [1,2,3,4,5,6,7,8,9,10,11,12] 
+                            //- [13,14,15,16]
+                            th #{num}
+
+                tbody
+
+                    each namuna20Entry, index in namuna20Details 
+                        //- each namuna20Entry, index in Array(20).fill(paymentnamuna20Entry).flat()
+                        tr 
+                            td #{namuna20Entry.month < 10 ? '0' + namuna20Entry.month : namuna20Entry.month} / #{namuna20Entry.year}
+                            td #{namuna20Entry.quantity}
+                            td #{namuna20Entry.item_description}
+                            td #{namuna20Entry.rate}
+                            td #{namuna20Entry.per_unit}
+                            td #{namuna20Entry.amount}
+
+                            td #{namuna20Entry.serial_number}
+                            td #{namuna20Entry.length}
+                            td #{namuna20Entry.width}
+                            td #{namuna20Entry.depth}
+                            td #{namuna20Entry.calculated_quantity}
+                            td #{namuna20Entry.total}
+
+                tfoot 
+                    tr 
+                        td(colspan='12')
+                            div
+                                div(style='display: flex; align-items: center; justify-content: space-evenly; gap: 1rem;')
+                                    div दिनांक : 
+                                    div सचिव
+                                    div सरपंच
+        else 
+            if fromYear && toYear
+                h3(style='text-align: center; margin-top: 5rem;') सदर आर्थिक वर्ष (#{fromYear}-#{toYear}) नमुना २० मध्ये नोंदी उपलब्ध नाही.
+            else
+                h3(style='text-align: center; margin-top: 5rem;') सदर महिना (#{month}) व वर्षासाठी (#{year}) नमुना २० मध्ये नोंदी उपलब्ध नाही.

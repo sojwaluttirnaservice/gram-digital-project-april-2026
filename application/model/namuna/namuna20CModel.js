@@ -142,6 +142,23 @@ const namuna20CModel = {
         });
     },
 
+    // Fetch records by financial year range
+    fetchNamuna20cMeasurementDetailsByFinancialYear: (pool, fromYear, toYear) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM ps_namuna_20c_measurement_register
+                WHERE 
+                    (year = ? AND month BETWEEN 4 AND 12)
+                    OR
+                    (year = ? AND month BETWEEN 1 AND 3)
+            `;
+            pool.query(query, [fromYear, toYear], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    },
+
     // Fetch records by month and year
     fetchNamuna20cMeasurementDetailsByMonthAndYear: (pool, month, year) => {
         return new Promise((resolve, reject) => {

@@ -105,19 +105,58 @@ $(document).ready(function () {
         });
     });
 
+    // Print type change handler
+    $(document).on('change', '#print-type-select', function (e) {
+        const type = $(this).val();
+        if (type === 'month-year') {
+            $('#month-year-print-inputs').attr('style', 'display: flex !important;');
+            $('#financial-year-print-inputs').attr('style', 'display: none !important;');
+        } else {
+            $('#month-year-print-inputs').attr('style', 'display: none !important;');
+            $('#financial-year-print-inputs').attr('style', 'display: flex !important;');
+        }
+    });
+
+    // Auto-select next year for financial year print options
+    $(document).on('change', '#print-from-year', function (e) {
+        const fromVal = $(this).val();
+        if (fromVal) {
+            const nextYearVal = Number(fromVal) + 1;
+            $('#print-to-year').val(nextYearVal);
+        } else {
+            $('#print-to-year').val('');
+        }
+    });
+
     $(document).on('click', '#print-namuna-20c-btn', function (e) {
         e.preventDefault();
 
-        const month = $('#month-year-form [name="month"]').val();
-        const year = $('#month-year-form [name="year"]').val();
+        const printType = $('#print-type-select').val();
 
-        if (!month || !year) {
-            alertjs.warning({
-                t: 'Warning',
-                m: 'महिना व वर्ष निवडा',
-            });
-            return;
+        if (printType === 'month-year') {
+            const month = $('#month-year-form [name="month"]').val();
+            const year = $('#month-year-form [name="year"]').val();
+
+            if (!month || !year) {
+                alertjs.warning({
+                    t: 'Warning',
+                    m: 'महिना आणि वर्ष निवडा',
+                });
+                return;
+            }
+            window.open(`/namuna/20/c/print?month=${month}&year=${year}`, '_blank');
+        } else {
+            const fromYear = $('#month-year-form [name="fromYear"]').val();
+            const toYear = $('#month-year-form [name="toYear"]').val();
+
+            if (!fromYear || !toYear) {
+                alertjs.warning({
+                    t: 'Warning',
+                    m: 'आर्थिक वर्ष निवडा',
+                });
+                return;
+            }
+            window.open(`/namuna/20/c/print?fromYear=${fromYear}&toYear=${toYear}`, '_blank');
         }
-        window.open(`/namuna/20/c/print?month=${month}&year=${year}`, '_blank');
     });
 });

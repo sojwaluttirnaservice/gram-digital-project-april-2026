@@ -131,6 +131,12 @@ html(lang="en")
                     option(value='3' selected=(gp.srapanch_sign_display == 1)) दोन्ही सही दाखवा
                     option(value='-3' selected=(gp.srapanch_sign_display == 0)) दोन्ही सही लपवा
 
+                - const propertyTypes = [{ label: 'सर्व', value: '' }, { label: 'खुली/जागा प्लॉट', value: 'open_plot' }, { label: 'निवासी', value: 'nivasi' }, { label: 'औद्योगिक', value: 'audhyogik' }, { label: 'वाणिज्य/मनोरा', value: 'vanijya' }];
+                select(id="propertyType" class="block w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm text-gray-700")
+                    each propertyTypeItem in propertyTypes
+                        - let isSelected = (property_type == propertyTypeItem.value)
+                        option(value=propertyTypeItem.value selected=isSelected) #{propertyTypeItem.label} #{isSelected ? `(एकूण ${totalRecords})` : ''}
+
             .pagination-div
                 ul(class='pagination flex items-center')
 
@@ -569,6 +575,17 @@ html(lang="en")
             // Attach the event listener to the select element
             document.querySelector('.form-select').addEventListener('change', function() {
                 showHideSignatures(this.value);
+            });
+
+            document.getElementById('propertyType').addEventListener('change', function () {
+                const value = this.value;
+                const url = new URL(window.location.href);
+                if (value) {
+                    url.searchParams.set('property_type', value);
+                } else {
+                    url.searchParams.delete('property_type');
+                }
+                window.location.href = url.toString();
             });
 
         });

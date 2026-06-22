@@ -6,10 +6,16 @@ const namuna20CController = {
     renderNamuna20CPage: async (req, res) => {
         try {
             const _gp = await HomeModel.getGpData(res.pool);
-            const { year, month } = req.query;
+            const { year, month, fromYear, toYear } = req.query;
             let reportData = [];
 
-            if (month && year) {
+            if (fromYear && toYear) {
+                reportData = await namuna20CModel.fetchNamuna20cMeasurementDetailsByFinancialYear(
+                    res.pool,
+                    fromYear,
+                    toYear
+                );
+            } else if (month && year) {
                 reportData = await namuna20CModel.fetchNamuna20cMeasurementDetailsByMonthAndYear(
                     res.pool,
                     month,
@@ -82,11 +88,18 @@ const namuna20CController = {
     // Render the page to print Namuna 20C report
     renderNamuna20CPrint: async (req, res) => {
         try {
-            const { month, year } = req.query;
+            const { month, year, fromYear, toYear } = req.query;
             const _gp = await HomeModel.getGpData(res.pool);
 
             let _namuna20CDetails = [];
-            if (month && year) {
+            if (fromYear && toYear) {
+                _namuna20CDetails =
+                    await namuna20CModel.fetchNamuna20cMeasurementDetailsByFinancialYear(
+                        res.pool,
+                        fromYear,
+                        toYear
+                    );
+            } else if (month && year) {
                 _namuna20CDetails =
                     await namuna20CModel.fetchNamuna20cMeasurementDetailsByMonthAndYear(
                         res.pool,
@@ -104,6 +117,8 @@ const namuna20CController = {
                 namuna20CDetails: _namuna20CDetails,
                 month,
                 year,
+                fromYear,
+                toYear,
             });
         } catch (err) {
             console.error(`Error while rendering the Namuna 20C page: ${err}`);

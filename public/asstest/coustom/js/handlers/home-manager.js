@@ -330,6 +330,7 @@ $(document).ready(function () {
         let y1 = $('#date1').val();
         let y2 = $('#date2').val();
         let showWaterMark = $('#show-watermark').val();
+        let propertyType = $('#print-property-type').val() || '';
 
         switch (homeManager.navigationType) {
             case 4:
@@ -356,7 +357,7 @@ $(document).ready(function () {
             case 7:
                 homeManager.openPrintToNewTab(
                     '/print/form-8-all' +
-                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&p=0&tp=100`
+                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&property_type=${propertyType}&p=0&tp=100`
                 );
                 break;
             case 100:
@@ -398,13 +399,13 @@ $(document).ready(function () {
             case 71:
                 homeManager.openPrintToNewTab(
                     '/print/form-8-all-image' +
-                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&p=0&tp=100`
+                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&property_type=${propertyType}&p=0&tp=100`
                 );
                 break;
             case 72:
                 homeManager.openPrintToNewTab(
                     '/print/form-8-QR' +
-                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&p=0&tp=100`
+                    `?year1=${y1}&year2=${y2}&showWatermark=${showWaterMark}&property_type=${propertyType}&p=0&tp=100`
                 );
                 break;
             case 9:

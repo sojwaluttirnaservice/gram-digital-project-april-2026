@@ -635,89 +635,62 @@ let FromPrintController = {
             .catch((err) => console.log(err));
     },
 
-    printFormEightAll: function (req, res, next) {
-        let { year1, year2, showWatermark, p, tp } = req.query;
+    printFormEightAll: asyncHandler(async (req, res) => {
+        let { year1, year2, showWatermark, p, tp, property_type='' } = req.query;
 
         let y1 = year1.split('-')[0];
         let y2 = year2.split('-')[0];
 
-        let userData = [];
         let totalArray = [];
         let totalTaxSample = [];
-        let zpData = {};
-        let totalRecords;
+        
+        const [{ totalUsers: totalRecords }] = await FormEightModel.getForm8UserCount(res.pool, { property_type });
+        const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p, { property_type });
 
-        ZPModel.getZpDetails(res.pool)
-            .then((result) => {
-                zpData = result[0];
-                return FormEightModel.getTotalPrintFormEightUser(res.pool, y1, y2);
-            })
-            .then((total) => {
-                console.log(total);
-                totalRecords = total[0].total_user;
-                return FormEightModel.printFormEightUser(res.pool, y1, y2, tp, p);
-            })
-            .then((result) => {
-                if (result.length == 0) {
-                    console.log('no records found');
-                } else {
-                    userData = result;
-                    return FormEightModel.printGetFromEightTaxTotalData(res.pool);
-                }
-            })
-            .then((result) => {
-                if (result != 999) {
-                    totalArray = result;
-                    return FormEightModel.printGetFromEightTaxSampleData(res.pool);
-                } else {
-                    return 999;
-                }
-            })
-            .then((result) => {
-                if (result != 999) {
-                    let indexNumberEnd = Number(tp) * (Number(p) + 1);
-                    let indexNumberStart = indexNumberEnd - Number(tp) + 1;
-                    totalTaxSample = result;
-                    // let waterTaxAmount =
-                    // 	userData.feu_water_tax === 'सामान्य पाणीकर'
-                    // 		? 150
-                    // 		: userData.feu_water_tax === 'विशेष पाणीकर'
-                    // 			? 1200
-                    // 			: 0
+        if (userData.length == 0) {
+            console.log('no records found');
+        }
 
-                    let waterTaxAmount = 0; // TEMPORARY ZERO
-                    res.render('user/print/pageFormEightAll', {
-                        totalRecords,
-                        indexNumberStart,
-                        userData: userData,
-                        waterTaxAmount,
-                        totalArray: totalArray,
-                        totalTaxSample: totalTaxSample,
-                        year: { year1, year2 },
-                        y1: year1,
-                        y2: year2,
-                        showWatermark,
-                        zp: zpData,
-                    });
-                }
-            })
-            .catch((error) => {
-                res.status(200).send({ call: error });
-            });
-    },
+        const result2 = await FormEightModel.printGetFromEightTaxTotalData(res.pool);
+        if (result2 != 999) {
+            totalArray = result2;
+            const result3 = await FormEightModel.printGetFromEightTaxSampleData(res.pool);
+            if (result3 != 999) {
+                totalTaxSample = result3;
+            }
+        }
+
+        let indexNumberEnd = Number(tp) * (Number(p) + 1);
+        let indexNumberStart = indexNumberEnd - Number(tp) + 1;
+        let waterTaxAmount = 0; // TEMPORARY ZERO
+
+        renderPage(res, 'user/print/pageFormEightAll', {
+            totalRecords,
+            indexNumberStart,
+            userData: userData,
+            waterTaxAmount,
+            totalArray: totalArray,
+            totalTaxSample: totalTaxSample,
+            year: { year1, year2 },
+            y1: year1,
+            y2: year2,
+            showWatermark,
+            property_type
+        });
+    }),
 
     printFormEightAllImage: asyncHandler(async (req, res) => {
         // p - page number , tp: total pages
-        const { year1, year2, showWatermark, p, tp } = req.query
+        const { year1, year2, showWatermark, p, tp, property_type='' } = req.query
 
         let y1 = year1
         let y2 = year2
 
 
-        const [{ total_user: totalRecords }] = await FormEightModel.getTotalPrintFormEightUser(res.pool, y1, y2);
+        const [{ totalUsers: totalRecords }] = await FormEightModel.getForm8UserCount(res.pool, { property_type });
 
 
-        const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p);
+        const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p, { property_type });
 
         const totalArray = await FormEightModel.printGetFromEightTaxTotalData(res.pool);
 
@@ -741,6 +714,7 @@ let FromPrintController = {
             y1,
             y2,
             showWatermark,
+            property_type,
             qrCodes: qrCodes || {}
         })
     }),
@@ -820,16 +794,16 @@ let FromPrintController = {
     // /*
     printFormEightAllQR: asyncHandler(async (req, res) => {
         // p - page number , tp: total pages
-        const { year1, year2, showWatermark, p, tp } = req.query
+        const { year1, year2, showWatermark, p, tp, property_type='' } = req.query
 
         let y1 = year1
         let y2 = year2
 
 
-        const [{ total_user: totalRecords }] = await FormEightModel.getTotalPrintFormEightUser(res.pool, y1, y2);
+        const [{ totalUsers: totalRecords }] = await FormEightModel.getForm8UserCount(res.pool, { property_type });
 
 
-        const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p);
+        const userData = await FormEightModel.printFormEightUserLimit(res.pool, y1, y2, tp, p, { property_type });
 
 
 
@@ -855,6 +829,7 @@ let FromPrintController = {
             y1,
             y2,
             showWatermark,
+            property_type,
             qrCodes: qrCodes || {}
         })
     }),

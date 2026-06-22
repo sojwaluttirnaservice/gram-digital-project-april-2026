@@ -250,7 +250,7 @@ const namuna18Controller = {
 
             // console.log(fromYear, toYear);
             if (fromYear && toYear) {
-                reportData = await namuna18Model.fetchNamuna18ByYearRangeWithGroup(
+                reportData = await namuna18Model.fetchNamuna18ByYearRange(
                     res.pool,
                     fromYear,
                     toYear
