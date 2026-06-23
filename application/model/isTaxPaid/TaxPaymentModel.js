@@ -1,113 +1,117 @@
-const { runQuery } = require("../../utils/runQuery");
+const {
+	generateStartDate,
+	generateEndDate
+} = require('../../utils/generateDates');
+const { runQuery } = require('../../utils/runQuery');
 
 const TaxPaymentModel = {
-  isTaxPaid: function (pool, malmattaNo) {
-    // console.log(malmattaNo, 'in model malmatatano ----er-e')
-    const query = `SELECT total_tax as pending_amount 
+	isTaxPaid: function (pool, malmattaNo) {
+		// console.log(malmattaNo, 'in model malmatatano ----er-e')
+		const query = `SELECT total_tax as pending_amount 
 
                       FROM ps_form_eight_total_taxation  
                       WHERE user_id = (SELECT id FROM ps_form_eight_user 
                       WHERE feu_malmattaNo = ?)`;
 
-    const query2 = `SELECT totalWaterTax, totalSampurnaTax, user_id
+		const query2 = `SELECT totalWaterTax, totalSampurnaTax, user_id
                       FROM ps_form_nine_form 
                       WHERE user_id = (SELECT distinct id FROM ps_form_eight_user 
                       WHERE feu_malmattaNo = ?) limit 1`;
 
-    return runQuery(pool, query2, [malmattaNo]);
-  },
+		return runQuery(pool, query2, [malmattaNo]);
+	},
 
-  /**
-   * Fetch payment details from `ps_payment_information`
-   * with conditional LEFT JOIN based on `paymentFor`.
-   *
-   * JOIN Behavior:
-   *  - If `paymentFor === 2`
-   *      → LEFT JOIN `ps_tax_payer_list_pani`
-   *      → Returns explicit water tax fields
-   *
-   *  - For all other values
-   *      → LEFT JOIN `ps_tax_payer_list_samanya`
-   *      → Returns explicit samanya tax fields
-   *
-   * The join is NULL-safe:
-   *  - If a matching record exists in the respective tax table,
-   *    joined fields will be populated.
-   *  - If no matching record exists, joined fields will be NULL.
-   *
-   * Supports:
-   *  - Optional filtering by single or multiple payment types
-   *  - Optional filtering by financial year (April–March)
-   *  - Explicit column selection (no wildcard selection from joined tables)
-   *
-   * @function getPaymentDetails
-   *
-   * @param {Object} pool
-   *        Database connection pool instance.
-   *
-   * @param {number|number[]} [paymentFor=-1]
-   *        Payment type(s) to filter:
-   *          - -1 (default): fetch all payment types
-   *          - 2: joins `ps_tax_payer_list_pani`
-   *          - any other number: joins `ps_tax_payer_list_samanya`
-   *          - number[]: multiple payment types (filter applied,
-   *                      but join logic follows single-value condition)
-   *
-   * @param {Object} [options={}]
-   *        Optional filter object.
-   *
-   * @param {number} [options.fromYear]
-   *        Financial year start.
-   *        Example: 2023 → 2023-04-01
-   *
-   * @param {number} [options.toYear]
-   *        Financial year end.
-   *        Example: 2024 → 2024-03-31
-   *
-   * @returns {Promise<Array<Object>>}
-   *          Resolves to an array of payment records.
-   *
-   *          Each record contains:
-   *            - All fields from `ps_payment_information`
-   *            - Explicitly selected tax fields from:
-   *                • `ps_tax_payer_list_pani` (if paymentFor === 2)
-   *                OR
-   *                • `ps_tax_payer_list_samanya` (otherwise)
-   *
-   * @example
-   * // Fetch all payments (joins samanya by default)
-   * getPaymentDetails(pool);
-   *
-   * @example
-   * // Fetch only water tax payments (payment_for = 2)
-   * getPaymentDetails(pool, 2);
-   *
-   * @example
-   * // Fetch samanya payments for FY 2023–2024
-   * getPaymentDetails(pool, 1, { fromYear: 2023, toYear: 2024 });
-   *
-   * @example
-   * // Fetch multiple types (filter applied)
-   * getPaymentDetails(pool, [1, 2]);
-   *
-   * @note
-   * When `paymentFor` is an array containing multiple types,
-   * the filter applies correctly, but the JOIN table is determined
-   * by the conditional logic in the implementation.
-   * If multi-table joins are required simultaneously,
-   * the query must be refactored using UNION or multiple LEFT JOINs.
-   */
+	/**
+	 * Fetch payment details from `ps_payment_information`
+	 * with conditional LEFT JOIN based on `paymentFor`.
+	 *
+	 * JOIN Behavior:
+	 *  - If `paymentFor === 2`
+	 *      → LEFT JOIN `ps_tax_payer_list_pani`
+	 *      → Returns explicit water tax fields
+	 *
+	 *  - For all other values
+	 *      → LEFT JOIN `ps_tax_payer_list_samanya`
+	 *      → Returns explicit samanya tax fields
+	 *
+	 * The join is NULL-safe:
+	 *  - If a matching record exists in the respective tax table,
+	 *    joined fields will be populated.
+	 *  - If no matching record exists, joined fields will be NULL.
+	 *
+	 * Supports:
+	 *  - Optional filtering by single or multiple payment types
+	 *  - Optional filtering by financial year (April–March)
+	 *  - Explicit column selection (no wildcard selection from joined tables)
+	 *
+	 * @function getPaymentDetails
+	 *
+	 * @param {Object} pool
+	 *        Database connection pool instance.
+	 *
+	 * @param {number|number[]} [paymentFor=-1]
+	 *        Payment type(s) to filter:
+	 *          - -1 (default): fetch all payment types
+	 *          - 2: joins `ps_tax_payer_list_pani`
+	 *          - any other number: joins `ps_tax_payer_list_samanya`
+	 *          - number[]: multiple payment types (filter applied,
+	 *                      but join logic follows single-value condition)
+	 *
+	 * @param {Object} [options={}]
+	 *        Optional filter object.
+	 *
+	 * @param {number} [options.fromYear]
+	 *        Financial year start.
+	 *        Example: 2023 → 2023-04-01
+	 *
+	 * @param {number} [options.toYear]
+	 *        Financial year end.
+	 *        Example: 2024 → 2024-03-31
+	 *
+	 * @returns {Promise<Array<Object>>}
+	 *          Resolves to an array of payment records.
+	 *
+	 *          Each record contains:
+	 *            - All fields from `ps_payment_information`
+	 *            - Explicitly selected tax fields from:
+	 *                • `ps_tax_payer_list_pani` (if paymentFor === 2)
+	 *                OR
+	 *                • `ps_tax_payer_list_samanya` (otherwise)
+	 *
+	 * @example
+	 * // Fetch all payments (joins samanya by default)
+	 * getPaymentDetails(pool);
+	 *
+	 * @example
+	 * // Fetch only water tax payments (payment_for = 2)
+	 * getPaymentDetails(pool, 2);
+	 *
+	 * @example
+	 * // Fetch samanya payments for FY 2023–2024
+	 * getPaymentDetails(pool, 1, { fromYear: 2023, toYear: 2024 });
+	 *
+	 * @example
+	 * // Fetch multiple types (filter applied)
+	 * getPaymentDetails(pool, [1, 2]);
+	 *
+	 * @note
+	 * When `paymentFor` is an array containing multiple types,
+	 * the filter applies correctly, but the JOIN table is determined
+	 * by the conditional logic in the implementation.
+	 * If multi-table joins are required simultaneously,
+	 * the query must be refactored using UNION or multiple LEFT JOINs.
+	 */
 
-  //   new version of below getPaymentDetails
-  getPaymentDetails: function (pool, paymentFor = -1, options = {}) {
-    const { fromYear, toYear } = options || {};
+	//   new version of below getPaymentDetails
+	getPaymentDetails: function (pool, paymentFor = -1, options = {}) {
+		const { fromYear, toYear } = options || {};
 
-    let query = "";
-    let params = [];
-    let conditions = [];
+		let query = '';
+		let params = [];
+		let conditions = [];
 
-    if (paymentFor === 2) {
-      query = `
+		if (paymentFor === 2) {
+			query = `
         SELECT 
             p.*,
 
@@ -143,8 +147,8 @@ const TaxPaymentModel = {
         LEFT JOIN ps_tax_payer_list_pani pani
             ON pani.ps_payment_information_id_fk = p.id
     `;
-    } else {
-      query = `
+		} else {
+			query = `
         SELECT 
             p.*,
 
@@ -217,125 +221,125 @@ const TaxPaymentModel = {
         LEFT JOIN ps_tax_payer_list_samanya samanya
             ON samanya.ps_payment_information_id_fk = p.id
     `;
-    }
-    if (paymentFor !== -1) {
-      if (Array.isArray(paymentFor)) {
-        if (paymentFor.length === 0) {
-          return Promise.resolve([]);
-        }
+		}
+		if (paymentFor !== -1) {
+			if (Array.isArray(paymentFor)) {
+				if (paymentFor.length === 0) {
+					return Promise.resolve([]);
+				}
 
-        const placeholders = paymentFor.map(() => "?").join(",");
-        conditions.push(`p.payment_for IN (${placeholders})`);
-        params.push(...paymentFor);
-      } else {
-        conditions.push(`p.payment_for = ?`);
-        params.push(paymentFor);
-      }
-    }
+				const placeholders = paymentFor.map(() => '?').join(',');
+				conditions.push(`p.payment_for IN (${placeholders})`);
+				params.push(...paymentFor);
+			} else {
+				conditions.push(`p.payment_for = ?`);
+				params.push(paymentFor);
+			}
+		}
 
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    query += " ORDER BY p.payment_date DESC";
+		query += ' ORDER BY p.payment_date DESC';
 
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  /**
-   * Fetch payment entries grouped by payment date for Rokad (5C register).
-   *
-   * This function retrieves payment records from `ps_payment_information`
-   * and optionally joins `ps_namuna_7` to attach Samanya tax certificate
-   * details related to that payment.
-   *
-   * The query aggregates all payment rows of the same date into a JSON array.
-   *
-   * Result Structure:
-   *
-   * [
-   *   {
-   *     payment_date: "2026-03-10",
-   *     entries: [
-   *       {
-   *         id: 10,
-   *         recipient_name: "ABC",
-   *         payment_for: 1,
-   *         payment_amount: 500,
-   *         payment_medium: "cash",
-   *         samanya: { ... } | null
-   *       }
-   *     ]
-   *   }
-   * ]
-   *
-   * Why this structure?
-   * - Rokad register is printed date-wise.
-   * - Grouping reduces processing in Pug templates.
-   * - JSON aggregation keeps related rows together.
-   *
-   * Supported Filters:
-   * - payment type (single or array)
-   * - financial year (fromYear → toYear)
-   * - specific year
-   * - specific month
-   * - exact date
-   *
-   * @param {Pool} pool
-   * MySQL connection pool.
-   *
-   * @param {number|number[]} [paymentFor=-1]
-   * Payment type filter. Can be a single value or an array.
-   * Pass -1 to disable filtering.
-   *
-   * @param {Object} [options={}]
-   *
-   * @param {number} [options.fromYear]
-   * Financial year start (e.g. 2025).
-   *
-   * @param {number} [options.toYear]
-   * Financial year end (e.g. 2026).
-   *
-   * @param {number} [options.month]
-   * Filter by month (1-12).
-   *
-   * @param {number} [options.year]
-   * Filter by calendar year.
-   *
-   * @param {string} [options.date]
-   * Exact payment date (YYYY-MM-DD).
-   *
-   * @returns {Promise<Array>}
-   * Returns grouped payment records.
-   */
-  getPaymentDetailsFor5CSamanyaAllWithCertificates2: (
-    pool,
-    paymentFor = -1,
-    options = {},
-  ) => {
-    const { fromYear, toYear, month, year, date } = options || {};
+	/**
+	 * Fetch payment entries grouped by payment date for Rokad (5C register).
+	 *
+	 * This function retrieves payment records from `ps_payment_information`
+	 * and optionally joins `ps_namuna_7` to attach Samanya tax certificate
+	 * details related to that payment.
+	 *
+	 * The query aggregates all payment rows of the same date into a JSON array.
+	 *
+	 * Result Structure:
+	 *
+	 * [
+	 *   {
+	 *     payment_date: "2026-03-10",
+	 *     entries: [
+	 *       {
+	 *         id: 10,
+	 *         recipient_name: "ABC",
+	 *         payment_for: 1,
+	 *         payment_amount: 500,
+	 *         payment_medium: "cash",
+	 *         samanya: { ... } | null
+	 *       }
+	 *     ]
+	 *   }
+	 * ]
+	 *
+	 * Why this structure?
+	 * - Rokad register is printed date-wise.
+	 * - Grouping reduces processing in Pug templates.
+	 * - JSON aggregation keeps related rows together.
+	 *
+	 * Supported Filters:
+	 * - payment type (single or array)
+	 * - financial year (fromYear → toYear)
+	 * - specific year
+	 * - specific month
+	 * - exact date
+	 *
+	 * @param {Pool} pool
+	 * MySQL connection pool.
+	 *
+	 * @param {number|number[]} [paymentFor=-1]
+	 * Payment type filter. Can be a single value or an array.
+	 * Pass -1 to disable filtering.
+	 *
+	 * @param {Object} [options={}]
+	 *
+	 * @param {number} [options.fromYear]
+	 * Financial year start (e.g. 2025).
+	 *
+	 * @param {number} [options.toYear]
+	 * Financial year end (e.g. 2026).
+	 *
+	 * @param {number} [options.month]
+	 * Filter by month (1-12).
+	 *
+	 * @param {number} [options.year]
+	 * Filter by calendar year.
+	 *
+	 * @param {string} [options.date]
+	 * Exact payment date (YYYY-MM-DD).
+	 *
+	 * @returns {Promise<Array>}
+	 * Returns grouped payment records.
+	 */
+	getPaymentDetailsFor5CSamanyaAllWithCertificates2: (
+		pool,
+		paymentFor = -1,
+		options = {}
+	) => {
+		const { fromYear, toYear, month, year, date } = options || {};
 
-    let params = [];
-    let conditions = [];
+		let params = [];
+		let conditions = [];
 
-    /**
-     * ------------------------------------------------
-     * Base Query
-     * ------------------------------------------------
-     *
-     * - ps_payment_information is the primary source
-     * - ps_namuna_7 provides Samanya certificate details
-     * - JSON_ARRAYAGG groups payments by date
-     */
+		/**
+		 * ------------------------------------------------
+		 * Base Query
+		 * ------------------------------------------------
+		 *
+		 * - ps_payment_information is the primary source
+		 * - ps_namuna_7 provides Samanya certificate details
+		 * - JSON_ARRAYAGG groups payments by date
+		 */
 
-    let query = `
+		let query = `
         SELECT 
             p.payment_date,
 
@@ -403,116 +407,116 @@ const TaxPaymentModel = {
             ON p.id = n7.ps_payment_information_id_fk
     `;
 
-    /**
-     * ------------------------------------------------
-     * PAYMENT TYPE FILTER
-     * ------------------------------------------------
-     */
-    if (paymentFor !== -1) {
-      if (Array.isArray(paymentFor)) {
-        if (paymentFor.length === 0) {
-          return Promise.resolve([]);
-        }
+		/**
+		 * ------------------------------------------------
+		 * PAYMENT TYPE FILTER
+		 * ------------------------------------------------
+		 */
+		if (paymentFor !== -1) {
+			if (Array.isArray(paymentFor)) {
+				if (paymentFor.length === 0) {
+					return Promise.resolve([]);
+				}
 
-        const placeholders = paymentFor.map(() => "?").join(",");
-        conditions.push(`p.payment_for IN (${placeholders})`);
-        params.push(...paymentFor);
-      } else {
-        conditions.push(`p.payment_for = ?`);
-        params.push(paymentFor);
-      }
-    }
+				const placeholders = paymentFor.map(() => '?').join(',');
+				conditions.push(`p.payment_for IN (${placeholders})`);
+				params.push(...paymentFor);
+			} else {
+				conditions.push(`p.payment_for = ?`);
+				params.push(paymentFor);
+			}
+		}
 
-    /**
-     * ------------------------------------------------
-     * FINANCIAL YEAR FILTER
-     * ------------------------------------------------
-     */
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		/**
+		 * ------------------------------------------------
+		 * FINANCIAL YEAR FILTER
+		 * ------------------------------------------------
+		 */
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    /**
-     * ------------------------------------------------
-     * YEAR FILTER
-     * ------------------------------------------------
-     */
-    if (year) {
-      conditions.push(`YEAR(p.payment_date) = ?`);
-      params.push(year);
-    }
+		/**
+		 * ------------------------------------------------
+		 * YEAR FILTER
+		 * ------------------------------------------------
+		 */
+		if (year) {
+			conditions.push(`YEAR(p.payment_date) = ?`);
+			params.push(year);
+		}
 
-    /**
-     * ------------------------------------------------
-     * MONTH FILTER
-     * ------------------------------------------------
-     */
-    if (month) {
-      conditions.push(`MONTH(p.payment_date) = ?`);
-      params.push(month);
-    }
+		/**
+		 * ------------------------------------------------
+		 * MONTH FILTER
+		 * ------------------------------------------------
+		 */
+		if (month) {
+			conditions.push(`MONTH(p.payment_date) = ?`);
+			params.push(month);
+		}
 
-    /**
-     * ------------------------------------------------
-     * EXACT DATE FILTER
-     * ------------------------------------------------
-     */
-    if (date) {
-      conditions.push(`p.payment_date = ?`);
-      params.push(date);
-    }
+		/**
+		 * ------------------------------------------------
+		 * EXACT DATE FILTER
+		 * ------------------------------------------------
+		 */
+		if (date) {
+			conditions.push(`p.payment_date = ?`);
+			params.push(date);
+		}
 
-    /**
-     * ------------------------------------------------
-     * APPLY CONDITIONS
-     * ------------------------------------------------
-     */
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		/**
+		 * ------------------------------------------------
+		 * APPLY CONDITIONS
+		 * ------------------------------------------------
+		 */
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    /**
-     * ------------------------------------------------
-     * GROUPING
-     * ------------------------------------------------
-     *
-     * Grouping by payment_date allows the Rokad register
-     * to render date-wise entries efficiently.
-     */
-    query += `
+		/**
+		 * ------------------------------------------------
+		 * GROUPING
+		 * ------------------------------------------------
+		 *
+		 * Grouping by payment_date allows the Rokad register
+		 * to render date-wise entries efficiently.
+		 */
+		query += `
         GROUP BY p.payment_date
         ORDER BY p.payment_date ASC
     `;
 
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  //   my current function
+	//   my current function
 
-  /**
-   * Fetch payment entries grouped by payment date for Rokad (5C register).
-   *
-   * Pulls payments from ps_payment_information and attaches
-   * samanya tax details from ps_tax_payer_list_samanya when available.
-   *
-   * Returns date-wise grouped entries suitable for Rokad register printing.
-   */
-  getPaymentDetailsFor5CSamanyaAllWithCertificates: (
-    pool,
-    forType,
-    options = {},
-  ) => {
-    const { fromYear, toYear, month, year, date, payment_upto_date } =
-      options || {};
+	/**
+	 * Fetch payment entries grouped by payment date for Rokad (5C register).
+	 *
+	 * Pulls payments from ps_payment_information and attaches
+	 * samanya tax details from ps_tax_payer_list_samanya when available.
+	 *
+	 * Returns date-wise grouped entries suitable for Rokad register printing.
+	 */
+	getPaymentDetailsFor5CSamanyaAllWithCertificates: (
+		pool,
+		forType,
+		options = {}
+	) => {
+		const { fromYear, toYear, month, year, date, payment_upto_date } =
+			options || {};
 
-    let params = [];
-    let conditions = [];
+		let params = [];
+		let conditions = [];
 
-    let query = `
+		let query = `
         SELECT 
             p.payment_date,
 
@@ -616,99 +620,97 @@ const TaxPaymentModel = {
             ON p.id = s.ps_payment_information_id_fk
     `;
 
-    /* Payment type filter */
-    if (forType !== -1) {
-      //   if (Array.isArray(paymentFor)) {
-      //     if (paymentFor.length === 0) {
-      //       return Promise.resolve([]);
-      //     }
+		/* Payment type filter */
+		if (forType !== -1) {
+			//   if (Array.isArray(paymentFor)) {
+			//     if (paymentFor.length === 0) {
+			//       return Promise.resolve([]);
+			//     }
 
-      //     const placeholders = paymentFor.map(() => "?").join(",");
-      //     conditions.push(`p.payment_for IN (${placeholders})`);
-      //     params.push(...paymentFor);
-      //   } else {
-      //     conditions.push(`p.payment_for = ?`);
-      //     params.push(paymentFor);
-      //   }
+			//     const placeholders = paymentFor.map(() => "?").join(",");
+			//     conditions.push(`p.payment_for IN (${placeholders})`);
+			//     params.push(...paymentFor);
+			//   } else {
+			//     conditions.push(`p.payment_for = ?`);
+			//     params.push(paymentFor);
+			//   }
 
-      conditions.push(`p.tax_category = ?`);
-      params.push("SAMANYA");
-    }
+			conditions.push(`p.tax_category = ?`);
+			params.push('SAMANYA');
+		}
 
-    /* Financial year filter */
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		/* Financial year filter */
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.createdAt BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.createdAt BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    /* Year filter (index friendly) */
-    if (year) {
-      const start = `${year}-01-01`;
-      const end = `${year}-12-31`;
+		/* Year filter (index friendly) */
+		// if (year) {
+		//   const start = `${year}-01-01`;
+		//   const end = `${year}-12-31`;
 
-      conditions.push(`p.createdAt BETWEEN ? AND ?`);
-      params.push(start, end);
-    }
+		//   conditions.push(`p.createdAt BETWEEN ? AND ?`);
+		//   params.push(start, end);
+		// }
 
-    /* Month filter (index friendly) */
-    if (month) {
-      const y = year || new Date().getFullYear();
-      const start = `${y}-${String(month).padStart(2, "0")}-01`;
-      const end = `${y}-${String(month).padStart(2, "0")}-31`;
+		/* Month filter (index friendly) */
+		if (month && year) {
+			const y = year || new Date().getFullYear();
+			const start = generateStartDate(month, year);
+			const end = generateEndDate(month, year);
 
-      conditions.push(`p.createdAt BETWEEN ? AND ?`);
-      params.push(start, end);
-    }
+			conditions.push(`p.createdAt BETWEEN ? AND ?`);
+			params.push(start, end);
+		}
 
-    /* Exact date filter */
-    if (date) {
-      conditions.push(`p.createdAt = ?`);
-      params.push(date);
-    }
+		/* Exact date filter */
+		if (date) {
+			conditions.push(`p.createdAt = ?`);
+			params.push(date);
+		}
 
-    /* Payment upto date filter */
-    if (payment_upto_date) {
-      conditions.push(`p.createdAt > ?`);
-      params.push(payment_upto_date);
-    }
+		/* Payment upto date filter */
+		if (payment_upto_date) {
+			conditions.push(`p.createdAt > ?`);
+			params.push(payment_upto_date);
+		}
 
-    // push if status is approved or null
+		// push if status is approved or null
 
-    conditions.push(`(p.approval_status = 'APPROVED' OR p.approval_status IS NULL)`)
+		conditions.push(
+			`(p.approval_status = 'APPROVED' OR p.approval_status IS NULL)`
+		);
 
-    /* Apply conditions */
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		/* Apply conditions */
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-
-
-
-    /* Grouping */
-    query += `
+		/* Grouping */
+		query += `
         GROUP BY p.createdAt
         ORDER BY p.createdAt ASC
     `;
 
-    
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  getPaymentDetailsFor5CPaniAllWithCertificates: (
-    pool,
-    forType,
-    options = {},
-  ) => {
-    const { fromYear, toYear, month, year, date, payment_upto_date } =
-      options || {};
+	getPaymentDetailsFor5CPaniAllWithCertificates: (
+		pool,
+		forType,
+		options = {}
+	) => {
+		const { fromYear, toYear, month, year, date, payment_upto_date } =
+			options || {};
 
-    let params = [];
-    let conditions = [];
+		let params = [];
+		let conditions = [];
 
-    let query = `
+		let query = `
     SELECT 
         p.payment_date,
 
@@ -781,186 +783,183 @@ const TaxPaymentModel = {
         ON p.id = pani.ps_payment_information_id_fk
   `;
 
-    // ------------------------------------------------
-    // PAYMENT TYPE FILTER
-    // ------------------------------------------------
-    if (forType !== -1) {
-      conditions.push(`p.tax_category = ?`);
-      params.push("PANI");
+		// ------------------------------------------------
+		// PAYMENT TYPE FILTER
+		// ------------------------------------------------
+		if (forType !== -1) {
+			conditions.push(`p.tax_category = ?`);
+			params.push('PANI');
 
-      //   conditions.push(`p.payment_type = ?`);
-      //   params.push("CERTIFICATE");
-    }
+			//   conditions.push(`p.payment_type = ?`);
+			//   params.push("CERTIFICATE");
+		}
 
-    // ------------------------------------------------
-    // FINANCIAL YEAR FILTER
-    // ------------------------------------------------
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		// ------------------------------------------------
+		// FINANCIAL YEAR FILTER
+		// ------------------------------------------------
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    // ------------------------------------------------
-    // YEAR FILTER (INDEX FRIENDLY)
-    // ------------------------------------------------
-    if (year) {
-      const start = `${year}-01-01`;
-      const end = `${year}-12-31`;
+		// ------------------------------------------------
+		// YEAR FILTER (INDEX FRIENDLY)
+		// ------------------------------------------------
+		// if (year) {
+		//   const start = `${year}-01-01`;
+		//   const end = `${year}-12-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(start, end);
-    }
+		//   conditions.push(`p.payment_date BETWEEN ? AND ?`);
+		//   params.push(start, end);
+		// }
 
-    // ------------------------------------------------
-    // MONTH FILTER (CORRECTED ✅)
-    // ------------------------------------------------
-    if (month) {
-      const y = year || new Date().getFullYear();
-      const start = `${y}-${String(month).padStart(2, "0")}-01`;
-      const end = `${y}-${String(month).padStart(2, "0")}-31`;
+		// ------------------------------------------------
+		// MONTH FILTER (CORRECTED ✅)
+		// ------------------------------------------------
+		if (month && year) {
+			const y = year || new Date().getFullYear();
+			const start = generateStartDate(month, year);
+			const end = generateEndDate(month, year);
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(start, end);
+		}
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(start, end);
-    }
+		// ------------------------------------------------
+		// EXACT DATE FILTER
+		// ------------------------------------------------
+		if (date) {
+			conditions.push(`p.payment_date = ?`);
+			params.push(date);
+		}
 
-    // ------------------------------------------------
-    // EXACT DATE FILTER
-    // ------------------------------------------------
-    if (date) {
-      conditions.push(`p.payment_date = ?`);
-      params.push(date);
-    }
+		/* Payment upto date filter */
+		if (payment_upto_date) {
+			conditions.push(`p.payment_date > ?`);
+			params.push(payment_upto_date);
+		}
 
-    /* Payment upto date filter */
-    if (payment_upto_date) {
-      conditions.push(`p.payment_date > ?`);
-      params.push(payment_upto_date);
-    }
+		// ------------------------------------------------
+		// APPLY CONDITIONS
+		// ------------------------------------------------
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    // ------------------------------------------------
-    // APPLY CONDITIONS
-    // ------------------------------------------------
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
-
-    // ------------------------------------------------
-    // GROUPING
-    // ------------------------------------------------
-    query += `
+		// ------------------------------------------------
+		// GROUPING
+		// ------------------------------------------------
+		query += `
     GROUP BY p.payment_date
     ORDER BY p.payment_date ASC
   `;
 
-    // console.log(query, params);
+		return runQuery(pool, query, params);
+	},
 
-    return runQuery(pool, query, params);
-  },
+	/**
+	 * Fetch Namuna-7 payment details grouped by payment date.
+	 *
+	 * The grouping is performed directly in MySQL using JSON_ARRAYAGG
+	 * so that Node.js does not need to manually group rows.
+	 *
+	 * Output format returned from MySQL:
+	 *
+	 * [
+	 *   {
+	 *     payment_date: "2026-03-12",
+	 *     entries: [
+	 *       { ...row1 },
+	 *       { ...row2 }
+	 *     ]
+	 *   },
+	 *   {
+	 *     payment_date: "2026-03-11",
+	 *     entries: [
+	 *       { ...row3 }
+	 *     ]
+	 *   }
+	 * ]
+	 *
+	 * Important Notes
+	 * ----------------
+	 * • Grouping is done using `p.payment_date` from `ps_payment_information`.
+	 * • Filtering for payment type is also done using `p.payment_for`.
+	 * • LEFT JOIN ensures payments still appear even if Namuna-7 entry is missing.
+	 * • JSON_ARRAYAGG builds an array of entries for each date.
+	 *
+	 * Tables
+	 * -------
+	 * ps_payment_information (p)
+	 *      Primary payment record
+	 *
+	 * ps_namuna_7 (n7)
+	 *      Voucher / payment usage details
+	 *
+	 * Relationship
+	 * -------------
+	 * p.id → n7.ps_payment_information_id_fk
+	 *
+	 * @param {object} pool
+	 * MySQL connection pool
+	 *
+	 * @param {number|number[]} paymentFor
+	 * Payment type(s) to filter
+	 *
+	 * Example:
+	 *   3
+	 *   [3,4,5]
+	 *
+	 * @param {object} options
+	 * Filtering options
+	 *
+	 * @param {number} options.fromYear
+	 * Financial year start
+	 *
+	 * @param {number} options.toYear
+	 * Financial year end
+	 *
+	 * @param {number} options.month
+	 * Filter by month
+	 *
+	 * @param {number} options.year
+	 * Filter by year
+	 *
+	 * @param {string} options.date
+	 * Exact date filter
+	 *
+	 * @returns {Promise<Array>}
+	 */
+	getPaymentDetailsWithDateGroupForNamuna7Old: (
+		pool,
+		paymentFor = -1,
+		options = {}
+	) => {
+		const { fromYear, toYear, month, year, date } = options || {};
 
-  /**
-   * Fetch Namuna-7 payment details grouped by payment date.
-   *
-   * The grouping is performed directly in MySQL using JSON_ARRAYAGG
-   * so that Node.js does not need to manually group rows.
-   *
-   * Output format returned from MySQL:
-   *
-   * [
-   *   {
-   *     payment_date: "2026-03-12",
-   *     entries: [
-   *       { ...row1 },
-   *       { ...row2 }
-   *     ]
-   *   },
-   *   {
-   *     payment_date: "2026-03-11",
-   *     entries: [
-   *       { ...row3 }
-   *     ]
-   *   }
-   * ]
-   *
-   * Important Notes
-   * ----------------
-   * • Grouping is done using `p.payment_date` from `ps_payment_information`.
-   * • Filtering for payment type is also done using `p.payment_for`.
-   * • LEFT JOIN ensures payments still appear even if Namuna-7 entry is missing.
-   * • JSON_ARRAYAGG builds an array of entries for each date.
-   *
-   * Tables
-   * -------
-   * ps_payment_information (p)
-   *      Primary payment record
-   *
-   * ps_namuna_7 (n7)
-   *      Voucher / payment usage details
-   *
-   * Relationship
-   * -------------
-   * p.id → n7.ps_payment_information_id_fk
-   *
-   * @param {object} pool
-   * MySQL connection pool
-   *
-   * @param {number|number[]} paymentFor
-   * Payment type(s) to filter
-   *
-   * Example:
-   *   3
-   *   [3,4,5]
-   *
-   * @param {object} options
-   * Filtering options
-   *
-   * @param {number} options.fromYear
-   * Financial year start
-   *
-   * @param {number} options.toYear
-   * Financial year end
-   *
-   * @param {number} options.month
-   * Filter by month
-   *
-   * @param {number} options.year
-   * Filter by year
-   *
-   * @param {string} options.date
-   * Exact date filter
-   *
-   * @returns {Promise<Array>}
-   */
-  getPaymentDetailsWithDateGroupForNamuna7Old: (
-    pool,
-    paymentFor = -1,
-    options = {},
-  ) => {
-    const { fromYear, toYear, month, year, date } = options || {};
+		let params = [];
+		let conditions = [];
 
-    let params = [];
-    let conditions = [];
-
-    /**
-     * ------------------------------------------------
-     * Base Query
-     * ------------------------------------------------
-     *
-     * Each Namuna-7 row is converted to JSON_OBJECT.
-     *
-     * JSON_ARRAYAGG then aggregates those objects
-     * into an array grouped by payment_date.
-     *
-     * Final structure:
-     *
-     * payment_date
-     *      ↓
-     *   entries[]
-     *
-     */
-    let query = `
+		/**
+		 * ------------------------------------------------
+		 * Base Query
+		 * ------------------------------------------------
+		 *
+		 * Each Namuna-7 row is converted to JSON_OBJECT.
+		 *
+		 * JSON_ARRAYAGG then aggregates those objects
+		 * into an array grouped by payment_date.
+		 *
+		 * Final structure:
+		 *
+		 * payment_date
+		 *      ↓
+		 *   entries[]
+		 *
+		 */
+		let query = `
     SELECT 
         p.payment_date,
 
@@ -1015,101 +1014,101 @@ const TaxPaymentModel = {
         ON p.id = n7.ps_payment_information_id_fk
   `;
 
-    // ------------------------------------------------
-    // PAYMENT TYPE FILTER
-    // ------------------------------------------------
-    if (paymentFor !== -1) {
-      if (Array.isArray(paymentFor)) {
-        if (paymentFor.length === 0) {
-          return Promise.resolve([]);
-        }
+		// ------------------------------------------------
+		// PAYMENT TYPE FILTER
+		// ------------------------------------------------
+		if (paymentFor !== -1) {
+			if (Array.isArray(paymentFor)) {
+				if (paymentFor.length === 0) {
+					return Promise.resolve([]);
+				}
 
-        const placeholders = paymentFor.map(() => "?").join(",");
-        conditions.push(`p.payment_for IN (${placeholders})`);
-        params.push(...paymentFor);
-      } else {
-        conditions.push(`p.payment_for = ?`);
-        params.push(paymentFor);
-      }
-    }
+				const placeholders = paymentFor.map(() => '?').join(',');
+				conditions.push(`p.payment_for IN (${placeholders})`);
+				params.push(...paymentFor);
+			} else {
+				conditions.push(`p.payment_for = ?`);
+				params.push(paymentFor);
+			}
+		}
 
-    // ------------------------------------------------
-    // FINANCIAL YEAR FILTER
-    // ------------------------------------------------
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		// ------------------------------------------------
+		// FINANCIAL YEAR FILTER
+		// ------------------------------------------------
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    // ------------------------------------------------
-    // YEAR FILTER
-    // ------------------------------------------------
-    if (year) {
-      conditions.push(`YEAR(p.payment_date) = ?`);
-      params.push(year);
-    }
+		// ------------------------------------------------
+		// YEAR FILTER
+		// ------------------------------------------------
+		if (year) {
+			conditions.push(`YEAR(p.payment_date) = ?`);
+			params.push(year);
+		}
 
-    // ------------------------------------------------
-    // MONTH FILTER
-    // ------------------------------------------------
-    if (month) {
-      conditions.push(`MONTH(p.payment_date) = ?`);
-      params.push(month);
-    }
+		// ------------------------------------------------
+		// MONTH FILTER
+		// ------------------------------------------------
+		if (month) {
+			conditions.push(`MONTH(p.payment_date) = ?`);
+			params.push(month);
+		}
 
-    // ------------------------------------------------
-    // EXACT DATE FILTER
-    // ------------------------------------------------
-    if (date) {
-      conditions.push(`p.payment_date = ?`);
-      params.push(date);
-    }
+		// ------------------------------------------------
+		// EXACT DATE FILTER
+		// ------------------------------------------------
+		if (date) {
+			conditions.push(`p.payment_date = ?`);
+			params.push(date);
+		}
 
-    // ------------------------------------------------
-    // APPLY CONDITIONS
-    // ------------------------------------------------
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		// ------------------------------------------------
+		// APPLY CONDITIONS
+		// ------------------------------------------------
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    // ------------------------------------------------
-    // GROUPING
-    // ------------------------------------------------
-    query += `
+		// ------------------------------------------------
+		// GROUPING
+		// ------------------------------------------------
+		query += `
       GROUP BY p.payment_date
       ORDER BY p.payment_date ASC
   `;
 
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  getPaymentDetailsWithDateGroupForNamuna7: (pool, forType, options = {}) => {
-    const { fromYear, toYear, month, year, date } = options || {};
+	getPaymentDetailsWithDateGroupForNamuna7: (pool, forType, options = {}) => {
+		const { fromYear, toYear, month, year, date } = options || {};
 
-    let params = [];
-    let conditions = [];
+		let params = [];
+		let conditions = [];
 
-    /**
-     * ------------------------------------------------
-     * Base Query
-     * ------------------------------------------------
-     *
-     * Each Namuna-7 row is converted to JSON_OBJECT.
-     *
-     * JSON_ARRAYAGG then aggregates those objects
-     * into an array grouped by payment_date.
-     *
-     * Final structure:
-     *
-     * payment_date
-     *      ↓
-     *   entries[]
-     *
-     */
-    let query = `
+		/**
+		 * ------------------------------------------------
+		 * Base Query
+		 * ------------------------------------------------
+		 *
+		 * Each Namuna-7 row is converted to JSON_OBJECT.
+		 *
+		 * JSON_ARRAYAGG then aggregates those objects
+		 * into an array grouped by payment_date.
+		 *
+		 * Final structure:
+		 *
+		 * payment_date
+		 *      ↓
+		 *   entries[]
+		 *
+		 */
+		let query = `
     SELECT 
         p.payment_date,
 
@@ -1172,104 +1171,104 @@ const TaxPaymentModel = {
         ON p.id = n7.ps_payment_information_id_fk
   `;
 
-    // ------------------------------------------------
-    // PAYMENT TYPE FILTER
-    // ------------------------------------------------
-    if (forType !== -1) {
-      //   if (Array.isArray(paymentFor)) {
-      //     if (paymentFor.length === 0) {
-      //       return Promise.resolve([]);
-      //     }
+		// ------------------------------------------------
+		// PAYMENT TYPE FILTER
+		// ------------------------------------------------
+		if (forType !== -1) {
+			//   if (Array.isArray(paymentFor)) {
+			//     if (paymentFor.length === 0) {
+			//       return Promise.resolve([]);
+			//     }
 
-      //     const placeholders = paymentFor.map(() => "?").join(",");
-      //     conditions.push(`p.payment_for IN (${placeholders})`);
-      //     params.push(...paymentFor);
-      //   } else {
-      //     conditions.push(`p.payment_for = ?`);
-      //     params.push(paymentFor);
-      //   }
+			//     const placeholders = paymentFor.map(() => "?").join(",");
+			//     conditions.push(`p.payment_for IN (${placeholders})`);
+			//     params.push(...paymentFor);
+			//   } else {
+			//     conditions.push(`p.payment_for = ?`);
+			//     params.push(paymentFor);
+			//   }
 
-      if (forType == "samanya") {
-        conditions.push("p.tax_category = ?");
-        params.push("SAMANYA");
+			if (forType == 'samanya') {
+				conditions.push('p.tax_category = ?');
+				params.push('SAMANYA');
 
-        conditions.push("p.payment_type = ?");
-        params.push("CERTIFICATE");
-      } else if (forType == "pani") {
-        // might be needed
-        conditions.push("p.tax_category = ?");
-        params.push("PANI");
+				conditions.push('p.payment_type = ?');
+				params.push('CERTIFICATE');
+			} else if (forType == 'pani') {
+				// might be needed
+				conditions.push('p.tax_category = ?');
+				params.push('PANI');
 
-        conditions.push("p.payment_type = ?");
-        params.push("CERTIFICATE");
-      }
-    }
+				conditions.push('p.payment_type = ?');
+				params.push('CERTIFICATE');
+			}
+		}
 
-    // ------------------------------------------------
-    // FINANCIAL YEAR FILTER
-    // ------------------------------------------------
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		// ------------------------------------------------
+		// FINANCIAL YEAR FILTER
+		// ------------------------------------------------
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    // ------------------------------------------------
-    // YEAR FILTER
-    // ------------------------------------------------
-    if (year) {
-      conditions.push(`YEAR(p.payment_date) = ?`);
-      params.push(year);
-    }
+		// ------------------------------------------------
+		// YEAR FILTER
+		// ------------------------------------------------
+		if (year) {
+			conditions.push(`YEAR(p.payment_date) = ?`);
+			params.push(year);
+		}
 
-    // ------------------------------------------------
-    // MONTH FILTER
-    // ------------------------------------------------
-    if (month) {
-      conditions.push(`MONTH(p.payment_date) = ?`);
-      params.push(month);
-    }
+		// ------------------------------------------------
+		// MONTH FILTER
+		// ------------------------------------------------
+		if (month) {
+			conditions.push(`MONTH(p.payment_date) = ?`);
+			params.push(month);
+		}
 
-    // ------------------------------------------------
-    // EXACT DATE FILTER
-    // ------------------------------------------------
-    if (date) {
-      conditions.push(`p.payment_date = ?`);
-      params.push(date);
-    }
+		// ------------------------------------------------
+		// EXACT DATE FILTER
+		// ------------------------------------------------
+		if (date) {
+			conditions.push(`p.payment_date = ?`);
+			params.push(date);
+		}
 
-    // ------------------------------------------------
-    // APPLY CONDITIONS
-    // ------------------------------------------------
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		// ------------------------------------------------
+		// APPLY CONDITIONS
+		// ------------------------------------------------
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    // ------------------------------------------------
-    // GROUPING
-    // ------------------------------------------------
-    query += `
+		// ------------------------------------------------
+		// GROUPING
+		// ------------------------------------------------
+		query += `
       GROUP BY p.payment_date
       ORDER BY p.payment_date ASC
   `;
 
-    console.log(query);
-    return runQuery(pool, query, params);
-  },
+		console.log(query);
+		return runQuery(pool, query, params);
+	},
 
-  getPaymentDetailsWithDateGroupForNamuna7Water: (
-    pool,
-    forType,
-    options = {},
-  ) => {
-    const { fromYear, toYear, month, year, date } = options || {};
+	getPaymentDetailsWithDateGroupForNamuna7Water: (
+		pool,
+		forType,
+		options = {}
+	) => {
+		const { fromYear, toYear, month, year, date } = options || {};
 
-    let params = [];
-    let conditions = [];
+		let params = [];
+		let conditions = [];
 
-    let query = `
+		let query = `
     SELECT 
         p.payment_date,
 
@@ -1329,76 +1328,76 @@ const TaxPaymentModel = {
         ON p.id = pani.ps_payment_information_id_fk
   `;
 
-    // ------------------------------------------------
-    // PAYMENT TYPE FILTER
-    // ------------------------------------------------
-    if (forType !== -1) {
-      if (forType == "pani") {
-        conditions.push("p.tax_category = ?");
-        params.push("PANI");
+		// ------------------------------------------------
+		// PAYMENT TYPE FILTER
+		// ------------------------------------------------
+		if (forType !== -1) {
+			if (forType == 'pani') {
+				conditions.push('p.tax_category = ?');
+				params.push('PANI');
 
-        conditions.push("p.payment_type = ?");
-        params.push("CERTIFICATE");
-      }
-    }
+				conditions.push('p.payment_type = ?');
+				params.push('CERTIFICATE');
+			}
+		}
 
-    // ------------------------------------------------
-    // FINANCIAL YEAR FILTER
-    // ------------------------------------------------
-    if (fromYear && toYear) {
-      const fyStart = `${fromYear}-04-01`;
-      const fyEnd = `${toYear}-03-31`;
+		// ------------------------------------------------
+		// FINANCIAL YEAR FILTER
+		// ------------------------------------------------
+		if (fromYear && toYear) {
+			const fyStart = `${fromYear}-04-01`;
+			const fyEnd = `${toYear}-03-31`;
 
-      conditions.push(`p.payment_date BETWEEN ? AND ?`);
-      params.push(fyStart, fyEnd);
-    }
+			conditions.push(`p.payment_date BETWEEN ? AND ?`);
+			params.push(fyStart, fyEnd);
+		}
 
-    // ------------------------------------------------
-    // YEAR FILTER
-    // ------------------------------------------------
-    if (year) {
-      conditions.push(`YEAR(p.payment_date) = ?`);
-      params.push(year);
-    }
+		// ------------------------------------------------
+		// YEAR FILTER
+		// ------------------------------------------------
+		if (year) {
+			conditions.push(`YEAR(p.payment_date) = ?`);
+			params.push(year);
+		}
 
-    // ------------------------------------------------
-    // MONTH FILTER
-    // ------------------------------------------------
-    if (month) {
-      conditions.push(`MONTH(p.payment_date) = ?`);
-      params.push(month);
-    }
+		// ------------------------------------------------
+		// MONTH FILTER
+		// ------------------------------------------------
+		if (month) {
+			conditions.push(`MONTH(p.payment_date) = ?`);
+			params.push(month);
+		}
 
-    // ------------------------------------------------
-    // EXACT DATE FILTER
-    // ------------------------------------------------
-    if (date) {
-      conditions.push(`p.payment_date = ?`);
-      params.push(date);
-    }
+		// ------------------------------------------------
+		// EXACT DATE FILTER
+		// ------------------------------------------------
+		if (date) {
+			conditions.push(`p.payment_date = ?`);
+			params.push(date);
+		}
 
-    // ------------------------------------------------
-    // APPLY CONDITIONS
-    // ------------------------------------------------
-    if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
-    }
+		// ------------------------------------------------
+		// APPLY CONDITIONS
+		// ------------------------------------------------
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
 
-    // ------------------------------------------------
-    // GROUPING
-    // ------------------------------------------------
-    query += `
+		// ------------------------------------------------
+		// GROUPING
+		// ------------------------------------------------
+		query += `
     GROUP BY p.payment_date
     ORDER BY p.payment_date ASC
   `;
 
-    console.log(query);
+		console.log(query);
 
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  getPaymentDetailsForSamanyaAndPani: function (pool, dateFrom, dateTo) {
-    const query = `SELECT 
+	getPaymentDetailsForSamanyaAndPani: function (pool, dateFrom, dateTo) {
+		const query = `SELECT 
 						t.* 
 					FROM ps_payment_information AS t 
 					WHERE 
@@ -1410,23 +1409,23 @@ const TaxPaymentModel = {
 						AND
 							DATE(payment_date) BETWEEN ? AND ?`;
 
-    return runQuery(pool, query, [dateFrom, dateTo]);
-  },
+		return runQuery(pool, query, [dateFrom, dateTo]);
+	},
 
-  getPaymentDetailsByMalmattaAndPaymentFor: (
-    pool,
-    malmatta,
-    paymentFor = -1,
-  ) => {
-    const query = `SELECT * FROM 
+	getPaymentDetailsByMalmattaAndPaymentFor: (
+		pool,
+		malmatta,
+		paymentFor = -1
+	) => {
+		const query = `SELECT * FROM 
 							ps_payment_information 
 						WHERE 
 					malmatta_no = ? 
 						AND 
-					${paymentFor == -1 ? "payment_for != ?" : "payment_for = ?"};`;
+					${paymentFor == -1 ? 'payment_for != ?' : 'payment_for = ?'};`;
 
-    return runQuery(pool, query, [malmatta, paymentFor]);
-  },
+		return runQuery(pool, query, [malmatta, paymentFor]);
+	}
 };
 
 module.exports = TaxPaymentModel;
