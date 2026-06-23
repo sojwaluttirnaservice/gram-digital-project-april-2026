@@ -253,6 +253,7 @@ body
 
     script.
         (function() {
+            let _hostUrl = "!{hostUrl}"
             var data = !{dataString};
             console.log(data)
             var start = #{billStart}
@@ -264,7 +265,7 @@ body
                 let homeNo = userData.feu_homeNo;
                 let wardNo = userData.feu_wardNo;
                 let malmattaNo = userData.feu_malmattaNo;
-                website +=`/!{zp.pg_registration_no}/${userData.anu_kramank}`;
+                website +=`/!{zp.pg_registration_no}/${userData.anu_kramank}?r=${encodeURIComponent(_hostUrl)}`;
                 new QRCode(document.getElementById("qrcode"+id),website);
                 new QRCode(document.getElementById("qrcode_"+id),website);
             }   
