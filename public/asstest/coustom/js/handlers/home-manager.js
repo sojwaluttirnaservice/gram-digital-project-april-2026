@@ -1025,6 +1025,7 @@ $(document).ready(function () {
         $('#paymentModeModal').modal('show');
         $('.modal-title').html('पेमेंट');
         $('#pay-amount').attr('readonly', false);
+        $("#pay-amount").val(+$("#pavtiRuppe").val());
         let payPersonName = homeManager.tempUserDetails.feu_ownerName;
         let malmattaNo = homeManager.tempUserDetails.feu_malmattaNo;
 
