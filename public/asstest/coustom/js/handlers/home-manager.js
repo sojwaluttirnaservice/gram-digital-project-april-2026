@@ -1090,7 +1090,7 @@ $(document).ready(function () {
         paymentDetails.paymentFor = 5;
         paymentDetails.paymentMode = 0; // 0 FOR OFFLINE PAYMENT MODE
         paymentDetails.tax_category = "SAMANYA"
-        if (paymentDetails.amount === '') {
+        if (paymentDetails.amount === '' || paymentDetails.amount <= 0) {
             alertjs.warning(
                 {
                     t: 'कृपया पैसे लिहा.',
