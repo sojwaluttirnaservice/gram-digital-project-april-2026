@@ -848,7 +848,7 @@ block content
                     { endpoint: "https://play.google.com/store/apps/details?id=com.gsnirnay.app&pli=1", title: t("navbar.top.panchayatDecisionApp"), icon: "fa-gavel", desc: { mr: "पंचायत निर्णय पहा\nसुलभ मार्गदर्शन मिळवा", hi: "पंचायत निर्णय देखें\nसहज मार्गदर्शन प्राप्त करें", en: "View panchayat decisions\nGet easy guidance" } },
                     { endpoint: "https://play.google.com/store/apps/details?id=com.nic.gramsamvaad", title: t("navbar.top.gramSamvad"), icon: "fa-comments", desc: { mr: "ग्रामीण संवाद अँप वापरा\nसंपूर्ण समुदायासाठी", hi: "ग्रामीण संवाद ऐप इस्तेमाल करें\nपूरा समुदाय जुड़ा रहे", en: "Use Gram Samvad app\nConnect the whole community" } },
                     { endpoint: "https://gr.maharashtra.gov.in/1125/Home", title: { mr: "शासन निर्णय", hi: "सरकारी निर्णय", en: "Government Resolutions" }[language], icon: "fa-gavel", desc: { mr: "सरकारी निर्णय पहा\nमहत्त्वाची माहिती मिळवा", hi: "सरकारी निर्णय देखें\nमहत्वपूर्ण जानकारी प्राप्त करें", en: "View government resolutions\nGet important information" } },
-                    { endpoint: "/gp-applications/to-seva/form", title: "नागरिकांना सेवा सुविधा अर्ज", icon: "fa-file-lines", desc: { mr: "सेवा सुविधा अर्ज भरा\nसर्व सुविधा मिळवा", hi: "सेवा सुविधा आवेदन करें\nसभी सेवाएं प्राप्त करें", en: "Apply for citizen service facilities\nAccess all available services" } },
+                    { endpoint: "/gp-applications/to-seva/form", title: "आपले सरकार नागरिक सेवा सुविधा अर्ज", icon: "fa-file-lines", desc: { mr: "सेवा सुविधा अर्ज भरा\nसर्व सुविधा मिळवा", hi: "सेवा सुविधा आवेदन करें\nसभी सेवाएं प्राप्त करें", en: "Apply for citizen service facilities\nAccess all available services" } },
 
                     //- { endpoint: "/village/vaidyakiy-madat-kaksha-view", title: { original: t("navbar.bottom.medicalHelpDesk")}, desc: {
                     //-         mr: "वैद्यकीय मदत कक्षाशी संपर्क साधा\nतुमच्या आरोग्याच्या त्वरित मदतीसाठी",
@@ -1232,6 +1232,215 @@ block content
                                                 div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
                                                     dt(class=dtClassName) Open/Others
                                                     dd(class=ddClassName) #{village.open_others_count}
+
+    section(id='service-stats-section' class='relative py-12 md:py-16 bg-slate-50 border-t border-b border-slate-200')
+        -
+            const appStats = [
+                { 
+                    key: 'birthCert',
+                    title: "जन्म नोंद दाखला",
+                    icon: 'fa-baby',
+                    stats: dashboardStats?.birthCert || { total: 0 }
+                },
+                { 
+                    key: 'deathCert',
+                    title: "मृत्यू नोंद दाखला",
+                    icon: 'fa-skull-crossbones',
+                    stats: dashboardStats?.deathCert || { total: 0 }
+                },
+                { 
+                    key: 'marriageCert',
+                    title: "विवाह नोंदणी दाखला",
+                    icon: 'fa-file-signature',
+                    stats: dashboardStats?.marriageCert || { total: 0 }
+                },
+                { 
+                    key: 'namuna8Extract',
+                    title: "नमुना नं. 8 चा उतारा",
+                    icon: 'fa-file-invoice',
+                    stats: dashboardStats?.namuna8Extract || { total: 0 }
+                },
+                { 
+                    key: 'destituteCert',
+                    title: "निराधार असले बाबतचा दाखला",
+                    icon: 'fa-person-cane',
+                    stats: dashboardStats?.destituteCert || { total: 0 }
+                },
+                { 
+                    key: 'noDuesCert',
+                    title: "ग्रामपंचायत येणे बाकी नसल्याचा दाखला",
+                    icon: 'fa-file-circle-check',
+                    stats: dashboardStats?.noDuesCert || { total: 0 }
+                },
+                { 
+                    key: 'bplCert',
+                    title: "दारिद्र्यरेषेखालचा दाखला",
+                    icon: 'fa-id-card-clip',
+                    stats: dashboardStats?.bplCert || { total: 0 }
+                },
+                { 
+                    key: 'employmentDemand',
+                    title: t("navbar.top.individualGroupEmploymentDemandApplication") || "वैयक्तिक सामूहिक रोजगार मागणीचा अर्ज",
+                    icon: 'fa-briefcase',
+                    stats: dashboardStats?.employmentDemand || { total: 0 }
+                },
+                { 
+                    key: 'complaint',
+                    title: t("navbar.top.complaintRegistration") || "तक्रार नोंदणी",
+                    icon: 'fa-triangle-exclamation',
+                    stats: dashboardStats?.complaint || { total: 0 }
+                },
+                { 
+                    key: 'marriage',
+                    title: "विवाह नोंदणी अर्ज",
+                    icon: 'fa-ring',
+                    stats: dashboardStats?.marriage || { total: 0 }
+                },
+                { 
+                    key: 'citizenReg',
+                    title: t("navbar.top.citizenRegistration") || "नागरिक नोंदणी",
+                    icon: 'fa-user-check',
+                    stats: dashboardStats?.citizenReg || { total: 0 }
+                },
+                { 
+                    key: 'propertyMutation',
+                    title: t("navbar.top.propertyMutationApplication") || "फेरफार / नामांतर अर्ज",
+                    icon: 'fa-arrows-rotate',
+                    stats: dashboardStats?.propertyMutation || { total: 0 }
+                },
+                { 
+                    key: 'construction',
+                    title: t("navbar.top.constructionApplication") || "इमारत बांधकाम परवानगी अर्ज",
+                    icon: 'fa-building',
+                    stats: dashboardStats?.construction || { total: 0 }
+                },
+                { 
+                    key: 'jobCard',
+                    title: t("navbar.top.jobCardApplication") || "जॉब कार्ड अर्ज",
+                    icon: 'fa-id-card',
+                    stats: dashboardStats?.jobCard || { total: 0 }
+                },
+                { 
+                    key: 'toSeva',
+                    title: "आपले सरकार नागरिक सेवा सुविधा अर्ज",
+                    icon: 'fa-hand-holding-hand',
+                    stats: dashboardStats?.toSeva || { total: 0 }
+                },
+                { 
+                    key: 'occupationNoc',
+                    title: "व्यवसाय ना हरकत प्रमाणपत्र",
+                    icon: 'fa-clipboard-check',
+                    stats: dashboardStats?.occupationNoc || { total: 0 }
+                }
+            ]
+
+        .container
+            .max-w-7xl.mx-auto
+                h4.information-heading(class='text-center text-xl md:text-3xl font-bold my-text-blue-dark tracking-wider w-fit mx-auto px-8 pb-2 border-b-2 mb-10 flex items-center justify-center gap-2')
+                    i.fa-solid.fa-chart-simple
+                    span #{language === 'mr' ? 'ग्रा. प. नागरिक सेवा व अर्ज केंद्र अहवाल वर्ष' : language === 'hi' ? 'नागरिक सेवा आवेदन सांख्यिकी' : 'Citizen Service Application Statistics'}
+                
+                div(class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6')
+                    each item in appStats
+                        div(class='group h-full bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-start relative overflow-hidden')
+                            //- Subtle background glow
+                            div(class='absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-500')
+                            
+                            //- Card Header
+                            div(class='flex items-center gap-4 mb-5 pb-4 border-b border-slate-100 relative z-10')
+                                div(class='w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300')
+                                    i(class=`fa-solid ${item.icon} text-xl`)
+                                div
+                                    h5(class='text-[15px] md:text-base font-bold text-slate-800 leading-snug') #{item.title}
+                            
+                            //- Stats Grid
+                            div(class='grid grid-cols-2 gap-3 relative z-10')
+                                //- Total
+                                if item.stats.total !== undefined
+                                    div(class='bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-xl p-3 border border-slate-200/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] flex flex-col justify-between group-hover:border-blue-200/60 transition-colors')
+                                        span(class='text-[10px] font-bold text-slate-500 uppercase tracking-wider') #{language === 'mr' ? 'एकूण' : language === 'hi' ? 'कुल' : 'Total'}
+                                        span(id=`stats-total-${item.key}` class='text-xl font-extrabold text-slate-800 mt-1') #{item.stats.total}
+                                
+                                //- Accepted
+                                if item.stats.accepted !== undefined
+                                    div(class='bg-gradient-to-br from-emerald-50 to-emerald-100/40 rounded-xl p-3 border border-emerald-100/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] flex flex-col justify-between group-hover:border-emerald-300/60 transition-colors')
+                                        span(class='text-[10px] font-bold text-emerald-600 uppercase tracking-wider') #{language === 'mr' ? 'मंजूर' : language === 'hi' ? 'स्वीकृत' : 'Accepted'}
+                                        span(id=`stats-accepted-${item.key}` class='text-xl font-extrabold text-emerald-800 mt-1') #{item.stats.accepted}
+                                
+                                //- Rejected
+                                if item.stats.rejected !== undefined
+                                    div(class='bg-gradient-to-br from-rose-50 to-rose-100/40 rounded-xl p-3 border border-rose-100/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] flex flex-col justify-between group-hover:border-rose-300/60 transition-colors')
+                                        span(class='text-[10px] font-bold text-rose-600 uppercase tracking-wider') #{language === 'mr' ? 'नाकारलेले' : language === 'hi' ? 'अस्वीकृत' : 'Rejected'}
+                                        span(id=`stats-rejected-${item.key}` class='text-xl font-extrabold text-rose-800 mt-1') #{item.stats.rejected}
+                                
+                                //- Resolved
+                                if item.stats.resolved !== undefined
+                                    div(class='bg-gradient-to-br from-amber-50 to-amber-100/40 rounded-xl p-3 border border-amber-100/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] flex flex-col justify-between group-hover:border-amber-300/60 transition-colors')
+                                        span(class='text-[10px] font-bold text-amber-600 uppercase tracking-wider') #{language === 'mr' ? 'कार्यवाही' : language === 'hi' ? 'कार्यवाही' : 'Resolved'}
+                                        span(id=`stats-resolved-${item.key}` class='text-xl font-extrabold text-amber-800 mt-1') #{item.stats.resolved}
+                            
+                            //- Detailed Bifurcation Modal Trigger
+                            if item.stats.details && item.stats.details.length > 0
+                                div(class="mt-4 pt-4 border-t border-slate-100 relative z-10 flex justify-end")
+                                    button(
+                                        type="button" 
+                                        class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1 focus:outline-none"
+                                        onclick=`openDeepBifurcationModal('${item.title}', ${JSON.stringify(item.stats.details).replace(/'/g, "\\'")})`
+                                    )
+                                        span अधिक माहिती
+                                        i(class="fa-solid fa-arrow-up-right-from-square text-xs")
+
+
+
+
+    //- Deep Bifurcation Modal Container (Placed outside loop)
+    div(id="deepBifurcationModal" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4")
+        div(class="bg-white w-full max-w-3xl rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.15)] border border-gray-200 overflow-hidden flex flex-col max-h-[85vh]")
+            div(class="bg-white border-b border-gray-200 p-4 md:p-5 flex justify-between items-center")
+                h4(id="deepBifurcationModalTitle" class="font-bold text-lg md:text-xl my-text-blue-dark tracking-wide") अधिक माहिती
+                button(type="button" onclick="closeDeepBifurcationModal()" class="text-gray-400 hover:text-gray-700 focus:outline-none transition-colors")
+                    i(class="fa-solid fa-xmark text-xl md:text-2xl")
+            div(class="p-4 md:p-6 overflow-y-auto bg-gray-50/50")
+                div(id="deepBifurcationModalContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4")
+            
+    script.
+        function openDeepBifurcationModal(title, details) {
+            document.getElementById('deepBifurcationModalTitle').innerText = title + ' - अधिक माहिती';
+            const content = document.getElementById('deepBifurcationModalContent');
+            content.innerHTML = '';
+            
+            details.forEach(detail => {
+                content.innerHTML += `
+                    <div class="bg-white border border-gray-200 rounded-md p-4 shadow-sm hover:shadow-[0_10px_20px_rgba(8,_112,_184,_0.15)] transition-all duration-300">
+                        <div class="font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2 text-sm truncate" title="${detail.subject}">${detail.subject}</div>
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-100">
+                            <div class="flex flex-col items-center">
+                                <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">एकूण</span>
+                                <span class="font-bold text-gray-800 text-sm mt-0.5">${detail.total}</span>
+                            </div>
+                            <div class="h-6 w-px bg-gray-200"></div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">मंजूर</span>
+                                <span class="font-bold text-emerald-700 text-sm mt-0.5">${detail.accepted}</span>
+                            </div>
+                            <div class="h-6 w-px bg-gray-200"></div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-[10px] text-rose-600 font-bold uppercase tracking-wider">नामंजूर</span>
+                                <span class="font-bold text-rose-700 text-sm mt-0.5">${detail.rejected}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('deepBifurcationModal').classList.remove('hidden');
+            document.getElementById('deepBifurcationModal').classList.add('flex');
+        }
+        
+        function closeDeepBifurcationModal() {
+            document.getElementById('deepBifurcationModal').classList.add('hidden');
+            document.getElementById('deepBifurcationModal').classList.remove('flex');
+        }
 
     section(class='relative py-12 md:py-20 overflow-hidden' style='background-image:url(/img/background/village-info-bg.webp); background-size:cover; background-position:center;')
 
@@ -2084,7 +2293,6 @@ block internal_js
                 dots: true,
                 rewind: true
             })
-        })
     if(notice.length !== 0)
         script.
             // To work on

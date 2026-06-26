@@ -2520,6 +2520,159 @@ let HomeModel = {
 			})
 		})
 	},
+	getDashboardServiceStats: async function (pool) {
+		const queries = {
+			birthCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%जन्म नोंद दाखला%'`,
+			deathCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%मृत्यू नोंद दाखला%'`,
+			marriageCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%विवाह नोंदणी दाखला%'`,
+			namuna8Extract: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%नमुना नं. 8 चा उतारा%'`,
+			destituteCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%निराधार असले बाबतचा दाखला%'`,
+			noDuesCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%ग्रामपंचायत येणे बाकी नसल्याचा दाखला%'`,
+			bplCert: `SELECT 
+				COUNT(*) as total, 
+				SUM(docRemark = 'ACCEPTED') as accepted, 
+				SUM(docRemark = 'REJECTED') as rejected
+				FROM ps_user_application WHERE is_deleted = 0 AND docDetails LIKE '%दारिद्र्यरेषेखालचा दाखला%'`,
+			employmentDemand: `SELECT 
+				COUNT(*) as total, 
+				SUM(registration_status = 'ACCEPTED') as accepted, 
+				SUM(registration_status = 'REJECTED') as rejected
+				FROM ps_individual_group_employment_demand_application`,
+			complaint: `SELECT 
+				COUNT(*) as total, 
+				SUM(complaintStatus = 'ACCEPTED') as accepted, 
+				SUM(complaintStatus = 'REJECTED') as rejected, 
+				SUM(complaintStatus = 'RESOLVED') as resolved 
+				FROM ps_citizen_complaints`,
+			marriage: `SELECT 
+				COUNT(*) as total, 
+				SUM(application_status = 'ACCEPTED') as accepted, 
+				SUM(application_status = 'REJECTED') as rejected
+				FROM ps_marriage`,
+			citizenReg: `SELECT 
+				COUNT(*) as total, 
+				COUNT(*) as accepted
+				FROM ps_gp_member_list`,
+			propertyMutation: `SELECT 
+				COUNT(*) as total, 
+				SUM(application_status = 'ACCEPTED') as accepted, 
+				SUM(application_status = 'REJECTED') as rejected, 
+				SUM(application_status = 'RESOLVED') as resolved 
+				FROM ps_ferfar_applications`,
+			construction: `SELECT 
+				COUNT(*) as total, 
+				SUM(application_status = 'ACCEPTED') as accepted, 
+				SUM(application_status = 'REJECTED') as rejected, 
+				SUM(application_status = 'RESOLVED') as resolved 
+				FROM ps_construction_applications`,
+			jobCard: `SELECT 
+				COUNT(*) as total, 
+				SUM(registration_status = 'ACCEPTED') as accepted, 
+				SUM(registration_status = 'REJECTED') as rejected
+				FROM ps_job_cards`,
+			toSeva: `SELECT 
+				COUNT(*) as total, 
+				SUM(registration_status = 'ACCEPTED') as accepted, 
+				SUM(registration_status = 'REJECTED') as rejected
+				FROM ps_tahsil_office_seva`,
+			occupationNoc: `SELECT 
+				COUNT(*) as total, 
+				SUM(application_status = 'ACCEPTED') as accepted, 
+				SUM(application_status = 'REJECTED') as rejected
+				FROM ps_occupation_noc`
+		};
+	
+		let result = {};
+		for (let key in queries) {
+			try {
+				const rows = await runQuery(pool, queries[key]);
+				if (rows && rows.length > 0) {
+					let item = { total: rows[0].total || 0 };
+					if (rows[0].accepted !== undefined) item.accepted = rows[0].accepted || 0;
+					if (rows[0].rejected !== undefined) item.rejected = rows[0].rejected || 0;
+					if (rows[0].resolved !== undefined) item.resolved = rows[0].resolved || 0;
+					result[key] = item;
+				} else {
+					result[key] = { total: 0 };
+				}
+			} catch(err) {
+				console.error(`Error fetching stats for ${key}: ${err.message}`);
+				result[key] = { total: 0 };
+			}
+		}
+
+		// Add deeper bifurcation for occupationNoc
+		try {
+			const nocDetailsRows = await runQuery(pool, `
+				SELECT 
+					subject_code, 
+					COUNT(*) as total, 
+					SUM(application_status = 'ACCEPTED') as accepted, 
+					SUM(application_status = 'REJECTED') as rejected 
+				FROM ps_occupation_noc 
+				GROUP BY subject_code
+			`);
+			if (nocDetailsRows && nocDetailsRows.length > 0) {
+				result['occupationNoc'].details = nocDetailsRows.map(row => ({
+					subject: row.subject_code ? row.subject_code.replace(/_NOC$/, '').replace(/_/g, ' ') : 'इतर',
+					total: row.total || 0,
+					accepted: row.accepted || 0,
+					rejected: row.rejected || 0
+				}));
+			}
+		} catch(err) {
+			console.error(`Error fetching detailed stats for occupationNoc: ${err.message}`);
+		}
+
+		// Add deeper bifurcation for toSeva (tahsil office seva)
+		try {
+			const toSevaDetailsRows = await runQuery(pool, `
+				SELECT 
+					subject, 
+					COUNT(*) as total, 
+					SUM(registration_status = 'ACCEPTED') as accepted, 
+					SUM(registration_status = 'REJECTED') as rejected 
+				FROM ps_tahsil_office_seva 
+				GROUP BY subject
+			`);
+			if (toSevaDetailsRows && toSevaDetailsRows.length > 0) {
+				result['toSeva'].details = toSevaDetailsRows.map(row => ({
+					subject: row.subject ? row.subject : 'इतर',
+					total: row.total || 0,
+					accepted: row.accepted || 0,
+					rejected: row.rejected || 0
+				}));
+			}
+		} catch(err) {
+			console.error(`Error fetching detailed stats for toSeva: ${err.message}`);
+		}
+
+		return result;
+	}
 }
 
 module.exports = HomeModel

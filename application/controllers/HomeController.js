@@ -250,8 +250,11 @@ let CandidateController = {
         igUser = await getIgUser(req);
       }
 
+	  let dashboardStats = await HomeModel.getDashboardServiceStats(res.pool);
+
       return renderPage(res, "new_gp/index", {
         ...allRequiredData,
+		dashboardStats,
         videos,
         gram_ahaval_documents,
         userData,
