@@ -2,6 +2,7 @@ const watertaxModel = require('../../model/watertax/watertaxModel');
 const FormNineModel = require('../../model/FormNightModel');
 const qrCodeModel = require('../../model/qrCode/qrCodeModel');
 const { renderPage } = require('../../utils/sendResponse');
+const asyncHandler = require('../../utils/asyncHandler');
 
 const magniBillController = {
 	renderMagniBillPage: asyncHandler(async (req, res) => {
