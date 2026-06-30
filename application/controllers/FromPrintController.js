@@ -1115,7 +1115,7 @@ let FromPrintController = {
 		renderPage(res, 'user/print/pageFormNineSamanyaOther', {
 			data,
 			year,
-			qrCodes
+			qrCodes: qrCodes || {}
 		});
 	}),
 

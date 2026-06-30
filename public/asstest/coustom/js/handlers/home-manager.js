@@ -344,7 +344,7 @@ $(document).ready(function () {
                 break;
 
             case 117:
-                window.open(`/print/form-9-samanya-other/${y1}/${y2}`, '_blank');
+                window.open(`/print/form-9-samanya-other/${encodeURIComponent(y1)}/${encodeURIComponent(y2)}`, '_blank');
                 break;
             case 116:
                 window.open(`/watertax/watertax-print/${y1}/${y2}`, '_blank');

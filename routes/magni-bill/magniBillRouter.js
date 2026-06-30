@@ -1,42 +1,32 @@
-const express = require("express");
-const middleware = require("../middleware");
-const magniBillController = require("../../application/controllers/magni-bill/magniBillController");
-const mangiBillRouter = express.Router();
+const magniBillController = require('../../application/controllers/magni-bill/magniBillController');
+const getRouter = require('../../application/utils/getRouter');
+const mangiBillRouter = getRouter();
+
+mangiBillRouter.get('/', magniBillController.renderMagniBillPage);
 
 mangiBillRouter.get(
-  "/",
-  middleware.checkForPoolConnection,
-  magniBillController.renderMagniBillPage
+	'/print-watertax-magni-bill',
+	magniBillController.printWatertaxMagniBill
 );
 
 mangiBillRouter.get(
-  "/print-watertax-magni-bill",
-  middleware.checkForPoolConnection,
-  magniBillController.printWatertaxMagniBill
+	'/print-magni-bill-other',
+	magniBillController.printMagniBillOther
 );
 
 mangiBillRouter.get(
-  "/print-magni-bill-other",
-  middleware.checkForPoolConnection,
-  magniBillController.printMagniBillOther
+	'/print-bank-qr-code-magni-bill-other',
+	magniBillController.printQrCodeMagniBillOther
 );
 
 mangiBillRouter.get(
-  "/print-bank-qr-code-magni-bill-other",
-  middleware.checkForPoolConnection,
-  magniBillController.printQrCodeMagniBillOther
+	'/print-9-c-bank-magni-bill',
+	magniBillController.print9CBankMagniBill
 );
 
 mangiBillRouter.get(
-  "/print-9-c-bank-magni-bill",
-  middleware.checkForPoolConnection,
-  magniBillController.print9CBankMagniBill
-);
-
-mangiBillRouter.get(
-  "/print-9-c-magni-bill",
-  middleware.checkForPoolConnection,
-  magniBillController.print9CMagniBill
+	'/print-9-c-magni-bill',
+	magniBillController.print9CMagniBill
 );
 
 module.exports = mangiBillRouter;

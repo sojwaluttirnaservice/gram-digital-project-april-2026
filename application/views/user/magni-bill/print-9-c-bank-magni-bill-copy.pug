@@ -261,16 +261,16 @@ if printFormat && printFormat == 'new'
                                                     div
                                                         p मागील कर (रू)
                                                         hr.text-red-900
-                                                        p #{year1}
+                                                        p(class='z-10') #{year1}
                                                 th.p-1.text-center(width="20%") 
                                                     div
                                                         p चालू कर (रू)
                                                         hr
-                                                        p #{year2}
+                                                        p(class='z-10') #{year2}
                                                 th.p-1.text-center(width="20%") एकूण (रू)
 
                                         tbody
-                                            - 
+                                            -
                                                 let taxes = [
                                                     {name: 'इमारत कर', last: value.lastBuildingTax, current: value.currentBuildingTax},
                                                     {name: 'इतर/मागील घर पट्टीवर दंड कर', last: Math.round(value.lastTaxFine || 0) + Math.round(value.lastYearTaxFine || 0), current: value.lastTaxRelief},
@@ -466,9 +466,9 @@ else
                 - pageCount += 1;
                 - var  className = 'm-0 mt-4 mb-12 c-'+ (index%2); 
 
-                - function dist(val) 
+                - function dist(val)
                     //- here 35 is an offset for second print, which is in rem and value is also in rem, all calculations are in rem for distances except few things
-                    - return (val + 35) 
+                    - return (val + 35)
 
                 div(class=className)
                     div(style="position:relative;display:inline-block;width:290mm;height:200mm !important")
@@ -545,7 +545,7 @@ else
 
 
 
-                            - 
+                            -
                                 let taxes = [
                                     {name: 'इमारत कर', last: value.lastBuildingTax, current: value.currentBuildingTax},
                                     {name: 'इतर/मागील घर पट्टीवर दंड कर', last: Math.round(value.lastTaxFine || 0) + Math.round(value.lastYearTaxFine || 0), current: value.lastTaxRelief},
@@ -565,6 +565,19 @@ else
                             - let colOffset = 6.2
                             - let firstColDist = 14.2
                             - let distanceBetweenRows = 1.54
+
+                            div
+                                div(class=`absolute left-[${firstColDist}rem] top-[23.5rem] text-sm`)
+                                    div #{year1}
+                                div(class=`absolute left-[${colOffset + firstColDist}rem] top-[23.5rem] text-sm`)
+                                    div #{year2}
+
+                            div 
+                                div(class=`absolute left-[${dist(firstColDist)}rem] top-[23.5rem] text-sm`)
+                                    div #{year1}
+                                div(class=`absolute left-[${dist(colOffset + firstColDist)}rem] top-[23.5rem] text-sm`)
+                                    div #{year2}                            
+
                             each taxRow, _index in taxes
                                 //- FOR left copy
                                 div(class=`absolute left-[${firstColDist}rem] top-[${25 + rowOffset}rem] text-sm`)
