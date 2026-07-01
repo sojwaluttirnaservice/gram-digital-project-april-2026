@@ -1,36 +1,36 @@
-const { runQuery } = require("../../utils/runQuery");
+const { runQuery } = require('../../utils/runQuery');
 
 const namuna6CModel = {
-  collectionList: (pool, filters = {}) => {
-    const { date, month, year, fromYear, toYear } = filters;
+	collectionList: (pool, filters = {}) => {
+		const { date, month, year, fromYear, toYear } = filters;
 
-    let whereClause = `
+		let whereClause = `
         (t.approval_status = 'APPROVED' OR t.approval_status IS NULL)
     `;
 
-    let params = [];
+		let params = [];
 
-    // ✅ 1. Exact Date
-    if (date) {
-      whereClause += ` AND DATE(t.createdAt) = ?`;
-      params.push(date);
-    }
+		// ✅ 1. Exact Date
+		if (date) {
+			whereClause += ` AND DATE(t.createdAt) = ?`;
+			params.push(date);
+		}
 
-    // ✅ 2. Month + Year
-    else if (month && year) {
-      whereClause += ` AND MONTH(t.createdAt) = ? AND YEAR(t.createdAt) = ?`;
-      params.push(month, year);
-    }
+		// ✅ 2. Month + Year
+		else if (month && year) {
+			whereClause += ` AND MONTH(t.createdAt) = ? AND YEAR(t.createdAt) = ?`;
+			params.push(month, year);
+		}
 
-    // ✅ 3. Financial Year (April → March)
-    else if (fromYear && toYear) {
-      whereClause += ` AND t.createdAt BETWEEN ? AND ?`;
-      params.push(`${fromYear}-04-01`, `${toYear}-03-31`);
-    }
+		// ✅ 3. Financial Year (April → March)
+		else if (fromYear && toYear) {
+			whereClause += ` AND t.createdAt BETWEEN ? AND ?`;
+			params.push(`${fromYear}-04-01`, `${toYear}-03-31`);
+		}
 
-    // LATEST QUERY WORKING FINE
+		// LATEST QUERY WORKING FINE
 
-    let q = `
+		let q = `
     SELECT 
         month,
         year,
@@ -153,33 +153,28 @@ const namuna6CModel = {
         END;
     `;
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	},
 
+	expenditureList: (pool, filters = {}) => {
+		const { date, month, year, fromYear, toYear } = filters;
 
-    expenditureList: (pool, filters = {}) => {
-  const { date, month, year, fromYear, toYear } = filters;
+		let whereClause = `1=1`;
+		let params = [];
 
-  let whereClause = `1=1`;
-  let params = [];
+		// ✅ Filters
+		if (date) {
+			whereClause += ` AND DATE(createdAt) = ?`;
+			params.push(date);
+		} else if (month && year) {
+			whereClause += ` AND MONTH(createdAt) = ? AND YEAR(createdAt) = ?`;
+			params.push(month, year);
+		} else if (fromYear && toYear) {
+			whereClause += ` AND createdAt BETWEEN ? AND ?`;
+			params.push(`${fromYear}-04-01`, `${toYear}-03-31`);
+		}
 
-  // ✅ Filters
-  if (date) {
-    whereClause += ` AND DATE(createdAt) = ?`;
-    params.push(date);
-  } 
-  else if (month && year) {
-    whereClause += ` AND MONTH(createdAt) = ? AND YEAR(createdAt) = ?`;
-    params.push(month, year);
-  } 
-  else if (fromYear && toYear) {
-    whereClause += ` AND createdAt BETWEEN ? AND ?`;
-    params.push(`${fromYear}-04-01`, `${toYear}-03-31`);
-  }
-
-
-
-  let q = `
+		let q = `
 SELECT 
     month,
     year,
@@ -281,8 +276,8 @@ ORDER BY
     END;
 `;
 
-  return runQuery(pool, q, params);
-},
+		return runQuery(pool, q, params);
+	}
 };
 
 module.exports = namuna6CModel;

@@ -1,7 +1,7 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna33TreeDetailsModel = {
-    saveNamuna33TreeDetails: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	saveNamuna33TreeDetails: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_33_tree_details 
                 (
                     month, 
@@ -16,30 +16,21 @@ const namuna33TreeDetailsModel = {
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.year,
-                    data.land_or_road_details,
-                    data.tree_type,
-                    data.tree_additional_info,
-                    data.tree_count,
-                    data.expected_annual_income,
-                    data.actual_income_received,
-                    data.tree_cut_or_destroyed_details,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.year,
+			data.land_or_road_details,
+			data.tree_type,
+			data.tree_additional_info,
+			data.tree_count,
+			data.expected_annual_income,
+			data.actual_income_received,
+			data.tree_cut_or_destroyed_details
+		]);
+	},
 
-    updateNamuna33TreeDetails: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	updateNamuna33TreeDetails: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_33_tree_details 
                 SET 
                     month = ?, 
@@ -53,44 +44,30 @@ const namuna33TreeDetailsModel = {
                     tree_cut_or_destroyed_details = ?
                 WHERE id = ?
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.year,
-                    data.land_or_road_details,
-                    data.tree_type,
-                    data.tree_additional_info,
-                    data.tree_count,
-                    data.expected_annual_income,
-                    data.actual_income_received,
-                    data.tree_cut_or_destroyed_details,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.year,
+			data.land_or_road_details,
+			data.tree_type,
+			data.tree_additional_info,
+			data.tree_count,
+			data.expected_annual_income,
+			data.actual_income_received,
+			data.tree_cut_or_destroyed_details,
+			data.id
+		]);
+	},
 
-    deleteNamuna33TreeDetails: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	deleteNamuna33TreeDetails: (pool, id) => {
+		const q = `
                 DELETE FROM ps_namuna_33_tree_details 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna33TreeDetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna33TreeDetailsById: (pool, id) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -99,16 +76,11 @@ const namuna33TreeDetailsModel = {
                 FROM ps_namuna_33_tree_details 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna33TreeDetailsByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            /**
+	fetchNamuna33TreeDetailsByMonthAndYear: (pool, month, year) => {
+		/**
                 DONT USE THIS QUERY FOR NOW
             const q = `
                 SELECT 
@@ -137,23 +109,18 @@ const namuna33TreeDetailsModel = {
              * 
              */
 
-            let q = `SELECT 
+		let q = `SELECT 
                 *
             FROM ps_namuna_33_tree_details
             ${month || year ? 'WHERE' : ''} 
             ${month ? ` month = ?` : ''}
             ${year ? `${month ? 'AND' : ''} year = ?` : ''}`;
 
-            pool.query(q, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [month, year]);
+	},
 
-    fetchNamuna33TreeDetailsByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna33TreeDetailsByYear: (pool, year) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -162,16 +129,11 @@ const namuna33TreeDetailsModel = {
                 FROM ps_namuna_33_tree_details 
                 WHERE year = ?
             `;
-            pool.query(q, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    fetchNamuna33TreeDetailsByFinancialYear: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna33TreeDetailsByFinancialYear: (pool, fromYear, toYear) => {
+		const q = `
                 SELECT *
                 FROM ps_namuna_33_tree_details 
                 WHERE 
@@ -179,16 +141,11 @@ const namuna33TreeDetailsModel = {
                     OR
                     (year = ? AND month BETWEEN 1 AND 3)
             `;
-            pool.query(q, [fromYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [fromYear, toYear]);
+	},
 
-    fetchAllNamuna33TreeDetails: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchAllNamuna33TreeDetails: (pool) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -196,12 +153,8 @@ const namuna33TreeDetailsModel = {
                     END AS _createdAt 
                 FROM ps_namuna_33_tree_details
             `;
-            pool.query(q, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	}
 };
 
 module.exports = namuna33TreeDetailsModel;

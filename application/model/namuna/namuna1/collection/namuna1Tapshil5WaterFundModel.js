@@ -1,8 +1,8 @@
+const { runQuery } = require('../../../../utils/runQuery');
 const namuna1Tapshil5WaterFundModel = {
-    // 1
-    saveNamuna1Tapshil5WaterFundHeaders: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 1
+	saveNamuna1Tapshil5WaterFundHeaders: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_1_tapshil_5_village_water_priority_fund_headers (
                     year,
                     item_in_budget_header_name,
@@ -12,17 +12,12 @@ const namuna1Tapshil5WaterFundModel = {
                     year_of_actual_amount_year_before_last
                 ) VALUES ?;
             `;
-            pool.query(q, [data], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [data]);
+	},
 
-    // 2
-    updateNamuna1Tapshil5WaterFundHeaders: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const updateQuery = `
+	// 2
+	updateNamuna1Tapshil5WaterFundHeaders: (pool, data) => {
+		const updateQuery = `
                 UPDATE ps_namuna_1_tapshil_5_village_water_priority_fund_headers
                 SET
                     year = ?, 
@@ -33,29 +28,20 @@ const namuna1Tapshil5WaterFundModel = {
                     year_of_actual_amount_year_before_last = ?
                 WHERE id = ?;
             `;
-            pool.query(
-                updateQuery,
-                [
-                    data.year,
-                    data.item_in_budget_header_name,
-                    data.year_of_estimated_income_of_panchayat,
-                    data.year_of_approved_estimated_amount,
-                    data.year_of_actual_amount_previous_year,
-                    data.year_of_actual_amount_year_before_last,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, updateQuery, [
+			data.year,
+			data.item_in_budget_header_name,
+			data.year_of_estimated_income_of_panchayat,
+			data.year_of_approved_estimated_amount,
+			data.year_of_actual_amount_previous_year,
+			data.year_of_actual_amount_year_before_last,
+			data.id
+		]);
+	},
 
-    // 3
-    updateSingleNamuna1Tapshil5WaterFundHeader: (pool, updateEntry) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 3
+	updateSingleNamuna1Tapshil5WaterFundHeader: (pool, updateEntry) => {
+		const q = `
                 UPDATE ps_namuna_1_tapshil_5_village_water_priority_fund_headers
                 SET
                     year = ?,
@@ -66,26 +52,22 @@ const namuna1Tapshil5WaterFundModel = {
                     year_of_actual_amount_year_before_last = ?
                 WHERE id = ?;
             `;
-            let updateArray = [
-                updateEntry.year,
-                updateEntry.item_in_budget_header_name,
-                updateEntry.year_of_estimated_income_of_panchayat,
-                updateEntry.year_of_approved_estimated_amount,
-                updateEntry.year_of_actual_amount_previous_year,
-                updateEntry.year_of_actual_amount_year_before_last,
-                updateEntry.id,
-            ];
+		let updateArray = [
+			updateEntry.year,
+			updateEntry.item_in_budget_header_name,
+			updateEntry.year_of_estimated_income_of_panchayat,
+			updateEntry.year_of_approved_estimated_amount,
+			updateEntry.year_of_actual_amount_previous_year,
+			updateEntry.year_of_actual_amount_year_before_last,
+			updateEntry.id
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    // 4
-    updateNamuna1Tapshil5WaterFundEntry: (pool, updateEntry) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 4
+	updateNamuna1Tapshil5WaterFundEntry: (pool, updateEntry) => {
+		const q = `
                 UPDATE ps_namuna_1_tapshil_5_village_water_priority_fund
                 SET
                     year = ?,
@@ -97,28 +79,23 @@ const namuna1Tapshil5WaterFundModel = {
                     namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk = ?
                 WHERE id = ?;
             `;
-            let updateArray = [
-                updateEntry.year,
-                updateEntry.item_in_budget,
-                updateEntry.estimated_income_of_panchayat,
-                updateEntry.approved_estimated_amount,
-                updateEntry.actual_amount_previous_year,
-                updateEntry.actual_amount_year_before_last,
-                updateEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk,
-                updateEntry.id,
-            ];
+		let updateArray = [
+			updateEntry.year,
+			updateEntry.item_in_budget,
+			updateEntry.estimated_income_of_panchayat,
+			updateEntry.approved_estimated_amount,
+			updateEntry.actual_amount_previous_year,
+			updateEntry.actual_amount_year_before_last,
+			updateEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk,
+			updateEntry.id
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    // 5
-    saveNamuna1Tapshil5WaterFundEntries: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 5
+	saveNamuna1Tapshil5WaterFundEntries: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_1_tapshil_5_village_water_priority_fund (
                     year,
                     item_in_budget,
@@ -129,17 +106,12 @@ const namuna1Tapshil5WaterFundModel = {
                     namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk
                 ) VALUES ?;
             `;
-            pool.query(q, [data], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [data]);
+	},
 
-    // 6
-    saveSingleNamuna1Tapshil5WaterFundEntry: (pool, singleFundEntry) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 6
+	saveSingleNamuna1Tapshil5WaterFundEntry: (pool, singleFundEntry) => {
+		const q = `
                 INSERT INTO ps_namuna_1_tapshil_5_village_water_priority_fund (
                     year,
                     item_in_budget,
@@ -150,40 +122,26 @@ const namuna1Tapshil5WaterFundModel = {
                     namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk
                 ) VALUES (?, ?, ?, ?, ?, ?, ?);
             `;
-            pool.query(
-                q,
-                [
-                    singleFundEntry.year,
-                    singleFundEntry.item_in_budget,
-                    singleFundEntry.estimated_income_of_panchayat,
-                    singleFundEntry.approved_estimated_amount,
-                    singleFundEntry.actual_amount_previous_year,
-                    singleFundEntry.actual_amount_year_before_last,
-                    singleFundEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			singleFundEntry.year,
+			singleFundEntry.item_in_budget,
+			singleFundEntry.estimated_income_of_panchayat,
+			singleFundEntry.approved_estimated_amount,
+			singleFundEntry.actual_amount_previous_year,
+			singleFundEntry.actual_amount_year_before_last,
+			singleFundEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk
+		]);
+	},
 
-    // 7
-    deleteNamuna1Tapshil5WaterFundEntry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const deleteQuery = `DELETE FROM ps_namuna_1_tapshil_5_village_water_priority_fund WHERE id =?;`;
-            pool.query(deleteQuery, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	// 7
+	deleteNamuna1Tapshil5WaterFundEntry: (pool, id) => {
+		const deleteQuery = `DELETE FROM ps_namuna_1_tapshil_5_village_water_priority_fund WHERE id =?;`;
+		return runQuery(pool, deleteQuery, [id]);
+	},
 
-    // 8
-    updateSingleNamuna1Tapshil5WaterFundEntry: (pool, singleFundEntry) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 8
+	updateSingleNamuna1Tapshil5WaterFundEntry: (pool, singleFundEntry) => {
+		const q = `
                 UPDATE ps_namuna_1_tapshil_5_village_water_priority_fund
                 SET
                     year = ?, 
@@ -195,53 +153,37 @@ const namuna1Tapshil5WaterFundModel = {
                     namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk = ?
                 WHERE id = ?;
             `;
-            pool.query(
-                q,
-                [
-                    singleFundEntry.year,
-                    singleFundEntry.item_in_budget,
-                    singleFundEntry.estimated_income_of_panchayat,
-                    singleFundEntry.approved_estimated_amount,
-                    singleFundEntry.actual_amount_previous_year,
-                    singleFundEntry.actual_amount_year_before_last,
-                    singleFundEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk,
-                    singleFundEntry.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			singleFundEntry.year,
+			singleFundEntry.item_in_budget,
+			singleFundEntry.estimated_income_of_panchayat,
+			singleFundEntry.approved_estimated_amount,
+			singleFundEntry.actual_amount_previous_year,
+			singleFundEntry.actual_amount_year_before_last,
+			singleFundEntry.namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk,
+			singleFundEntry.id
+		]);
+	},
 
-    //9
-    fetchNamuna1Tapshil5WaterFundHeadersByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	//9
+	fetchNamuna1Tapshil5WaterFundHeadersByYear: (pool, year) => {
+		const q = `
                 SELECT * FROM ps_namuna_1_tapshil_5_village_water_priority_fund_headers 
                 WHERE year = ?;
             `;
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    // 10
-    fetchNamuna1Tapshil5WaterFundByHeaderId: (pool, headerId) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// 10
+	fetchNamuna1Tapshil5WaterFundByHeaderId: (pool, headerId) => {
+		const q = `
                 SELECT * FROM ps_namuna_1_tapshil_5_village_water_priority_fund 
                 WHERE 
                     namuna_1_tapshil_5_village_water_priority_fund_headers_id_fk = ? 
                 ORDER BY id;
             `;
-            pool.query(q, [headerId], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [headerId]);
+	}
 };
 
 module.exports = namuna1Tapshil5WaterFundModel;

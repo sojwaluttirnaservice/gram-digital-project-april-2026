@@ -1,7 +1,7 @@
+const { runQuery } = require('../../../utils/runQuery');
 const stateAuxiliaryGrantsModel = {
-    create: (pool, createData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	create: (pool, createData) => {
+		const q = `
             INSERT INTO ps_n_3_state_auxiliary_grants (
                 year,
                 toilet_fund,
@@ -20,30 +20,26 @@ const stateAuxiliaryGrantsModel = {
             )
             `;
 
-            const insertArray = [
-                createData.year,
-                createData.toilet_fund,
-                createData.dalit_vasti_improvement_fund,
-                createData.water_supply_tcl_fund,
-                createData.construction_fund,
-                createData.education_school_fund,
-                createData.minimum_wage_and_meeting_allowance_fund,
-                createData.health_fund,
-                createData.other_fund,
-                createData.total_2a_1_to_8,
-                createData.received_fund,
-                createData.total_2_ab,
-            ];
+		const insertArray = [
+			createData.year,
+			createData.toilet_fund,
+			createData.dalit_vasti_improvement_fund,
+			createData.water_supply_tcl_fund,
+			createData.construction_fund,
+			createData.education_school_fund,
+			createData.minimum_wage_and_meeting_allowance_fund,
+			createData.health_fund,
+			createData.other_fund,
+			createData.total_2a_1_to_8,
+			createData.received_fund,
+			createData.total_2_ab
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    update: (pool, updateData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	update: (pool, updateData) => {
+		const q = `
             UPDATE ps_n_3_state_auxiliary_grants
             SET
                 toilet_fund = ?,
@@ -60,30 +56,26 @@ const stateAuxiliaryGrantsModel = {
             WHERE year = ?;
             `;
 
-            const updateArray = [
-                updateData.toilet_fund,
-                updateData.dalit_vasti_improvement_fund,
-                updateData.water_supply_tcl_fund,
-                updateData.construction_fund,
-                updateData.education_school_fund,
-                updateData.minimum_wage_and_meeting_allowance_fund,
-                updateData.health_fund,
-                updateData.other_fund,
-                updateData.total_2a_1_to_8,
-                updateData.received_fund,
-                updateData.total_2_ab,
-                updateData.year,
-            ];
+		const updateArray = [
+			updateData.toilet_fund,
+			updateData.dalit_vasti_improvement_fund,
+			updateData.water_supply_tcl_fund,
+			updateData.construction_fund,
+			updateData.education_school_fund,
+			updateData.minimum_wage_and_meeting_allowance_fund,
+			updateData.health_fund,
+			updateData.other_fund,
+			updateData.total_2a_1_to_8,
+			updateData.received_fund,
+			updateData.total_2_ab,
+			updateData.year
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    getByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	getByYear: (pool, year) => {
+		const q = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), '') AS _createdAt,
@@ -92,11 +84,8 @@ const stateAuxiliaryGrantsModel = {
             WHERE year = ?;
             `;
 
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	}
 };
 
 module.exports = stateAuxiliaryGrantsModel;

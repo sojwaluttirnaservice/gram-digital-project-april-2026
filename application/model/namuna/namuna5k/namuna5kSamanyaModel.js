@@ -1,25 +1,25 @@
-const fmtDateField = require("../../../utils/fmtDateField");
-const { runQuery } = require("../../../utils/runQuery");
+const fmtDateField = require('../../../utils/fmtDateField');
+const { runQuery } = require('../../../utils/runQuery');
 
 const namuna5kSamanyaModel = {
-  /**
-   * Save a payment record
-   * @param pool - DB connection pool
-   * @param data - Object containing payment details
-   * {
-   *    ps_bank_details_id_fk,
-   *    payment_from_date,
-   *    payment_upto_date,
-   *    actual_cash_outstanding,
-   *    deposited_cash_amount,
-   *    receipt_file_name
-   * }
-   */
-  savePayment: async (pool, data) => {
-    const pendingAmount =
-      data.actual_cash_outstanding - data.deposited_cash_amount;
+	/**
+	 * Save a payment record
+	 * @param pool - DB connection pool
+	 * @param data - Object containing payment details
+	 * {
+	 *    ps_bank_details_id_fk,
+	 *    payment_from_date,
+	 *    payment_upto_date,
+	 *    actual_cash_outstanding,
+	 *    deposited_cash_amount,
+	 *    receipt_file_name
+	 * }
+	 */
+	savePayment: async (pool, data) => {
+		const pendingAmount =
+			data.actual_cash_outstanding - data.deposited_cash_amount;
 
-    const query = `
+		const query = `
             INSERT INTO ps_namuna_5k_samanya
                 (
                     ps_bank_details_id_fk, 
@@ -33,93 +33,93 @@ const namuna5kSamanyaModel = {
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
-    const params = [
-      data.ps_bank_details_id_fk,
-      data.payment_from_date,
-      data.payment_upto_date,
-      data.actual_cash_outstanding,
-      data.deposited_cash_amount,
-      pendingAmount,
-      data.receipt_file_name || null,
-    ];
+		const params = [
+			data.ps_bank_details_id_fk,
+			data.payment_from_date,
+			data.payment_upto_date,
+			data.actual_cash_outstanding,
+			data.deposited_cash_amount,
+			pendingAmount,
+			data.receipt_file_name || null
+		];
 
-    return runQuery(pool, query, params);
-  },
+		return runQuery(pool, query, params);
+	},
 
-  /**
-   * Get the last payment record (latest by payment_upto_date)
-   */
-  lastPayment: async (pool, bankId = null) => {
-    let query = `
+	/**
+	 * Get the last payment record (latest by payment_upto_date)
+	 */
+	lastPayment: async (pool, bankId = null) => {
+		let query = `
             SELECT *,
-            ${fmtDateField("payment_upto_date")}
+            ${fmtDateField('payment_upto_date')}
             FROM ps_namuna_5k_samanya
         `;
 
-    if (bankId) {
-      query += ` WHERE ps_bank_details_id_fk = ?`;
-    }
+		if (bankId) {
+			query += ` WHERE ps_bank_details_id_fk = ?`;
+		}
 
-    query += ` ORDER BY payment_upto_date DESC LIMIT 1`;
+		query += ` ORDER BY payment_upto_date DESC LIMIT 1`;
 
-    const params = bankId ? [bankId] : [];
-    return runQuery(pool, query, params);
-  },
+		const params = bankId ? [bankId] : [];
+		return runQuery(pool, query, params);
+	},
 
-  /**
-   * Get all unpaid periods
-   * Useful to check which days are pending payment
-   */
-  getUnpaidPeriods: async (pool, bankId = null) => {
-    let query = `
+	/**
+	 * Get all unpaid periods
+	 * Useful to check which days are pending payment
+	 */
+	getUnpaidPeriods: async (pool, bankId = null) => {
+		let query = `
             SELECT *
             FROM ps_namuna_5k_samanya
             WHERE amount_not_paid > 0
         `;
 
-    if (bankId) {
-      query += ` AND ps_bank_details_id_fk = ?`;
-    }
+		if (bankId) {
+			query += ` AND ps_bank_details_id_fk = ?`;
+		}
 
-    query += ` ORDER BY payment_from_date ASC`;
+		query += ` ORDER BY payment_from_date ASC`;
 
-    const params = bankId ? [bankId] : [];
-    return runQuery(pool, query, params);
-  },
+		const params = bankId ? [bankId] : [];
+		return runQuery(pool, query, params);
+	},
 
-  /**
-   * Fetch all payments for a specific bank account
-   */
-  getPaymentsByBank: async (pool, bankId) => {
-    const query = `
+	/**
+	 * Fetch all payments for a specific bank account
+	 */
+	getPaymentsByBank: async (pool, bankId) => {
+		const query = `
             SELECT *
             FROM ps_namuna_5k_samanya
             WHERE ps_bank_details_id_fk = ?
             ORDER BY payment_from_date ASC
         `;
-    return runQuery(pool, query, [bankId]);
-  },
+		return runQuery(pool, query, [bankId]);
+	},
 
-  /**
-   * Fetch total pending amount for a specific bank account
-   */
-  getTotalPending: async (pool, bankId) => {
-    const query = `
+	/**
+	 * Fetch total pending amount for a specific bank account
+	 */
+	getTotalPending: async (pool, bankId) => {
+		const query = `
             SELECT SUM(amount_not_paid) AS total_pending
             FROM ps_namuna_5k_samanya
             WHERE ps_bank_details_id_fk = ?
         `;
-    return runQuery(pool, query, [bankId]);
-  },
+		return runQuery(pool, query, [bankId]);
+	},
 
-  //   new for namuna 26 kh
-  getNamuna5kMonthWise2: (pool, filters) => {
-    let { fromYear, toYear } = filters;
+	//   new for namuna 26 kh
+	getNamuna5kMonthWise2: (pool, filters) => {
+		let { fromYear, toYear } = filters;
 
-    let fromDate = `${fromYear}-04-01`;
-    let toDate = `${toYear}-03-31`;
+		let fromDate = `${fromYear}-04-01`;
+		let toDate = `${toYear}-03-31`;
 
-    let q = `
+		let q = `
     SELECT 
         YEAR(payment_upto_date) AS yr,
         MONTH(payment_upto_date) AS mn,
@@ -142,18 +142,18 @@ const namuna5kSamanyaModel = {
       END
   `;
 
-    let params = [fromDate, toDate];
+		let params = [fromDate, toDate];
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	},
 
-  getNamuna5kMonthWise: (pool, filters) => {
-  let { fromYear, toYear } = filters;
+	getNamuna5kMonthWise: (pool, filters) => {
+		let { fromYear, toYear } = filters;
 
-  let fromDate = `${fromYear}-04-01`;
-  let toDate = `${toYear}-03-31`;
+		let fromDate = `${fromYear}-04-01`;
+		let toDate = `${toYear}-03-31`;
 
-  let q = `
+		let q = `
     WITH RECURSIVE months AS (
         SELECT DATE(?) AS dt
         UNION ALL
@@ -187,18 +187,18 @@ const namuna5kSamanyaModel = {
       END
   `;
 
-  let params = [fromDate, toDate, fromDate, toDate];
+		let params = [fromDate, toDate, fromDate, toDate];
 
-  return runQuery(pool, q, params);
-},
+		return runQuery(pool, q, params);
+	},
 
-    getLastRemaining: (pool, filters) => {
-    let { fromYear, toYear } = filters;
+	getLastRemaining: (pool, filters) => {
+		let { fromYear, toYear } = filters;
 
-    let fromDate = `${fromYear}-04-01`;
-    let toDate = `${toYear}-03-31`;
+		let fromDate = `${fromYear}-04-01`;
+		let toDate = `${toYear}-03-31`;
 
-    let q = `
+		let q = `
         WITH RECURSIVE months AS (
             SELECT DATE(?) AS dt
             UNION ALL
@@ -242,10 +242,10 @@ const namuna5kSamanyaModel = {
         END
     `;
 
-    let params = [fromDate, toDate, fromDate, toDate];
+		let params = [fromDate, toDate, fromDate, toDate];
 
-    return runQuery(pool, q, params);
-    },
+		return runQuery(pool, q, params);
+	}
 };
 
 module.exports = namuna5kSamanyaModel;

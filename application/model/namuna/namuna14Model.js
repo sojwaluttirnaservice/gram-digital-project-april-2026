@@ -1,8 +1,8 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna14Model = {
-    // Save a new record for Namuna 14
-    saveNamuna14Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Save a new record for Namuna 14
+	saveNamuna14Details: (pool, data) => {
+		const query = `
                 INSERT INTO ps_namuna_14 (
                     month,
                     year,
@@ -17,31 +17,26 @@ const namuna14Model = {
                     remarks
                 ) VALUES (?,?,?,?,?,?,?,?,?,?,?)
             `;
-            const insertArray = [
-                data.month,
-                data.year,
-                data.date,
-                data.certificate_number,
-                data.received_stamp_value,
-                data.letter_number,
-                data.receipt_number,
-                data.receipt_date,
-                data.used_stamp_value,
-                data.daily_balance,
-                data.remarks,
-            ];
+		const insertArray = [
+			data.month,
+			data.year,
+			data.date,
+			data.certificate_number,
+			data.received_stamp_value,
+			data.letter_number,
+			data.receipt_number,
+			data.receipt_date,
+			data.used_stamp_value,
+			data.daily_balance,
+			data.remarks
+		];
 
-            pool.query(query, insertArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, insertArray);
+	},
 
-    // Update an existing record by ID for Namuna 14
-    updateNamuna14Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Update an existing record by ID for Namuna 14
+	updateNamuna14Details: (pool, data) => {
+		const query = `
                 UPDATE ps_namuna_14
                 SET 
                     month = ?,
@@ -57,105 +52,76 @@ const namuna14Model = {
                     remarks = ?
                 WHERE id = ?
             `;
-            const updateArray = [
-                data.month,
-                data.year,
-                data.date,
-                data.certificate_number,
-                data.received_stamp_value,
-                data.letter_number,
-                data.receipt_number,
-                data.receipt_date,
-                data.used_stamp_value,
-                data.daily_balance,
-                data.remarks,
-                data.id,
-            ];
+		const updateArray = [
+			data.month,
+			data.year,
+			data.date,
+			data.certificate_number,
+			data.received_stamp_value,
+			data.letter_number,
+			data.receipt_number,
+			data.receipt_date,
+			data.used_stamp_value,
+			data.daily_balance,
+			data.remarks,
+			data.id
+		];
 
-            pool.query(query, updateArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, updateArray);
+	},
 
-    // Delete record by ID for Namuna 14
-    deleteNamuna14DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ps_namuna_14 WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	// Delete record by ID for Namuna 14
+	deleteNamuna14DetailsById: (pool, id) => {
+		const query = `DELETE FROM ps_namuna_14 WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	},
 
-    // Fetch all records for Namuna 14 with formatted dates
-    fetchAllNamuna14Details: (pool) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch all records for Namuna 14 with formatted dates
+	fetchAllNamuna14Details: (pool) => {
+		const query = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(date, '%d-%m-%Y'), 'Invalid Date') AS _date,
                     IFNULL(DATE_FORMAT(receipt_date, '%d-%m-%Y'), 'Invalid Date') AS _receipt_date
                 FROM ps_namuna_14
             `;
-            pool.query(query, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query);
+	},
 
-    // Fetch records for specific month and year with formatted dates
-    fetchNamuna14DetailsByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch records for specific month and year with formatted dates
+	fetchNamuna14DetailsByMonthAndYear: (pool, month, year) => {
+		const query = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(date, '%d-%m-%Y'), 'Invalid Date') AS _date,
                     IFNULL(DATE_FORMAT(receipt_date, '%d-%m-%Y'), 'Invalid Date') AS _receipt_date
                 FROM ps_namuna_14
                 WHERE month = ? AND year = ?
             `;
-            pool.query(query, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [month, year]);
+	},
 
-    // Fetch records for a specific year with formatted dates
-    fetchNamuna14DetailsByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch records for a specific year with formatted dates
+	fetchNamuna14DetailsByYear: (pool, year) => {
+		const query = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(date, '%d-%m-%Y'), 'Invalid Date') AS _date,
                     IFNULL(DATE_FORMAT(receipt_date, '%d-%m-%Y'), 'Invalid Date') AS _receipt_date
                 FROM ps_namuna_14
                 WHERE year = ?
             `;
-            pool.query(query, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [year]);
+	},
 
-    // Fetch record by ID with formatted dates for Namuna 14
-    fetchNamuna14DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch record by ID with formatted dates for Namuna 14
+	fetchNamuna14DetailsById: (pool, id) => {
+		const query = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(date, '%d-%m-%Y'), 'Invalid Date') AS _date,
                     IFNULL(DATE_FORMAT(receipt_date, '%d-%m-%Y'), 'Invalid Date') AS _receipt_date
                 FROM ps_namuna_14
                 WHERE id = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	}
 };
 
 module.exports = namuna14Model;

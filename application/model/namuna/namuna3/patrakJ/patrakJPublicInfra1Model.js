@@ -1,7 +1,7 @@
+const { runQuery } = require('../../../../utils/runQuery');
 const patrakJPublicInfra1Model = {
-    create: (pool, createData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	create: (pool, createData) => {
+		const q = `
             INSERT INTO ps_n_3_patrak_j_public_infra_1 (
                 year,
                 gram_panchayat_name,
@@ -38,49 +38,45 @@ const patrakJPublicInfra1Model = {
             ) VALUES (?);
             `;
 
-            const insertArray = [
-                createData.year,
-                createData.gram_panchayat_name,
-                createData.encroachments_start_year,
-                createData.encroachments_detected,
-                createData.encroachments_removed,
+		const insertArray = [
+			createData.year,
+			createData.gram_panchayat_name,
+			createData.encroachments_start_year,
+			createData.encroachments_detected,
+			createData.encroachments_removed,
 
-                createData.roads_start_year_length,
-                createData.roads_constructed_year_length,
-                createData.roads_repaired_year_length,
-                createData.dams_repaired_year_count,
-                createData.dams_new_constructed_year_count,
+			createData.roads_start_year_length,
+			createData.roads_constructed_year_length,
+			createData.roads_repaired_year_length,
+			createData.dams_repaired_year_count,
+			createData.dams_new_constructed_year_count,
 
-                createData.dams_total_repaired_year_count,
-                createData.sewers_existing_start_year_length,
-                createData.sewers_built_this_year_length,
-                createData.sewers_repaired_this_year_length,
-                createData.bridge_count_existing_at_start_of_year,
+			createData.dams_total_repaired_year_count,
+			createData.sewers_existing_start_year_length,
+			createData.sewers_built_this_year_length,
+			createData.sewers_repaired_this_year_length,
+			createData.bridge_count_existing_at_start_of_year,
 
-                createData.bridge_count_built_this_year,
-                createData.bridge_count_repaired_this_year,
-                createData.pole_count_existing_at_start_of_year,
-                createData.pole_count_extra_lights_installed_this_year,
-                createData.trees_existing_at_start_of_year,
+			createData.bridge_count_built_this_year,
+			createData.bridge_count_repaired_this_year,
+			createData.pole_count_existing_at_start_of_year,
+			createData.pole_count_extra_lights_installed_this_year,
+			createData.trees_existing_at_start_of_year,
 
-                createData.trees_planted_and_nurtured_this_year,
-                createData.existing_religious_halls_at_year_start,
-                createData.constructed_religious_halls_in_year,
-                createData.repaired_religious_halls_in_year,
-                createData.existing_ghats_at_year_start,
-                createData.constructed_ghats_in_year,
-                createData.repaired_ghats_in_year,
-            ];
+			createData.trees_planted_and_nurtured_this_year,
+			createData.existing_religious_halls_at_year_start,
+			createData.constructed_religious_halls_in_year,
+			createData.repaired_religious_halls_in_year,
+			createData.existing_ghats_at_year_start,
+			createData.constructed_ghats_in_year,
+			createData.repaired_ghats_in_year
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    update: (pool, updateData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	update: (pool, updateData) => {
+		const q = `
             UPDATE ps_n_3_patrak_j_public_infra_1
             SET
                 gram_panchayat_name = ?,
@@ -113,51 +109,47 @@ const patrakJPublicInfra1Model = {
             WHERE id = ?;
             `;
 
-            const updateArray = [
-                updateData.gram_panchayat_name,
-                updateData.encroachments_start_year,
-                updateData.encroachments_detected,
-                updateData.encroachments_removed,
-                updateData.roads_start_year_length,
+		const updateArray = [
+			updateData.gram_panchayat_name,
+			updateData.encroachments_start_year,
+			updateData.encroachments_detected,
+			updateData.encroachments_removed,
+			updateData.roads_start_year_length,
 
-                updateData.roads_constructed_year_length,
-                updateData.roads_repaired_year_length,
-                updateData.dams_repaired_year_count,
-                updateData.dams_new_constructed_year_count,
-                updateData.dams_total_repaired_year_count,
+			updateData.roads_constructed_year_length,
+			updateData.roads_repaired_year_length,
+			updateData.dams_repaired_year_count,
+			updateData.dams_new_constructed_year_count,
+			updateData.dams_total_repaired_year_count,
 
-                updateData.sewers_existing_start_year_length,
-                updateData.sewers_built_this_year_length,
-                updateData.sewers_repaired_this_year_length,
-                updateData.bridge_count_existing_at_start_of_year,
-                updateData.bridge_count_built_this_year,
+			updateData.sewers_existing_start_year_length,
+			updateData.sewers_built_this_year_length,
+			updateData.sewers_repaired_this_year_length,
+			updateData.bridge_count_existing_at_start_of_year,
+			updateData.bridge_count_built_this_year,
 
-                updateData.bridge_count_repaired_this_year,
-                updateData.pole_count_existing_at_start_of_year,
-                updateData.pole_count_extra_lights_installed_this_year,
-                updateData.trees_existing_at_start_of_year,
-                updateData.trees_planted_and_nurtured_this_year,
+			updateData.bridge_count_repaired_this_year,
+			updateData.pole_count_existing_at_start_of_year,
+			updateData.pole_count_extra_lights_installed_this_year,
+			updateData.trees_existing_at_start_of_year,
+			updateData.trees_planted_and_nurtured_this_year,
 
-                updateData.existing_religious_halls_at_year_start,
-                updateData.constructed_religious_halls_in_year,
-                updateData.repaired_religious_halls_in_year,
-                updateData.existing_ghats_at_year_start,
-                updateData.constructed_ghats_in_year,
+			updateData.existing_religious_halls_at_year_start,
+			updateData.constructed_religious_halls_in_year,
+			updateData.repaired_religious_halls_in_year,
+			updateData.existing_ghats_at_year_start,
+			updateData.constructed_ghats_in_year,
 
-                updateData.repaired_ghats_in_year,
-                updateData.year,
-                updateData.id,
-            ];
+			updateData.repaired_ghats_in_year,
+			updateData.year,
+			updateData.id
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    getByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	getByYear: (pool, year) => {
+		const q = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), '') AS _createdAt,
@@ -166,11 +158,8 @@ const patrakJPublicInfra1Model = {
             WHERE year = ?;
             `;
 
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	}
 };
 
 module.exports = patrakJPublicInfra1Model;

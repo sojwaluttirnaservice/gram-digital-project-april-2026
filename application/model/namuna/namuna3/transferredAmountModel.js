@@ -1,7 +1,7 @@
+const { runQuery } = require('../../../utils/runQuery');
 const transferredAmountModel = {
-    create: (pool, createData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	create: (pool, createData) => {
+		const q = `
             INSERT INTO ps_n_3_transferred_amount (
                 year,
                 stamp_duty_fee,
@@ -22,32 +22,28 @@ const transferredAmountModel = {
             )
             `;
 
-            const insertArray = [
-                createData.year,
-                createData.stamp_duty_fee,
-                createData.tax_amount,
-                createData.land_revenue,
-                createData.land_uniform_tax,
-                createData.minor_minerals_amount,
-                createData.road_lighting_subsidy,
-                createData.water_supply_subsidy,
-                createData.backward_tribal_area_support,
-                createData.travel_subsidy,
-                createData.tax_loss_compensation_grant,
-                createData.other_grants,
-                createData.total_k_amount,
-                createData.total_abk_amount,
-            ];
+		const insertArray = [
+			createData.year,
+			createData.stamp_duty_fee,
+			createData.tax_amount,
+			createData.land_revenue,
+			createData.land_uniform_tax,
+			createData.minor_minerals_amount,
+			createData.road_lighting_subsidy,
+			createData.water_supply_subsidy,
+			createData.backward_tribal_area_support,
+			createData.travel_subsidy,
+			createData.tax_loss_compensation_grant,
+			createData.other_grants,
+			createData.total_k_amount,
+			createData.total_abk_amount
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    update: (pool, updateData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	update: (pool, updateData) => {
+		const q = `
             UPDATE ps_n_3_transferred_amount
             SET
                 stamp_duty_fee = ?,
@@ -66,32 +62,28 @@ const transferredAmountModel = {
             WHERE year = ?;
             `;
 
-            const updateArray = [
-                updateData.stamp_duty_fee,
-                updateData.tax_amount,
-                updateData.land_revenue,
-                updateData.land_uniform_tax,
-                updateData.minor_minerals_amount,
-                updateData.road_lighting_subsidy,
-                updateData.water_supply_subsidy,
-                updateData.backward_tribal_area_support,
-                updateData.travel_subsidy,
-                updateData.tax_loss_compensation_grant,
-                updateData.other_grants,
-                updateData.total_k_amount,
-                updateData.total_abk_amount,
-                updateData.year,
-            ];
+		const updateArray = [
+			updateData.stamp_duty_fee,
+			updateData.tax_amount,
+			updateData.land_revenue,
+			updateData.land_uniform_tax,
+			updateData.minor_minerals_amount,
+			updateData.road_lighting_subsidy,
+			updateData.water_supply_subsidy,
+			updateData.backward_tribal_area_support,
+			updateData.travel_subsidy,
+			updateData.tax_loss_compensation_grant,
+			updateData.other_grants,
+			updateData.total_k_amount,
+			updateData.total_abk_amount,
+			updateData.year
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    getByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	getByYear: (pool, year) => {
+		const q = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), '') AS _createdAt,
@@ -100,11 +92,8 @@ const transferredAmountModel = {
             WHERE year = ?;
             `;
 
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	}
 };
 
 module.exports = transferredAmountModel;

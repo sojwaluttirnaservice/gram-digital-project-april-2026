@@ -1,7 +1,7 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna18Model = {
-    saveNamuna18Entry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	saveNamuna18Entry: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_18 
                 (
                     month, 
@@ -24,38 +24,29 @@ const namuna18Model = {
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.year,
-                    data.recieved_date,
-                    data.cheque_number,
-                    data.received_from,
-                    data.recieved_amount,
-                    data.recieved_details,
-                    data.recieved_advance_amount,
-                    data.total_recieved_amount,
-                    data.spending_date,
-                    data.certificate_number,
-                    data.given_to,
-                    data.expense_details,
-                    data.expense_from_advance,
-                    data.expense_amount,
-                    data.total_expense_amount,
-                    data.remarks,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.year,
+			data.recieved_date,
+			data.cheque_number,
+			data.received_from,
+			data.recieved_amount,
+			data.recieved_details,
+			data.recieved_advance_amount,
+			data.total_recieved_amount,
+			data.spending_date,
+			data.certificate_number,
+			data.given_to,
+			data.expense_details,
+			data.expense_from_advance,
+			data.expense_amount,
+			data.total_expense_amount,
+			data.remarks
+		]);
+	},
 
-    updateNamuna18Entry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	updateNamuna18Entry: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_18 
                 SET 
                     month = ?, 
@@ -77,70 +68,51 @@ const namuna18Model = {
                     remarks = ?
                 WHERE id = ?
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.year,
-                    data.recieved_date,
-                    data.cheque_number,
-                    data.received_from,
-                    data.recieved_amount,
-                    data.recieved_details,
-                    data.recieved_advance_amount,
-                    data.total_recieved_amount,
-                    data.spending_date,
-                    data.certificate_number,
-                    data.given_to,
-                    data.expense_details,
-                    data.expense_from_advance,
-                    data.expense_amount,
-                    data.total_expense_amount,
-                    data.remarks,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.year,
+			data.recieved_date,
+			data.cheque_number,
+			data.received_from,
+			data.recieved_amount,
+			data.recieved_details,
+			data.recieved_advance_amount,
+			data.total_recieved_amount,
+			data.spending_date,
+			data.certificate_number,
+			data.given_to,
+			data.expense_details,
+			data.expense_from_advance,
+			data.expense_amount,
+			data.total_expense_amount,
+			data.remarks,
+			data.id
+		]);
+	},
 
-    deleteNamuna18Entry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	deleteNamuna18Entry: (pool, id) => {
+		const q = `
                 DELETE FROM ps_namuna_18 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna18ById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna18ById: (pool, id) => {
+		const q = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(recieved_date, '%d-%m-%Y'), '') AS _recieved_date,
                     IFNULL(DATE_FORMAT(spending_date, '%d-%m-%Y'), '') AS _spending_date
                 FROM ps_namuna_18 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    /**
+	/**
 
 
     fetchNamuna18ByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
             const q = `
                 SELECT 
                     year,
@@ -172,18 +144,13 @@ const namuna18Model = {
                 GROUP BY year, month
                 ORDER BY year ASC, month ASC;
             `;
-            pool.query(q, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+            return runQuery(pool, q, [month, year]);
+        },
 
      */
 
-    fetchNamuna18ByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna18ByMonthAndYear: (pool, month, year) => {
+		const q = `
                 SELECT *,
                     IFNULL(DATE_FORMAT(recieved_date, '%d-%m-%Y'), '') AS _recieved_date,
                     IFNULL(DATE_FORMAT(spending_date, '%d-%m-%Y'), '') AS _spending_date
@@ -192,32 +159,22 @@ const namuna18Model = {
                 WHERE month = ? AND year = ?
                 ORDER BY year ASC, month ASC;
             `;
-            pool.query(q, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [month, year]);
+	},
 
-    fetchNamuna18ByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna18ByYear: (pool, year) => {
+		const q = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(recieved_date, '%d-%m-%Y'), '') AS _recieved_date,
                     IFNULL(DATE_FORMAT(spending_date, '%d-%m-%Y'), '') AS _spending_date
                 FROM ps_namuna_18 
                 WHERE YEAR(recieved_date) = ?
             `;
-            pool.query(q, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    fetchNamuna18ByYearRange: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna18ByYearRange: (pool, fromYear, toYear) => {
+		const q = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(recieved_date, '%d-%m-%Y'), '') AS _recieved_date,
                     IFNULL(DATE_FORMAT(spending_date, '%d-%m-%Y'), '') AS _spending_date
@@ -227,18 +184,11 @@ const namuna18Model = {
                     OR (year = ? AND month <= 3)
                 ORDER BY year ASC, month ASC;
             `;
-            pool.query(q, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [fromYear, fromYear, toYear, toYear]);
+	},
 
-    
-
-    fetchNamuna18ByYearRangeWithGroup: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna18ByYearRangeWithGroup: (pool, fromYear, toYear) => {
+		const q = `
                 SELECT 
                     year,
                     month,
@@ -271,28 +221,18 @@ const namuna18Model = {
                 GROUP BY year, month
                 ORDER BY year ASC, month ASC;
             `;
-            pool.query(q, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [fromYear, fromYear, toYear, toYear]);
+	},
 
-
-    fetchAllNamuna18: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchAllNamuna18: (pool) => {
+		const q = `
                 SELECT *,
                     IFNULL(DATE_FORMAT(recieved_date, '%d-%m-%Y'), '') AS _recieved_date,
                     IFNULL(DATE_FORMAT(spending_date, '%d-%m-%Y'), '') AS _spending_date
                 FROM ps_namuna_18
             `;
-            pool.query(q, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	}
 };
 
 module.exports = namuna18Model;

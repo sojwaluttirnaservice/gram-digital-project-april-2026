@@ -1,7 +1,7 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna16Model = {
-    saveNamuna16Entry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	saveNamuna16Entry: (pool, data) => {
+		const q = `
                 INSERT INTO 
                     ps_namuna_16 
                     
@@ -27,32 +27,27 @@ const namuna16Model = {
                 VALUES (?)
             `;
 
-            const insertArray = [
-                data.item_description,
-                data.purchase_authority,
-                data.purchase_date,
-                data.quantity,
-                data.cost,
-                data.disposal_details,
-                data.authorization_certificate,
-                data.recovered_amount,
-                data.treasury_date,
-                data.stock_balance,
-                data.remarks,
-                data.month,
-                data.year,
-                data.disposal_count,
-            ];
-            pool.query(q, [insertArray], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		const insertArray = [
+			data.item_description,
+			data.purchase_authority,
+			data.purchase_date,
+			data.quantity,
+			data.cost,
+			data.disposal_details,
+			data.authorization_certificate,
+			data.recovered_amount,
+			data.treasury_date,
+			data.stock_balance,
+			data.remarks,
+			data.month,
+			data.year,
+			data.disposal_count
+		];
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    updateNamuna16Entry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	updateNamuna16Entry: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_16 
                 SET 
                     item_description = ?, 
@@ -72,38 +67,29 @@ const namuna16Model = {
                 WHERE 
                     id = ?
             `;
-            pool.query(
-                q,
-                [
-                    data.item_description,
-                    data.purchase_authority,
-                    data.purchase_date,
-                    data.quantity,
-                    data.cost,
-                    data.disposal_details,
-                    data.authorization_certificate,
-                    data.recovered_amount,
-                    data.treasury_date,
-                    data.stock_balance,
-                    data.remarks,
+		return runQuery(pool, q, [
+			data.item_description,
+			data.purchase_authority,
+			data.purchase_date,
+			data.quantity,
+			data.cost,
+			data.disposal_details,
+			data.authorization_certificate,
+			data.recovered_amount,
+			data.treasury_date,
+			data.stock_balance,
+			data.remarks,
 
-                    data.month,
-                    data.year,
-                    data.disposal_count,
+			data.month,
+			data.year,
+			data.disposal_count,
 
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+			data.id
+		]);
+	},
 
-    fetchNamuna16ByYearRange: (pool, year1, year2) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT *, 
+	fetchNamuna16ByYearRange: (pool, year1, year2) => {
+		const q = `SELECT *, 
                             CASE 
                                 WHEN purchase_date IS NULL OR purchase_date = '0000-00-00' 
                                 THEN ''
@@ -121,18 +107,12 @@ const namuna16Model = {
                         (YEAR(purchase_date) > ? AND YEAR(purchase_date) < ?) 
                         OR 
                         (YEAR(purchase_date) = ? AND MONTH(purchase_date) <= 3)`;
-    
-            pool.query(q, [year1, year1, year2, year2], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
-    
 
-    fetchNamuna16ById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT *, 
+		return runQuery(pool, q, [year1, year1, year2, year2]);
+	},
+
+	fetchNamuna16ById: (pool, id) => {
+		const q = `SELECT *, 
                             CASE 
                                 WHEN purchase_date IS NULL OR purchase_date = '0000-00-00' 
                                 THEN ''
@@ -146,16 +126,11 @@ const namuna16Model = {
                     FROM ps_namuna_16 
                     WHERE id = ?`;
 
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchAllNamuna16: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT *, 
+	fetchAllNamuna16: (pool) => {
+		const q = `SELECT *, 
                             CASE 
                                 WHEN purchase_date IS NULL OR purchase_date = '0000-00-00' 
                                 THEN '' 
@@ -169,16 +144,11 @@ const namuna16Model = {
                     FROM ps_namuna_16 
                     ORDER BY purchase_date ASC`;
 
-            pool.query(q, [], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	},
 
-    fetchNamuna16ByDateRange: (pool, fromDate, toDate) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT *, 
+	fetchNamuna16ByDateRange: (pool, fromDate, toDate) => {
+		const q = `SELECT *, 
                             CASE 
                                 WHEN purchase_date IS NULL OR purchase_date = '0000-00-00' 
                                 THEN '' 
@@ -193,16 +163,11 @@ const namuna16Model = {
                     WHERE purchase_date BETWEEN ? AND ? 
                     ORDER BY purchase_date ASC`;
 
-            pool.query(q, [fromDate, toDate], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [fromDate, toDate]);
+	},
 
-    fetchNamuna16ByDescription: (pool, description) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT *, 
+	fetchNamuna16ByDescription: (pool, description) => {
+		const q = `SELECT *, 
                             CASE 
                                 WHEN purchase_date IS NULL OR purchase_date = '0000-00-00' 
                                 THEN '' 
@@ -217,22 +182,13 @@ const namuna16Model = {
                     WHERE item_description LIKE ?
                     ORDER BY purchase_date ASC`;
 
-            pool.query(q, [`%${description}%`], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [`%${description}%`]);
+	},
 
-    deleteNamuna16Entry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `DELETE FROM ps_namuna_16 WHERE id = ?`;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	deleteNamuna16Entry: (pool, id) => {
+		const q = `DELETE FROM ps_namuna_16 WHERE id = ?`;
+		return runQuery(pool, q, [id]);
+	}
 };
 
 module.exports = namuna16Model;

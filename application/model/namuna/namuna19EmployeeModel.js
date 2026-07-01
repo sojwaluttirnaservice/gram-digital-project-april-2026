@@ -1,7 +1,7 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna19EmployeeModel = {
-    saveNamuna19EmployeeEntry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	saveNamuna19EmployeeEntry: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_19_employee_list 
                 (
                     name,
@@ -18,30 +18,24 @@ const namuna19EmployeeModel = {
                 )
                 VALUES (?)
             `;
-            const insertData = [
-                data.name,
-                data.post_name,
-                data.post_id,
-                data.mobile,
-                data.address,
-                data.gender,
-                data.monthly_salary,
-                data.remarks,
-                data.state_share,
-                data.pf_cutting_percentage,
-                data.grampanchayat_share,
-            ];
-            pool.query(q, [insertData], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		const insertData = [
+			data.name,
+			data.post_name,
+			data.post_id,
+			data.mobile,
+			data.address,
+			data.gender,
+			data.monthly_salary,
+			data.remarks,
+			data.state_share,
+			data.pf_cutting_percentage,
+			data.grampanchayat_share
+		];
+		return runQuery(pool, q, [insertData]);
+	},
 
-    updateNamuna19EmployeeEntry: (pool, data) => {
-        console.log(data);
-        return new Promise((resolve, reject) => {
-            const q = `
+	updateNamuna19EmployeeEntry: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_19_employee_list 
                 SET 
                     name = ?,
@@ -57,84 +51,56 @@ const namuna19EmployeeModel = {
                     grampanchayat_share =?
                 WHERE id = ?
             `;
-            pool.query(
-                q,
-                [
-                    data.name,
-                    data.post_name,
-                    data.post_id,
-                    data.mobile,
-                    data.address,
-                    data.gender,
-                    data.monthly_salary,
-                    data.remarks,
-                    data.state_share,
-                    data.pf_cutting_percentage,
-                    data.grampanchayat_share,
-                    data.id,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.name,
+			data.post_name,
+			data.post_id,
+			data.mobile,
+			data.address,
+			data.gender,
+			data.monthly_salary,
+			data.remarks,
+			data.state_share,
+			data.pf_cutting_percentage,
+			data.grampanchayat_share,
+			data.id,
+			data.id
+		]);
+	},
 
-    deleteNamuna19EmployeeEntry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	deleteNamuna19EmployeeEntry: (pool, id) => {
+		const q = `
                 DELETE FROM ps_namuna_19_employee_list 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna19EmployeeById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna19EmployeeById: (pool, id) => {
+		const q = `
                 SELECT * 
                 FROM ps_namuna_19_employee_list 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna19EmployeeByPost: (pool, post_id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna19EmployeeByPost: (pool, post_id) => {
+		const q = `
                 SELECT * 
                 FROM ps_namuna_19_employee_list 
                 WHERE post_id = ?
             `;
-            pool.query(q, [post_id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [post_id]);
+	},
 
-    fetchAllNamuna19Employees: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchAllNamuna19Employees: (pool) => {
+		const q = `
                 SELECT * 
                 FROM ps_namuna_19_employee_list
             `;
-            pool.query(q, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	}
 };
 
 module.exports = namuna19EmployeeModel;

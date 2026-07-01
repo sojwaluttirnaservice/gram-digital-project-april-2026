@@ -1,11 +1,11 @@
-const { runQuery } = require("../../../utils/runQuery");
+const { runQuery } = require('../../../utils/runQuery');
 
 const namuna2Model = {
-  // =====================
-  // LIST (Get all records)
-  // =====================
-  list: (pool) => {
-    let q = `
+	// =====================
+	// LIST (Get all records)
+	// =====================
+	list: (pool) => {
+		let q = `
             SELECT 
                 id, month, year,
                 income_main_head, income_approved_budget, income_revised_estimate, 
@@ -17,11 +17,11 @@ const namuna2Model = {
             ORDER BY id DESC
         `;
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  getById: (pool, id) =>{
-    let q = `
+	getById: (pool, id) => {
+		let q = `
             SELECT 
                 id, month, year,
                 income_main_head, income_approved_budget, income_revised_estimate, 
@@ -31,12 +31,11 @@ const namuna2Model = {
                 createdAt, updatedAt
             FROM ps_namuna_2 WHERE id = ?
         `;
-    return runQuery(pool, q, [id]);
-  },
+		return runQuery(pool, q, [id]);
+	},
 
-  listByGroup: (pool) => {
-  
-    let q = `
+	listByGroup: (pool) => {
+		let q = `
             SELECT 
                 fromYear,
                 toYear,
@@ -75,12 +74,11 @@ const namuna2Model = {
             ORDER BY fromYear ASC, toYear ASC;
             `;
 
-    return runQuery(pool, q);
+		return runQuery(pool, q);
+	},
 
-  },
-
-  getByYearRange: (pool, fromYear, toYear) => {
-    let q = `
+	getByYearRange: (pool, fromYear, toYear) => {
+		let q = `
             SELECT 
                 id, month, year,
                 income_main_head, income_approved_budget, income_revised_estimate, 
@@ -104,14 +102,14 @@ const namuna2Model = {
             ORDER BY year ASC, month ASC
         `;
 
-    return runQuery(pool, q, [fromYear, toYear, fromYear, toYear]);
-  },
+		return runQuery(pool, q, [fromYear, toYear, fromYear, toYear]);
+	},
 
-  // =====================
-  // SAVE (Insert new row)
-  // =====================
-  save: (pool, data) => {
-    let q = `
+	// =====================
+	// SAVE (Insert new row)
+	// =====================
+	save: (pool, data) => {
+		let q = `
             INSERT INTO ps_namuna_2 
             (
                 month, year,
@@ -123,31 +121,31 @@ const namuna2Model = {
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
         `;
 
-    let insertArr = [
-      data.month,
-      data.year,
+		let insertArr = [
+			data.month,
+			data.year,
 
-      data.income_main_head,
-      data.income_approved_budget,
-      data.income_revised_estimate,
-      data.income_variation,
-      data.income_remarks,
+			data.income_main_head,
+			data.income_approved_budget,
+			data.income_revised_estimate,
+			data.income_variation,
+			data.income_remarks,
 
-      data.expense_main_head,
-      data.expense_approved_amount,
-      data.expense_revised_estimate,
-      data.expense_variation,
-      data.expense_remarks,
-    ];
+			data.expense_main_head,
+			data.expense_approved_amount,
+			data.expense_revised_estimate,
+			data.expense_variation,
+			data.expense_remarks
+		];
 
-    return runQuery(pool, q, insertArr);
-  },
+		return runQuery(pool, q, insertArr);
+	},
 
-  // =====================
-  // UPDATE
-  // =====================
-  update: (pool, data) => {
-    let q = `
+	// =====================
+	// UPDATE
+	// =====================
+	update: (pool, data) => {
+		let q = `
             UPDATE ps_namuna_2 SET
                 month = ?,
                 year = ?,
@@ -168,39 +166,39 @@ const namuna2Model = {
             WHERE id = ?
         `;
 
-    let updateArr = [
-      data.month,
-      data.year,
+		let updateArr = [
+			data.month,
+			data.year,
 
-      data.income_main_head,
-      data.income_approved_budget,
-      data.income_revised_estimate,
-      data.income_variation,
-      data.income_remarks,
+			data.income_main_head,
+			data.income_approved_budget,
+			data.income_revised_estimate,
+			data.income_variation,
+			data.income_remarks,
 
-      data.expense_main_head,
-      data.expense_approved_amount,
-      data.expense_revised_estimate,
-      data.expense_variation,
-      data.expense_remarks,
+			data.expense_main_head,
+			data.expense_approved_amount,
+			data.expense_revised_estimate,
+			data.expense_variation,
+			data.expense_remarks,
 
-      data.id,
-    ];
+			data.id
+		];
 
-    return runQuery(pool, q, updateArr);
-  },
+		return runQuery(pool, q, updateArr);
+	},
 
-  // =====================
-  // DELETE
-  // =====================
-  delete: (pool, id) => {
-    let q = `
+	// =====================
+	// DELETE
+	// =====================
+	delete: (pool, id) => {
+		let q = `
             DELETE FROM ps_namuna_2
             WHERE id = ?
         `;
 
-    return runQuery(pool, q, [id]);
-  },
+		return runQuery(pool, q, [id]);
+	}
 };
 
 module.exports = namuna2Model;

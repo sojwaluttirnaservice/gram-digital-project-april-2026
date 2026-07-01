@@ -1,10 +1,10 @@
 const pool = require('../../config/db-connect-migration');
+const { runQuery } = require('../../utils/runQuery');
 
 const namuna22Model = {
-    // Save a new record
-    saveNamuna22Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Save a new record
+	saveNamuna22Details: (pool, data) => {
+		const query = `
                 INSERT INTO ps_namuna_22 (
                     month,
                     year,
@@ -38,45 +38,40 @@ const namuna22Model = {
                  ?,?,?, ?)
             `;
 
-            const insertArray = [
-                data.month,
-                data.year,
-                data.acquisition_date,
-                data.order_number,
+		const insertArray = [
+			data.month,
+			data.year,
+			data.acquisition_date,
+			data.order_number,
 
-                data.order_date,
-                data.resolution_number,
-                data.resolution_date,
-                data.survey_number,
+			data.order_date,
+			data.resolution_number,
+			data.resolution_date,
+			data.survey_number,
 
-                data.property_description,
-                data.usage_reason,
-                data.construction_or_editing_expense,
-                data.repairs_expenditure_date,
-                data.ongoing_repairs,
+			data.property_description,
+			data.usage_reason,
+			data.construction_or_editing_expense,
+			data.repairs_expenditure_date,
+			data.ongoing_repairs,
 
-                data.special_repairs,
-                data.original_construction,
-                data.original_construction_type,
-                data.year_end_depreciation,
+			data.special_repairs,
+			data.original_construction,
+			data.original_construction_type,
+			data.year_end_depreciation,
 
-                data.disposal_resolution_number,
-                data.disposal_order_number,
-                data.disposal_order_date,
-                data.remarks,
-            ];
+			data.disposal_resolution_number,
+			data.disposal_order_number,
+			data.disposal_order_date,
+			data.remarks
+		];
 
-            pool.query(query, insertArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, insertArray);
+	},
 
-    // Update an existing record by ID
-    updateNamuna22Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Update an existing record by ID
+	updateNamuna22Details: (pool, data) => {
+		const query = `
                 UPDATE ps_namuna_22
                 SET 
                     month = ?,
@@ -107,49 +102,40 @@ const namuna22Model = {
                 WHERE id = ?
             `;
 
-            pool.query(
-                query,
-                [
-                    data.month,
-                    data.year,
-                    data.acquisition_date,
-                    data.order_number,
+		return runQuery(pool, query, [
+			data.month,
+			data.year,
+			data.acquisition_date,
+			data.order_number,
 
-                    data.order_date,
-                    data.resolution_number,
-                    data.resolution_date,
-                    data.survey_number,
+			data.order_date,
+			data.resolution_number,
+			data.resolution_date,
+			data.survey_number,
 
-                    data.property_description,
-                    data.usage_reason,
-                    data.construction_or_editing_expense,
-                    data.repairs_expenditure_date,
-                    data.ongoing_repairs,
+			data.property_description,
+			data.usage_reason,
+			data.construction_or_editing_expense,
+			data.repairs_expenditure_date,
+			data.ongoing_repairs,
 
-                    data.special_repairs,
-                    data.original_construction,
-                    data.original_construction_type,
-                    data.year_end_depreciation,
+			data.special_repairs,
+			data.original_construction,
+			data.original_construction_type,
+			data.year_end_depreciation,
 
-                    data.disposal_resolution_number,
-                    data.disposal_order_number,
-                    data.disposal_order_date,
-                    data.remarks,
+			data.disposal_resolution_number,
+			data.disposal_order_number,
+			data.disposal_order_date,
+			data.remarks,
 
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+			data.id
+		]);
+	},
 
-    // Fetch all records
-    fetchAllNamuna22Details: (pool) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch all records
+	fetchAllNamuna22Details: (pool) => {
+		const query = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
@@ -161,16 +147,11 @@ const namuna22Model = {
                 IFNULL(DATE_FORMAT(updatedAt, '%d-%m-%Y'), 'Invalid Date') AS _updatedAt
             FROM ps_namuna_22
         `;
-            pool.query(query, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query);
+	},
 
-    fetchAllNamuna22DetailsByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	fetchAllNamuna22DetailsByYear: (pool, year) => {
+		const query = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
@@ -183,16 +164,11 @@ const namuna22Model = {
             FROM ps_namuna_22
             WHERE year = ?
         `;
-            pool.query(query, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [year]);
+	},
 
-    fetchNamuna22DetailsByYearRange: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	fetchNamuna22DetailsByYearRange: (pool, fromYear, toYear) => {
+		const query = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
@@ -211,17 +187,12 @@ const namuna22Model = {
                 (year = ? AND month <= 3)
             ORDER BY year ASC, month ASC
         `;
-            pool.query(query, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [fromYear, fromYear, toYear, toYear]);
+	},
 
-    // Fetch all records for a specific month and year
-    fetchAllNamuna22DetailsByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch all records for a specific month and year
+	fetchAllNamuna22DetailsByMonthAndYear: (pool, month, year) => {
+		const query = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
@@ -234,17 +205,12 @@ const namuna22Model = {
             FROM ps_namuna_22
             WHERE month = ? AND year = ?
         `;
-            pool.query(query, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [month, year]);
+	},
 
-    // Fetch a record by ID
-    fetchNamuna22DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch a record by ID
+	fetchNamuna22DetailsById: (pool, id) => {
+		const query = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(acquisition_date, '%d-%m-%Y'), 'Invalid Date') AS _acquisition_date,
@@ -257,23 +223,14 @@ const namuna22Model = {
             FROM ps_namuna_22
             WHERE id = ?
         `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    // Delete a record by ID
-    deleteNamuna22Details: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ps_namuna_22 WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	// Delete a record by ID
+	deleteNamuna22Details: (pool, id) => {
+		const query = `DELETE FROM ps_namuna_22 WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	}
 };
 
 module.exports = namuna22Model;

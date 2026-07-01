@@ -1,9 +1,8 @@
+const { runQuery } = require('../../../utils/runQuery');
 const jPatrakModel = {
-    // Create a new record using raw SQL query
-    create: (pool, createData) => {
-        // console.log(createData);
-        return new Promise((resolve, reject) => {
-            const q = `
+	// Create a new record using raw SQL query
+	create: (pool, createData) => {
+		const q = `
             INSERT INTO ps_n_3_j_patrak (
                 year,
                 gram_panchayat_name,
@@ -20,32 +19,27 @@ const jPatrakModel = {
             ) VALUES (?);
             `;
 
-            const insertArray = [
-                createData.year,
-                createData.gram_panchayat_name,
-                createData.year_total_income,
-                createData.construction_grant_income,
-                createData.net_income_excluding_construction_grant,
-                createData.net_income_after_construction_grant,
-                createData.outstanding_loan_installment,
-                createData.current_loan_installment,
-                createData.total_paid_amount,
-                createData.date_invoice,
-                createData.outstanding_amount,
-                createData.remarks
-            ];
+		const insertArray = [
+			createData.year,
+			createData.gram_panchayat_name,
+			createData.year_total_income,
+			createData.construction_grant_income,
+			createData.net_income_excluding_construction_grant,
+			createData.net_income_after_construction_grant,
+			createData.outstanding_loan_installment,
+			createData.current_loan_installment,
+			createData.total_paid_amount,
+			createData.date_invoice,
+			createData.outstanding_amount,
+			createData.remarks
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    // Update an existing record using raw SQL query
-    update: (pool, updateData) => {
-        console.log(updateData);
-        return new Promise((resolve, reject) => {
-            const q = `
+	// Update an existing record using raw SQL query
+	update: (pool, updateData) => {
+		const q = `
             UPDATE ps_n_3_j_patrak
             SET
                 year = ?,
@@ -63,32 +57,28 @@ const jPatrakModel = {
             WHERE id = ?;
             `;
 
-            const updateArray = [
-                updateData.year,
-                updateData.gram_panchayat_name,
-                updateData.year_total_income,
-                updateData.construction_grant_income,
-                updateData.net_income_excluding_construction_grant,
-                updateData.net_income_after_construction_grant,
-                updateData.outstanding_loan_installment,
-                updateData.current_loan_installment,
-                updateData.total_paid_amount,
-                updateData.date_invoice,
-                updateData.outstanding_amount,
-                updateData.remarks,
-                updateData.id
-            ];
+		const updateArray = [
+			updateData.year,
+			updateData.gram_panchayat_name,
+			updateData.year_total_income,
+			updateData.construction_grant_income,
+			updateData.net_income_excluding_construction_grant,
+			updateData.net_income_after_construction_grant,
+			updateData.outstanding_loan_installment,
+			updateData.current_loan_installment,
+			updateData.total_paid_amount,
+			updateData.date_invoice,
+			updateData.outstanding_amount,
+			updateData.remarks,
+			updateData.id
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    // Get records by year using raw SQL query
-    getByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// Get records by year using raw SQL query
+	getByYear: (pool, year) => {
+		const q = `
             SELECT 
                 *,
                 CASE 
@@ -99,16 +89,12 @@ const jPatrakModel = {
             WHERE year = ?;
             `;
 
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    // Get all records
-    getAll: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// Get all records
+	getAll: (pool) => {
+		const q = `
             SELECT 
                 *,
                 CASE 
@@ -119,25 +105,18 @@ const jPatrakModel = {
 
             `;
 
-            pool.query(q, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	},
 
-    // Delete a record by ID
-    delete: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	// Delete a record by ID
+	delete: (pool, id) => {
+		const q = `
             DELETE FROM ps_n_3_j_patrak
             WHERE id = ?;
             `;
 
-            pool.query(q, [id], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    }
+		return runQuery(pool, q, [id]);
+	}
 };
 
 module.exports = jPatrakModel;

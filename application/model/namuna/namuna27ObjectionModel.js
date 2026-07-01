@@ -1,7 +1,7 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna27ObjectionModel = {
-    saveNamuna27Objection: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	saveNamuna27Objection: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_27_objection 
                 (
                     month,
@@ -16,30 +16,21 @@ const namuna27ObjectionModel = {
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.audit_report_year,
-                    data.paragraph_number,
-                    data.paragraphs_resolved_by_gp,
-                    data.objections_resolved_by_committee,
-                    data.objections_resolved_by_auditor,
-                    data.pending_objections,
-                    data.reasons_for_non_compliance,
-                    data.remarks,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.audit_report_year,
+			data.paragraph_number,
+			data.paragraphs_resolved_by_gp,
+			data.objections_resolved_by_committee,
+			data.objections_resolved_by_auditor,
+			data.pending_objections,
+			data.reasons_for_non_compliance,
+			data.remarks
+		]);
+	},
 
-    updateNamuna27Objection: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	updateNamuna27Objection: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_27_objection 
                 SET 
                     month = ?,
@@ -53,44 +44,30 @@ const namuna27ObjectionModel = {
                     remarks = ?
                 WHERE id = ?
             `;
-            pool.query(
-                q,
-                [
-                    data.month,
-                    data.audit_report_year,
-                    data.paragraph_number,
-                    data.paragraphs_resolved_by_gp,
-                    data.objections_resolved_by_committee,
-                    data.objections_resolved_by_auditor,
-                    data.pending_objections,
-                    data.reasons_for_non_compliance,
-                    data.remarks,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, q, [
+			data.month,
+			data.audit_report_year,
+			data.paragraph_number,
+			data.paragraphs_resolved_by_gp,
+			data.objections_resolved_by_committee,
+			data.objections_resolved_by_auditor,
+			data.pending_objections,
+			data.reasons_for_non_compliance,
+			data.remarks,
+			data.id
+		]);
+	},
 
-    deleteNamuna27Objection: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	deleteNamuna27Objection: (pool, id) => {
+		const q = `
                 DELETE FROM ps_namuna_27_objection 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna27ObjectionById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna27ObjectionById: (pool, id) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -99,30 +76,20 @@ const namuna27ObjectionModel = {
                 FROM ps_namuna_27_objection 
                 WHERE id = ?
             `;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [id]);
+	},
 
-    fetchNamuna27ObjectionByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            let q = `SELECT * FROM ps_namuna_27_objection
+	fetchNamuna27ObjectionByMonthAndYear: (pool, month, year) => {
+		let q = `SELECT * FROM ps_namuna_27_objection
                 ${month || year ? 'WHERE' : ''} 
                 ${month ? ` month = ?` : ''}
                 ${year ? `${month ? 'AND' : ''} audit_report_year = ?` : ''}`;
 
-            pool.query(q, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [month, year]);
+	},
 
-    fetchNamuna27ObjectionByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna27ObjectionByYear: (pool, year) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -131,16 +98,11 @@ const namuna27ObjectionModel = {
                 FROM ps_namuna_27_objection 
                 WHERE audit_report_year = ?
             `;
-            pool.query(q, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    fetchNamuna27ObjectionByYearRange: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	fetchNamuna27ObjectionByYearRange: (pool, fromYear, toYear) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -155,15 +117,10 @@ const namuna27ObjectionModel = {
                         (audit_report_year = ? AND month <= 3)  
                     ORDER BY audit_report_year ASC, month ASC`;
 
-            pool.query(q, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
-    fetchAllNamuna27Objections: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+		return runQuery(pool, q, [fromYear, fromYear, toYear, toYear]);
+	},
+	fetchAllNamuna27Objections: (pool) => {
+		const q = `
                 SELECT *, 
                     CASE 
                         WHEN STR_TO_DATE(createdAt, '%Y-%m-%d') IS NOT NULL THEN DATE_FORMAT(STR_TO_DATE(createdAt, '%Y-%m-%d'), '%d-%m-%Y') 
@@ -171,12 +128,8 @@ const namuna27ObjectionModel = {
                     END AS _createdAt 
                 FROM ps_namuna_27_objection
             `;
-            pool.query(q, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	}
 };
 
 module.exports = namuna27ObjectionModel;

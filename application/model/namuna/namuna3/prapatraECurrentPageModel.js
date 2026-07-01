@@ -1,7 +1,7 @@
+const { runQuery } = require('../../../utils/runQuery');
 const prapatraECurrentPageModel = {
-    create: (pool, createData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	create: (pool, createData) => {
+		const q = `
             INSERT INTO ps_n_3_prapatra_e_current_page (
                 year,
                 sarpanch_honorarium,
@@ -43,55 +43,51 @@ const prapatraECurrentPageModel = {
             ) VALUES (?)
             `;
 
-            const insertArray = [
-                createData.year,
-                createData.sarpanch_honorarium,
-                createData.member_meeting_allowance,
-                createData.member_sarpanch_travel_allowance,
+		const insertArray = [
+			createData.year,
+			createData.sarpanch_honorarium,
+			createData.member_meeting_allowance,
+			createData.member_sarpanch_travel_allowance,
 
-                createData.employee_salary,
-                createData.employee_travel_allowance,
-                createData.office_expenses,
-                createData.repair_and_maintenance,
+			createData.employee_salary,
+			createData.employee_travel_allowance,
+			createData.office_expenses,
+			createData.repair_and_maintenance,
 
-                createData.cleanliness_expenses,
-                createData.water_supply_expenses,
-                createData.electricity_water_supply_bill,
-                createData.road_lighting_expenses,
+			createData.cleanliness_expenses,
+			createData.water_supply_expenses,
+			createData.electricity_water_supply_bill,
+			createData.road_lighting_expenses,
 
-                createData.total_expenses_a_b,
-                createData.literature_and_miscellaneous,
-                createData.education_expenses,
-                createData.healthcare_expenses,
-                createData.road_and_drainage_construction,
+			createData.total_expenses_a_b,
+			createData.literature_and_miscellaneous,
+			createData.education_expenses,
+			createData.healthcare_expenses,
+			createData.road_and_drainage_construction,
 
-                createData.other_construction,
-                createData.reading_room,
-                createData.water_purification_tcl,
-                createData.gardens_and_playgrounds,
+			createData.other_construction,
+			createData.reading_room,
+			createData.water_purification_tcl,
+			createData.gardens_and_playgrounds,
 
-                createData.social_welfare_tribal_welfare,
-                createData.dvdf_contribution,
-                createData.women_and_child_welfare,
-                createData.social_cultural_programs,
+			createData.social_welfare_tribal_welfare,
+			createData.dvdf_contribution,
+			createData.women_and_child_welfare,
+			createData.social_cultural_programs,
 
-                createData.kondwada,
-                createData.literature_and_purchases,
-                createData.agriculture_expenses,
-                createData.other_expenses,
+			createData.kondwada,
+			createData.literature_and_purchases,
+			createData.agriculture_expenses,
+			createData.other_expenses,
 
-                createData.total_gram_nidhi_expenses,
-            ];
+			createData.total_gram_nidhi_expenses
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    update: (pool, updateData) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	update: (pool, updateData) => {
+		const q = `
             UPDATE ps_n_3_prapatra_e_current_page
             SET
                 sarpanch_honorarium = ?,
@@ -134,56 +130,52 @@ const prapatraECurrentPageModel = {
             WHERE id = ?;
             `;
 
-            const updateArray = [
-                updateData.sarpanch_honorarium,
-                updateData.member_meeting_allowance,
-                updateData.member_sarpanch_travel_allowance,
-                updateData.employee_salary,
+		const updateArray = [
+			updateData.sarpanch_honorarium,
+			updateData.member_meeting_allowance,
+			updateData.member_sarpanch_travel_allowance,
+			updateData.employee_salary,
 
-                updateData.employee_travel_allowance,
-                updateData.office_expenses,
-                updateData.repair_and_maintenance,
-                updateData.cleanliness_expenses,
+			updateData.employee_travel_allowance,
+			updateData.office_expenses,
+			updateData.repair_and_maintenance,
+			updateData.cleanliness_expenses,
 
-                updateData.water_supply_expenses,
-                updateData.electricity_water_supply_bill,
-                updateData.road_lighting_expenses,
-                updateData.total_expenses_a_b,
+			updateData.water_supply_expenses,
+			updateData.electricity_water_supply_bill,
+			updateData.road_lighting_expenses,
+			updateData.total_expenses_a_b,
 
-                updateData.literature_and_miscellaneous,
-                updateData.education_expenses,
-                updateData.healthcare_expenses,
-                updateData.road_and_drainage_construction,
-                updateData.other_construction,
+			updateData.literature_and_miscellaneous,
+			updateData.education_expenses,
+			updateData.healthcare_expenses,
+			updateData.road_and_drainage_construction,
+			updateData.other_construction,
 
-                updateData.reading_room,
-                updateData.water_purification_tcl,
-                updateData.gardens_and_playgrounds,
-                updateData.social_welfare_tribal_welfare,
+			updateData.reading_room,
+			updateData.water_purification_tcl,
+			updateData.gardens_and_playgrounds,
+			updateData.social_welfare_tribal_welfare,
 
-                updateData.dvdf_contribution,
-                updateData.women_and_child_welfare,
-                updateData.social_cultural_programs,
-                updateData.kondwada,
+			updateData.dvdf_contribution,
+			updateData.women_and_child_welfare,
+			updateData.social_cultural_programs,
+			updateData.kondwada,
 
-                updateData.literature_and_purchases,
-                updateData.agriculture_expenses,
-                updateData.other_expenses,
-                updateData.total_gram_nidhi_expenses,
+			updateData.literature_and_purchases,
+			updateData.agriculture_expenses,
+			updateData.other_expenses,
+			updateData.total_gram_nidhi_expenses,
 
-                updateData.year,
-                updateData.id,
-            ];
+			updateData.year,
+			updateData.id
+		];
 
-            pool.query(q, updateArray, (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, updateArray);
+	},
 
-    getByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	getByYear: (pool, year) => {
+		const q = `
             SELECT 
                 *,
                 IFNULL(DATE_FORMAT(createdAt, '%d-%m-%Y'), '') AS _createdAt,
@@ -192,11 +184,8 @@ const prapatraECurrentPageModel = {
             WHERE year = ?;
             `;
 
-            pool.query(q, [year], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	}
 };
 
 module.exports = prapatraECurrentPageModel;

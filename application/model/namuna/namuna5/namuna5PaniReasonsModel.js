@@ -1,16 +1,15 @@
-const { runQuery } = require("../../../utils/runQuery");
-
+const { runQuery } = require('../../../utils/runQuery');
 
 const namuna5PaniReasonsModel = {
-  // =========================================================
-  // LIST - SAMANYA FIRST, THEN PANI
-  // =========================================================
-  list: (pool, filters = {}) => {
-        let { tax_category } = filters;
+	// =========================================================
+	// LIST - SAMANYA FIRST, THEN PANI
+	// =========================================================
+	list: (pool, filters = {}) => {
+		let { tax_category } = filters;
 
-        let params = [];
+		let params = [];
 
-        let q = `
+		let q = `
             SELECT 
                 id,
                 simple_id,
@@ -23,18 +22,18 @@ const namuna5PaniReasonsModel = {
             WHERE 1=1
         `;
 
-        // =====================================================
-        // FILTER: tax_category
-        // =====================================================
-        if (tax_category) {
-        q += ` AND tax_category = ? `;
-        params.push(tax_category);
-        }
+		// =====================================================
+		// FILTER: tax_category
+		// =====================================================
+		if (tax_category) {
+			q += ` AND tax_category = ? `;
+			params.push(tax_category);
+		}
 
-        // =====================================================
-        // SORTING (SAMANYA FIRST, THEN PANI)
-        // =====================================================
-        q += `
+		// =====================================================
+		// SORTING (SAMANYA FIRST, THEN PANI)
+		// =====================================================
+		q += `
             ORDER BY 
                 CASE 
                     WHEN tax_category = 'SAMANYA' THEN 1
@@ -44,12 +43,11 @@ const namuna5PaniReasonsModel = {
                 simple_id ASC
         `;
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	},
 
-
-  dropdownList: (pool) =>{
-    const q = `
+	dropdownList: (pool) => {
+		const q = `
     SELECT 
         tax_category,
         JSON_OBJECTAGG(simple_id, reason_in_words) AS payment_reason
@@ -60,36 +58,36 @@ const namuna5PaniReasonsModel = {
             WHEN tax_category = 'SAMANYA' THEN 1
             WHEN tax_category = 'PANI' THEN 2
             ELSE 3
-        END;`
+        END;`;
 
-    return runQuery(pool, q);
-  },
+		return runQuery(pool, q);
+	},
 
-  // =========================================================
-  // SAVE (single insert)
-  // =========================================================
-  save: (pool, saveData) => {
-    let q = `
+	// =========================================================
+	// SAVE (single insert)
+	// =========================================================
+	save: (pool, saveData) => {
+		let q = `
             INSERT INTO ps_n_5_pani_reasons
             (simple_id, reason_in_words, tax_category, certificate_category)
             VALUES (?, ?, ?, ?)
         `;
 
-    const insertArr = [
-      saveData.simple_id || -1, // -2 means it is for other reason
-      saveData.reason_in_words,
-      saveData.tax_category,
-      saveData.certificate_category || "CERTIFICATE",
-    ];
+		const insertArr = [
+			saveData.simple_id || -1, // -2 means it is for other reason
+			saveData.reason_in_words,
+			saveData.tax_category,
+			saveData.certificate_category || 'CERTIFICATE'
+		];
 
-    return runQuery(pool, q, insertArr);
-  },
+		return runQuery(pool, q, insertArr);
+	},
 
-  // =========================================================
-  // UPDATE (safe + partial)
-  // =========================================================
-  update: (pool, updateData) => {
-    let q = `
+	// =========================================================
+	// UPDATE (safe + partial)
+	// =========================================================
+	update: (pool, updateData) => {
+		let q = `
             UPDATE ps_n_5_pani_reasons
             SET 
                 reason_in_words = ?,
@@ -99,15 +97,15 @@ const namuna5PaniReasonsModel = {
             WHERE id = ?
         `;
 
-    const params = [
-      updateData.reason_in_words,
-      updateData.tax_category,
-      updateData.certificate_category,
-      updateData.id,
-    ];
+		const params = [
+			updateData.reason_in_words,
+			updateData.tax_category,
+			updateData.certificate_category,
+			updateData.id
+		];
 
-    return runQuery(pool, q, params);
-  },
+		return runQuery(pool, q, params);
+	}
 };
 
 module.exports = namuna5PaniReasonsModel;

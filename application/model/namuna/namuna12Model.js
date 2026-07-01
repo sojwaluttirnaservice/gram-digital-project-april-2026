@@ -1,9 +1,8 @@
-const { runQuery } = require("../../utils/runQuery");
+const { runQuery } = require('../../utils/runQuery');
 
 const namuna12Model = {
-    saveNamuna12MainEntry: (pool, data) => {
-
-                    const q = `
+	saveNamuna12MainEntry: (pool, data) => {
+		const q = `
                 INSERT INTO ps_namuna_12_main 
                 (
                     month,
@@ -22,27 +21,25 @@ const namuna12Model = {
                 )
                 VALUES (?)
             `;
-            const insertArray = [
-                data.month,
-                data.year,
-                data.bill_number,
-                data.bill_date,
-                data.name_of_person_accepting_bill,
+		const insertArray = [
+			data.month,
+			data.year,
+			data.bill_number,
+			data.bill_date,
+			data.name_of_person_accepting_bill,
 
-                data.total_spending,
-                data.certificate_number,
-                data.page_number_in_cash_book,
-                data.remarks,
+			data.total_spending,
+			data.certificate_number,
+			data.page_number_in_cash_book,
+			data.remarks,
 
-                data.ps_bank_details_id_fk
-            ];
-        return runQuery(pool, q, [insertArray])
-    },
+			data.ps_bank_details_id_fk
+		];
+		return runQuery(pool, q, [insertArray]);
+	},
 
-
-    updateNamuna12MainEntry: (pool, data) => {
-
-        const q = `
+	updateNamuna12MainEntry: (pool, data) => {
+		const q = `
                 UPDATE ps_namuna_12_main SET
                     month = ?,
                     year = ?,
@@ -56,27 +53,24 @@ const namuna12Model = {
                 WHERE id = ?
             `;
 
-        const updateArray = [
-            +data.month,
-            +data.year,
-            data.bill_number,
-            data.bill_date,
-            data.name_of_person_accepting_bill,
-            data.total_spending,
-            data.certificate_number,
-            data.page_number_in_cash_book,
-            data.remarks,
-            data.id // Make sure this exists in your data
-        ];
+		const updateArray = [
+			+data.month,
+			+data.year,
+			data.bill_number,
+			data.bill_date,
+			data.name_of_person_accepting_bill,
+			data.total_spending,
+			data.certificate_number,
+			data.page_number_in_cash_book,
+			data.remarks,
+			data.id // Make sure this exists in your data
+		];
 
-        return runQuery(pool, q, updateArray)
+		return runQuery(pool, q, updateArray);
+	},
 
-    },
-
-
-    saveNamuna12SpendingEntry: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `INSERT INTO ps_namuna_12_spending
+	saveNamuna12SpendingEntry: (pool, data) => {
+		const q = `INSERT INTO ps_namuna_12_spending
                         (
                             item_name_or_goods_name,
                             approval_number,
@@ -90,28 +84,24 @@ const namuna12Model = {
                             main_namuna_12_id_fk
                         ) VALUES (?)`;
 
-            const insertArray = [
-                data.item_name_or_goods_name,
-                data.approval_number,
-                data.approval_date,
-                data.quantity_or_weight,
-                data.rate,
+		const insertArray = [
+			data.item_name_or_goods_name,
+			data.approval_number,
+			data.approval_date,
+			data.quantity_or_weight,
+			data.rate,
 
-                data.unit,
-                data.total_amount,
-                data.total_amount_previous_expense,
-                data.main_namuna_12_id_fk,
-            ];
+			data.unit,
+			data.total_amount,
+			data.total_amount_previous_expense,
+			data.main_namuna_12_id_fk
+		];
 
-            pool.query(q, [insertArray], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [insertArray]);
+	},
 
-    saveNamuna12SpendingEntryBulk: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const q = `INSERT INTO ps_namuna_12_spending
+	saveNamuna12SpendingEntryBulk: (pool, data) => {
+		const q = `INSERT INTO ps_namuna_12_spending
                         (
                             item_name_or_goods_name,
                             approval_number,
@@ -125,15 +115,11 @@ const namuna12Model = {
                             main_namuna_12_id_fk
                         ) VALUES ?`;
 
-            pool.query(q, [data], (err, result) => {
-                err ? reject(err) : resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [data]);
+	},
 
-
-    saveSpendingEntry: (pool, newSpendingData) => {
-        let q = `
+	saveSpendingEntry: (pool, newSpendingData) => {
+		let q = `
                 INSERT INTO ps_namuna_12_spending (
                     item_name_or_goods_name,
                     approval_number,
@@ -149,26 +135,24 @@ const namuna12Model = {
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
             `;
 
-        let insertArr = [
-            newSpendingData.item_name_or_goods_name,
-            newSpendingData.approval_number,
-            newSpendingData.approval_date,
-            newSpendingData.quantity_or_weight,
-            newSpendingData.rate,
-            newSpendingData.unit,
-            newSpendingData.total_amount,
-            newSpendingData.total_amount_previous_expense,
-            newSpendingData.main_namuna_12_id_fk,
-        ];
+		let insertArr = [
+			newSpendingData.item_name_or_goods_name,
+			newSpendingData.approval_number,
+			newSpendingData.approval_date,
+			newSpendingData.quantity_or_weight,
+			newSpendingData.rate,
+			newSpendingData.unit,
+			newSpendingData.total_amount,
+			newSpendingData.total_amount_previous_expense,
+			newSpendingData.main_namuna_12_id_fk
+		];
 
-        return runQuery(pool, q, insertArr);
-    },
+		return runQuery(pool, q, insertArr);
+	},
 
-    /**
+	/**
    
     updateNamuna12MainEntry: (pool, data) => {
-        console.log(data);
-        return new Promise((resolve, reject) => {
             const q = `
                     UPDATE ps_namuna_12_main 
                     SET  
@@ -187,9 +171,7 @@ const namuna12Model = {
                         id = ?
                 `;
 
-            pool.query(
-                q,
-                [
+            return runQuery(pool, q, [
                     data.order_number,
 
                     data.employment_type,
@@ -202,18 +184,12 @@ const namuna12Model = {
                     data.is_retired || 0,
 
                     data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+                ]);
+        },
     */
 
-    updateSpendingEntry: (pool, updatedSpendingData) => {
-        let q = `
+	updateSpendingEntry: (pool, updatedSpendingData) => {
+		let q = `
             UPDATE ps_namuna_12_spending SET
                 item_name_or_goods_name = ?,
                 approval_number = ?,
@@ -228,33 +204,30 @@ const namuna12Model = {
             WHERE id = ?
         `;
 
-        let updateArr = [
-            updatedSpendingData.item_name_or_goods_name,
-            updatedSpendingData.approval_number,
-            updatedSpendingData.approval_date,
-            updatedSpendingData.quantity_or_weight,
-            updatedSpendingData.rate,
-            updatedSpendingData.unit,
-            updatedSpendingData.total_amount,
-            updatedSpendingData.total_amount_previous_expense,
-            updatedSpendingData.main_namuna_12_id_fk,
-            updatedSpendingData.id, // <- WHERE clause
-        ];
+		let updateArr = [
+			updatedSpendingData.item_name_or_goods_name,
+			updatedSpendingData.approval_number,
+			updatedSpendingData.approval_date,
+			updatedSpendingData.quantity_or_weight,
+			updatedSpendingData.rate,
+			updatedSpendingData.unit,
+			updatedSpendingData.total_amount,
+			updatedSpendingData.total_amount_previous_expense,
+			updatedSpendingData.main_namuna_12_id_fk,
+			updatedSpendingData.id // <- WHERE clause
+		];
 
-        return runQuery(pool, q, updateArr);
-    },
+		return runQuery(pool, q, updateArr);
+	},
 
+	deleteSpendingEntry: (pool, id) => {
+		let q = `DELETE FROM ps_namuna_12_spending WHERE id = ?`;
+		return runQuery(pool, q, [id]);
+	},
 
-    deleteSpendingEntry: (pool, id) => {
-        let q = `DELETE FROM ps_namuna_12_spending WHERE id = ?`
-        return runQuery(pool, q, [id])
-    },
-
-
-    //done
-    fetchNamuna12MainById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `
+	//done
+	fetchNamuna12MainById: (pool, id) => {
+		const q = `
                 SELECT 
                     n12Main.*,
                     IFNULL(DATE_FORMAT(n12Main.bill_date, '%d-%m-%Y'), "") AS _bill_date,
@@ -286,18 +259,12 @@ const namuna12Model = {
                     n12Main.id = ?
                 GROUP BY 
                     n12Main.id;`;
+		return runQuery(pool, q, [id]);
+	},
 
-            return pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
-
-    //done
-    fetchAllNamuna12Main: (pool) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT 
+	//done
+	fetchAllNamuna12Main: (pool) => {
+		const q = `SELECT 
                         n12Main.*,
                         IFNULL(DATE_FORMAT(n12Main.bill_date, '%d-%m-%Y'), "") AS _bill_date,
                         CASE 
@@ -328,17 +295,12 @@ const namuna12Model = {
                     GROUP BY 
                         n12Main.id`;
 
-            pool.query(q, [], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q);
+	},
 
-    //done
-    fetchNamuna12MainByYearRange: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT 
+	//done
+	fetchNamuna12MainByYearRange: (pool, fromYear, toYear) => {
+		const q = `SELECT 
                         n12Main.*,
                         IFNULL(DATE_FORMAT(n12Main.bill_date, '%d-%m-%Y'), "") AS _bill_date,
                         CASE 
@@ -375,17 +337,12 @@ const namuna12Model = {
                     GROUP BY 
                         n12Main.id`;
 
-            pool.query(q, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [fromYear, fromYear, toYear, toYear]);
+	},
 
-    // done
-    fetchNamuna12MainByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT 
+	// done
+	fetchNamuna12MainByMonthAndYear: (pool, month, year) => {
+		const q = `SELECT 
                         n12Main.*,
                         IFNULL(DATE_FORMAT(n12Main.bill_date, '%d-%m-%Y'), "") AS _bill_date,
                         CASE 
@@ -418,17 +375,12 @@ const namuna12Model = {
                     GROUP BY 
                         n12Main.id`;
 
-            pool.query(q, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [month, year]);
+	},
 
-    //done
-    fetchNamuna12MainByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const q = `SELECT 
+	//done
+	fetchNamuna12MainByYear: (pool, year) => {
+		const q = `SELECT 
                         n12Main.*,
                         IFNULL(DATE_FORMAT(n12Main.bill_date, '%d-%m-%Y'), "") AS _bill_date,
                         CASE 
@@ -461,36 +413,21 @@ const namuna12Model = {
                     GROUP BY 
                         n12Main.id`;
 
-            pool.query(q, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, q, [year]);
+	},
 
-    deleteNamuna12MainEntry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const q = `DELETE FROM ps_namuna_12_main WHERE id = ?`;
-            pool.query(q, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	deleteNamuna12MainEntry: (pool, id) => {
+		const q = `DELETE FROM ps_namuna_12_main WHERE id = ?`;
+		return runQuery(pool, q, [id]);
+	},
 
-    deleteNamuna12SpendingEntries: (pool, mainNamuna12IdFk) => {
-        return new Promise((resolve, reject) => {
-            const q = `DELETE FROM ps_namuna_12_spending WHERE main_namuna_12_id_fk = ?`;
-            pool.query(q, [mainNamuna12IdFk], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	deleteNamuna12SpendingEntries: (pool, mainNamuna12IdFk) => {
+		const q = `DELETE FROM ps_namuna_12_spending WHERE main_namuna_12_id_fk = ?`;
+		return runQuery(pool, q, [mainNamuna12IdFk]);
+	},
 
-    createPost: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	createPost: (pool, data) => {
+		const query = `
                 INSERT INTO ps_namuna_12_main_post_list 
                 (
                 month, 
@@ -504,26 +441,21 @@ const namuna12Model = {
                 VALUES (?, ?, ?, ?, ?, ?)
             `;
 
-            const values = [
-                data.month,
-                data.year,
-                data.post_name,
-                data.post_count,
-                data.approved_post,
-                data.order_date,
-            ];
+		const values = [
+			data.month,
+			data.year,
+			data.post_name,
+			data.post_count,
+			data.approved_post,
+			data.order_date
+		];
 
-            pool.query(query, values, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, values);
+	},
 
-    // Update an existing post entry by ID
-    updatePost: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Update an existing post entry by ID
+	updatePost: (pool, data) => {
+		const query = `
                 UPDATE ps_namuna_12_main_post_list 
                 SET 
                     month = ?,
@@ -536,42 +468,32 @@ const namuna12Model = {
 
                 WHERE id = ?
             `;
-            const values = [
-                data.month,
-                data.year,
-                data.post_name,
+		const values = [
+			data.month,
+			data.year,
+			data.post_name,
 
-                data.post_count,
-                data.approved_post,
-                data.order_date,
+			data.post_count,
+			data.approved_post,
+			data.order_date,
 
-                data.id,
-            ];
+			data.id
+		];
 
-            pool.query(query, values, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, values);
+	},
 
-    // Delete a post entry by ID
-    deletePost: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Delete a post entry by ID
+	deletePost: (pool, id) => {
+		const query = `
                 DELETE FROM ps_namuna_12_main_post_list 
                 WHERE id = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    getSinglePostEntry: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	getSinglePostEntry: (pool, id) => {
+		const query = `
                 SELECT *,
                     CASE 
                         WHEN order_date IS NULL OR order_date = '0000-00-00' 
@@ -581,17 +503,12 @@ const namuna12Model = {
                 FROM ps_namuna_12_main_post_list
                 WHERE id = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result[0]);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    // List all posts with optional filter by month and year
-    list: (pool, filters = {}) => {
-        return new Promise((resolve, reject) => {
-            let query = `
+	// List all posts with optional filter by month and year
+	list: (pool, filters = {}) => {
+		let query = `
                     SELECT *,
                         CASE 
                             WHEN order_date IS NULL OR order_date = '0000-00-00' 
@@ -600,50 +517,41 @@ const namuna12Model = {
                         END AS _order_date
                     FROM ps_namuna_12_main_post_list`;
 
-            const values = [];
+		const values = [];
 
-            if (filters.month || filters.year) {
-                query += ` WHERE`;
-                if (filters.month) {
-                    query += ` month = ?`;
-                    values.push(filters.month);
-                }
-                if (filters.year) {
-                    query += values.length ? ` AND year = ?` : ` year = ?`;
-                    values.push(filters.year);
-                }
-            }
+		if (filters.month || filters.year) {
+			query += ` WHERE`;
+			if (filters.month) {
+				query += ` month = ?`;
+				values.push(filters.month);
+			}
+			if (filters.year) {
+				query += values.length ? ` AND year = ?` : ` year = ?`;
+				values.push(filters.year);
+			}
+		}
 
-            pool.query(query, values, (err, results) => {
-                if (err) reject(err);
-                else resolve(results);
-            });
-        });
-    },
+		return runQuery(pool, query, values);
+	},
 
-    getEmployeeList: (pool, filters = {}) => {
-        return new Promise((resolve, reject) => {
-            let query = `
+	getEmployeeList: (pool, filters = {}) => {
+		let query = `
                     SELECT *
                         
                     FROM ps_namuna_12_main`;
 
-            const values = [];
+		const values = [];
 
-            if (filters || filters.post_id) {
-                query += ` WHERE`;
-                if (filters.post_id) {
-                    query += values.length ? ` AND post_id = ?` : ` post_id = ?`;
-                    values.push(filters.post_id);
-                }
-            }
+		if (filters || filters.post_id) {
+			query += ` WHERE`;
+			if (filters.post_id) {
+				query += values.length ? ` AND post_id = ?` : ` post_id = ?`;
+				values.push(filters.post_id);
+			}
+		}
 
-            pool.query(query, values, (err, results) => {
-                if (err) reject(err);
-                else resolve(results);
-            });
-        });
-    },
+		return runQuery(pool, query, values);
+	}
 };
 
 module.exports = namuna12Model;

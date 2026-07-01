@@ -1,10 +1,10 @@
 const pool = require('../../config/db-connect-migration');
+const { runQuery } = require('../../utils/runQuery');
 
 const namuna20Model = {
-    // Save a new record
-    saveNamuna20Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Save a new record
+	saveNamuna20Details: (pool, data) => {
+		const query = `
                 INSERT INTO ps_namuna_20 (
                     month,
                     year,
@@ -23,34 +23,29 @@ const namuna20Model = {
                 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             `;
 
-            const insertArray = [
-                data.month,
-                data.year,
-                data.quantity,
-                data.item_description,
-                data.rate,
-                data.per_unit,
-                data.amount,
-                data.serial_number,
-                data.length,
-                data.width,
-                data.depth,
-                data.calculated_quantity,
-                data.total,
-                data.remarks,
-            ];
+		const insertArray = [
+			data.month,
+			data.year,
+			data.quantity,
+			data.item_description,
+			data.rate,
+			data.per_unit,
+			data.amount,
+			data.serial_number,
+			data.length,
+			data.width,
+			data.depth,
+			data.calculated_quantity,
+			data.total,
+			data.remarks
+		];
 
-            pool.query(query, insertArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, insertArray);
+	},
 
-    // Update an existing record by ID
-    updateNamuna20Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Update an existing record by ID
+	updateNamuna20Details: (pool, data) => {
+		const query = `
                 UPDATE ps_namuna_20
                 SET 
                     month = ?,
@@ -70,106 +65,68 @@ const namuna20Model = {
                 WHERE id = ?
             `;
 
-            pool.query(
-                query,
-                [
-                    data.month,
-                    data.year,
-                    data.quantity,
-                    data.item_description,
-                    data.rate,
-                    data.per_unit,
-                    data.amount,
-                    data.serial_number,
-                    data.length,
-                    data.width,
-                    data.depth,
-                    data.calculated_quantity,
-                    data.total,
-                    data.remarks,
-                    data.id,
-                ],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-    },
+		return runQuery(pool, query, [
+			data.month,
+			data.year,
+			data.quantity,
+			data.item_description,
+			data.rate,
+			data.per_unit,
+			data.amount,
+			data.serial_number,
+			data.length,
+			data.width,
+			data.depth,
+			data.calculated_quantity,
+			data.total,
+			data.remarks,
+			data.id
+		]);
+	},
 
-    // Fetch all records
-    fetchAllNamuna20Details: (pool) => {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT *
+	// Fetch all records
+	fetchAllNamuna20Details: (pool) => {
+		const query = `SELECT *
                              FROM ps_namuna_20`;
-            pool.query(query, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query);
+	},
 
-    // Fetch all for financial year
-    fetchNamuna20DetailsByFinancialYear: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch all for financial year
+	fetchNamuna20DetailsByFinancialYear: (pool, fromYear, toYear) => {
+		const query = `
                 SELECT * FROM ps_namuna_20
                 WHERE 
                     (year = ? AND month BETWEEN 4 AND 12)
                     OR
                     (year = ? AND month BETWEEN 1 AND 3)
             `;
-            pool.query(query, [fromYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [fromYear, toYear]);
+	},
 
-    // Fetch all for month and year
-    fetchAllNamuna20DetailsByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT *
+	// Fetch all for month and year
+	fetchAllNamuna20DetailsByMonthAndYear: (pool, month, year) => {
+		const query = `SELECT *
                             FROM ps_namuna_20 WHERE month = ? AND year = ?`;
-            pool.query(query, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [month, year]);
+	},
 
-    // Fetch all for month and year
-    fetchAllNamuna20DetailsByYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT *
+	// Fetch all for month and year
+	fetchAllNamuna20DetailsByYear: (pool, month, year) => {
+		const query = `SELECT *
                             FROM ps_namuna_20 WHERE year = ?`;
-            pool.query(query, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
-    // Fetch a record by ID
-    fetchNamuna20DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM ps_namuna_20 WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [year]);
+	},
+	// Fetch a record by ID
+	fetchNamuna20DetailsById: (pool, id) => {
+		const query = `SELECT * FROM ps_namuna_20 WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	},
 
-    // Delete a record by ID
-    deleteNamuna20Details: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ps_namuna_20 WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	// Delete a record by ID
+	deleteNamuna20Details: (pool, id) => {
+		const query = `DELETE FROM ps_namuna_20 WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	}
 };
 
 module.exports = namuna20Model;

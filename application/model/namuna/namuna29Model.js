@@ -1,8 +1,8 @@
+const { runQuery } = require('../../utils/runQuery');
 const namuna29Model = {
-    // Save a new record
-    saveNamuna29Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Save a new record
+	saveNamuna29Details: (pool, data) => {
+		const query = `
                 INSERT INTO ps_namuna_29 (
                     month,
                     year,
@@ -23,36 +23,31 @@ const namuna29Model = {
                 ) VALUES (?)
             `;
 
-            const insertArray = [
-                data.month,
-                data.year,
-                data.borrower_name, // borrower_name
-                data.loan_sources, // loan_sources
-                data.loan_approval_order_number, // loan_approval_order_number
-                data.loan_approval_order_date, // loan_approval_order_date
-                data.loan_purpose, // loan_purpose
-                data.loan_amount, // loan_amount
-                data.interest_rate, // interest_rate
-                data.loan_received_date, // loan_received_date
+		const insertArray = [
+			data.month,
+			data.year,
+			data.borrower_name, // borrower_name
+			data.loan_sources, // loan_sources
+			data.loan_approval_order_number, // loan_approval_order_number
+			data.loan_approval_order_date, // loan_approval_order_date
+			data.loan_purpose, // loan_purpose
+			data.loan_amount, // loan_amount
+			data.interest_rate, // interest_rate
+			data.loan_received_date, // loan_received_date
 
-                data.number_of_installments,
-                data.installment_start_date,
-                data.installment_amount,
-                data.installment_interest,
-            ];
+			data.number_of_installments,
+			data.installment_start_date,
+			data.installment_amount,
+			data.installment_interest
+		];
 
-            pool.query(query, [insertArray], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [insertArray]);
+	},
 
-    // save installment record corresponding to the above loan entry
+	// save installment record corresponding to the above loan entry
 
-    saveNamuna29InstallmentDetails: (pool, installmentData) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	saveNamuna29InstallmentDetails: (pool, installmentData) => {
+		const query = `
                 INSERT INTO ps_namuna_29_installment (
                     namuna_29_loan_id_fk,
                     installment_month,
@@ -68,31 +63,26 @@ const namuna29Model = {
                     remarks
                 ) VALUES (?)`;
 
-            const insertArray = [
-                installmentData.namuna_29_loan_id_fk,
-                installmentData.installment_month,
-                installmentData.installment_year,
-                installmentData.installment_principal,
-                installmentData.installment_interest_amount,
-                installmentData.disbursement_date,
-                installmentData.disbursement_principal,
-                installmentData.disbursement_interest,
-                installmentData.total_balance,
-                installmentData.balance_principal,
-                installmentData.balance_interest,
-                installmentData.remarks,
-            ];
+		const insertArray = [
+			installmentData.namuna_29_loan_id_fk,
+			installmentData.installment_month,
+			installmentData.installment_year,
+			installmentData.installment_principal,
+			installmentData.installment_interest_amount,
+			installmentData.disbursement_date,
+			installmentData.disbursement_principal,
+			installmentData.disbursement_interest,
+			installmentData.total_balance,
+			installmentData.balance_principal,
+			installmentData.balance_interest,
+			installmentData.remarks
+		];
 
-            pool.query(query, [insertArray], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
-    // Update an existing record by ID
-    updateNamuna29Details: (pool, data) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+		return runQuery(pool, query, [insertArray]);
+	},
+	// Update an existing record by ID
+	updateNamuna29Details: (pool, data) => {
+		const query = `
                 UPDATE ps_namuna_29
                 SET 
                     month = ?,
@@ -112,36 +102,31 @@ const namuna29Model = {
                 WHERE id = ?
             `;
 
-            const updateArray = [
-                data.month,
-                data.year,
-                data.borrower_name, // borrower_name
-                data.loan_sources, // loan_sources
-                data.loan_approval_order_number, // loan_approval_order_number
-                data.loan_approval_order_date, // loan_approval_order_date
-                data.loan_purpose, // loan_purpose
-                data.loan_amount, // loan_amount
-                data.interest_rate, // interest_rate
-                data.loan_received_date, // loan_received_date
+		const updateArray = [
+			data.month,
+			data.year,
+			data.borrower_name, // borrower_name
+			data.loan_sources, // loan_sources
+			data.loan_approval_order_number, // loan_approval_order_number
+			data.loan_approval_order_date, // loan_approval_order_date
+			data.loan_purpose, // loan_purpose
+			data.loan_amount, // loan_amount
+			data.interest_rate, // interest_rate
+			data.loan_received_date, // loan_received_date
 
-                data.number_of_installments,
-                data.installment_start_date,
-                data.installment_amount,
-                data.installment_interest,
+			data.number_of_installments,
+			data.installment_start_date,
+			data.installment_amount,
+			data.installment_interest,
 
-                data.id, // id (for identifying which record to update)
-            ];
+			data.id // id (for identifying which record to update)
+		];
 
-            pool.query(query, updateArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, updateArray);
+	},
 
-    updateNamuna29InstallmentDetails: (pool, installmentData) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	updateNamuna29InstallmentDetails: (pool, installmentData) => {
+		const query = `
                 UPDATE ps_namuna_29_installment
                 SET
                     installment_month = ?,
@@ -157,48 +142,38 @@ const namuna29Model = {
                     remarks = ?
                 WHERE id = ?`;
 
-            const updateArray = [
-                installmentData.installment_month,
-                installmentData.installment_year,
-                installmentData.installment_principal,
-                installmentData.installment_interest_amount,
-                installmentData.disbursement_date,
-                installmentData.disbursement_principal,
-                installmentData.disbursement_interest,
-                installmentData.total_balance,
-                installmentData.balance_principal,
-                installmentData.balance_interest,
-                installmentData.remarks,
-                installmentData.id, // Identifying the record to update solely by its id
-            ];
+		const updateArray = [
+			installmentData.installment_month,
+			installmentData.installment_year,
+			installmentData.installment_principal,
+			installmentData.installment_interest_amount,
+			installmentData.disbursement_date,
+			installmentData.disbursement_principal,
+			installmentData.disbursement_interest,
+			installmentData.total_balance,
+			installmentData.balance_principal,
+			installmentData.balance_interest,
+			installmentData.remarks,
+			installmentData.id // Identifying the record to update solely by its id
+		];
 
-            pool.query(query, updateArray, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, updateArray);
+	},
 
-    // Fetch all records
-    fetchAllNamuna29Details: (pool) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch all records
+	fetchAllNamuna29Details: (pool) => {
+		const query = `
                 SELECT *,
                     IFNULL(DATE_FORMAT(loan_approval_order_date, '%d-%m-%Y'), '') AS _loan_approval_order_date,
                     IFNULL(DATE_FORMAT(loan_received_date, '%d-%m-%Y'), '') AS _loan_received_date,
                     IFNULL(DATE_FORMAT(installment_start_date, '%d-%m-%Y'), '') AS _installment_start_date
                 FROM ps_namuna_29;
             `;
-            pool.query(query, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query);
+	},
 
-    fetchNamuna29DetailsByYearRange: (pool, fromYear, toYear) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	fetchNamuna29DetailsByYearRange: (pool, fromYear, toYear) => {
+		const query = `
                 SELECT *, 
                     IFNULL(DATE_FORMAT(loan_approval_order_date, '%d-%m-%Y'), '') AS _loan_approval_order_date,
                     IFNULL(DATE_FORMAT(loan_received_date, '%d-%m-%Y'), '') AS _loan_received_date,
@@ -213,17 +188,12 @@ const namuna29Model = {
                 ORDER BY year ASC, month ASC
             `;
 
-            pool.query(query, [fromYear, fromYear, toYear, toYear], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [fromYear, fromYear, toYear, toYear]);
+	},
 
-    // Fetch records for specific month and year
-    fetchNamuna29DetailsByMonthAndYear: (pool, month, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch records for specific month and year
+	fetchNamuna29DetailsByMonthAndYear: (pool, month, year) => {
+		const query = `
                 SELECT *,
                     IFNULL(DATE_FORMAT(loan_approval_order_date, '%d-%m-%Y'), '') AS _loan_approval_order_date,
                     IFNULL(DATE_FORMAT(loan_received_date, '%d-%m-%Y'), '') AS _loan_received_date,
@@ -239,17 +209,12 @@ const namuna29Model = {
                     AND p29inst.installment_year = ? ;
 
             `;
-            pool.query(query, [month, year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [month, year]);
+	},
 
-    // Fetch records for a specific year
-    fetchNamuna29DetailsByYear: (pool, year) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch records for a specific year
+	fetchNamuna29DetailsByYear: (pool, year) => {
+		const query = `
                 SELECT * ,
                  IFNULL(DATE_FORMAT(loan_approval_order_date, '%d-%m-%Y'), '') AS _loan_approval_order_date,
                     IFNULL(DATE_FORMAT(loan_received_date, '%d-%m-%Y'), '') AS _loan_received_date,
@@ -257,17 +222,12 @@ const namuna29Model = {
                 FROM ps_namuna_29
                 WHERE year = ?
             `;
-            pool.query(query, [year], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [year]);
+	},
 
-    // Fetch record by ID
-    fetchNamuna29DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	// Fetch record by ID
+	fetchNamuna29DetailsById: (pool, id) => {
+		const query = `
                 SELECT * ,
                  IFNULL(DATE_FORMAT(loan_approval_order_date, '%d-%m-%Y'), '') AS _loan_approval_order_date,
                     IFNULL(DATE_FORMAT(loan_received_date, '%d-%m-%Y'), '') AS _loan_received_date,
@@ -277,63 +237,39 @@ const namuna29Model = {
                 FROM ps_namuna_29
                 WHERE id = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    fetchNamuna29InstallmentDetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	fetchNamuna29InstallmentDetailsById: (pool, id) => {
+		const query = `
                 SELECT * ,
                  IFNULL(DATE_FORMAT(disbursement_date, '%d-%m-%Y'), '') AS _disbursement_date                    
                 FROM ps_namuna_29_installment
                 WHERE id = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    fetchAllInstallmentsForLoan: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `
+	fetchAllInstallmentsForLoan: (pool, id) => {
+		const query = `
                 SELECT * ,
                  IFNULL(DATE_FORMAT(disbursement_date, '%d-%m-%Y'), '') AS _disbursement_date                    
                 FROM ps_namuna_29_installment
                 WHERE namuna_29_loan_id_fk = ?
             `;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+		return runQuery(pool, query, [id]);
+	},
 
-    // Delete record by ID
-    deleteNamuna29DetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ps_namuna_29 WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	// Delete record by ID
+	deleteNamuna29DetailsById: (pool, id) => {
+		const query = `DELETE FROM ps_namuna_29 WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	},
 
-    deleteNamuna29InstallmentDetailsById: (pool, id) => {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ps_namuna_29_installment WHERE id = ?`;
-            pool.query(query, [id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-        });
-    },
+	deleteNamuna29InstallmentDetailsById: (pool, id) => {
+		const query = `DELETE FROM ps_namuna_29_installment WHERE id = ?`;
+		return runQuery(pool, query, [id]);
+	}
 };
 
 module.exports = namuna29Model;

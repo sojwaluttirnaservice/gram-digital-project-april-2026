@@ -1,21 +1,11 @@
 const namuna4Model = {
+	getById: () => {},
 
-    getById: () =>{
+	save: () => {},
 
-    },
+	update: () => {},
 
-    
-  save: () => {
-
-  },
-
-  update: () => {
-
-  },
-
-  delete: () => {
-
-  },
+	delete: () => {}
 };
 
 module.exports = namuna4Model;

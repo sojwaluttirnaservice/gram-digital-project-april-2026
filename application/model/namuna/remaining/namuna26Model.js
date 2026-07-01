@@ -1,16 +1,13 @@
-const asyncHandler = require("../../../utils/asyncHandler")
-const { runQuery } = require("../../../utils/runQuery")
+const asyncHandler = require('../../../utils/asyncHandler');
+const { runQuery } = require('../../../utils/runQuery');
 
 const namuna26Model = {
+	getNamuna26khData: (pool, filters) => {
+		let q = ``;
+		let params = [];
 
-    getNamuna26khData: (pool, filters) =>{
+		return runQuery(pool, q, params);
+	}
+};
 
-
-        let q = ``
-        let params = [];
-
-        return runQuery(pool, q, params)
-    }
-}
-
-module.exports = namuna26Model
+module.exports = namuna26Model;
