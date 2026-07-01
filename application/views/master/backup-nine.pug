@@ -1,87 +1,84 @@
 doctype html
 head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  meta(http-equiv='X-UA-Compatible' content='ie=edge')
-  // common css
-  link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
-  link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
-  link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
-  link(rel='stylesheet' href='/asstest/coustom/css/main.css')
-  link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
-  link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    // common css
+    link(rel='stylesheet' href='/asstest/plugins/bs4/css/bootstrap.css')
+    link(rel='stylesheet' href='/asstest/plugins/font-awesome470/css/font-awesome.css')
+    link(rel='stylesheet' href='/asstest/plugins/date/jquery-ui.css')
+    link(rel='stylesheet' href='/asstest/coustom/css/main.css')
+    link(rel='stylesheet' href='/asstest/plugins/select/css/select2.min.css')  
+    link(href='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.css' rel='stylesheet')
 
+    script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
+    script(src='/asstest/plugins/popper/popper.min.js')
+    script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
+    script(src='/asstest/plugins/date/jquery-ui.js')
+    script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
+    script(src='/asstest/plugins/notify/notify.js')
+    script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
+    script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
 
+    //toggle
+    script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
 
-  script(src='/asstest/plugins/jquery/jquery-3.3.1.min.js')
-  script(src='/asstest/plugins/popper/popper.min.js')
-  script(src='/asstest/plugins/bs4/js/bootstrap.min.js')
-  script(src='/asstest/plugins/date/jquery-ui.js')
-  script(src='/asstest/plugins/sweetalert/sweetalert.min.js')
-  script(src='/asstest/plugins/notify/notify.js')
-  script(src="/asstest/plugins/jquery_validation/jquery.validate.min.js")
-  script(src="/asstest/plugins/jquery_validation/additional-methods.js")  
-
-
-  //toggle
-  script(src='/asstest/plugins/bootstrap4toggle/bootstrap4-toggle.min.js')
-  // extras
-
-  // common js setups
-  script(src='/asstest/coustom/js/base.converter.js')
-  script(src='/asstest/coustom/js/common.js')
+    // common js setups
+    script(src='/asstest/coustom/js/base.converter.js')
+    script(src='/asstest/coustom/js/common.js')
 body
-  .container-fluid
-    .row
-      .col-12 
-        .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-          a.navbar-brand(href="/master") Master Panel
-    .row.mt-5.justify-content-center
-      .col-12.mt-3
-        h1.ml-5.text-center.mr-5 9 Backup  
-      .col-12.col-sm-8.col-md-4.mt-4
-        table.table.table-bordered
-          thead 
-            tr
-              th नवीन सुरु वर्ष
-              th
-                input(class="form-control" value=gp_working_from+1 readonly id="s_name")
-            tr
-              th नवीन समाप्ती वर्ष
-              th 
-                input(class="form-control" value=gp_working_to+1 readonly id="e_name")
-            tr 
-              th backup घ्या 
-              th
-                input(class="form-control" type="password" id="b" placeholder="backup password")
-            tr
-              th(colspan="2")
-                center
-                  button.btn.btn-outline-success.btn-sm#takeBackup Backup घ्या
-    script.
-      $(function(){
-        takeBackup
-          $('#takeBackup').on('click',function(){
-            if($('#b').val() === 'chandresh@123'){
-              $.ajax({
-                url:'/master/update-backup-nine',
-                type:'post',
-                data:{id:0}
-              }).done(function(data){
-                window.location.assign(`/master/backup-nine?s_name=${$('#s_name').val()}&e_name=${$('#e_name').val()}`)
-              }).fail(function(error){
-                console.log(error)
-                alert('server error')
-              })
+    .container-fluid
+        .row
+            .col-12 
+                .nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+                    a.navbar-brand(href="/master") Master Panel
+        .row.mt-5.justify-content-center
+            .col-12.col-sm-8.col-md-6.col-lg-4.mt-5
+                .card.shadow-sm
+                    .card-header.bg-dark.text-white.text-center
+                        h4.mb-0 9 Backup (नवीन वर्ष नोंदणी)
+                    .card-body
+                        .form-group
+                            label.font-weight-bold(for="s_name") नवीन सुरु वर्ष
+                            input#s_name.form-control(value=gp_working_from+1 readonly)
+                        .form-group
+                            label.font-weight-bold(for="e_name") नवीन समाप्ती वर्ष
+                            input#e_name.form-control(value=gp_working_to+1 readonly)
+                        .form-group
+                            label.font-weight-bold(for="b") Backup पासवर्ड
+                            input#b.form-control(type="password" placeholder="backup password")
+                        button#takeBackup.btn.btn-outline-success.btn-block.mt-4 Backup घ्या
 
-            }else{
-              alert('password is wrong.')
-            }
-          })
-      })
+                        div.text-center.mt-3
+                            button#clearPreviousDatabases.btn.btn-outline-danger.btn-block.mt-4 मागील डेटा क्लियर करा
 
+        script.
+            $(function() {
+                $('#takeBackup').on('click', async function() {
+                    var passwordVal = $('#b').val();
+                    var sNameVal = $('#s_name').val();
+                    var eNameVal = $('#e_name').val();
 
-
-
-
-
+                    if (passwordVal === 'chandresh@123') {
+                        try {
+                            var response = await fetch('/master/update-backup-nine', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: 'id=0'
+                            });
+                            if (response.ok) {
+                                window.location.assign('/master/backup-nine?s_name=' + encodeURIComponent(sNameVal) + '&e_name=' + encodeURIComponent(eNameVal));
+                            } else {
+                                alert('server error');
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert('server error');
+                        }
+                    } else {
+                        alert('password is wrong.');
+                    }
+                });
+            });
