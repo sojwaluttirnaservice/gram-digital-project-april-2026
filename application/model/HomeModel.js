@@ -1,94 +1,55 @@
-var responderSet = require('../config/_responderSet')
-const db = require('../config/db.connect.promisify')
-const { getRedisData, setRedisKey } = require('../utils/redis')
-const { gpDataRedisKey } = require('../utils/redisKeys')
-const { runQuery } = require('../utils/runQuery')
-const { updateNewMeterCatalogImage } = require('./MeterModel')
-let myDates = responderSet.myDate
+var responderSet = require('../config/_responderSet');
+const db = require('../config/db.connect.promisify');
+const { getRedisData, setRedisKey } = require('../utils/redis');
+const { gpDataRedisKey } = require('../utils/redisKeys');
+const { runQuery } = require('../utils/runQuery');
+const { updateNewMeterCatalogImage } = require('./MeterModel');
+let myDates = responderSet.myDate;
 
 let HomeModel = {
-	deleteFromEight: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `DELETE FROM ps_form_eight_user WHERE id=? LIMIT 1`
-			pool.query(query, [id], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	deleteFromEight: (pool, id) => {
+		var query = `DELETE FROM ps_form_eight_user WHERE id=? LIMIT 1`;
+		return runQuery(pool, query, [id]);
 	},
-	deleteFromEightTax: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `DELETE FROM ps_form_eight_total_taxation WHERE user_id=? LIMIT 1`
-			pool.query(query, [id], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	deleteFromEightTax: (pool, id) => {
+		var query = `DELETE FROM ps_form_eight_total_taxation WHERE user_id=? LIMIT 1`;
+		return runQuery(pool, query, [id]);
 	},
-	deleteFromNine: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `DELETE FROM ps_form_nine_form WHERE user_id=? LIMIT 1`
-			pool.query(query, [id], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	deleteFromNine: (pool, id) => {
+		var query = `DELETE FROM ps_form_nine_form WHERE user_id=? LIMIT 1`;
+		return runQuery(pool, query, [id]);
 	},
-	getDocList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_document_type`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getDocList: (pool) => {
+		var query = `SELECT * FROM ps_document_type`;
+		return runQuery(pool, query);
 	},
-	startWebSite: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `UPDATE ps_gram_panchayet SET gp_is_live=1`
-			pool.query(query, (err, result) => {
-				if (err) {
-					; (responderSet.sendData._call = -1),
-						(responderSet.sendData._error = 'Op Error, Contact To Admin'),
-						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	startWebSite: async (pool) => {
+		var query = `UPDATE ps_gram_panchayet SET gp_is_live=1`;
+
+		try {
+			return await runQuery(pool, query);
+		} catch (err) {
+			responderSet.sendData._call = -1;
+			responderSet.sendData._error = 'Op Error, Contact To Admin';
+			responderSet.sendData._sys_erorr = err;
+			throw responderSet.sendData;
+		}
 	},
-	getGharkulYojanaList: function (pool, aouth_data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT id, gy_name as text FROM ps_gharkul_yojna`
-			pool.query(query, (err, result) => {
-				if (err) {
-					; (responderSet.sendData._call = -1),
-						(responderSet.sendData._error = 'Op Error, Contact To Admin'),
-						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getGharkulYojanaList: async (pool, aouth_data) => {
+		var query = `SELECT id, gy_name as text FROM ps_gharkul_yojna`;
+
+		try {
+			return await runQuery(pool, query);
+		} catch (err) {
+			responderSet.sendData._call = -1;
+			responderSet.sendData._error = 'Op Error, Contact To Admin';
+			responderSet.sendData._sys_erorr = err;
+			throw responderSet.sendData;
+		}
 	},
-	checkDuplicateTax: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `SELECT * FROM ps_form_eight_taxation
+	checkDuplicateTax: (pool, data) => {
+		var insert_array = [];
+		var query = `SELECT * FROM ps_form_eight_taxation
                       WHERE
                         user_id = ? AND
                         fet_ghasara_id = ? AND
@@ -97,107 +58,52 @@ let HomeModel = {
                         fet_prop_space_pd_id = ? AND
                         fet_bahandkam_prakar_id = ? AND
                         fet_bahandkam_prakar_pd_id = ?
-                    LIMIT 1`
+                    LIMIT 1`;
 
-			insert_array = [
-				data.id,
-				data.ghasara_id,
-				data.prop_desc_id,
-				data.prop_space_id,
-				data.prop_space_pd_id,
-				data.bahandkam_prakar_id,
-				data.bahandkam_prakar_pd_id,
-			]
-			pool.query(query, insert_array, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		insert_array = [
+			data.id,
+			data.ghasara_id,
+			data.prop_desc_id,
+			data.prop_space_id,
+			data.prop_space_pd_id,
+			data.bahandkam_prakar_id,
+			data.bahandkam_prakar_pd_id
+		];
+		return runQuery(pool, query, insert_array);
 	},
-	getFromEightTaxSampleData: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_form_eight_taxation WHERE user_id = ?`
-			pool.query(query, Number(data.id), function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getFromEightTaxSampleData: (pool, data) => {
+		var query = `SELECT * FROM ps_form_eight_taxation WHERE user_id = ?`;
+		return runQuery(pool, query, Number(data.id));
 	},
 
-	getContactList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT feu_mobileNo as mobile FROM ps_form_eight_user WHERE feu_mobileNo <> '-'`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getContactList: (pool) => {
+		var query = `SELECT feu_mobileNo as mobile FROM ps_form_eight_user WHERE feu_mobileNo <> '-'`;
+		return runQuery(pool, query);
 	},
-	getFromEightTaxTotalData: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_form_eight_total_taxation WHERE user_id = ?`
-			pool.query(query, data.id, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getFromEightTaxTotalData: (pool, data) => {
+		var query = `SELECT * FROM ps_form_eight_total_taxation WHERE user_id = ?`;
+		return runQuery(pool, query, data.id);
 	},
-	removeSingleTaxSample: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query =
-				'DELETE FROM ps_form_eight_taxation WHERE user_id = ? AND id =?'
-			pool.query(
-				query,
-				[Number(data.id), Number(data.remove_tax_id)],
-				(err, result) => {
-					if (err) {
-						reject(err)
-					} else {
-						resolve(result)
-					}
-				}
-			)
-		})
+	removeSingleTaxSample: (pool, data) => {
+		var query =
+			'DELETE FROM ps_form_eight_taxation WHERE user_id = ? AND id =?';
+		return runQuery(pool, query, [
+			Number(data.id),
+			Number(data.remove_tax_id)
+		]);
 	},
-	cleanFormEightTotalTaxation: function (pool, user_id) {
-		return new Promise((resolve, reject) => {
-			var query = 'DELETE FROM ps_form_eight_total_taxation WHERE user_id = ? '
-			pool.query(query, [user_id], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	cleanFormEightTotalTaxation: (pool, user_id) => {
+		var query =
+			'DELETE FROM ps_form_eight_total_taxation WHERE user_id = ? ';
+		return runQuery(pool, query, [user_id]);
 	},
-	getNextUserId: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT id FROM ps_form_eight_user WHERE id > ? ORDER BY id ASC LIMIT 1 `
-			pool.query(query, [Number(data.id)], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getNextUserId: (pool, data) => {
+		var query = `SELECT id FROM ps_form_eight_user WHERE id > ? ORDER BY id ASC LIMIT 1 `;
+		return runQuery(pool, query, [Number(data.id)]);
 	},
 
 	getNextUserByMalmatta: (pool, data) => {
-		const malmattaInput = String(data.malmattaNumber || "");
+		const malmattaInput = String(data.malmattaNumber || '');
 		const [mainStr, subStr] = malmattaInput.split('/');
 		const mainPart = parseInt(mainStr, 10);
 		const subPart = subStr ? parseInt(subStr, 10) : 0;
@@ -220,51 +126,25 @@ let HomeModel = {
 		LIMIT 1
 		`;
 
-
-		return runQuery(pool, q, [mainPart, mainPart, subPart])
+		return runQuery(pool, q, [mainPart, mainPart, subPart]);
 	},
 
-	getCheckMalmattaDetailsDuplicateOrOblique: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT id FROM ps_form_eight_user WHERE feu_malmattaNo = ? LIMIT 1`
-			pool.query(query, [data.mNumber], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getCheckMalmattaDetailsDuplicateOrOblique: (pool, data) => {
+		var query = `SELECT id FROM ps_form_eight_user WHERE feu_malmattaNo = ? LIMIT 1`;
+		return runQuery(pool, query, [data.mNumber]);
 	},
 
-	getLastUserId: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT id,feu_malmattaNo as malmattaNo  FROM ps_form_eight_user ORDER BY id DESC LIMIT 1`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getLastUserId: (pool) => {
+		var query = `SELECT id,feu_malmattaNo as malmattaNo  FROM ps_form_eight_user ORDER BY id DESC LIMIT 1`;
+		return runQuery(pool, query);
 	},
-	getAarogyaDivaKarList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_arogya_diva_kar`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getAarogyaDivaKarList: (pool) => {
+		var query = `SELECT * FROM ps_arogya_diva_kar`;
+		return runQuery(pool, query);
 	},
 
-	saveNewTotalTaxDetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `INSERT INTO ps_form_eight_total_taxation(
+	saveNewTotalTaxDetails: (pool, data) => {
+		var query = `INSERT INTO ps_form_eight_total_taxation(
                     user_id,
                     total_building_work,
                     total_open_plot,
@@ -283,41 +163,33 @@ let HomeModel = {
 
                     total_tax,
                     created_date
-                ) VALUES (?)`
+                ) VALUES (?)`;
 
-			let insertData = [
-				Number(data.user_id),
-				data.total_building_work,
-				data.total_open_plot,
-				data.total_area,
-				data.building_tax,
-				data.open_area_tax,
-				data.other_tex,
-				data.water_tax,
-				data.dava_kar,
-				data.arogya_kar,
-				data.cleaning_tax,
-				data.tree_tax,
-				data.firebligate_tax,
-				data.education_tax,
-				data.total_tax,
-				data.created_date,
-			]
-			console.log(insertData, '262 line model')
-			pool.query(query, [insertData], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result, data)
-				}
-			})
-		})
+		let insertData = [
+			Number(data.user_id),
+			data.total_building_work,
+			data.total_open_plot,
+			data.total_area,
+			data.building_tax,
+			data.open_area_tax,
+			data.other_tex,
+			data.water_tax,
+			data.dava_kar,
+			data.arogya_kar,
+			data.cleaning_tax,
+			data.tree_tax,
+			data.firebligate_tax,
+			data.education_tax,
+			data.total_tax,
+			data.created_date
+		];
+		console.log(insertData, '262 line model');
+		return runQuery(pool, query, [insertData]);
 	},
 
-	saveNewFormEightDetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `INSERT INTO ps_form_eight_user(
+	saveNewFormEightDetails: (pool, data) => {
+		var insert_array = [];
+		var query = `INSERT INTO ps_form_eight_user(
                     feu_malmattaNo,
                     feu_oblik_malmatta_id,
                     feu_wardNo,
@@ -350,110 +222,68 @@ let HomeModel = {
                     feu_created_date,
                     feu_modify_date,
                     feu_water_tax
-                ) VALUES (?)`
+                ) VALUES (?)`;
 
-			insert_array = [
-				data.newMalmattaNo,
-				Number(data.newMalmattaNoOblique),
-				data.newWardNo,
-				data.oldHomeNo,
-				data.newAadharNo,
-				data.newOwnerName,
-				data.newSecondOwnerName,
-				data.newMobileNo,
-				data.newGramPanchayet,
-				data.newVillageName,
-				data.newGaatNo,
-				data.gharkulYojna,
-				data.havingToilet,
-				data.newAreaHeightFoot,
-				data.newAreaWidthFoot,
-				data.newTotalAreaSquareFoot,
-				data.newTotalAreaSquareMeter,
-				data.newEastLandmark,
-				data.newWestLandmark,
-				data.newNorthLandmark,
-				data.newSouthLandmark,
-				data.newBojaShera,
-				data.newOldDharak,
-				data.newNewDharak,
-				data.newPherfarDate,
-				data.newPherfarTharav,
-				data.newPherfarDocument,
-				'',
-				'',
-				myDates.getDate(),
-				myDates.getDate(),
-				data.waterTax,
-			]
-			pool.query(query, [insert_array], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		insert_array = [
+			data.newMalmattaNo,
+			Number(data.newMalmattaNoOblique),
+			data.newWardNo,
+			data.oldHomeNo,
+			data.newAadharNo,
+			data.newOwnerName,
+			data.newSecondOwnerName,
+			data.newMobileNo,
+			data.newGramPanchayet,
+			data.newVillageName,
+			data.newGaatNo,
+			data.gharkulYojna,
+			data.havingToilet,
+			data.newAreaHeightFoot,
+			data.newAreaWidthFoot,
+			data.newTotalAreaSquareFoot,
+			data.newTotalAreaSquareMeter,
+			data.newEastLandmark,
+			data.newWestLandmark,
+			data.newNorthLandmark,
+			data.newSouthLandmark,
+			data.newBojaShera,
+			data.newOldDharak,
+			data.newNewDharak,
+			data.newPherfarDate,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			'',
+			'',
+			myDates.getDate(),
+			myDates.getDate(),
+			data.waterTax
+		];
+		return runQuery(pool, query, [insert_array]);
 	},
 
-	updateNewFormEightHomeImage: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `UPDATE ps_form_eight_user SET feu_image = ? WHERE id=?`
-			pool.query(
-				query,
-				[data.feu_image, Number(data.id)],
-				function (err, result) {
-					if (err) {
-						reject(err)
-					} else {
-						resolve(result)
-					}
-				}
-			)
-		})
+	updateNewFormEightHomeImage: (pool, data) => {
+		var insert_array = [];
+		var query = `UPDATE ps_form_eight_user SET feu_image = ? WHERE id=?`;
+		return runQuery(pool, query, [data.feu_image, Number(data.id)]);
 	},
 
-	updateNewFormEightMapImage: function (pool, data) {
-		console.log(data, 'here image map---')
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `UPDATE ps_form_eight_user SET feu_image_map=? WHERE id=?`
-			pool.query(
-				query,
-				[data.feu_image_map, Number(data.id)],
-				function (err, result) {
-					if (err) {
-						reject(err)
-					} else {
-						resolve(result)
-					}
-				}
-			)
-		})
+	updateNewFormEightMapImage: (pool, data) => {
+		var insert_array = [];
+		var query = `UPDATE ps_form_eight_user SET feu_image_map=? WHERE id=?`;
+		return runQuery(pool, query, [data.feu_image_map, Number(data.id)]);
 	},
 
-	updateNewFormEightCatalogImage: function (pool, data) {
-		// console.log(data, 'here---')
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `UPDATE ps_form_eight_user SET feu_image = ?,feu_image_map=? WHERE id=?`
-			pool.query(
-				query,
-				[data.feu_image, data.feu_image_map, Number(data.id)],
-				function (err, result) {
-					if (err) {
-						reject(err)
-					} else {
-						resolve(result)
-					}
-				}
-			)
-		})
+	updateNewFormEightCatalogImage: (pool, data) => {
+		var insert_array = [];
+		var query = `UPDATE ps_form_eight_user SET feu_image = ?,feu_image_map=? WHERE id=?`;
+		return runQuery(pool, query, [
+			data.feu_image,
+			data.feu_image_map,
+			Number(data.id)
+		]);
 	},
 
-	// getOldFerfarData: function (pool, id) {
-	//   return new Promise((resolve, reject) => {
+	// 	getOldFerfarData: (pool, id) => {
 	//     let query = `SELECT
 	//                   feu_newOldDharak,
 	//                   feu_newNewDharak
@@ -461,54 +291,36 @@ let HomeModel = {
 	//                   ps_form_eight_user
 	//                   WHERE
 	//                   id= ?`;
-	//     pool.query(query, Number(id), function (err, result) {
-	//       err ? reject(err) : resolve(result);
-	//     });
-	//   });
-	// },
-	getDastavejDetails: function (pool) {
-		// console.log('IN dasta')
-		return new Promise((resolve, reject) => {
-			let query = `SELECT 
+	//     return runQuery(pool, query, Number(id));;
+	//   	},
+	getDastavejDetails: (pool) => {
+		let query = `SELECT 
                     gp_dastavegList
                   FROM 
-                    ps_gram_panchayet`
-			pool.query(query, function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+                    ps_gram_panchayet`;
+		return runQuery(pool, query);
 	},
-	getFerfarDetails: function (pool, malmattaNumber) {
-		return new Promise((resolve, reject) => {
-			let query = `SELECT 
+	getFerfarDetails: (pool, malmattaNumber) => {
+		let query = `SELECT 
 								* 
 							FROM
 								ps_form_eight_user
 							WHERE 
 								feu_malmattaNo = ? 
-							LIMIT 1`
-			pool.query(query, malmattaNumber, function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+							LIMIT 1`;
+		return runQuery(pool, query, malmattaNumber);
 	},
-	getOldOwnerList: function (pool, id) {
-		// console.log(id)
-		return new Promise((resolve, reject) => {
-			let query = `SELECT 
+	getOldOwnerList: (pool, id) => {
+		let query = `SELECT 
                     *
                   FROM 
                     ps_ferfar
                   WHERE 
-                    user_id = ?`
-			pool.query(query, Number(id), function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+                    user_id = ?`;
+		return runQuery(pool, query, Number(id));
 	},
-	updateFerfarDetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			let query = `INSERT INTO
+	updateFerfarDetails: (pool, data) => {
+		let query = `INSERT INTO
                     ps_ferfar (user_id,
                                 feu_malmatta_no,
                                 feu_new_owner,
@@ -517,25 +329,21 @@ let HomeModel = {
                                 dastavej,
                                 ferfar_date, 
                                 registry_no)
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
-			let insertData = [
-				data.userId,
-				data.newMalmattaNo,
-				data.newNewDharak,
-				data.newOldDharak,
-				data.newPherfarTharav,
-				data.newPherfarDocument,
-				data.newPherfarDate,
-				data.registry_no,
-			]
-			pool.query(query, insertData, function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
+		let insertData = [
+			data.userId,
+			data.newMalmattaNo,
+			data.newNewDharak,
+			data.newOldDharak,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			data.newPherfarDate,
+			data.registry_no
+		];
+		return runQuery(pool, query, insertData);
 	},
-	updateFerfarByUserId: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			const query = `
+	updateFerfarByUserId: (pool, data) => {
+		const query = `
 				UPDATE ps_ferfar
 				SET
 					feu_malmatta_no = ?,
@@ -547,29 +355,21 @@ let HomeModel = {
 					registry_no = ?
 				WHERE
 					user_id = ?;
-			`
-			pool.query(
-				query,
-				[
-					data.newMalmattaNo,
-					data.newNewDharak,
-					data.newOldDharak,
-					data.newPherfarTharav,
-					data.newPherfarDocument,
-					data.newPherfarDate,
-					data.registry_no || '',
-					Number(data.userId || data.id),
-				],
-				(err, result) => {
-					err ? reject(err) : resolve(result)
-				}
-			)
-		})
+			`;
+		return runQuery(pool, query, [
+			data.newMalmattaNo,
+			data.newNewDharak,
+			data.newOldDharak,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			data.newPherfarDate,
+			data.registry_no || '',
+			Number(data.userId || data.id)
+		]);
 	},
 
-	saveEditedFerfar: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			const query = `
+	saveEditedFerfar: (pool, data) => {
+		const query = `
       UPDATE ps_ferfar
       SET
         user_id = ?,
@@ -581,44 +381,32 @@ let HomeModel = {
         registry_no = ?
       WHERE
         feu_malmatta_no = ?;
-      `
+      `;
 
-			pool.query(
-				query,
-				[
-					data.userId,
-					data.newNewDharak,
-					data.newOldDharak,
-					data.newPherfarTharav,
-					data.newPherfarDocument,
-					data.newPherfarDate,
-					data.registry_no,
-					data.newMalmattaNo,
-				],
-				(err, result) => {
-					err ? reject(err) : resolve(result)
-				}
-			)
-		})
+		return runQuery(pool, query, [
+			data.userId,
+			data.newNewDharak,
+			data.newOldDharak,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			data.newPherfarDate,
+			data.registry_no,
+			data.newMalmattaNo
+		]);
 	},
-	getFerfarAvahalMonths: function (pool, year) {
-		return new Promise((resolve, reject) => {
-			const query = `SELECT DISTINCT SUBSTRING(ferfar_date, 1, 2) AS distinct_month
+	getFerfarAvahalMonths: (pool, year) => {
+		const query = `SELECT DISTINCT SUBSTRING(ferfar_date, 1, 2) AS distinct_month
       FROM ps_ferfar
-      WHERE ferfar_date LIKE CONCAT('%/', ?)`
+      WHERE ferfar_date LIKE CONCAT('%/', ?)`;
 
-			pool.query(query, [year], (err, result) => {
-				err ? reject(err) : resolve(result)
-			})
-		})
+		return runQuery(pool, query, [year]);
 	},
 
-	form8FerfarAvahalPrintDetails: function (pool, year, month) {
-		return new Promise((resolve, reject) => {
-			let query
+	form8FerfarAvahalPrintDetails: (pool, year, month) => {
+		let query;
 
-			if (month === undefined || month == null || !month) {
-				query = `
+		if (month === undefined || month == null || !month) {
+			query = `
 						SELECT 
 							t1.*,
 							t2.*,
@@ -631,14 +419,12 @@ let HomeModel = {
 						ON 
 							t1.feu_malmatta_no = t2.feu_malmattaNo 
 						WHERE 
-							t1.ferfar_date LIKE ?`
-				// params = ;
-                const likePattern = `%/${year}`; // matches any day/month in that year
-				pool.query(query, [likePattern], (err, result) => {
-					err ? reject(err) : resolve(result)
-				})
-			} else {
-				query = `
+							t1.ferfar_date LIKE ?`;
+			// params = ;
+			const likePattern = `%/${year}`; // matches any day/month in that year
+			return runQuery(pool, query, [likePattern]);
+		} else {
+			query = `
         			SELECT 
 						t1.*,
 						t2.*,
@@ -651,20 +437,16 @@ let HomeModel = {
          			ON 
 						t1.feu_malmatta_no = t2.feu_malmattaNo 
          			WHERE 
-						t1.ferfar_date LIKE ?`
-                const monthStr = month.toString().padStart(2, '0'); // ensure 2 digits
-                const likePattern = `%/${monthStr}/${year}`; // matches any day in that month/year
-				// params = ;
-				pool.query(query, [likePattern], (err, result) => {
-					err ? reject(err) : resolve(result)
-				})
-			}
-		})
+						t1.ferfar_date LIKE ?`;
+			const monthStr = month.toString().padStart(2, '0'); // ensure 2 digits
+			const likePattern = `%/${monthStr}/${year}`; // matches any day in that month/year
+			// params = ;
+			return runQuery(pool, query, [likePattern]);
+		}
 	},
 
-	form8FerfarAvahalPrintDateToDateDetails: function (pool, date_from, date_to) {
-		return new Promise((resolve, reject) => {
-			const query = `SELECT 
+	form8FerfarAvahalPrintDateToDateDetails: (pool, date_from, date_to) => {
+		const query = `SELECT 
 								t1.*,
 								t2.*,
 								DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
@@ -677,17 +459,13 @@ let HomeModel = {
 								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') 
 								BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y')
 							ORDER BY 
-								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`;
 
-			pool.query(query, [date_from, date_to], (err, result) => {
-				err ? reject(err) : resolve(result)
-			})
-		})
+		return runQuery(pool, query, [date_from, date_to]);
 	},
 
-	form8FerfarAvahalPrintFinancialYearDetails: function (pool, fromYear, toYear) {
-		return new Promise((resolve, reject) => {
-			const query = `SELECT 
+	form8FerfarAvahalPrintFinancialYearDetails: (pool, fromYear, toYear) => {
+		const query = `SELECT 
 								t1.*,
 								t2.*,
 								DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') as ferfar_date
@@ -700,17 +478,13 @@ let HomeModel = {
 								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') 
 								BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y')
 							ORDER BY 
-								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`
-			const startDate = `01/04/${fromYear}`;
-			const endDate = `31/03/${toYear}`;
-			pool.query(query, [startDate, endDate], (err, result) => {
-				err ? reject(err) : resolve(result)
-			})
-		})
+								STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y') ASC;`;
+		const startDate = `01/04/${fromYear}`;
+		const endDate = `31/03/${toYear}`;
+		return runQuery(pool, query, [startDate, endDate]);
 	},
-	fetchDataToEdit: function (pool, malmattaNumber) {
-		return new Promise((resolve, reject) => {
-			const query = `
+	fetchDataToEdit: (pool, malmattaNumber) => {
+		const query = `
 					SELECT 
 						t1.*,
 						DATE_FORMAT(STR_TO_DATE(t1.ferfar_date, '%d/%m/%Y'), '%d/%m/%Y') AS ferfar_date,
@@ -722,56 +496,42 @@ let HomeModel = {
 					ON 
 						t1.feu_malmatta_no = t2.feu_malmattaNo 
 					AND 
-						t1.feu_malmatta_no = ?`
+						t1.feu_malmatta_no = ?`;
 
-			pool.query(query, [malmattaNumber], (err, result) => {
-				err ? reject(err) : resolve(result)
-			})
-		})
+		return runQuery(pool, query, [malmattaNumber]);
 	},
 
 	//BASIS OF MONTH AND YEAR
-	deleteFerfarAvahal: function (pool, month, year) {
-		return new Promise((resolve, reject) => {
-			const query =
-				month !== undefined && month !== null
-					? `DELETE  FROM ps_ferfar 
+	deleteFerfarAvahal: (pool, month, year) => {
+		const query =
+			month !== undefined && month !== null
+				? `DELETE  FROM ps_ferfar 
           WHERE 
           ferfar_date LIKE CONCAT(? ,'/%', '/', ?)`
-					: `DELETE  FROM ps_ferfar 
+				: `DELETE  FROM ps_ferfar 
           WHERE 
-          ferfar_date LIKE CONCAT('%', '/', ?)`
+          ferfar_date LIKE CONCAT('%', '/', ?)`;
 
-			if (month !== undefined && month !== null) {
-				pool.query(query, [month, year], (err, result) => {
-					err ? reject(err) : resolve(result)
-				})
-			} else {
-				pool.query(query, [year], (err, result) => {
-					err ? reject(err) : resolve(result)
-				})
-			}
-		})
+		if (month !== undefined && month !== null) {
+			return runQuery(pool, query, [month, year]);
+		} else {
+			return runQuery(pool, query, [year]);
+		}
 	},
 
 	//DATE TO DATE
-	deleteFerfarAvahalDateToDate: function (pool, date_from, date_to) {
-		return new Promise((resolve, reject) => {
-			const query = `
+	deleteFerfarAvahalDateToDate: (pool, date_from, date_to) => {
+		const query = `
       DELETE FROM ps_ferfar
       WHERE STR_TO_DATE(ferfar_date, '%d/%m/%Y') 
       BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y');
-      `
+      `;
 
-			pool.query(query, [date_from, date_to], (err, result) => {
-				err ? reject(err) : resolve(result)
-			})
-		})
+		return runQuery(pool, query, [date_from, date_to]);
 	},
 
-	updateFormEight: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			let query = `UPDATE 
+	updateFormEight: (pool, data) => {
+		let query = `UPDATE 
                     ps_form_eight_user
                   SET 
                     feu_aadharNo = ?,
@@ -783,30 +543,26 @@ let HomeModel = {
                     feu_newPherfarTharav = ?,
                     feu_newPherfarDocument = ?
                   WHERE 
-                    id = ?`
-			let insertData = [
-				data.newDharakAadhar,
-				data.newNewDharak,
-				data.newMobileNo,
-				data.newOldDharak,
-				data.newNewDharak,
-				data.newPherfarDate,
-				data.newPherfarTharav,
-				data.newPherfarDocument,
-				Number(data.userId),
-			]
-			pool.query(query, insertData, function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+                    id = ?`;
+		let insertData = [
+			data.newDharakAadhar,
+			data.newNewDharak,
+			data.newMobileNo,
+			data.newOldDharak,
+			data.newNewDharak,
+			data.newPherfarDate,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			Number(data.userId)
+		];
+		return runQuery(pool, query, insertData);
 	},
-	updateFormEightDforetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			console.log(data, 'updatedata')
-			console.log(data.id)
-			console.log(Number(data.id))
-			var update_array = []
-			var query = `UPDATE ps_form_eight_user SET
+	updateFormEightDforetails: (pool, data) => {
+		console.log(data, 'updatedata');
+		console.log(data.id);
+		console.log(Number(data.id));
+		var update_array = [];
+		var query = `UPDATE ps_form_eight_user SET
                     feu_malmattaNo = ?,
                     feu_wardNo = ?,
                     feu_homeNo = ?,
@@ -830,59 +586,45 @@ let HomeModel = {
                     feu_bojaShera = ?,
                     feu_modify_date = ?,
                     feu_water_tax=?
-                    WHERE id = ?`
+                    WHERE id = ?`;
 
-			update_array = [
-				data.newMalmattaNo,
-				data.newWardNo,
-				data.oldHomeNo,
-				data.newAadharNo,
-				data.newOwnerName,
-				data.newSecondOwnerName,
-				data.newMobileNo,
-				data.newGramPanchayet,
-				data.newVillageName,
-				data.newGaatNo,
-				data.gharkulYojna,
-				data.havingToilet,
-				data.newAreaHeightFoot,
-				data.newAreaWidthFoot,
-				data.newTotalAreaSquareFoot,
-				data.newTotalAreaSquareMeter,
-				data.newEastLandmark,
-				data.newWestLandmark,
-				data.newNorthLandmark,
-				data.newSouthLandmark,
-				data.newBojaShera,
-				myDates.getDate(),
-				data.waterTax,
-				Number(data.id),
-			]
-			pool.query(query, update_array, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		update_array = [
+			data.newMalmattaNo,
+			data.newWardNo,
+			data.oldHomeNo,
+			data.newAadharNo,
+			data.newOwnerName,
+			data.newSecondOwnerName,
+			data.newMobileNo,
+			data.newGramPanchayet,
+			data.newVillageName,
+			data.newGaatNo,
+			data.gharkulYojna,
+			data.havingToilet,
+			data.newAreaHeightFoot,
+			data.newAreaWidthFoot,
+			data.newTotalAreaSquareFoot,
+			data.newTotalAreaSquareMeter,
+			data.newEastLandmark,
+			data.newWestLandmark,
+			data.newNorthLandmark,
+			data.newSouthLandmark,
+			data.newBojaShera,
+			myDates.getDate(),
+			data.waterTax,
+			Number(data.id)
+		];
+		return runQuery(pool, query, update_array);
 	},
 
-	getFerfarYears: function (pool) {
-		return new Promise((resolve, reject) => {
-			const query = `SELECT DISTINCT ferfar_date FROM ps_ferfar`
-			pool.query(query, [], function (err, result) {
-				err ? reject(err) : resolve(result)
-			})
-		})
+	getFerfarYears: (pool) => {
+		const query = `SELECT DISTINCT ferfar_date FROM ps_ferfar`;
+		return runQuery(pool, query, []);
 	},
 
-	updateFormEightDetails: function (pool, data) {
-		console.log('fer far not done from model')
-
-		return new Promise((resolve, reject) => {
-			var update_array = []
-			var query = `UPDATE ps_form_eight_user SET
+	updateFormEightDetails: (pool, data) => {
+		var update_array = [];
+		var query = `UPDATE ps_form_eight_user SET
                     feu_malmattaNo = ?,
                     feu_wardNo = ?,
                     feu_homeNo = ?,
@@ -911,52 +653,43 @@ let HomeModel = {
                     feu_newPherfarDocument = ?,
                     feu_modify_date = ?,
                     feu_water_tax=?
-                    WHERE id = ?`
+                    WHERE id = ?`;
 
-			update_array = [
-				data.newMalmattaNo,
-				data.newWardNo,
-				data.oldHomeNo,
-				data.newAadharNo,
-				data.newOwnerName,
-				data.newSecondOwnerName,
-				data.newMobileNo,
-				data.newGramPanchayet,
-				data.newVillageName,
-				data.newGaatNo,
-				data.gharkulYojna,
-				data.havingToilet,
-				data.newAreaHeightFoot,
-				data.newAreaWidthFoot,
-				data.newTotalAreaSquareFoot,
-				data.newTotalAreaSquareMeter,
-				data.newEastLandmark,
-				data.newWestLandmark,
-				data.newNorthLandmark,
-				data.newSouthLandmark,
-				data.newBojaShera,
-				data.newOldDharak,
-				data.newNewDharak,
-				data.newPherfarDate,
-				data.newPherfarTharav,
-				data.newPherfarDocument,
-				myDates.getDate(),
-				data.waterTax,
-				Number(data.id),
-			]
-			pool.query(query, update_array, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		update_array = [
+			data.newMalmattaNo,
+			data.newWardNo,
+			data.oldHomeNo,
+			data.newAadharNo,
+			data.newOwnerName,
+			data.newSecondOwnerName,
+			data.newMobileNo,
+			data.newGramPanchayet,
+			data.newVillageName,
+			data.newGaatNo,
+			data.gharkulYojna,
+			data.havingToilet,
+			data.newAreaHeightFoot,
+			data.newAreaWidthFoot,
+			data.newTotalAreaSquareFoot,
+			data.newTotalAreaSquareMeter,
+			data.newEastLandmark,
+			data.newWestLandmark,
+			data.newNorthLandmark,
+			data.newSouthLandmark,
+			data.newBojaShera,
+			data.newOldDharak,
+			data.newNewDharak,
+			data.newPherfarDate,
+			data.newPherfarTharav,
+			data.newPherfarDocument,
+			myDates.getDate(),
+			data.waterTax,
+			Number(data.id)
+		];
+		return runQuery(pool, query, update_array);
 	},
 
-
 	updateFormEightUser: (pool, formEightUser) => {
-
 		let q = `UPDATE ps_form_eight_user
 			
 				SET 
@@ -971,7 +704,7 @@ let HomeModel = {
 					feu_secondOwnerName = ?,
 					feu_gaatNo = ?
 
-				WHERE id = ?	`
+				WHERE id = ?	`;
 		return runQuery(pool, q, [
 			formEightUser.feu_malmattaNo,
 			formEightUser.feu_wardNo,
@@ -985,13 +718,12 @@ let HomeModel = {
 			formEightUser.feu_gaatNo,
 
 			formEightUser.id
-		])
+		]);
 	},
 
-	saveNewTaxDetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var insert_array = []
-			var query = `INSERT INTO ps_form_eight_taxation(
+	saveNewTaxDetails: (pool, data) => {
+		var insert_array = [];
+		var query = `INSERT INTO ps_form_eight_taxation(
                       user_id,
                       fet_year_one,
                       fet_year_two,
@@ -1027,110 +759,69 @@ let HomeModel = {
                       fet_final_tax,
                       created_date,
                       modify_date
-                ) VALUES (?)`
+                ) VALUES (?)`;
 
-			insert_array = [
-				data.id,
-				data.year_one,
-				data.year_two,
-				data.year_count,
-				data.bahandkamPrakar,
-				data.height,
-				data.propDesc,
-				data.propSpec,
-				data.sqArea,
-				data.sqMeterArea,
-				data.width,
-				data.meter_width,
-				data.meter_height,
-				data.ghasara_max,
-				data.ghasara_min,
-				data.ghasara_type_one,
-				data.ghasara_type_two,
-				data.ghasara_id,
-				data.ghasara_value,
-				data.prop_desc_id,
-				data.prop_desc_rate,
-				data.prop_desc_text,
-				data.prop_space_id,
-				data.prop_space_land_rate,
-				data.prop_space_pd_id,
-				data.prop_space_text,
-				data.bahandkam_prakar_id,
-				data.bahandkam_prakar_pd_id,
-				data.bahandkam_prakar_ready_nater_rate,
-				data.bahandkam_prakar_tax_rate,
-				data.bahandkam_prakar_text,
-				data.final_imarati_bhandvali_mullya,
-				data.final_tax,
-				myDates.getDate(),
-				myDates.getDate(),
-			]
-			pool.query(query, [insert_array], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		insert_array = [
+			data.id,
+			data.year_one,
+			data.year_two,
+			data.year_count,
+			data.bahandkamPrakar,
+			data.height,
+			data.propDesc,
+			data.propSpec,
+			data.sqArea,
+			data.sqMeterArea,
+			data.width,
+			data.meter_width,
+			data.meter_height,
+			data.ghasara_max,
+			data.ghasara_min,
+			data.ghasara_type_one,
+			data.ghasara_type_two,
+			data.ghasara_id,
+			data.ghasara_value,
+			data.prop_desc_id,
+			data.prop_desc_rate,
+			data.prop_desc_text,
+			data.prop_space_id,
+			data.prop_space_land_rate,
+			data.prop_space_pd_id,
+			data.prop_space_text,
+			data.bahandkam_prakar_id,
+			data.bahandkam_prakar_pd_id,
+			data.bahandkam_prakar_ready_nater_rate,
+			data.bahandkam_prakar_tax_rate,
+			data.bahandkam_prakar_text,
+			data.final_imarati_bhandvali_mullya,
+			data.final_tax,
+			myDates.getDate(),
+			myDates.getDate()
+		];
+		return runQuery(pool, query, [insert_array]);
 	},
-	checkAuth: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_gram_panchayet 
-                    WHERE  user_name = ? LIMIT 1`
-			pool.query(query, [data.userName], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	checkAuth: (pool, data) => {
+		var query = `SELECT * FROM ps_gram_panchayet 
+                    WHERE  user_name = ? LIMIT 1`;
+		return runQuery(pool, query, [data.userName]);
 	},
 
-	getNagrikCount: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT  COUNT(*) as member_count FROM ps_gp_member_list`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getNagrikCount: (pool) => {
+		var query = `SELECT  COUNT(*) as member_count FROM ps_gp_member_list`;
+		return runQuery(pool, query);
 	},
-	userCheckAuth: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT id,fName,fAadhar,fMobile,fEmail,fImage,fVillage,DATE_FORMAT(fDob,'%d-%m-%Y') as fDob  FROM ps_gp_member_list 
-                    WHERE  fMobile = ? AND fPassword =? LIMIT 1`
-			pool.query(query, [data.username, data.password], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	userCheckAuth: (pool, data) => {
+		var query = `SELECT id,fName,fAadhar,fMobile,fEmail,fImage,fVillage,DATE_FORMAT(fDob,'%d-%m-%Y') as fDob  FROM ps_gp_member_list 
+                    WHERE  fMobile = ? AND fPassword =? LIMIT 1`;
+		return runQuery(pool, query, [data.username, data.password]);
 	},
 
-	verifyUserDetails: function (pool, data) {
-		console.log(data)
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_form_eight_user WHERE TRIM(feu_malmattaNo)=? AND TRIM(feu_aadharNo)=? LIMIT 1`
-			pool.query(query, [data.malmatta_no, data.aadhar_no], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	verifyUserDetails: (pool, data) => {
+		var query = `SELECT * FROM ps_form_eight_user WHERE TRIM(feu_malmattaNo)=? AND TRIM(feu_aadharNo)=? LIMIT 1`;
+		return runQuery(pool, query, [data.malmatta_no, data.aadhar_no]);
 	},
-	getUserDetails: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	getUserDetails: (pool, data) => {
+		var query = `SELECT 
                     id,
                     fName as name,
                     fAadhar as aadhar,
@@ -1140,64 +831,40 @@ let HomeModel = {
                     fVillage as malamatta_kramank,
                     DATE_FORMAT(fDob,'%d-%m-%Y') as dob
                       FROM ps_gp_member_list 
-                    WHERE  id=? LIMIT 1`
-			pool.query(query, [data.id], (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    WHERE  id=? LIMIT 1`;
+		return runQuery(pool, query, [data.id]);
 	},
 
 	getGpCount: function (pool) {
-		let query = `SELECT * FROM ps_sub_village`
-		return runQuery(pool, query)
+		let query = `SELECT * FROM ps_sub_village`;
+		return runQuery(pool, query);
 	},
 
-	getVideoGalleryData: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_video_gallery`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getVideoGalleryData: (pool) => {
+		var query = `SELECT * FROM ps_video_gallery`;
+		return runQuery(pool, query);
 	},
-	getGramAhavalDocuments: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_gram_ahaval_documents`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getGramAhavalDocuments: (pool) => {
+		var query = `SELECT * FROM ps_gram_ahaval_documents`;
+		return runQuery(pool, query);
 	},
 
 	getGpData: async function (pool) {
-		var query = `SELECT * FROM ps_gram_panchayet LIMIT 1`
+		var query = `SELECT * FROM ps_gram_panchayet LIMIT 1`;
 
-		const cacheKey = gpDataRedisKey
+		const cacheKey = gpDataRedisKey;
 
-		const cachedGpData = await getRedisData(cacheKey)
+		const cachedGpData = await getRedisData(cacheKey);
 		if (cachedGpData) {
-			return cachedGpData
+			return cachedGpData;
 		}
 		// let [_gp] = await db.query(query)
-        let _gp = await runQuery(pool, query)
-		return _gp
+		let _gp = await runQuery(pool, query);
+		return _gp;
 	},
 
-	getMeterDetails: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	getMeterDetails: (pool) => {
+		var query = `SELECT 
 							user_id,
 							mbl_nal_number,
 							mbl_deyak_number,
@@ -1226,32 +893,16 @@ let HomeModel = {
 							mbl_amt_diposite_till_date,
 							inserted_on,
 							mbl_meter_image
-							FROM ps_meter_bill_list`
+							FROM ps_meter_bill_list`;
 
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		return runQuery(pool, query);
 	},
-	getGpSiteData: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT gps_name as site_name,gps_site as site_url FROM ps_gp_sites`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getGpSiteData: (pool) => {
+		var query = `SELECT gps_name as site_name,gps_site as site_url FROM ps_gp_sites`;
+		return runQuery(pool, query);
 	},
-	formEightUser: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	formEightUser: (pool, data) => {
+		var query = `SELECT 
                         feu.id as id,
                         feu_malmattaNo,
                         feu_wardNo,
@@ -1294,80 +945,41 @@ let HomeModel = {
                         INNER JOIN 
                         ps_gharkul_yojna as gy 
                         ON gy.id  = feu.feu_gharkulYojna 
-                    WHERE  feu.id = ?`
-			pool.query(query, Number(data.id), (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    WHERE  feu.id = ?`;
+		return runQuery(pool, query, Number(data.id));
 	},
-	getBahandkamPrakarList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	getBahandkamPrakarList: (pool) => {
+		var query = `SELECT 
                       id,
                       bp_type as text,
                       bp_ready_nakar_rate as ready_nakar_rate,
                       bp_tax_rate as tax_rate,
                       bp_pd_id as pd_id
-                    FROM ps_bahandkam_prakar`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    FROM ps_bahandkam_prakar`;
+		return runQuery(pool, query);
 	},
-	getGhasaraRateList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT  * FROM ps_ghasara_rate`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	getGhasaraRateList: (pool) => {
+		var query = `SELECT  * FROM ps_ghasara_rate`;
+		return runQuery(pool, query);
 	},
-	getPropertyDesc: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	getPropertyDesc: (pool) => {
+		var query = `SELECT 
                       id,
                       pd_name as text,
                       pd_rate as rate
-                    FROM ps_property_desc`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    FROM ps_property_desc`;
+		return runQuery(pool, query);
 	},
-	getPropertySpecification: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	getPropertySpecification: (pool) => {
+		var query = `SELECT 
                       id,
                       ps_name as text,
                       ps_land_rate as lnd_rate,
                       ps_pd_id as pd_id,
                       ps_skeep_tax as skeep_tax,
                       ps_skip_diwa_arogya
-                    FROM ps_property_specification 	`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    FROM ps_property_specification 	`;
+		return runQuery(pool, query);
 	},
 	getPreTaxationData: function (pool, data, callback) {
 		var sendData = {
@@ -1378,65 +990,64 @@ let HomeModel = {
 			propertySpecification: [],
 			ghasaraRate: [],
 			arogyaDivaKar: [],
-			gp: {},
-		}
-		var _this = this
+			gp: {}
+		};
+		var _this = this;
 
 		_this
 			.getGpData(pool)
 			.then((result) => {
-				sendData.gp = result[0]
-				return _this.formEightUser(pool, data)
+				sendData.gp = result[0];
+				return _this.formEightUser(pool, data);
 			})
 			.then((result) => {
 				if (result.length == 0) {
-					callback(true, { call: 2 })
-					return 999
+					callback(true, { call: 2 });
+					return 999;
 				} else {
-					sendData.user = result[0]
-					sendData.jsUser = JSON.stringify(result)
-					return _this.getBahandkamPrakarList(pool)
+					sendData.user = result[0];
+					sendData.jsUser = JSON.stringify(result);
+					return _this.getBahandkamPrakarList(pool);
 				}
 			})
 			.then((result) => {
 				if (result !== 999) {
-					sendData.bahandkamPrakar = JSON.stringify(result)
-					return _this.getPropertyDesc(pool)
+					sendData.bahandkamPrakar = JSON.stringify(result);
+					return _this.getPropertyDesc(pool);
 				}
 			})
 			.then((result) => {
 				if (result !== 999) {
-					sendData.propertyDesc = JSON.stringify(result)
-					return _this.getPropertySpecification(pool)
+					sendData.propertyDesc = JSON.stringify(result);
+					return _this.getPropertySpecification(pool);
 				}
 			})
 			.then((result) => {
 				if (result !== 999) {
-					sendData.propertySpecification = JSON.stringify(result)
-					return _this.getGhasaraRateList(pool)
+					sendData.propertySpecification = JSON.stringify(result);
+					return _this.getGhasaraRateList(pool);
 				}
 			})
 			.then((result) => {
 				if (result !== 999) {
-					sendData.ghasaraRate = JSON.stringify(result)
-					return _this.getAarogyaDivaKarList(pool)
+					sendData.ghasaraRate = JSON.stringify(result);
+					return _this.getAarogyaDivaKarList(pool);
 				}
 			})
 			.then((result) => {
 				if (result !== 999) {
-					sendData.arogyaDivaKar = JSON.stringify(result)
-					callback(true, { call: 1, data: sendData })
+					sendData.arogyaDivaKar = JSON.stringify(result);
+					callback(true, { call: 1, data: sendData });
 				}
 			})
 			.catch((error) => {
-				callback(false, { call: 0, data: error })
-			})
+				callback(false, { call: 0, data: error });
+			});
 	},
-	getUserInfo: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			switch (Number(data.sType)) {
-				case 1:
-					var query = `SELECT 
+	getUserInfo: (pool, data) => {
+		switch (Number(data.sType)) {
+			case 1:
+				var query = `SELECT 
                         feu.id as id ,
                         feu_ownerName as label,
                         feu_malmattaNo,
@@ -1444,11 +1055,11 @@ let HomeModel = {
                         FROM ps_form_eight_user as feu 
                       WHERE 
                         feu_ownerName LIKE ? LIMIT 10
-                      `
-					var d = [`${data.q}%`]
-					break
-				case 2:
-					var query = `SELECT 
+                      `;
+				var d = [`${data.q}%`];
+				break;
+			case 2:
+				var query = `SELECT 
                           feu.id as id ,
                           feu_malmattaNo as label,
                           feu_malmattaNo,
@@ -1456,23 +1067,23 @@ let HomeModel = {
                           FROM ps_form_eight_user as feu 
                         WHERE 
                         feu_malmattaNo LIKE ? LIMIT 10
-                        `
-					var d = [`${data.q}%`]
-					break
-				case 4:
-					var query = `SELECT 
+                        `;
+				var d = [`${data.q}%`];
+				break;
+			case 4:
+				var query = `SELECT 
                         feu.id as id ,
                         feu_ownerName as label,
                         feu_malmattaNo,
                         feu_ownerName
                         FROM ps_form_eight_user as feu 
                       WHERE 
-                        feu_secondOwnerName LIKE ? LIMIT 10`
-					var d = [`${data.q}%`]
+                        feu_secondOwnerName LIKE ? LIMIT 10`;
+				var d = [`${data.q}%`];
 
-					break
-				default:
-					var query = `SELECT 
+				break;
+			default:
+				var query = `SELECT 
                             feu.id as id ,
                             feu.id as label,
                             feu_malmattaNo,
@@ -1480,44 +1091,28 @@ let HomeModel = {
                             FROM ps_form_eight_user as feu 
                           WHERE 
                             id = ? LIMIT 10
-                          `
-					var d = [Number(data.q)]
-					break
-			}
+                          `;
+				var d = [Number(data.q)];
+				break;
+		}
 
-			pool.query(query, d, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		return runQuery(pool, query, d);
 	},
 
 	getTotalPrintFormEightUser: (pool, y1, y2) => {
-		return new Promise((resolve, reject) => {
-			let query = `SELECT 
+		let query = `SELECT 
                       COUNT(ps_form_eight_user.id) as total_user
                       
                       FROM  
                       ps_form_eight_user inner join ps_gharkul_yojna 
-                      on ps_form_eight_user.feu_gharkulYojna = ps_gharkul_yojna.id`
-			pool.query(query, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                      on ps_form_eight_user.feu_gharkulYojna = ps_gharkul_yojna.id`;
+		return runQuery(pool, query);
 	},
 
-	printFormEightUser: function (pool, y1, y2, tp, p) {
-		return new Promise((resolve, reject) => {
-			let page = p * tp
-			let tcount = tp
-			let query1 = `SELECT 
+	printFormEightUser: (pool, y1, y2, tp, p) => {
+		let page = p * tp;
+		let tcount = tp;
+		let query1 = `SELECT 
                       ps_form_eight_user.id, 
                       feu_malmattaNo,
                       feu_wardNo,
@@ -1557,8 +1152,8 @@ let HomeModel = {
                       ps_form_eight_user inner join ps_gharkul_yojna 
                       on ps_form_eight_user.feu_gharkulYojna = ps_gharkul_yojna.id 
                       ORDER BY CAST(feu_malmattaNo AS DECIMAL)
-                      limit ${page}, ${tcount}`
-			let query2 = `SELECT 
+                      limit ${page}, ${tcount}`;
+		let query2 = `SELECT 
                       eight_user.id as id, 
                       feu_malmattaNo,
                       feu_wardNo,
@@ -1608,9 +1203,9 @@ let HomeModel = {
 
                     GROUP BY eight_user.id
                       ORDER BY CAST(feu_malmattaNo AS DECIMAL)
-                    limit ${page}, ${tcount}`
+                    limit ${page}, ${tcount}`;
 
-			let query3 = `SELECT 
+		let query3 = `SELECT 
                       eight_user.id as id, 
                       feu_malmattaNo,
                       feu_wardNo,
@@ -1665,19 +1260,13 @@ let HomeModel = {
 					   CAST(SUBSTRING_INDEX(feu_malmattaNo, '/', -1) AS DECIMAL), 
 					   NULL)
 				
-                    limit ${page}, ${tcount}`
+                    limit ${page}, ${tcount}`;
 
-			pool.query(query3, (err, result) => {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		return runQuery(pool, query3);
 	},
-	printFormEightUserLimit: function (pool, y1, y2, tp, p) {
-        var query = `SELECT 
+	printFormEightUserLimit: function (pool, y1, y2, tp, p, filters = {}) {
+		let where = [];
+		var query = `SELECT 
                     ps_form_eight_user.id, 
                     feu_malmattaNo,
                     feu_wardNo,
@@ -1717,12 +1306,12 @@ let HomeModel = {
                     ps_form_eight_user inner join ps_gharkul_yojna 
                     on ps_form_eight_user.feu_gharkulYojna = ps_gharkul_yojna.id
                     ORDER BY CAST(feu_malmattaNo AS DECIMAL)
-                    limit ${p * tp}, ${tp}`
+                    limit ${p * tp}, ${tp}`;
 
-        // form year wise sorting ( this is required later)
-        // (select * from ps_form_eight_user where year(feu_created_date) >= (${y1}) and year(feu_created_date) <= (${y2}))
+		// form year wise sorting ( this is required later)
+		// (select * from ps_form_eight_user where year(feu_created_date) >= (${y1}) and year(feu_created_date) <= (${y2}))
 
-        let query2 = `SELECT 
+		let query2 = `SELECT 
                     eight_user.id as id, 
                     feu_malmattaNo,
                     feu_wardNo,
@@ -1785,19 +1374,67 @@ let HomeModel = {
 
                 GROUP BY eight_user.id
                     ORDER BY CAST(feu_malmattaNo AS DECIMAL)
-                    limit ${p * tp}, ${tp}`
+                    limit ${p * tp}, ${tp}`;
 
-        //Added later in query2 below details -29/12/2024
+		//Added later in query2 below details -29/12/2024
 
-        // fet_bahandkam_prakar_text,
-        // fet_year_two,
+		// fet_bahandkam_prakar_text,
+		// fet_year_two,
 
-        //LEFT JOIN
-        // ps_form_eight_taxation
-        // ON
-        // eight_user.id =  ps_form_eight_taxation.user_id
+		//LEFT JOIN
+		// ps_form_eight_taxation
+		// ON
+		// eight_user.id =  ps_form_eight_taxation.user_id
 
-        let query3 = `SELECT 
+		if (filters.property_type === 'open_plot') {
+			where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                            COUNT(*) > 0
+                            AND SUM(fet_prop_desc NOT IN (5,6)) = 0
+                    )
+            `);
+		} else if (filters.property_type === 'nivasi') {
+			where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc = 1) > 0
+                        AND SUM(fet_prop_desc NOT IN (1,5,6)) = 0
+                )
+            `);
+		} else if (filters.property_type === 'audhyogik') {
+			where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc = 3) > 0
+                        AND SUM(fet_prop_desc NOT IN (3,5,6)) = 0
+                )
+            `);
+		} else if (filters.property_type === 'vanijya') {
+			where.push(`
+                eight_user.id IN (
+                    SELECT user_id
+                    FROM ps_form_eight_taxation
+                    GROUP BY user_id
+                    HAVING
+                        SUM(fet_prop_desc IN (2,4)) > 0
+                        AND SUM(fet_prop_desc NOT IN (2,4,5,6)) = 0
+                )
+            `);
+		}
+
+		let whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
+		let query3 = `SELECT 
                             eight_user.id as id, 
                             feu_malmattaNo,
                             feu_wardNo,
@@ -1857,6 +1494,8 @@ let HomeModel = {
                             ps_form_eight_taxation
                             ON 
                             eight_user.id =  ps_form_eight_taxation.user_id
+
+                            ${whereClause}
         
                             GROUP BY eight_user.id
                             ORDER BY 
@@ -1864,14 +1503,14 @@ let HomeModel = {
                             IF(LOCATE('/', feu_malmattaNo), 
                             CAST(SUBSTRING_INDEX(feu_malmattaNo, '/', -1) AS DECIMAL), 
                             NULL)
-                            limit ${p * tp}, ${tp}`
+                            limit ${p * tp}, ${tp}`;
 
-        return runQuery(pool, query3)
+		return runQuery(pool, query3);
 	},
 
-    printFormEightUserLimitOne: (pool) =>{
-        // copy of the above function named printFormEightUserLimit, but just returns a single value
-        let q = `SELECT 
+	printFormEightUserLimitOne: (pool) => {
+		// copy of the above function named printFormEightUserLimit, but just returns a single value
+		let q = `SELECT 
                     eight_user.id as id, 
                     feu_malmattaNo,
                     feu_wardNo,
@@ -1930,24 +1569,22 @@ let HomeModel = {
                     NULL)
                 LIMIT 1`;
 
+		return runQuery(pool, q);
+	},
 
-        return runQuery(pool, q)
-    },
+	getForm8UserCount: (pool, filters = {}) => {
+		let { property_type } = filters;
+		let where = [];
 
-    getForm8UserCount: (pool, filters={}) =>{
-        let {property_type} = filters;
-        let where = [];
-
-        /*
+		/*
         open_plot
         nivasi
         audhyogik
         vanijya
         */
 
-        if (property_type === "open_plot") {
-
-            where.push(`
+		if (property_type === 'open_plot') {
+			where.push(`
                 eight_user.id IN (
                     SELECT user_id
                     FROM ps_form_eight_taxation
@@ -1957,10 +1594,8 @@ let HomeModel = {
                         AND SUM(fet_prop_desc NOT IN (5,6)) = 0
                 )
             `);
-
-        } else if (property_type === "nivasi") {
-
-            where.push(`
+		} else if (property_type === 'nivasi') {
+			where.push(`
                 eight_user.id IN (
                     SELECT user_id
                     FROM ps_form_eight_taxation
@@ -1970,10 +1605,8 @@ let HomeModel = {
                         AND SUM(fet_prop_desc NOT IN (1,5,6)) = 0
                 )
             `);
-
-        } else if (property_type === "audhyogik") {
-
-            where.push(`
+		} else if (property_type === 'audhyogik') {
+			where.push(`
                 eight_user.id IN (
                     SELECT user_id
                     FROM ps_form_eight_taxation
@@ -1983,10 +1616,8 @@ let HomeModel = {
                         AND SUM(fet_prop_desc NOT IN (3,5,6)) = 0
                 )
             `);
-
-        } else if (property_type === "vanijya") {
-
-            where.push(`
+		} else if (property_type === 'vanijya') {
+			where.push(`
                 eight_user.id IN (
                     SELECT user_id
                     FROM ps_form_eight_taxation
@@ -1996,15 +1627,11 @@ let HomeModel = {
                         AND SUM(fet_prop_desc NOT IN (2,4,5,6)) = 0
                 )
             `);
+		}
 
-        }
+		let whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
 
-        let whereClause = where.length
-            ? `WHERE ${where.join(" AND ")}`
-            : "";
-
-
-        let originalQuery = `SELECT COUNT(DISTINCT eight_user.id) as totalUsers
+		let originalQuery = `SELECT COUNT(DISTINCT eight_user.id) as totalUsers
                     FROM ps_form_eight_user AS eight_user
                         INNER JOIN ps_gharkul_yojna AS gharkul_yojna 
                     ON eight_user.feu_gharkulYojna = gharkul_yojna.id
@@ -2012,9 +1639,8 @@ let HomeModel = {
                     ON eight_user.id = ferfar.user_id
                         LEFT JOIN ps_form_eight_taxation
                     ON eight_user.id = ps_form_eight_taxation.user_id;
-                    `
-            let filterSupportQuery = 
-            `
+                    `;
+		let filterSupportQuery = `
             SELECT COUNT(DISTINCT eight_user.id) AS totalUsers
 
             FROM ps_form_eight_user AS eight_user
@@ -2030,82 +1656,61 @@ let HomeModel = {
 
             ${whereClause}
         `;
-        return runQuery(pool, filterSupportQuery)
-    },
-	printGetFromEightTaxTotalData: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_form_eight_total_taxation`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+		return runQuery(pool, filterSupportQuery);
 	},
-	printGetFromEightTaxSampleData: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_form_eight_taxation`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	printGetFromEightTaxTotalData: (pool) => {
+		var query = `SELECT * FROM ps_form_eight_total_taxation`;
+		return runQuery(pool, query);
+	},
+	printGetFromEightTaxSampleData: (pool) => {
+		var query = `SELECT * FROM ps_form_eight_taxation`;
+		return runQuery(pool, query);
 	},
 	checkDuplicateMember: function (pool, data) {
-        let q = `SELECT
+		let q = `SELECT
                   *
-                FROM ps_gp_member_list WHERE fAadhar = ? OR fMobile = ?`
+                FROM ps_gp_member_list WHERE fAadhar = ? OR fMobile = ?`;
 
-
-        return runQuery(pool, q, [data.fAadhar, data.fMobile])
+		return runQuery(pool, q, [data.fAadhar, data.fMobile]);
 	},
-    
-    checkDuplicateMemberByAadharOnly: (pool, aadharNo) =>{
-        return runQuery(pool, `SELECT * FROM ps_gp_member_list WHERE fAadhar = ?;`, [aadharNo])
-    },
 
-    checkDuplicateMemberByMobileOnly: (pool, mobileNo) =>{
-        return runQuery(pool, `SELECT * FROM ps_gp_member_list WHERE fMobile = ?;`, [mobileNo])
-    },
-
-	getGpPopleList: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT * FROM ps_gp_member_list`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+	checkDuplicateMemberByAadharOnly: (pool, aadharNo) => {
+		return runQuery(
+			pool,
+			`SELECT * FROM ps_gp_member_list WHERE fAadhar = ?;`,
+			[aadharNo]
+		);
 	},
-	getTodaysBirthday: function (pool) {
-		return new Promise((resolve, reject) => {
-			let date = new Date()
-			date =
-				date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 
-			let query = `SELECT fName,fImage FROM ps_gp_member_list
+	checkDuplicateMemberByMobileOnly: (pool, mobileNo) => {
+		return runQuery(
+			pool,
+			`SELECT * FROM ps_gp_member_list WHERE fMobile = ?;`,
+			[mobileNo]
+		);
+	},
+
+	getGpPopleList: (pool) => {
+		var query = `SELECT * FROM ps_gp_member_list`;
+		return runQuery(pool, query);
+	},
+	getTodaysBirthday: (pool) => {
+		let date = new Date();
+		date =
+			date.getFullYear() +
+			'-' +
+			(date.getMonth() + 1) +
+			'-' +
+			date.getDate();
+
+		let query = `SELECT fName,fImage FROM ps_gp_member_list
                   WHERE
-                  DATE_FORMAT(fDob, '%m-%d') = DATE_FORMAT('${date}','%m-%d')`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                  DATE_FORMAT(fDob, '%m-%d') = DATE_FORMAT('${date}','%m-%d')`;
+		return runQuery(pool, query);
 	},
 
 	addNewMember: function (pool, data) {
-        let q = `INSERT INTO ps_gp_member_list(
+		let q = `INSERT INTO ps_gp_member_list(
                 fName, 
                 fAadhar, 
                 fMobile,
@@ -2132,43 +1737,41 @@ let HomeModel = {
                 createdAt,
                 updatedAt
 
-                ) VALUES (?)`
+                ) VALUES (?)`;
 
-            
-        const now = new Date();
+		const now = new Date();
 
-        let insertData = [
-            data.fName,
-            data.fAadhar,
-            data.fMobile,
-            data.fAltMobile,
-            data.fOccupation,
-            data.fEmail,
-            data.fVillage,
-            data.fBloodGroup,
-            data.fDob,
-            data.fPassword,
-            data.image,
+		let insertData = [
+			data.fName,
+			data.fAadhar,
+			data.fMobile,
+			data.fAltMobile,
+			data.fOccupation,
+			data.fEmail,
+			data.fVillage,
+			data.fBloodGroup,
+			data.fDob,
+			data.fPassword,
+			data.image,
 
-            data.has_aabha_card,
-            data.aabha_card_number,
+			data.has_aabha_card,
+			data.aabha_card_number,
 
-            data.has_ayushman_card,
-            data.ayushman_card_number,
-            data.ayushman_bharat_yojana_name,
+			data.has_ayushman_card,
+			data.ayushman_card_number,
+			data.ayushman_bharat_yojana_name,
 
-            data.has_downloaded_meri_gram_panchayat_app,
-            data.has_downloaded_panchayat_decision_app,
-            data.has_downloaded_gram_samvad_app,
+			data.has_downloaded_meri_gram_panchayat_app,
+			data.has_downloaded_panchayat_decision_app,
+			data.has_downloaded_gram_samvad_app,
 
-            data.createdAt || now,
-            data.createdAt || now
-
-        ];
-        return runQuery(pool, q, [insertData]);
+			data.createdAt || now,
+			data.createdAt || now
+		];
+		return runQuery(pool, q, [insertData]);
 	},
 	addNewApplication: function (pool, data) {
-        let q = `INSERT INTO ps_user_application(
+		let q = `INSERT INTO ps_user_application(
                   formName, 
                   formMobile, 
                   formEmail,
@@ -2176,31 +1779,30 @@ let HomeModel = {
                   formAadhar,
                   docDetails,
                   create_date
-            ) VALUES (?)`; 
+            ) VALUES (?)`;
 
-        let insertData = [
-            data.formName,
-            data.formMobile,
-            data.formEmail,
-            data.formAddress,
-            data.formAadhar,
-            JSON.stringify(data.docDetails),
-            data.create_date || myDates.getDate(),
-        ]
-        return runQuery(pool, q, [insertData]);
+		let insertData = [
+			data.formName,
+			data.formMobile,
+			data.formEmail,
+			data.formAddress,
+			data.formAadhar,
+			JSON.stringify(data.docDetails),
+			data.create_date || myDates.getDate()
+		];
+		return runQuery(pool, q, [insertData]);
 	},
-	getPreviousApplicationDate: function (pool, newApplicationData) { 
-        let q = `SELECT *,
+	getPreviousApplicationDate: function (pool, newApplicationData) {
+		let q = `SELECT *,
                         DATE_FORMAT(create_date,'%d-%m-%Y') AS create_date 
                     FROM 
                         ps_user_application 
                     WHERE 
-                        formAadhar = ?`
-
+                        formAadhar = ?
+                        AND is_deleted = 0`;
 	},
-	getNewApplicationPrint: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT
+	getNewApplicationPrint: (pool, data) => {
+		var query = `SELECT
                       id,
                       formName, 
                       formMobile, 
@@ -2209,19 +1811,11 @@ let HomeModel = {
                       formAadhar,
                       docDetails,
                       DATE_FORMAT(create_date,'%d-%m-%Y') as create_date
-                    FROM ps_user_application WHERE id = ? AND is_deleted = 0`
-			pool.query(query, [data], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    FROM ps_user_application WHERE id = ? AND is_deleted = 0`;
+		return runQuery(pool, query, [data]);
 	},
-	formEightExportDetails: function (pool) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+	formEightExportDetails: (pool) => {
+		var query = `SELECT 
                         fEight.id as anukramank,
                         feu_malmattaNo,
                         feu_homeNo,
@@ -2256,19 +1850,11 @@ let HomeModel = {
 					    CAST(SUBSTRING_INDEX(feu_malmattaNo, '/', 1) AS DECIMAL),
 					IF(LOCATE('/', feu_malmattaNo), 
 					   CAST(SUBSTRING_INDEX(feu_malmattaNo, '/', -1) AS DECIMAL), 
-					   NULL) ASC`
-			pool.query(query, function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+					   NULL) ASC`;
+		return runQuery(pool, query);
 	},
-	getWebNoticeListOnHomePage: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT
+	getWebNoticeListOnHomePage: (pool) => {
+		let query = `SELECT
                       id, 
                       wn_notice_name as notice,
                       wn_show as show_type,
@@ -2277,96 +1863,48 @@ let HomeModel = {
                     WHERE
                       wn_show = 1
                      ORDER BY id DESC 
-                  `
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+                  `;
+		return runQuery(pool, query);
 	},
-	getWebNoticeList: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT
+	getWebNoticeList: (pool) => {
+		let query = `SELECT
                       id, 
                       wn_notice_name as notice,
                       wn_show as show_type,
                       DATE_FORMAT(created_date,"%d-%m-%Y") as date_1
                     FROM ps_web_notice ORDER BY id DESC
-                  `
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+                  `;
+		return runQuery(pool, query);
 	},
-	saveNewWebNotice: function (pool, data) {
-		return new Promise(function (resolve, reject) {
-			let query = `INSERT INTO ps_web_notice (
+	saveNewWebNotice: (pool, data) => {
+		let query = `INSERT INTO ps_web_notice (
                       wn_notice_name,
                       created_date
-                  ) VALUES (?)`
-			pool.query(
-				query,
-				[[data.webNoticeText, myDates.getDate()]],
-				function (error, result) {
-					if (error) reject(error)
-					else resolve(result)
-				}
-			)
-		})
+                  ) VALUES (?)`;
+		return runQuery(pool, query, [[data.webNoticeText, myDates.getDate()]]);
 	},
-	updateSiteSeen: function (pool, data) {
-		return new Promise(function (resolve, reject) {
-			let query = `UPDATE ps_gram_panchayet SET gp_site_count = ?`
-			pool.query(query, [Number(data.count)], function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	updateSiteSeen: (pool, data) => {
+		let query = `UPDATE ps_gram_panchayet SET gp_site_count = ?`;
+		return runQuery(pool, query, [Number(data.count)]);
 	},
-	updateVisibilityWebNotice: function (pool, data) {
-		return new Promise(function (resolve, reject) {
-			let query = `UPDATE ps_web_notice SET wn_show = ? WHERE id=?`
-			pool.query(
-				query,
-				[Number(data.v), Number(data.id)],
-				function (error, result) {
-					if (error) reject(error)
-					else resolve(result)
-				}
-			)
-		})
+	updateVisibilityWebNotice: (pool, data) => {
+		let query = `UPDATE ps_web_notice SET wn_show = ? WHERE id=?`;
+		return runQuery(pool, query, [Number(data.v), Number(data.id)]);
 	},
-	getVillageName: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT gp_name as name FROM ps_sub_village`
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	getVillageName: (pool) => {
+		let query = `SELECT gp_name as name FROM ps_sub_village`;
+		return runQuery(pool, query);
 	},
-	deleteWebNotice: function (pool, data) {
-		return new Promise(function (resolve, reject) {
-			let query = `DELETE FROM ps_web_notice  WHERE id=?`
-			pool.query(query, [Number(data.id)], function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	deleteWebNotice: (pool, data) => {
+		let query = `DELETE FROM ps_web_notice  WHERE id=?`;
+		return runQuery(pool, query, [Number(data.id)]);
 	},
-	getMeterList: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT * FROM ps_meter_bill`
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	getMeterList: (pool) => {
+		let query = `SELECT * FROM ps_meter_bill`;
+		return runQuery(pool, query);
 	},
-	getUserMeterList: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT 
+	getUserMeterList: (pool) => {
+		let query = `SELECT 
                     id,
                     mbl_nal_number,
                     mbl_valve_number,
@@ -2374,25 +1912,15 @@ let HomeModel = {
                     mbl_total_unit,
                     DATE_FORMAT(mbl_deyak_date,'%d-%m-%Y') as mbl_deyak_date,
                     DATE_FORMAT(mbl_deyak_amt_fill_last_date,'%d-%m-%Y') as mbl_deyak_amt_fill_last_date
-                    FROM ps_meter_bill_list`
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+                    FROM ps_meter_bill_list`;
+		return runQuery(pool, query);
 	},
-	getUserMeterDetails: function (pool, id) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT * FROM ps_meter_bill WHERE id=?`
-			pool.query(query, [Number(id)], function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	getUserMeterDetails: (pool, id) => {
+		let query = `SELECT * FROM ps_meter_bill WHERE id=?`;
+		return runQuery(pool, query, [Number(id)]);
 	},
-	lastMeterTaxDetails: function (pool, id) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT
+	lastMeterTaxDetails: (pool, id) => {
+		let query = `SELECT
 							id,
 							mbl_amt_before_mudat,
 							mbl_before_date_amt_to_fill,
@@ -2443,62 +1971,39 @@ let HomeModel = {
 							END AS _last_unpaid_amount,
 
 							user_id
-							FROM ps_meter_bill_list WHERE user_id= ? ORDER BY id DESC LIMIT 1`
-			pool.query(query, [Number(id)], function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+							FROM ps_meter_bill_list WHERE user_id= ? ORDER BY id DESC LIMIT 1`;
+		return runQuery(pool, query, [Number(id)]);
 	},
-	getMeterRate: function (pool) {
-		return new Promise(function (resolve, reject) {
-			let query = `SELECT * FROM ps_meter_rates`
-			pool.query(query, function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	getMeterRate: (pool) => {
+		let query = `SELECT * FROM ps_meter_rates`;
+		return runQuery(pool, query);
 	},
-	removeMeterBill: function (pool, id) {
-		return new Promise(function (resolve, reject) {
-			let query = `DELETE FROM ps_meter_bill_list WHERE id =?`
-			pool.query(query, [Number(id)], function (error, result) {
-				if (error) reject(error)
-				else resolve(result)
-			})
-		})
+	removeMeterBill: (pool, id) => {
+		let query = `DELETE FROM ps_meter_bill_list WHERE id =?`;
+		return runQuery(pool, query, [Number(id)]);
 	},
-	addMobileCertificate: function (pool, data) {
-		return new Promise((resolve, reject) => {
-			var query = `INSERT INTO ps_certificate_mobile(
+	addMobileCertificate: (pool, data) => {
+		var query = `INSERT INTO ps_certificate_mobile(
                     certificate_title,
                     certificate_id,
                     input_1,
                     input_2,
                     holder_id,
                     holder_name,
-                    created_date) VALUES (?)`
-			var insertData = [
-				data.certificate_title,
-				data.certificate_id,
-				data.input_1,
-				data.input_2,
-				data.holder_id,
-				data.holder_name,
-				myDates.getDate(),
-			]
-			pool.query(query, [insertData], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    created_date) VALUES (?)`;
+		var insertData = [
+			data.certificate_title,
+			data.certificate_id,
+			data.input_1,
+			data.input_2,
+			data.holder_id,
+			data.holder_name,
+			myDates.getDate()
+		];
+		return runQuery(pool, query, [insertData]);
 	},
 	getMobileCertificate: function (pool, id) {
-		return new Promise((resolve, reject) => {
-			var query = `SELECT 
+		var query = `SELECT 
                     id,
                     certificate_title as certificate_title,
                     certificate_id,
@@ -2510,15 +2015,8 @@ let HomeModel = {
                     certificate_status as certificate_status,
                     certificate_url as certificate_url,
                     IFNULL(certificate_message,'') as certificate_message
-                    FROM ps_certificate_mobile WHERE holder_id=?`
-			pool.query(query, [id], function (err, result) {
-				if (err) {
-					reject(err)
-				} else {
-					resolve(result)
-				}
-			})
-		})
+                    FROM ps_certificate_mobile WHERE holder_id=?`;
+		return runQuery(pool, query, [id]);
 	},
 	getDashboardServiceStats: async function (pool) {
 		const queries = {
@@ -2605,29 +2103,36 @@ let HomeModel = {
 				SUM(application_status = 'REJECTED') as rejected
 				FROM ps_occupation_noc`
 		};
-	
+
 		let result = {};
 		for (let key in queries) {
 			try {
 				const rows = await runQuery(pool, queries[key]);
 				if (rows && rows.length > 0) {
 					let item = { total: rows[0].total || 0 };
-					if (rows[0].accepted !== undefined) item.accepted = rows[0].accepted || 0;
-					if (rows[0].rejected !== undefined) item.rejected = rows[0].rejected || 0;
-					if (rows[0].resolved !== undefined) item.resolved = rows[0].resolved || 0;
+					if (rows[0].accepted !== undefined)
+						item.accepted = rows[0].accepted || 0;
+					if (rows[0].rejected !== undefined)
+						item.rejected = rows[0].rejected || 0;
+					if (rows[0].resolved !== undefined)
+						item.resolved = rows[0].resolved || 0;
 					result[key] = item;
 				} else {
 					result[key] = { total: 0 };
 				}
-			} catch(err) {
-				console.error(`Error fetching stats for ${key}: ${err.message}`);
+			} catch (err) {
+				console.error(
+					`Error fetching stats for ${key}: ${err.message}`
+				);
 				result[key] = { total: 0 };
 			}
 		}
 
 		// Add deeper bifurcation for occupationNoc
 		try {
-			const nocDetailsRows = await runQuery(pool, `
+			const nocDetailsRows = await runQuery(
+				pool,
+				`
 				SELECT 
 					subject_code, 
 					COUNT(*) as total, 
@@ -2635,22 +2140,31 @@ let HomeModel = {
 					SUM(application_status = 'REJECTED') as rejected 
 				FROM ps_occupation_noc 
 				GROUP BY subject_code
-			`);
+			`
+			);
 			if (nocDetailsRows && nocDetailsRows.length > 0) {
-				result['occupationNoc'].details = nocDetailsRows.map(row => ({
-					subject: row.subject_code ? row.subject_code.replace(/_NOC$/, '').replace(/_/g, ' ') : 'इतर',
+				result['occupationNoc'].details = nocDetailsRows.map((row) => ({
+					subject: row.subject_code
+						? row.subject_code
+								.replace(/_NOC$/, '')
+								.replace(/_/g, ' ')
+						: 'इतर',
 					total: row.total || 0,
 					accepted: row.accepted || 0,
 					rejected: row.rejected || 0
 				}));
 			}
-		} catch(err) {
-			console.error(`Error fetching detailed stats for occupationNoc: ${err.message}`);
+		} catch (err) {
+			console.error(
+				`Error fetching detailed stats for occupationNoc: ${err.message}`
+			);
 		}
 
 		// Add deeper bifurcation for toSeva (tahsil office seva)
 		try {
-			const toSevaDetailsRows = await runQuery(pool, `
+			const toSevaDetailsRows = await runQuery(
+				pool,
+				`
 				SELECT 
 					subject, 
 					COUNT(*) as total, 
@@ -2658,21 +2172,24 @@ let HomeModel = {
 					SUM(registration_status = 'REJECTED') as rejected 
 				FROM ps_tahsil_office_seva 
 				GROUP BY subject
-			`);
+			`
+			);
 			if (toSevaDetailsRows && toSevaDetailsRows.length > 0) {
-				result['toSeva'].details = toSevaDetailsRows.map(row => ({
+				result['toSeva'].details = toSevaDetailsRows.map((row) => ({
 					subject: row.subject ? row.subject : 'इतर',
 					total: row.total || 0,
 					accepted: row.accepted || 0,
 					rejected: row.rejected || 0
 				}));
 			}
-		} catch(err) {
-			console.error(`Error fetching detailed stats for toSeva: ${err.message}`);
+		} catch (err) {
+			console.error(
+				`Error fetching detailed stats for toSeva: ${err.message}`
+			);
 		}
 
 		return result;
 	}
-}
+};
 
-module.exports = HomeModel
+module.exports = HomeModel;
