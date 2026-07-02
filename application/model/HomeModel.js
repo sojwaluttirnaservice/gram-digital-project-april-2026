@@ -2188,6 +2188,45 @@ let HomeModel = {
 			);
 		}
 
+		// Calculate combined stats for 1 to 7 certificates
+		try {
+			let dakhale1to7 = {
+				total: 0,
+				accepted: 0,
+				rejected: 0,
+				details: []
+			};
+			const certKeys = ['birthCert', 'deathCert', 'marriageCert', 'namuna8Extract', 'destituteCert', 'noDuesCert', 'bplCert'];
+			const certTitles = {
+				birthCert: "जन्म नोंद दाखला",
+				deathCert: "मृत्यू नोंद दाखला",
+				marriageCert: "विवाह नोंदणी दाखला",
+				namuna8Extract: "नमुना नं. 8 चा उतारा",
+				destituteCert: "निराधार असले बाबतचा दाखला",
+				noDuesCert: "ग्रामपंचायत येणे बाकी नसल्याचा दाखला",
+				bplCert: "दारिद्र्यरेषेखालचा दाखला"
+			};
+
+			for (let key of certKeys) {
+				if (result[key]) {
+					dakhale1to7.total += Number(result[key].total || 0);
+					dakhale1to7.accepted += Number(result[key].accepted || 0);
+					dakhale1to7.rejected += Number(result[key].rejected || 0);
+					dakhale1to7.details.push({
+						subject: certTitles[key],
+						total: Number(result[key].total || 0),
+						accepted: Number(result[key].accepted || 0),
+						rejected: Number(result[key].rejected || 0)
+					});
+				}
+			}
+			result['dakhale1to7'] = dakhale1to7;
+		} catch (err) {
+			console.error(
+				`Error calculating combined stats for 1 to 7 certificates: ${err.message}`
+			);
+		}
+
 		return result;
 	}
 };
