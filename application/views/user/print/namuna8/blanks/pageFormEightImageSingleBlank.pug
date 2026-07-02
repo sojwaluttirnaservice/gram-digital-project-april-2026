@@ -797,7 +797,8 @@ html(lang="en")
                                 p.text-right.font-weight-bold.mr-2 शौचायालय :
                             td(width="50%" colspan="3").p-0.m-0 
                                 p.ml-3.ml-2  #{userData.feu_havingToilet}
-                        if(userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-")
+                        - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
+                        if(shouldFerfarPartRender)
                             tr.p-0.m-0
                                 td.p-0.m-0 
                                     p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार : 

@@ -772,7 +772,8 @@ html(lang="en")
                             td(colspan="4").p-0.m-0 
                                 p.font-weight-bold.ml-3 #{userData.feu_secondOwnerName}
 
-                        if(userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-")
+                        - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
+                        if(shouldFerfarPartRender)
                             tr.p-0.m-0
                                 td(colspan="2").p-0.m-0 
                                     p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार : 

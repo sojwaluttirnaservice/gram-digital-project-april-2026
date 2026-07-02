@@ -284,7 +284,8 @@ html(lang="en")
                                                     span(class="font-bold p-0.5 px-1") #{form8User.feu_southLandmark || '—'}
 
                             //- moved this to the left by 3 indentes as per required of teh client, to restore, move in right direction
-                            if(form8User.feu_newOldDharak !== "" && form8User.feu_newPherfarDate !== "" && form8User.feu_newOldDharak != null && form8User.feu_newPherfarTharav !== "" && form8User.feu_newPherfarTharav !== "-")
+                            - let shouldFerfarPartRender = form8User.feu_newOldDharak !== "" && form8User.feu_newPherfarDate !== "" && form8User.feu_newOldDharak != null;
+                            if(shouldFerfarPartRender)
 
 
                                 div(class="mt-0.5 text-sm gap-x-6 border border-gray-800")
@@ -820,7 +821,8 @@ html(lang="en")
                                 td(colspan="1" width="30%").p-0.m-0 
                                     p.font-weight-bold.ml-3 #{userVal.feu_ownerName}
                                 td(colspan="4" rowspan="8" width="20%").p-0.m-0
-                                    if(userVal.feu_image !== "")
+                                    - let shouldImageRender = userVal.feu_image !== "" && userVal.feu_image != null;
+                                    if(shouldImageRender)
                                         - var url = "/home_map_image/home_photo/"+userVal.feu_image;
                                     else
                                         - var url = "";
@@ -865,7 +867,8 @@ html(lang="en")
                                 td(width="20%").p-0.m-0 
                                     p.ml-3.ml-2  #{userVal.feu_havingToilet}
 
-                            if(userVal.feu_newOldDharak !== "-"  && userVal.feu_newOldDharak !== "" && userVal.feu_newOldDharak !== "undefined" && userVal.feu_newOldDharak !== null)
+                            - let shouldFerfarPartRender = userVal.feu_newOldDharak !== "-" && userVal.feu_newOldDharak !== "" && userVal.feu_newOldDharak !== "undefined" && userVal.feu_newOldDharak != null;
+                            if(shouldFerfarPartRender)
                                 tr.p-0.m-0
                                     td(width="10%").p-0.m-0 
                                         p.text-right.font-weight-bold मालमत्तेचा फेरफार : 

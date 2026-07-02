@@ -59,8 +59,6 @@ html(lang="en")
             @media print {
                 @page {
                     size: A4 landscape;
-                    //- margin: 9mm 9mm 9mm 9mm;
-                    margin: 18mm 9mm 5mm 9mm; /* top right bottom left */
                 }
 
                 .hide-print {
@@ -277,7 +275,8 @@ html(lang="en")
                                                     span(class="font-bold inline-block p-0.5 px-1") #{form8User.feu_southLandmark || '—'}
 
 
-                                        if(form8User.feu_newOldDharak !== "" && form8User.feu_newPherfarDate !== "" && form8User.feu_newOldDharak != null && form8User.feu_newPherfarTharav !== "" && form8User.feu_newPherfarTharav !== "-")
+                                        - let shouldFerfarPartRender = form8User.feu_newOldDharak !== "" && form8User.feu_newPherfarDate !== "" && form8User.feu_newOldDharak != null;
+                                        if(shouldFerfarPartRender)
 
 
                                             div(class="flex flex-wrap text-sm gap-x-6 gap-y-2 border border-t-0 border-gray-800")
@@ -286,7 +285,8 @@ html(lang="en")
 
                                                     div(class='pl-2')
                                                         //- div(class="text-gray-700 font-medium w-80")
-                                                        span(class='font-bold text-sm text-red-500') #{form8User.feu_newOldDharak} मासिक सभा दिनांक #{form8User.feu_newPherfarDate} ठराव क्र #{form8User.feu_newPherfarTharav} नुसार #{form8User.feu_newNewDharak} #{form8User.feu_newPherfarDocument} नुसार फेरफार घेण्यात आला.
+                                                        //- span(class='font-bold text-sm text-red-500') #{form8User.feu_newOldDharak} मासिक सभा दिनांक #{form8User.feu_newPherfarDate} ठराव क्र #{form8User.feu_newPherfarTharav} नुसार #{form8User.feu_newNewDharak} #{form8User.feu_newPherfarDocument} नुसार फेरफार घेण्यात आला.
+                                                        span(class='font-bold text-sm text-red-500') दि. #{form8User.feu_newPherfarDate} रोजी झालेल्या मासिक सभेतील ठराव क्र. #{form8User.feu_newPherfarTharav} नुसार #{form8User.feu_newOldDharak} यांच्या नावावरील मालमत्ता #{form8User.feu_newNewDharak} यांच्या नावावर #{form8User.feu_newPherfarDocument} नुसार फेरफार करण्यात आला.
 
                                                         - let oldOwner = form8User.old_owner?.split(',').reverse() || []
                                                         - let newOwner = form8User.new_owner?.split(',').reverse() || [] 
@@ -299,7 +299,8 @@ html(lang="en")
                                                             - for(let i = oldOwner.length - 2; i >= 0 ; i--)
                                                                 if oldOwner[i]
                                                                     span(class="font-bold ml-1 text-sm text-red-500")
-                                                                        del #{oldOwner[i]} मासिक सभा दिनांक #{ferfarDate[i]} ठराव क्र #{tharavNumber[i]} नुसार #{newOwner[i]} #{dastavej[i]} नुसार फेरफार घेण्यात आला
+                                                                        //- del #{oldOwner[i]} मासिक सभा दिनांक #{ferfarDate[i]} ठराव क्र #{tharavNumber[i]} नुसार #{newOwner[i]} #{dastavej[i]} नुसार फेरफार घेण्यात आला
+                                                                        del दि. #{ferfarDate[i]} रोजी झालेल्या मासिक सभेतील ठराव क्र. #{tharavNumber[i]} नुसार #{oldOwner[i]} यांच्या नावावरील मालमत्ता #{newOwner[i]} यांच्या नावावर #{dastavej[i]} नुसार फेरफार करण्यात आला.
                                                                             span #{i == 0 ? "." : ","}	
 
 
@@ -868,7 +869,8 @@ html(lang="en")
                                 td(colspan="3" width="30%").p-0.m-0  
                                     p.ml-3  #{userVal.feu_havingToilet}
 
-                            if(userVal.feu_newOldDharak !== "-"  && userVal.feu_newOldDharak !== "" && userVal.feu_newOldDharak !== "undefined" && userVal.feu_newOldDharak !== null)
+                            - let shouldFerfarPartRender = userVal.feu_newOldDharak !== "-" && userVal.feu_newOldDharak !== "" && userVal.feu_newOldDharak !== "undefined" && userVal.feu_newOldDharak != null;
+                            if(shouldFerfarPartRender)
                                 tr.p-0.m-0
                                     td(width="10%").p-0.m-0 
                                         p.text-right.font-weight-bold मालमत्तेचा फेरफार : 

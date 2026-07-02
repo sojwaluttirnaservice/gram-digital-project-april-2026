@@ -190,7 +190,7 @@ html(lang="en")
                                     div Pay here
 
                     div(class="px-2 border-b border-pink-200 pb-2")
-                        - let showMalmattechaFerfar = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-"
+                        - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
                         div(class="grid grid-cols-12 gap-4")
                             //- div(class="col-span-3")
                                 div(class="h-full")
@@ -280,7 +280,7 @@ html(lang="en")
 
 
                                     //- - let showMalmattechaFerfar = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-"
-                                    if showMalmattechaFerfar
+                                    if shouldFerfarPartRender
                                         div(class="flex flex-wrap text-sm gap-x-6 gap-y-2 border border-gray-800 mt-0.5 px-1")
                                             div(class="text-gray-700 font-medium flex") 
                                                 div(class='w-48 pl-2 border-r border-r-gray-800 text-gray-800 font-bold') मालमत्तेचा फेरफार :
@@ -705,7 +705,8 @@ html(lang="en")
                             td(colspan="4").p-0.m-0 
                                 p.font-weight-bold.ml-3 #{userData.feu_secondOwnerName}
 
-                        if(userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-")
+                        - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
+                        if(shouldFerfarPartRender)
                             tr.p-0.m-0
                                 td(colspan="2").p-0.m-0 
                                     p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार : 

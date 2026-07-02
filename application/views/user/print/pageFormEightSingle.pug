@@ -219,7 +219,8 @@
                                                 span(class="font-bold") #{userData.feu_southLandmark || '—'}
 
 
-                                    if(userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-")
+                                    - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
+                                    if(shouldFerfarPartRender)
                                         div(class="flex flex-wrap text-sm gap-x-6 gap-y-2 border p-2")
                                             p(class="text-gray-700 font-medium") 
                                                 span(class='text-gray-800') मालमत्तेचा फेरफार :
@@ -610,7 +611,8 @@ html
                             td(colspan="3").p-0.m-0 
                                 p.font-weight-bold.ml-3 #{userData.feu_secondOwnerName}
 
-                        if(userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null && userData.feu_newPherfarTharav !== "" && userData.feu_newPherfarTharav !== "-")
+                        - let shouldFerfarPartRender = userData.feu_newOldDharak !== "" && userData.feu_newPherfarDate !== "" && userData.feu_newOldDharak != null;
+                        if(shouldFerfarPartRender)
                             tr.p-0.m-0
                                 td(colspan="2").p-0.m-0 
                                     p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार : 

@@ -1232,51 +1232,14 @@ block content
                                                 div(class=`inline-block mx-auto w-28 md:w-40 ${dtDdContainerClass}`)
                                                     dt(class=dtClassName) Open/Others
                                                     dd(class=ddClassName) #{village.open_others_count}
-
     section(id='service-stats-section' class='relative py-12 md:py-16 bg-slate-50 border-t border-b border-slate-200')
         -
             const appStats = [
                 { 
-                    key: 'birthCert',
-                    title: "जन्म नोंद दाखला",
-                    icon: 'fa-baby',
-                    stats: dashboardStats?.birthCert || { total: 0 }
-                },
-                { 
-                    key: 'deathCert',
-                    title: "मृत्यू नोंद दाखला",
-                    icon: 'fa-skull-crossbones',
-                    stats: dashboardStats?.deathCert || { total: 0 }
-                },
-                { 
-                    key: 'marriageCert',
-                    title: "विवाह नोंदणी दाखला",
+                    key: 'dakhale1to7',
+                    title: language === 'mr' ? '१ ते ७ दाखले' : language === 'hi' ? '१ से ७ प्रमाण पत्र' : '1 to 7 Certificates',
                     icon: 'fa-file-signature',
-                    stats: dashboardStats?.marriageCert || { total: 0 }
-                },
-                { 
-                    key: 'namuna8Extract',
-                    title: "नमुना नं. 8 चा उतारा",
-                    icon: 'fa-file-invoice',
-                    stats: dashboardStats?.namuna8Extract || { total: 0 }
-                },
-                { 
-                    key: 'destituteCert',
-                    title: "निराधार असले बाबतचा दाखला",
-                    icon: 'fa-person-cane',
-                    stats: dashboardStats?.destituteCert || { total: 0 }
-                },
-                { 
-                    key: 'noDuesCert',
-                    title: "ग्रामपंचायत येणे बाकी नसल्याचा दाखला",
-                    icon: 'fa-file-circle-check',
-                    stats: dashboardStats?.noDuesCert || { total: 0 }
-                },
-                { 
-                    key: 'bplCert',
-                    title: "दारिद्र्यरेषेखालचा दाखला",
-                    icon: 'fa-id-card-clip',
-                    stats: dashboardStats?.bplCert || { total: 0 }
+                    stats: dashboardStats?.dakhale1to7 || { total: 0 }
                 },
                 { 
                     key: 'employmentDemand',

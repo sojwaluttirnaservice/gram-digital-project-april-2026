@@ -226,7 +226,8 @@ body
                             td(colspan="4").p-0.m-0 
                                 p.font-weight-bold.ml-3 #{userVal.feu_secondOwnerName}
 
-                        if(userVal.feu_newOldDharak != "-"  && userVal.feu_newOldDharak != "" && userVal.feu_newOldDharak != "undefined" && userVal.feu_newOldDharak != null)
+                        - let shouldFerfarPartRender = userVal.feu_newOldDharak != "-" && userVal.feu_newOldDharak != "" && userVal.feu_newOldDharak != "undefined" && userVal.feu_newOldDharak != null;
+                        if(shouldFerfarPartRender)
                             tr.p-0.m-0
                                 td(colspan="2").p-0.m-0 
                                     p.text-right.mr-2.font-weight-bold मालमत्तेचा फेरफार: 

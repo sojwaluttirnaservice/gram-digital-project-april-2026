@@ -1,178 +1,188 @@
-const { UPLOAD_PATHS } = require("../../config/uploadPaths");
-const ferfarApplicationsModel = require("../../model/gpApplications/ferfarApplicationsModel");
-const { addCurrentTimeToDate } = require("../../utils/addCurrentTimeToDate");
-const { sendApiResponse, sendApiError } = require("../../utils/apiResponses");
-const AppError = require("../../utils/AppError");
-const asyncHandler = require("../../utils/asyncHandler");
-const generateUniqueFileName = require("../../utils/generateFileName");
-const { saveFile } = require("../../utils/saveFile");
-const { renderPage } = require("../../utils/sendResponse");
-const { baseDir } = require("../createBaseDir");
+const { UPLOAD_PATHS } = require('../../config/uploadPaths');
+const ferfarApplicationsModel = require('../../model/gpApplications/ferfarApplicationsModel');
+const { addCurrentTimeToDate } = require('../../utils/addCurrentTimeToDate');
+const { sendApiResponse, sendApiError } = require('../../utils/apiResponses');
+const AppError = require('../../utils/AppError');
+const asyncHandler = require('../../utils/asyncHandler');
+const generateUniqueFileName = require('../../utils/generateFileName');
+const { saveFile } = require('../../utils/saveFile');
+const { renderPage } = require('../../utils/sendResponse');
+const { baseDir } = require('../createBaseDir');
 
 const f8FerfarController = {
-  renderFerfarApplicationsList: asyncHandler(async (req, res) => {
-    let { sort = "desc", status = "pending" } = req.query;
+	renderFerfarApplicationsList: asyncHandler(async (req, res) => {
+		let { sort = 'desc', status = 'pending' } = req.query;
 
-    const f8FerfarApplications = await ferfarApplicationsModel.list(res.pool, {
-      sort,
-      status,
-    });
-    renderPage(
-      res,
-      "user/gp-applications/ferfar/property-ferfar-application-list-page.pug",
-      {
-        f8FerfarApplications,
-        status,
-        sort,
-      }
-    );
-  }),
-  renderGpPropertyFerfarFormPage: asyncHandler(async (req, res) => {
-    renderPage(
-      res,
-      "user/gp-applications/ferfar/property-ferfar-form-page.pug"
-    );
-  }),
+		const f8FerfarApplications = await ferfarApplicationsModel.list(
+			res.pool,
+			{
+				sort,
+				status
+			}
+		);
+		renderPage(
+			res,
+			'user/gp-applications/ferfar/property-ferfar-application-list-page.pug',
+			{
+				f8FerfarApplications,
+				status,
+				sort
+			}
+		);
+	}),
+	renderGpPropertyFerfarFormPage: asyncHandler(async (req, res) => {
+		renderPage(
+			res,
+			'user/gp-applications/ferfar/property-ferfar-form-page.pug'
+		);
+	}),
 
-  registerGpPropertyFerfarForm: asyncHandler(async (req, res) => {
-    let ferfarApplication = req.body;
+	registerGpPropertyFerfarForm: asyncHandler(async (req, res) => {
+		let ferfarApplication = req.body;
 
-    let ferfarDocument = req.files.ferfarDocument;
+		let ferfarDocument = req.files.ferfarDocument;
 
-    if (!ferfarDocument) {
-      throw new AppError("फेरफार कागदपत्र जोडा.", 400)
-    }
+		if (!ferfarDocument) {
+			throw new AppError('फेरफार कागदपत्र जोडा.', 400);
+		}
 
-    let fileName = generateUniqueFileName(ferfarDocument, "ferfar-doc-");
+		let fileName = generateUniqueFileName(ferfarDocument, 'ferfar-doc-');
 
-    let ferfarApplicationDocs = `${baseDir}/uploads/docs/ferfar-applications`;
+		let ferfarApplicationDocs = `${baseDir}/uploads/docs/ferfar-applications`;
 
-    let savePath = `${ferfarApplicationDocs}/${fileName}`;
+		let savePath = `${ferfarApplicationDocs}/${fileName}`;
 
-    let isSaved = await saveFile(ferfarDocument, savePath);
-    req.filesToCleanup.push(savePath)
+		let isSaved = await saveFile(ferfarDocument, savePath);
+		req.filesToCleanup.push(savePath);
 
-    if (!isSaved) {
-      throw new AppError("फेरफार कागदपत्र जतन नाही करता आला.", 400)
-    }
+		if (!isSaved) {
+			throw new AppError('फेरफार कागदपत्र जतन नाही करता आला.', 400);
+		}
 
-    ferfarApplication.ferfar_document_saved_name = fileName;
+		ferfarApplication.ferfar_document_saved_name = fileName;
 
-    ferfarApplication.application_date = addCurrentTimeToDate(ferfarApplication.application_date) 
-    console.log('------')
-    console.log(ferfarApplication)
-    console.log('-----')
-    let { insertId } = await ferfarApplicationsModel.saveFerfarApplication(
-      res.pool,
-      ferfarApplication
-    );
+		ferfarApplication.application_date = addCurrentTimeToDate(
+			ferfarApplication.application_date
+		);
 
-    return sendApiResponse(res, 201, true, "अर्ज नोंदवला गेला", {
-      ferfarApplicationId: insertId,
-    });
-  }),
+		let { insertId } = await ferfarApplicationsModel.saveFerfarApplication(
+			res.pool,
+			ferfarApplication
+		);
 
-  renderFerfarApplicationPrint: asyncHandler(async (req, res) => {
-    let { applicationId } = req.params;
+		return sendApiResponse(res, 201, true, 'अर्ज नोंदवला गेला', {
+			ferfarApplicationId: insertId
+		});
+	}),
 
-    let [ferfarApplication] =
-      await ferfarApplicationsModel.getFerfarApplicationById(
-        res.pool,
-        applicationId
-      );
+	renderFerfarApplicationPrint: asyncHandler(async (req, res) => {
+		let { applicationId } = req.params;
 
-    renderPage(
-      res,
-      "user/gp-applications/ferfar/property-ferfar-application-print.pug",
-      { ferfarApplication }
-    );
-  }),
+		let [ferfarApplication] =
+			await ferfarApplicationsModel.getFerfarApplicationById(
+				res.pool,
+				applicationId
+			);
 
-  revokeFerfarApplication: asyncHandler(async (req, res) => {
-    let { id: ferfarApplicationId } = req.body;
-    await ferfarApplicationsModel.revokeFerfarApplication(
-      res.pool,
-      ferfarApplicationId
-    );
+		renderPage(
+			res,
+			'user/gp-applications/ferfar/property-ferfar-application-print.pug',
+			{ ferfarApplication }
+		);
+	}),
 
-    sendApiResponse(res, 200, true, "फेरफार अर्ज प्रलंबित करण्यात आला.");
-  }),
+	revokeFerfarApplication: asyncHandler(async (req, res) => {
+		let { id: ferfarApplicationId } = req.body;
+		await ferfarApplicationsModel.revokeFerfarApplication(
+			res.pool,
+			ferfarApplicationId
+		);
 
-  acceptFerfarApplication: asyncHandler(async (req, res) => {
-    let acceptanceData = req.body;
+		sendApiResponse(res, 200, true, 'फेरफार अर्ज प्रलंबित करण्यात आला.');
+	}),
 
-    await ferfarApplicationsModel.acceptFerfarApplication(
-      res.pool,
-      acceptanceData
-    );
+	acceptFerfarApplication: asyncHandler(async (req, res) => {
+		let acceptanceData = req.body;
 
-    return sendApiResponse(res, 200, true, "फेरफार अर्ज स्वीकारण्यात आला.");
-  }),
+		await ferfarApplicationsModel.acceptFerfarApplication(
+			res.pool,
+			acceptanceData
+		);
 
-  rejectFerfarApplication: asyncHandler(async (req, res) => {
-    let rejectionData = req.body;
+		return sendApiResponse(res, 200, true, 'फेरफार अर्ज स्वीकारण्यात आला.');
+	}),
 
-    await ferfarApplicationsModel.rejectFerfarApplication(
-      res.pool,
-      rejectionData
-    );
+	rejectFerfarApplication: asyncHandler(async (req, res) => {
+		let rejectionData = req.body;
 
-    return sendApiResponse(res, 200, true, "फेरफार अर्ज नाकारण्यात आला.");
-  }),
+		await ferfarApplicationsModel.rejectFerfarApplication(
+			res.pool,
+			rejectionData
+		);
 
-  resolveFerfarApplication: asyncHandler(async (req, res) => {
-    let resolutionData = req.body;
+		return sendApiResponse(res, 200, true, 'फेरफार अर्ज नाकारण्यात आला.');
+	}),
 
-    await ferfarApplicationsModel.resolveFerfarApplication(
-      res.pool,
-      resolutionData
-    );
+	resolveFerfarApplication: asyncHandler(async (req, res) => {
+		let resolutionData = req.body;
 
-    return sendApiResponse(res, 200, true, "फेरफार अर्जाची पूर्तता झाली.");
-  }),
+		await ferfarApplicationsModel.resolveFerfarApplication(
+			res.pool,
+			resolutionData
+		);
 
-  renderFerfarReportPage: asyncHandler(async (req, res) => {
-    let { type } = req.query;
+		return sendApiResponse(res, 200, true, 'फेरफार अर्जाची पूर्तता झाली.');
+	}),
 
-    let f8FerfarApplications = [];
-    if (type === "yearToYear") {
-      let { fromYear, toYear } = req.query;
-      f8FerfarApplications =
-        await ferfarApplicationsModel.getFerfarApplicationsByYearRange(
-          res.pool,
-          fromYear,
-          toYear
-        );
-    } else if (type === "monthToMonth") {
-      let { month, year } = req.query;
-      f8FerfarApplications =
-        await ferfarApplicationsModel.getFerfarApplicationsByMonthAndYear(
-          res.pool,
-          month,
-          year
-        );
-    }
+	renderFerfarReportPage: asyncHandler(async (req, res) => {
+		let { type } = req.query;
 
-    renderPage(
-      res,
-      "user/gp-applications/ferfar/property-ferfar-report-page.pug",
-      {
-        f8FerfarApplications,
-        title: "फेरफार अर्ज रिपोर्ट",
-      }
-    );
-  }),
+		let f8FerfarApplications = [];
+		if (type === 'yearToYear') {
+			let { fromYear, toYear } = req.query;
+			f8FerfarApplications =
+				await ferfarApplicationsModel.getFerfarApplicationsByYearRange(
+					res.pool,
+					fromYear,
+					toYear
+				);
+		} else if (type === 'monthToMonth') {
+			let { month, year } = req.query;
+			f8FerfarApplications =
+				await ferfarApplicationsModel.getFerfarApplicationsByMonthAndYear(
+					res.pool,
+					month,
+					year
+				);
+		}
 
+		renderPage(
+			res,
+			'user/gp-applications/ferfar/property-ferfar-report-page.pug',
+			{
+				f8FerfarApplications,
+				title: 'फेरफार अर्ज रिपोर्ट'
+			}
+		);
+	}),
 
-  renderFerfarApplicationDetailsPage: asyncHandler(async (req, res) => {
-     let {applicationId} = req.params;
+	renderFerfarApplicationDetailsPage: asyncHandler(async (req, res) => {
+		let { applicationId } = req.params;
 
-     let [ferfarApplication] = await ferfarApplicationsModel.getFerfarApplicationById(res.pool, applicationId);
-     
-    renderPage(res, 'user/gp-applications/ferfar/property-ferfar-details-page.pug', {
-        ferfarApplication
-    })
-  }),
+		let [ferfarApplication] =
+			await ferfarApplicationsModel.getFerfarApplicationById(
+				res.pool,
+				applicationId
+			);
+
+		renderPage(
+			res,
+			'user/gp-applications/ferfar/property-ferfar-details-page.pug',
+			{
+				ferfarApplication
+			}
+		);
+	})
 };
 
 module.exports = f8FerfarController;
