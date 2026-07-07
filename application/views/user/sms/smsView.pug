@@ -271,10 +271,26 @@ body
                         button.btn.btn-primary#send-sms-btn(type='button') Send
 
                     .col-12
-                        label(for='candidateMobileNumbers').mb-2.fw-semibold Candidate Mobile Numbers:
+                        .d-flex.align-items-center.justify-content-between.mb-2
+                            label(for='candidateMobileNumbers').fw-semibold Candidate Mobile Numbers:
+                            .btn-group
+                                button.btn.btn-sm.btn-outline-success#toggle-edit-mobiles-btn(type='button')
+                                    i.fa.fa-pencil.me-1
+                                    |  Edit Numbers
+                                button.btn.btn-sm.btn-outline-secondary#copy-mobiles-btn(type='button')
+                                    i.fa.fa-copy.me-1
+                                    |  Copy Numbers
+                                button.btn.btn-sm.btn-outline-danger#clear-mobiles-btn(type='button')
+                                    i.fa.fa-trash-o.me-1
+                                    |  Clear Numbers
                         div(id='warning-div' style='display: none; color: red; font-size: 1.2rem;') 
                         #mobile-count
                         textarea.form-control#candidateMobileNumbers(cols='80' rows='10' name='mobile'  readonly)
+                        div#invalid-numbers-container(style='display: none;').mt-3
+                            .d-flex.align-items-center.justify-content-between.p-2.bg-light.border.rounded
+                                span.text-danger.fw-semibold#invalid-count Invalid Numbers Count: 0
+                                button.btn.btn-sm.btn-outline-danger#toggle-invalid-btn(type='button') Show Invalid Numbers
+                            div#invalid-numbers-list(style='display: none; max-height: 150px; overflow-y: auto; border: 1px solid #dee2e6; padding: 0.5rem; border-radius: 0.25rem; background-color: #f8f9fa;').mt-2
 
 
             #createSmsTemplateDiv.py-4

@@ -316,25 +316,48 @@ $(function () {
     }
 
     function showMobileNumbersInTextarea(string) {
-        if (string.length < 10) {
+        if (!string || string.length < 10) {
             $('#warning-div').css('display', 'block').html('Count of mobile numbers is 0.');
+            $('#candidateMobileNumbers').val('');
             return;
         } else {
             $('#warning-div').css('display', 'none');
         }
-
-        $('#mobile-count').html(
-            `<span style='font-weight: bold;'>Valid Mobile Numbers Count </span> : <span style='color: blue; font-weight: bolder;'> ${string.split(',').length} </span>`
-        );
-        $('#candidateMobileNumbers').html(string);
+        $('#candidateMobileNumbers').val(string);
     }
 
     async function handleSelectChange() {
         const selectValue = Number($('#select-way').val());
+        if (typeof lockEditMode === 'function') {
+            lockEditMode();
+        }
 
         $('.view-select').css('display', 'none');
         if (selectValue <= 2) {
-            $(`.view-select[data-viewId='${selectValue}'`).show();
+            $(`.view-select[data-viewId='${selectValue}']`).show();
+            if (selectValue === 1) {
+                $('#candidate-excel-sheet-input').val('');
+                showMobileNumbersInTextarea('');
+                invalidNumbers = [];
+                renderInvalidNumbers();
+                resetStats();
+            } else if (selectValue === 2) {
+                let customVal = $('textarea[name="custom_mobile_number_string"]').val() || '';
+                let mobiles = customVal
+                    .split(',')
+                    .filter(item => item.trim() !== '')
+                    .map((singleMobileString) => [singleMobileString.trim()]);
+                
+                if (mobiles.length === 0) {
+                    showMobileNumbersInTextarea('');
+                    invalidNumbers = [];
+                    renderInvalidNumbers();
+                    resetStats();
+                } else {
+                    let validContactNumbers = getValidMobileNumbers(mobiles);
+                    showMobileNumbersInTextarea(validContactNumbers);
+                }
+            }
         } else {
             $('#warning-div').css('display', 'none');
             let mobileNumbersString = '';
@@ -365,7 +388,7 @@ $(function () {
 
 
             // Reet or cleant hte existing values prevous
-            $('#candidateMobileNumbers').html('');
+            $('#candidateMobileNumbers').val('');
 
 
             let validContactNumbers = getValidMobileNumbers(mobiles);
@@ -381,17 +404,19 @@ $(function () {
     handleSelectChange();
 
     $(document).on('input change', 'textarea[name="custom_mobile_number_string"]', function () {
-        let currentValue = $(this).val();
+        let rawVal = $(this).val();
+        let cleanedVal = rawVal.replace(/[^0-9,]/g, '');
+        if (rawVal !== cleanedVal) {
+            $(this).val(cleanedVal);
+            rawVal = cleanedVal;
+        }
 
-        let mobiles = currentValue
+        let mobiles = rawVal
             .split(',')
-            .map((singleMobileString) => [+`${singleMobileString?.trim()}`]);
+            .filter(item => item.trim() !== '')
+            .map((singleMobileString) => [singleMobileString.trim()]);
 
         let validContactNumbers = getValidMobileNumbers(mobiles);
-
-        mobiles = currentValue
-            .split(',')
-            .map((singleMobileString) => [+`91${singleMobileString?.trim()}`]);
         showMobileNumbersInTextarea(validContactNumbers);
     });
 
@@ -430,29 +455,212 @@ $(function () {
         reader.readAsArrayBuffer(oFile);
     });
 
+    /**
+     * Array containing identified invalid mobile numbers along with their validation fault reasons.
+     * @type {Array<{number: string, reason: string}>}
+     */
+    let invalidNumbers = [];
+
+    /**
+     * Statistics tracker for mobile number processing.
+     * @type {{total: number, valid: number, invalid: number, duplicates: number}}
+     */
+    let stats = {
+        total: 0,
+        valid: 0,
+        invalid: 0,
+        duplicates: 0
+    };
+
+    /**
+     * Resets the statistics object to zero values and renders the updated state in the UI.
+     */
+    function resetStats() {
+        stats = { total: 0, valid: 0, invalid: 0, duplicates: 0 };
+        renderStats();
+    }
+
+    /**
+     * Renders the statistics dashboard showing total inputs, valid uniques, invalid entries, and duplicate counts.
+     */
+    function renderStats() {
+        $('#mobile-count').html(`
+            <div class="row g-2 mb-3 mt-1 text-center">
+                <div class="col-3">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="text-muted small fw-semibold" style="font-size: 0.75rem;">Total Inputs</div>
+                        <div class="fs-6 fw-bold text-dark" style="font-size: 1rem;">${stats.total}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="text-muted small fw-semibold" style="font-size: 0.75rem;">Valid (Unique)</div>
+                        <div class="fs-6 fw-bold text-success" style="font-size: 1rem;">${stats.valid}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="text-muted small fw-semibold" style="font-size: 0.75rem;">Invalid</div>
+                        <div class="fs-6 fw-bold text-danger" style="font-size: 1rem;">${stats.invalid}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="text-muted small fw-semibold" style="font-size: 0.75rem;">Duplicates</div>
+                        <div class="fs-6 fw-bold text-warning" style="font-size: 1rem;">${stats.duplicates}</div>
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+
+    /**
+     * Parses an array of raw contact numbers, filters out valid unique entries, populates the statistics dashboard,
+     * lists invalid numbers, and returns a comma-separated string of valid numbers (prefixed with country code '91').
+     *
+     * @param {Array<Array<string|number>>} contactNumbersArray - Array of raw numbers to process.
+     * @returns {string} Comma-separated list of valid numbers.
+     */
     function getValidMobileNumbers(contactNumbersArray) {
         // Set of unique numbers
         const validContactNumbersSet = new Set();
+        const invalidContactNumbersMap = new Map();
+        let totalInputCount = 0;
+
         contactNumbersArray.forEach((contactNum) => {
-            if (isValidMobileNumber(contactNum[0])) {
-                validContactNumbersSet.add(+`91${contactNum[0]}`);
+            let val = contactNum[0];
+            if (val === undefined || val === null || val.toString().trim() === '') {
+                return;
+            }
+            let rawNumStr = val.toString().trim();
+            totalInputCount++;
+
+            if (isValidMobileNumber(rawNumStr)) {
+                let cleaned = rawNumStr.replace(/^[+]/g, '');
+                let last10 = cleaned.slice(-10);
+                validContactNumbersSet.add(`91${last10}`);
+            } else {
+                if (!invalidContactNumbersMap.has(rawNumStr)) {
+                    invalidContactNumbersMap.set(rawNumStr, getInvalidReason(rawNumStr));
+                }
             }
         });
+
+        invalidNumbers = [];
+        invalidContactNumbersMap.forEach((reason, number) => {
+            invalidNumbers.push({ number, reason });
+        });
+
+        stats.total = totalInputCount;
+        stats.valid = validContactNumbersSet.size;
+        stats.invalid = invalidNumbers.length;
+        stats.duplicates = Math.max(0, totalInputCount - (stats.valid + stats.invalid));
+
+        renderStats();
+        renderInvalidNumbers();
+
         let validContactNumbers = [...validContactNumbersSet];
         return validContactNumbers.join(',');
     }
 
+    /**
+     * Validates if a contact number is a valid mobile number (10 digits or 12 digits starting with country code '91').
+     *
+     * @param {string|number} contactNumber - The raw number input to validate.
+     * @returns {boolean} True if the number is a valid mobile number, false otherwise.
+     */
     function isValidMobileNumber(contactNumber) {
-        let cleanedNumber = contactNumber.toString().trim();
+        if (!contactNumber) return false;
+        let cleanedNumber = contactNumber.toString().trim().replace(/^[+]/g, '');
         if (
             !cleanedNumber || // Check for null, undefined, or empty strings
             isNaN(cleanedNumber) || // Check for non-numeric values
-            !/^\d{10}$/.test(cleanedNumber) // Ensure it's exactly 10 digits
+            !/^\d+$/.test(cleanedNumber) // Ensure it's digits
         ) {
             return false;
         }
-        return true;
+        if (cleanedNumber.length === 10) {
+            return true;
+        }
+        if (cleanedNumber.length === 12 && cleanedNumber.startsWith('91')) {
+            return true;
+        }
+        return false;
     }
+
+    /**
+     * Determines and returns a user-friendly classification of why a mobile number is invalid.
+     *
+     * @param {string|number} contactNumber - The raw number input.
+     * @returns {string} User-friendly reason string describing the validation fault.
+     */
+    function getInvalidReason(contactNumber) {
+        if (!contactNumber || contactNumber.toString().trim() === '') {
+            return 'Empty/Blank value';
+        }
+        let rawStr = contactNumber.toString().trim();
+        let cleaned = rawStr.replace(/^[+]/g, '');
+        
+        if (!/^\d+$/.test(cleaned)) {
+            return `Contains non-numeric characters (Length: ${rawStr.length})`;
+        }
+        
+        if (cleaned.length < 10) {
+            return `Too short (${cleaned.length} digits, expected 10)`;
+        }
+        
+        if (cleaned.length === 11) {
+            return `Invalid length (${cleaned.length} digits, expected 10 or 12 starting with 91)`;
+        }
+        
+        if (cleaned.length === 12 && !cleaned.startsWith('91')) {
+            return `12 digits but does not start with Country Code '91'`;
+        }
+        
+        if (cleaned.length > 12) {
+            return `Too long (${cleaned.length} digits, expected 10 or 12)`;
+        }
+        
+        return 'Unknown validation fault';
+    }
+
+    function renderInvalidNumbers() {
+        const container = $('#invalid-numbers-container');
+        const listDiv = $('#invalid-numbers-list');
+        const countSpan = $('#invalid-count');
+
+        if (invalidNumbers.length === 0) {
+            container.hide();
+            listDiv.hide();
+            $('#toggle-invalid-btn').text('Show Invalid Numbers');
+        } else {
+            countSpan.text(`Invalid Numbers Count: ${invalidNumbers.length}`);
+            
+            let html = '<ul class="list-group list-group-flush" style="margin-bottom: 0;">';
+            invalidNumbers.forEach(item => {
+                html += `<li class="list-group-item text-danger py-2 d-flex flex-column align-items-start" style="font-size: 0.85rem; background-color: transparent; border-bottom: 1px solid #dee2e6;">`;
+                html += `  <span class="fw-bold">${item.number}</span>`;
+                html += `  <span class="text-muted" style="font-size: 0.75rem;">Fault: ${item.reason}</span>`;
+                html += `</li>`;
+            });
+            html += '</ul>';
+            
+            listDiv.html(html);
+            container.show();
+        }
+    }
+
+    $(document).on('click', '#toggle-invalid-btn', function (e) {
+        e.preventDefault();
+        const list = $('#invalid-numbers-list');
+        list.slideToggle('slow', function() {
+            if (list.is(':visible')) {
+                $('#toggle-invalid-btn').text('Hide Invalid Numbers');
+            } else {
+                $('#toggle-invalid-btn').text('Show Invalid Numbers');
+            }
+        });
+    });
 
     // Send Action of SMS to the numbers
 
@@ -482,7 +690,8 @@ $(function () {
     };
 
     const performSendSmsFormValidation = () => {
-        if (+$('#senderId').val() === '-1') {
+        const senderIdVal = $('#senderId').val();
+        if (!senderIdVal || senderIdVal === '-1') {
             alertjs.warning({
                 t: 'वार्निंग',
                 m: 'Sender Id पर्याय निवडलेला नाही',
@@ -490,7 +699,8 @@ $(function () {
             return false;
         }
 
-        if (+$('#smsTemplate').val() === '-1') {
+        const smsTemplateVal = $('#smsTemplate').val();
+        if (!smsTemplateVal || smsTemplateVal === '-1') {
             alertjs.warning({
                 t: 'वार्निंग',
                 m: 'Sms Template पर्याय निवडलेला नाही',
@@ -498,13 +708,37 @@ $(function () {
             return false;
         }
 
-        if (!$('#candidateMobileNumbers').val()) {
+        if (!valArray || valArray.length < 2 || !valArray[0] || valArray[0] === '-1') {
             alertjs.warning({
                 t: 'वार्निंग',
-                m: 'मोबाईल नंबर्स (excel sheet) अपलोड केलेले नाही',
+                m: 'कृपया योग्य Template निवडा',
             });
             return false;
         }
+
+        let hasEmptyInputs = false;
+        $('.smsTemplateInput').each(function () {
+            if (!$(this).val().trim()) {
+                hasEmptyInputs = true;
+            }
+        });
+        if (hasEmptyInputs) {
+            alertjs.warning({
+                t: 'वार्निंग',
+                m: 'सर्व रिकाम्या जागा (Template Inputs) भरा',
+            });
+            return false;
+        }
+
+        const candidateNumbers = $('#candidateMobileNumbers').val();
+        if (!candidateNumbers || candidateNumbers.trim() === '') {
+            alertjs.warning({
+                t: 'वार्निंग',
+                m: 'मोबाईल नंबर्स अपलोड केलेले नाही किंवा उपलब्ध नाही',
+            });
+            return false;
+        }
+
         return true;
     };
 
@@ -578,5 +812,111 @@ $(function () {
             setTimeout(sendSmsChunk, 1000);
         }
         sendSmsChunk();
+    });
+
+    function lockEditMode() {
+        const textarea = $('#candidateMobileNumbers');
+        textarea.prop('readonly', true);
+        $('#toggle-edit-mobiles-btn')
+            .removeClass('btn-success')
+            .addClass('btn-outline-success')
+            .html('<i class="fa fa-pencil me-1"></i> Edit Numbers');
+    }
+
+    $(document).on('click', '#toggle-edit-mobiles-btn', function (e) {
+        e.preventDefault();
+        const textarea = $('#candidateMobileNumbers');
+        const isReadonly = textarea.prop('readonly');
+
+        if (isReadonly) {
+            textarea.prop('readonly', false);
+            $(this)
+                .removeClass('btn-outline-success')
+                .addClass('btn-success')
+                .html('<i class="fa fa-lock me-1"></i> Lock Numbers');
+            alertjs.success({
+                t: 'यशस्वी',
+                m: 'मोबाईल नंबर संपादन मोड चालू केला आहे',
+            });
+        } else {
+            textarea.prop('readonly', true);
+            $(this)
+                .removeClass('btn-success')
+                .addClass('btn-outline-success')
+                .html('<i class="fa fa-pencil me-1"></i> Edit Numbers');
+            alertjs.success({
+                t: 'यशस्वी',
+                m: 'मोबाईल नंबर संपादन मोड बंद केला आहे',
+            });
+        }
+    });
+
+    $(document).on('input change', '#candidateMobileNumbers', function () {
+        let rawVal = $(this).val();
+        let cleanedVal = rawVal.replace(/[^0-9,]/g, '');
+        if (rawVal !== cleanedVal) {
+            $(this).val(cleanedVal);
+            rawVal = cleanedVal;
+        }
+
+        let mobiles = rawVal
+            .split(',')
+            .filter(item => item.trim() !== '')
+            .map((singleMobileString) => [singleMobileString.trim()]);
+
+        if (mobiles.length === 0) {
+            invalidNumbers = [];
+            renderInvalidNumbers();
+            resetStats();
+            $('#warning-div').css('display', 'block').html('Count of mobile numbers is 0.');
+        } else {
+            getValidMobileNumbers(mobiles);
+        }
+    });
+
+    $('#clear-mobiles-btn').on('click', function (e) {
+        e.preventDefault();
+        $('#candidateMobileNumbers').val('');
+        $('textarea[name="custom_mobile_number_string"]').val('');
+        $('#candidate-excel-sheet-input').val('');
+        $('#warning-div').css('display', 'block').html('Count of mobile numbers is 0.');
+        invalidNumbers = [];
+        renderInvalidNumbers();
+        resetStats();
+        lockEditMode();
+        alertjs.success({
+            t: 'यशस्वी',
+            m: 'मोबाईल नंबर यशस्वीरित्या साफ केले',
+        });
+    });
+
+    $('#copy-mobiles-btn').on('click', function (e) {
+        e.preventDefault();
+        const numbers = $('#candidateMobileNumbers').val();
+        if (!numbers || numbers.trim() === '') {
+            alertjs.warning({
+                t: 'वार्निंग',
+                m: 'कॉपी करण्यासाठी मोबाईल नंबर्स उपलब्ध नाहीत',
+            });
+            return;
+        }
+
+        navigator.clipboard.writeText(numbers).then(() => {
+            alertjs.success({
+                t: 'यशस्वी',
+                m: 'मोबाईल नंबर क्लिपबोर्डवर कॉपी केले',
+            });
+        }).catch((err) => {
+            console.error('Clipboard copy failed:', err);
+            const tempTextarea = $('<textarea>');
+            $('body').append(tempTextarea);
+            tempTextarea.val(numbers).select();
+            document.execCommand('copy');
+            tempTextarea.remove();
+            alertjs.success({
+                t: 'यशस्वी',
+                m: 'मोबाईल नंबर क्लिपबोर्डवर कॉपी केले',
+            });
+        });
     });
 });
